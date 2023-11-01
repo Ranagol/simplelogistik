@@ -2,12 +2,15 @@
     <v-app>
         <v-layout>
             <v-app-bar title="Application bar">
-                <!-- <Nav /> -->
+                <Nav />
             </v-app-bar>
 
             <v-navigation-drawer>
                 <v-list>
-                    <v-list-item title="Navigation drawer"></v-list-item>
+                    <v-list-item>
+                        <Link href="/login">Login</Link>
+                    </v-list-item>
+
                     <v-list-item title="Random stuff"></v-list-item>
                     <v-list-item title="Another item"></v-list-item>
                 </v-list>
