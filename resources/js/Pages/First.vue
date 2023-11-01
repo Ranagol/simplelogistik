@@ -1,4 +1,3 @@
-//write a Vue.js component
 <template>
     <div>
         <h1>First Page</h1>

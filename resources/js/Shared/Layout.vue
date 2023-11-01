@@ -11,6 +11,10 @@
                         <Link href="/login">Login</Link>
                     </v-list-item>
 
+                    <v-list-item>
+                        <Link href="/users">Users</Link>
+                    </v-list-item>
+
                     <v-list-item title="Random stuff"></v-list-item>
                     <v-list-item title="Another item"></v-list-item>
                 </v-list>
