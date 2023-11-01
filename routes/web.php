@@ -16,6 +16,8 @@ use Inertia\Inertia;
 |
 */
 
+Route::inertia('/first', 'First');//this is a shorter way of returning a Vue component, without controller
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

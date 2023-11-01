@@ -6,6 +6,8 @@ import { createInertiaApp, Link } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { Head } from '@inertiajs/vue3';
+import Layout from './Shared/Layout.vue';
+
 // import Layout from './Shared/Layout.vue';
 
 // Vuetify
@@ -131,7 +133,7 @@ createInertiaApp({
          */
         page.then((module) => {
             // If the page does not have his own private layout, then it has to use the general Layout.vue
-            module.default.layout = module.default.layout /*|| Layout;*/
+            module.default.layout = module.default.layout || Layout;
         });
 
         /**
