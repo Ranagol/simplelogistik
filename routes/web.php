@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,6 +17,8 @@ use Inertia\Inertia;
 |
 */
 
+Route::inertia('/first', 'First');//this is a shorter way of returning a Vue component, without controller
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -24,6 +27,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
