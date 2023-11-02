@@ -19,7 +19,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-          '@': fileURLToPath(new URL('./resources/js', import.meta.url)),
+        //   '@': fileURLToPath(new URL('./resources/js', import.meta.url)),
         //   '@themeConfig': fileURLToPath(new URL('./themeConfig.ts', import.meta.url)),
         //   '@core': fileURLToPath(new URL('./src/@core', import.meta.url)),
         //   '@layouts': fileURLToPath(new URL('./src/@layouts', import.meta.url)),
@@ -27,7 +27,7 @@ export default defineConfig({
         //   '@styles': fileURLToPath(new URL('./src/styles/', import.meta.url)),
         //   '@configured-variables': fileURLToPath(new URL('./src/styles/variables/_template.scss', import.meta.url)),
         //   '@axios': fileURLToPath(new URL('./src/plugins/axios', import.meta.url)),
-          '@validators': fileURLToPath(new URL('./resources/js/VuexyStuff/validators', import.meta.url)),
+        //   '@validators': fileURLToPath(new URL('./resources/js/VuexyStuff/validators', import.meta.url)),
         //   'apexcharts': fileURLToPath(new URL('node_modules/apexcharts-clevision', import.meta.url)),
         },
     },

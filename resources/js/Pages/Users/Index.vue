@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import { PropType, defineComponent } from 'vue';
-import User from '@/types/Models/User';
-export default defineComponent({
+import User from '@/types/Models/User';//TODO how to set the @ for import path in vitest.config?
+export default defineComponent({//TODO why is Telescope not working?
     props: {
         users: Array as PropType<User[]>
     }
