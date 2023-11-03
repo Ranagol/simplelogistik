@@ -21,7 +21,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-          '@': fileURLToPath(new URL('./resources', import.meta.url)),//TODO how to set the @ for import path in vitest.config?
+        //   '@': fileURLToPath(new URL('./resources', import.meta.url)),
         //   '@themeConfig': fileURLToPath(new URL('./themeConfig.ts', import.meta.url)),
         //   '@core': fileURLToPath(new URL('./src/@core', import.meta.url)),
         //   '@layouts': fileURLToPath(new URL('./src/@layouts', import.meta.url)),
