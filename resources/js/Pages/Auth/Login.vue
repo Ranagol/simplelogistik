@@ -5,7 +5,7 @@
         <div class="vertical-distancer"></div>
 
         <el-row justify="center">
-            <el-col :span="12">
+            <el-col :span="8">
 
                 <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
                     {{ status }}
@@ -15,7 +15,7 @@
 
                     <!-- EMAIL ADDRESS -->
                     <div>
-                        <InputLabel for="email" value="Email" />
+                        <InputLabel for="email" value="Email" class="text-color" />
 
                         <TextInput
                             id="email"
@@ -32,7 +32,7 @@
 
                     <!-- PASSWORD -->
                     <div class="mt-4">
-                        <InputLabel for="password" value="Password" />
+                        <InputLabel for="password" value="Password" class="text-color" />
 
                         <TextInput
                             id="password"
@@ -48,9 +48,9 @@
 
                     <!-- REMEMBER ME -->
                     <div class="block mt-4">
-                        <label class="flex items-center">
+                        <label class="flex items-center text-color">
                             <Checkbox name="remember" v-model:checked="form.remember" />
-                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                            <span class="ml-2 text-sm">Remember me</span>
                         </label>
                     </div>
 
@@ -61,7 +61,8 @@
                             :href="route('password.request')"
                             class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            Forgot your password?
+                            <span class="text-color">Forgot your password?</span>
+
                         </Link>
 
                         <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
@@ -109,5 +110,7 @@ const submit = () => {
 .vertical-distancer {
     height: 25%;
 }
+
+
 </style>
 
