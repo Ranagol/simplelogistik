@@ -13,3 +13,10 @@
 .text-color {
     color: lightslategray;
 }
+
+/* Here I overwrite el-input background color. I am using the Devione technic, selecting an element
+with a class-in-a-class trick. Meaning, we have an .el-input class element, that inside contains
+another element with  .el-input__wrapper class.*/
+.el-input .el-input__wrapper {
+    background-color: #2f3349 !important;
+}
