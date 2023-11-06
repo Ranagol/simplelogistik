@@ -52,15 +52,6 @@ export default defineComponent({
 
         }
     },
-    computed: {
-        username(): string {
-
-            /**
-             * This data is set and send from app\Http\Middleware\HandleInertiaRequests.php, share().
-             */
-            return this.$page.props.auth.user.name;
-        }
-    },
     methods: {
     },
 

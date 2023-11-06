@@ -7,7 +7,7 @@
             <Second />
         </div>
 
-        <el-input v-model="text" :input-style="styleObject" class="experiment"/>
+        <el-input v-model="text" class="experiment"/>
 
         <el-button  type="primary">Primary</el-button>
     </Card>
@@ -24,30 +24,13 @@ export default defineComponent({
         Second,
         Card
     },
+    props: {
+    },
     data() {
         return {
             text: 'Hello World' as string,
-            styleObject: {
-                color: 'lightslategray',
-                fontSize: '13px',
-                backgroundColor: '#2f3349 !important'
-            }
         }
     }
 });
 
 </script>
-
-<style scoped>
-/*.experiment {
-    color: red;
-    font-size: 13px;
-    background-color: #2f3349 !important;
-}
-
-.el-input .el-input__wrapper {
-    color: green;
-    font-size: 13px;
-    background-color: #2f3349 !important;
-}*/
-</style>
