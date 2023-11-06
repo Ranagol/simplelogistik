@@ -7,7 +7,6 @@
             <Second />
         </div>
 
-        <!-- TODO how to make background of the input field the desired color? -->
         <el-input v-model="text" :input-style="styleObject" class="experiment"/>
 
         <el-button  type="primary">Primary</el-button>
