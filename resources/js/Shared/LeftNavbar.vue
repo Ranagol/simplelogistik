@@ -1,5 +1,5 @@
 <template>
-    <div class="component-background p-5">
+    <Card>
         <ul>
             <li>
                 <Link href="/login">Login</Link>
@@ -12,14 +12,16 @@
             <li>Random stuff</li>
             <li>Another item</li>
         </ul>
-    </div>
+    </Card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import Card from "./Card.vue";
 export default defineComponent({
     name:'LeftNavbar',
     components: {
+        Card
     },
     data() {
         return {

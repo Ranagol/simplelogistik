@@ -1,5 +1,5 @@
 <template>
-    <div class="component-background p-5 card-border">
+    <Card>
 
         <!-- Jeff did here a bit of an unnecesary complication. NavLink is a wrapper around the
         Inertia Link component, so for some magical reason we can here use NavLink as if it were
@@ -9,22 +9,24 @@
             Log Out
         </NavLink>
 
-    </div>
+    </Card>
 
 </template>
 
 <script>
 import NavLink from "./NavLink.vue";
 import { defineComponent } from 'vue';
+import Card from "./Card.vue";
 export default defineComponent({
-    components: { NavLink },
+    components: {
+        NavLink,
+        Card
+    },
 });
 </script>
 
 <style scoped>
 
-.card-border {
-    border: none;
-}
+
 
 </style>
