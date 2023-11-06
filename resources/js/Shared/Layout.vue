@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container class="set-height">
 
         <!-- LEFT NAVBAR -->
         <el-aside width="15rem" >

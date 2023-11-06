@@ -1,11 +1,17 @@
 <template>
-    <footer>Footer</footer>
+    <footer class="footer-content-container">
+
+        <div
+            class="flex-row"
+        > © 2023, Simplelogistik GmbH. All rights reserved.</div>
+
+    </footer>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
-    name:'Footer',
+    name: 'Footer',
     components: {
     },
     data() {
@@ -19,6 +25,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
