@@ -13,7 +13,8 @@
         "skipLibCheck": true,
         "paths": {
             "@/*": ["./resources/js/*"]
-        }
+        },
+        "types": ["element-plus/global"]
     },
     "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.vue"]
 }

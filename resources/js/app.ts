@@ -8,6 +8,10 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { Head } from '@inertiajs/vue3';
 import Layout from './Shared/Layout.vue';
 
+//Element UI
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
 
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
@@ -58,6 +62,7 @@ createInertiaApp({
             .component('Link', Link)//global registration of Link
             .component('Head', Head)//global registration of Head
             .use(ZiggyVue, Ziggy)
+            .use(ElementPlus)
             .mount(el);
     },
 
