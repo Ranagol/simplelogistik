@@ -1,14 +1,12 @@
 <template>
-    <v-app>
         <h1>Users</h1>
 
-        <v-list>
-            <v-list-item v-for="user in users" :key="user.id">
-                <v-list-item-title>{{ user.name }}</v-list-item-title>
-            </v-list-item>
-        </v-list>
+        <ol>
+            <li v-for="user in users" :key="user.id">
+                {{ user.name }}
+            </li>
+        </ol>
 
-    </v-app>
 </template>
 
 <script lang="ts">

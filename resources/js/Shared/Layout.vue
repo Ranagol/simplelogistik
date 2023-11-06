@@ -1,32 +1,24 @@
 <template>
-    <v-app>
-        <v-layout>
-            <v-app-bar title="Application bar">
-                <Nav />
-            </v-app-bar>
+    <Nav />
 
-            <v-navigation-drawer>
-                <v-list>
-                    <v-list-item>
-                        <Link href="/login">Login</Link>
-                    </v-list-item>
+    <ul>
+        <li>
+            <Link href="/login">Login</Link>
+        </li>
 
-                    <v-list-item>
-                        <Link href="/users">Users</Link>
-                    </v-list-item>
+        <li>
+            <Link href="/users">Users</Link>
+        </li>
 
-                    <v-list-item title="Random stuff"></v-list-item>
-                    <v-list-item title="Another item"></v-list-item>
-                </v-list>
-            </v-navigation-drawer>
+        <li title="Random stuff"></li>
+        <li title="Another item"></li>
+    </ul>
 
-            <v-main>
-                <!-- SLOT -->
-                <slot />
-            </v-main>
+    <main>
+        <!-- SLOT -->
+        <slot />
+    </main>
 
-        </v-layout>
-    </v-app>
 </template>
 
 <script lang="ts">
