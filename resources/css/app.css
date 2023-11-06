@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .component-background {
-    background-color: #2f3349;
+    background-color: #2f3349 !important;
 }
 
 .general-background {
