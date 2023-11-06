@@ -5,12 +5,17 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import { Link } from '@inertiajs/vue3';
-export default {
+export default defineComponent({
     components: { Link },
     props: {
         active: Boolean
     }
-};
+});
 </script>
+
+<style scoped>
+
+</style>
 
