@@ -20,8 +20,6 @@ export default defineComponent({
         return {
             menuItems: [//TODO how to solve this TS issue? Red undelrine in the rendered html...
                 { name: 'Home', url: '/' },
-                { name: 'About', url: '/about' },
-                { name: 'Contact', url: '/contact' },
                 { name: 'Login', url: '/login' },
                 { name: 'Register', url: '/register' },
                 { name: 'Users', url: '/users' },

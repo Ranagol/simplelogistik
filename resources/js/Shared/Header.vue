@@ -8,6 +8,8 @@
         <NavLink href="/logout" method="post" as="button">
             Logout
         </NavLink>
+
+        {{ username }}
     </Card>
 </template>
 
@@ -20,11 +22,17 @@ export default defineComponent({
         NavLink,
         Card
     },
+    computed: {
+        username() {
+            console.log(this.$page.props.auth.user.username);
+            /**
+             * This data is set and send from app\Http\Middleware\HandleInertiaRequests.php, share().
+             */
+            return this.$page.props.auth.user.username;
+        }
+    },
 });
 </script>
 
 <style scoped>
-
-
-
 </style>

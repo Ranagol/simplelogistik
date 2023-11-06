@@ -32,7 +32,7 @@
 
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue';//Cannot find module 'vue' or its corresponding type declarations.ts(2307)
 import { useCounterStore } from '@/stores/counter';
 import { Head } from '@inertiajs/vue3';//TODO how to solve this error that is not an error, only TS is making trouble
 import LeftNavbar from './LeftNavbar.vue';
@@ -53,12 +53,12 @@ export default defineComponent({
         }
     },
     computed: {
-        username() {
+        username(): string {
 
             /**
              * This data is set and send from app\Http\Middleware\HandleInertiaRequests.php, share().
              */
-            // return this.$page.props.auth.user.username;
+            return this.$page.props.auth.user.name;
         }
     },
     methods: {
@@ -69,6 +69,10 @@ export default defineComponent({
 
 <style scoped>
     .set-height {
-        min-height: 58rem;
+        /**
+         * http://127.0.0.1:8000/users - the component with users should fill the page
+         */
+        min-height: 58rem;/* TODO this is a hack, find a better solution */
+
     }
 </style>
