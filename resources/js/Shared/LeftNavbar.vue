@@ -1,22 +1,15 @@
 <template>
     <Card>
         <ul>
-            <li>
-                <Link href="/login">Login</Link>
+            <li v-for="menuItem in menuItems" :key="menuItem.name">
+                <Link :href="menuItem.url">{{ menuItem.name }}</Link>
             </li>
-
-            <li>
-                <Link href="/users">Users</Link>
-            </li>
-
-            <li>Random stuff</li>
-            <li>Another item</li>
         </ul>
     </Card>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue';//TODO how to solve this error that is not an error, only TS is making trouble
 import Card from "./Card.vue";
 export default defineComponent({
     name:'LeftNavbar',
@@ -25,7 +18,15 @@ export default defineComponent({
     },
     data() {
         return {
-
+            menuItems: [//TODO how to solve this TS issue? Red undelrine in the rendered html...
+                { name: 'Home', url: '/' },
+                { name: 'About', url: '/about' },
+                { name: 'Contact', url: '/contact' },
+                { name: 'Login', url: '/login' },
+                { name: 'Register', url: '/register' },
+                { name: 'Users', url: '/users' },
+                { name: 'First', url: '/first' },
+            ] as { name: string, url: string }[]
         }
     },
     methods: {

@@ -1,15 +1,15 @@
 <template>
-    <el-container class="set-height">
+    <el-container>
 
         <!-- LEFT NAVBAR -->
-        <el-aside width="15rem" >
+        <el-aside width="15%" >
             <LeftNavbar/>
         </el-aside>
 
         <!-- THE WEBPAGE -->
-        <el-container class="ml-5 mr-5">
+        <el-container class="ml-5 mr-5 set-height">
 
-            <!-- TOP MENU -->
+            <!-- HEADER -->
             <el-header>
                 <Header/>
             </el-header>
@@ -68,5 +68,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+    .set-height {
+        min-height: 58rem;
+    }
 </style>
