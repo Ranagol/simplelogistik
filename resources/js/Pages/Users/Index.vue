@@ -1,5 +1,5 @@
 <template>
-
+    <Head title="Users" />
     <Card>
         <h1>Users</h1>
 
@@ -19,7 +19,7 @@ import { User } from '@/types/Models/User';
 import Card from '@/Shared/Card.vue';
 export default defineComponent({
     components: {
-        Card
+        Card,
     },
     props: {
         users: Array as PropType<User[]>

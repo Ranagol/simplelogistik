@@ -1,4 +1,5 @@
 <template>
+    <Head title="First" />
     <Card>
         <div>
             <h1>First Page</h1>
@@ -18,11 +19,10 @@
 import { defineComponent } from 'vue';
 import Second from '@/Pages/Second.vue';
 import Card from "@/Shared/Card.vue";
-
 export default defineComponent({
     components: {
         Second,
-        Card
+        Card,
     },
     props: {
     },

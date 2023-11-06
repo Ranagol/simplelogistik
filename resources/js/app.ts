@@ -2,10 +2,9 @@ import './bootstrap';
 import '../css/app.css';
 
 import { createApp, h, DefineComponent } from 'vue';
-import { createInertiaApp, Link } from '@inertiajs/vue3';
+import { createInertiaApp, Link, Head } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
-import { Head } from '@inertiajs/vue3';
 import Layout from './Shared/Layout.vue';
 
 //Element UI

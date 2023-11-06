@@ -20,7 +20,7 @@ use Inertia\Inertia;
 Route::inertia('/first', 'First');//this is a shorter way of returning a Vue component, without controller
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
