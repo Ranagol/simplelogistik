@@ -19,17 +19,17 @@ import * as directives from 'vuetify/directives'
 const customDarkTheme = {
     dark: true,
     colors: {
-        'primary': '#7367F0',
+        'primary': '#7367F0',//done
         'on-primary': '#fff',
         'secondary': '#A8AAAE',
         'on-secondary': '#fff',
-        'success': '#28C76F',
+        'success': '#28C76F',//done
         'on-success': '#fff',
-        'info': '#00CFE8',
+        'info': '#00CFE8',//done
         'on-info': '#fff',
-        'warning': '#FF9F43',
+        'warning': '#FF9F43',//done
         'on-warning': '#fff',
-        'error': '#EA5455',
+        'error': '#EA5455',//done, used as danger
         'background': '#25293C',
         'on-background': '#D0D4F1',
         'surface': '#2F3349',
@@ -52,6 +52,7 @@ const customDarkTheme = {
         'code-color': '#d400ff',
         'overlay-scrim-background': '#101121',
         'tooltip-background': '#5E6692',
+        'border-color': '#D0D4F1',
         'overlay-scrim-opacity': 0.6,
         'hover-opacity': 0.04,
         'focus-opacity': 0.12,
@@ -60,7 +61,6 @@ const customDarkTheme = {
         'pressed-opacity': 0.14,
         'dragged-opacity': 0.1,
         'disabled-opacity': 0.42,
-        'border-color': '#D0D4F1',
         'border-opacity': 0.16,
         'high-emphasis-opacity': 0.78,
         'medium-emphasis-opacity': 0.68,
