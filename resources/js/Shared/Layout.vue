@@ -32,8 +32,8 @@
 
 
 <script lang="ts">
-import { defineComponent } from 'vue';//Cannot find module 'vue' or its corresponding type declarations.ts(2307)
-import { Head } from '@inertiajs/vue3';//TODO how to solve this error that is not an error, only TS is making trouble
+import { defineComponent } from 'vue';
+import { Head } from '@inertiajs/vue3';
 import LeftNavbar from './LeftNavbar.vue';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
