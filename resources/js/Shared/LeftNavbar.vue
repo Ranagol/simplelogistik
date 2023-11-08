@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';//TODO how to solve this error that is not an error, only TS is making trouble
+import { defineComponent } from 'vue';
 import Card from "./Card.vue";
 export default defineComponent({
     name:'LeftNavbar',
