@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Card from '@/Shared/Card.vue';
 </script>
 
