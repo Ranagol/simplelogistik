@@ -1,5 +1,5 @@
 <template>
-    <div class="component-background p-5 card-border">
+    <div class="component_background p-5 card_border">
 
         <!-- SLOT -->
         <slot></slot>
@@ -28,7 +28,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.card-border {
+.card_border {
     border: none;
     border-radius: 8px;
     height: auto;

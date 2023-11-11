@@ -7,21 +7,29 @@
 :root {
     --component-background: #2f3349;
     --general-dark-background: #25293b;
-    --text-color: lightslategray;
+
+    /* TEXT SETTINGS */
+    --text-color: #D0D4F1AD;
+    --text-size: 15px;
+    --text-font-weight: 400;
+    --text-font-family: "Public Sans", sans-serif, "Segoe UI", "Helvetica Neue", arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 /* CLASSES */
 
-.component-background {
+.component_background {
     background-color: var(--component-background) !important;
 }
 
-.general-background {
+.general_background {
     background-color: var(--general-dark-background) !important;
 }
 
-.text-color {
+.text_default {
     color: var(--text-color);
+    font-size: var(--text-size);
+    font-family: var(--text-font-family);
+    font-weight: var(--text-font-weight);
 }
 
 

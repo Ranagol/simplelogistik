@@ -1,7 +1,7 @@
 <template>
     <Card>
         <ul>
-            <li v-for="menuItem in menuItems" :key="menuItem.name">
+            <li v-for="menuItem in menuItems" :key="menuItem.name" class="nav_item">
                 <Link :href="menuItem.url">{{ menuItem.name }}</Link>
             </li>
         </ul>
@@ -34,5 +34,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.nav_item {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
 
 </style>
