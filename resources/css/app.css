@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* DEFINING VARIABLES */
+/* DEFINING GLOBAL VARIABLES */
 :root {
     --component-background: #2f3349;
     --general-dark-background: #25293b;

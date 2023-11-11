@@ -62,7 +62,7 @@ export default defineComponent({
         /**
          * http://127.0.0.1:8000/users - the component with users should fill the page
          */
-        min-height: 58rem;/* TODO this is a hack, find a better solution */
+        min-height: 100vh;
 
     }
 </style>
