@@ -1,18 +1,34 @@
+/* INCLUDING TAILWIND */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* DEFINING VARIABLES */
+:root {
+    --component-background: #2f3349;
+    --general-dark-background: #25293b;
+    --text-color: lightslategray;
+}
+
+/* CLASSES */
+
 .component-background {
-    background-color: #2f3349 !important;
+    background-color: var(--component-background) !important;
 }
 
 .general-background {
-    background-color: #25293b;
+    background-color: var(--general-dark-background) !important;
 }
 
 .text-color {
-    color: lightslategray;
+    color: var(--text-color);
 }
+
+
+
+
+
+/* OVERWRITING ELEMENT UI CSS WITH MY CUSTOM CSS, THIS MUST BE THE LAST THING */
 
 /* Here I overwrite el-input background color. I am using the Devione technic, selecting an element
 with a class-in-a-class trick. Meaning, we have an .el-input class element, that inside contains
