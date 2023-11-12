@@ -11,11 +11,33 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        $searchTerm = $request->searchTerm;
+        $page = $request->page;
+        $sortByThis = $request->sortByThis;
+        $sortDirection = $request->sortDirection;
+
+
+        $users = User::query()
+
+            // If there is a search term defined...
+            ->when($searchTerm, function($query, $searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%');
+            })
+
+            //PAGINATION
+            ->paginate(10);
+
+            //Paginate the search result, but include the query string too into pagination data links for page 1,2,3,4... And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 if we click on the searc results, page 2
+            // ->withQueryString();
+
+        $t = 8;
         return Inertia::render('Users/Index', [
-            'users' => $users,
+            'dataFromUserController' => $users,
+            // 'filters'=> [
+            //     'searchTerm' => $searchTerm
+            // ]
         ]);
     }
 
