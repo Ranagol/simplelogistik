@@ -15,8 +15,8 @@ class UserController extends Controller
     {
         $searchTerm = $request->searchTerm;
         $page = $request->page;
-        $sortByThis = $request->sortByThis;
-        $sortDirection = $request->sortDirection;
+        $sortColumn = $request->sortColumn;
+        $sortOrder = $request->sortOrder;
 
 
         $users = User::query()
@@ -26,18 +26,21 @@ class UserController extends Controller
                 $query->where('name', 'like', '%' . $searchTerm . '%');
             })
 
+            //SORTING
+            ->orderBy($sortColumn, $sortOrder)
+
             //PAGINATION
-            ->paginate(10);
+            ->paginate(10)
 
             //Paginate the search result, but include the query string too into pagination data links for page 1,2,3,4... And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 if we click on the searc results, page 2
-            // ->withQueryString();
+            ->withQueryString();
 
         $t = 8;
         return Inertia::render('Users/Index', [
             'dataFromUserController' => $users,
-            // 'filters'=> [
-            //     'searchTerm' => $searchTerm
-            // ]
+            'searchTermProp' => $searchTerm,
+            'sortByThisProp' => $sortColumn,
+            'sortOrderProp' => $sortOrder,
         ]);
     }
 
