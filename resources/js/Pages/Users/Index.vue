@@ -3,12 +3,37 @@
     <Card>
         <h1>Users</h1>
 
-        <ol>
-            <li v-for="user in users" :key="user.id">
-                {{ user.name }}
-            </li>
-        </ol>
+        <el-table :data="users" style="width: 100%">
+            <el-table-column
+                prop="id"
+                label="ID"
+                width="50"
+            ></el-table-column>
 
+            <el-table-column
+                prop="name"
+                label="Name"
+                width="200"
+            ></el-table-column>
+
+            <el-table-column
+                prop="email"
+                label="Email"
+                width="220"
+            ></el-table-column>
+
+            <el-table-column
+                prop="created_at"
+                label="Created At"
+                width="250"
+            ></el-table-column>
+
+            <el-table-column
+                prop="updated_at"
+                label="Updated At"
+                width="250"
+            ></el-table-column>
+        </el-table>
     </Card>
 
 </template>
@@ -23,7 +48,14 @@ export default defineComponent({
     },
     props: {
         users: Array as PropType<User[]>
-    }
+    },
+    data() {
+        return {
+            //
+        };
+    },
+    methods: {
+    },
 });
 
 </script>

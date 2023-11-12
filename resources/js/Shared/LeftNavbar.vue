@@ -1,7 +1,9 @@
 <template>
     <Card>
         <ul>
-            <!-- :class... Here we set the background, text, look of the selected nav item -->
+            <!-- :class... Here we set the background, text, look of the selected nav item
+            If we are one the Home page, the Home nav item will be selected, and so on.
+            -->
             <li
                 v-for="menuItem in menuItems"
                 :key="menuItem.name"
@@ -51,7 +53,6 @@ export default defineComponent({
 
 .selected_nav_item{
     background-color: rgb(115, 103, 240);
-    --primary: #7367F0;
     font-weight: bold;
     color: white;
     border-radius: 6.4px;

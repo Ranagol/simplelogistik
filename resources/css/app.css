@@ -69,9 +69,43 @@
 
 /* OVERWRITING ELEMENT UI CSS WITH MY CUSTOM CSS, THIS MUST BE THE LAST THING */
 
+/* *****************EL-INPUT *********************************/
 /* Here I overwrite el-input background color. I am using the Devione technic, selecting an element
 with a class-in-a-class trick. Meaning, we have an .el-input class element, that inside contains
 another element with  .el-input__wrapper class.*/
 .el-input .el-input__wrapper {
     background-color: #2f3349 !important;
 }
+
+
+/* *****************EL-TABLE **********************************/
+
+/* Targets the whole table, but it is not very specific, so we need additional classes for el-table */
+.el-table {
+    /* Whenever eui does not listen, just use ! important */
+    font-size: var(--text-size) !important;
+    background-color: var(--component-background) !important;
+    color: var(--text-color) !important;
+    font-family: var(--text-font-family) !important;
+    font-weight: var(--text-font-weight) !important;
+}
+
+/* Targets the table header */
+.el-table th.el-table__cell>.cell {
+    background-color: var(--component-background);
+}
+
+/* Targets ALL table body cells */
+.el-table .el-table__cell {
+    padding: 2px !important;
+    background-color: var(--component-background) !important;
+}
+
+/* Targets the table body cells, possibly */
+.el-table td.el-table__cell div {
+    padding: 1px;
+    background-color: var(--component-background) !important;
+}
+
+
+
