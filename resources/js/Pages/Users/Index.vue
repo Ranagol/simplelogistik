@@ -13,26 +13,23 @@
             <el-table-column
                 prop="name"
                 label="Name"
-                width="200"
             ></el-table-column>
 
             <el-table-column
                 prop="email"
                 label="Email"
-                width="220"
             ></el-table-column>
 
             <el-table-column
                 prop="created_at"
                 label="Created At"
-                width="250"
             ></el-table-column>
 
             <el-table-column
                 prop="updated_at"
                 label="Updated At"
-                width="250"
             ></el-table-column>
+
         </el-table>
     </Card>
 
