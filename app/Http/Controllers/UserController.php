@@ -27,7 +27,7 @@ class UserController extends Controller
             })
 
             //SORTING
-            ->orderBy($sortColumn, $sortOrder)
+            // ->orderBy($sortColumn, $sortOrder)
 
             //PAGINATION
             ->paginate(10)
