@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tms_customer extends Model
+class TmsDispatcher extends Model
 {
     use HasFactory;
 }

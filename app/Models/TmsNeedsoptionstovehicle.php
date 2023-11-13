@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tms_offerprice extends Model
+class TmsNeedsoptionstovehicle extends Model
 {
     use HasFactory;
 }
