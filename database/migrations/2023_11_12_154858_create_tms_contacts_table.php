@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string('phonenumber', 100);
             $table->string('email',100);
             $table->unsignedBigInteger('customer_id')->nullable();
+            $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id')->nullable();
+            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->string('comments', 255)->nullable();
             $table->timestamps();
         });

@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('tms_needsoptionstovehicles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('needsandoption_id');
+            $table->foreign('needsandoption_id')->references('id')->on('tms_needsandoptions');
             $table->unsignedBigInteger('vehicle_id');
+            $table->foreign('vehicle_id')->references('id')->on('tms_vehicles');
             $table->timestamps();
         });
     }

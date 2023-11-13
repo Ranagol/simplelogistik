@@ -18,7 +18,9 @@ return new class extends Migration
             $table->dateTime('offerfrom')->nullable();
             $table->dateTime('offerto')->nullable();
             $table->unsignedBigInteger('forwarder_id');
-            $table->unsignedBigInteger('order_id')->nullable();
+            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
+            $table->unsignedBigInteger('cargoorder_id')->nullable();
+            $table->foreign('cargoorder_id')->references('id')->on('tms_cargoorders');
             $table->decimal('offeredprice',10,2);
             $table->decimal('offeredpricenet',10,2)->nullable();
             $table->timestamps();

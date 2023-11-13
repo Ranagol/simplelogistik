@@ -22,7 +22,9 @@ return new class extends Migration
             $table->string('vehicletype', 100);
             $table->string('platenumber', 50);
             $table->unsignedBigInteger('forwarder_id');
+            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->unsignedBigInteger('address_id');
+            $table->foreign('address_id')->references('id')->on('tms_addresses');
             $table->timestamps();
         });
     }

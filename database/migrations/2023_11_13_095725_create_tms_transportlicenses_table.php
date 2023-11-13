@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('tms_transportlicenses', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('forwarder_id')->nullable();
+            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->string('license_number');
             $table->string('license_name');
             $table->date('license_valid_from');

@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('comment');
             $table->unsignedBigInteger('forwarder_id');
+            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->unsignedBigInteger('customer_id');
+            $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('cargoorder_id');
+            $table->foreign('cargoorder_id')->references('id')->on('tms_cargoorders');
             $table->unsignedBigInteger('forwardingcontract_id');
+            $table->foreign('forwardingcontract_id')->references('id')->on('tms_forwardingcontracts');
             $table->timestamps();
         });
     }
