@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TmsForwardingContract extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+    protected $table = "tms_forwarding_contracts";
 }

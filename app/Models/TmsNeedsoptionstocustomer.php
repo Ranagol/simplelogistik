@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TmsNeedsOptionsToCustomer extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+    protected $table = "tms_needs_options_to_customers";
 }

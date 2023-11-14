@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TmsOfferPrice extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+    protected $table = "tms_offer_prices";
 }

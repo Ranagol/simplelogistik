@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TmsCargoHistory extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+    protected $table = "tms_cargo_histories";
 }

@@ -9,11 +9,8 @@ class TmsAddress extends Model
 {
     use HasFactory;
 
-    /**
-     * id is protected from mass assigment, all else can be freely changed.
-     */
     protected $guarded = ['id'];
-
+    protected $table = "tms_addresses";
 
 
 }

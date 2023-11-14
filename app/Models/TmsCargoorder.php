@@ -9,9 +9,6 @@ class TmsCargoOrder extends Model
 {
     use HasFactory;
 
-    /**
-     * id is protected from mass assigment, all else can be freely changed.
-     */
     protected $guarded = ['id'];
-
+    protected $table = "tms_cargo_orders";
 }

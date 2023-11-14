@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tms_needs_options_to_forwarders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('needs_options_id');
-            $table->foreign('needs_options_id')->references('id')->on('tms_needsandoptions');
+            $table->foreign('needs_options_id')->references('id')->on('tms_needs_options');
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->timestamps();
