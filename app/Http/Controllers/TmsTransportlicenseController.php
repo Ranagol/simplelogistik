@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TmsTransportlicenseController extends Controller
+class TmsTransportLicenseController extends Controller
 {
     //
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_transportlicense>
  */
-class TmsTransportlicenseFactory extends Factory
+class TmsTransportLicenseFactory extends Factory
 {
     /**
      * Define the model's default state.

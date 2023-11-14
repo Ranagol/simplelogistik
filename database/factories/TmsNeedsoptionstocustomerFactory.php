@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsoptionstocustomer>
  */
-class TmsNeedsoptionstocustomerFactory extends Factory
+class TmsNeedsOptionsToCustomerFactory extends Factory
 {
     /**
      * Define the model's default state.

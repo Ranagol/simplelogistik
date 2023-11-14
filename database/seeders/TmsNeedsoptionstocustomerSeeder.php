@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TmsNeedsoptionstocustomerSeeder extends Seeder
+class TmsNeedsOptionsToCustomerSeeder extends Seeder
 {
     /**
      * Run the database seeds.

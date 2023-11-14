@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_offerprice>
  */
-class TmsOfferpriceFactory extends Factory
+class TmsOfferPriceFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TmsNeedsoptionstocustomerController extends Controller
+class TmsNeedsOptionsToCustomerController extends Controller
 {
     //
 }
