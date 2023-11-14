@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('tms_cargo_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('internal_oid', 200);                           // e.g.  0000-0007-1093-0276-92bc4f1a-8180-11ee-b962-0242ac120002

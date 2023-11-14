@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\TmsForwarder;
+use App\Models\TmsCargoOrder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TmsOfferPrice extends Model
 {
@@ -11,4 +14,14 @@ class TmsOfferPrice extends Model
 
     protected $guarded = ['id'];
     protected $table = "tms_offer_prices";
+
+    public function forwarder(): BelongsTo
+    {
+        return $this->belongsTo(TmsForwarder::class);
+    }
+
+    public function cargoOrder(): BelongsTo
+    {
+        return $this->belongsTo(TmsCargoOrder::class);
+    }
 }

@@ -2,8 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\TmsAddress;
+use App\Models\TmsContact;
+use App\Models\TmsInvoice;
+use App\Models\TmsVehicle;
+use App\Models\TmsCargoOrder;
+use App\Models\TmsCargoHistory;
+use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TmsNeedsOptionsToCustomer;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TmsCustomer extends Model
 {
@@ -11,4 +21,44 @@ class TmsCustomer extends Model
 
     protected $guarded = ['id'];
     protected $table = "tms_customers";
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(TmsAddress::class);
+    }
+
+    public function cargoOrders(): HasMany
+    {
+        return $this->hasMany(TmsCargoOrder::class);
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(TmsContact::class);
+    }
+
+    public function forwardingContracts(): HasMany
+    {
+        return $this->hasMany(TmsForwardingContract::class);
+    }
+
+    public function vehicle(): HasOne
+    {
+        return $this->hasOne(TmsVehicle::class);
+    }
+
+    public function cargoHistories(): HasMany
+    {
+        return $this->hasMany(TmsCargoHistory::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(TmsInvoice::class);
+    }
+
+    public function needsOptionsToCustomers(): HasMany
+    {
+        return $this->hasMany(TmsNeedsOptionsToCustomer::class);
+    }
 }
