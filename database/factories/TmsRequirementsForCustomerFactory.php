@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsoptionstoforwarder>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsoptionstocustomer>
  */
-class TmsNeedsOptionsToForwarderFactory extends Factory
+class TmsRequirementsForCustomerFactory extends Factory
 {
     /**
      * Define the model's default state.

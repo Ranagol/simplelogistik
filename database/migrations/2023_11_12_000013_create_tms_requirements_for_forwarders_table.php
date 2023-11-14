@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_needs_options_to_forwarders', function (Blueprint $table) {
+        Schema::create('tms_requirements_for_forwarders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('needs_options_id');
-            $table->foreign('needs_options_id')->references('id')->on('tms_needs_options');
+            $table->unsignedBigInteger('requirements_id');
+            $table->foreign('requirements_id')->references('id')->on('tms_requirements');
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->timestamps();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_needs_options_to_forwarders');
+        Schema::dropIfExists('tms_requirements_for_forwarders');
     }
 };

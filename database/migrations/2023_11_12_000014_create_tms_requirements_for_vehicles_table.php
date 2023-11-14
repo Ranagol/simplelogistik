@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_needs_options_to_vehicles', function (Blueprint $table) {
+        Schema::create('tms_requirements_for_vehicles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('needs_options_id');
-            $table->foreign('needs_options_id')->references('id')->on('tms_needs_options');
+            $table->unsignedBigInteger('requirements_id');
+            $table->foreign('requirements_id')->references('id')->on('tms_requirements');
             $table->unsignedBigInteger('vehicle_id');
             $table->foreign('vehicle_id')->references('id')->on('tms_vehicles');
             $table->timestamps();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_needs_options_to_vehicles');
+        Schema::dropIfExists('tms_requirements_for_vehicles');
     }
 };

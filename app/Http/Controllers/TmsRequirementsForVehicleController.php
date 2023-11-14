@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TmsNeedsOptionsToForwarderController extends Controller
+class TmsRequirementsForVehicleController extends Controller
 {
     //
 }

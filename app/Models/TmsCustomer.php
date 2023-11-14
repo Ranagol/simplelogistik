@@ -10,7 +10,7 @@ use App\Models\TmsCargoOrder;
 use App\Models\TmsCargoHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TmsNeedsOptionsToCustomer;
+use App\Models\TmsRequirementsForCustomer;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,6 +59,6 @@ class TmsCustomer extends Model
 
     public function needsOptionsToCustomers(): HasMany
     {
-        return $this->hasMany(TmsNeedsOptionsToCustomer::class);
+        return $this->hasMany(TmsRequirementsForCustomer::class);
     }
 }
