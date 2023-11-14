@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('tms_invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('cargoorder_id');
-            $table->foreign('cargoorder_id')->references('id')->on('tms_cargoorders');
+            $table->unsignedBigInteger('cargo_order_id');
+            $table->foreign('cargo_order_id')->references('id')->on('tms_cargo_orders');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
-            $table->string('invoicenumber');
-            $table->dateTime('invoicedate');
+            $table->string('invoice_number');
+            $table->dateTime('invoice_date');
             $table->string('currency');
-            $table->decimal('invoicesum', 10,2);
+            $table->decimal('invoice_sum', 10,2);
             $table->decimal('tax',10,2);
             $table->timestamps();
         });

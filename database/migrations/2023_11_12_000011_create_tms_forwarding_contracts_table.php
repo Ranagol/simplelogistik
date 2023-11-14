@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tms_forwarding_contracts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('internalfcid', 200);                           // e.g.  fc00-0007-1093-0276-92bc4f1a-8180-11ee-b962-0242ac120002
+            $table->string('internal_fcid', 200);                           // e.g.  fc00-0007-1093-0276-92bc4f1a-8180-11ee-b962-0242ac120002
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->unsignedBigInteger('customer_id');

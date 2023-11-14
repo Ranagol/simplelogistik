@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_forwarding_processes', function (Blueprint $table) {
+        Schema::create('tms_cargo_histories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('comment');
@@ -19,10 +19,10 @@ return new class extends Migration
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
-            $table->unsignedBigInteger('cargoorder_id');
-            $table->foreign('cargoorder_id')->references('id')->on('tms_cargoorders');
-            $table->unsignedBigInteger('forwardingcontract_id');
-            $table->foreign('forwardingcontract_id')->references('id')->on('tms_forwardingcontracts');
+            $table->unsignedBigInteger('cargo_order_id');
+            $table->foreign('cargo_order_id')->references('id')->on('tms_cargo_orders');
+            $table->unsignedBigInteger('forwarding_contract_id');
+            $table->foreign('forwarding_contract_id')->references('id')->on('tms_forwarding_contracts');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_forwarding_processes');
+        Schema::dropIfExists('tms_cargo_histories');
     }
 };

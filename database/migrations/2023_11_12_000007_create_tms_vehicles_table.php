@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('tms_vehicles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 100);
-            $table->decimal('maxsumweight', 10,2);
-            $table->decimal('maxpicupweight',10,2);
-            $table->decimal('maxpicupwidth',10,2);
-            $table->decimal('maxpicupheight',10,2);
-            $table->decimal('maxpicuplength',10,2);
-            $table->string('vehicletype', 100);
-            $table->string('platenumber', 50);
+            $table->decimal('max_weight', 10,2);
+            $table->decimal('max_pickup_weight',10,2);
+            $table->decimal('max_pickup_width',10,2);
+            $table->decimal('max_pickup_height',10,2);
+            $table->decimal('max_pickup_length',10,2);
+            $table->string('vehicle_type', 100);
+            $table->string('plate_number', 50);
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->unsignedBigInteger('address_id');

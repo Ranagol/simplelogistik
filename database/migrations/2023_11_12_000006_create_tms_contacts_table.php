@@ -15,9 +15,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('salutation', 100)->nullable();
             $table->string('title', 100)->nullable();
-            $table->string('firstname', 100);
-            $table->string('secondname', 100);
-            $table->string('phonenumber', 100);
+            $table->string('first_name', 100);
+            $table->string('last_name', 100);
+            $table->string('phone_number', 100);
             $table->string('email',100);
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('tms_customers');

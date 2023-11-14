@@ -15,14 +15,14 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('description', 255);
-            $table->dateTime('offerfrom')->nullable();
-            $table->dateTime('offerto')->nullable();
+            $table->dateTime('offer_from')->nullable();
+            $table->dateTime('offer_to')->nullable();
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
-            $table->unsignedBigInteger('cargoorder_id')->nullable();
-            $table->foreign('cargoorder_id')->references('id')->on('tms_cargoorders');
-            $table->decimal('offeredprice',10,2);
-            $table->decimal('offeredpricenet',10,2)->nullable();
+            $table->unsignedBigInteger('cargo_order_id')->nullable();
+            $table->foreign('cargo_order_id')->references('id')->on('tms_cargo_orders');
+            $table->decimal('offered_price',10,2);
+            $table->decimal('offered_price_net',10,2)->nullable();
             $table->timestamps();
         });
     }

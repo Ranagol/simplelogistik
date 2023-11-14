@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tms_needs_options_to_customers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('needsandoption_id');
-            $table->foreign('needsandoption_id')->references('id')->on('tms_needsandoptions');
+            $table->unsignedBigInteger('needs_options_id');
+            $table->foreign('needs_options_id')->references('id')->on('tms_needs_options');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->timestamps();

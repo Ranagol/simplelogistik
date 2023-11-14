@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('tms_addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('firstname');
-            $table->string('secondname');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('street', 200);
-            $table->string('housenumber',200)->nullable();
+            $table->string('house_number',200)->nullable();
             $table->string('zipcode',20);
             $table->string('city',100);
             $table->string('country',100);
