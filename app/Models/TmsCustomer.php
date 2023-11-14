@@ -57,7 +57,7 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsInvoice::class);
     }
 
-    public function needsOptionsToCustomers(): HasMany
+    public function requirementsForCustomer(): HasMany
     {
         return $this->hasMany(TmsRequirementsForCustomer::class);
     }

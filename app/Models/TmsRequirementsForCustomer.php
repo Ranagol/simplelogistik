@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\TmsNeedsOptions;
+use App\Models\TmsRequirements;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,9 +14,9 @@ class TmsRequirementsForCustomer extends Model
     protected $guarded = ['id'];
     protected $table = "tms_requirements_for_customers";
 
-    public function needsOptions(): HasMany
+    public function requirements(): HasMany
     {
-        return $this->hasMany(TmsNeedsOptions::class);
+        return $this->hasMany(TmsRequirements::class);
     }
 
     public function customers(): HasMany

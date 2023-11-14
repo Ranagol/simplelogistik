@@ -22,7 +22,7 @@ class TmsVehicle extends Model
         return $this->belongsTo(TmsForwardingContract::class);
     }
 
-    public function needsOptionsToVehicle(): HasMany
+    public function requirementsForVehicle(): HasMany
     {
         return $this->hasMany(TmsRequirementsForVehicle::class);
     }

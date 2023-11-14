@@ -7,19 +7,19 @@ use App\Models\TmsRequirementsForCustomer;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TmsNeedsOptions extends Model
+class TmsRequirements extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
     protected $table = "tms_requirements";
 
-    public function needsOptionsToCustomer(): BelongsTo
+    public function requirementsForCustomer(): BelongsTo
     {
         return $this->belongsTo(TmsRequirementsForCustomer::class);
     }
 
-    public function needsOptionsToVehicle(): BelongsTo
+    public function requirementsForVehicle(): BelongsTo
     {
         return $this->belongsTo(TmsRequirementsForVehicle::class);
     }

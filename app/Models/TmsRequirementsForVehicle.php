@@ -15,9 +15,9 @@ class TmsRequirementsForVehicle extends Model
     protected $guarded = ['id'];
     protected $table = "tms_requirements_for_vehicles";
 
-    public function needsOptions(): HasMany
+    public function requirements(): HasMany
     {
-        return $this->hasMany(TmsNeedsOptions::class);
+        return $this->hasMany(TmsRequirements::class);
     }
 
     public function vehicle(): BelongsTo
