@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_needsoptionstoforwarders', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('needandoption_id');
-            $table->foreign('needandoption_id')->references('id')->on('tms_needsandoptions');
-            $table->unsignedBigInteger('forwarder_id');
+        Schema::create('tms_transport_licenses', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('forwarder_id')->nullable();
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
+            $table->string('license_number');
+            $table->string('license_name');
+            $table->date('license_valid_from');
+            $table->date('license_valid_till');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_needsoptionstocustomersforwarders');
+        Schema::dropIfExists('tms_transport_licenses');
     }
 };

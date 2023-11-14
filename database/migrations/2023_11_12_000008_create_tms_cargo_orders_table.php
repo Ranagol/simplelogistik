@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_cargoorders', function (Blueprint $table) {
+        Schema::create('tms_cargo_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('internaloid', 200);                           // e.g.  0000-0007-1093-0276-92bc4f1a-8180-11ee-b962-0242ac120002
             $table->unsignedBigInteger('customer_id');
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_cargoorders');
+        Schema::dropIfExists('tms_cargo_orders');
     }
 };

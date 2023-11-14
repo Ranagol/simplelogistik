@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_forwardingcontracts', function (Blueprint $table) {
+        Schema::create('tms_forwarding_contracts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('internalfcid', 200);                           // e.g.  fc00-0007-1093-0276-92bc4f1a-8180-11ee-b962-0242ac120002
             $table->unsignedBigInteger('forwarder_id');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_forwardingcontracts');
+        Schema::dropIfExists('tms_forwarding_contracts');
     }
 };

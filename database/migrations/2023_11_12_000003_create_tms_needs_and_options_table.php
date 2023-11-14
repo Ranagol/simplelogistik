@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_needsandoptions', function (Blueprint $table) {
+        Schema::create('tms_needs_and_options', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('remarks')->nullable();
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_needsandoptions');
+        Schema::dropIfExists('tms_needs_and_options');
     }
 };

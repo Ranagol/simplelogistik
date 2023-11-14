@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_offerprices', function (Blueprint $table) {
+        Schema::create('tms_forwarding_processes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('description', 255);
-            $table->dateTime('offerfrom')->nullable();
-            $table->dateTime('offerto')->nullable();
+            $table->string('comment');
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
-            $table->unsignedBigInteger('cargoorder_id')->nullable();
+            $table->unsignedBigInteger('customer_id');
+            $table->foreign('customer_id')->references('id')->on('tms_customers');
+            $table->unsignedBigInteger('cargoorder_id');
             $table->foreign('cargoorder_id')->references('id')->on('tms_cargoorders');
-            $table->decimal('offeredprice',10,2);
-            $table->decimal('offeredpricenet',10,2)->nullable();
+            $table->unsignedBigInteger('forwardingcontract_id');
+            $table->foreign('forwardingcontract_id')->references('id')->on('tms_forwardingcontracts');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_offerprices');
+        Schema::dropIfExists('tms_forwarding_processes');
     }
 };
