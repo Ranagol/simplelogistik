@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TmsCargoOrder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TmsCargoOrderFactory extends Factory
 {
+    protected $model = TmsCargoOrder::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,7 +20,16 @@ class TmsCargoOrderFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'internal_oid' => $this->faker->uuid,
+            'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'contact_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'start_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'target_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'description' => $this->faker->sentence,
+            'shipping_price' => $this->faker->randomFloat(2, 1, 100),
+            'shipping_price_netto' => $this->faker->randomFloat(2, 1, 100),
+            'pickup_date' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
+            'delivery_date' => $this->faker->dateTimeBetween('+1 month', '+2 months'),
         ];
     }
 }

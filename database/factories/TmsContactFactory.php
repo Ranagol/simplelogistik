@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TmsContact;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TmsContactFactory extends Factory
 {
+    protected $model = TmsContact::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,7 +20,15 @@ class TmsContactFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'salutation' => $this->faker->title,
+            'title' => $this->faker->jobTitle,
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'phone_number' => $this->faker->phoneNumber,
+            'email' => $this->faker->unique()->safeEmail,
+            'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'comments' => $this->faker->sentence,
         ];
     }
 }

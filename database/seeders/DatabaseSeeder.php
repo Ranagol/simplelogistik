@@ -1,10 +1,23 @@
 <?php
 
 namespace Database\Seeders;
+
 use App\Models\User;
+use App\Models\TmsAddress;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TmsCustomer;
+use App\Models\TmsForwarder;
+use App\Models\TmsRequirements;
 use Illuminate\Database\Seeder;
+use Database\Seeders\TmsAddressSeeder;
+use Database\Seeders\TmsContactSeeder;
+use Database\Seeders\TmsVehicleSeeder;
+use Database\Seeders\TmsCustomerSeeder;
+use Database\Seeders\TmsForwarderSeeder;
+use Database\Seeders\TmsCargoOrderSeeder;
+use Database\Seeders\TmsDispatcherSeeder;
+use Database\Seeders\TmsRequirementsSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +29,7 @@ class DatabaseSeeder extends Seeder
     {
         /**
          * jedan@gmail.com is my test user. If there is no user with that email, create it.
-         * And, I also need 9 more users.
+         * And, I also need 9 more users. The test user is used for logging in.
          */
         $jedan = User::where('name', '=', 'jedan@gmail.com')->get();
         if(!$jedan){
@@ -25,6 +38,20 @@ class DatabaseSeeder extends Seeder
                 'email' => 'jedan@gmail.com',
             ]);
         }
-        User::factory(9)->create();
+        User::factory(config('constants.numberOfDbRecords'))->create();
+
+        $this->call([
+            TmsDispatcherSeeder::class,
+            TmsCustomerSeeder::class,
+            TmsForwarderSeeder::class,
+            TmsRequirementsSeeder::class,
+            TmsAddressSeeder::class,
+            TmsContactSeeder::class,
+            TmsVehicleSeeder::class,
+            TmsCargoOrderSeeder::class,
+        ]);
+
+
+
     }
 }

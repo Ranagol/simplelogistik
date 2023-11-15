@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TmsAddress;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class TmsAddressSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        TmsAddress::factory(config('constants.numberOfDbRecords'))->create();
     }
 }

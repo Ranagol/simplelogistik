@@ -12,6 +12,6 @@ class TmsRequirementsForCustomerSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        /
     }
 }
