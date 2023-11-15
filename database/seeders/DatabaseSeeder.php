@@ -8,10 +8,12 @@ use App\Models\TmsAddress;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
+use App\Models\TmsOfferPrice;
 use App\Models\TmsRequirements;
 use Illuminate\Database\Seeder;
 use Database\Seeders\TmsAddressSeeder;
 use Database\Seeders\TmsContactSeeder;
+use Database\Seeders\TmsInvoiceSeeder;
 use Database\Seeders\TmsVehicleSeeder;
 use Database\Seeders\TmsCustomerSeeder;
 use Database\Seeders\TmsForwarderSeeder;
@@ -49,6 +51,9 @@ class DatabaseSeeder extends Seeder
             TmsContactSeeder::class,
             TmsVehicleSeeder::class,
             TmsCargoOrderSeeder::class,
+            TmsInvoiceSeeder::class,
+            TmsOfferPriceSeeder::class,
+            TmsForwardingContractSeeder::class,
         ]);
 
 
