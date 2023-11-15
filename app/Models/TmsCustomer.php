@@ -14,6 +14,7 @@ use App\Models\TmsRequirementsForCustomer;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TmsCustomer extends Model
 {
@@ -57,8 +58,8 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsInvoice::class);
     }
 
-    public function requirementsForCustomer(): HasMany
+    public function requirementsForCustomers(): BelongsToMany
     {
-        return $this->hasMany(TmsRequirementsForCustomer::class);
+        return $this->belongsToMany(TmsRequirementsForCustomer::class, 'requirements_for_customer');
     }
 }

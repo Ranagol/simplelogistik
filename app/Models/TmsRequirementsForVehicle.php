@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // TODO TmsRequirementsForVehicle
@@ -20,8 +21,8 @@ class TmsRequirementsForVehicle extends Model
         return $this->hasMany(TmsRequirements::class);
     }
 
-    public function vehicle(): BelongsTo
+    public function vehicles(): BelongsToMany
     {
-        return $this->belongsTo(TmsVehicle::class);
+        return $this->belongsToMany(TmsVehicle::class, 'requirements_for_vehicles');
     }
 }

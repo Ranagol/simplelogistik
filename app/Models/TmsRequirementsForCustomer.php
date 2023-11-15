@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\TmsCustomer;
 use App\Models\TmsRequirements;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TmsRequirementsForCustomer extends Model
 {
@@ -19,8 +21,8 @@ class TmsRequirementsForCustomer extends Model
         return $this->hasMany(TmsRequirements::class);
     }
 
-    public function customers(): HasMany
+    public function customers(): BelongsToMany
     {
-        return $this->hasMany(TmsCustomer::class);
+        return $this->belongsToMany(TmsCustomer::class, 'requirements_for_customer');
     }
 }

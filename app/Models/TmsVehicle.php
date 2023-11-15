@@ -9,6 +9,7 @@ use App\Models\TmsRequirementsForVehicle;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TmsVehicle extends Model
 {
@@ -22,13 +23,13 @@ class TmsVehicle extends Model
         return $this->belongsTo(TmsForwardingContract::class);
     }
 
-    public function requirementsForVehicle(): HasMany
-    {
-        return $this->hasMany(TmsRequirementsForVehicle::class);
-    }
-
     public function forwarder(): BelongsTo
     {
         return $this->belongsTo(TmsForwarder::class);
+    }
+
+    public function requirementsForVehicles(): BelongsToMany
+    {
+        return $this->belongsToMany(TmsRequirementsForVehicle::class, 'requirements_for_vehicles');
     }
 }

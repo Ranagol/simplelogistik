@@ -30,9 +30,14 @@ class TmsCargoOrder extends Model
         return $this->hasOne(TmsContact::class);
     }
 
-    public function startAddress()/*: HasOne*/
+    public function startAddress(): HasOne
     {
-        // return $this->hasOne(TmsAddress::class, 'start_address_id');//TODO not sure if this is correct
+        return $this->hasOne(TmsAddress::class, 'start_address_id');
+    }
+
+    public function targetAddress(): HasOne
+    {
+        return $this->hasOne(TmsAddress::class, 'target_address_id');
     }
 
     public function cargoHistory(): HasOne
