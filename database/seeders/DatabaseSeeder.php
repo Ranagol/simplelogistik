@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pivot;
 use App\Models\User;
 use App\Models\TmsAddress;
 
@@ -31,7 +32,7 @@ class DatabaseSeeder extends Seeder
     {
         /**
          * jedan@gmail.com is my test user. If there is no user with that email, create it.
-         * And, I also need 9 more users. The test user is used for logging in.
+         * The test user is used for logging in to the application.
          */
         $jedan = User::where('name', '=', 'jedan@gmail.com')->get();
         if(!$jedan){
@@ -54,9 +55,12 @@ class DatabaseSeeder extends Seeder
             TmsInvoiceSeeder::class,
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
+            TmsCargoHistorySeeder::class,
+            TmsRequirementsForForwarderSeeder::class,
+            TmsRequirementsForVehicleSeeder::class,
+            TmsRequirementsForCustomerSeeder::class,
+            TmsTransportLicenseSeeder::class,
+            PivotTableSeeder::class,
         ]);
-
-
-
     }
 }

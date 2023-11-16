@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TmsRequirementsForVehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TmsRequirementsForVehicleFactory extends Factory
 {
+    protected $model = TmsRequirementsForVehicle::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,7 +20,8 @@ class TmsRequirementsForVehicleFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'requirements_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'vehicle_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
         ];
     }
 }

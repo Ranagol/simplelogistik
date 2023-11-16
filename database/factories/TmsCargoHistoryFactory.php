@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TmsCargoHistory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TmsCargoHistoryFactory extends Factory
 {
+    protected $model = TmsCargoHistory::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,7 +20,12 @@ class TmsCargoHistoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word(),
+            'comment' => $this->faker->sentence(),
+            'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'cargo_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'forwarding_contract_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
         ];
     }
 }
