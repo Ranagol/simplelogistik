@@ -3,16 +3,16 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\TmsRequirementsForCustomer;
+use App\Models\TmsCustomerReq;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class TmsRequirementsForCustomerSeeder extends Seeder
+class TmsCustomerReqSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        TmsRequirementsForCustomer::factory(config('constants.numberOfDbRecords'))->create();
+        TmsCustomerReq::factory(config('constants.numberOfDbRecords'))->create();
     }
 }

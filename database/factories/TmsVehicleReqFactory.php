@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\TmsRequirementsForVehicle;
+use App\Models\TmsVehicleReq;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsoptionstovehicle>
  */
-class TmsRequirementsForVehicleFactory extends Factory
+class TmsVehicleReqFactory extends Factory
 {
-    protected $model = TmsRequirementsForVehicle::class;
+    protected $model = TmsVehicleReq::class;
 
     /**
      * Define the model's default state.

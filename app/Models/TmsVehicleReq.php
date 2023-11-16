@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-// TODO TmsRequirementsForVehicle
-class TmsRequirementsForVehicle extends Model
+class TmsVehicleReq extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $table = "tms_requirements_for_vehicles";
+    protected $table = "tms_vehicle_reqs";
 
     public function requirements(): HasMany
     {

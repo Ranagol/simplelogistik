@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\TmsRequirementsForVehicleFactory;
+use Database\Factories\TmsVehicleReqFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TmsRequirementsForVehicleSeeder extends Seeder
+class TmsVehicleReqSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        TmsRequirementsForVehicleFactory::new()->count(config('constants.numberOfDbRecords'))->create();
+        TmsVehicleReqFactory::new()->count(config('constants.numberOfDbRecords'))->create();
     }
 }

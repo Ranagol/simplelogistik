@@ -10,7 +10,7 @@ use App\Models\TmsCargoOrder;
 use App\Models\TmsCargoHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TmsRequirementsForCustomer;
+use App\Models\TmsCustomerReq;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -60,6 +60,6 @@ class TmsCustomer extends Model
 
     public function requirementsForCustomers(): BelongsToMany
     {
-        return $this->belongsToMany(TmsRequirementsForCustomer::class, 'requirements_for_customers');
+        return $this->belongsToMany(TmsCustomerReq::class, 'requirements_for_customers');
     }
 }

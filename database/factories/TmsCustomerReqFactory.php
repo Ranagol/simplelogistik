@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\TmsRequirementsForCustomer;
+use App\Models\TmsCustomerReq;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsoptionstocustomer>
  */
-class TmsRequirementsForCustomerFactory extends Factory
+class TmsCustomerReqFactory extends Factory
 {
-    protected $model = TmsRequirementsForCustomer::class;
+    protected $model = TmsCustomerReq::class;
 
     /**
      * Define the model's default state.

@@ -10,5 +10,5 @@ class TmsRequirementsForForwarder extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $table = "tms_requirements_for_forwarders";
+    protected $table = "tms_forwarder_reqs";
 }

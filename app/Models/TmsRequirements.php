@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TmsRequirementsForCustomer;
+use App\Models\TmsCustomerReq;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,11 +16,11 @@ class TmsRequirements extends Model
 
     public function requirementsForCustomer(): BelongsTo
     {
-        return $this->belongsTo(TmsRequirementsForCustomer::class);
+        return $this->belongsTo(TmsCustomerReq::class);
     }
 
     public function requirementsForVehicle(): BelongsTo
     {
-        return $this->belongsTo(TmsRequirementsForVehicle::class);
+        return $this->belongsTo(TmsVehicleReq::class);
     }
 }

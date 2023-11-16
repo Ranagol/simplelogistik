@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_requirements_for_customers', function (Blueprint $table) {
+        Schema::create('tms_customer_reqs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('requirements_id');
             $table->foreign('requirements_id')->references('id')->on('tms_requirements');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_requirements_for_customers');
+        Schema::dropIfExists('tms_customer_reqs');
     }
 };

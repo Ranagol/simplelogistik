@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // PIVOT TABLE
         Schema::create('requirements_for_customers', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('tms_customers');
-            $table->unsignedBigInteger('requirement_for_customer_id');
-            $table->foreign('requirement_for_customer_id')->references('id')->on('tms_requirements_for_customers');
-            $table->timestamps();
+            $table->foreignId('tms_customer_id')->constrained('tms_customers');
+            $table->foreignId('tms_customer_req_id')->constrained('tms_customer_reqs');
         });
     }
 

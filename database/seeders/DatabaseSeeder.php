@@ -57,8 +57,8 @@ class DatabaseSeeder extends Seeder
             TmsForwardingContractSeeder::class,
             TmsCargoHistorySeeder::class,
             TmsRequirementsForForwarderSeeder::class,
-            TmsRequirementsForVehicleSeeder::class,
-            TmsRequirementsForCustomerSeeder::class,
+            TmsVehicleReqSeeder::class,
+            TmsCustomerReqSeeder::class,
             TmsTransportLicenseSeeder::class,
             PivotTableSeeder::class,
         ]);

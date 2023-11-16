@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class TmsRequirementsForCustomer extends Model
+class TmsCustomerReq extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $table = "tms_requirements_for_customers";
+    protected $table = "tms_customer_reqs";
 
     public function requirements(): HasMany
     {

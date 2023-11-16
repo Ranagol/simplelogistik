@@ -2,15 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
-use App\Models\TmsRequirementsForCustomer;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TmsVehicleReq;
+use App\Models\TmsCustomerReq;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 /**
  * This class will be used to seed pivot tables. We actually do not seed anything here.
  * We simply just connect the already existing models.
- * Example: TmsCustomers and TmsRequirementsForCustomers are already seeded. We just need to connect them.
+ * Example: TmsCustomers and TmsCustomerReqs are already seeded. We just need to connect them.
  * we do that with the attach() method.
  */
 class PivotTableSeeder extends Seeder
@@ -20,26 +22,65 @@ class PivotTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->requirementsForCustomer();
+        $this->seedRequirementsForCustomersTable();
+        $this->seedRequirementsForVehiclesTable();
     }
 
-    private function requirementsForCustomer(): void
+    /**
+     * Connects TmsCustomers and TmsCustomerReqs, aka populates the requirements_for_customers pivot 
+     * table with random ids.
+     *
+     * @return void
+     */
+    private function seedRequirementsForCustomersTable(): void
     {
         $customers = TmsCustomer::all();
         $customerIds = $customers->pluck('id')->toArray();
-        $requirements = TmsRequirementsForCustomer::all();
+        $requirements = TmsCustomerReq::all();
         $requirementsIds = $requirements->pluck('id')->toArray();
 
         foreach ($customers as $customer) {
 
-            //We get 2 random requirements for each customer, and we attach them to the customer.
-            $customer->requirementsForCustomers()->attach(array_rand($requirementsIds, 2)); 
+            //We get 1 random requirements for each customer...
+            $randomArraykey = array_rand($requirementsIds);
+            $randomReqId = $requirementsIds[$randomArraykey];
+            //...and we attach them to the customer.
+            $customer->requirementsForCustomers()->attach($randomReqId); 
         }
 
         foreach ($requirements as $requirement) {
 
-            //We get 2 random customers for each requirement, and we attach them to the requirement.
-            $requirement->customers()->attach(array_rand($customerIds, 2)); 
+            //We get 2 random customers for each requirement...
+            $randomArraykey = array_rand($customerIds);
+            $randomCustomerId = $customerIds[$randomArraykey];
+            //...and we attach them to the requirement.
+            $requirement->customers()->attach($randomCustomerId); 
+        }
+    }
+
+    private function seedRequirementsForVehiclesTable(): void
+    {
+        $vehicles = TmsVehicle::all();
+        $vehicleIds = $vehicles->pluck('id')->toArray();
+        $requirements = TmsVehicleReq::all();
+        $requirementsIds = $requirements->pluck('id')->toArray();
+
+        foreach ($vehicles as $vehicle) {
+
+            //We get 1 random requirements for each vehicle...
+            $randomArraykey = array_rand($requirementsIds);
+            $randomReqId = $requirementsIds[$randomArraykey];
+            //...and we attach them to the vehicle.
+            $vehicle->requirementsForVehicles()->attach($randomReqId); 
+        }
+
+        foreach ($requirements as $requirement) {
+
+            //We get 2 random vehicles for each requirement...
+            $randomArraykey = array_rand($vehicleIds);
+            $randomVehicleId = $vehicleIds[$randomArraykey];
+            //...and we attach them to the requirement.
+            $requirement->vehicles()->attach($randomVehicleId); 
         }
     }
 }
