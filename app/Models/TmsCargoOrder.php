@@ -20,14 +20,14 @@ class TmsCargoOrder extends Model
     protected $guarded = ['id'];
     protected $table = "tms_cargo_orders";
 
-    public function cargoOrder(): BelongsTo
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(TmsCustomer::class);
     }
 
-    public function contact(): HasOne
+    public function contact(): BelongsTo
     {
-        return $this->hasOne(TmsContact::class);
+        return $this->belongsTo(TmsContact::class, '');
     }
 
     public function startAddress(): HasOne
