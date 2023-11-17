@@ -17,10 +17,10 @@ class TmsVehicle extends Model
 
     protected $guarded = ['id'];
     protected $table = "tms_vehicles";
-
-    public function forwardingContract(): BelongsTo
+    
+    public function forwardingContracts(): HasMany
     {
-        return $this->belongsTo(TmsForwardingContract::class);
+        return $this->hasMany(TmsForwardingContract::class, 'vehicle_id');
     }
 
     public function forwarder(): BelongsTo
