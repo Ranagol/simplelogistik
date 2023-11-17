@@ -15,19 +15,13 @@ class TmsRequirement extends Model
     protected $guarded = ['id'];
     protected $table = "tms_requirements";
 
-
-
-
-
-
-
     public function customerReqs(): HasMany
     {
         return $this->hasMany(TmsCustomerReq::class, 'requirement_id');
     }
 
-    public function requirementsForVehicle(): BelongsTo
+    public function vehicleReqs(): HasMany
     {
-        return $this->belongsTo(TmsVehicleReq::class);
+        return $this->hasMany(TmsVehicleReq::class, 'requirement_id');
     }
 }

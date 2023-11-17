@@ -17,11 +17,6 @@ class TmsCustomerReq extends Model
     protected $guarded = ['id'];
     protected $table = "tms_customer_reqs";
 
-
-
-
-
-
     public function requirement(): BelongsTo
     {
         return $this->belongsTo(TmsRequirement::class);
