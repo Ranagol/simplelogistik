@@ -24,6 +24,7 @@ class TmsDispatcherFactory extends Factory
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
+            'user_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'password' => Hash::make('password'), // password
             'phone' => $this->faker->phoneNumber,
         ];
