@@ -10,7 +10,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use App\Models\TmsOfferPrice;
-use App\Models\TmsRequirements;
+use App\Models\TmsRequirement;
 use Illuminate\Database\Seeder;
 use Database\Seeders\TmsAddressSeeder;
 use Database\Seeders\TmsContactSeeder;
@@ -20,7 +20,7 @@ use Database\Seeders\TmsCustomerSeeder;
 use Database\Seeders\TmsForwarderSeeder;
 use Database\Seeders\TmsCargoOrderSeeder;
 use Database\Seeders\TmsDispatcherSeeder;
-use Database\Seeders\TmsRequirementsSeeder;
+use Database\Seeders\TmsRequirementSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             TmsDispatcherSeeder::class,
             TmsCustomerSeeder::class,
             TmsForwarderSeeder::class,
-            TmsRequirementsSeeder::class,
+            TmsRequirementSeeder::class,
             TmsAddressSeeder::class,
             TmsContactSeeder::class,
             TmsVehicleSeeder::class,
@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
             TmsCargoHistorySeeder::class,
-            TmsRequirementsForForwarderSeeder::class,
+            TmsRequirementForForwarderSeeder::class,
             TmsVehicleReqSeeder::class,
             TmsCustomerReqSeeder::class,
             TmsTransportLicenseSeeder::class,

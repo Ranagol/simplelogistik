@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\TmsRequirementsForForwarder;
+use App\Models\TmsRequirementForForwarder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsoptionstoforwarder>
  */
-class TmsRequirementsForForwarderFactory extends Factory
+class TmsRequirementForForwarderFactory extends Factory
 {
-    protected $model = TmsRequirementsForForwarder::class;
+    protected $model = TmsRequirementForForwarder::class;
 
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class TmsRequirementsForForwarderFactory extends Factory
     public function definition(): array
     {
         return [
-            'requirements_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'requirement_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
         ];
     }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tms_forwarder_reqs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('requirements_id');
-            $table->foreign('requirements_id')->references('id')->on('tms_requirements');
+            $table->unsignedBigInteger('requirement_id');
+            $table->foreign('requirement_id')->references('id')->on('tms_requirements');
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->timestamps();

@@ -17,7 +17,7 @@ class TmsVehicleReq extends Model
 
     public function requirements(): HasMany
     {
-        return $this->hasMany(TmsRequirements::class);
+        return $this->hasMany(TmsRequirement::class);
     }
 
     public function vehicles(): BelongsToMany

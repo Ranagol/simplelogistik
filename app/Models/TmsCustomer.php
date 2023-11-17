@@ -47,9 +47,7 @@ class TmsCustomer extends Model
     {
         return $this->hasOne(TmsVehicle::class);
     }
-
-
-    //*
+    
     public function cargoHistories(): HasMany
     {
         return $this->hasMany(TmsCargoHistory::class, 'customer_id');

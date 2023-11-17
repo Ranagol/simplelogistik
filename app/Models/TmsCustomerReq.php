@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Models\TmsCustomer;
-use App\Models\TmsRequirements;
+use App\Models\TmsRequirement;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TmsCustomerReq extends Model
@@ -16,9 +17,14 @@ class TmsCustomerReq extends Model
     protected $guarded = ['id'];
     protected $table = "tms_customer_reqs";
 
-    public function requirements(): HasMany
+
+
+
+
+
+    public function requirement(): BelongsTo
     {
-        return $this->hasMany(TmsRequirements::class);
+        return $this->belongsTo(TmsRequirement::class);
     }
 
     public function customers(): BelongsToMany

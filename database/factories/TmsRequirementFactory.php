@@ -2,20 +2,20 @@
 
 namespace Database\Factories;
 
-use App\Models\TmsRequirements;
+use App\Models\TmsRequirement;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsandoption>
  */
-class TmsRequirementsFactory extends Factory
+class TmsRequirementFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = TmsRequirements::class;
+    protected $model = TmsRequirement::class;
 
     /**
      * Define the model's default state.
