@@ -25,22 +25,22 @@ class TmsCustomer extends Model
 
     public function addresses(): HasMany
     {
-        return $this->hasMany(TmsAddress::class);
+        return $this->hasMany(TmsAddress::class, 'customer_id');
     }
 
     public function cargoOrders(): HasMany
     {
-        return $this->hasMany(TmsCargoOrder::class);
+        return $this->hasMany(TmsCargoOrder::class, 'customer_id');
     }
 
     public function contacts(): HasMany
     {
-        return $this->hasMany(TmsContact::class);
+        return $this->hasMany(TmsContact::class, 'customer_id');
     }
 
     public function forwardingContracts(): HasMany
     {
-        return $this->hasMany(TmsForwardingContract::class);
+        return $this->hasMany(TmsForwardingContract::class, 'customer_id');
     }
 
     public function vehicle(): HasOne
@@ -55,7 +55,7 @@ class TmsCustomer extends Model
 
     public function invoices(): HasMany
     {
-        return $this->hasMany(TmsInvoice::class);
+        return $this->hasMany(TmsInvoice::class, 'customer_id');
     }
 
     public function customerReqs(): BelongsToMany

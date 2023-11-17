@@ -22,17 +22,17 @@ class TmsForwarder extends Model
 
     public function addresses(): HasMany
     {
-        return $this->hasMany(TmsAddress::class);
+        return $this->hasMany(TmsAddress::class, 'forwarder_id');
     }
 
     public function contacts(): HasMany
     {
-        return $this->hasMany(TmsContact::class);
+        return $this->hasMany(TmsContact::class, 'forwarder_id');
     }
 
     public function forwardingContracts(): HasMany
     {
-        return $this->hasMany(TmsForwardingContract::class);
+        return $this->hasMany(TmsForwardingContract::class, 'forwarder_id');
     }
     
     public function cargoHistories(): HasMany
@@ -42,16 +42,16 @@ class TmsForwarder extends Model
 
     public function offerPrices(): HasMany
     {
-        return $this->hasMany(TmsOfferPrice::class);
+        return $this->hasMany(TmsOfferPrice::class, 'forwarder_id');
     }
 
     public function transportLicenses(): HasMany
     {
-        return $this->hasMany(TmsTransportLicense::class);
+        return $this->hasMany(TmsTransportLicense::class, 'forwarder_id');
     }
 
     public function vehicles(): HasMany
     {
-        return $this->hasMany(TmsVehicle::class);
+        return $this->hasMany(TmsVehicle::class, 'forwarder_id');
     }
 }

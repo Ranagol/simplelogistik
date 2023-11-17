@@ -18,7 +18,7 @@ class TmsDispatcher extends Model
 
     public function forwardingContracts(): HasMany
     {
-        return $this->hasMany(TmsForwardingContract::class);
+        return $this->hasMany(TmsForwardingContract::class, 'dispatcher_id');
     }
 
     public function user(): BelongsTo

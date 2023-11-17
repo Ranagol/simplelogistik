@@ -28,7 +28,7 @@ class TmsVehicle extends Model
         return $this->belongsTo(TmsForwarder::class);
     }
 
-    public function requirementsForVehicles(): BelongsToMany
+    public function vehicleReqs(): BelongsToMany
     {
         return $this->belongsToMany(TmsVehicleReq::class, 'requirements_for_vehicles');
     }
