@@ -35,6 +35,7 @@ export default defineComponent({
                 { name: 'Register', url: '/register' },
                 { name: 'Users/Index', url: '/users' },
                 { name: 'First', url: '/first' },
+                { name: 'Pamyra', url: '/pamyra' }
             ] as { name: string, url: string }[]
         }
     },
