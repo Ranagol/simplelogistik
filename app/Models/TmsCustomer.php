@@ -58,7 +58,7 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsInvoice::class);
     }
 
-    public function requirementsForCustomers(): BelongsToMany
+    public function customerReqs(): BelongsToMany
     {
         return $this->belongsToMany(TmsCustomerReq::class, 'requirements_for_customers');
     }
