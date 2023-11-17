@@ -16,10 +16,10 @@ class TmsCargoHistory extends Model
 
     protected $guarded = ['id'];
     protected $table = "tms_cargo_histories";
-
-    public function forwarder(): HasOne
+    
+    public function forwarder(): BelongsTo
     {
-        return $this->hasOne(TmsForwarder::class);
+        return $this->belongsTo(TmsForwarder::class);
     }
 
     public function customer(): HasOne

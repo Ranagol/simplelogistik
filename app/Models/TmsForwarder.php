@@ -34,10 +34,10 @@ class TmsForwarder extends Model
     {
         return $this->hasMany(TmsForwardingContract::class);
     }
-
+    
     public function cargoHistories(): HasMany
     {
-        return $this->hasMany(TmsCargoHistory::class);
+        return $this->hasMany(TmsCargoHistory::class, 'forwarder_id');
     }
 
     public function offerPrices(): HasMany
