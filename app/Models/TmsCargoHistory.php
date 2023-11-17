@@ -22,9 +22,12 @@ class TmsCargoHistory extends Model
         return $this->belongsTo(TmsForwarder::class);
     }
 
-    public function customer(): HasOne
+
+
+    //*
+    public function customer(): BelongsTo
     {
-        return $this->hasOne(TmsCustomer::class);
+        return $this->belongsTo(TmsCustomer::class);
     }
 
     public function cargoOrder(): BelongsTo
