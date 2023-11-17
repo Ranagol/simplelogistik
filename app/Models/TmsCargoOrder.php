@@ -24,10 +24,10 @@ class TmsCargoOrder extends Model
     {
         return $this->belongsTo(TmsCustomer::class);
     }
-
+    
     public function contact(): BelongsTo
     {
-        return $this->belongsTo(TmsContact::class, '');
+        return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
     public function startAddress(): HasOne

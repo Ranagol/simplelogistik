@@ -16,10 +16,10 @@ class TmsContact extends Model
 
     protected $guarded = ['id'];
     protected $table = "tms_contacts";
-
+    
     public function cargoOrders(): HasMany
     {
-        return $this->hasMany(TmsCargoOrder::class);
+        return $this->hasMany(TmsCargoOrder::class, 'contact_id');
     }
 
     public function customer(): BelongsTo
