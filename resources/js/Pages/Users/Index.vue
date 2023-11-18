@@ -9,6 +9,9 @@
             prefix-icon="el-icon-search"
             v-model="searchTerm"
             clearable
+            @clear="getUsers()"
+            @change="getUsers()"
+            @input="handleSearchTermChange()"
         ></el-input>
 
         <!-- BUTTON -->
@@ -85,13 +88,12 @@ export default defineComponent({
 
         /**
          * We need to pass the searchTermProp, sortColumnProp and sortOrderProp from the backend
-         * to the frontend. We do this by passing them as props.
+         * to the frontend. So the backend sends them, and this component receives them as props.
+         * However, props data can't be changed. So we need to store them in data().
          */
         searchTermProp: String,
         sortColumnProp: String,
         sortOrderProp: String,
-        pageProp: String,
-        newPageSizeProp: Number,
     },
     data() {
         return {
@@ -129,11 +131,12 @@ export default defineComponent({
 
         /**
          * getUsers() is triggered by: the search button, the sorting clicks, the pagination clicks.
-         * It sends a request to the backend to
-         * get the users. The backend will return the users sorted and the pagination data.
+         * Also on input field clear.
+         * It sends a request to the backend to get the users. The backend will return the users 
+         * sorted and the pagination data. getUsers() does not have arguments, because it uses the
+         * data from data(). Because every search/sort/paginate change is in the data().
          */
         getUsers() {
-            console.log('getUsers() is activated');
             this.$inertia.get(
                 '/users',
                 {
@@ -144,24 +147,30 @@ export default defineComponent({
                     sortColumn: this.sortColumn,
                     sortOrder:  this.sortOrder,
                     page: this.paginationData.current_page,
-                    newPageSize: this.paginationData.per_page
+                    newItemsPerPage: this.paginationData.per_page
                 },
-                // {
-                    // preserveState: true,//to remember search term
-                    // replace: true//something about history records... Not important
-                // }
+                {
+                    /**
+                     * When navigating between pages, if preserveState is true, Inertia will 
+                     * maintain the current page's component data. This is useful for situations 
+                     * where you want to allow the user to navigate away from a form, for example, 
+                     * and then navigate back with all their form data still in place. In this 
+                     * case we use this feature for the searchTerm.
+                     */
+                    // preserveState: true,
+                    // replace: true
+                }
             );
         },
 
         /**
+         * SORTING
          * sort() is activated by the main table header sort arrows. 
          * Problem: el-table returns ascending or descending, however my backend works with 
          * 'asc' or 'desc'. So here we also transform the ascending/descending to asc/desc.
          */
         sort({ prop, order }) {
-            console.log('sort() is activated');
-            console.log('prop:', prop)
-            console.log('order:', order)
+
             //Setting the sort order in data()
             if (order === 'descending') {
                 this.sortOrder = 'desc';
@@ -170,25 +179,25 @@ export default defineComponent({
             }
             //Setting sortColumn ind data()
             this.sortColumn = prop;
-
             this.getUsers();
         },
 
         /**
-         * PAGINATION
+         * PAGINATION 1
          * Example: by  default, we display 10 records per page. The user can change this to
          * 20, 30, 40... If the user for example changes the 10 to 20 records per page, then this
          * function will be triggered.
          * We set the this.paginationData.per_page to the new value.
          */
         handleItemsPerPageChange(newItemsPerPage: number){
-            console.log(`${newItemsPerPage} items per page`)
+            console.log('newItemsPerPage:', newItemsPerPage)
             this.paginationData.per_page = newItemsPerPage;
+            console.log('this.paginationData.per_page:', this.paginationData.per_page)
             this.getUsers();
         },
 
         /**
-         * PAGINATION
+         * PAGINATION 2
          * If there is any change, any click on the pagination element, we want to trigger this
          * pageChange() function. Now, if there is a change, then we will be moved to another
          * pagination page. Aka, there will be a new currentPage state. This new currentPage
@@ -196,11 +205,17 @@ export default defineComponent({
          * ->paginate().
          */
         handleCurrentPageChange(newCurrentPage: number){
-            console.log(`current page: ${newCurrentPage}`);
             this.paginationData.current_page = newCurrentPage;
             this.getUsers();
+        },
+
+        handleSearchTermChange(){
+            // console.log('handleSearchTermChange()');
+            // this.getUsers();
         }
     },
+
+    
 });
 
 </script>
