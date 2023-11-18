@@ -14,10 +14,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $searchTerm = $request->searchTerm;
-        $page = $request->page;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
-
 
         $users = User::query()
 
@@ -27,7 +25,9 @@ class UserController extends Controller
             })
 
             //SORTING
-            // ->orderBy($sortColumn, $sortOrder)
+            ->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
+                $query->orderBy($sortColumn, $sortOrder);
+            })
 
             //PAGINATION
             ->paginate(10)
@@ -39,7 +39,7 @@ class UserController extends Controller
         return Inertia::render('Users/Index', [
             'dataFromUserController' => $users,
             'searchTermProp' => $searchTerm,
-            'sortByThisProp' => $sortColumn,
+            'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
         ]);
     }

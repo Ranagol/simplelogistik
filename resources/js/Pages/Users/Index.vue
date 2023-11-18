@@ -25,45 +25,45 @@
             <el-table-column
                 prop="id"
                 label="ID"
-                width="50"
-                sortable
+                width="80"
+                sortable="custom"
             ></el-table-column>
 
             <el-table-column
                 prop="name"
                 label="Name"
-                sortable
+                sortable="custom"
             ></el-table-column>
 
             <el-table-column
                 prop="email"
                 label="Email"
-                sortable
+                sortable="custom"
             ></el-table-column>
 
             <el-table-column
                 prop="created_at"
                 label="Created At"
-                sortable
+                sortable="custom"
             ></el-table-column>
 
             <el-table-column
                 prop="updated_at"
                 label="Updated At"
-                sortable
+                sortable="custom"
             ></el-table-column>
 
         </el-table>
 
         <!-- PAGINATION -->
-        <Pagination
+        <!-- <Pagination
             v-model="paginationData.current_page"
             :total="paginationData.total"
             :last-page="paginationData.last_page"
             :page-size="paginationData.per_page"
             @newPageSize="setNewPageSize"
             @current-change="getUsers()"
-        />
+        /> -->
     </Card>
 
 </template>
@@ -74,7 +74,6 @@ import { User } from '@/types/Models/User';
 import Card from '@/Shared/Card.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
-import Layout from '@/Shared/Layout.vue';
 export default defineComponent({
     components: {
         Card,
@@ -83,6 +82,7 @@ export default defineComponent({
     },
     props: {
         // users: Array as PropType<User[]>
+
         /**
          * Unfortunatelly,users are coming in from backend mixed with pagination data.
          * That is what we have here in the dataFromUserController. We need
@@ -90,14 +90,14 @@ export default defineComponent({
          */
         dataFromUserController: Object,
         searchTermProp: String,
-        // sortByThisProp: String,
-        // sortOrderProp: String
+        sortColumnProp: String,
+        sortOrderProp: String
     },
     data() {
         return {
-            searchTerm: this.filters,
-            sortOrder: this.sortOrderProp || 'asc',
-            sortColumn: this.sortByThisProp || 'id'
+            searchTerm: this.searchTermProp,
+            sortOrder: this.sortOrderProp,
+            sortColumn: this.sortColumnProp
         };
     },
     computed: {
@@ -117,6 +117,11 @@ export default defineComponent({
          * get the users. The backend will return the users and the pagination data.
          */
         getUsers() {
+            console.log('getUsers() is activated');
+            // console.log('searchTerm:', this.searchTerm);
+            console.log('sortColumn from getUsers():', this.sortColumn);
+            console.log('sortOrder from getUsers():', this.sortOrder);
+
             this.$inertia.get(
                 '/users',
                 {
@@ -125,26 +130,28 @@ export default defineComponent({
                     sortOrder:  this.sortOrder
                 },
                 {
-                    preserveState: true,//to remember search term
-                    replace: true//something about history records... Not important
+                    // preserveState: true,//to remember search term
+                    // replace: true//something about history records... Not important
                 }
             );
         },
 
         /**
-         * sort() is activated by the main table header sort arrows. This is a request to get the
-         * clients again from the db in a new sort order. It seems to me that el-table returns
-         * ascending or descending, however my backend works with 'asc' or 'desc'. So here we
-         * transform the ascending/descending to asc/desc.
+         * sort() is activated by the main table header sort arrows. 
+         * Problem: el-table returns ascending or descending, however my backend works with 
+         * 'asc' or 'desc'. So here we also transform the ascending/descending to asc/desc.
          */
         sort({ prop, order }) {
+            console.log('sort() is activated');
             console.log('prop:', prop)
             console.log('order:', order)
-            //Setting the sort order
+            //Setting the sort order in data()
             if (order === 'descending') {
                 this.sortOrder = 'desc';
+            } else {
+                this.sortOrder = 'asc';
             }
-            //Setting sortColumn
+            //Setting sortColumn ind data()
             this.sortColumn = prop;
 
             this.getUsers();
@@ -156,13 +163,13 @@ export default defineComponent({
          * function will be triggered.
          * We set the this.paginationData.per_page to the new value.
          */
-         setNewPageSize(newPageSize) {
-            this.$set(this.paginationData, "per_page", newPageSize);
-            console.log(
-                "this.paginationData.per_page NEW VALUE*****",
-                this.paginationData.per_page
-            );
-        },
+        //  setNewPageSize(newPageSize) {
+        //     this.$set(this.paginationData, "per_page", newPageSize);
+        //     console.log(
+        //         "this.paginationData.per_page NEW VALUE*****",
+        //         this.paginationData.per_page
+        //     );
+        // },
 
     },
 });
