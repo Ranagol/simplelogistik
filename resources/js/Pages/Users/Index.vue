@@ -6,13 +6,13 @@
         <!-- USERS SEARCH FIELD -->
         <el-input
             placeholder="Search users..."
-            prefix-icon="el-icon-search"
             v-model="searchTerm"
             clearable
             ref="searchTerm"
             @clear="getUsers()"
             @change="getUsers()"
             @input="handleSearchTermChange()"
+            @keyup.escape.native="clearSearchTermWithEsc()"
         ></el-input>
 
         <!-- BUTTON -->
@@ -197,9 +197,9 @@ export default defineComponent({
          * We set the this.paginationData.per_page to the new value.
          */
         handleItemsPerPageChange(newItemsPerPage: number){
-            console.log('newItemsPerPage:', newItemsPerPage)
+            // console.log('newItemsPerPage:', newItemsPerPage)
             this.paginationData.per_page = newItemsPerPage;
-            console.log('this.paginationData.per_page:', this.paginationData.per_page)
+            // console.log('this.paginationData.per_page:', this.paginationData.per_page)
             this.getUsers();
         },
 
@@ -224,9 +224,18 @@ export default defineComponent({
          * https://www.geeksforgeeks.org/lodash-_-throttle-method/
          */
         handleSearchTermChange(){
-            console.log('handleSearchTermChange()');
+            // console.log('handleSearchTermChange()');
             this.getUsers();
-        }
+        },
+
+        /**
+         * INPUT FIELD
+         * When ESC is hit, we want to clear the search term, and get all users again.
+         */
+        clearSearchTermWithEsc(){
+            this.searchTerm = '';
+            this.getUsers();
+        },
     },
     mounted() {
 
@@ -238,6 +247,8 @@ export default defineComponent({
         this.$nextTick(() => {
             this.$refs.searchTerm.focus();
         }
+
+
     );
   },
 
