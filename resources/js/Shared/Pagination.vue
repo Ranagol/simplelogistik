@@ -3,10 +3,10 @@
 
         <!-- PAGINATION FULL, WITH ALL FEATURES. IT HAS PER PAGE SETTINGS TOO. This is Pagination2.vue
         There are a couple of things, that need explanation here. So, here we go..
-        :total="total"                      - see the props.total
-        :total-page-count="lastPage"        - see the props.lastPage
-        @current-change="pageChange"        - if the user asks for new pagination...
-        @size-change="pageSizeChange"       - if the user changes the records per page value
+        :total="total"                      - see the props.total below
+        :total-page-count="lastPage"        - see the props.lastPage below
+        @current-change="pageChange"        - if the user is on page 1, and clicks on page 2
+        @size-change="pageSizeChange"       - if the user clicks from 5/page to 10/page
         :current-page.sync="value"          - which page is our current page in the pagination.
         :page-sizes="[5, 10, 15, 20]"       - These are options, how many records could be on one page, offered to the user
         :page-size="pageSize"               - How many records are we displaying currently on one page
@@ -36,6 +36,7 @@ export default defineComponent({
          * we will directly connect this value to the <el-pagination> :current-page. This shows
          * our current page. If we are on page 1, then this value will be ... 1.
          * This data is sent by the awesome Laravel ->paginate()
+         * This is actually the current_page from Laravel ->paginate()
          */
         value: {
             required: false,
@@ -47,7 +48,6 @@ export default defineComponent({
          * Example: if we have 461 clients, displaying by 5 clients per page, we will have 93
          * pages in total. So, the last page will be 93.
          * This data is sent by the awesome Laravel ->paginate()
-         *
          */
         lastPage: {
             required: false,
@@ -117,7 +117,7 @@ export default defineComponent({
          * containing the previously set per_page value.
          */
         pageSizeChange(newPageSize){
-            this.$emit('newPageSize', newPageSize);
+            this.pageChange();
         }
     },
 })

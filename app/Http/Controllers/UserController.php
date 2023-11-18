@@ -16,9 +16,9 @@ class UserController extends Controller
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
-        //pagination stuff
+        //pagination stuff sent from front-end
         $page = $request->page;
-        $newPageSize = (int)$request->newPageSize;
+        $newItemsPerPage = (int)$request->newItemsPerPage;
 
         $users = User::query()
 
@@ -40,7 +40,7 @@ class UserController extends Controller
             })
 
             //PAGINATION
-            ->paginate($newPageSize ? $newPageSize : 10)
+            ->paginate($newItemsPerPage ? $newItemsPerPage : 10)
 
             /**
              * Include the query string too into pagination data links for page 1,2,3,4... 
@@ -56,10 +56,6 @@ class UserController extends Controller
             //sort stuff for el-table 
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
-            //pagination
-            'pageProp' => $page,
-            'newPageSizeProp' => $newPageSize
-
         ]);
     }
 

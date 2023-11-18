@@ -55,15 +55,15 @@
 
         </el-table>
 
-        <!-- PAGINATION -->
-        <Pagination
-            v-model="paginationData.current_page"
+        <el-pagination
+            v-model:current-page="paginationData.current_page"
+            v-model:page-size="paginationData.per_page"
             :total="paginationData.total"
-            :last-page="paginationData.last_page"
-            :page-size="paginationData.per_page"
-            @newPageSize="setNewPageSize"
-            @current-change="getUsers()"
-        />
+            :page-sizes="[5, 10, 15, 20]"
+            layout="total, sizes, prev, pager, next, jumper"
+            @size-change="handleItemsPerPageChange"
+            @current-change="handleCurrentPageChange"
+        ></el-pagination>
     </Card>
 
 </template>
@@ -109,15 +109,17 @@ export default defineComponent({
             sortOrder: this.sortOrderProp,
             sortColumn: this.sortColumnProp,
 
-            //pagination
-            page: this.pageProp,
-            newPageSize: this.newPageSizeProp,
-
             /**
+             * All pagination related data is stored here. 
              * Unfortunatelly,users are coming in from backend mixed with pagination data.
              * That is what we have here in the dataFromUserController. We need
              * seaparated users and separated pagination data. This will happen in computed properties.
-             * Here. So, this is the pagination related data.
+             * Here. So, this is the pagination related data. And a small reminder:
+             * 
+             * el-pagination        Laravel ->paginate()
+             * current-page	        paginationData.current_page         Where the user is currently
+             * page-size	        paginationData.per_page             Number of items / page
+             * total	            paginationData.total                Number of all db records
              */
             paginationData: _.omit({...this.dataFromUserController}, 'data') || {},
 
@@ -132,20 +134,17 @@ export default defineComponent({
          */
         getUsers() {
             console.log('getUsers() is activated');
-            // console.log('searchTerm:', this.searchTerm);
-            // console.log('sortColumn from getUsers():', this.sortColumn);
-            // console.log('sortOrder from getUsers():', this.sortOrder);
-            console.log('page from getUsers():', this.page);
-            console.log('newPageSize from getUsers():', this.newPageSize);
-
             this.$inertia.get(
                 '/users',
                 {
-                    searchTerm: this.searchTerm,//here we send our search term to the backend
+                    /**
+                     * This is the data that we send to the backend.
+                     */
+                    searchTerm: this.searchTerm,
                     sortColumn: this.sortColumn,
                     sortOrder:  this.sortOrder,
-                    page: this.page,
-                    newPageSize: this.newPageSize
+                    page: this.paginationData.current_page,
+                    newPageSize: this.paginationData.per_page
                 },
                 // {
                     // preserveState: true,//to remember search term
@@ -182,14 +181,25 @@ export default defineComponent({
          * function will be triggered.
          * We set the this.paginationData.per_page to the new value.
          */
-        setNewPageSize(newPageSize) {
-            console.log('setNewPageSize() is activated');
-            this.paginationData.per_page = newPageSize;
-            this.newPageSize = newPageSize;
-            console.log("this.paginationData.per_page NEW VALUE*****", this.paginationData.per_page);
+        handleItemsPerPageChange(newItemsPerPage: number){
+            console.log(`${newItemsPerPage} items per page`)
+            this.paginationData.per_page = newItemsPerPage;
             this.getUsers();
         },
 
+        /**
+         * PAGINATION
+         * If there is any change, any click on the pagination element, we want to trigger this
+         * pageChange() function. Now, if there is a change, then we will be moved to another
+         * pagination page. Aka, there will be a new currentPage state. This new currentPage
+         * will be automatically sent as an argument from the el-pagination component to Laravel
+         * ->paginate().
+         */
+        handleCurrentPageChange(newCurrentPage: number){
+            console.log(`current page: ${newCurrentPage}`);
+            this.paginationData.current_page = newCurrentPage;
+            this.getUsers();
+        }
     },
 });
 
