@@ -16,6 +16,9 @@ class UserController extends Controller
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
+        //pagination stuff
+        $page = $request->page;
+        $newPageSize = (int)$request->newPageSize;
 
         $users = User::query()
 
@@ -23,24 +26,40 @@ class UserController extends Controller
             ->when($searchTerm, function($query, $searchTerm) {
                 $query->where('name', 'like', '%' . $searchTerm . '%');
             })
-
-            //SORTING
+            
+            /**
+             * SORTING
+             * When there is $sortColumn and $sortOrder defined
+             */
             ->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
                 $query->orderBy($sortColumn, $sortOrder);
+            }, function ($query) {
+
+                //... but if sort is not specified, please return sort by id and ascending.
+                return $query->orderBy('id', 'asc');
             })
 
             //PAGINATION
-            ->paginate(10)
+            ->paginate($newPageSize ? $newPageSize : 10)
 
-            //Paginate the search result, but include the query string too into pagination data links for page 1,2,3,4... And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 if we click on the searc results, page 2
+            /**
+             * Include the query string too into pagination data links for page 1,2,3,4... 
+             * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
+             */
             ->withQueryString();
 
         $t = 8;
         return Inertia::render('Users/Index', [
             'dataFromUserController' => $users,
+            //text search filter
             'searchTermProp' => $searchTerm,
+            //sort stuff for el-table 
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
+            //pagination
+            'pageProp' => $page,
+            'newPageSizeProp' => $newPageSize
+
         ]);
     }
 

@@ -30,7 +30,6 @@
 <script>
 import { defineComponent } from 'vue';
 export default defineComponent({
-    name: 'Pagination2',
     props: {
 
         /**
@@ -119,7 +118,6 @@ export default defineComponent({
          */
         pageSizeChange(newPageSize){
             this.$emit('newPageSize', newPageSize);
-            this.pageChange();
         }
     },
 })
