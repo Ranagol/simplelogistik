@@ -9,6 +9,7 @@
             prefix-icon="el-icon-search"
             v-model="searchTerm"
             clearable
+            ref="searchTerm"
             @clear="getUsers()"
             @change="getUsers()"
             @input="handleSearchTermChange()"
@@ -98,7 +99,7 @@ export default defineComponent({
     data() {
         return {
             /**
-             * Unfortunatelly,users are coming in from backend mixed with pagination data.
+             * Unfortunatelly, users are coming in from backend mixed with pagination data.
              * That is what we have here in the dataFromUserController. We need
              * seaparted users and separated pagination data. This will happen in computed properties.
              */
@@ -130,8 +131,14 @@ export default defineComponent({
     methods: {
 
         /**
-         * getUsers() is triggered by: the search button, the sorting clicks, the pagination clicks.
-         * Also on input field clear.
+         * getUsers() is triggered by: 
+         * 
+         * the search button, 
+         * the sorting clicks, 
+         * the pagination clicks.
+         * Also on input field clear/reset.
+         * If enter is hit by the user.
+         * 
          * It sends a request to the backend to get the users. The backend will return the users 
          * sorted and the pagination data. getUsers() does not have arguments, because it uses the
          * data from data(). Because every search/sort/paginate change is in the data().
@@ -209,11 +216,30 @@ export default defineComponent({
             this.getUsers();
         },
 
+        /**
+         * INPUT FIELD
+         * For every typed letter in the input field, this function will get the filtered users,
+         * again and again.
+         * This is how we can throttle this function: 
+         * https://www.geeksforgeeks.org/lodash-_-throttle-method/
+         */
         handleSearchTermChange(){
-            // console.log('handleSearchTermChange()');
-            // this.getUsers();
+            console.log('handleSearchTermChange()');
+            this.getUsers();
         }
     },
+    mounted() {
+
+        /**
+         * INPUT FIELD
+         * When the page is loaded, we want to focus on the search input.
+         * So we use the mounted() lifecycle hook, and we focus on the search input.
+         */
+        this.$nextTick(() => {
+            this.$refs.searchTerm.focus();
+        }
+    );
+  },
 
     
 });
