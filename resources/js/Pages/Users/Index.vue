@@ -1,5 +1,7 @@
 <template>
     <Head title="Users" />
+
+    <!-- TODO how to solve this TS issue? This is my custom component-->
     <Card>
         <h1>Users</h1>
 
@@ -13,7 +15,7 @@
             @change="getUsers()"
             @input="handleSearchTermChange()"
             @keyup.escape.native="clearSearchTermWithEsc()"
-        ></el-input>
+        />
 
         <!-- BUTTON -->
         <el-button
@@ -67,14 +69,14 @@
             layout="total, sizes, prev, pager, next, jumper"
             @size-change="handleItemsPerPageChange"
             @current-change="handleCurrentPageChange"
-        ></el-pagination>
+        />
     </Card>
 
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { User } from '@/types/Models/User';
+import { User } from '@/types/models/User';
 import Card from '@/Shared/Card.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
@@ -103,7 +105,7 @@ export default defineComponent({
              * That is what we have here in the dataFromUserController. We need
              * seaparted users and separated pagination data. This will happen in computed properties.
              */
-            users: this.dataFromUserController.data || [],
+            users: this.dataFromUserController.data || [] as User[],//TODO why is this erroring TS?
 
             //search by text
             searchTerm: this.searchTermProp,
@@ -156,17 +158,6 @@ export default defineComponent({
                     page: this.paginationData.current_page,
                     newItemsPerPage: this.paginationData.per_page
                 },
-                {
-                    /**
-                     * When navigating between pages, if preserveState is true, Inertia will 
-                     * maintain the current page's component data. This is useful for situations 
-                     * where you want to allow the user to navigate away from a form, for example, 
-                     * and then navigate back with all their form data still in place. In this 
-                     * case we use this feature for the searchTerm.
-                     */
-                    // preserveState: true,
-                    // replace: true
-                }
             );
         },
 
@@ -176,7 +167,7 @@ export default defineComponent({
          * Problem: el-table returns ascending or descending, however my backend works with 
          * 'asc' or 'desc'. So here we also transform the ascending/descending to asc/desc.
          */
-        sort({ prop, order }) {
+        sort({ prop, order }: {prop: string, order: string }): void {
 
             //Setting the sort order in data()
             if (order === 'descending') {
@@ -196,7 +187,7 @@ export default defineComponent({
          * function will be triggered.
          * We set the this.paginationData.per_page to the new value.
          */
-        handleItemsPerPageChange(newItemsPerPage: number){
+        handleItemsPerPageChange(newItemsPerPage: number): void{
             // console.log('newItemsPerPage:', newItemsPerPage)
             this.paginationData.per_page = newItemsPerPage;
             // console.log('this.paginationData.per_page:', this.paginationData.per_page)
@@ -245,14 +236,9 @@ export default defineComponent({
          * So we use the mounted() lifecycle hook, and we focus on the search input.
          */
         this.$nextTick(() => {
-            this.$refs.searchTerm.focus();
-        }
-
-
-    );
-  },
-
-    
+            this.$refs.searchTerm.focus();//TODO how to solve this TS error?
+        });
+    },
 });
 
 </script>

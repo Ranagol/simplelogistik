@@ -45,7 +45,7 @@ createInertiaApp({
          */
         page.then((module) => {
             // If the page does not have his own private layout, then it has to use the general Layout.vue
-            module.default.layout = module.default.layout || Layout;
+            module.default.layout = module.default.layout || Layout;//TODO how to fix this TS issue?
         });
 
         /**
