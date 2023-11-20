@@ -1,7 +1,6 @@
 <template>
     <Head title="Users" />
 
-    <!-- TODO how to solve this TS issue? This is my custom component-->
     <Card>
         <h1>Users</h1>
 

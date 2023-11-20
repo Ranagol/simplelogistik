@@ -56,11 +56,11 @@ export default defineComponent({
 }
 
 .selected_nav_item{
-    background-color: rgb(115, 103, 240);
+    background-color: var(--primary);
     font-weight: bold;
     color: white;
     border-radius: 6.4px;
-    box-shadow: 0 1px 3px #7367F0;
+    /*box-shadow: 0 1px 3px #7367F0;*/
 }
 
 </style>
