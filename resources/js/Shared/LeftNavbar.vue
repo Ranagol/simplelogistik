@@ -68,6 +68,15 @@
                         href="/customers"
                     >Customers</NavLink>
                 </el-menu-item>
+
+                <!-- JUST FOR TEMPORARY DISPLAY -->
+                <el-menu-item 
+                    index="111"
+                >
+                    <NavLink
+                        href="/random"
+                    >Just temporary</NavLink>
+                </el-menu-item>
             </el-sub-menu>
 
             <!-- ADDRESSES -->
@@ -85,6 +94,42 @@
                     <NavLink
                         href="/addresses"
                     >Addresses</NavLink>
+                </el-menu-item>
+
+                <!-- JUST FOR TEMPORARY DISPLAY -->
+                <el-menu-item 
+                    index="222"
+                >
+                    <NavLink
+                        href="/random"
+                    >Just temporary</NavLink>
+                </el-menu-item>
+            </el-sub-menu>
+
+            <!-- CARGOORDERS -->
+            <el-sub-menu
+                index="cargo-orders"
+            >
+                <template #title>
+                    <span>Cargo orders</span>
+                </template>
+
+                <!-- CARGOORDERS INDEX -->
+                <el-menu-item 
+                    index="cargo-orders.index"
+                >
+                    <NavLink
+                        href="/cargo-orders"
+                    >Cargo orders</NavLink>
+                </el-menu-item>
+
+                <!-- JUST FOR TEMPORARY DISPLAY -->
+                <el-menu-item 
+                    index="333"
+                >
+                    <NavLink
+                        href="/random"
+                    >Just temporary</NavLink>
                 </el-menu-item>
             </el-sub-menu>
 
