@@ -1,10 +1,15 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\TmsCustomer;
+use App\Models\TmsCargoOrder;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TmsAddressController;
+use App\Http\Controllers\TmsCustomerController;
+use App\Http\Controllers\TmsCargoOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +34,11 @@ Route::get('/', function () {
 });
 
 Route::resource('users', UserController::class);
+Route::resource('customers', TmsCustomerController::class);
+Route::resource('cargo-orders', TmsCargoOrderController::class);
+Route::resource('addresses', TmsAddressController::class);
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

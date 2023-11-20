@@ -8,7 +8,7 @@
                 v-for="menuItem in menuItems"
                 :key="menuItem.name"
                 class="nav_item"
-                :class="{ 'selected_nav_item': $page.component === menuItem.name }"
+                :class="{ 'selected_nav_item': $page.component === menuItem.path }"
             >
                 <NavLink
                     :href="menuItem.url"
@@ -30,13 +30,16 @@ export default defineComponent({
     data() {
         return {
             menuItems: [
-                { name: 'Home', url: '/' },
-                { name: 'Login', url: '/login' },
-                { name: 'Register', url: '/register' },
-                { name: 'Users/Index', url: '/users' },
-                { name: 'First', url: '/first' },
-                { name: 'Pamyra', url: '/pamyra' }
-            ] as { name: string, url: string }[]
+                { name: 'Home', path: 'Home', url: '/' },
+                { name: 'Login', path: 'Login', url: '/login' },
+                { name: 'Register', path: 'Register', url: '/register' },
+                { name: 'Users', path: 'Users/Index', url: '/users' },
+                // { name: , path: 'First', url: '/first' },
+                { name: 'Pamyra', path: 'Pamyra', url: '/pamyra' },
+                { name: 'Customers', path: 'Customers/Index', url: '/customers' },
+                { name: 'Cargo orders', path: 'CargoOrders/Index', url: '/cargo-orders' },
+                { name: 'Addresses', path: 'Addresses/Index', url: '/addresses' },
+            ] as { name: string, url: string, path: string }[]
         }
     },
 });
