@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Pivot;
 use App\Models\User;
+use App\Models\Pivot;
 use App\Models\TmsAddress;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -12,6 +12,8 @@ use App\Models\TmsForwarder;
 use App\Models\TmsOfferPrice;
 use App\Models\TmsRequirement;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TmsAddressSeeder;
 use Database\Seeders\TmsContactSeeder;
 use Database\Seeders\TmsInvoiceSeeder;
@@ -39,6 +41,9 @@ class DatabaseSeeder extends Seeder
             User::factory()->create([
                 'name' => 'jedan@gmail.com',
                 'email' => 'jedan@gmail.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('jedan@gmail.com'),
+                'remember_token' => Str::random(10),
             ]);
         }
         User::factory(config('constants.numberOfDbRecords'))->create();

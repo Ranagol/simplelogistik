@@ -45,7 +45,7 @@ class PivotTableSeeder extends Seeder
             $randomArraykey = array_rand($requirementsIds);
             $randomReqId = $requirementsIds[$randomArraykey];
             //...and we attach them to the customer.
-            $customer->requirementsForCustomers()->attach($randomReqId); 
+            $customer->customerReqs()->attach($randomReqId); 
         }
 
         foreach ($requirements as $requirement) {
@@ -71,7 +71,7 @@ class PivotTableSeeder extends Seeder
             $randomArraykey = array_rand($requirementsIds);
             $randomReqId = $requirementsIds[$randomArraykey];
             //...and we attach them to the vehicle.
-            $vehicle->requirementsForVehicles()->attach($randomReqId); 
+            $vehicle->vehicleReqs()->attach($randomReqId); 
         }
 
         foreach ($requirements as $requirement) {
