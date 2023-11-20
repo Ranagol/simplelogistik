@@ -32,20 +32,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        /**
-         * jedan@gmail.com is my test user. If there is no user with that email, create it.
-         * The test user is used for logging in to the application.
-         */
-        $jedan = User::where('name', '=', 'jedan@gmail.com')->get();
-        if(!$jedan){
-            User::factory()->create([
-                'name' => 'jedan@gmail.com',
-                'email' => 'jedan@gmail.com',
-                'email_verified_at' => now(),
-                'password' => Hash::make('jedan@gmail.com'),
-                'remember_token' => Str::random(10),
-            ]);
-        }
+        
         User::factory(config('constants.numberOfDbRecords'))->create();
 
         $this->call([
@@ -67,5 +54,21 @@ class DatabaseSeeder extends Seeder
             TmsTransportLicenseSeeder::class,
             PivotTableSeeder::class,
         ]);
+
+
+        /**
+         * jedan@gmail.com is my test user. If there is no user with that email, create it.
+         * The test user is used for logging in to the application.
+         */
+        $jedan = User::where('name', '=', 'jedan@gmail.com')->get();
+        if($jedan->isEmpty()){
+            User::factory()->create([
+                'name' => 'jedan@gmail.com',
+                'email' => 'jedan@gmail.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('jedan@gmail.com'),
+                'remember_token' => Str::random(10),
+            ]);
+        }
     }
 }
