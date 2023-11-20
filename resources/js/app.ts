@@ -48,6 +48,7 @@ createInertiaApp({
             module.default.layout = module.default.layout || Layout;//TODO how to fix this TS issue?
         });
 
+        
         /**
          * Finally, the resolved page (which is a promise) is returned. This allows the caller to wait
          * for the Vue.js component to be imported before rendering the page.

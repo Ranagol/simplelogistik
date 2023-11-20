@@ -39,7 +39,11 @@ class UserController extends Controller
                 return $query->orderBy('id', 'asc');
             })
 
-            //PAGINATION
+            
+            /**
+             * PAGINATION
+             * If it is not otherwise specified, paginate by 10 items per page.
+             */
             ->paginate($newItemsPerPage ? $newItemsPerPage : 10)
 
             /**
