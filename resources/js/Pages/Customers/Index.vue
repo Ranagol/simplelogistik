@@ -16,10 +16,14 @@
             @keyup.escape.native="clearSearchTermWithEsc()"
         />
 
-        <!-- BUTTON -->
+        <!-- BUTTON SEARCH -->
         <el-button
             @click="getCustomers"
         >Search</el-button>
+
+        <!-- CREATE NEW CUSTOMER POPUP -->
+        <Popup></Popup>
+
 
         <!-- CUSTOMERS TABLE -->
         <el-table
@@ -64,11 +68,6 @@
                 sortable="custom"
             ></el-table-column>
 
-            <el-table-column
-                prop="internal_cid"
-                label="Internal CID"
-                sortable="custom"
-            ></el-table-column>
 
         </el-table>
 
@@ -91,11 +90,13 @@ import { Customer } from '@/types/models/Customer';
 import Card from '@/Shared/Card.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
+import Popup from '@/Shared/Popup.vue';
 export default defineComponent({
     components: {
         Card,
         Pagination,
         // layout: Layout,
+        Popup,
     },
     props: {        
         dataFromCustomerController: Object,

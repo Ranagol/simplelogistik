@@ -66,7 +66,7 @@
                 >
                     <NavLink
                         href="/customers"
-                    >Customers</NavLink>
+                    >Customers list</NavLink>
                 </el-menu-item>
 
                 <!-- JUST FOR TEMPORARY DISPLAY -->
@@ -93,7 +93,7 @@
                 >
                     <NavLink
                         href="/addresses"
-                    >Addresses</NavLink>
+                    >Addresses list</NavLink>
                 </el-menu-item>
 
                 <!-- JUST FOR TEMPORARY DISPLAY -->
@@ -111,7 +111,7 @@
                 index="cargo-orders"
             >
                 <template #title>
-                    <span>Cargo orders</span>
+                    <span>Cargo orders list</span>
                 </template>
 
                 <!-- CARGOORDERS INDEX -->

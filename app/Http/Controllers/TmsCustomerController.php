@@ -64,4 +64,20 @@ class TmsCustomerController extends Controller
             'sortOrderProp' => $sortOrder,
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'company_name' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'rating' => 'required',
+            // 'tax_number' => 'required',
+            'internal_cid' => 'required',
+        ]);
+
+        TmsCustomer::create($request->all());
+
+        return redirect()->back()->with('message', 'Customer created.');
+    }
 }
