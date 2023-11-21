@@ -6,6 +6,7 @@
             ref="createEditCustomerForm"
             :model="customer"
             label-position="top"
+            
         >
             <el-form-item
                 label="Company name"
@@ -131,7 +132,7 @@
                 <el-form-item class="pr-5">
                     <el-button
                         type="primary"
-                        @click="submit"
+                        @click="submit(createEditCustomerForm)"
                     >Submit</el-button>
                 </el-form-item>
     
@@ -176,7 +177,7 @@ export default defineComponent({
             //         { required: true, message: 'Email is required', trigger: 'blur' },
             //     ],
             //     // rating: [
-            //     //     { required: fla, message: 'Rating is required', trigger: 'blur' },
+            //     //     { required: true, message: 'Rating is required', trigger: 'blur' },
             //     // ],
             //     tax_number: [
             //         { required: true, message: 'Tax number is required', trigger: 'blur' },
@@ -187,14 +188,26 @@ export default defineComponent({
             // },
         }
     },
-    computed: {
-    },
     emits: ['closePopup'],
     methods: {
         submit(){
             this.customer.post('/customers');
             this.closePopup();
         },
+
+        // async submit(){
+            // console.log(this.$refs);
+            // console.log('createEditCustomerForm:', createEditCustomerForm)
+            // if(!createEditCustomerForm) return;
+            // await createEditCustomerForm.validate((valid, fields) => {
+            //     if (valid) {
+            //         console.log('submit!')
+            //     } else {
+            //         console.log('error submit!', fields)
+            //     }
+            // });
+        // },
+
 
         /**
          * Close popup and reset customer data.
@@ -212,7 +225,7 @@ export default defineComponent({
         }
     },
 
-});
+})
 </script>
 
 <style scoped>

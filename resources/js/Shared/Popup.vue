@@ -7,21 +7,6 @@
         <CreateEditCustomer
             @closePopup="elDialogVisible = false"
         ></CreateEditCustomer>
-
-        <!-- FOOTER WITH CANCEL AND CONFIRM -->
-        <!-- <template #footer>
-            <span class="dialog-footer">
-
-                <el-button
-                    @click="elDialogVisible = false"
-                >Cancel</el-button>
-
-                <el-button 
-                    type="primary" 
-                    @click="elDialogVisible = false"
-                >Confirm</el-button>
-            </span>
-        </template> -->
     </el-dialog>
 
     <el-button

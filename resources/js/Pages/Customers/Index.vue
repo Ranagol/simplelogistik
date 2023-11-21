@@ -68,6 +68,7 @@
                 sortable="custom"
             ></el-table-column>
 
+            <!-- SHOW/EDIT/DELETE BUTTON -->
             <el-table-column
                 label="Show/Edit/Delete"
             >
