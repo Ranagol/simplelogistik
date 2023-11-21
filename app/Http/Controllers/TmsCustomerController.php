@@ -11,7 +11,10 @@ use Illuminate\Http\Request;
 class TmsCustomerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Returns customers.
+     *
+     * @param Request $request
+     * @return Response
      */
     public function index(Request $request): Response
     {

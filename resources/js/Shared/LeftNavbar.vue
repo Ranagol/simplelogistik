@@ -45,6 +45,13 @@
                 >Register</NavLink>
             </el-menu-item>
 
+            <!-- REGISTER -->
+            <el-menu-item index="First">
+                <NavLink
+                    href="/first"
+                >First</NavLink>
+            </el-menu-item>
+
             <!-- PALMYRA -->
             <el-menu-item index="Palmyra">
                 <NavLink
