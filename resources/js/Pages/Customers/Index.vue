@@ -24,7 +24,13 @@
         <!-- CREATE NEW CUSTOMER POPUP -->
         <Popup
             :errors="errors"
+            :elDialogVisible="elDialogVisible"
+            @closePopup="elDialogVisible = false"
         ></Popup>
+
+        <el-button
+            @click="elDialogVisible = true"
+        >Create new customer</el-button>
 
 
         <!-- CUSTOMERS TABLE -->
@@ -81,13 +87,13 @@
                     <el-button
                         size="small"
                         type="info"
-                        @click="handleDelete(scope.$index, scope.row)"
+                        @click="handleShow(scope.$index, scope.row)"
                     >Show</el-button>
 
                     <el-button
                         size="small"
                         type="warning"
-                        @click="handleDelete(scope.$index, scope.row)"
+                        @click="handleEdit(scope.$index, scope.row)"
                     >Edit</el-button>
 
                     <el-button
@@ -147,6 +153,9 @@ export default defineComponent({
     },
     data() {
         return {
+
+            elDialogVisible: false,
+
             /**
              * Unfortunatelly, customers are coming in from backend mixed with pagination data.
              * That is what we have here in the dataFromCustomerController. We need
@@ -275,16 +284,24 @@ export default defineComponent({
             this.getCustomers();
         },
 
+        handleShow(index, object) {
+            console.log('index:', index);
+            console.log('object:', object);
+            this.elDialogVisible = true;
+        },
+
+        handleEdit(index, object) {
+            console.log('index:', index);
+            console.log('object:', object);
+            this.elDialogVisible = true;
+        },
+
         handleDelete(index, object) {
             console.log('index:', index);
             console.log('object:', object);
             if(confirm('Are you sure you want to delete this customer?')){
                 this.$inertia.delete(`/customers/${object.id}`);
             }
-            // Inertia.delete(route('customers', object.id)).then(() => {
-            //     Inertia.reload()
-            // })
-            // router.reload({ only: ['dataFromCustomerController'] })
         },
         
     },

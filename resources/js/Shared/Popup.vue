@@ -6,14 +6,9 @@
         <!-- CREATE CUSTOMER -->
         <CreateEditCustomer
             :errors="errors"
-            @closePopup="elDialogVisible = false"
+            @closePopup="closePopup"
         ></CreateEditCustomer>
     </el-dialog>
-
-    <el-button
-        @click="elDialogVisible = true"
-    >Create new customer</el-button>
-
 </template>
 
 <script lang="ts">
@@ -22,18 +17,24 @@ import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 export default defineComponent({
     props: {
         errors: Object,
+        elDialogVisible: Boolean
     },
     components: {
         CreateEditCustomer
     },
     data() {
         return {
-            elDialogVisible: false,
+            elDialogVisibleData: this.props,
         }
     },
     computed: {
     },
+    emits: ['closePopup'],
     methods: {
+        closePopup(){
+            // this.elDialogVisibleData = false;
+            this.$emit('closePopup', false);
+        }
     },
 
 });
