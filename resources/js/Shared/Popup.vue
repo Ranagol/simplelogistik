@@ -5,6 +5,7 @@
     >
         <!-- CREATE CUSTOMER -->
         <CreateEditCustomer
+            :errors="errors"
             @closePopup="elDialogVisible = false"
         ></CreateEditCustomer>
     </el-dialog>
@@ -19,6 +20,9 @@
 import { defineComponent } from 'vue';
 import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 export default defineComponent({
+    props: {
+        errors: Object,
+    },
     components: {
         CreateEditCustomer
     },

@@ -22,7 +22,9 @@
         >Search</el-button>
 
         <!-- CREATE NEW CUSTOMER POPUP -->
-        <Popup></Popup>
+        <Popup
+            :errors="errors"
+        ></Popup>
 
 
         <!-- CUSTOMERS TABLE -->
@@ -113,7 +115,8 @@ export default defineComponent({
         // layout: Layout,
         Popup,
     },
-    props: {        
+    props: {
+        errors: Object, 
         dataFromCustomerController: Object,
 
         /**

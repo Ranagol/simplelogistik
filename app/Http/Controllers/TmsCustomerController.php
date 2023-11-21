@@ -68,6 +68,12 @@ class TmsCustomerController extends Controller
         ]);
     }
 
+    /**
+     * Stores customers.
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -78,12 +84,18 @@ class TmsCustomerController extends Controller
             'tax_number' => 'required|string|min:2|max:50',
             'internal_cid' => 'required|string|min:2|max:100',
         ]);
-
+        
         TmsCustomer::create($request->all());
 
         return redirect()->back();
     }
 
+    /**
+     * Deletes customers.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function destroy($id)
     {
         TmsCustomer::destroy($id);
