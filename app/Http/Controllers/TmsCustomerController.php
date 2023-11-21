@@ -87,7 +87,8 @@ class TmsCustomerController extends Controller
         
         TmsCustomer::create($request->all());
 
-        return redirect()->back();
+        // return redirect()->back();
+        return Inertia::location(route('customers.index'));
     }
 
     /**

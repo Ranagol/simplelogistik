@@ -77,6 +77,19 @@
                 <!-- scope.$index = number of the row in table -->
                 <!-- scope.row = the object in the cell -->
                 <template #default="scope">
+
+                    <el-button
+                        size="small"
+                        type="info"
+                        @click="handleDelete(scope.$index, scope.row)"
+                    >Show</el-button>
+
+                    <el-button
+                        size="small"
+                        type="warning"
+                        @click="handleDelete(scope.$index, scope.row)"
+                    >Edit</el-button>
+
                     <el-button
                         size="small"
                         type="danger"
