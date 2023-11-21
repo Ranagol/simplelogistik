@@ -108,6 +108,10 @@ import Card from '@/Shared/Card.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
+import { router } from '@inertiajs/vue3'
+
+// import { Inertia } from '@inertiajs/inertia'
+// import { Inertia } from '@inertiajs/inertia-vue3'
 export default defineComponent({
     components: {
         Card,
@@ -264,6 +268,10 @@ export default defineComponent({
             if(confirm('Are you sure you want to delete this customer?')){
                 this.$inertia.delete(`/customers/${object.id}`);
             }
+            // Inertia.delete(route('customers', object.id)).then(() => {
+            //     Inertia.reload()
+            // })
+            // router.reload({ only: ['dataFromCustomerController'] })
         },
         
     },

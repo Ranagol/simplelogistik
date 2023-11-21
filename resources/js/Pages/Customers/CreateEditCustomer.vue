@@ -135,12 +135,12 @@
                     >Submit</el-button>
                 </el-form-item>
     
-                <!-- <el-form-item>
+                <el-form-item>
                     <el-button
                         type="danger"
                         @click="closePopup"
                     >Cancel</el-button>
-                </el-form-item> -->
+                </el-form-item>
             </div>
         </el-form>
     </div>
@@ -151,6 +151,9 @@ import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { router } from '@inertiajs/vue3'
 
+/**
+ * Here we define, what structure should have the customer object.
+ */
 interface RuleForm {
     company_name: string,
     name: string,
@@ -160,22 +163,39 @@ interface RuleForm {
     internal_cid: string,
 }
 
+/**
+ * The ref function is used to create a reactive and mutable object reference. The type of the 
+ * reference is FormInstance, which is not defined in the provided code but is likely a type or 
+ * interface that represents the form instance.
+ * Possibly this contains the whole el-form?
+ */
 const ruleFormRef = ref<FormInstance>()
-const customer = reactive<RuleForm>({
-    company_name: '',
-    name: '',
-    email: '',
-    rating: '',
-    tax_number: '',
-    internal_cid: '',
+
+/**
+ * The customer object that is being sent to the backend.
+ * This line is creating a reactive object using Vue's reactive function. The reactive function is 
+ * used to create a reactive and mutable object. The object is of type RuleForm (as defined earlier), 
+ * and it's initially set with all properties as empty strings. 
+ */
+let customer = reactive<RuleForm>({
+    company_name: 'blaa',
+    name: 'blah',
+    email: 'bla@gmail.com',
+    rating: '5',
+    tax_number: '1111',
+    internal_cid: '22222',
 })
 
-let props = defineProps(
-    {
-        errors: Object,
-    }   
-)
+/**
+ * The errors are being sent from the Customers/Index grandparent component, because for some reason
+ * they are not arriving here. Possibly because this is a deeply nested el-dialog, and not a compnent
+ * that has a fix place and not disappears.
+ */
+let props = defineProps({ errors: Object, } )
 
+/**
+ * The rules for the form.
+ */
 const rules = reactive<FormRules<RuleForm>>({
     company_name: [
         { required: true, message: 'Company name is required FE', trigger: 'blur' },
@@ -198,13 +218,20 @@ const rules = reactive<FormRules<RuleForm>>({
     ],
 })
 
+/**
+ * Submit the form.
+ * 
+ * @param formEl 
+ */
 const submitForm = async (formEl: FormInstance | undefined) => {
-    // console.log('submit!', customer)
-    // router.post('/customers', customer)
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {
             console.log('submit!', customer)
+            /**
+             * Send the customer object to the backend. Without Inertia form helper. Because I could
+             * not make it work with Inertia form helper.
+             */
             router.post('/customers', customer)
         } else {
             console.log('error submit!', fields)
@@ -218,69 +245,25 @@ const resetForm = (formEl: FormInstance | undefined) => {
 }
 
 
+const emit = defineEmits(['closePopup']);
 
-// export default defineComponent({
-//     components: {
-//     },
-//     props: {
-//         errors: Object,
-//     },
-//     data() {
-//         return {
-//             customer: useForm({
-//                 company_name: 'xxx',
-//                 name: 'jedan',
-//                 email: 'bla@gmail.com',
-//                 rating: '5',
-//                 tax_number: '5555',
-//                 internal_cid: '66666',
-//             }),
-//             // validationRules: {
-//             //     company_name: [
-//             //         { required: true, message: 'Company name is required', trigger: 'blur' },
-//             //     ],
-                
-//             // },
-//         }
-//     },
-//     emits: ['closePopup'],
-//     methods: {
-//         submit(){
-//             this.customer.post('/customers');
-//             this.closePopup();
-//         },
-
-//         // async submit(){
-//             // console.log(this.$refs);
-//             // console.log('customer:', customer)
-//             // if(!customer) return;
-//             // await customer.validate((valid, fields) => {
-//             //     if (valid) {
-//             //         console.log('submit!')
-//             //     } else {
-//             //         console.log('error submit!', fields)
-//             //     }
-//             // });
-//         // },
+/**
+ * Close the popup. Whether because the use hit the cancel button, or because the form was submitted.
+ 
+ */
+let closePopup = () => {
+    customer = { 
+        company_name: '',
+        name: '',
+        email: '',
+        rating: '',
+        tax_number: '',
+        internal_cid: '',
+    };
+    emit('closePopup');
+}
 
 
-//         /**
-//          * Close popup and reset customer data.
-//          */
-//         closePopup(){
-//             // this.customer = { 
-//             //     company_name: '',
-//             //     name: '',
-//             //     email: '',
-//             //     rating: '',
-//             //     tax_number: '',
-//             //     internal_cid: '',
-//             // };
-//             this.$emit('closePopup');
-//         }
-//     },
-
-// })
 </script>
 
 <style scoped>

@@ -24,7 +24,7 @@ class TmsCustomerController extends Controller
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
-
+        
         $customers = TmsCustomer::query()
 
             // If there is a search term defined...
@@ -41,7 +41,7 @@ class TmsCustomerController extends Controller
             }, function ($query) {
 
                 //... but if sort is not specified, please return sort by id and ascending.
-                return $query->orderBy('id', 'asc');
+                return $query->orderBy('id', 'desc');
             })
 
             
@@ -99,9 +99,12 @@ class TmsCustomerController extends Controller
     public function destroy($id)
     {
         TmsCustomer::destroy($id);
-        // return redirect()->back();
-        // return to_route('customers.index');
-        return redirect()->route('customers.index')->with('message', 'Customer deleted successfully');
+        // return redirect()->back();//nah
+        // return to_route('customers.index');//nah
+        // return redirect()->route('customers.index')->with('message', 'Customer deleted successfully');
+        // $this->index();
+        // return redirect()->route('customers.index');
+        return Inertia::location(route('customers.index'));
     }
 }
 
