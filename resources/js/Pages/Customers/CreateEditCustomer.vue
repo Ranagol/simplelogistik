@@ -5,7 +5,6 @@
         <el-form
             ref="createEditCustomerForm"
             :model="customer"
-            
             label-position="top"
         >
             <el-form-item
@@ -20,6 +19,14 @@
                     show-word-limit
                     :maxlength="255"
                 />
+
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="customer.errors.company_name"
+                    v-text="customer.errors.company_name"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+
             </el-form-item>
 
             <el-form-item
@@ -33,6 +40,13 @@
                     show-word-limit
                     :maxlength="255"
                 />
+
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="customer.errors.name"
+                    v-text="customer.errors.name"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
             </el-form-item>
 
             <el-form-item
@@ -46,6 +60,13 @@
                     show-word-limit
                     :maxlength="255"
                 />
+
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="customer.errors.email"
+                    v-text="customer.errors.email"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
             </el-form-item>
 
             <el-form-item
@@ -59,6 +80,12 @@
                     show-word-limit
                     :maxlength="255"
                 />
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="customer.errors.rating"
+                    v-text="customer.errors.rating"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
             </el-form-item>
 
             <el-form-item
@@ -72,6 +99,12 @@
                     show-word-limit
                     :maxlength="255"
                 />
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="customer.errors.rating"
+                    v-text="customer.errors.rating"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
             </el-form-item>
 
             <el-form-item
@@ -85,16 +118,30 @@
                     show-word-limit
                     :maxlength="255"
                 />
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="customer.errors.internal_cid"
+                    v-text="customer.errors.internal_cid"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
             </el-form-item>
 
-            <el-form-item>
-                <el-button
-                    type="primary"
-                    @click="submit"
-                >Submit</el-button>
-            </el-form-item>
-
-            
+            <!-- BUTTONS -->
+            <div class="flex flex-row">
+                <el-form-item class="pr-5">
+                    <el-button
+                        type="primary"
+                        @click="submit"
+                    >Submit</el-button>
+                </el-form-item>
+    
+                <el-form-item>
+                    <el-button
+                        type="danger"
+                        @click="closePopup"
+                    >Cancel</el-button>
+                </el-form-item>
+            </div>
         </el-form>
     </div>
 </template>
@@ -105,17 +152,18 @@ import { useForm } from '@inertiajs/vue3';//0-Importing the form helper
 export default defineComponent({
     components: {
     },
-    // props: {
-    // },
+    props: {
+        errors: Object,
+    },
     data() {
         return {
             customer: useForm({
-                company_name: '',
-                name: '',
-                email: '',
-                rating: '',
-                tax_number: '',
-                internal_cid: '',
+                company_name: 'xxx',
+                name: 'jedan',
+                email: 'bla@gmail.com',
+                rating: '5',
+                tax_number: '5555',
+                internal_cid: '66666',
             }),
             // validationRules: {
             //     company_name: [
@@ -141,9 +189,26 @@ export default defineComponent({
     },
     computed: {
     },
+    emits: ['closePopup'],
     methods: {
         submit(){
-            this.customer.post('/customers');//2-We use the form object from the data() for sending requests
+            this.customer.post('/customers');
+            this.closePopup();
+        },
+
+        /**
+         * Close popup and reset customer data.
+         */
+        closePopup(){
+            // this.customer = { 
+            //     company_name: '',
+            //     name: '',
+            //     email: '',
+            //     rating: '',
+            //     tax_number: '',
+            //     internal_cid: '',
+            // };
+            this.$emit('closePopup');
         }
     },
 

@@ -68,16 +68,26 @@ class TmsCustomerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'company_name' => 'required',
-            'name' => 'required',
-            'email' => 'required',
-            'rating' => 'required',
-            // 'tax_number' => 'required',
-            'internal_cid' => 'required',
+            'company_name' => 'required|string|min:2|max:100',
+            'name' => 'required|string|min:2|max:200',
+            'email' => 'required|email|max:100',
+            'rating' => 'required|integer|between:1,5',
+            'tax_number' => 'required|string|min:2|max:50',
+            'internal_cid' => 'required|string|min:2|max:100',
         ]);
 
         TmsCustomer::create($request->all());
 
-        return redirect()->back()->with('message', 'Customer created.');
+        return redirect()->back();
+    }
+
+    public function destroy($id)
+    {
+        TmsCustomer::destroy($id);
+        // return redirect()->back();
+        // return to_route('customers.index');
+        return redirect()->route('customers.index')->with('message', 'Customer deleted successfully');
     }
 }
+
+

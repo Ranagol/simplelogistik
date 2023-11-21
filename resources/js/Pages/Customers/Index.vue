@@ -68,6 +68,20 @@
                 sortable="custom"
             ></el-table-column>
 
+            <el-table-column
+                label="Show/Edit/Delete"
+            >
+                <!-- scope.$index = number of the row in table -->
+                <!-- scope.row = the object in the cell -->
+                <template #default="scope">
+                    <el-button
+                        size="small"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)"
+                    >Delete</el-button>
+                </template>
+            </el-table-column>
+
 
         </el-table>
 
@@ -239,6 +253,15 @@ export default defineComponent({
             this.searchTerm = '';
             this.getCustomers();
         },
+
+        handleDelete(index, object) {
+            console.log('index:', index);
+            console.log('object:', object);
+            if(confirm('Are you sure you want to delete this customer?')){
+                this.$inertia.delete(`/customers/${object.id}`);
+            }
+        },
+        
     },
     mounted() {
 

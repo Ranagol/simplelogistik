@@ -4,10 +4,12 @@
         title="Create new customer"
     >
         <!-- CREATE CUSTOMER -->
-        <CreateEditCustomer></CreateEditCustomer>
+        <CreateEditCustomer
+            @closePopup="elDialogVisible = false"
+        ></CreateEditCustomer>
 
         <!-- FOOTER WITH CANCEL AND CONFIRM -->
-        <template #footer>
+        <!-- <template #footer>
             <span class="dialog-footer">
 
                 <el-button
@@ -19,7 +21,7 @@
                     @click="elDialogVisible = false"
                 >Confirm</el-button>
             </span>
-        </template>
+        </template> -->
     </el-dialog>
 
     <el-button
@@ -37,7 +39,7 @@ export default defineComponent({
     },
     data() {
         return {
-            elDialogVisible: true,
+            elDialogVisible: false,
         }
     },
     computed: {
