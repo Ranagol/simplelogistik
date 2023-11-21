@@ -233,6 +233,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
              * not make it work with Inertia form helper.
              */
             router.post('/customers', customer)
+            closePopup();
         } else {
             console.log('error submit!', fields)
         }
@@ -252,14 +253,14 @@ const emit = defineEmits(['closePopup']);
  
  */
 let closePopup = () => {
-    customer = { 
-        company_name: '',
-        name: '',
-        email: '',
-        rating: '',
-        tax_number: '',
-        internal_cid: '',
-    };
+    // customer = { 
+    //     company_name: '',
+    //     name: '',
+    //     email: '',
+    //     rating: '',
+    //     tax_number: '',
+    //     internal_cid: '',
+    // };
     emit('closePopup');
 }
 
