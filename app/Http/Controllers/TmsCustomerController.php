@@ -62,6 +62,8 @@ class TmsCustomerController extends Controller
          * per page. This way we can see immediatelly the newly created customer
          */
         return Inertia::location(route('customers.index'));
+
+
     }
 
     public function update(Request $request, $id): SymfonyResponse
@@ -103,20 +105,22 @@ class TmsCustomerController extends Controller
      * Because I am not sending to the backend just the customer id for deleting, I am also sending
      * the search term, sort column and sort order. This way I can return the customers with the
      * same search term, sort column and sort order.
-     * //TODO  check with Christoph: App\Http\Controllers\TmsCustomerController::customerDelete(): Return value must be of type Inertia\Response, Illuminate\Http\Response returned
      *
      * @param Request $request
      */
     public function customerDelete(Request $request): SymfonyResponse
     {
         TmsCustomer::destroy($request->id);
+
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
+
         $customers = $this->getCustomers($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+
         return Inertia::location(route('customers.index', [
             'dataFromCustomerController' => $customers,
             'searchTermProp' => $searchTerm,

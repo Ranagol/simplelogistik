@@ -160,7 +160,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-import { router } from '@inertiajs/vue3'
+import { router} from '@inertiajs/vue3'
+// import Inertia from '@inertiajs/vue3'//not working
+// import { Inertia } from '@inertiajs/vue3'//not working
+
 
 /**
  * Here we define, what structure should have the customer object.
@@ -232,25 +235,25 @@ if (props.mode == 'edit') {
  * The rules for the form.
  */
 const rules = reactive<FormRules<RuleForm>>({
-    company_name: [
-        { required: true, message: 'Company name is required FE', trigger: 'blur' },
-        { min: 3, max: 100, message: 'Length should be 3 to 100', trigger: 'blur' },
-    ],
-    name: [
-            { required: true, message: 'Name is required FE', trigger: 'blur' },
-        ],
-    email: [
-        { required: true, message: 'Email is required FE', trigger: 'blur' },
-    ],
-    // rating: [
-    //     { required: true, message: 'Rating is required FE', trigger: 'blur' },
+    // company_name: [
+    //     { required: true, message: 'Company name is required FE', trigger: 'blur' },
+    //     { min: 3, max: 100, message: 'Length should be 3 to 100', trigger: 'blur' },
     // ],
-    tax_number: [
-        { required: true, message: 'Tax number is required FE', trigger: 'blur' },
-    ],
-    internal_cid: [
-        { required: true, message: 'Internal CID is required FE', trigger: 'blur' },
-    ],
+    // name: [
+    //         { required: true, message: 'Name is required FE', trigger: 'blur' },
+    //     ],
+    // email: [
+    //     { required: true, message: 'Email is required FE', trigger: 'blur' },
+    // ],
+    // // rating: [
+    // //     { required: true, message: 'Rating is required FE', trigger: 'blur' },
+    // // ],
+    // tax_number: [
+    //     { required: true, message: 'Tax number is required FE', trigger: 'blur' },
+    // ],
+    // internal_cid: [
+    //     { required: true, message: 'Internal CID is required FE', trigger: 'blur' },
+    // ],
 })
 
 /**
@@ -275,10 +278,34 @@ const submitCustomer = (customer) => {
     console.log('submitCustomer')
     if (props.mode == 'create') {
         console.log('submitCustomer: mode is create')
-        router.post('/customers', customer)
+        router.post(
+            '/customers', 
+            customer, 
+            {
+                //NOT WORKING
+                onSuccess: () => {
+                    console.log('Customer created successfully')
+                },
+                onError: (errors) => {
+                    console.log('Error creating customer', errors)
+                }
+            }
+        )
     } else if (props.mode == 'edit') {
         console.log('submitCustomer: mode is edit')
-        router.put('/customers/' + customer.id, customer)
+        router.put(
+            '/customers/' + customer.id, 
+            customer,
+            {
+                //NOT WORKING
+                onSuccess: () => {
+                    alert('Customer created successfully')
+                },
+                onError: (errors) => {
+                    alert('Error creating customer', errors)
+                }
+            }
+        )
     }
 }
 

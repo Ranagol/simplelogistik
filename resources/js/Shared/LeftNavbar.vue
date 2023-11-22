@@ -46,10 +46,10 @@
             </el-menu-item>
 
             <!-- REGISTER -->
-            <el-menu-item index="First">
+            <el-menu-item index="Experiment">
                 <NavLink
-                    href="/first"
-                >First</NavLink>
+                    href="/experiments"
+                >Experiment</NavLink>
             </el-menu-item>
 
             <!-- PALMYRA -->
