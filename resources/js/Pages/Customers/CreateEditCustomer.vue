@@ -252,9 +252,6 @@ watch(
     },
     { immediate: true }
 );
- 
-    
-
 
 /**
  * The rules for the form.
@@ -354,6 +351,15 @@ const emit = defineEmits(['closePopup']);
  * close.
  */
 let closePopup = () => {
+    // let customerResetValues = {
+    //     company_name: '',
+    //     name: '',
+    //     email: '',
+    //     rating: '',
+    //     tax_number: '',
+    //     internal_cid: '',
+    // };
+    // customer = customerResetValues;
     emit('closePopup');
 }
 

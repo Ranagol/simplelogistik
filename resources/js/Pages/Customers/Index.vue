@@ -294,6 +294,7 @@ export default defineComponent({
             this.elDialogVisible = true;
             this.mode = 'create';
             console.log(' Index elDialogVisible: ', this.elDialogVisible)
+            console.log('selectedCustomer from Index/handleCreate():', this.selectedCustomer )
         },
 
         handleShow(index, object) {
@@ -303,6 +304,7 @@ export default defineComponent({
             this.elDialogVisible = true;
             this.mode = 'show';
             this.selectedCustomer = object;
+            console.log('selectedCustomer from Index/handleShow():', this.selectedCustomer )
             console.log(' Index elDialogVisible: ', this.elDialogVisible)
 
         },
@@ -314,6 +316,7 @@ export default defineComponent({
             this.mode = 'edit';
             this.elDialogVisible = true;
             this.selectedCustomer = object;
+            console.log('selectedCustomer from Index/handleEdit():', this.selectedCustomer )
             console.log(' Index elDialogVisible: ', this.elDialogVisible)
 
         },
@@ -332,7 +335,17 @@ export default defineComponent({
         },
 
         removeSelectedCustomer(){
-            this.selectedCustomer = {};
+            console.log('removeSelectedCustomer()');
+            let customerResetValues = {
+                company_name: '',
+                name: '',
+                email: '',
+                rating: '',
+                tax_number: '',
+                internal_cid: '',
+            };
+            this.selectedCustomer = customerResetValues;
+            console.log('removeSelectedCustomer customer:', this.selectedCustomer)
         },
         
     },
