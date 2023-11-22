@@ -277,7 +277,9 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const emit = defineEmits(['closePopup']);
 
 /**
- * Close the popup.
+ * Close the popup, by emitting the closePopup event. This will trigger the closePopup method in
+ * the in Popup.vue. Which will set in Index.vue the elDialogVisible to false, and the popup will
+ * close.
  */
 let closePopup = () => {
     emit('closePopup');

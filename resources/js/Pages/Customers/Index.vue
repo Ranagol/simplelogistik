@@ -24,10 +24,9 @@
         <!-- CREATE NEW CUSTOMER POPUP -->
         <Popup
             :errors="errors"
-            :elDialogVisible="elDialogVisible"
+            v-model="elDialogVisible"
             :selectedCustomer="selectedCustomer"
             :mode="mode"
-            @closePopup="elDialogVisible = false"
         ></Popup>
 
         <el-button
@@ -291,22 +290,29 @@ export default defineComponent({
             console.log('handleCreate()');
             this.elDialogVisible = true;
             this.mode = 'create';
+            console.log(' Index elDialogVisible: ', this.elDialogVisible)
         },
 
         handleShow(index, object) {
+            console.log('handleShow()');
             console.log('index:', index);
             console.log('object:', object);
             this.elDialogVisible = true;
             this.mode = 'show';
             this.selectedCustomer = object;
+            console.log(' Index elDialogVisible: ', this.elDialogVisible)
+
         },
 
         handleEdit(index, object) {
+            console.log('handleEdit()');
             console.log('index:', index);
             console.log('object:', object);
             this.mode = 'edit';
             this.elDialogVisible = true;
             this.selectedCustomer = object;
+            console.log(' Index elDialogVisible: ', this.elDialogVisible)
+
         },
 
         handleDelete(index, object) {
@@ -315,27 +321,6 @@ export default defineComponent({
             //ORIGINAL WORKING VERSION
             // if(confirm('Are you sure you want to delete this customer?')){
             //     this.$inertia.delete(`/customers/${object.id}`);
-            // }
-            //ON SUCCESS VERSION
-            // if (confirm('Are you sure you want to delete this customer?')) {
-            //     console.log('delete')
-
-            //     this.$inertia.delete(
-            //         route('customers.destroy', { id: object.id }), 
-            //         {
-            //             params: {
-            //                 searchTerm: this.searchTerm,
-            //                 sortColumn: this.sortColumn,
-            //                 sortOrder:  this.sortOrder,
-            //                 page: this.paginationData.current_page,
-            //                 newItemsPerPage: this.paginationData.per_page
-            //             },
-            //         onSuccess: () => {
-            //             // Refresh data after successful delete
-            //             console.log('onSuccess()');
-            //             this.getCustomers();
-            //         },
-            //     });
             // }
             router.post('/delete-customer', {
                 searchTerm: this.searchTerm,
