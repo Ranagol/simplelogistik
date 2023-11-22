@@ -95,6 +95,27 @@ class TmsCustomerController extends Controller
         return Inertia::location(route('customers.index'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'company_name' => 'required|string|min:2|max:100',
+            'name' => 'required|string|min:2|max:200',
+            'email' => 'required|email|max:100',
+            'rating' => 'required|integer|between:1,5',
+            'tax_number' => 'required|string|min:2|max:50',
+            'internal_cid' => 'required|string|min:2|max:100',
+        ]);
+        
+        TmsCustomer::find($id)->update($request->all());
+
+        /**
+         * when there is no sort column, sort order or pagination data defined by the FE component,
+         * then in index() method we return sorted by id and ascending, and paginated by 10 items 
+         * per page. This way we can see immediatelly the newly created customer
+         */
+        return Inertia::location(route('customers.index'));
+    }
+
     /**
      * Deletes customers.
      *

@@ -139,12 +139,19 @@
                     >Submit</el-button>
                 </el-form-item>
     
-                <el-form-item>
+                <el-form-item class="pr-5">
                     <el-button
                         type="danger"
                         @click="closePopup"
                     >Cancel</el-button>
                 </el-form-item>
+
+                <!-- <el-form-item>
+                    <el-button
+                        type="primary"
+                        @click="resetForm(ruleFormRef)"
+                    >Reset button</el-button>
+                </el-form-item> -->
             </div>
         </el-form>
     </div>
@@ -201,6 +208,7 @@ let props = defineProps({
     mode: String
 } )
 
+//Here I just temporarily set a customer with default values to be created. For developing only.
 if (props.mode == 'edit') {
     customer = props.selectedCustomer;
     console.log('CreateEditCustomer is in EDIT mode');
@@ -226,7 +234,7 @@ if (props.mode == 'edit') {
 const rules = reactive<FormRules<RuleForm>>({
     company_name: [
         { required: true, message: 'Company name is required FE', trigger: 'blur' },
-        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        { min: 3, max: 100, message: 'Length should be 3 to 100', trigger: 'blur' },
     ],
     name: [
             { required: true, message: 'Name is required FE', trigger: 'blur' },
@@ -251,28 +259,34 @@ const rules = reactive<FormRules<RuleForm>>({
  * @param formEl 
  */
 const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return
+    if (!formEl) return;
+
     await formEl.validate((valid, fields) => {
         if (valid) {
-            console.log('submit!', customer)
-            /**
-             * Send the customer object to the backend. Without Inertia form helper. Because I could
-             * not make it work with Inertia form helper.
-             */
-            router.post('/customers', customer)
-            // closePopup();
-
-            
+            console.log('Validation OK, submit!', customer)
+            submitCustomer(customer);
         } else {
-            console.log('error submit!', fields)
+            console.log('FE validation not OK, error submit!', fields)
         }
     })
 }
 
-const resetForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    formEl.resetFields()
+const submitCustomer = (customer) => {
+    console.log('submitCustomer')
+    if (props.mode == 'create') {
+        console.log('submitCustomer: mode is create')
+        router.post('/customers', customer)
+    } else if (props.mode == 'edit') {
+        console.log('submitCustomer: mode is edit')
+        router.put('/customers/' + customer.id, customer)
+    }
 }
+
+// This is commented out, because right now I have hardcoded customer for testing
+// const resetForm = (formEl: FormInstance | undefined) => {
+//     // if (!formEl) return
+//     formEl.resetFields()
+// }
 
 
 const emit = defineEmits(['closePopup']);
