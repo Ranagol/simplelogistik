@@ -26,8 +26,8 @@ return new class extends Migration
             $table->string('description', 255);
             $table->decimal('shipping_price', 10, 2);
             $table->decimal('shipping_price_netto', 10, 2);
-            $table->dateTime('pickup_date')->nullable();
-            $table->dateTime('delivery_date')->nullable();
+            $table->string('pickup_date')->nullable();
+            $table->string('delivery_date')->nullable();
             $table->timestamps();
         });
     }
