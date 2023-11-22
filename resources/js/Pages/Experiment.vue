@@ -4,15 +4,14 @@
 
         <h1>Exp.</h1>
 
+        <!-- EXPERIMENTS LIST -->
         <p 
             v-for="experiment in experiments" 
             :key="experiment.name"
         >{{ experiment }}</p>
 
-        <div>{{ experiment }}</div>
-
-
         
+        <!-- INPUT -->
         <el-input v-model="experiment.name" />
         <!-- BACKEND VALIDATION ERROR DISPLAY -->
         <div
@@ -21,15 +20,10 @@
             class="text-red-500 text-xs mt-1"
         ></div>
 
-
         <el-button
             type="primary"
             @click="submit"
         >Create</el-button>
-
-
-
-
     </Card>
 </template>
 
@@ -61,11 +55,7 @@ let experiment = reactive({
     desciption: 'Random description',
 })
 
-
-
-
 const submit =  () => {
-
     router.post(
         '/experiments',
         experiment, 
@@ -75,13 +65,16 @@ const submit =  () => {
              */
             onSuccess: () => {
                 console.log('onSuccess triggered');
+                alert('onSuccess triggered');
                 console.log('props errors', props.errors);
             },
+
             /**
              * Will be triggered if validation error, and if the el-dialog is STILL open.
              */
             onError: () => {
                 console.log('onError');
+                alert('onError triggered');
                 console.log('props errors', props.errors);
             },
         }

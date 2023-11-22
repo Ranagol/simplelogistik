@@ -140,6 +140,7 @@ export default defineComponent({
         Popup,
     },
     props: {
+        elDialogVisibleProp: Boolean,
         errors: Object, 
         dataFromCustomerController: Object,
 
@@ -214,7 +215,8 @@ export default defineComponent({
                     sortColumn: this.sortColumn,
                     sortOrder:  this.sortOrder,
                     page: this.paginationData.current_page,
-                    newItemsPerPage: this.paginationData.per_page
+                    newItemsPerPage: this.paginationData.per_page,
+                    elDialogVisible: this.elDialogVisible,
                 },
             );
         },
@@ -318,10 +320,6 @@ export default defineComponent({
         handleDelete(index, object) {
             console.log('index:', index);
             console.log('object:', object);
-            //ORIGINAL WORKING VERSION
-            // if(confirm('Are you sure you want to delete this customer?')){
-            //     this.$inertia.delete(`/customers/${object.id}`);
-            // }
             router.post('/delete-customer', {
                 searchTerm: this.searchTerm,
                 sortColumn: this.sortColumn,
@@ -330,7 +328,6 @@ export default defineComponent({
                 newItemsPerPage: this.paginationData.per_page,
                 id: object.id,
             })
-
         }
         
     },

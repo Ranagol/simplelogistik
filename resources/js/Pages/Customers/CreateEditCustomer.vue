@@ -235,29 +235,29 @@ if (props.mode == 'edit') {
  * The rules for the form.
  */
 const rules = reactive<FormRules<RuleForm>>({
-    // company_name: [
-    //     { required: true, message: 'Company name is required FE', trigger: 'blur' },
-    //     { min: 3, max: 100, message: 'Length should be 3 to 100', trigger: 'blur' },
+    company_name: [
+        { required: true, message: 'Company name is required FE', trigger: 'blur' },
+        { min: 3, max: 100, message: 'Length should be 3 to 100', trigger: 'blur' },
+    ],
+    name: [
+            { required: true, message: 'Name is required FE', trigger: 'blur' },
+        ],
+    email: [
+        { required: true, message: 'Email is required FE', trigger: 'blur' },
+    ],
+    // rating: [
+    //     { required: true, message: 'Rating is required FE', trigger: 'blur' },
     // ],
-    // name: [
-    //         { required: true, message: 'Name is required FE', trigger: 'blur' },
-    //     ],
-    // email: [
-    //     { required: true, message: 'Email is required FE', trigger: 'blur' },
-    // ],
-    // // rating: [
-    // //     { required: true, message: 'Rating is required FE', trigger: 'blur' },
-    // // ],
-    // tax_number: [
-    //     { required: true, message: 'Tax number is required FE', trigger: 'blur' },
-    // ],
-    // internal_cid: [
-    //     { required: true, message: 'Internal CID is required FE', trigger: 'blur' },
-    // ],
+    tax_number: [
+        { required: true, message: 'Tax number is required FE', trigger: 'blur' },
+    ],
+    internal_cid: [
+        { required: true, message: 'Internal CID is required FE', trigger: 'blur' },
+    ],
 })
 
 /**
- * Submit the form.
+ * Does the frontend validation, and if it is OK, then calls the submitCustomer() function.
  * 
  * @param formEl 
  */
@@ -274,6 +274,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     })
 }
 
+/**
+ * Helper function for submitForm(), this actually sends the request to the backend.
+ * 
+ * @param customer 
+ */
 const submitCustomer = (customer) => {
     console.log('submitCustomer')
     if (props.mode == 'create') {

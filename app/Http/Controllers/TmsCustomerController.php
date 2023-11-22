@@ -25,6 +25,8 @@ class TmsCustomerController extends Controller
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
+        $elDialogVisible = $request->elDialogVisible ?? false;
+
         
         $customers = $this->getCustomers($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
 
@@ -34,6 +36,7 @@ class TmsCustomerController extends Controller
             'searchTermProp' => $searchTerm,
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
+            'elDialogVisibleProp' => $elDialogVisible,
         ]);
     }
 
@@ -43,7 +46,7 @@ class TmsCustomerController extends Controller
      * @param Request $request
      * @return void
      */
-    public function store(Request $request)
+    public function store(Request $request): SymfonyResponse
     {
         $request->validate([
             'company_name' => 'required|string|min:2|max:100',
@@ -66,6 +69,13 @@ class TmsCustomerController extends Controller
 
     }
 
+    /**
+     * Updates customers.
+     *
+     * @param Request $request
+     * @param [type] $id
+     * @return SymfonyResponse
+     */
     public function update(Request $request, $id): SymfonyResponse
     {
         $request->validate([
@@ -107,6 +117,7 @@ class TmsCustomerController extends Controller
      * same search term, sort column and sort order.
      *
      * @param Request $request
+     * @return SymfonyResponse
      */
     public function customerDelete(Request $request): SymfonyResponse
     {
@@ -133,7 +144,7 @@ class TmsCustomerController extends Controller
     }
 
     /**
-     * Undocumented function
+     * Returns customers.
      *
      * @param string|null $searchTerm
      * @param string|null $sortColumn
