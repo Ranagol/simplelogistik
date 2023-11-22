@@ -158,7 +158,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { router} from '@inertiajs/vue3'
 
@@ -220,25 +220,40 @@ let customer = reactive<RuleForm>({
     internal_cid: '',
 })
 
-//Here I just temporarily set a customer with default values to be created. For developing only.
-if (props.mode == 'edit') {
-    customer = props.selectedCustomer;
-    console.log('CreateEditCustomer is in EDIT mode');
-} else if (props.mode == 'show') {
-    customer = props.selectedCustomer;
-    console.log('CreateEditCustomer is in SHOW mode');
-} 
-    // else if (props.mode == 'create') {
-    // console.log('CreateEditCustomer is in CREATE mode');
-    // customer = {
-    //     company_name: 'blaa',
-    //     name: 'blah',
-    //     email: 'bla@gmail.com',
-    //     rating: '5',
-    //     tax_number: '1111',
-    //     internal_cid: '22222',
-    // }
-// }
+watch(
+    props.selectedCustomer, 
+    (newCustomer, oldCustomer) => {
+    
+        console.log('watcher triggered, this is the old customer: ', oldCustomer)
+
+        if (props.mode == 'edit') {
+            customer = newCustomer;
+            console.log('CreateEditCustomer is in EDIT mode');
+
+        } else if (props.mode == 'show') {
+            console.log('newCustomer from props:', newCustomer)
+            customer = newCustomer;
+            console.log('customer in component:', customer)
+            console.log('CreateEditCustomer is in SHOW mode');
+
+        } else if (props.mode == 'create') {
+            console.log('CreateEditCustomer is in CREATE mode');
+            let customerResetValues = {
+                company_name: '',
+                name: '',
+                email: '',
+                rating: '',
+                tax_number: '',
+                internal_cid: '',
+            };
+            customer = customerResetValues;
+            console.log('customer in component:', customer)
+        }
+    },
+    { immediate: true }
+);
+ 
+    
 
 
 /**
