@@ -1,24 +1,33 @@
 <template>
     <Card>
         <Head title="Exp." />
+        <strong>Experiment</strong>
 
-        <h1>Exp.</h1>
-
-        <!-- EXPERIMENTS LIST -->
-        <p 
-            v-for="experiment in experiments" 
-            :key="experiment.name"
-        >{{ experiment }}</p>
-
-        
         <!-- INPUT -->
         <el-input v-model="experiment.name" />
-        <!-- BACKEND VALIDATION ERROR DISPLAY -->
-        <div
+        <!-- <el-input v-model="experiment.desciption" /> -->
+
+        
+
+        
+        <br>
+        <ExperimentChild
+            v-model="experiment.name"
+        />
+
+        <hr>
+        <!-- EXPERIMENTS LIST -->
+        <!-- <p 
+            v-for="experiment in experiments" 
+            :key="experiment.name"
+        >{{ experiment }}</p> -->
+
+        <!-- <div
             v-if="errors.name"
             v-text="errors.name"
             class="text-red-500 text-xs mt-1"
-        ></div>
+        ></div> -->
+        
 
         <el-button
             type="primary"
@@ -31,6 +40,7 @@
 import { reactive, computed, watch, ref } from 'vue';
 import Card from '@/Shared/Card.vue';
 import { router} from '@inertiajs/vue3'
+import ExperimentChild from '@/Pages/ExperimentChild.vue';
 
 let props = defineProps(
     {
@@ -51,7 +61,7 @@ let props = defineProps(
 
 
 let experiment = reactive({
-    name:'Random',
+    name:'Random name',
     desciption: 'Random description',
 })
 

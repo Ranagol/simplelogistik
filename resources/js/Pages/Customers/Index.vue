@@ -24,9 +24,10 @@
         <!-- CREATE NEW CUSTOMER POPUP -->
         <Popup
             :errors="errors"
-            v-model="data.elDialogVisible"
-            :selectedCustomer="data.selectedCustomer"
-            :mode="data.mode"
+            :title="data.title"
+            v-model:elDialogVisible="data.elDialogVisible"
+            v-model:selectedCustomer="data.selectedCustomer"
+            v-model:mode="data.mode"
             @removeSelectedCustomer="removeSelectedCustomer"
             @submitCustomer="submitCustomer"
         ></Popup>
@@ -155,7 +156,7 @@ let props = defineProps(
 let data = reactive({
     mode:'',
     selectedCustomer: {},
-    elDialogVisible: false,
+    elDialogVisible: true,
 
     /**
      * Unfortunatelly, customers are coming in from backend mixed with pagination data.
@@ -183,7 +184,16 @@ let data = reactive({
      * page-size	        paginationData.per_page             Number of items / page
      * total	            paginationData.total                Number of all db records
      */
-    paginationData: _.omit({...props.dataFromCustomerController}, 'data')
+    paginationData: _.omit({...props.dataFromCustomerController}, 'data'),
+    title: '',
+    customerResetValues: {
+        company_name: '',
+        name: '',
+        email: '',
+        rating: '',
+        tax_number: '',
+        internal_cid: '',
+    },
 });
 
 //METHODS
@@ -292,7 +302,9 @@ const clearSearchTermWithEsc = () => {
 const handleCreate = () => {
     console.log('handleCreate()');
     data.elDialogVisible = true;
+    data.title = 'Create new customer';
     data.mode = 'create';
+    data.selectedCustomer = data.customerResetValues;
     console.log(' Index elDialogVisible: ', data.elDialogVisible)
     console.log('selectedCustomer from Index/handleCreate():', data.selectedCustomer )
 };
@@ -302,6 +314,7 @@ const handleShow = (index, object) => {
     console.log('index:', index);
     console.log('object:', object);
     data.elDialogVisible = true;
+    data.title = 'Show customer';
     data.mode = 'show';
     data.selectedCustomer = object;
     console.log('selectedCustomer from Index/handleShow():', data.selectedCustomer )
@@ -315,6 +328,7 @@ const handleEdit = (index, object) => {
     console.log('object:', object);
     data.mode = 'edit';
     data.elDialogVisible = true;
+    data.title = 'Edit customer';
     data.selectedCustomer = object;
     console.log('selectedCustomer from Index/handleEdit():', data.selectedCustomer )
     console.log(' Index elDialogVisible: ', data.elDialogVisible)
@@ -336,14 +350,7 @@ const handleDelete = (index, object) => {
 
 const removeSelectedCustomer = () =>{
     console.log('removeSelectedCustomer()');
-    let customerResetValues = {
-        company_name: '',
-        name: '',
-        email: '',
-        rating: '',
-        tax_number: '',
-        internal_cid: '',
-    };
+    
     data.selectedCustomer = customerResetValues;
     console.log('removeSelectedCustomer customer:', data.selectedCustomer)
 };

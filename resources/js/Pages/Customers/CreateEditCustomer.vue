@@ -23,8 +23,8 @@
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="errors.company_name"
-                    v-text="errors.company_name"
+                    v-if="props.errors.company_name"
+                    v-text="props.errors.company_name"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -43,8 +43,8 @@
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="errors.name"
-                    v-text="errors.name"
+                    v-if="props.errors.name"
+                    v-text="props.errors.name"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -63,8 +63,8 @@
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="errors.email"
-                    v-text="errors.email"
+                    v-if="props.errors.email"
+                    v-text="props.errors.email"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -82,8 +82,8 @@
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="errors.rating"
-                    v-text="errors.rating"
+                    v-if="props.errors.rating"
+                    v-text="props.errors.rating"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -101,8 +101,8 @@
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="errors.tax_number"
-                    v-text="errors.tax_number"
+                    v-if="props.errors.tax_number"
+                    v-text="props.errors.tax_number"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -120,8 +120,8 @@
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="errors.internal_cid"
-                    v-text="errors.internal_cid"
+                    v-if="props.errors.internal_cid"
+                    v-text="props.errors.internal_cid"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -130,7 +130,7 @@
             in show mode.-->
             <div
                 class="flex flex-row"
-                v-if="mode==='create' || mode==='edit' "
+                v-if="props.mode==='create' || props.mode==='edit' "
             >
                 <el-form-item class="pr-5">
                     <el-button
@@ -146,12 +146,6 @@
                     >Cancel</el-button>
                 </el-form-item>
 
-                <!-- <el-form-item>
-                    <el-button
-                        type="primary"
-                        @click="resetForm(ruleFormRef)"
-                    >Reset button</el-button>
-                </el-form-item> -->
             </div>
         </el-form>
     </div>
@@ -163,7 +157,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { router} from '@inertiajs/vue3'
 
 
- let props = defineProps({ 
+let props = defineProps({ 
     /**
      * The errors are being sent from the Customers/Index grandparent component, because for some reason
      * they are not arriving here. Possibly because this is a deeply nested el-dialog, and not a compnent
@@ -183,7 +177,7 @@ import { router} from '@inertiajs/vue3'
      * 'create', 'show' or 'edit'.
      */
     mode: String
-} )
+})
 
 /**
  * Here we define, what structure should have the customer object.
@@ -219,39 +213,6 @@ let customer = reactive<RuleForm>({
     tax_number: '1111',
     internal_cid: '2222',
 })
-
-// watch(
-//     props.selectedCustomer, 
-//     (newCustomer, oldCustomer) => {
-    
-//         console.log('watcher triggered, this is the old customer: ', oldCustomer)
-
-//         if (props.mode == 'edit') {
-//             customer = newCustomer;
-//             console.log('CreateEditCustomer is in EDIT mode');
-
-//         } else if (props.mode == 'show') {
-//             console.log('newCustomer from props:', newCustomer)
-//             customer = newCustomer;
-//             console.log('customer in component:', customer)
-//             console.log('CreateEditCustomer is in SHOW mode');
-
-//         } else if (props.mode == 'create') {
-//             console.log('CreateEditCustomer is in CREATE mode');
-//             let customerResetValues = {
-//                 company_name: '',
-//                 name: '',
-//                 email: '',
-//                 rating: '',
-//                 tax_number: '',
-//                 internal_cid: '',
-//             };
-//             customer = customerResetValues;
-//             console.log('customer in component:', customer)
-//         }
-//     },
-//     { immediate: true }
-// );
 
 /**
  * The rules for the form.
@@ -298,16 +259,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     })
 }
 
-
-
-// This is commented out, because right now I have hardcoded customer for testing
-// const resetForm = (formEl: FormInstance | undefined) => {
-//     // if (!formEl) return
-//     formEl.resetFields()
-// }
-
-
-const emit = defineEmits(['closePopup', 'submitCustomer']);
+const emit = defineEmits(
+    [
+        'closePopup', 
+        'submitCustomer',
+    ]
+);
 
 /**
  * Close the popup, by emitting the closePopup event. This will trigger the closePopup method in
@@ -315,15 +272,6 @@ const emit = defineEmits(['closePopup', 'submitCustomer']);
  * close.
  */
 let closePopup = () => {
-    // let customerResetValues = {
-    //     company_name: '',
-    //     name: '',
-    //     email: '',
-    //     rating: '',
-    //     tax_number: '',
-    //     internal_cid: '',
-    // };
-    // customer = customerResetValues;
     emit('closePopup');
 }
 

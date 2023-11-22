@@ -1,14 +1,14 @@
 <template>
     <el-dialog
-        v-model="modelValue"
+        v-model="data.elDialogVisible"
         :title=title
         @closed="closePopup"
     >
         <!-- CREATE CUSTOMER -->
         <CreateEditCustomer
             :errors="props.errors"
-            :selectedCustomer="props.selectedCustomer"
-            :mode="mode"
+            v-model:selectedCustomer="data.selectedCustomer"
+            v-model:mode="data.mode"
             @closePopup="closePopup"
             @submitCustomer="submitCustomer"
         ></CreateEditCustomer>
@@ -27,10 +27,7 @@ let props = defineProps(
         /**
          * The v-model of the el-dialog component. This is the only way to close the popup.
          */
-        modelValue: {
-            type: Boolean,
-            default: false
-        },
+        elDialogVisible: Boolean,
 
         /**
          * The errors object from the parent Index.vue. This is passed to the child CreateEditCustomer.vue.
@@ -48,33 +45,36 @@ let props = defineProps(
          * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
          * mode.
          */
-        selectedCustomer: Object
+        selectedCustomer: Object,
+
+        /**
+         * The title of the popup. This is passed to the child CreateEditCustomer.vue. It could be 
+         * 'create', 'show' or 'edit'.
+         */
+        title: String
     }
 );
 
 
-/**
- * Title of the popup. Depends on the mode. Only the title is affected by this computed.
- */
-let title = computed(() => {
-    switch (props.mode) {
-        case 'create':
-            // console.log('Popup computed: In popup.vue, mode is create')
-            return 'Create new customer';
-            break;
-        case 'show':
-            // console.log('Popup computed: In popup.vue, mode is show')
-            return 'Show customer';
-            break;
-        case 'edit':
-            // console.log('Popup computed: In popup.vue, mode is edit')
-            return 'Edit customer';
-            break;
+
+let data = reactive(
+    {
+        mode: props.mode,
+        selectedCustomer: props.selectedCustomer,
+        elDialogVisible: props.elDialogVisible
     }
-});
+);
         
             
-const emit = defineEmits(['closePopup', 'update:modelValue', 'removeSelectedCustomer', 'submitCustomer']);
+const emit = defineEmits(
+    [
+        'closePopup', 
+        'update:elDialogVisible', 
+        'update:mode',
+        'update:selectedCustomer',
+        'submitCustomer'
+    ]
+);
 
 /**
  * Close the popup. Triggered by the closed() event of the el-dialog component.
@@ -82,13 +82,24 @@ const emit = defineEmits(['closePopup', 'update:modelValue', 'removeSelectedCust
  * v-model:modelValue.
  */
 const closePopup = () => {
-    emit('update:modelValue', false);
-    emit('removeSelectedCustomer');
+    console.log('Popup: closePopup()');
+    emit('update:elDialogVisible', false);
+    // emit('selectedCustomer');');
+    emit('update:mode', data.mode);
 };
 
 const submitCustomer = (customer: Customer) => {
     emit('submitCustomer', customer);
 };
+
+watch(//TODO this should be replaced with the computed v-modell
+    () => props.elDialogVisible,
+    (newValue, oldValue) => {
+        console.log('Popup: watch elDialogVisible: ', newValue, oldValue);
+        data.elDialogVisible = newValue;
+    },
+    { immediate: true }
+);
 
 </script>
 
