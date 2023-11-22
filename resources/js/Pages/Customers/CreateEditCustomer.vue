@@ -127,7 +127,10 @@
             </el-form-item>
 
             <!-- BUTTONS -->
-            <div class="flex flex-row">
+            <div
+                class="flex flex-row"
+                v-if="mode !== 'create'"
+            >
                 <el-form-item class="pr-5">
                     <el-button
                         type="primary"
@@ -191,7 +194,30 @@ let customer = reactive<RuleForm>({
  * they are not arriving here. Possibly because this is a deeply nested el-dialog, and not a compnent
  * that has a fix place and not disappears.
  */
-let props = defineProps({ errors: Object, } )
+let props = defineProps({ 
+    errors: Object, 
+    selectedCustomer: Object,
+    mode: String
+} )
+
+if (props.mode == 'edit') {
+    customer = props.selectedCustomer;
+    console.log('CreateEditCustomer is in EDIT mode');
+} else if (props.mode == 'show') {
+    customer = props.selectedCustomer;
+    console.log('CreateEditCustomer is in SHOW mode');
+} else if (props.mode == 'create') {
+    console.log('CreateEditCustomer is in CREATE mode');
+    customer = {
+        company_name: 'blaa',
+        name: 'blah',
+        email: 'bla@gmail.com',
+        rating: '5',
+        tax_number: '1111',
+        internal_cid: '22222',
+    }
+}
+
 
 /**
  * The rules for the form.
@@ -233,7 +259,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
              * not make it work with Inertia form helper.
              */
             router.post('/customers', customer)
-            closePopup();
+            // closePopup();
+
+            
         } else {
             console.log('error submit!', fields)
         }
@@ -249,18 +277,9 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const emit = defineEmits(['closePopup']);
 
 /**
- * Close the popup. Whether because the use hit the cancel button, or because the form was submitted.
- 
+ * Close the popup.
  */
 let closePopup = () => {
-    // customer = { 
-    //     company_name: '',
-    //     name: '',
-    //     email: '',
-    //     rating: '',
-    //     tax_number: '',
-    //     internal_cid: '',
-    // };
     emit('closePopup');
 }
 

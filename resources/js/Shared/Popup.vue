@@ -1,11 +1,13 @@
 <template>
     <el-dialog
         v-model="elDialogVisible"
-        title="Create new customer"
+        :title=title
     >
         <!-- CREATE CUSTOMER -->
         <CreateEditCustomer
             :errors="errors"
+            :selectedCustomer="selectedCustomer"
+            :mode="mode"
             @closePopup="closePopup"
         ></CreateEditCustomer>
     </el-dialog>
@@ -17,7 +19,9 @@ import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 export default defineComponent({
     props: {
         errors: Object,
-        elDialogVisible: Boolean
+        elDialogVisible: Boolean,
+        mode: String,
+        selectedCustomer: Object,
     },
     components: {
         CreateEditCustomer
@@ -28,6 +32,22 @@ export default defineComponent({
         }
     },
     computed: {
+        title() {
+            switch (this.mode) {
+                case 'create':
+                    console.log('In popup.vue, mode is create')
+                    return 'Create new customer';
+                    break;
+                case 'show':
+                    console.log('In popup.vue, mode is show')
+                    return 'Show customer';
+                    break;
+                case 'edit':
+                    console.log('In popup.vue, mode is edit')
+                    return 'Edit customer';
+                    break;
+            }
+        },
     },
     emits: ['closePopup'],
     methods: {
