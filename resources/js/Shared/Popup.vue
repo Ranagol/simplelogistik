@@ -6,8 +6,8 @@
     >
         <!-- CREATE CUSTOMER -->
         <CreateEditCustomer
-            :errors="errors"
-            :selectedCustomer="selectedCustomer"
+            :errors="props.errors"
+            :selectedCustomer="props.selectedCustomer"
             :mode="mode"
             @closePopup="closePopup"
             @submitCustomer="submitCustomer"
@@ -16,45 +16,48 @@
     </el-dialog>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 import { reactive, computed, watch, onMounted, nextTick } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests
 
-let props: defineProps({
-    /**
-     * The v-model of the el-dialog component. This is the only way to close the popup.
-     */
-    modelValue: {
-        type: Boolean,
-        default: false
-    },
+let props = defineProps(
+    {
 
-    /**
-     * The errors object from the parent Index.vue. This is passed to the child CreateEditCustomer.vue.
-     */
-    errors: Object,
+        /**
+         * The v-model of the el-dialog component. This is the only way to close the popup.
+         */
+        modelValue: {
+            type: Boolean,
+            default: false
+        },
 
-    /**
-     * The mode of the popup. This is passed to the child CreateEditCustomer.vue. It could be 
-     * 'create', 'show' or 'edit'.
-     */
-    mode: String,
+        /**
+         * The errors object from the parent Index.vue. This is passed to the child CreateEditCustomer.vue.
+         */
+        errors: Object,
 
-    /**
-     * The selected customer object from the parent Index.vue. This is passed to the child 
-     * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
-     * mode.
-     */
-    selectedCustomer: Object,
-});
+        /**
+         * The mode of the popup. This is passed to the child CreateEditCustomer.vue. It could be 
+         * 'create', 'show' or 'edit'.
+         */
+        mode: String,
+
+        /**
+         * The selected customer object from the parent Index.vue. This is passed to the child 
+         * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
+         * mode.
+         */
+        selectedCustomer: Object
+    }
+);
 
 
 /**
  * Title of the popup. Depends on the mode. Only the title is affected by this computed.
  */
-let title() = computed(() => {
-    switch (data.mode) {
+let title = computed(() => {
+    switch (props.mode) {
         case 'create':
             // console.log('Popup computed: In popup.vue, mode is create')
             return 'Create new customer';
