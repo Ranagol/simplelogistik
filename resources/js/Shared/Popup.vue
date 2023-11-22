@@ -71,7 +71,7 @@ export default defineComponent({
             }
         },
     },
-    emits: ['closePopup', 'update:modelValue'],
+    emits: ['closePopup', 'update:modelValue', 'removeSelectedCustomer'],
     methods: {
 
         /**
@@ -81,6 +81,7 @@ export default defineComponent({
          */
         closePopup(){
             this.$emit('update:modelValue', false);
+            this.$emit('removeSelectedCustomer');
         }
     },
 

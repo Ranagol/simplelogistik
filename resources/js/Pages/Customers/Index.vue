@@ -27,6 +27,7 @@
             v-model="elDialogVisible"
             :selectedCustomer="selectedCustomer"
             :mode="mode"
+            @removeSelectedCustomer="removeSelectedCustomer"
         ></Popup>
 
         <el-button
@@ -328,7 +329,11 @@ export default defineComponent({
                 newItemsPerPage: this.paginationData.per_page,
                 id: object.id,
             })
-        }
+        },
+
+        removeSelectedCustomer(){
+            this.selectedCustomer = {};
+        },
         
     },
     mounted() {

@@ -161,9 +161,29 @@
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { router} from '@inertiajs/vue3'
-// import Inertia from '@inertiajs/vue3'//not working
-// import { Inertia } from '@inertiajs/vue3'//not working
 
+
+ let props = defineProps({ 
+    /**
+     * The errors are being sent from the Customers/Index grandparent component, because for some reason
+     * they are not arriving here. Possibly because this is a deeply nested el-dialog, and not a compnent
+     * that has a fix place and not disappears.
+     */
+    errors: Object, 
+
+    /**
+     * The selected customer object from the parent Index.vue. This is passed to the child 
+     * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
+     * mode.
+     */
+    selectedCustomer: Object,
+
+    /**
+     * This is passed to the child CreateEditCustomer.vue. It could be 
+     * 'create', 'show' or 'edit'.
+     */
+    mode: String
+} )
 
 /**
  * Here we define, what structure should have the customer object.
@@ -192,24 +212,13 @@ const ruleFormRef = ref<FormInstance>()
  * and it's initially set with all properties as empty strings. 
  */
 let customer = reactive<RuleForm>({
-    company_name: 'blaa',
-    name: 'blah',
-    email: 'bla@gmail.com',
-    rating: '5',
-    tax_number: '1111',
-    internal_cid: '22222',
+    company_name: '',
+    name: '',
+    email: '',
+    rating: '',
+    tax_number: '',
+    internal_cid: '',
 })
-
-/**
- * The errors are being sent from the Customers/Index grandparent component, because for some reason
- * they are not arriving here. Possibly because this is a deeply nested el-dialog, and not a compnent
- * that has a fix place and not disappears.
- */
-let props = defineProps({ 
-    errors: Object, 
-    selectedCustomer: Object,
-    mode: String
-} )
 
 //Here I just temporarily set a customer with default values to be created. For developing only.
 if (props.mode == 'edit') {
@@ -218,17 +227,18 @@ if (props.mode == 'edit') {
 } else if (props.mode == 'show') {
     customer = props.selectedCustomer;
     console.log('CreateEditCustomer is in SHOW mode');
-} else if (props.mode == 'create') {
-    console.log('CreateEditCustomer is in CREATE mode');
-    customer = {
-        company_name: 'blaa',
-        name: 'blah',
-        email: 'bla@gmail.com',
-        rating: '5',
-        tax_number: '1111',
-        internal_cid: '22222',
-    }
-}
+} 
+    // else if (props.mode == 'create') {
+    // console.log('CreateEditCustomer is in CREATE mode');
+    // customer = {
+    //     company_name: 'blaa',
+    //     name: 'blah',
+    //     email: 'bla@gmail.com',
+    //     rating: '5',
+    //     tax_number: '1111',
+    //     internal_cid: '22222',
+    // }
+// }
 
 
 /**
