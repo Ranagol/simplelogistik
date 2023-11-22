@@ -28,6 +28,7 @@
             :selectedCustomer="data.selectedCustomer"
             :mode="data.mode"
             @removeSelectedCustomer="removeSelectedCustomer"
+            @submitCustomer="submitCustomer"
         ></Popup>
 
         <el-button
@@ -346,6 +347,44 @@ const removeSelectedCustomer = () =>{
     data.selectedCustomer = customerResetValues;
     console.log('removeSelectedCustomer customer:', data.selectedCustomer)
 };
+
+/**
+ * Sends the create or edit customer request to the backend.
+ * 
+ * @param customer 
+ */
+ const submitCustomer = (customer) => {
+    console.log('submitCustomer')
+    if (data.mode == 'create') {
+        console.log('submitCustomer: mode is create')
+        router.post(
+            '/customers', 
+            customer, 
+            {
+                onSuccess: () => {
+                    console.log('Customer created successfully')
+                },
+                onError: (errors) => {
+                    console.log('Error creating customer', errors)
+                }
+            }
+        )
+    } else if (data.mode == 'edit') {
+        console.log('submitCustomer: mode is edit')
+        router.put(
+            '/customers/' + customer.id, 
+            customer,
+            {
+                onSuccess: () => {
+                    alert('Customer created successfully')
+                },
+                onError: (errors) => {
+                    alert('Error creating customer', errors)
+                }
+            }
+        )
+    }
+}
   
 let searchTermRef = ref(null);
 onMounted(() => {

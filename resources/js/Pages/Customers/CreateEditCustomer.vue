@@ -212,46 +212,46 @@ const ruleFormRef = ref<FormInstance>()
  * and it's initially set with all properties as empty strings. 
  */
 let customer = reactive<RuleForm>({
-    company_name: '',
-    name: '',
-    email: '',
-    rating: '',
-    tax_number: '',
-    internal_cid: '',
+    company_name: 'beee',
+    name: 'egerg',
+    email: 'bla@gmail.com',
+    rating: '5',
+    tax_number: '1111',
+    internal_cid: '2222',
 })
 
-watch(
-    props.selectedCustomer, 
-    (newCustomer, oldCustomer) => {
+// watch(
+//     props.selectedCustomer, 
+//     (newCustomer, oldCustomer) => {
     
-        console.log('watcher triggered, this is the old customer: ', oldCustomer)
+//         console.log('watcher triggered, this is the old customer: ', oldCustomer)
 
-        if (props.mode == 'edit') {
-            customer = newCustomer;
-            console.log('CreateEditCustomer is in EDIT mode');
+//         if (props.mode == 'edit') {
+//             customer = newCustomer;
+//             console.log('CreateEditCustomer is in EDIT mode');
 
-        } else if (props.mode == 'show') {
-            console.log('newCustomer from props:', newCustomer)
-            customer = newCustomer;
-            console.log('customer in component:', customer)
-            console.log('CreateEditCustomer is in SHOW mode');
+//         } else if (props.mode == 'show') {
+//             console.log('newCustomer from props:', newCustomer)
+//             customer = newCustomer;
+//             console.log('customer in component:', customer)
+//             console.log('CreateEditCustomer is in SHOW mode');
 
-        } else if (props.mode == 'create') {
-            console.log('CreateEditCustomer is in CREATE mode');
-            let customerResetValues = {
-                company_name: '',
-                name: '',
-                email: '',
-                rating: '',
-                tax_number: '',
-                internal_cid: '',
-            };
-            customer = customerResetValues;
-            console.log('customer in component:', customer)
-        }
-    },
-    { immediate: true }
-);
+//         } else if (props.mode == 'create') {
+//             console.log('CreateEditCustomer is in CREATE mode');
+//             let customerResetValues = {
+//                 company_name: '',
+//                 name: '',
+//                 email: '',
+//                 rating: '',
+//                 tax_number: '',
+//                 internal_cid: '',
+//             };
+//             customer = customerResetValues;
+//             console.log('customer in component:', customer)
+//         }
+//     },
+//     { immediate: true }
+// );
 
 /**
  * The rules for the form.
@@ -289,52 +289,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     await formEl.validate((valid, fields) => {
         if (valid) {
             console.log('Validation OK, submit!', customer)
-            submitCustomer(customer);
+            //Triggers the submitCustomer() method in the parent Index.vue
+            emit('submitCustomer', customer);
+            
         } else {
             console.log('FE validation not OK, error submit!', fields)
         }
     })
 }
 
-/**
- * Helper function for submitForm(), this actually sends the request to the backend.
- * 
- * @param customer 
- */
-const submitCustomer = (customer) => {
-    console.log('submitCustomer')
-    if (props.mode == 'create') {
-        console.log('submitCustomer: mode is create')
-        router.post(
-            '/customers', 
-            customer, 
-            {
-                //NOT WORKING
-                onSuccess: () => {
-                    console.log('Customer created successfully')
-                },
-                onError: (errors) => {
-                    console.log('Error creating customer', errors)
-                }
-            }
-        )
-    } else if (props.mode == 'edit') {
-        console.log('submitCustomer: mode is edit')
-        router.put(
-            '/customers/' + customer.id, 
-            customer,
-            {
-                //NOT WORKING
-                onSuccess: () => {
-                    alert('Customer created successfully')
-                },
-                onError: (errors) => {
-                    alert('Error creating customer', errors)
-                }
-            }
-        )
-    }
-}
+
 
 // This is commented out, because right now I have hardcoded customer for testing
 // const resetForm = (formEl: FormInstance | undefined) => {
@@ -343,7 +307,7 @@ const submitCustomer = (customer) => {
 // }
 
 
-const emit = defineEmits(['closePopup']);
+const emit = defineEmits(['closePopup', 'submitCustomer']);
 
 /**
  * Close the popup, by emitting the closePopup event. This will trigger the closePopup method in
