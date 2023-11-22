@@ -126,10 +126,11 @@
                 ></div>
             </el-form-item>
 
-            <!-- BUTTONS -->
+            <!-- BUTTONS will be displayed in create and edit mode, and will not be displayed
+            in show mode.-->
             <div
                 class="flex flex-row"
-                v-if="mode !== 'create'"
+                v-if="mode==='create' || mode==='edit' "
             >
                 <el-form-item class="pr-5">
                     <el-button
