@@ -329,14 +329,30 @@ const handleEdit = (index, object) => {
 };
 
 const handleDelete = (index, object) => {
-    router.post('/delete-customer', {
-        searchTerm: data.searchTerm,
-        sortColumn: data.sortColumn,
-        sortOrder:  data.sortOrder,
-        page: data.paginationData.current_page,
-        newItemsPerPage: data.paginationData.per_page,
-        id: object.id,
-    })
+    // router.post('/delete-customer', {
+    //     searchTerm: data.searchTerm,
+    //     sortColumn: data.sortColumn,
+    //     sortOrder:  data.sortOrder,
+    //     page: data.paginationData.current_page,
+    //     newItemsPerPage: data.paginationData.per_page,
+    //     id: object.id,
+    // })
+    router.delete(
+        `/customers/${object.id}`,
+        {
+            onSuccess: () => {
+                ElMessage({
+                    message: 'Customer deleted successfully',
+                    type: 'success',
+                });
+                getCustomers();
+            },
+            onError: (errors) => {
+                ElMessage.error('Oops, something went wrong while creating a new customer.')
+                ElMessage(errors);
+            }
+        }
+    )
 };
 
 /**

@@ -42,11 +42,16 @@ class TmsCustomerController extends Controller
 
     /**
      * Stores customers.
+     * 
+     * A little explanation: here we only save the customer into db.
+     * This simply triggers onSuccess event in FE component, which then displays the success message
+     * to the user, and then the FE component calls the $this->index() method, which returns the customers.
+     * So, the user gets his feedback, and the customer list is refreshed.
      *
      * @param Request $request
      * @return void
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         $request->validate([
             'company_name' => 'required|string|min:2|max:100',
@@ -58,21 +63,6 @@ class TmsCustomerController extends Controller
         ]);
         
         TmsCustomer::create($request->all());
-
-        /**
-         * when there is no sort column, sort order or pagination data defined by the FE component,
-         * then in index() method we return sorted by id and ascending, and paginated by 10 items 
-         * per page. This way we can see immediatelly the newly created customer
-         */
-        // return Inertia::location(route(
-        //     'customers.index',
-        //     // [
-        //     //     'feedback' => 'Customer created successfully.'
-        //     // ]
-        // ));
-        // return Inertia::render('Customers/Index', [
-        //     'feedback' => 'Customer created successfully backend.'
-        // ]);
     }
 
     /**
@@ -104,17 +94,17 @@ class TmsCustomerController extends Controller
     }
 
     /**
-     * Deletes customers.
+     * Deletes customers. This triggers the onSuccess event in FE component, which then displays
+     * the success message to the user, and then the FE component calls the $this->index() method,
+     * which returns the customers. So, the user gets his feedback, and the customer list is refreshed.
      *
      * @param [type] $id
      * @return void
      */
-    // public function destroy(Request $request, $id)
-    // {
-    //     dd($request->all());
-    //     TmsCustomer::destroy($id);
-    //     return Inertia::location(route('customers.index'));//How to return customers with pagination data and sorting data?
-    // }
+    public function destroy(Request $request, $id): void
+    {
+        TmsCustomer::destroy($id);
+    }
 
     /**
      * //TODO check with Christoph if this is ok. Possible problem: using POST for delete.
@@ -125,32 +115,29 @@ class TmsCustomerController extends Controller
      * @param Request $request
      * @return SymfonyResponse
      */
-    public function customerDelete(Request $request): SymfonyResponse
-    {
-        TmsCustomer::destroy($request->id);
+    // public function customerDelete(Request $request): SymfonyResponse
+    // {
+    //     TmsCustomer::destroy($request->id);
 
-        $searchTerm = $request->searchTerm;
-        $sortColumn = $request->sortColumn;
-        $sortOrder = $request->sortOrder;
-        //pagination stuff sent from front-end
-        $page = $request->page;
-        $newItemsPerPage = (int)$request->newItemsPerPage;
+    //     $searchTerm = $request->searchTerm;
+    //     $sortColumn = $request->sortColumn;
+    //     $sortOrder = $request->sortOrder;
+    //     //pagination stuff sent from front-end
+    //     $page = $request->page;
+    //     $newItemsPerPage = (int)$request->newItemsPerPage;
 
-        $customers = $this->getCustomers($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+    //     $customers = $this->getCustomers($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
 
-        return Inertia::location(route(
-            'customers.index', 
-            [
-                'dataFromCustomerController' => $customers,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
-            ]
-        ));
-
-
-        //return redirect()->back()->with('error', 'There was an error deleting the customer');//TODO Maybe this message will appear in errors?
-    }
+    //     return Inertia::location(route(
+    //         'customers.index', 
+    //         [
+    //             'dataFromCustomerController' => $customers,
+    //             'searchTermProp' => $searchTerm,
+    //             'sortColumnProp' => $sortColumn,
+    //             'sortOrderProp' => $sortOrder,
+    //         ]
+    //     ));
+    // }
 
     /**
      * Returns customers.
