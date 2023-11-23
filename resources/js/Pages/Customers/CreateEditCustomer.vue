@@ -20,6 +20,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
+                    :disabled="mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -44,6 +45,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
+                    :disabled="mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -68,6 +70,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
+                    :disabled="mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -92,6 +95,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
+                    :disabled="mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -115,6 +119,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
+                    :disabled="mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -138,6 +143,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
+                    :disabled="mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -198,7 +204,8 @@ let props = defineProps({
 
     /**
      * This is passed to the child CreateEditCustomer.vue. It could be 
-     * 'create', 'show' or 'edit'.
+     * 'create', 'show' or 'edit'. This is important, because the input fields must be disabled when
+     * mode = 'show'.
      */
     mode: String
 })
