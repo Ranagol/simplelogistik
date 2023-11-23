@@ -329,14 +329,6 @@ const handleEdit = (index, object) => {
 };
 
 const handleDelete = (index, object) => {
-    // router.post('/delete-customer', {
-    //     searchTerm: data.searchTerm,
-    //     sortColumn: data.sortColumn,
-    //     sortOrder:  data.sortOrder,
-    //     page: data.paginationData.current_page,
-    //     newItemsPerPage: data.paginationData.per_page,
-    //     id: object.id,
-    // })
     router.delete(
         `/customers/${object.id}`,
         {
@@ -358,45 +350,55 @@ const handleDelete = (index, object) => {
 /**
  * Sends the create or edit customer request to the backend.
  * 
- * @param customer 
  */
- const submitCustomer = (customer) => {
+ const submitCustomer = () => {
     console.log('submitCustomer')
     if (data.mode == 'create') {
-        console.log('submitCustomer: mode is create')
-        router.post(
-            '/customers', 
-            customer, 
-            {
-                onSuccess: () => {
-                    console.log('Customer created successfully')
-                    // alert('Customer created successfully')
-                    ElMessage({
-                        message: 'Customer created successfully',
-                        type: 'success',
-                    });
-                    getCustomers();
-                },
-                onError: (errors) => {
-                    ElMessage.error('Oops, something went wrong while creating a new customer.')
-                    ElMessage(errors);
-                }
-            }
-        )
+        createCustomer();
     } else if (data.mode == 'edit') {
-        router.put(
-            '/customers/' + customer.id, 
-            customer,
-            {
-                onSuccess: () => {
-                    alert('Customer created successfully')
-                },
-                onError: (errors) => {
-                    alert('Error creating customer', errors)
-                }
-            }
-        )
+        editCustomer();
     }
+}
+
+const createCustomer = () => {
+    console.log('createCustomer')
+    router.post(
+        '/customers', 
+        data.selectedCustomer, 
+        {
+            onSuccess: () => {
+                ElMessage({
+                    message: 'Customer created successfully',
+                    type: 'success',
+                });
+                getCustomers();//get customers again, so that the new customer is displayed
+            },
+            onError: (errors) => {
+                ElMessage.error('Oops, something went wrong while creating a new customer.')
+                ElMessage(errors);
+            }
+        }
+    )
+};
+
+const editCustomer = () => {
+    router.put(
+        `/customers/${data.selectedCustomer.id}`, 
+        data.selectedCustomer,
+        {
+            onSuccess: () => {
+                ElMessage({
+                    message: 'Customer edited successfully',
+                    type: 'success',
+                });
+                getCustomers();//get customers again, so that the new customer is displayed
+            },
+            onError: (errors) => {
+                ElMessage.error('Oops, something went wrong while editing a new customer.')
+                ElMessage(errors);
+            }
+        }
+    )
 }
   
 let searchTermRef = ref(null);

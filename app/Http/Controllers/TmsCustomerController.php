@@ -70,9 +70,9 @@ class TmsCustomerController extends Controller
      *
      * @param Request $request
      * @param [type] $id
-     * @return SymfonyResponse
+     * @return void
      */
-    public function update(Request $request, $id): SymfonyResponse
+    public function update(Request $request, $id): void
     {
         $request->validate([
             'company_name' => 'required|string|min:2|max:100',
@@ -90,7 +90,7 @@ class TmsCustomerController extends Controller
          * then in index() method we return sorted by id and ascending, and paginated by 10 items 
          * per page. This way we can see immediatelly the newly created customer
          */
-        return Inertia::location(route('customers.index'));
+        // return Inertia::location(route('customers.index'));
     }
 
     /**
@@ -105,39 +105,6 @@ class TmsCustomerController extends Controller
     {
         TmsCustomer::destroy($id);
     }
-
-    /**
-     * //TODO check with Christoph if this is ok. Possible problem: using POST for delete.
-     * Because I am not sending to the backend just the customer id for deleting, I am also sending
-     * the search term, sort column and sort order. This way I can return the customers with the
-     * same search term, sort column and sort order.
-     *
-     * @param Request $request
-     * @return SymfonyResponse
-     */
-    // public function customerDelete(Request $request): SymfonyResponse
-    // {
-    //     TmsCustomer::destroy($request->id);
-
-    //     $searchTerm = $request->searchTerm;
-    //     $sortColumn = $request->sortColumn;
-    //     $sortOrder = $request->sortOrder;
-    //     //pagination stuff sent from front-end
-    //     $page = $request->page;
-    //     $newItemsPerPage = (int)$request->newItemsPerPage;
-
-    //     $customers = $this->getCustomers($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
-
-    //     return Inertia::location(route(
-    //         'customers.index', 
-    //         [
-    //             'dataFromCustomerController' => $customers,
-    //             'searchTermProp' => $searchTerm,
-    //             'sortColumnProp' => $sortColumn,
-    //             'sortOrderProp' => $sortOrder,
-    //         ]
-    //     ));
-    // }
 
     /**
      * Returns customers.
