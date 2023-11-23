@@ -11,6 +11,7 @@
             v-model:mode="data.mode"
             @closePopup="closePopup"
             @submitCustomer="submitCustomer"
+            :key="componentKey"
         ></CreateEditCustomer>
 
     </el-dialog>
@@ -18,7 +19,7 @@
 
 <script lang="ts" setup>
 import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
-import { reactive, computed, watch, onMounted, nextTick } from 'vue';
+import { reactive, computed, watch, onMounted, nextTick, onActivated, ref } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests
 
 let props = defineProps(
@@ -55,8 +56,7 @@ let props = defineProps(
     }
 );
 
-
-
+//DATA
 let data = reactive(
     {
         mode: props.mode,
@@ -90,7 +90,6 @@ const emit = defineEmits(
  * v-model:modelValue.
  */
 const closePopup = () => {
-    console.log('Popup: closePopup()');
     emit('update:elDialogVisible', false);
     emit('update:mode', data.mode);
     emit('update:selectedCustomer', data.customerResetValues);
@@ -104,7 +103,6 @@ const submitCustomer = (customer: Customer) => {
 watch(
     () => props.elDialogVisible,
     (newValue, oldValue) => {
-        console.log('Popup: watch elDialogVisible: ', newValue, oldValue);
         data.elDialogVisible = newValue;
     },
     { immediate: true }
@@ -113,20 +111,26 @@ watch(
 watch(
     () => props.mode,
     (newValue, oldValue) => {
-        console.log('Popup: watch mode: ', newValue, oldValue);
         data.mode = newValue;
     },
     { immediate: true }
 );
 
+
+
+const componentKey = ref(0);
+
 watch(
     () => props.selectedCustomer,
     (newValue, oldValue) => {
-        console.log('Popup: watch selectedCustomer: ', newValue, oldValue);
+        console.log('Popup: watcher selectedCustomer, new value old value: ', newValue, oldValue);
         data.selectedCustomer = newValue;
+        componentKey.value += 1;
     },
     { immediate: true }
 );
+
+
 
 </script>
 

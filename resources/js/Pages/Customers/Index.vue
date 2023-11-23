@@ -304,39 +304,29 @@ const handleCreate = () => {
     data.title = 'Create new customer';
     data.mode = 'create';
     data.selectedCustomer = data.customerResetValues;
-    console.log(' Index elDialogVisible: ', data.elDialogVisible)
     console.log('selectedCustomer from Index/handleCreate():', data.selectedCustomer )
 };
 
 const handleShow = (index, object) => {
     console.log('handleShow()');
-    console.log('index:', index);
-    console.log('object:', object);
     data.elDialogVisible = true;
     data.title = 'Show customer';
     data.mode = 'show';
     data.selectedCustomer = object;
     console.log('selectedCustomer from Index/handleShow():', data.selectedCustomer )
-    console.log(' Index elDialogVisible: ', data.elDialogVisible)
 
 };
 
 const handleEdit = (index, object) => {
     console.log('handleEdit()');
-    console.log('index:', index);
-    console.log('object:', object);
     data.mode = 'edit';
     data.elDialogVisible = true;
     data.title = 'Edit customer';
     data.selectedCustomer = object;
     console.log('selectedCustomer from Index/handleEdit():', data.selectedCustomer )
-    console.log(' Index elDialogVisible: ', data.elDialogVisible)
-
 };
 
 const handleDelete = (index, object) => {
-    console.log('index:', index);
-    console.log('object:', object);
     router.post('/delete-customer', {
         searchTerm: data.searchTerm,
         sortColumn: data.sortColumn,
@@ -387,7 +377,7 @@ const handleDelete = (index, object) => {
   
 let searchTermRef = ref(null);
 onMounted(() => {
-    console.log('onMounted.')
+
     /**
      * INPUT FIELD
      * When the page is loaded, we want to focus on the search input.

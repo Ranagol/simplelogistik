@@ -182,9 +182,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, nextTick, onMounted, onActivated, onUpdated, getCurrentInstance } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-import { router} from '@inertiajs/vue3'
 
 
 let props = defineProps({ 
@@ -245,23 +244,6 @@ let customer = reactive<RuleForm>({
     internal_cid: '',
 })
 
-const customerResetValues = {
-    company_name: '',
-    name: '',
-    email: '',
-    rating: '',
-    tax_number: '',
-    internal_cid: '',
-};
-
-watch(
-    () => props.selectedCustomer,
-    (newValue, oldValue) => {
-        console.log('CreateEditCustomer: watch selectedCustomer: ', newValue, oldValue);
-        customer = newValue;
-    },
-    { immediate: true }
-);
 
 /**
  * The rules for the form.
@@ -316,15 +298,23 @@ const emit = defineEmits(
     ]
 );
 
+const customerResetValues = {
+    company_name: '',
+    name: '',
+    email: '',
+    rating: '',
+    tax_number: '',
+    internal_cid: '',
+};
+
 /**
  * Close the popup, by emitting the closePopup event. This will trigger the closePopup method in
  * the in Popup.vue. Which will set in Index.vue the elDialogVisible to false, and the popup will
- * close.
+ * close. Triggered by the Cancel button.
  */
 let closePopup = () => {
-    
-    emit('closePopup');
     customer = customerResetValues;
+    emit('closePopup');
 }
 
 /**
@@ -336,6 +326,20 @@ let closePopup = () => {
 let updateSelectedCustomer = () => {
     emit('update:selectedCustomer', customer);
 }
+
+watch(
+    () => props.selectedCustomer,
+    (newValue, oldValue) => {
+        console.log('watch selectedCustomer new value old value: ', newValue, oldValue);
+        customer = newValue;
+    },
+    { 
+        immediate: true,
+    },
+);
+
+
+
 
 
 
