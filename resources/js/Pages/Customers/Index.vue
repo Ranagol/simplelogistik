@@ -38,7 +38,6 @@
             type="info"
         >Create new customer</el-button>
 
-
         <!-- CUSTOMERS TABLE -->
         <el-table
             :data="data.customers"
@@ -82,7 +81,7 @@
                 sortable="custom"
             ></el-table-column>
 
-            <!-- SHOW/EDIT/DELETE BUTTON -->
+            <!-- SHOW/EDIT/DELETE BUTTON IN THE TABLE -->
             <el-table-column
                 label="Show/Edit/Delete"
             >
@@ -166,7 +165,6 @@ let data = reactive({
      * seaparted customers and separated pagination data. This will happen in computed properties.
      */
     customers: props.dataFromCustomerController.data || [] as Customer[],//TODO why is this erroring TS?
-    unChangedCustomers: createUnchangedCustomers,
 
     //search by text
     searchTerm: props.searchTermProp,

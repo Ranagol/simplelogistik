@@ -89,13 +89,6 @@ class TmsCustomerController extends Controller
         ]);
         
         TmsCustomer::find($id)->update($request->all());
-
-        /**
-         * when there is no sort column, sort order or pagination data defined by the FE component,
-         * then in index() method we return sorted by id and ascending, and paginated by 10 items 
-         * per page. This way we can see immediatelly the newly created customer
-         */
-        // return Inertia::location(route('customers.index'));
     }
 
     /**
@@ -145,7 +138,6 @@ class TmsCustomerController extends Controller
                 //... but if sort is not specified, please return sort by id and ascending.
                 return $query->orderBy('id', 'desc');
             })
-
             
             /**
              * PAGINATION
