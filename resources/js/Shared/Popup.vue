@@ -61,7 +61,15 @@ let data = reactive(
     {
         mode: props.mode,
         selectedCustomer: props.selectedCustomer,
-        elDialogVisible: props.elDialogVisible
+        elDialogVisible: props.elDialogVisible,
+        customerResetValues: {
+            company_name: '',
+            name: '',
+            email: '',
+            rating: '',
+            tax_number: '',
+            internal_cid: '',
+        },
     }
 );
         
@@ -84,19 +92,38 @@ const emit = defineEmits(
 const closePopup = () => {
     console.log('Popup: closePopup()');
     emit('update:elDialogVisible', false);
-    // emit('selectedCustomer');');
     emit('update:mode', data.mode);
+    emit('update:selectedCustomer', data.customerResetValues);
+    data.selectedCustomer = data.customerResetValues;
 };
 
 const submitCustomer = (customer: Customer) => {
     emit('submitCustomer', customer);
 };
 
-watch(//TODO this should be replaced with the computed v-modell
+watch(
     () => props.elDialogVisible,
     (newValue, oldValue) => {
         console.log('Popup: watch elDialogVisible: ', newValue, oldValue);
         data.elDialogVisible = newValue;
+    },
+    { immediate: true }
+);
+
+watch(
+    () => props.mode,
+    (newValue, oldValue) => {
+        console.log('Popup: watch mode: ', newValue, oldValue);
+        data.mode = newValue;
+    },
+    { immediate: true }
+);
+
+watch(
+    () => props.selectedCustomer,
+    (newValue, oldValue) => {
+        console.log('Popup: watch selectedCustomer: ', newValue, oldValue);
+        data.selectedCustomer = newValue;
     },
     { immediate: true }
 );

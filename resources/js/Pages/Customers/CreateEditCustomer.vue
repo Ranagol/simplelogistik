@@ -19,6 +19,10 @@
                     type="text"
                     show-word-limit
                     :maxlength="255"
+                    clearable
+                    @input="updateSelectedCustomer()"
+                    @clear="updateSelectedCustomer()"
+                    @change="updateSelectedCustomer()"
                 />
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
@@ -39,6 +43,10 @@
                     type="text"
                     show-word-limit
                     :maxlength="255"
+                    clearable
+                    @input="updateSelectedCustomer()"
+                    @clear="updateSelectedCustomer()"
+                    @change="updateSelectedCustomer()"
                 />
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
@@ -59,6 +67,10 @@
                     type="text"
                     show-word-limit
                     :maxlength="255"
+                    clearable
+                    @input="updateSelectedCustomer()"
+                    @clear="updateSelectedCustomer()"
+                    @change="updateSelectedCustomer()"
                 />
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
@@ -79,6 +91,10 @@
                     type="text"
                     show-word-limit
                     :maxlength="255"
+                    clearable
+                    @input="updateSelectedCustomer()"
+                    @clear="updateSelectedCustomer()"
+                    @change="updateSelectedCustomer()"
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
@@ -98,6 +114,10 @@
                     type="text"
                     show-word-limit
                     :maxlength="255"
+                    clearable
+                    @input="updateSelectedCustomer()"
+                    @clear="updateSelectedCustomer()"
+                    @change="updateSelectedCustomer()"
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
@@ -117,6 +137,10 @@
                     type="text"
                     show-word-limit
                     :maxlength="255"
+                    clearable
+                    @input="updateSelectedCustomer()"
+                    @clear="updateSelectedCustomer()"
+                    @change="updateSelectedCustomer()"
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
@@ -206,13 +230,31 @@ const ruleFormRef = ref<FormInstance>()
  * and it's initially set with all properties as empty strings. 
  */
 let customer = reactive<RuleForm>({
-    company_name: 'beee',
-    name: 'egerg',
-    email: 'bla@gmail.com',
-    rating: '5',
-    tax_number: '1111',
-    internal_cid: '2222',
+    company_name: '',
+    name: '',
+    email: '',
+    rating: '',
+    tax_number: '',
+    internal_cid: '',
 })
+
+const customerResetValues = {
+    company_name: '',
+    name: '',
+    email: '',
+    rating: '',
+    tax_number: '',
+    internal_cid: '',
+};
+
+watch(
+    () => props.selectedCustomer,
+    (newValue, oldValue) => {
+        console.log('CreateEditCustomer: watch selectedCustomer: ', newValue, oldValue);
+        customer = newValue;
+    },
+    { immediate: true }
+);
 
 /**
  * The rules for the form.
@@ -263,6 +305,7 @@ const emit = defineEmits(
     [
         'closePopup', 
         'submitCustomer',
+        'update:selectedCustomer',
     ]
 );
 
@@ -272,8 +315,21 @@ const emit = defineEmits(
  * close.
  */
 let closePopup = () => {
+    
     emit('closePopup');
+    customer = customerResetValues;
 }
+
+/**
+ * Update the selectedCustomer object in the parent Index.vue. This is needed when the mode is 'show'
+ * or 'edit'. Not needed for create mode.
+ * 
+ * @param customer 
+ */
+let updateSelectedCustomer = () => {
+    emit('update:selectedCustomer', customer);
+}
+
 
 
 </script>

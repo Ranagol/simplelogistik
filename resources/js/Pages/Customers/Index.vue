@@ -28,7 +28,6 @@
             v-model:elDialogVisible="data.elDialogVisible"
             v-model:selectedCustomer="data.selectedCustomer"
             v-model:mode="data.mode"
-            @removeSelectedCustomer="removeSelectedCustomer"
             @submitCustomer="submitCustomer"
         ></Popup>
 
@@ -156,7 +155,7 @@ let props = defineProps(
 let data = reactive({
     mode:'',
     selectedCustomer: {},
-    elDialogVisible: true,
+    elDialogVisible: false,
 
     /**
      * Unfortunatelly, customers are coming in from backend mixed with pagination data.
@@ -346,13 +345,6 @@ const handleDelete = (index, object) => {
         newItemsPerPage: data.paginationData.per_page,
         id: object.id,
     })
-};
-
-const removeSelectedCustomer = () =>{
-    console.log('removeSelectedCustomer()');
-    
-    data.selectedCustomer = customerResetValues;
-    console.log('removeSelectedCustomer customer:', data.selectedCustomer)
 };
 
 /**
