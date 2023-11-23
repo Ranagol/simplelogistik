@@ -40,6 +40,11 @@ class TmsCustomerController extends Controller
         ]);
     }
 
+    public function show($id): void
+    {
+        $customer = TmsCustomer::find($id);
+    }
+
     /**
      * Stores customers.
      * 
