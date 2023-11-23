@@ -6,6 +6,7 @@ import { createInertiaApp, Link, Head } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import Layout from './Shared/Layout.vue';
+import { createPinia } from 'pinia';
 
 //Element UI
 import ElementPlus from 'element-plus'
@@ -63,6 +64,7 @@ createInertiaApp({
             .component('Head', Head)//global registration of Head
             .use(ZiggyVue, Ziggy)
             .use(ElementPlus)
+            .use(createPinia())
             .mount(el);
     },
 
