@@ -1,29 +1,29 @@
 <template>
-    <Head title="Users" />
+    <Head title="Cargo orders" />
 
     <Card>
-        <h1>Users</h1>
+        <h1>Cargo orders</h1>
 
-        <!-- USERS SEARCH FIELD -->
+        <!-- CARGO ORDER SEARCH FIELD -->
         <el-input
-            placeholder="Search users..."
+            placeholder="Search cargoOrders..."
             v-model="searchTerm"
             clearable
             ref="searchTerm"
-            @clear="getUsers()"
-            @change="getUsers()"
+            @clear="getCargoOrders()"
+            @change="getCargoOrders()"
             @input="handleSearchTermChange()"
             @keyup.escape.native="clearSearchTermWithEsc()"
         />
 
         <!-- BUTTON -->
         <el-button
-            @click="getUsers"
+            @click="getCargoOrders"
         >Search</el-button>
 
-        <!-- USERS TABLE -->
+        <!-- CARGO ORDER TABLE -->
         <el-table
-            :data="users"
+            :data="cargoOrders"
             style="width: 100%"
             @sort-change="sort"
         >
@@ -35,29 +35,18 @@
             ></el-table-column>
 
             <el-table-column
-                prop="name"
-                label="Name"
+                prop="description"
+                label="Description"
                 sortable="custom"
             ></el-table-column>
 
             <el-table-column
-                prop="email"
-                label="Email"
+                prop="shipping_price"
+                label="Shipping price"
                 sortable="custom"
             ></el-table-column>
 
-            <el-table-column
-                prop="created_at"
-                label="Created At"
-                sortable="custom"
-            ></el-table-column>
-
-            <el-table-column
-                prop="updated_at"
-                label="Updated At"
-                sortable="custom"
-            ></el-table-column>
-
+            
         </el-table>
 
         <el-pagination
@@ -75,7 +64,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { User } from '@/types/models/User';
+import { CargoOrder } from '@/types/models/CargoOrder';
 import Card from '@/Shared/Card.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
@@ -86,7 +75,7 @@ export default defineComponent({
         // layout: Layout,
     },
     props: {        
-        dataFromUserController: Object,
+        dataFromCargoOrderController: Object,
 
         /**
          * We need to pass the searchTermProp, sortColumnProp and sortOrderProp from the backend
@@ -100,11 +89,11 @@ export default defineComponent({
     data() {
         return {
             /**
-             * Unfortunatelly, users are coming in from backend mixed with pagination data.
-             * That is what we have here in the dataFromUserController. We need
-             * seaparted users and separated pagination data. This will happen in computed properties.
+             * Unfortunatelly, cargoOrders are coming in from backend mixed with pagination data.
+             * That is what we have here in the dataFromCargoOrderController. We need
+             * seaparted cargoOrders and separated pagination data. This will happen in computed properties.
              */
-            users: this.dataFromUserController.data || [] as User[],//TODO why is this erroring TS?
+            cargoOrders: this.dataFromCargoOrderController.data || [] as CargoOrder[],
 
             //search by text
             searchTerm: this.searchTermProp,
@@ -115,9 +104,9 @@ export default defineComponent({
 
             /**
              * All pagination related data is stored here. 
-             * Unfortunatelly,users are coming in from backend mixed with pagination data.
-             * That is what we have here in the dataFromUserController. We need
-             * seaparated users and separated pagination data. This will happen in computed properties.
+             * Unfortunatelly,cargoOrders are coming in from backend mixed with pagination data.
+             * That is what we have here in the dataFromCargoOrderController. We need
+             * seaparated cargoOrders and separated pagination data. This will happen in computed properties.
              * Here. So, this is the pagination related data. And a small reminder:
              * 
              * el-pagination        Laravel ->paginate()
@@ -125,14 +114,14 @@ export default defineComponent({
              * page-size	        paginationData.per_page             Number of items / page
              * total	            paginationData.total                Number of all db records
              */
-            paginationData: _.omit({...this.dataFromUserController}, 'data') || {},
+            paginationData: _.omit({...this.dataFromCargoOrderController}, 'data') || {},
 
         };
     },
     methods: {
 
         /**
-         * getUsers() is triggered by: 
+         * getCargoOrders() is triggered by: 
          * 
          * the search button, 
          * the sorting clicks, 
@@ -140,13 +129,13 @@ export default defineComponent({
          * Also on input field clear/reset.
          * If enter is hit by the user.
          * 
-         * It sends a request to the backend to get the users. The backend will return the users 
-         * sorted and the pagination data. getUsers() does not have arguments, because it uses the
+         * It sends a request to the backend to get the cargoOrders. The backend will return the cargoOrders 
+         * sorted and the pagination data. getCargoOrders() does not have arguments, because it uses the
          * data from data(). Because every search/sort/paginate change is in the data().
          */
-        getUsers() {
+        getCargoOrders() {
             this.$inertia.get(
-                '/users',
+                '/cargo-orders',
                 {
                     /**
                      * This is the data that we send to the backend.
@@ -176,7 +165,7 @@ export default defineComponent({
             }
             //Setting sortColumn ind data()
             this.sortColumn = prop;
-            this.getUsers();
+            this.getCargoOrders();
         },
 
         /**
@@ -190,7 +179,7 @@ export default defineComponent({
             // console.log('newItemsPerPage:', newItemsPerPage)
             this.paginationData.per_page = newItemsPerPage;
             // console.log('this.paginationData.per_page:', this.paginationData.per_page)
-            this.getUsers();
+            this.getCargoOrders();
         },
 
         /**
@@ -203,28 +192,28 @@ export default defineComponent({
          */
         handleCurrentPageChange(newCurrentPage: number){
             this.paginationData.current_page = newCurrentPage;
-            this.getUsers();
+            this.getCargoOrders();
         },
 
         /**
          * INPUT FIELD
-         * For every typed letter in the input field, this function will get the filtered users,
+         * For every typed letter in the input field, this function will get the filtered cargoOrders,
          * again and again.
          * This is how we can throttle this function: 
          * https://www.geeksforgeeks.org/lodash-_-throttle-method/
          */
         handleSearchTermChange(){
             // console.log('handleSearchTermChange()');
-            this.getUsers();
+            this.getCargoOrders();
         },
 
         /**
          * INPUT FIELD
-         * When ESC is hit, we want to clear the search term, and get all users again.
+         * When ESC is hit, we want to clear the search term, and get all cargoOrders again.
          */
         clearSearchTermWithEsc(){
             this.searchTerm = '';
-            this.getUsers();
+            this.getCargoOrders();
         },
     },
     mounted() {
@@ -235,7 +224,7 @@ export default defineComponent({
          * So we use the mounted() lifecycle hook, and we focus on the search input.
          */
         this.$nextTick(() => {
-            this.$refs.searchTerm.focus();//TODO how to solve this TS error?
+            this.$refs.searchTerm.focus();
         });
     },
 });

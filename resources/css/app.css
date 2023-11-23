@@ -15,7 +15,7 @@
     --text-font-family: "Public Sans", sans-serif, "Segoe UI", "Helvetica Neue", arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
     /* CSS variables copied from Vuexy theme */
-    --primary: #7367F0;
+    --primary: #e30613;
     --on-primary: #fff;
     --secondary: #A8AAAE;
     --on-secondary: #fff;
@@ -86,7 +86,7 @@ another element with  .el-input__wrapper class.*/
 
 /* Targets the table header */
 .el-table th.el-table__cell>.cell {
-    background-color: var(--component-background);
+    /* background-color: var(--component-background); */
 }
 
 /* Targets ALL table body cells */

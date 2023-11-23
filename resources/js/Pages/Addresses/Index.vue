@@ -1,29 +1,29 @@
 <template>
-    <Head title="Users" />
+    <Head title="Addresses" />
 
     <Card>
-        <h1>Users</h1>
+        <h1>Addresses</h1>
 
-        <!-- USERS SEARCH FIELD -->
+        <!-- ADDRESS SEARCH FIELD -->
         <el-input
-            placeholder="Search users..."
+            placeholder="Search addresses..."
             v-model="searchTerm"
             clearable
             ref="searchTerm"
-            @clear="getUsers()"
-            @change="getUsers()"
+            @clear="getAddresses()"
+            @change="getAddresses()"
             @input="handleSearchTermChange()"
             @keyup.escape.native="clearSearchTermWithEsc()"
         />
 
         <!-- BUTTON -->
         <el-button
-            @click="getUsers"
+            @click="getAddresses"
         >Search</el-button>
 
-        <!-- USERS TABLE -->
+        <!-- ADDRESS TABLE -->
         <el-table
-            :data="users"
+            :data="addresses"
             style="width: 100%"
             @sort-change="sort"
         >
@@ -35,29 +35,34 @@
             ></el-table-column>
 
             <el-table-column
-                prop="name"
-                label="Name"
+                prop="first_name"
+                label="First name"
                 sortable="custom"
             ></el-table-column>
 
             <el-table-column
-                prop="email"
-                label="Email"
+                prop="last_name"
+                label="Last name"
                 sortable="custom"
             ></el-table-column>
 
             <el-table-column
-                prop="created_at"
-                label="Created At"
+                prop="street"
+                label="Street"
                 sortable="custom"
             ></el-table-column>
 
             <el-table-column
-                prop="updated_at"
-                label="Updated At"
+                prop="house_number"
+                label="House number"
                 sortable="custom"
             ></el-table-column>
 
+            <el-table-column
+                prop="zipcode"
+                label="Zipcode"
+                sortable="custom"
+            ></el-table-column>
         </el-table>
 
         <el-pagination
@@ -75,7 +80,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { User } from '@/types/models/User';
+import { Address } from '@/types/models/Address';
 import Card from '@/Shared/Card.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
@@ -86,7 +91,7 @@ export default defineComponent({
         // layout: Layout,
     },
     props: {        
-        dataFromUserController: Object,
+        dataFromAddressController: Object,
 
         /**
          * We need to pass the searchTermProp, sortColumnProp and sortOrderProp from the backend
@@ -100,11 +105,11 @@ export default defineComponent({
     data() {
         return {
             /**
-             * Unfortunatelly, users are coming in from backend mixed with pagination data.
-             * That is what we have here in the dataFromUserController. We need
-             * seaparted users and separated pagination data. This will happen in computed properties.
+             * Unfortunatelly, addresses are coming in from backend mixed with pagination data.
+             * That is what we have here in the dataFromAddressController. We need
+             * seaparted addresses and separated pagination data. This will happen in computed properties.
              */
-            users: this.dataFromUserController.data || [] as User[],//TODO why is this erroring TS?
+            addresses: this.dataFromAddressController.data || [] as Address[],
 
             //search by text
             searchTerm: this.searchTermProp,
@@ -115,9 +120,9 @@ export default defineComponent({
 
             /**
              * All pagination related data is stored here. 
-             * Unfortunatelly,users are coming in from backend mixed with pagination data.
-             * That is what we have here in the dataFromUserController. We need
-             * seaparated users and separated pagination data. This will happen in computed properties.
+             * Unfortunatelly,addresses are coming in from backend mixed with pagination data.
+             * That is what we have here in the dataFromAddressController. We need
+             * seaparated addresses and separated pagination data. This will happen in computed properties.
              * Here. So, this is the pagination related data. And a small reminder:
              * 
              * el-pagination        Laravel ->paginate()
@@ -125,14 +130,14 @@ export default defineComponent({
              * page-size	        paginationData.per_page             Number of items / page
              * total	            paginationData.total                Number of all db records
              */
-            paginationData: _.omit({...this.dataFromUserController}, 'data') || {},
+            paginationData: _.omit({...this.dataFromAddressController}, 'data') || {},
 
         };
     },
     methods: {
 
         /**
-         * getUsers() is triggered by: 
+         * getAddresses() is triggered by: 
          * 
          * the search button, 
          * the sorting clicks, 
@@ -140,13 +145,13 @@ export default defineComponent({
          * Also on input field clear/reset.
          * If enter is hit by the user.
          * 
-         * It sends a request to the backend to get the users. The backend will return the users 
-         * sorted and the pagination data. getUsers() does not have arguments, because it uses the
+         * It sends a request to the backend to get the addresses. The backend will return the addresses 
+         * sorted and the pagination data. getAddresses() does not have arguments, because it uses the
          * data from data(). Because every search/sort/paginate change is in the data().
          */
-        getUsers() {
+        getAddresses() {
             this.$inertia.get(
-                '/users',
+                '/addresses',
                 {
                     /**
                      * This is the data that we send to the backend.
@@ -176,7 +181,7 @@ export default defineComponent({
             }
             //Setting sortColumn ind data()
             this.sortColumn = prop;
-            this.getUsers();
+            this.getAddresses();
         },
 
         /**
@@ -190,7 +195,7 @@ export default defineComponent({
             // console.log('newItemsPerPage:', newItemsPerPage)
             this.paginationData.per_page = newItemsPerPage;
             // console.log('this.paginationData.per_page:', this.paginationData.per_page)
-            this.getUsers();
+            this.getAddresses();
         },
 
         /**
@@ -203,28 +208,28 @@ export default defineComponent({
          */
         handleCurrentPageChange(newCurrentPage: number){
             this.paginationData.current_page = newCurrentPage;
-            this.getUsers();
+            this.getAddresses();
         },
 
         /**
          * INPUT FIELD
-         * For every typed letter in the input field, this function will get the filtered users,
+         * For every typed letter in the input field, this function will get the filtered addresses,
          * again and again.
          * This is how we can throttle this function: 
          * https://www.geeksforgeeks.org/lodash-_-throttle-method/
          */
         handleSearchTermChange(){
             // console.log('handleSearchTermChange()');
-            this.getUsers();
+            this.getAddresses();
         },
 
         /**
          * INPUT FIELD
-         * When ESC is hit, we want to clear the search term, and get all users again.
+         * When ESC is hit, we want to clear the search term, and get all addresses again.
          */
         clearSearchTermWithEsc(){
             this.searchTerm = '';
-            this.getUsers();
+            this.getAddresses();
         },
     },
     mounted() {
@@ -235,7 +240,7 @@ export default defineComponent({
          * So we use the mounted() lifecycle hook, and we focus on the search input.
          */
         this.$nextTick(() => {
-            this.$refs.searchTerm.focus();//TODO how to solve this TS error?
+            this.$refs.searchTerm.focus();
         });
     },
 });
