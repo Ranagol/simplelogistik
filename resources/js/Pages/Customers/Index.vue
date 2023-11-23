@@ -16,9 +16,10 @@
             @keyup.escape.native="clearSearchTermWithEsc()"
         />
 
-        <!-- BUTTON SEARCH -->
+        <!-- SEARCH BUTTON-->
         <el-button
             @click="getCustomers"
+            type="primary"
         >Search</el-button>
 
         <!-- CREATE NEW CUSTOMER POPUP -->
@@ -29,10 +30,12 @@
             v-model:selectedCustomer="data.selectedCustomer"
             v-model:mode="data.mode"
             @submitCustomer="submitCustomer"
+            @resetEditedCustomer="getCustomers"
         ></Popup>
 
         <el-button
             @click="handleCreate"
+            type="info"
         >Create new customer</el-button>
 
 
@@ -163,6 +166,7 @@ let data = reactive({
      * seaparted customers and separated pagination data. This will happen in computed properties.
      */
     customers: props.dataFromCustomerController.data || [] as Customer[],//TODO why is this erroring TS?
+    unChangedCustomers: createUnchangedCustomers,
 
     //search by text
     searchTerm: props.searchTermProp,
@@ -196,6 +200,8 @@ let data = reactive({
 });
 
 //METHODS
+
+
 
 /**
  * getCustomers() is triggered by: 
@@ -295,15 +301,20 @@ const clearSearchTermWithEsc = () => {
     getCustomers();
 };
 
-const dummyCustomer = {
-    company_name: 'Feedbacker',
-    name: 'Feedbacker',
-    email: 'Feedbacker@bla.com',
-    rating: '4',
-    tax_number: '777',
-    internal_cid: '8888',
-};
+//TODO ANDOR this is only for simulating create/edit customer
+// const dummyCustomer = {
+//     company_name: 'Feedbacker',
+//     name: 'Feedbacker',
+//     email: 'Feedbacker@bla.com',
+//     rating: '4',
+//     tax_number: '777',
+//     internal_cid: '8888',
+// };
 
+/**
+ * This function is triggered when the user clicks on the create new customer button.
+ * It sets the mode to 'create', and it sets the selectedCustomer to the customerResetValues.
+ */
 const handleCreate = () => {
     console.log('handleCreate()');
     data.elDialogVisible = true;
@@ -313,6 +324,11 @@ const handleCreate = () => {
     data.selectedCustomer = dummyCustomer;//**************************************
 };
 
+/**
+ * This function is triggered when the user clicks on the show button in the table.
+ * It sets the mode to 'show', and it sets the selectedCustomer to the customer object
+ * that the user wants to show.
+ */
 const handleShow = (index, object) => {
     data.elDialogVisible = true;
     data.title = 'Show customer';
@@ -320,6 +336,11 @@ const handleShow = (index, object) => {
     data.selectedCustomer = object;
 };
 
+/**
+ * This function is triggered when the user clicks on the edit button in the table.
+ * It sets the mode to 'edit', and it sets the selectedCustomer to the customer object
+ * that the user wants to edit.
+ */
 const handleEdit = (index, object) => {
     console.log('handleEdit()');
     data.mode = 'edit';
@@ -328,6 +349,9 @@ const handleEdit = (index, object) => {
     data.selectedCustomer = object;
 };
 
+/**
+ * Sends the delete customer request to the backend.
+ */
 const handleDelete = (index, object) => {
     router.delete(
         `/customers/${object.id}`,
@@ -360,6 +384,9 @@ const handleDelete = (index, object) => {
     }
 }
 
+/**
+ * Sends the create customer request to the backend.
+ */
 const createCustomer = () => {
     console.log('createCustomer')
     router.post(
@@ -381,6 +408,9 @@ const createCustomer = () => {
     )
 };
 
+/**
+ * Sends the edit customer request to the backend.
+ */
 const editCustomer = () => {
     router.put(
         `/customers/${data.selectedCustomer.id}`, 
@@ -401,7 +431,7 @@ const editCustomer = () => {
     )
 }
   
-let searchTermRef = ref(null);
+let searchTermRef = ref(null);//will be used to focus on the search input field
 onMounted(() => {
 
     /**
@@ -413,8 +443,5 @@ onMounted(() => {
         searchTermRef.value.focus();//Index.vue:359 Uncaught (in promise) TypeError: searchTermRef.focus is not a function
     });
 });
-
-    
-
 
 </script>

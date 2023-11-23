@@ -172,7 +172,7 @@
                 <el-form-item class="pr-5">
                     <el-button
                         type="danger"
-                        @click="closePopup"
+                        @click="cancel"
                     >Cancel</el-button>
                 </el-form-item>
 
@@ -182,9 +182,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, watch, nextTick, onMounted, onActivated, onUpdated, getCurrentInstance } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-
+import { router } from '@inertiajs/vue3'
 
 let props = defineProps({ 
     /**
@@ -206,8 +206,9 @@ let props = defineProps({
      * 'create', 'show' or 'edit'. This is important, because the input fields must be disabled when
      * mode = 'show'.
      */
-    mode: String
-})
+    mode: String,
+
+});
 
 /**
  * Here we define, what structure should have the customer object.
@@ -295,25 +296,23 @@ const emit = defineEmits(
         'closePopup', 
         'submitCustomer',
         'update:selectedCustomer',
+        'resetEditedCustomer'
     ]
 );
-
-const customerResetValues = {
-    company_name: '',
-    name: '',
-    email: '',
-    rating: '',
-    tax_number: '',
-    internal_cid: '',
-};
 
 /**
  * Close the popup, by emitting the closePopup event. This will trigger the closePopup method in
  * the in Popup.vue. Which will set in Index.vue the elDialogVisible to false, and the popup will
  * close. Triggered by the Cancel button.
+ * 
+ * PROBLEM: When editing the customer (example the name), not submitting, but canceling, then in 
+ * the list will be the edited, unfinished, unsubmitted new name, till the next page refresh.
+ * 
+ * SOLUTION: we emit the resetEditedCustomer event, which will trigger the resetEditedCustomer in
+ * grandparent Index.vue, and this will reload all the customers. Whic will correct this issue
  */
-let closePopup = () => {
-    customer = customerResetValues;
+let cancel = () => {
+    emit('resetEditedCustomer');
     emit('closePopup');
 }
 

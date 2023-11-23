@@ -11,6 +11,7 @@
             v-model:mode="data.mode"
             @closePopup="closePopup"
             @submitCustomer="submitCustomer"
+            @resetEditedCustomer="resetEditedCustomer"
             :key="componentKey"
         ></CreateEditCustomer>
 
@@ -52,7 +53,7 @@ let props = defineProps(
          * The title of the popup. This is passed to the child CreateEditCustomer.vue. It could be 
          * 'create', 'show' or 'edit'.
          */
-        title: String
+        title: String,
     }
 );
 
@@ -80,7 +81,8 @@ const emit = defineEmits(
         'update:elDialogVisible', 
         'update:mode',
         'update:selectedCustomer',
-        'submitCustomer'
+        'submitCustomer',
+        'resetEditedCustomer'
     ]
 );
 
@@ -99,6 +101,10 @@ const closePopup = () => {
 const submitCustomer = (customer: Customer) => {
     emit('submitCustomer', customer);//send the customer to the parent Index.vue
     emit('update:elDialogVisible', false);//close the popup
+};
+
+const resetEditedCustomer = () => {
+    emit('resetEditedCustomer');
 };
 
 watch(
