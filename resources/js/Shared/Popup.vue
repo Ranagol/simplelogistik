@@ -90,14 +90,15 @@ const emit = defineEmits(
  * v-model:modelValue.
  */
 const closePopup = () => {
-    emit('update:elDialogVisible', false);
-    emit('update:mode', data.mode);
+    emit('update:elDialogVisible', false);//close the popup
+    emit('update:mode', data.mode);//reset the mode
     emit('update:selectedCustomer', data.customerResetValues);
     data.selectedCustomer = data.customerResetValues;
 };
 
 const submitCustomer = (customer: Customer) => {
-    emit('submitCustomer', customer);
+    emit('submitCustomer', customer);//send the customer to the parent Index.vue
+    emit('update:elDialogVisible', false);//close the popup
 };
 
 watch(
@@ -117,15 +118,17 @@ watch(
 );
 
 
-
+/**
+ * When the selectedCustomer changes, update the selectedCustomer in the child CreateEditCustomer.vue.
+ * PROBLEM: the el-dialog does not want to display the proper selected customer, although all is set
+ * correctly. The only way to make it work is to change the key of the child CreateEditCustomer.vue.
+ */
 const componentKey = ref(0);
-
 watch(
     () => props.selectedCustomer,
     (newValue, oldValue) => {
-        console.log('Popup: watcher selectedCustomer, new value old value: ', newValue, oldValue);
         data.selectedCustomer = newValue;
-        componentKey.value += 1;
+        componentKey.value += 1;//very important, forces the el-dialog component to re-render
     },
     { immediate: true }
 );

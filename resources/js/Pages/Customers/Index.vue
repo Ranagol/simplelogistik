@@ -131,7 +131,7 @@ import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
 import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
-
+import { ElMessage } from 'element-plus'
 
 // PROPS
 let props = defineProps( 
@@ -258,9 +258,7 @@ const sort = ( { prop, order }: Sort): void => {
  * We set the this.paginationData.per_page to the new value.
  */
 const handleItemsPerPageChange = (newItemsPerPage: number): void => {
-    // console.log('newItemsPerPage:', newItemsPerPage)
     data.paginationData.per_page = newItemsPerPage;
-    // console.log('this.paginationData.per_page:', this.paginationData.per_page)
     getCustomers();
 };
 
@@ -285,7 +283,6 @@ const handleCurrentPageChange = (newCurrentPage: number) => {
  * https://www.geeksforgeeks.org/lodash-_-throttle-method/
  */
 const handleSearchTermChange = () => {
-    // console.log('handleSearchTermChange()');
     getCustomers();
 };
 
@@ -298,23 +295,29 @@ const clearSearchTermWithEsc = () => {
     getCustomers();
 };
 
+const dummyCustomer = {
+    company_name: 'Feedbacker',
+    name: 'Feedbacker',
+    email: 'Feedbacker@bla.com',
+    rating: '4',
+    tax_number: '777',
+    internal_cid: '8888',
+};
+
 const handleCreate = () => {
     console.log('handleCreate()');
     data.elDialogVisible = true;
     data.title = 'Create new customer';
     data.mode = 'create';
     data.selectedCustomer = data.customerResetValues;
-    console.log('selectedCustomer from Index/handleCreate():', data.selectedCustomer )
+    data.selectedCustomer = dummyCustomer;//**************************************
 };
 
 const handleShow = (index, object) => {
-    console.log('handleShow()');
     data.elDialogVisible = true;
     data.title = 'Show customer';
     data.mode = 'show';
     data.selectedCustomer = object;
-    console.log('selectedCustomer from Index/handleShow():', data.selectedCustomer )
-
 };
 
 const handleEdit = (index, object) => {
@@ -323,7 +326,6 @@ const handleEdit = (index, object) => {
     data.elDialogVisible = true;
     data.title = 'Edit customer';
     data.selectedCustomer = object;
-    console.log('selectedCustomer from Index/handleEdit():', data.selectedCustomer )
 };
 
 const handleDelete = (index, object) => {
@@ -352,14 +354,20 @@ const handleDelete = (index, object) => {
             {
                 onSuccess: () => {
                     console.log('Customer created successfully')
+                    // alert('Customer created successfully')
+                    ElMessage({
+                        message: 'Customer created successfully',
+                        type: 'success',
+                    });
+                    getCustomers();
                 },
                 onError: (errors) => {
-                    console.log('Error creating customer', errors)
+                    ElMessage.error('Oops, something went wrong while creating a new customer.')
+                    ElMessage(errors);
                 }
             }
         )
     } else if (data.mode == 'edit') {
-        console.log('submitCustomer: mode is edit')
         router.put(
             '/customers/' + customer.id, 
             customer,

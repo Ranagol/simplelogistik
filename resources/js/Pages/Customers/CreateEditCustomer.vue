@@ -246,7 +246,7 @@ let customer = reactive<RuleForm>({
 
 
 /**
- * The rules for the form.
+ * The validation rules for the form.
  */
 const rules = reactive<FormRules<RuleForm>>({
     company_name: [
@@ -280,12 +280,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
     await formEl.validate((valid, fields) => {
         if (valid) {
-            console.log('Validation OK, submit!', customer)
+            // console.log('Validation OK, submit!', customer)
             //Triggers the submitCustomer() method in the parent Index.vue
             emit('submitCustomer', customer);
             
         } else {
-            console.log('FE validation not OK, error submit!', fields)
+            // console.log('FE validation not OK, error submit!', fields)
         }
     })
 }
@@ -330,18 +330,10 @@ let updateSelectedCustomer = () => {
 watch(
     () => props.selectedCustomer,
     (newValue, oldValue) => {
-        console.log('watch selectedCustomer new value old value: ', newValue, oldValue);
         customer = newValue;
     },
-    { 
-        immediate: true,
-    },
+    { immediate: true,},
 );
-
-
-
-
-
 
 </script>
 

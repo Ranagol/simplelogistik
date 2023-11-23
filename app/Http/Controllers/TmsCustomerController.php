@@ -46,7 +46,7 @@ class TmsCustomerController extends Controller
      * @param Request $request
      * @return void
      */
-    public function store(Request $request): SymfonyResponse
+    public function store(Request $request)
     {
         $request->validate([
             'company_name' => 'required|string|min:2|max:100',
@@ -64,9 +64,15 @@ class TmsCustomerController extends Controller
          * then in index() method we return sorted by id and ascending, and paginated by 10 items 
          * per page. This way we can see immediatelly the newly created customer
          */
-        return Inertia::location(route('customers.index'));
-
-
+        // return Inertia::location(route(
+        //     'customers.index',
+        //     // [
+        //     //     'feedback' => 'Customer created successfully.'
+        //     // ]
+        // ));
+        // return Inertia::render('Customers/Index', [
+        //     'feedback' => 'Customer created successfully backend.'
+        // ]);
     }
 
     /**
@@ -132,12 +138,15 @@ class TmsCustomerController extends Controller
 
         $customers = $this->getCustomers($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
 
-        return Inertia::location(route('customers.index', [
-            'dataFromCustomerController' => $customers,
-            'searchTermProp' => $searchTerm,
-            'sortColumnProp' => $sortColumn,
-            'sortOrderProp' => $sortOrder,
-        ]));
+        return Inertia::location(route(
+            'customers.index', 
+            [
+                'dataFromCustomerController' => $customers,
+                'searchTermProp' => $searchTerm,
+                'sortColumnProp' => $sortColumn,
+                'sortOrderProp' => $sortOrder,
+            ]
+        ));
 
 
         //return redirect()->back()->with('error', 'There was an error deleting the customer');//TODO Maybe this message will appear in errors?
