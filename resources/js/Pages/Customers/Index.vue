@@ -23,7 +23,7 @@
         >Search</el-button>
 
         <!-- CREATE NEW CUSTOMER POPUP -->
-        <Popup
+        <!-- <Popup
             :errors="errors"
             :title="data.title"
             v-model:elDialogVisible="data.elDialogVisible"
@@ -31,7 +31,7 @@
             v-model:mode="data.mode"
             @submitCustomer="submitCustomer"
             @resetEditedCustomer="getCustomers"
-        ></Popup>
+        ></Popup> -->
 
         <el-button
             @click="handleCreate"
@@ -133,7 +133,8 @@ import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
 import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
+import { useCustomerStore } from '@/Stores/customerStore';
 
 // PROPS
 let props = defineProps( 
@@ -153,53 +154,47 @@ let props = defineProps(
     }
 );
 
-// DATA
-let data = reactive({
-    mode:'',
-    selectedCustomer: {},
-    elDialogVisible: false,
+/**
+ * Here we send all data received from backend, currently ins props, and we send it to
+ * Pinia store
+ */
+let customerStore = useCustomerStore();
+watch(
+    () => props.dataFromCustomerController,
+    (newValue, oldValue) => {
+        /**
+         * Unfortunatelly, customers are coming in from backend mixed with pagination data.
+         * That is what we have here in the dataFromCustomerController. We need
+         * seaparted customers and separated pagination data. This will happen in computed properties.
+         */
+        customerStore.customers = props.dataFromCustomerController.data as Customer[],//TODO why is this erroring TS?
 
-    /**
-     * Unfortunatelly, customers are coming in from backend mixed with pagination data.
-     * That is what we have here in the dataFromCustomerController. We need
-     * seaparted customers and separated pagination data. This will happen in computed properties.
-     */
-    customers: props.dataFromCustomerController.data || [] as Customer[],//TODO why is this erroring TS?
+        //search by text
+        customerStore.searchTerm = props.searchTermProp,
 
-    //search by text
-    searchTerm: props.searchTermProp,
+        //sort in el-table
+        customerStore.sortOrder = props.sortOrderProp,
+        customerStore.sortColumn = props.sortColumnProp,
 
-    //sort in el-table
-    sortOrder: props.sortOrderProp,
-    sortColumn: props.sortColumnProp,
-
-    /**
-     * All pagination related data is stored here. 
-     * Unfortunatelly,customers are coming in from backend mixed with pagination data.
-     * That is what we have here in the dataFromCustomerController. We need
-     * seaparated customers and separated pagination data. This will happen in computed properties.
-     * Here. So, this is the pagination related data. And a small reminder:
-     * 
-     * el-pagination        Laravel ->paginate()
-     * current-page	        paginationData.current_page         Where the user is currently
-     * page-size	        paginationData.per_page             Number of items / page
-     * total	            paginationData.total                Number of all db records
-     */
-    paginationData: _.omit({...props.dataFromCustomerController}, 'data'),
-    title: '',
-    customerResetValues: {
-        company_name: '',
-        name: '',
-        email: '',
-        rating: '',
-        tax_number: '',
-        internal_cid: '',
+        /**
+         * All pagination related data is stored here. 
+         * Unfortunatelly,customers are coming in from backend mixed with pagination data.
+         * That is what we have here in the dataFromCustomerController. We need
+         * seaparated customers and separated pagination data. This will happen in computed properties.
+         * Here. So, this is the pagination related data. And a small reminder =
+         * 
+         * el-pagination        Laravel ->paginate()
+         * current-page	        paginationData.current_page         Where the user is currently
+         * page-size	        paginationData.per_page             Number of items / page
+         * total	            paginationData.total                Number of all db records
+         */
+        customerStore.paginationData = _.omit({...props.dataFromCustomerController}, 'data')
     },
-});
+    { immediate: true, deep: true }
+);
+
 
 //METHODS
-
-
 
 /**
  * getCustomers() is triggered by: 
@@ -215,20 +210,7 @@ let data = reactive({
  * data from data(). Because every search/sort/paginate change is in the data().
  */
 let getCustomers = () => {
-    router.get(
-        '/customers',
-        {
-            /**
-             * This is the data that we send to the backend.
-             */
-            searchTerm: data.searchTerm,
-            sortColumn: data.sortColumn,
-            sortOrder:  data.sortOrder,
-            page: data.paginationData.current_page,
-            newItemsPerPage: data.paginationData.per_page,
-            elDialogVisible: data.elDialogVisible
-        }
-    );
+    customerStore.getCustomersFromDb();
 };
 
 /**
@@ -245,12 +227,12 @@ const sort = ( { prop, order }: Sort): void => {
 
     //Setting the sort order in data()
     if (order === 'descending') {
-        data.sortOrder = 'desc';
+        customerStore.setSortOrder('desc');
     } else {
-        data.sortOrder = 'asc';
+        customerStore.setSortOrder('asc');
     }
     //Setting sortColumn ind data()
-    data.sortColumn = prop;
+    customerStore.setSortColumn(prop);
     getCustomers();
 };
 
@@ -262,7 +244,7 @@ const sort = ( { prop, order }: Sort): void => {
  * We set the this.paginationData.per_page to the new value.
  */
 const handleItemsPerPageChange = (newItemsPerPage: number): void => {
-    data.paginationData.per_page = newItemsPerPage;
+    customerStore.setNewItemsPerPage(newItemsPerPage);//*********************
     getCustomers();
 };
 
@@ -275,7 +257,7 @@ const handleItemsPerPageChange = (newItemsPerPage: number): void => {
  * ->paginate().
  */
 const handleCurrentPageChange = (newCurrentPage: number) => {
-    data.paginationData.current_page = newCurrentPage;
+    customerStore.setPage(newCurrentPage);//*********************
     getCustomers();
 };
 
@@ -295,19 +277,9 @@ const handleSearchTermChange = () => {
  * When ESC is hit, we want to clear the search term, and get all customers again.
  */
 const clearSearchTermWithEsc = () => {
-    data.searchTerm = '';
+    customerStore.setSearchTerm('');
     getCustomers();
 };
-
-//TODO ANDOR this is only for simulating create/edit customer
-// const dummyCustomer = {
-//     company_name: 'Feedbacker',
-//     name: 'Feedbacker',
-//     email: 'Feedbacker@bla.com',
-//     rating: '4',
-//     tax_number: '777',
-//     internal_cid: '8888',
-// };
 
 /**
  * This function is triggered when the user clicks on the create new customer button.
@@ -315,11 +287,11 @@ const clearSearchTermWithEsc = () => {
  */
 const handleCreate = () => {
     console.log('handleCreate()');
-    data.elDialogVisible = true;
-    data.title = 'Create new customer';
-    data.mode = 'create';
-    data.selectedCustomer = data.customerResetValues;
-    data.selectedCustomer = dummyCustomer;//**************************************
+    customerStore.setElDialogVisible(true);
+    customerStore.setTitle('Create new customer');
+    customerStore.setMode('create');
+    customerStore.setSelectedCustomer(customerStore.customerResetValues);//empties customer values
+    customerStore.setSelectedCustomer(customerStore.dummyCustomer);//TODO only temporary**************************************
 };
 
 /**
@@ -328,10 +300,10 @@ const handleCreate = () => {
  * that the user wants to show.
  */
 const handleShow = (index, object) => {
-    data.elDialogVisible = true;
-    data.title = 'Show customer';
-    data.mode = 'show';
-    data.selectedCustomer = object;
+    customerStore.setElDialogVisible(true);
+    customerStore.setTitle('Show customer');
+    customerStore.setMode('show');
+    customerStore.setSelectedCustomer(object);
 };
 
 /**
@@ -341,37 +313,21 @@ const handleShow = (index, object) => {
  */
 const handleEdit = (index, object) => {
     console.log('handleEdit()');
-    data.mode = 'edit';
-    data.elDialogVisible = true;
-    data.title = 'Edit customer';
-    data.selectedCustomer = object;
+    customerStore.setMode('edit');
+    customerStore.setElDialogVisible(true);
+    customerStore.setTitle('Edit customer');
+    customerStore.setSelectedCustomer(object);
 };
 
 /**
  * Sends the delete customer request to the backend.
  */
 const handleDelete = (index, object) => {
-    router.delete(
-        `/customers/${object.id}`,
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer deleted successfully',
-                    type: 'success',
-                });
-                getCustomers();
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while creating a new customer.')
-                ElMessage(errors);
-            }
-        }
-    )
+    customerStore.deleteCustomer(object);
 };
 
 /**
  * Sends the create or edit customer request to the backend.
- * 
  */
  const submitCustomer = () => {
     console.log('submitCustomer')
@@ -387,46 +343,14 @@ const handleDelete = (index, object) => {
  */
 const createCustomer = () => {
     console.log('createCustomer')
-    router.post(
-        '/customers', 
-        data.selectedCustomer, 
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer created successfully',
-                    type: 'success',
-                });
-                getCustomers();//get customers again, so that the new customer is displayed
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while creating a new customer.')
-                ElMessage(errors);
-            }
-        }
-    )
+    customerStore.createCustomer();
 };
 
 /**
  * Sends the edit customer request to the backend.
  */
 const editCustomer = () => {
-    router.put(
-        `/customers/${data.selectedCustomer.id}`, 
-        data.selectedCustomer,
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer edited successfully',
-                    type: 'success',
-                });
-                getCustomers();//get customers again, so that the new customer is displayed
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while editing a new customer.')
-                ElMessage(errors);
-            }
-        }
-    )
+   customerStore.editCustomer();
 }
   
 let searchTermRef = ref(null);//will be used to focus on the search input field
