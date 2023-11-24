@@ -160,13 +160,7 @@ let data = reactive({
     // selectedCustomer: {},
     // elDialogVisible: false,
 
-    /**
-     * Unfortunatelly, customers are coming in from backend mixed with pagination data.
-     * That is what we have here in the dataFromCustomerController. We need
-     * seaparted customers and separated pagination data. This will happen in computed properties.
-     */
-    customers: props.dataFromCustomerController.data || [] as Customer[],//TODO why is this erroring TS?
-
+    
     //search by text
     searchTerm: props.searchTermProp,
 
@@ -207,6 +201,23 @@ let data = reactive({
 
 let customerStore = useCustomerStore();
 
+//WATCHERS
+
+//Sends the customers to Pinia store, as soon arrives from backend.
+watch(
+    () => props.dataFromCustomerController,
+    (newVal, oldVal) => {
+        /**
+         * Unfortunatelly, customers are coming in from backend mixed with pagination data.
+         * That is what we have here in the dataFromCustomerController. We need
+         * seaparted customers and separated pagination data. This will happen in computed properties.
+         */
+        // customers: props.dataFromCustomerController.data || [] as Customer[],//TODO why is this erroring TS?
+        customerStore.customers = newVal.data;
+    },
+    { immediate: true, deep: true }
+);
+
 
 //METHODS
 
@@ -230,7 +241,7 @@ let getCustomers = () => {
         data.sortOrder,
         data.paginationData.current_page,//page
         data.paginationData.per_page,//newItemsPerPage
-        data.elDialogVisible,
+        customerStore.elDialogVisible,
     );
 };
 
