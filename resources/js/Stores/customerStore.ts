@@ -16,7 +16,9 @@ export const useCustomerStore = defineStore(
     }),
 
     getters: {//like computed properties. Use state here.
-        
+        getEldDialogVisible() {
+            return this.elDialogVisible;
+        }
     },
 
     actions: {//like methods. Use .this here
@@ -66,6 +68,8 @@ export const useCustomerStore = defineStore(
         },
 
         createCustomer() {
+            console.log('createCustomer from Pinia triggered');
+            console.log('this is the selected customer', this.selectedCustomer);
             router.post(
                 '/customers', 
                 this.selectedCustomer, 
@@ -75,7 +79,8 @@ export const useCustomerStore = defineStore(
                             message: 'Customer created successfully',
                             type: 'success',
                         });
-                        this.getCustomersFromDb();//get customers again, so that the new customer is displayed
+                        // this.getCustomersFromDb();//get customers again, so that the new customer is displayed
+                        this.elDialogVisible = false;
                     },
                     onError: (errors) => {
                         ElMessage.error('Oops, something went wrong while creating a new customer.')

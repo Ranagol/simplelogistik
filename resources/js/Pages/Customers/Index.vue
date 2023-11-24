@@ -23,12 +23,9 @@
         >Search</el-button>
 
         <!-- CREATE NEW CUSTOMER POPUP -->
+        <!-- :errors="errors" -->
+        <!-- ******************************************************************* -->
         <Popup
-            :errors="errors"
-            :title="data.title"
-            v-model:elDialogVisible="customerStore.elDialogVisible"
-            v-model:selectedCustomer="customerStore.selectedCustomer"
-            v-model:mode="customerStore.mode"
             @submitCustomer="submitCustomer"
             @resetEditedCustomer="getCustomers"
         ></Popup>
@@ -136,6 +133,8 @@ import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
 
+let customerStore = useCustomerStore();
+
 // PROPS
 let props = defineProps( 
     {
@@ -199,7 +198,6 @@ let data = reactive({
     },
 });
 
-let customerStore = useCustomerStore();
 
 //WATCHERS
 
@@ -214,6 +212,15 @@ watch(
          */
         // customers: props.dataFromCustomerController.data || [] as Customer[],//TODO why is this erroring TS?
         customerStore.customers = newVal.data;
+    },
+    { immediate: true, deep: true }
+);
+
+//Sends the errors to Pinia store, as soon arrives from backend.
+watch(
+    () => props.errors,
+    (newVal, oldVal) => {
+        customerStore.errors = newVal;
     },
     { immediate: true, deep: true }
 );
@@ -323,7 +330,7 @@ const handleCreate = () => {
     customerStore.title = 'Create new customer';
     customerStore.mode = 'create';
     customerStore.selectedCustomer = data.customerResetValues;//empties customer values
-    customerStore.selectedCustomer = data.dummyCustomer;//TODO only temporary**************************************
+    // customerStore.selectedCustomer = data.dummyCustomer;//TODO only temporary**************************************
 };
 
 /**
@@ -364,9 +371,10 @@ const handleDelete = (index, object) => {
  const submitCustomer = () => {
     console.log('submitCustomer')
     if (customerStore.mode == 'create') {
-        createCustomer();
+        customerStore.createCustomer();
+        getCustomers();
     } else if (customerStore.mode == 'edit') {
-        editCustomer();
+        customerStore.editCustomer();
     }
 }
 

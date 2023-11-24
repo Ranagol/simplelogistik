@@ -1,18 +1,18 @@
 <template>
     <el-dialog
-        v-model="data.elDialogVisible"
-        :title=title
+        v-model="customerStore.elDialogVisible"
+        :title=customerStore.title
         @closed="closePopup"
     >
         <!-- CREATE CUSTOMER -->
+        <!-- :key="componentKey" -->
+        <!-- :errors="props.errors" -->
+
         <CreateEditCustomer
-            :errors="props.errors"
-            v-model:selectedCustomer="data.selectedCustomer"
-            v-model:mode="data.mode"
             @closePopup="closePopup"
             @submitCustomer="submitCustomer"
             @resetEditedCustomer="resetEditedCustomer"
-            :key="componentKey"
+            
         ></CreateEditCustomer>
 
     </el-dialog>
@@ -22,47 +22,51 @@
 import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 import { reactive, computed, watch, onMounted, nextTick, onActivated, ref } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests
+import { useCustomerStore } from '@/Stores/customerStore';
 
-let props = defineProps(
-    {
+let customerStore = useCustomerStore();
 
-        /**
-         * The v-model of the el-dialog component. This is the only way to close the popup.
-         */
-        elDialogVisible: Boolean,
+// let props = defineProps(
+//     {
 
-        /**
-         * The errors object from the parent Index.vue. This is passed to the child CreateEditCustomer.vue.
-         */
-        errors: Object,
+//         /**
+//          * The v-model of the el-dialog component. This is the only way to close the popup.
+//          */
+//         elDialogVisible: Boolean,
 
-        /**
-         * The mode of the popup. This is passed to the child CreateEditCustomer.vue. It could be 
-         * 'create', 'show' or 'edit'.
-         */
-        mode: String,
+//         /**
+//          * The errors object from the parent Index.vue. This is passed to the child CreateEditCustomer.vue.
+//          */
+//         errors: Object,
 
-        /**
-         * The selected customer object from the parent Index.vue. This is passed to the child 
-         * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
-         * mode.
-         */
-        selectedCustomer: Object,
+//         /**
+//          * The mode of the popup. This is passed to the child CreateEditCustomer.vue. It could be 
+//          * 'create', 'show' or 'edit'.
+//          */
+//         mode: String,
 
-        /**
-         * The title of the popup. This is passed to the child CreateEditCustomer.vue. It could be 
-         * 'create', 'show' or 'edit'.
-         */
-        title: String,
-    }
-);
+//         /**
+//          * The selected customer object from the parent Index.vue. This is passed to the child 
+//          * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
+//          * mode.
+//          */
+//         selectedCustomer: Object,
+
+//         /**
+//          * The title of the popup. This is passed to the child CreateEditCustomer.vue. It could be 
+//          * 'create', 'show' or 'edit'.
+//          */
+//         title: String,
+//     }
+// );
 
 //DATA
 let data = reactive(
     {
-        mode: props.mode,
-        selectedCustomer: props.selectedCustomer,
-        elDialogVisible: props.elDialogVisible,
+        elDialogVisible: true,
+        // mode: props.mode,
+        // selectedCustomer: props.selectedCustomer,
+        // elDialogVisible: props.elDialogVisible,
         customerResetValues: {
             company_name: '',
             name: '',
@@ -92,10 +96,12 @@ const emit = defineEmits(
  * v-model:modelValue.
  */
 const closePopup = () => {
-    emit('update:elDialogVisible', false);//close the popup
-    emit('update:mode', data.mode);//reset the mode
-    emit('update:selectedCustomer', data.customerResetValues);
-    data.selectedCustomer = data.customerResetValues;
+    // emit('update:elDialogVisible', false);//close the popup
+    // emit('update:mode', data.mode);//reset the mode
+    // emit('update:selectedCustomer', data.customerResetValues);
+    // data.selectedCustomer = data.customerResetValues;
+    data.elDialogVisible = false;
+    customerStore.elDialogVisible = false;
 };
 
 const submitCustomer = (customer: Customer) => {
@@ -107,21 +113,21 @@ const resetEditedCustomer = () => {
     emit('resetEditedCustomer');
 };
 
-watch(
-    () => props.elDialogVisible,
-    (newValue, oldValue) => {
-        data.elDialogVisible = newValue;
-    },
-    { immediate: true }
-);
+// watch(
+//     () => props.elDialogVisible,
+//     (newValue, oldValue) => {
+//         data.elDialogVisible = newValue;
+//     },
+//     { immediate: true }
+// );
 
-watch(
-    () => props.mode,
-    (newValue, oldValue) => {
-        data.mode = newValue;
-    },
-    { immediate: true }
-);
+// watch(
+//     () => props.mode,
+//     (newValue, oldValue) => {
+//         data.mode = newValue;
+//     },
+//     { immediate: true }
+// );
 
 
 /**
@@ -129,15 +135,15 @@ watch(
  * PROBLEM: the el-dialog does not want to display the proper selected customer, although all is set
  * correctly. The only way to make it work is to change the key of the child CreateEditCustomer.vue.
  */
-const componentKey = ref(0);
-watch(
-    () => props.selectedCustomer,
-    (newValue, oldValue) => {
-        data.selectedCustomer = newValue;
-        componentKey.value += 1;//very important, forces the el-dialog component to re-render
-    },
-    { immediate: true }
-);
+// const componentKey = ref(0);
+// watch(
+//     () => props.selectedCustomer,
+//     (newValue, oldValue) => {
+//         data.selectedCustomer = newValue;
+//         componentKey.value += 1;//very important, forces the el-dialog component to re-render
+//     },
+//     { immediate: true }
+// );
 
 
 

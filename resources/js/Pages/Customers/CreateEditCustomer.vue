@@ -20,7 +20,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
-                    :disabled="mode==='show'"
+                    :disabled="customerStore.mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -28,8 +28,8 @@
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="props.errors.company_name"
-                    v-text="props.errors.company_name"
+                    v-if="customerStore.errors.company_name"
+                    v-text="customerStore.errors.company_name"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -45,7 +45,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
-                    :disabled="mode==='show'"
+                    :disabled="customerStore.mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -53,8 +53,8 @@
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="props.errors.name"
-                    v-text="props.errors.name"
+                    v-if="customerStore.errors.name"
+                    v-text="customerStore.errors.name"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -70,7 +70,7 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
-                    :disabled="mode==='show'"
+                    :disabled="customerStore.mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
@@ -78,8 +78,8 @@
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="props.errors.email"
-                    v-text="props.errors.email"
+                    v-if="customerStore.errors.email"
+                    v-text="customerStore.errors.email"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -95,15 +95,15 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
-                    :disabled="mode==='show'"
+                    :disabled="customerStore.mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="props.errors.rating"
-                    v-text="props.errors.rating"
+                    v-if="customerStore.errors.rating"
+                    v-text="customerStore.errors.rating"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -119,15 +119,15 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
-                    :disabled="mode==='show'"
+                    :disabled="customerStore.mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="props.errors.tax_number"
-                    v-text="props.errors.tax_number"
+                    v-if="customerStore.errors.tax_number"
+                    v-text="customerStore.errors.tax_number"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -143,15 +143,15 @@
                     show-word-limit
                     :maxlength="255"
                     clearable
-                    :disabled="mode==='show'"
+                    :disabled="customerStore.mode==='show'"
                     @input="updateSelectedCustomer()"
                     @clear="updateSelectedCustomer()"
                     @change="updateSelectedCustomer()"
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="props.errors.internal_cid"
-                    v-text="props.errors.internal_cid"
+                    v-if="customerStore.errors.internal_cid"
+                    v-text="customerStore.errors.internal_cid"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
@@ -160,7 +160,7 @@
             in show mode.-->
             <div
                 class="flex flex-row"
-                v-if="props.mode==='create' || props.mode==='edit' "
+                v-if="customerStore.mode==='create' || customerStore.mode==='edit' "
             >
                 <el-form-item class="pr-5">
                     <el-button
@@ -185,30 +185,34 @@
 import { reactive, ref, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { router } from '@inertiajs/vue3'
+import { useCustomerStore } from '@/Stores/customerStore';
 
-let props = defineProps({ 
-    /**
-     * The errors are being sent from the Customers/Index grandparent component, because for some reason
-     * they are not arriving here. Possibly because this is a deeply nested el-dialog, and not a compnent
-     * that has a fix place and not disappears.
-     */
-    errors: Object, 
+let customerStore = useCustomerStore();
 
-    /**
-     * The selected customer object from the parent Index.vue. This is passed to the child 
-     * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
-     * mode.
-     */
-    selectedCustomer: Object,
 
-    /**
-     * This is passed to the child CreateEditCustomer.vue. It could be 
-     * 'create', 'show' or 'edit'. This is important, because the input fields must be disabled when
-     * mode = 'show'.
-     */
-    mode: String,
+// let props = defineProps({ 
+//     /**
+//      * The errors are being sent from the Customers/Index grandparent component, because for some reason
+//      * they are not arriving here. Possibly because this is a deeply nested el-dialog, and not a compnent
+//      * that has a fix place and not disappears.
+//      */
+//     errors: Object, 
 
-});
+//     /**
+//      * The selected customer object from the parent Index.vue. This is passed to the child 
+//      * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
+//      * mode.
+//      */
+//     selectedCustomer: Object,
+
+//     /**
+//      * This is passed to the child CreateEditCustomer.vue. It could be 
+//      * 'create', 'show' or 'edit'. This is important, because the input fields must be disabled when
+//      * mode = 'show'.
+//      */
+//     mode: String,
+
+// });
 
 /**
  * Here we define, what structure should have the customer object.
@@ -237,12 +241,12 @@ const ruleFormRef = ref<FormInstance>()
  * and it's initially set with all properties as empty strings. 
  */
 let customer = reactive<RuleForm>({
-    company_name: '',
-    name: '',
-    email: '',
-    rating: '',
-    tax_number: '',
-    internal_cid: '',
+    company_name: 'Dummy from CreateEditCustomer.vue',
+    name: 'sdfv',
+    email: 'bla@gmail.com',
+    rating: '5',
+    tax_number: '5555',
+    internal_cid: '66666',
 })
 
 
@@ -283,7 +287,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (valid) {
             // console.log('Validation OK, submit!', customer)
             //Triggers the submitCustomer() method in the parent Index.vue
-            emit('submitCustomer', customer);
+            
+            customerStore.selectedCustomer = customer;
+            emit('submitCustomer');
+            // customerStore.getCustomersFromDb();
             
         } else {
             // console.log('FE validation not OK, error submit!', fields)
@@ -323,16 +330,17 @@ let cancel = () => {
  * @param customer 
  */
 let updateSelectedCustomer = () => {
-    emit('update:selectedCustomer', customer);
+    customerStore.selectedCustomer = customer;
+    // emit('update:selectedCustomer', customer);
 }
 
-watch(
-    () => props.selectedCustomer,
-    (newValue, oldValue) => {
-        customer = newValue;
-    },
-    { immediate: true,},
-);
+// watch(
+//     () => props.selectedCustomer,
+//     (newValue, oldValue) => {
+//         customer = newValue;
+//     },
+//     { immediate: true,},
+// );
 
 </script>
 
