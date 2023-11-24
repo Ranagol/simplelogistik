@@ -154,6 +154,48 @@ let props = defineProps(
     }
 );
 
+
+let data = reactive({
+    elDialogVisible: props.elDialogVisibleProp,
+    errors: props.errors,
+    customers: [],
+    paginationData: {},
+    searchTerm: props.searchTermProp,
+    sortColumn: props.sortColumnProp,
+    sortOrder: props.sortOrderProp,
+    title: '',
+    mode: '',
+    selectedCustomer: {},
+    customerResetValues: {
+        id: null,
+        company_name: '',
+        name: '',
+        email: '',
+        rating: null,
+        tax_number: '',
+        address: '',
+        city: '',
+        country: '',
+        phone: '',
+        website: '',
+        notes: '',
+    },
+    dummyCustomer: {
+        id: 1,
+        company_name: 'dummy',
+        name: 'dummy',
+        email: 'dummy',
+        rating: 1,
+        tax_number: 'dummy',
+        address: 'dummy',
+        city: 'dummy',
+        country: 'dummy',
+        phone: 'dummy',
+        website: 'dummy',
+        notes: 'dummy',
+    },
+});
+
 /**
  * Here we send all data received from backend, currently ins props, and we send it to
  * Pinia store
