@@ -133,7 +133,7 @@ import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
 import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 // PROPS
 let props = defineProps( 
@@ -351,22 +351,43 @@ const handleEdit = (index, object) => {
  * Sends the delete customer request to the backend.
  */
 const handleDelete = (index, object) => {
-    router.delete(
-        `/customers/${object.id}`,
+
+    // Asks for confirmation message, for deleting the customer.
+    ElMessageBox.confirm(
+        'proxy will permanently delete the file. Continue?',
+        'Warning',
         {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer deleted successfully',
-                    type: 'success',
-                });
-                getCustomers();
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while creating a new customer.')
-                ElMessage(errors);
-            }
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
         }
     )
+    .then(() => {
+        //If the deleting wish is confirmed, then we send the delete request to the backend.
+        router.delete(
+            `/customers/${object.id}`,
+            {
+                onSuccess: () => {
+                    ElMessage({
+                        message: 'Customer deleted successfully',
+                        type: 'success',
+                    });
+                    getCustomers();
+                },
+                onError: (errors) => {
+                    ElMessage.error('Oops, something went wrong while creating a new customer.')
+                    ElMessage(errors);
+                }
+            }
+        )
+    })
+    .catch(() => {
+        //If the deleting wish is canceled, then we show a message.
+        ElMessage({
+            type: 'info',
+            message: 'Delete canceled',
+        })
+    })    
 };
 
 /**
