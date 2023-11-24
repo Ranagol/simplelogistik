@@ -1,100 +1,93 @@
 <template>
-    <Card>
-        <Head title="Exp." />
-        <strong>Experiment</strong>
-
-        <!-- INPUT -->
-        <el-input v-model="experiment.name" />
-        <!-- <el-input v-model="experiment.desciption" /> -->
-
-        
-
-        
-        <br>
-        <ExperimentChild
-            v-model="experiment.name"
-        />
-
-        <hr>
-        <!-- EXPERIMENTS LIST -->
-        <!-- <p 
-            v-for="experiment in experiments" 
-            :key="experiment.name"
-        >{{ experiment }}</p> -->
-
-        <!-- <div
-            v-if="errors.name"
-            v-text="errors.name"
-            class="text-red-500 text-xs mt-1"
-        ></div> -->
-        
+    <el-table
+        ref="multipleTableRef"
+        :data="tableData"
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+    >
+        <el-table-column type="selection" width="55" />
+        <el-table-column label="Date" width="120">
+            <template #default="scope">{{ scope.row.date }}</template>
+        </el-table-column>
+        <el-table-column property="name" label="Name" width="120" />
+        <el-table-column property="address" label="Address" show-overflow-tooltip />
+    </el-table>
+    <div style="margin-top: 20px">
 
         <el-button
-            type="primary"
-            @click="submit"
-        >Create</el-button>
-    </Card>
+          @click="toggleSelection(
+            [
+                tableData[1], 
+                tableData[2]
+            ])"
+        >Toggle selection status of second and third rows</el-button>
+
+        <el-button @click="clearSelection()">Clear selection</el-button>
+    </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, ref } from 'vue';
-import Card from '@/Shared/Card.vue';
-import { router} from '@inertiajs/vue3'
-import ExperimentChild from '@/Pages/ExperimentChild.vue';
+import { ref } from 'vue'
+import { ElTable } from 'element-plus'
 
-let props = defineProps(
-    {
-        experiments: {
-            type: Object,
-            required: false,
-        },
-        experiment: {
-            type: Object,
-            required: false,
-        },
-        errors: {
-            type: Object,
-            required: false,
-        },
-    }
-);
-
-
-let experiment = reactive({
-    name:'Random name',
-    desciption: 'Random description',
-})
-
-const submit =  () => {
-    router.post(
-        '/experiments',
-        experiment, 
-        {
-            /**
-             * Will be triggered if no validation error, and if the el-dialog is STILL open.
-             */
-            onSuccess: () => {
-                console.log('onSuccess triggered');
-                alert('onSuccess triggered');
-                console.log('props errors', props.errors);
-            },
-
-            /**
-             * Will be triggered if validation error, and if the el-dialog is STILL open.
-             */
-            onError: () => {
-                console.log('onError');
-                alert('onError triggered');
-                console.log('props errors', props.errors);
-            },
-        }
-    )
+interface User {
+    date: string
+    name: string
+    address: string
 }
 
+/**
+ * The multipleTableRef ref is created to hold a reference to the el-table component. This allows 
+ * the toggleSelection method to call methods on the el-table component.
+ * 
+ * @param {User[]} rows
+ */
+const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 
+/**
+ * Stores the selected rows, aka the selected users. Array of User objects.
+ */
+const selectedUsers = ref<User[]>([])
 
+const toggleSelection = (rows?: User[]) => {
+    if (rows) {
+        rows.forEach((row) => {
+            multipleTableRef.value!.toggleRowSelection(row, undefined)
+        })
+    } 
+}
 
+//Simply clears the selection. clearSelection() is a method on the el-table component.
+const clearSelection = () => {
+    multipleTableRef.value!.clearSelection()
+}
+
+//Will receive an array of users from @selection-change="handleSelectionChange", by default.
+const handleSelectionChange = (user: User[]) => {
+    selectedUsers.value = user
+    console.log(selectedUsers.value)
+}
+
+const tableData: User[] = [
+    {
+        date: '2016-05-03',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+        date: '2016-05-02',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+        date: '2016-05-04',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+        date: '2016-05-01',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+    },
+]
 </script>
-
-<style scoped>
-</style>

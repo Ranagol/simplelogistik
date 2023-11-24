@@ -43,7 +43,14 @@
             :data="data.customers"
             style="width: 100%"
             @sort-change="sort"
+            ref="multipleTableRef"
+            @selection-change="handleSelectionChange"
         >
+            <el-table-column
+              type="selection"
+              width="55"
+            />
+
             <el-table-column
                 prop="id"
                 label="ID"
@@ -112,6 +119,18 @@
 
         </el-table>
 
+        <div class="mt-5 mb-5">
+            <el-button
+                type="danger"
+                @click="batchDelete()"
+            >Batch delete</el-button>
+
+            <el-button
+                type="info"
+                @click="clearSelection()"
+            >Clear batch delete selection</el-button>
+        </div>
+
         <el-pagination
             v-model:current-page="data.paginationData.current_page"
             v-model:page-size="data.paginationData.per_page"
@@ -133,7 +152,7 @@ import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
 import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, ElTable } from 'element-plus'
 
 // PROPS
 let props = defineProps( 
@@ -195,7 +214,87 @@ let data = reactive({
         tax_number: '',
         internal_cid: '',
     },
+
+    /**
+     * The selected customers are stored here. This is an array of Customer objects.
+     */
+    selectedCustomers: [] as Customer[],
 });
+
+
+/**
+ * The multipleTableRef ref is created to hold a reference to the el-table component. This allows 
+ * the toggleSelection method to call methods on the el-table component.
+ */
+const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+
+//Simply clears the selection. clearSelection() is a method on the el-table component.
+const clearSelection = () => {
+    multipleTableRef.value!.clearSelection()
+}
+
+/**
+ * Will receive an array of users from @selection-change="handleSelectionChange", by default.
+ * Will store these users in data.selectedCustomers.
+ */
+const handleSelectionChange = (selectedCustomersArray: []) => {
+    data.selectedCustomers = selectedCustomersArray
+    console.log(data.selectedCustomers)
+}
+
+/**
+ * Deletes multiple selected customers at the same time.
+ */
+const batchDelete = () => {
+    console.log('batchDelete()')
+    console.log(data.selectedCustomers)
+    //Here we extract the selected customers' ids, and store them in an array.
+    const customerIds = data.selectedCustomers.map((customer) => customer.id)
+
+    // Asks for confirmation message, for deleting the customer.
+    ElMessageBox.confirm(
+        'The selected customers will be deleted. Continue?',
+        'Warning',
+        {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
+        }
+    )
+    .then(() => {
+        //If the deleting wish is confirmed, then we send the delete request to the backend.
+        router.post(
+            '/customers-batch-delete',
+            {
+                customerIds: customerIds//customers with these ids will be deleted
+            },
+            {
+                onSuccess: () => {
+                    ElMessage({
+                        message: 'Customer deleted successfully',
+                        type: 'success',
+                    });
+                    getCustomers();
+                },
+                onError: (errors) => {
+                    ElMessage.error('Oops, something went wrong during batch delete.')
+                    ElMessage(errors);
+                }
+            }
+        )
+    })
+    .catch(() => {
+        //If the deleting wish is canceled, then we show a message.
+        ElMessage({
+            type: 'info',
+            message: 'Delete canceled',
+        })
+    })    
+}
+
+
+
+
 
 //METHODS
 
@@ -354,7 +453,7 @@ const handleDelete = (index, object) => {
 
     // Asks for confirmation message, for deleting the customer.
     ElMessageBox.confirm(
-        'proxy will permanently delete the file. Continue?',
+        `Customer  ${object.company_name} will be deleted. Continue?`,
         'Warning',
         {
             confirmButtonText: 'OK',
@@ -375,7 +474,7 @@ const handleDelete = (index, object) => {
                     getCustomers();
                 },
                 onError: (errors) => {
-                    ElMessage.error('Oops, something went wrong while creating a new customer.')
+                    ElMessage.error('Oops, something went wrong while deleting a customer.')
                     ElMessage(errors);
                 }
             }
@@ -443,7 +542,7 @@ const editCustomer = () => {
                 getCustomers();//get customers again, so that the new customer is displayed
             },
             onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while editing a new customer.')
+                ElMessage.error('Oops, something went wrong while editing a customer.')
                 ElMessage(errors);
             }
         }
