@@ -1,7 +1,5 @@
 <template>
     <div>
-
-        <!--  -->
         <el-form
             ref="ruleFormRef"
             :model="customer"

@@ -63,7 +63,7 @@ let customerStore = useCustomerStore();
 //DATA
 let data = reactive(
     {
-        elDialogVisible: true,
+        // elDialogVisible: true,
         // mode: props.mode,
         // selectedCustomer: props.selectedCustomer,
         // elDialogVisible: props.elDialogVisible,
@@ -100,7 +100,7 @@ const closePopup = () => {
     // emit('update:mode', data.mode);//reset the mode
     // emit('update:selectedCustomer', data.customerResetValues);
     // data.selectedCustomer = data.customerResetValues;
-    data.elDialogVisible = false;
+    // data.elDialogVisible = false;
     customerStore.elDialogVisible = false;
 };
 

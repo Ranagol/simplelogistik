@@ -36,7 +36,7 @@ class TmsCustomerController extends Controller
             'searchTermProp' => $searchTerm,
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
-            'elDialogVisibleProp' => $elDialogVisible,
+            // 'elDialogVisibleProp' => $elDialogVisible,
         ]);
     }
 
@@ -46,7 +46,7 @@ class TmsCustomerController extends Controller
     }
 
     /**
-     * Stores customers.
+     * Stores customers. Inertia automatically sends succes or error feedback to the frontend.
      * 
      * A little explanation: here we only save the customer into db.
      * This simply triggers onSuccess event in FE component, which then displays the success message
@@ -71,7 +71,7 @@ class TmsCustomerController extends Controller
     }
 
     /**
-     * Updates customers.
+     * Updates customers. Inertia automatically sends succes or error feedback to the frontend.
      *
      * @param Request $request
      * @param [type] $id

@@ -138,7 +138,7 @@ let customerStore = useCustomerStore();
 // PROPS
 let props = defineProps( 
     {
-        elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
+        // elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
         errors: Object, 
         dataFromCustomerController: Object,
 
@@ -242,15 +242,23 @@ watch(
  * data from data(). Because every search/sort/paginate change is in the data().
  */
 let getCustomers = () => {
-    customerStore.getCustomersFromDb(
-        data.searchTerm,
-        data.sortColumn,
-        data.sortOrder,
-        data.paginationData.current_page,//page
-        data.paginationData.per_page,//newItemsPerPage
-        customerStore.elDialogVisible,
+    const customers = router.get(
+        '/customers',
+        {
+            /**
+             * This is the data that we send to the backend.
+             */
+            searchTerm: data.searchTerm,
+            sortColumn: data.sortColumn,
+            sortOrder: data.sortOrder,
+            page: data.paginationData.current_page,
+            newItemsPerPage: data.paginationData.per_page,
+        }
     );
+    customerStore.customersToStore(customers);
 };
+
+
 
 /**
  * SORTING
@@ -330,7 +338,6 @@ const handleCreate = () => {
     customerStore.title = 'Create new customer';
     customerStore.mode = 'create';
     customerStore.selectedCustomer = data.customerResetValues;//empties customer values
-    // customerStore.selectedCustomer = data.dummyCustomer;//TODO only temporary**************************************
 };
 
 /**
@@ -362,7 +369,24 @@ const handleEdit = (index, object) => {
  * Sends the delete customer request to the backend.
  */
 const handleDelete = (index, object) => {
+    //deleting from Pinia
     customerStore.deleteCustomer(object);
+    //deleting from db
+    router.delete(
+        `/customers/${object.id}`,
+        {
+            onSuccess: () => {
+                ElMessage({
+                    message: 'Customer deleted successfully',
+                    type: 'success',
+                });
+            },
+            onError: (errors) => {
+                ElMessage.error('Oops, something went wrong while creating a new customer.')
+                ElMessage(errors);
+            }
+        }
+    )
 };
 
 /**
@@ -371,27 +395,56 @@ const handleDelete = (index, object) => {
  const submitCustomer = () => {
     console.log('submitCustomer')
     if (customerStore.mode == 'create') {
-        customerStore.createCustomer();
-        getCustomers();
+        createCustomer();
     } else if (customerStore.mode == 'edit') {
-        customerStore.editCustomer();
+        editCustomer();
     }
 }
 
-/**
- * Sends the created customer request to the backend.
- */
 const createCustomer = () => {
-    console.log('createCustomer')
-    customerStore.createCustomer();
+    router.post(
+        '/customers', 
+        customerStore.selectedCustomer, 
+        {
+            onSuccess: () => {
+                ElMessage({
+                    message: 'Customer created successfully',
+                    type: 'success',
+                });
+                getCustomers();//get customers again, so that the new customer is displayed
+                customerStore.elDialogVisible = false;
+            },
+            onError: (errors) => {
+                ElMessage.error('Oops, something went wrong while creating a new customer.')
+                ElMessage(errors);
+            }
+        }
+    )
 };
 
-/**
- * Sends the edit customer request to the backend.
- */
 const editCustomer = () => {
-   customerStore.editCustomer();
-}
+    //Editing customer in Pinia store
+    customerStore.editCustomer();
+    //Editing customer in db
+    router.put(
+        `/customers/${customerStore.selectedCustomer.id}`, 
+        customerStore.selectedCustomer,
+        {
+            onSuccess: () => {
+                ElMessage({
+                    message: 'Customer edited successfully',
+                    type: 'success',
+                });
+            },
+            onError: (errors) => {
+                ElMessage.error('Oops, something went wrong while editing a new customer.')
+                ElMessage(errors);
+            }
+        }
+    )
+};
+
+
   
 let searchTermRef = ref(null);//will be used to focus on the search input field
 onMounted(() => {
