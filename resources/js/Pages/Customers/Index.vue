@@ -23,15 +23,15 @@
         >Search</el-button>
 
         <!-- CREATE NEW CUSTOMER POPUP -->
-        <!-- <Popup
+        <Popup
             :errors="errors"
             :title="data.title"
-            v-model:elDialogVisible="data.elDialogVisible"
-            v-model:selectedCustomer="data.selectedCustomer"
-            v-model:mode="data.mode"
+            v-model:elDialogVisible="customerStore.elDialogVisible"
+            v-model:selectedCustomer="customerStore.selectedCustomer"
+            v-model:mode="customerStore.mode"
             @submitCustomer="submitCustomer"
             @resetEditedCustomer="getCustomers"
-        ></Popup> -->
+        ></Popup>
 
         <el-button
             @click="handleCreate"
@@ -40,7 +40,7 @@
 
         <!-- CUSTOMERS TABLE -->
         <el-table
-            :data="data.customers"
+            :data="customerStore.customers"
             style="width: 100%"
             @sort-change="sort"
         >
@@ -139,7 +139,7 @@ import { useCustomerStore } from '@/Stores/customerStore';
 // PROPS
 let props = defineProps( 
     {
-        elDialogVisibleProp: Boolean,
+        elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
         errors: Object, 
         dataFromCustomerController: Object,
 
@@ -156,84 +156,56 @@ let props = defineProps(
 
 
 let data = reactive({
-    elDialogVisible: props.elDialogVisibleProp,
-    errors: props.errors,
-    customers: [],
-    paginationData: {},
+    // mode:'',
+    // selectedCustomer: {},
+    // elDialogVisible: false,
+
+    /**
+     * Unfortunatelly, customers are coming in from backend mixed with pagination data.
+     * That is what we have here in the dataFromCustomerController. We need
+     * seaparted customers and separated pagination data. This will happen in computed properties.
+     */
+    customers: props.dataFromCustomerController.data || [] as Customer[],//TODO why is this erroring TS?
+
+    //search by text
     searchTerm: props.searchTermProp,
-    sortColumn: props.sortColumnProp,
+
+    //sort in el-table
     sortOrder: props.sortOrderProp,
-    title: '',
-    mode: '',
-    selectedCustomer: {},
+    sortColumn: props.sortColumnProp,
+
+    /**
+     * All pagination related data is stored here. 
+     * Unfortunatelly,customers are coming in from backend mixed with pagination data.
+     * That is what we have here in the dataFromCustomerController. We need
+     * seaparated customers and separated pagination data. This will happen in computed properties.
+     * Here. So, this is the pagination related data. And a small reminder:
+     * 
+     * el-pagination        Laravel ->paginate()
+     * current-page	        paginationData.current_page         Where the user is currently
+     * page-size	        paginationData.per_page             Number of items / page
+     * total	            paginationData.total                Number of all db records
+     */
+    paginationData: _.omit({...props.dataFromCustomerController}, 'data'),
     customerResetValues: {
-        id: null,
         company_name: '',
         name: '',
         email: '',
-        rating: null,
+        rating: '',
         tax_number: '',
-        address: '',
-        city: '',
-        country: '',
-        phone: '',
-        website: '',
-        notes: '',
+        internal_cid: '',
     },
     dummyCustomer: {
-        id: 1,
-        company_name: 'dummy',
-        name: 'dummy',
-        email: 'dummy',
-        rating: 1,
-        tax_number: 'dummy',
-        address: 'dummy',
-        city: 'dummy',
-        country: 'dummy',
-        phone: 'dummy',
-        website: 'dummy',
-        notes: 'dummy',
+        company_name: 'Bla',
+        name: 'bla',
+        email: 'bla@gmail.com',
+        rating: '5',
+        tax_number: '44444',
+        internal_cid: '55555',
     },
 });
 
-/**
- * Here we send all data received from backend, currently ins props, and we send it to
- * Pinia store
- */
 let customerStore = useCustomerStore();
-watch(
-    () => props.dataFromCustomerController,
-    (newValue, oldValue) => {
-        /**
-         * Unfortunatelly, customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromCustomerController. We need
-         * seaparted customers and separated pagination data. This will happen in computed properties.
-         */
-        customerStore.customers = props.dataFromCustomerController.data as Customer[],//TODO why is this erroring TS?
-
-        //search by text
-        customerStore.searchTerm = props.searchTermProp,
-
-        //sort in el-table
-        customerStore.sortOrder = props.sortOrderProp,
-        customerStore.sortColumn = props.sortColumnProp,
-
-        /**
-         * All pagination related data is stored here. 
-         * Unfortunatelly,customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromCustomerController. We need
-         * seaparated customers and separated pagination data. This will happen in computed properties.
-         * Here. So, this is the pagination related data. And a small reminder =
-         * 
-         * el-pagination        Laravel ->paginate()
-         * current-page	        paginationData.current_page         Where the user is currently
-         * page-size	        paginationData.per_page             Number of items / page
-         * total	            paginationData.total                Number of all db records
-         */
-        customerStore.paginationData = _.omit({...props.dataFromCustomerController}, 'data')
-    },
-    { immediate: true, deep: true }
-);
 
 
 //METHODS
@@ -252,7 +224,14 @@ watch(
  * data from data(). Because every search/sort/paginate change is in the data().
  */
 let getCustomers = () => {
-    customerStore.getCustomersFromDb();
+    customerStore.getCustomersFromDb(
+        data.searchTerm,
+        data.sortColumn,
+        data.sortOrder,
+        data.paginationData.current_page,//page
+        data.paginationData.per_page,//newItemsPerPage
+        data.elDialogVisible,
+    );
 };
 
 /**
@@ -261,7 +240,7 @@ let getCustomers = () => {
  * Problem: el-table returns ascending or descending, however my backend works with 
  * 'asc' or 'desc'. So here we also transform the ascending/descending to asc/desc.
  */
-interface Sort {
+ interface Sort {
     prop: string;
     order: string;
 }
@@ -269,12 +248,12 @@ const sort = ( { prop, order }: Sort): void => {
 
     //Setting the sort order in data()
     if (order === 'descending') {
-        customerStore.setSortOrder('desc');
+        data.sortOrder = 'desc';
     } else {
-        customerStore.setSortOrder('asc');
+        data.sortOrder = 'asc';
     }
     //Setting sortColumn ind data()
-    customerStore.setSortColumn(prop);
+    data.sortColumn = prop;
     getCustomers();
 };
 
@@ -285,8 +264,8 @@ const sort = ( { prop, order }: Sort): void => {
  * function will be triggered.
  * We set the this.paginationData.per_page to the new value.
  */
-const handleItemsPerPageChange = (newItemsPerPage: number): void => {
-    customerStore.setNewItemsPerPage(newItemsPerPage);//*********************
+ const handleItemsPerPageChange = (newItemsPerPage: number): void => {
+    data.paginationData.per_page = newItemsPerPage;
     getCustomers();
 };
 
@@ -298,8 +277,8 @@ const handleItemsPerPageChange = (newItemsPerPage: number): void => {
  * will be automatically sent as an argument from the el-pagination component to Laravel
  * ->paginate().
  */
-const handleCurrentPageChange = (newCurrentPage: number) => {
-    customerStore.setPage(newCurrentPage);//*********************
+ const handleCurrentPageChange = (newCurrentPage: number) => {
+    data.paginationData.current_page = newCurrentPage;
     getCustomers();
 };
 
@@ -318,8 +297,8 @@ const handleSearchTermChange = () => {
  * INPUT FIELD
  * When ESC is hit, we want to clear the search term, and get all customers again.
  */
-const clearSearchTermWithEsc = () => {
-    customerStore.setSearchTerm('');
+ const clearSearchTermWithEsc = () => {
+    data.searchTerm = '';
     getCustomers();
 };
 
@@ -329,11 +308,11 @@ const clearSearchTermWithEsc = () => {
  */
 const handleCreate = () => {
     console.log('handleCreate()');
-    customerStore.setElDialogVisible(true);
-    customerStore.setTitle('Create new customer');
-    customerStore.setMode('create');
-    customerStore.setSelectedCustomer(customerStore.customerResetValues);//empties customer values
-    customerStore.setSelectedCustomer(customerStore.dummyCustomer);//TODO only temporary**************************************
+    customerStore.elDialogVisible = true;
+    customerStore.title = 'Create new customer';
+    customerStore.mode = 'create';
+    customerStore.selectedCustomer = data.customerResetValues;//empties customer values
+    customerStore.selectedCustomer = data.dummyCustomer;//TODO only temporary**************************************
 };
 
 /**
@@ -342,10 +321,10 @@ const handleCreate = () => {
  * that the user wants to show.
  */
 const handleShow = (index, object) => {
-    customerStore.setElDialogVisible(true);
-    customerStore.setTitle('Show customer');
-    customerStore.setMode('show');
-    customerStore.setSelectedCustomer(object);
+    customerStore.elDialogVisible = true;
+    customerStore.title = 'Show customer';
+    customerStore.mode = 'show';
+    customerStore.selectedCustomer = object;
 };
 
 /**
@@ -355,10 +334,10 @@ const handleShow = (index, object) => {
  */
 const handleEdit = (index, object) => {
     console.log('handleEdit()');
-    customerStore.setMode('edit');
-    customerStore.setElDialogVisible(true);
-    customerStore.setTitle('Edit customer');
-    customerStore.setSelectedCustomer(object);
+    customerStore.mode = 'edit';
+    customerStore.elDialogVisible = true;
+    customerStore.title = 'Edit customer';
+    customerStore.selectedCustomer = object;
 };
 
 /**
@@ -373,15 +352,15 @@ const handleDelete = (index, object) => {
  */
  const submitCustomer = () => {
     console.log('submitCustomer')
-    if (data.mode == 'create') {
+    if (customerStore.mode == 'create') {
         createCustomer();
-    } else if (data.mode == 'edit') {
+    } else if (customerStore.mode == 'edit') {
         editCustomer();
     }
 }
 
 /**
- * Sends the create customer request to the backend.
+ * Sends the created customer request to the backend.
  */
 const createCustomer = () => {
     console.log('createCustomer')

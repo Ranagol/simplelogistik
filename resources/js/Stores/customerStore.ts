@@ -13,48 +13,34 @@ export const useCustomerStore = defineStore(
         elDialogVisible: false,
         errors: {},
         title: '',
-        searchTerm: '',
-        sortColumn: '',
-        sortOrder: '',
-        page: '',
-        newItemsPerPage: '',
-        paginationData: {},
-
     }),
 
     getters: {//like computed properties. Use state here.
-        customersGetter(state) {
-            return state.customers;
-        },
-
-        selectedCustomerGetter(state) {
-            return state.selectedCustomer;
-        },
-
-        modeGetter(state) {
-            return state.mode;
-        },
-
-        elDialogVisibleGetter(state) {
-            return state.elDialogVisible;
-        },
+        
     },
 
     actions: {//like methods. Use .this here
 
-        getCustomersFromDb() {
+        getCustomersFromDb(
+            searchTerm = '',
+            sortColumn = '',
+            sortOrder = '',
+            page = '',
+            newItemsPerPage = '',
+            elDialogVisible = false,
+        ) {
             this.customers = router.get(
                 '/customers',
                 {
                     /**
                      * This is the data that we send to the backend.
                      */
-                    searchTerm: this.searchTerm,
-                    sortColumn: this.sortColumn,
-                    sortOrder: this.sortOrder,
-                    page: this.page,
-                    newItemsPerPage: this.newItemsPerPage,
-                    elDialogVisible: this.elDialogVisible
+                    searchTerm,
+                    sortColumn,
+                    sortOrder,
+                    page,
+                    newItemsPerPage,
+                    elDialogVisible,
                 }
             );
         },
@@ -118,41 +104,6 @@ export const useCustomerStore = defineStore(
                 }
             )
         },
-
-        setSortOrder(order) {
-            this.sortOrder = order;
-        },
-
-        setSortColumn(column) {
-            this.sortColumn = column;
-        },
-
-        setNewItemsPerPage(newItemsPerPage) {
-            this.newItemsPerPage = newItemsPerPage;
-        },
-
-        setPage(page) {
-            this.page = page;
-        },
-
-        setSearchTerm(searchTerm) {
-            this.searchTerm = searchTerm;
-        },
-
-        setElDialogVisible(elDialogVisible) {
-            this.elDialogVisible = elDialogVisible;
-        },
-
-        setTitle(title) {
-            this.title = title;
-        },
-
-        setMode(mode) {
-            this.mode = mode;
-        },
-
-        setSelectedCustomer(selectedCustomer) {
-            this.selectedCustomer = selectedCustomer;
-        },
+        
     },
 });
