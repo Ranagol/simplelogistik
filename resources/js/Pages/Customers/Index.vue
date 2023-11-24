@@ -250,15 +250,22 @@ const batchDelete = () => {
     console.log(data.selectedCustomers)
     //Here we extract the selected customers' ids, and store them in an array.
     const customerIds = data.selectedCustomers.map((customer) => customer.id)
+    const customerCompanyNames = data.selectedCustomers.map((customer) => customer.company_name)
+    let stringOfNames = '<br>'
+    customerCompanyNames.forEach((customerCompanyName) => {
+        console.log(customerCompanyName)
+        stringOfNames += customerCompanyName + '<br>'
+    })
 
     // Asks for confirmation message, for deleting the customer.
     ElMessageBox.confirm(
-        'The selected customers will be deleted. Continue?',
+        'The selected customers will be deleted:' + stringOfNames + 'Continue?',
         'Warning',
         {
             confirmButtonText: 'OK',
             cancelButtonText: 'Cancel',
             type: 'warning',
+            dangerouslyUseHTMLString: true,
         }
     )
     .then(() => {
