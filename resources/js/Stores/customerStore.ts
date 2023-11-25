@@ -1,7 +1,4 @@
 import { defineStore } from 'pinia';
-import { router } from '@inertiajs/vue3'
-import { ElMessage } from 'element-plus';
-
 
 export const useCustomerStore = defineStore(
     'customer', {
@@ -30,7 +27,7 @@ export const useCustomerStore = defineStore(
     actions: {//like methods. Use .this here
 
         customersToStore(customers) {
-            this.customers = customers
+            this.customers = customers;
         },
 
         deleteCustomer(customer) {
@@ -38,12 +35,9 @@ export const useCustomerStore = defineStore(
         },
 
         editCustomer() {
-            let newCustomer = this.selectedCustomer;
-            let index = this.customers.findIndex((customer) => customer.id === newCustomer.id);
-            this.customers[index] = newCustomer;
+            let newlyEditedCustomer = this.selectedCustomer;
+            let index = this.customers.findIndex((nonEditedcustomer) => nonEditedcustomer.id === newlyEditedCustomer.id);
+            this.customers[index] = newlyEditedCustomer;
         }
-
-
-        
     },
 });
