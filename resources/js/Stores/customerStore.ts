@@ -5,12 +5,19 @@ export const useCustomerStore = defineStore(
 
     state: () => ({
         customers: [],
-        selectedCustomer: {},
-        searchTerm: '',
+        selectedCustomer: {},//for edit, create, delete
+        selectedCustomers: [],//this is for batch delete
+        searchTerm: '',//for search field
         mode: '',
-        elDialogVisible: false,
+        elDialogVisible: false,//turns on the popup
+
+        //sort in el-table
+        sortOrder: '' as string,
+        sortColumn: '' as string,
+
+
         errors: {},
-        title: '',
+        title: '',//the title for the createEditCustomer component
         customerResetValues: {
             company_name: '',
             name: '',

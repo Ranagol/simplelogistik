@@ -1,8 +1,9 @@
 <template>
-    <!-- <Head title="Customers" /> -->
+    <Head title="Customers" />
 
     <Card>
-        <!-- <h1>Customers</h1> -->
+        <h1>Customers</h1>
+
         <SearchField
             @getCustomers="getCustomers"
         />
@@ -19,94 +20,15 @@
         >Create new customer</el-button>
 
         <!-- CUSTOMERS TABLE -->
-        <el-table
-            :data="customerStore.customers"
-            style="width: 100%"
-            @sort-change="sort"
-            ref="multipleTableRef"
-            @selection-change="handleSelectionChange"
-        >
-            <el-table-column
-              type="selection"
-              width="55"
-            />
+        <Table
+            @getCustomers="getCustomers"
+            @handleEdit="handleEdit"
+            @handleDelete="handleDelete"
+        />
 
-            <el-table-column
-                prop="id"
-                label="ID"
-                width="80"
-                sortable="custom"
-            ></el-table-column>
+        
 
-            <el-table-column
-                prop="company_name"
-                label="Company name"
-                sortable="custom"
-            ></el-table-column>
-
-            <el-table-column
-                prop="name"
-                label="Name"
-                sortable="custom"
-            ></el-table-column>
-
-            <el-table-column
-                prop="email"
-                label="Email"
-                sortable="custom"
-            ></el-table-column>
-
-            <el-table-column
-                prop="rating"
-                label="Rating"
-                sortable="custom"
-            ></el-table-column>
-
-            <el-table-column
-                prop="tax_number"
-                label="Tax number"
-                sortable="custom"
-            ></el-table-column>
-
-            <!-- SHOW/EDIT/DELETE BUTTON IN THE TABLE -->
-            <el-table-column
-                label="Show/Edit/Delete"
-            >
-                <template #default="scope">
-
-                    <!-- EDIT -->
-                    <el-button
-                        size="small"
-                        type="warning"
-                        @click="handleEdit(scope.$index, scope.row)"
-                    >Edit</el-button>
-
-                    <!-- DELETE -->
-                    <el-button
-                        size="small"
-                        type="danger"
-                        @click="handleDelete(scope.$index, scope.row)"
-                    >Delete</el-button>
-
-                </template>
-            </el-table-column>
-
-
-        </el-table>
-
-        <!-- BATCH DELETE BUTTONS -->
-        <div class="mt-5 mb-5">
-            <el-button
-                type="danger"
-                @click="batchDelete()"
-            >Batch delete</el-button>
-
-            <el-button
-                type="info"
-                @click="clearSelection()"
-            >Clear batch delete selection</el-button>
-        </div>
-
+        <!-- PAGINATION -->
         <el-pagination
             v-model:current-page="data.paginationData.current_page"
             v-model:page-size="data.paginationData.per_page"
@@ -131,6 +53,7 @@ import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Pages/Customers/SearchField.vue';
+import Table from '@/Pages/Customers/Table.vue';
 
 let customerStore = useCustomerStore();
 
@@ -176,12 +99,24 @@ watch(
     { immediate: true, deep: true }
 );
 
+watch(
+    () => props.sortColumnProp,
+    (newVal, oldVal) => {
+        customerStore.sortColumn = newVal;
+    },
+    { immediate: true, deep: true }
+);
+
+watch(
+    () => props.sortOrderProp,
+    (newVal, oldVal) => {
+        customerStore.sortOrder = newVal;
+    },
+    { immediate: true, deep: true }
+)
+
 //DATA
 let data = reactive({
-
-    //sort in el-table
-    sortOrder: props.sortOrderProp,
-    sortColumn: props.sortColumnProp,
 
     /**
      * All pagination related data is stored here. 
@@ -212,86 +147,6 @@ let data = reactive({
     selectedCustomers: [] as Customer[],
 });
 
-
-//BATCH DELETE
-/**
- * The multipleTableRef ref is created to hold a reference to the el-table component. This allows 
- * the toggleSelection method to call methods on the el-table component.
- */
-const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-
-//Simply clears the selection. clearSelection() is a method on the el-table component.
-const clearSelection = () => {
-    multipleTableRef.value!.clearSelection()
-}
-
-/**
- * Will receive an array of users from @selection-change="handleSelectionChange", by default.
- * Will store these users in data.selectedCustomers.
- */
-const handleSelectionChange = (selectedCustomersArray: []) => {
-    data.selectedCustomers = selectedCustomersArray
-    console.log(data.selectedCustomers)
-}
-
-/**
- * Deletes multiple selected customers at the same time.
- */
-const batchDelete = () => {
-    console.log('batchDelete()')
-    console.log(data.selectedCustomers)
-    //Here we extract the selected customers' ids, and store them in an array.
-    const customerIds = data.selectedCustomers.map((customer) => customer.id)
-    //Here we extract the selected customers' company names, and store them in an array.
-    const customerCompanyNames = data.selectedCustomers.map((customer) => customer.company_name)
-    let stringOfNames = '<br>';//Here we will add the customer names to a string, so that we can show them in the confirmation message.
-    customerCompanyNames.forEach((customerCompanyName) => {
-        console.log(customerCompanyName)
-        stringOfNames += customerCompanyName + '<br>'
-    })
-
-    // Asks for confirmation message, for deleting the customer.
-    ElMessageBox.confirm(
-        'The selected customers will be deleted:' + stringOfNames + 'Continue?',
-        'Warning',
-        {
-            confirmButtonText: 'OK',
-            cancelButtonText: 'Cancel',
-            type: 'warning',
-            dangerouslyUseHTMLString: true,
-        }
-    )
-    .then(() => {
-        //If the deleting wish is confirmed, then we send the delete request to the backend.
-        router.post(
-            '/customers-batch-delete',
-            {
-                customerIds: customerIds//customers with these ids will be deleted
-            },
-            {
-                onSuccess: () => {
-                    ElMessage({
-                        message: 'Customer deleted successfully',
-                        type: 'success',
-                    });
-                    router.reload({ only: ['dataFromCustomerController'] });
-                },
-                onError: (errors) => {
-                    ElMessage.error('Oops, something went wrong during batch delete.')
-                    ElMessage(errors);
-                }
-            }
-        )
-    })
-    .catch(() => {
-        //If the deleting wish is canceled, then we show a message.
-        ElMessage({
-            type: 'info',
-            message: 'Delete canceled',
-        })
-    })    
-}
-
 //METHODS
 
 /**
@@ -317,36 +172,15 @@ let getCustomers = () => {
              * This is the data that we send to the backend.
              */
             searchTerm: customerStore.searchTerm,
-            sortColumn: data.sortColumn,
-            sortOrder: data.sortOrder,
+            sortColumn: customerStore.sortColumn,
+            sortOrder: customerStore.sortOrder,
             page: data.paginationData.current_page,
             newItemsPerPage: data.paginationData.per_page,
         }
     );
 };
 
-/**
- * SORTING
- * sort() is activated by the main table header sort arrows. 
- * Problem: el-table returns ascending or descending, however my backend works with 
- * 'asc' or 'desc'. So here we also transform the ascending/descending to asc/desc.
- */
- interface Sort {
-    prop: string;
-    order: string;
-}
-const sort = ( { prop, order }: Sort): void => {
 
-    //Setting the sort order in data()
-    if (order === 'descending') {
-        data.sortOrder = 'desc';
-    } else {
-        data.sortOrder = 'asc';
-    }
-    //Setting sortColumn ind data()
-    data.sortColumn = prop;
-    getCustomers();
-};
 
 /**
  * PAGINATION 1
@@ -497,7 +331,5 @@ const editCustomer = () => {
         }
     )
 };
-  
-
 
 </script>

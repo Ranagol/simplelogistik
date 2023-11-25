@@ -213,20 +213,20 @@ const ruleFormRef = ref<FormInstance>()
  */
  let customer = reactive<RuleForm>({
     //Use this for creating a new customer
-    company_name: '',
-    name: '',
-    email: '',
-    rating: '',
-    tax_number: '',
-    internal_cid: '',
+    // company_name: '',
+    // name: '',
+    // email: '',
+    // rating: '',
+    // tax_number: '',
+    // internal_cid: '',
 
     //Use this to stamp customers during development
-    // company_name: 'Dummy from Create',
-    // name: 'sdfv',
-    // email: 'bla@gmail.com',
-    // rating: '5',
-    // tax_number: '5555',
-    // internal_cid: '66666',
+    company_name: 'Dummy from Create',
+    name: 'sdfv',
+    email: 'bla@gmail.com',
+    rating: '5',
+    tax_number: '5555',
+    internal_cid: '66666',
 })
 
 /**
