@@ -296,7 +296,8 @@ const batchDelete = () => {
                         message: 'Customer deleted successfully',
                         type: 'success',
                     });
-                    getCustomers();
+                    router.reload({ only: ['dataFromCustomerController'] });
+
                 },
                 onError: (errors) => {
                     ElMessage.error('Oops, something went wrong during batch delete.')
@@ -482,7 +483,7 @@ const handleDelete = (index, object) => {
                         message: 'Customer deleted successfully',
                         type: 'success',
                     });
-                    getCustomers();
+                    router.reload({ only: ['dataFromCustomerController'] });
                 },
                 onError: (errors) => {
                     ElMessage.error('Oops, something went wrong while deleting a customer.')
