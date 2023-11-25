@@ -27,7 +27,6 @@
         <!-- ******************************************************************* -->
         <Popup
             @submitCustomer="submitCustomer"
-            @resetEditedCustomer="getCustomers"
         ></Popup>
 
         <el-button
@@ -86,11 +85,11 @@
                 <!-- scope.row = the object in the cell -->
                 <template #default="scope">
 
-                    <el-button
+                    <!-- <el-button
                         size="small"
                         type="info"
                         @click="handleShow(scope.$index, scope.row)"
-                    >Show</el-button>
+                    >Show</el-button> -->
 
                     <el-button
                         size="small"
@@ -179,23 +178,7 @@ let data = reactive({
      * page-size	        paginationData.per_page             Number of items / page
      * total	            paginationData.total                Number of all db records
      */
-    paginationData: _.omit({...props.dataFromCustomerController}, 'data'),
-    customerResetValues: {
-        company_name: '',
-        name: '',
-        email: '',
-        rating: '',
-        tax_number: '',
-        internal_cid: '',
-    },
-    dummyCustomer: {
-        company_name: 'Bla',
-        name: 'bla',
-        email: 'bla@gmail.com',
-        rating: '5',
-        tax_number: '44444',
-        internal_cid: '55555',
-    },
+    paginationData: _.omit({...props.dataFromCustomerController}, 'data'), 
 });
 
 
@@ -411,7 +394,8 @@ const createCustomer = () => {
                     message: 'Customer created successfully',
                     type: 'success',
                 });
-                getCustomers();//get customers again, so that the new customer is displayed
+                // getCustomers();//get customers again, so that the new customer is displayed
+                router.reload({ only: ['dataFromCustomerController'] })
                 customerStore.elDialogVisible = false;
             },
             onError: (errors) => {
@@ -426,6 +410,7 @@ const editCustomer = () => {
     //Editing customer in Pinia store
     customerStore.editCustomer();
     //Editing customer in db
+
     router.put(
         `/customers/${customerStore.selectedCustomer.id}`, 
         customerStore.selectedCustomer,

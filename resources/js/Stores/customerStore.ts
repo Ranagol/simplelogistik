@@ -13,6 +13,14 @@ export const useCustomerStore = defineStore(
         elDialogVisible: false,
         errors: {},
         title: '',
+        customerResetValues: {
+            company_name: '',
+            name: '',
+            email: '',
+            rating: '',
+            tax_number: '',
+            internal_cid: '',
+        },
     }),
 
     getters: {//like computed properties. Use state here.

@@ -182,35 +182,9 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-import { router } from '@inertiajs/vue3'
 import { useCustomerStore } from '@/Stores/customerStore';
 
 let customerStore = useCustomerStore();
-
-
-// let props = defineProps({ 
-//     /**
-//      * The errors are being sent from the Customers/Index grandparent component, because for some reason
-//      * they are not arriving here. Possibly because this is a deeply nested el-dialog, and not a compnent
-//      * that has a fix place and not disappears.
-//      */
-//     errors: Object, 
-
-//     /**
-//      * The selected customer object from the parent Index.vue. This is passed to the child 
-//      * CreateEditCustomer.vue. Needed when the mode is 'show' or 'edit'. Not needed for create 
-//      * mode.
-//      */
-//     selectedCustomer: Object,
-
-//     /**
-//      * This is passed to the child CreateEditCustomer.vue. It could be 
-//      * 'create', 'show' or 'edit'. This is important, because the input fields must be disabled when
-//      * mode = 'show'.
-//      */
-//     mode: String,
-
-// });
 
 /**
  * Here we define, what structure should have the customer object.
@@ -225,10 +199,7 @@ interface RuleForm {
 }
 
 /**
- * The ref function is used to create a reactive and mutable object reference. The type of the 
- * reference is FormInstance, which is not defined in the provided code but is likely a type or 
- * interface that represents the form instance.
- * Possibly this contains the whole el-form?
+ * This contains the whole el-form. Needed for the validation.
  */
 const ruleFormRef = ref<FormInstance>()
 
@@ -239,12 +210,18 @@ const ruleFormRef = ref<FormInstance>()
  * and it's initially set with all properties as empty strings. 
  */
 let customer = reactive<RuleForm>({
-    company_name: 'Dummy from CreateEditCustomer.vue',
-    name: 'sdfv',
-    email: 'bla@gmail.com',
-    rating: '5',
-    tax_number: '5555',
-    internal_cid: '66666',
+    company_name: '',
+    name: '',
+    email: '',
+    rating: '',
+    tax_number: '',
+    internal_cid: '',
+    // company_name: 'Dummy from Create',
+    // name: 'sdfv',
+    // email: 'bla@gmail.com',
+    // rating: '5',
+    // tax_number: '5555',
+    // internal_cid: '66666',
 })
 
 
@@ -275,35 +252,22 @@ const rules = reactive<FormRules<RuleForm>>({
 
 /**
  * Does the frontend validation, and if it is OK, then calls the submitCustomer() function.
- * 
- * @param formEl 
  */
+const emit = defineEmits(['submitCustomer']);
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
 
     await formEl.validate((valid, fields) => {
-        if (valid) {
-            // console.log('Validation OK, submit!', customer)
-            //Triggers the submitCustomer() method in the parent Index.vue
+        if (valid) {//if validation is OK, then submit the customer
             
             customerStore.selectedCustomer = customer;
             emit('submitCustomer');
-            // customerStore.getCustomersFromDb();
             
-        } else {
-            // console.log('FE validation not OK, error submit!', fields)
+        } else {//if validation is not OK, then show the errors
+            console.log('FE validation not OK, error submit!', fields)
         }
     })
 }
-
-const emit = defineEmits(
-    [
-        'closePopup', 
-        'submitCustomer',
-        'update:selectedCustomer',
-        'resetEditedCustomer'
-    ]
-);
 
 /**
  * Close the popup, by emitting the closePopup event. This will trigger the closePopup method in
@@ -317,8 +281,8 @@ const emit = defineEmits(
  * grandparent Index.vue, and this will reload all the customers. Whic will correct this issue
  */
 let cancel = () => {
-    emit('resetEditedCustomer');
-    emit('closePopup');
+    customerStore.elDialogVisible = false;
+    customerStore.selectedCustomer = customerStore.customerResetValues;//resetting all customer fields
 }
 
 /**
@@ -329,16 +293,8 @@ let cancel = () => {
  */
 let updateSelectedCustomer = () => {
     customerStore.selectedCustomer = customer;
-    // emit('update:selectedCustomer', customer);
 }
 
-// watch(
-//     () => props.selectedCustomer,
-//     (newValue, oldValue) => {
-//         customer = newValue;
-//     },
-//     { immediate: true,},
-// );
 
 </script>
 
