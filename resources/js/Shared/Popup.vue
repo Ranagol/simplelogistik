@@ -1,12 +1,17 @@
 <template>
+    <!-- @open="refreshElDialog" -->
     <el-dialog
         v-model="customerStore.elDialogVisible"
         :title=customerStore.title
+        @open="handleDialogOpened"
     >
+    <!-- :key="componentKey" -->
+    <!-- :resetForm="data.resetForm" -->
+    <!-- @onCancelEditResetElDialogDisplay="onCancelEditResetElDialogDisplay" -->
         <CreateEditCustomer
             @submitCustomer="submitCustomer"
-            @onCancelEditResetElDialogDisplay="onCancelEditResetElDialogDisplay"
-            :key="componentKey"
+            :key="data.componentKey"
+            
         ></CreateEditCustomer>
 
     </el-dialog>
@@ -19,6 +24,13 @@ import { useCustomerStore } from '@/Stores/customerStore';
 
 let customerStore = useCustomerStore();
 
+let handleDialogOpened = () => {
+    data.componentKey += 1;
+    data.resetForm = true;  
+}
+
+
+
 let data = reactive({
 
     /**
@@ -26,8 +38,10 @@ let data = reactive({
      * Problem: choose customer to edit, then click cancel, and then choose another customer to edit.
      * While the app knows the correct customer to edit, the el-dialog component does not display the
      * correct customer. The only way to make it work is to change the key of the child CreateEditCustomer.vue.
+     * https://michaelnthiessen.com/key-changing-technique/
      */
     componentKey: 0,
+    resetForm: false,
 });
             
 const emit = defineEmits(['submitCustomer','resetEditedCustomer']);
@@ -40,23 +54,20 @@ const resetEditedCustomer = () => {
     emit('resetEditedCustomer');
 };
     
-/**
- * This is used to refresh the el-dialog component.
- * Problem: choose customer to edit, then click cancel, and then choose another customer to edit.
- * While the app knows the correct customer to edit, the el-dialog component does not display the
- * correct customer. The only way to make it work is to change the key of the child CreateEditCustomer.vue.
- */
-const onCancelEditResetElDialogDisplay = () => {
+// /**
+//  * This is used to refresh the el-dialog component.
+//  * Problem: choose customer to edit, then click cancel, and then choose another customer to edit.
+//  * While the app knows the correct customer to edit, the el-dialog component does not display the
+//  * correct customer. The only way to make it work is to change the key of the child CreateEditCustomer.vue.
+//  */
+// const onCancelEditResetElDialogDisplay = () => {
     
-};
+// };
 
-// watch(
-//     () => customerStore.selectedCustomer,
-//     () => {
-//         console.log('isLoggedIn state changed, do something!')
-//         data.componentKey += 1;//very important, forces the el-dialog component to re-render
-//     },
-// );
+
+// const refreshElDialog = () => {
+//     data.componentKey += 1;//very important, forces the el-dialog component to re-render
+// };
 
 </script>
 

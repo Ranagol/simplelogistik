@@ -428,10 +428,8 @@ const editCustomer = () => {
         }
     )
 };
-
-
   
-let searchTermRef = ref(null);//will be used to focus on the search input field
+let searchTermRef = ref(null);
 onMounted(() => {
 
     /**
@@ -440,7 +438,7 @@ onMounted(() => {
      * So we use the mounted() lifecycle hook, and we focus on the search input.
      */
     nextTick(() => {
-        searchTermRef.value.focus();//Index.vue:359 Uncaught (in promise) TypeError: searchTermRef.focus is not a function
+        searchTermRef.value.focus();
     });
 });
 

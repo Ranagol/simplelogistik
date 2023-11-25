@@ -1,10 +1,12 @@
 <template>
     <div>
+        <!-- :key="data.componentKey" -->
         <el-form
             ref="ruleFormRef"
             :model="customer"
             label-position="top"
             :rules="rules"
+            
         >
             <el-form-item
                 label="Company name"
@@ -180,11 +182,19 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { useCustomerStore } from '@/Stores/customerStore';
 
 let customerStore = useCustomerStore();
+
+
+// let props = defineProps({
+//     resetForm: {
+//         type: Boolean,
+//         default: false,
+//     },
+// });
 
 /**
  * Here we define, what structure should have the customer object.
@@ -209,20 +219,22 @@ const ruleFormRef = ref<FormInstance>()
  * used to create a reactive and mutable object. The object is of type RuleForm (as defined earlier), 
  * and it's initially set with all properties as empty strings. 
  */
-let customer = reactive<RuleForm>({
-    company_name: '',
-    name: '',
-    email: '',
-    rating: '',
-    tax_number: '',
-    internal_cid: '',
-    // company_name: 'Dummy from Create',
-    // name: 'sdfv',
-    // email: 'bla@gmail.com',
-    // rating: '5',
-    // tax_number: '5555',
-    // internal_cid: '66666',
+ let customer = reactive<RuleForm>({
+    // company_name: '',
+    // name: '',
+    // email: '',
+    // rating: '',
+    // tax_number: '',
+    // internal_cid: '',
+
+    company_name: 'Dummy from Create',
+    name: 'sdfv',
+    email: 'bla@gmail.com',
+    rating: '5',
+    tax_number: '5555',
+    internal_cid: '66666',
 })
+
 
 
 /**
@@ -256,8 +268,11 @@ const rules = reactive<FormRules<RuleForm>>({
 const emit = defineEmits(['submitCustomer']);
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
+    console.log('formEl:', formEl)
 
     await formEl.validate((valid, fields) => {
+        console.log('valid:', valid)
+        console.log('fields:', fields)
         if (valid) {//if validation is OK, then submit the customer
             
             customerStore.selectedCustomer = customer;
@@ -265,6 +280,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             
         } else {//if validation is not OK, then show the errors
             console.log('FE validation not OK, error submit!', fields)
+            console.log('customer:', customer)
+            console.log('customerStore.selectedCustomer:', customerStore.selectedCustomer)
+
+
         }
     })
 }
@@ -294,6 +313,28 @@ let cancel = () => {
 let updateSelectedCustomer = () => {
     customerStore.selectedCustomer = customer;
 }
+
+// onMounted(() => {
+//     console.log('onMounted.');
+//     customer = customerStore.selectedCustomer;
+// });
+
+// onActivated, onUpdated(() => {
+//   console.log('onActivated, onUpdated.')
+// });
+
+// onUpdated(() => {
+//   console.log('onUpdated.')
+// });
+
+onBeforeMount(() => {
+    console.log('This code runs before the component is mounted');
+    if (customerStore.mode==='edit') {
+        customer = customerStore.selectedCustomer; 
+    }
+
+});
+
 
 
 </script>
