@@ -27,6 +27,7 @@
             @submitCustomer="submitCustomer"
         ></Popup>
 
+        <!-- CREATE NEW CUSTOMER BUTTON -->
         <el-button
             @click="handleCreate"
             type="info"
@@ -113,6 +114,7 @@
 
         </el-table>
 
+        <!-- BATCH DELETE BUTTONS -->
         <div class="mt-5 mb-5">
             <el-button
                 type="danger"
@@ -169,8 +171,7 @@ let props = defineProps(
     }
 );
 
-//WATCHERS
-
+//WATCHERS FOR PROPS: they send data received from backend to Pinia store
 //Sends the customers to Pinia store, as soon arrives from backend.
 watch(
     () => props.dataFromCustomerController,
@@ -194,11 +195,9 @@ watch(
     },
     { immediate: true, deep: true }
 );
-let data = reactive({
-    // mode:'',
-    // selectedCustomer: {},
-    // elDialogVisible: false,
 
+//DATA
+let data = reactive({
     
     //search by text
     searchTerm: props.searchTermProp,
@@ -237,6 +236,7 @@ let data = reactive({
 });
 
 
+//BATCH DELETE
 /**
  * The multipleTableRef ref is created to hold a reference to the el-table component. This allows 
  * the toggleSelection method to call methods on the el-table component.
@@ -297,7 +297,6 @@ const batchDelete = () => {
                         type: 'success',
                     });
                     router.reload({ only: ['dataFromCustomerController'] });
-
                 },
                 onError: (errors) => {
                     ElMessage.error('Oops, something went wrong during batch delete.')
@@ -315,10 +314,6 @@ const batchDelete = () => {
     })    
 }
 
-
-
-
-
 //METHODS
 
 /**
@@ -333,6 +328,8 @@ const batchDelete = () => {
  * It sends a request to the backend to get the customers. The backend will return the customers 
  * sorted and the pagination data. getCustomers() does not have arguments, because it uses the
  * data from data(). Because every search/sort/paginate change is in the data().
+ * Now customers from this function arrive to props. There is a watcher for props, that sends customers
+ * from props to Pinia store.
  */
 let getCustomers = () => {
     const customers = router.get(
@@ -348,10 +345,7 @@ let getCustomers = () => {
             newItemsPerPage: data.paginationData.per_page,
         }
     );
-    customerStore.customersToStore(customers);
 };
-
-
 
 /**
  * SORTING
