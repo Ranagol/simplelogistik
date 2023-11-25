@@ -420,6 +420,8 @@ const editCustomer = () => {
                     message: 'Customer edited successfully',
                     type: 'success',
                 });
+                router.reload({ only: ['dataFromCustomerController'] })
+                customerStore.elDialogVisible = false;
             },
             onError: (errors) => {
                 ElMessage.error('Oops, something went wrong while editing a new customer.')
