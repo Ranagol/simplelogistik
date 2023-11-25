@@ -12,7 +12,7 @@
             ref="searchTermRef"
             @clear="getCustomers()"
             @change="getCustomers()"
-            @input="handleSearchTermChange()"
+            @input="getCustomers()"
             @keyup.escape.native="clearSearchTermWithEsc()"
         />
 
@@ -87,27 +87,22 @@
             <el-table-column
                 label="Show/Edit/Delete"
             >
-                <!-- scope.$index = number of the row in table -->
-                <!-- scope.row = the object in the cell -->
                 <template #default="scope">
 
-                    <!-- <el-button
-                        size="small"
-                        type="info"
-                        @click="handleShow(scope.$index, scope.row)"
-                    >Show</el-button> -->
-
+                    <!-- EDIT -->
                     <el-button
                         size="small"
                         type="warning"
                         @click="handleEdit(scope.$index, scope.row)"
                     >Edit</el-button>
 
+                    <!-- DELETE -->
                     <el-button
                         size="small"
                         type="danger"
                         @click="handleDelete(scope.$index, scope.row)"
                     >Delete</el-button>
+
                 </template>
             </el-table-column>
 
@@ -181,7 +176,6 @@ watch(
          * That is what we have here in the dataFromCustomerController. We need
          * seaparted customers and separated pagination data. This will happen in computed properties.
          */
-        // customers: props.dataFromCustomerController.data || [] as Customer[],//TODO why is this erroring TS?
         customerStore.customers = newVal.data;
     },
     { immediate: true, deep: true }
@@ -265,8 +259,9 @@ const batchDelete = () => {
     console.log(data.selectedCustomers)
     //Here we extract the selected customers' ids, and store them in an array.
     const customerIds = data.selectedCustomers.map((customer) => customer.id)
+    //Here we extract the selected customers' company names, and store them in an array.
     const customerCompanyNames = data.selectedCustomers.map((customer) => customer.company_name)
-    let stringOfNames = '<br>'
+    let stringOfNames = '<br>';//Here we will add the customer names to a string, so that we can show them in the confirmation message.
     customerCompanyNames.forEach((customerCompanyName) => {
         console.log(customerCompanyName)
         stringOfNames += customerCompanyName + '<br>'
@@ -397,17 +392,6 @@ const sort = ( { prop, order }: Sort): void => {
 
 /**
  * INPUT FIELD
- * For every typed letter in the input field, this function will get the filtered customers,
- * again and again.
- * This is how we can throttle this function: 
- * https://www.geeksforgeeks.org/lodash-_-throttle-method/
- */
-const handleSearchTermChange = () => {
-    getCustomers();
-};
-
-/**
- * INPUT FIELD
  * When ESC is hit, we want to clear the search term, and get all customers again.
  */
  const clearSearchTermWithEsc = () => {
@@ -424,20 +408,7 @@ const handleCreate = () => {
     customerStore.elDialogVisible = true;
     customerStore.title = 'Create new customer';
     customerStore.mode = 'create';
-    customerStore.selectedCustomer = data.customerResetValues;//empties customer values
 };
-
-/**
- * This function is triggered when the user clicks on the show button in the table.
- * It sets the mode to 'show', and it sets the selectedCustomer to the customer object
- * that the user wants to show.
- */
-// const handleShow = (index, object) => {
-//     customerStore.elDialogVisible = true;
-//     customerStore.title = 'Show customer';
-//     customerStore.mode = 'show';
-//     customerStore.selectedCustomer = object;
-// };
 
 /**
  * This function is triggered when the user clicks on the edit button in the table.
@@ -530,9 +501,6 @@ const createCustomer = () => {
 };
 
 const editCustomer = () => {
-    //Editing customer in Pinia store
-    customerStore.editCustomer();
-    //Editing customer in db
 
     router.put(
         `/customers/${customerStore.selectedCustomer.id}`, 
