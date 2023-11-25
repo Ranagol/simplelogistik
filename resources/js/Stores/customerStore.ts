@@ -15,8 +15,10 @@ export const useCustomerStore = defineStore(
         sortOrder: '' as string,
         sortColumn: '' as string,
 
+        //pagination
+        paginationData: {},
 
-        errors: {},
+        errors: {},//validation errors from the backend
         title: '',//the title for the createEditCustomer component
         customerResetValues: {
             company_name: '',

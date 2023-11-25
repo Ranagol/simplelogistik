@@ -66,7 +66,6 @@
 import { defineComponent } from 'vue';
 import { CargoOrder } from '@/types/models/CargoOrder';
 import Card from '@/Shared/Card.vue';
-import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
 export default defineComponent({
     components: {

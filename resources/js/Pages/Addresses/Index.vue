@@ -82,7 +82,6 @@
 import { defineComponent } from 'vue';
 import { Address } from '@/types/models/Address';
 import Card from '@/Shared/Card.vue';
-import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
 export default defineComponent({
     components: {

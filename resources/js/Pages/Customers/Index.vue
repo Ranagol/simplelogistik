@@ -131,20 +131,7 @@ let data = reactive({
      * total	            paginationData.total                Number of all db records
      */
     paginationData: _.omit({...props.dataFromCustomerController}, 'data'),
-    title: '',
-    customerResetValues: {
-        company_name: '',
-        name: '',
-        email: '',
-        rating: '',
-        tax_number: '',
-        internal_cid: '',
-    },
-
-    /**
-     * The selected customers are stored here. This is an array of Customer objects.
-     */
-    selectedCustomers: [] as Customer[],
+    
 });
 
 //METHODS
