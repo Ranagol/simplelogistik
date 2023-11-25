@@ -29,14 +29,8 @@
         
 
         <!-- PAGINATION -->
-        <el-pagination
-            v-model:current-page="data.paginationData.current_page"
-            v-model:page-size="data.paginationData.per_page"
-            :total="data.paginationData.total"
-            :page-sizes="[5, 10, 15, 20]"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleItemsPerPageChange"
-            @current-change="handleCurrentPageChange"
+        <Pagination
+            @getCustomers="getCustomers"
         />
     </Card>
 
@@ -45,7 +39,6 @@
 <script lang="ts" setup>
 import { Customer } from '@/types/models/Customer';
 import Card from '@/Shared/Card.vue';
-import Pagination from '@/Shared/Pagination.vue';
 import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
 import { router } from '@inertiajs/vue3'
@@ -54,6 +47,7 @@ import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Pages/Customers/SearchField.vue';
 import Table from '@/Pages/Customers/Table.vue';
+import Pagination from '@/Pages/Customers/Pagination.vue';
 
 let customerStore = useCustomerStore();
 
@@ -86,6 +80,20 @@ watch(
          * seaparted customers and separated pagination data. This will happen in computed properties.
          */
         customerStore.customers = newVal.data;
+
+        /**
+         * All pagination related data is stored here. 
+         * Unfortunatelly,customers are coming in from backend mixed with pagination data.
+         * That is what we have here in the dataFromCustomerController. We need
+         * seaparated customers and separated pagination data. This will happen in computed properties.
+         * Here. So, this is the pagination related data. And a small reminder:
+         * 
+         * el-pagination        Laravel ->paginate()
+         * current-page	        paginationData.current_page         Where the user is currently
+         * page-size	        paginationData.per_page             Number of items / page
+         * total	            paginationData.total                Number of all db records
+         */
+        customerStore.paginationData = _.omit({...props.dataFromCustomerController}, 'data');
     },
     { immediate: true, deep: true }
 );
@@ -115,24 +123,7 @@ watch(
     { immediate: true, deep: true }
 )
 
-//DATA
-let data = reactive({
 
-    /**
-     * All pagination related data is stored here. 
-     * Unfortunatelly,customers are coming in from backend mixed with pagination data.
-     * That is what we have here in the dataFromCustomerController. We need
-     * seaparated customers and separated pagination data. This will happen in computed properties.
-     * Here. So, this is the pagination related data. And a small reminder:
-     * 
-     * el-pagination        Laravel ->paginate()
-     * current-page	        paginationData.current_page         Where the user is currently
-     * page-size	        paginationData.per_page             Number of items / page
-     * total	            paginationData.total                Number of all db records
-     */
-    paginationData: _.omit({...props.dataFromCustomerController}, 'data'),
-    
-});
 
 //METHODS
 
@@ -161,8 +152,8 @@ let getCustomers = () => {
             searchTerm: customerStore.searchTerm,
             sortColumn: customerStore.sortColumn,
             sortOrder: customerStore.sortOrder,
-            page: data.paginationData.current_page,
-            newItemsPerPage: data.paginationData.per_page,
+            page: customerStore.paginationData.current_page,
+            newItemsPerPage: customerStore.paginationData.per_page,
         }
     );
 };

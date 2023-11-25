@@ -1,10 +1,14 @@
 <template>
     <el-pagination
-        v-model:current-page="customerStore.paginationData.current_page"
-        v-model:page-size="customerStore.paginatcustomerStoreper_page"
+        :current-page="customerStore.paginationData.current_page"
+        :page-size="customerStore.paginationData.per_page"
         :total="customerStore.paginationData.total"
         :page-sizes="[5, 10, 15, 20]"
         layout="total, sizes, prev, pager, next, jumper"
+
+        @update:current-page="page => customerStore.setCurrentPage(page)"
+        @update:page-size="size => customerStore.setPageSize(size)"
+
         @size-change="handleItemsPerPageChange"
         @current-change="handleCurrentPageChange"
     />
@@ -14,6 +18,9 @@
 <script lang="ts" setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests;
+import { useCustomerStore } from '@/Stores/customerStore';
+
+let customerStore = useCustomerStore();
 
 const emit = defineEmits(['getCustomers']);
 

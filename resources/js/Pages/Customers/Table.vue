@@ -123,8 +123,6 @@ const handleSelectionChange = (selectedCustomersArray: []) => {
  * Deletes multiple selected customers at the same time.
  */
 const batchDelete = () => {
-    console.log('batchDelete()')
-    // console.log(customerStore.selectedCustomers)
     //Here we extract the selected customers' ids, and store them in an array.
     const customerIds = customerStore.selectedCustomers.map((customer) => customer.id)
     //Here we extract the selected customers' company names, and store them in an array.
@@ -189,7 +187,7 @@ interface Sort {
 }
 
 const sort = ( { prop, order }: Sort): void => {
-    console.log('sort triggered', prop, order);
+    // console.log('sort triggered', prop, order);
 
     //Setting the sort order in data()
     if (order === 'descending') {

@@ -48,6 +48,14 @@ export const useCustomerStore = defineStore(
             let newlyEditedCustomer = this.selectedCustomer;
             let index = this.customers.findIndex((nonEditedcustomer) => nonEditedcustomer.id === newlyEditedCustomer.id);
             this.customers[index] = newlyEditedCustomer;
-        }
+        },
+
+        setCurrentPage(page) {
+            this.paginationData.current_page = page;
+        },
+
+        setPageSize(size) {
+            this.paginationData.per_page = size;
+        },
     },
 });
