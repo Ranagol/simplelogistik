@@ -23,8 +23,6 @@
         >Search</el-button>
 
         <!-- CREATE NEW CUSTOMER POPUP -->
-        <!-- :errors="errors" -->
-        <!-- ******************************************************************* -->
         <Popup
             @submitCustomer="submitCustomer"
         ></Popup>
@@ -328,12 +326,12 @@ const handleCreate = () => {
  * It sets the mode to 'show', and it sets the selectedCustomer to the customer object
  * that the user wants to show.
  */
-const handleShow = (index, object) => {
-    customerStore.elDialogVisible = true;
-    customerStore.title = 'Show customer';
-    customerStore.mode = 'show';
-    customerStore.selectedCustomer = object;
-};
+// const handleShow = (index, object) => {
+//     customerStore.elDialogVisible = true;
+//     customerStore.title = 'Show customer';
+//     customerStore.mode = 'show';
+//     customerStore.selectedCustomer = object;
+// };
 
 /**
  * This function is triggered when the user clicks on the edit button in the table.
@@ -394,7 +392,7 @@ const createCustomer = () => {
                     message: 'Customer created successfully',
                     type: 'success',
                 });
-                // getCustomers();//get customers again, so that the new customer is displayed
+                // get customers again, so that the new customer is displayed
                 router.reload({ only: ['dataFromCustomerController'] })
                 customerStore.elDialogVisible = false;
             },

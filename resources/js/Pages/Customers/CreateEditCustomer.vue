@@ -188,14 +188,6 @@ import { useCustomerStore } from '@/Stores/customerStore';
 
 let customerStore = useCustomerStore();
 
-
-// let props = defineProps({
-//     resetForm: {
-//         type: Boolean,
-//         default: false,
-//     },
-// });
-
 /**
  * Here we define, what structure should have the customer object.
  */
@@ -220,22 +212,22 @@ const ruleFormRef = ref<FormInstance>()
  * and it's initially set with all properties as empty strings. 
  */
  let customer = reactive<RuleForm>({
-    // company_name: '',
-    // name: '',
-    // email: '',
-    // rating: '',
-    // tax_number: '',
-    // internal_cid: '',
+    //Use this for creating a new customer
+    company_name: '',
+    name: '',
+    email: '',
+    rating: '',
+    tax_number: '',
+    internal_cid: '',
 
-    company_name: 'Dummy from Create',
-    name: 'sdfv',
-    email: 'bla@gmail.com',
-    rating: '5',
-    tax_number: '5555',
-    internal_cid: '66666',
+    //Use this to stamp customers during development
+    // company_name: 'Dummy from Create',
+    // name: 'sdfv',
+    // email: 'bla@gmail.com',
+    // rating: '5',
+    // tax_number: '5555',
+    // internal_cid: '66666',
 })
-
-
 
 /**
  * The validation rules for the form.
@@ -268,36 +260,23 @@ const rules = reactive<FormRules<RuleForm>>({
 const emit = defineEmits(['submitCustomer']);
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
-    console.log('formEl:', formEl)
 
     await formEl.validate((valid, fields) => {
-        console.log('valid:', valid)
-        console.log('fields:', fields)
         if (valid) {//if validation is OK, then submit the customer
             
             customerStore.selectedCustomer = customer;
             emit('submitCustomer');
             
         } else {//if validation is not OK, then show the errors
-            console.log('FE validation not OK, error submit!', fields)
-            console.log('customer:', customer)
-            console.log('customerStore.selectedCustomer:', customerStore.selectedCustomer)
-
-
+            // console.log('FE validation not OK, error submit!', fields)
+            // console.log('customer:', customer)
+            // console.log('customerStore.selectedCustomer:', customerStore.selectedCustomer)
         }
     })
 }
 
 /**
- * Close the popup, by emitting the closePopup event. This will trigger the closePopup method in
- * the in Popup.vue. Which will set in Index.vue the elDialogVisible to false, and the popup will
- * close. Triggered by the Cancel button.
- * 
- * PROBLEM: When editing the customer (example the name), not submitting, but canceling, then in 
- * the list will be the edited, unfinished, unsubmitted new name, till the next page refresh.
- * 
- * SOLUTION: we emit the resetEditedCustomer event, which will trigger the resetEditedCustomer in
- * grandparent Index.vue, and this will reload all the customers. Whic will correct this issue
+ * Close the popup, and resets the customer values in this component to empty.
  */
 let cancel = () => {
     customerStore.elDialogVisible = false;
@@ -305,37 +284,22 @@ let cancel = () => {
 }
 
 /**
- * Update the selectedCustomer object in the parent Index.vue. This is needed when the mode is 'show'
+ * Update the selectedCustomer object in store. This is needed when the mode is 'show'
  * or 'edit'. Not needed for create mode.
- * 
- * @param customer 
  */
 let updateSelectedCustomer = () => {
     customerStore.selectedCustomer = customer;
 }
 
-// onMounted(() => {
-//     console.log('onMounted.');
-//     customer = customerStore.selectedCustomer;
-// });
-
-// onActivated, onUpdated(() => {
-//   console.log('onActivated, onUpdated.')
-// });
-
-// onUpdated(() => {
-//   console.log('onUpdated.')
-// });
-
+/**
+ * Before this component is mounted, if we are in edit mode, then we have to set the empty customer
+ * form to be = to the selectedCustomer, that has to be edited.
+ */
 onBeforeMount(() => {
-    console.log('This code runs before the component is mounted');
     if (customerStore.mode==='edit') {
         customer = customerStore.selectedCustomer; 
     }
-
 });
-
-
 
 </script>
 
