@@ -37,6 +37,7 @@ Route::get('/', function () {
 // Route::post('/delete-customer', [TmsCustomerController::class, 'customerDelete'])->name('customers.delete');
 Route::resource('users', UserController::class);
 Route::resource('customers', TmsCustomerController::class);
+Route::post('/customers-batch-delete', [TmsCustomerController::class, 'batchDelete'])->name('customers.batch.delete');
 Route::resource('cargo-orders', TmsCargoOrderController::class);
 Route::resource('addresses', TmsAddressController::class);
 Route::resource('experiments', ExperimentController::class);

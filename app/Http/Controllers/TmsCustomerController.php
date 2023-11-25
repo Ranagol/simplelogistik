@@ -95,13 +95,34 @@ class TmsCustomerController extends Controller
      * Deletes customers. This triggers the onSuccess event in FE component, which then displays
      * the success message to the user, and then the FE component calls the $this->index() method,
      * which returns the customers. So, the user gets his feedback, and the customer list is refreshed.
-     *
+     * 
      * @param [type] $id
      * @return void
      */
     public function destroy(Request $request, $id): void
     {
         TmsCustomer::destroy($id);
+    }
+
+    /**
+     * Deletes multiple customers at the same time.
+     * destroy() can be used for multiple deletes too, if you send an array of ids:
+     * https://laravel.com/docs/10.x/eloquent#deleting-an-existing-model-by-its-primary-key
+     * Example:
+     * Flight::destroy(1);
+     * Flight::destroy(1, 2, 3);
+     * Flight::destroy([1, 2, 3]);
+     * 
+     * So $id here can be an integer, or an array of integers.
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function batchDelete(Request $request): void
+    {
+        $customerIds = $request->customerIds;
+        // dd($customerIds);
+        TmsCustomer::destroy($customerIds);
     }
 
     /**
