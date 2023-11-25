@@ -1,26 +1,11 @@
 <template>
-    <Head title="Customers" />
+    <!-- <Head title="Customers" /> -->
 
     <Card>
-        <h1>Customers</h1>
-
-        <!-- CUSTOMERS SEARCH FIELD -->
-        <el-input
-            placeholder="Search customers..."
-            v-model="data.searchTerm"
-            clearable
-            ref="searchTermRef"
-            @clear="getCustomers()"
-            @change="getCustomers()"
-            @input="getCustomers()"
-            @keyup.escape.native="clearSearchTermWithEsc()"
+        <!-- <h1>Customers</h1> -->
+        <SearchField
+            @getCustomers="getCustomers"
         />
-
-        <!-- SEARCH BUTTON-->
-        <el-button
-            @click="getCustomers"
-            type="primary"
-        >Search</el-button>
 
         <!-- CREATE NEW CUSTOMER POPUP -->
         <Popup
@@ -145,6 +130,7 @@ import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
+import SearchField from '@/Pages/Customers/SearchField.vue';
 
 let customerStore = useCustomerStore();
 
@@ -192,9 +178,6 @@ watch(
 
 //DATA
 let data = reactive({
-    
-    //search by text
-    searchTerm: props.searchTermProp,
 
     //sort in el-table
     sortOrder: props.sortOrderProp,
@@ -333,7 +316,7 @@ let getCustomers = () => {
             /**
              * This is the data that we send to the backend.
              */
-            searchTerm: data.searchTerm,
+            searchTerm: customerStore.searchTerm,
             sortColumn: data.sortColumn,
             sortOrder: data.sortOrder,
             page: data.paginationData.current_page,
@@ -390,14 +373,7 @@ const sort = ( { prop, order }: Sort): void => {
     getCustomers();
 };
 
-/**
- * INPUT FIELD
- * When ESC is hit, we want to clear the search term, and get all customers again.
- */
- const clearSearchTermWithEsc = () => {
-    data.searchTerm = '';
-    getCustomers();
-};
+
 
 /**
  * This function is triggered when the user clicks on the create new customer button.
@@ -522,17 +498,6 @@ const editCustomer = () => {
     )
 };
   
-let searchTermRef = ref(null);
-onMounted(() => {
 
-    /**
-     * INPUT FIELD
-     * When the page is loaded, we want to focus on the search input.
-     * So we use the mounted() lifecycle hook, and we focus on the search input.
-     */
-    nextTick(() => {
-        searchTermRef.value.focus();
-    });
-});
 
 </script>

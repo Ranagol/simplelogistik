@@ -6,6 +6,7 @@ export const useCustomerStore = defineStore(
     state: () => ({
         customers: [],
         selectedCustomer: {},
+        searchTerm: '',
         mode: '',
         elDialogVisible: false,
         errors: {},
