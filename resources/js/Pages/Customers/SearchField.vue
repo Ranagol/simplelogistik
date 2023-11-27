@@ -1,22 +1,20 @@
 <template>
 
-    <!-- autofocus -->
-        <!-- tabindex="1" -->
     <!-- CUSTOMERS SEARCH FIELD -->
     <el-input
-        placeholder="Search customers..."
-        v-model="customerStore.searchTerm"
+        :placeholder="props.placeholder"
+        v-model="store.searchTerm"
         clearable
         ref="searchTermRef"
-        @clear="getCustomers()"
-        @change="getCustomers()"
-        @input="getCustomers()"
+        @clear="getData()"
+        @change="getData()"
+        @input="getData()"
         @keyup.escape.native="clearSearchTermWithEsc()"
     />
 
     <!-- SEARCH BUTTON-->
     <el-button
-        @click="getCustomers"
+        @click="getData"
         type="primary"
         class="mr-3 mt-3 mb-3"
     >Search</el-button>
@@ -26,22 +24,24 @@
 <script lang="ts" setup>
 import { reactive, ref, computed, watch, onUpdated, onMounted, nextTick } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests;
-import { useCustomerStore } from '@/Stores/customerStore';
 
-let customerStore = useCustomerStore();
+const props = defineProps({
+    store: Object,
+    placeholder: String,
+});
 
-const emit = defineEmits(['getCustomers']);
+const emit = defineEmits(['getData']);
 
 /**
  * When ESC is hit, we want to clear the search term, and get all customers again.
  */
  const clearSearchTermWithEsc = () => {
-    customerStore.searchTerm = '';
-    getCustomers();
+    props.store.searchTerm = '';
+    getData();
 };
 
-function getCustomers() {
-    emit('getCustomers');
+function getData() {
+    emit('getData');
 }
 
 //SETTING FOCUS IN INPUT FIELD

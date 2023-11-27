@@ -23,6 +23,7 @@ export const useCustomerStore = defineStore(
 
         errors: {},//validation errors from the backend
         title: '',//the title for the createEditCustomer component
+        titleForIndex: 'Customers',
         customerResetValues: {
             company_name: '',
             name: '',

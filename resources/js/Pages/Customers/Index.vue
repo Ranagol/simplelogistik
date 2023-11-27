@@ -1,11 +1,13 @@
 <template>
-    <Head title="Customers" />
+    <Head :title="Customer" />
 
     <Card>
         <h1>Customers</h1>
 
         <SearchField
-            @getCustomers="getCustomers"
+            placeholder="Search customers..."
+            :store="customerStore"
+            @getData="getData"
         />
 
         <!-- CREATE NEW CUSTOMER POPUP -->
@@ -21,21 +23,21 @@
 
         <!-- CUSTOMERS TABLE -->
         <Table
-            @getCustomers="getCustomers"
+            @getData="getData"
             @handleEdit="handleEdit"
             @handleDelete="handleDelete"
         />
 
         <!-- PAGINATION -->
         <Pagination
-            @getCustomers="getCustomers"
+            @getData="getData"
         />
     </Card>
 
 </template>
 
 <script lang="ts" setup>
-import { Customer } from '@/types/models/Customer';
+import { TmsCustomer } from '@/types/model_to_type';
 import Card from '@/Shared/Card.vue';
 import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
@@ -126,7 +128,7 @@ watch(
 //METHODS
 
 /**
- * getCustomers() is triggered by: 
+ * getData() is triggered by: 
  * 
  * the search button, 
  * the sorting clicks, 
@@ -135,12 +137,12 @@ watch(
  * If enter is hit by the user.
  * 
  * It sends a request to the backend to get the customers. The backend will return the customers 
- * sorted and the pagination data. getCustomers() does not have arguments, because it uses the
+ * sorted and the pagination data. getData() does not have arguments, because it uses the
  * data from data(). Because every search/sort/paginate change is in the data().
  * Now customers from this function arrive to props. There is a watcher for props, that sends customers
  * from props to Pinia store.
  */
-let getCustomers = (): void => {
+let getData = (): void => {
     const customers = router.get(
         '/customers',
         {
