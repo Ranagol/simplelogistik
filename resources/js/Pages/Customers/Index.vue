@@ -1,5 +1,5 @@
 <template>
-    <Head :title="Customer" />
+    <Head title="Customer" />
 
     <Card>
         <h1>Customers</h1>
@@ -8,18 +8,14 @@
             placeholder="Search customers..."
             :store="customerStore"
             @getData="getData"
+            createButtonText="Create new customer"
+            @handleCreate="handleCreate"
         />
 
         <!-- CREATE NEW CUSTOMER POPUP -->
         <Popup
             @submitCustomer="submitCustomer"
         ></Popup>
-
-        <!-- CREATE NEW CUSTOMER BUTTON -->
-        <el-button
-            @click="handleCreate"
-            type="info"
-        >Create new customer</el-button>
 
         <!-- CUSTOMERS TABLE -->
         <Table
