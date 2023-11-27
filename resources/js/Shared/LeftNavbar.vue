@@ -35,10 +35,10 @@
             </el-menu-item>
 
             <!-- PALMYRA -->
-            <el-menu-item index="Palmyra">
+            <el-menu-item index="Pamyra">
                 <NavLink
-                    href="/palmyra"
-                >Palmyra</NavLink>
+                    href="/pamyra"
+                >Pamyra</NavLink>
             </el-menu-item>
             
             <!-- CUSTOMERS -->
