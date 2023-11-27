@@ -7,7 +7,6 @@
         placeholder="Search customers..."
         v-model="customerStore.searchTerm"
         clearable
-        
         ref="searchTermRef"
         @clear="getCustomers()"
         @change="getCustomers()"
@@ -19,6 +18,7 @@
     <el-button
         @click="getCustomers"
         type="primary"
+        class="mr-3 mt-3 mb-3"
     >Search</el-button>
     
 </template>
