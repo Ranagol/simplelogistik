@@ -1,56 +1,34 @@
 <template>
     <el-table
-        :data="customerStore.customers"
+        :data="store[props.modelPlural]"
         style="width: 100%"
         @sort-change="sort"
         ref="multipleTableRef"
         @selection-change="handleSelectionChange"
+        stripe
+        highlight-current-row
+        empty-text="No result. Try with different search parameters."
+        class="mt-2"
     >
+        <!-- CHECKBOX FOR BATCH DELETE -->
         <el-table-column
             type="selection"
             width="55"
         />
 
+        <!-- LOOPED COLUMNS -->
         <el-table-column
-            prop="id"
-            label="ID"
-            width="80"
-            sortable="custom"
+            v-for="column in props.tableColumns"
+            :key="column.prop"
+            :prop="column.prop"
+            :label="column.label"
+            :sortable="column.sortable"
+            :width="column.width ? column.width : ''"
         ></el-table-column>
 
+        <!-- SHOW/EDIT/DELETE BUTTON IN THE TABLE (FIX, NOT LOOPED COLUMNS) -->
         <el-table-column
-            prop="company_name"
-            label="Company name"
-            sortable="custom"
-        ></el-table-column>
-
-        <el-table-column
-            prop="name"
-            label="Name"
-            sortable="custom"
-        ></el-table-column>
-
-        <el-table-column
-            prop="email"
-            label="Email"
-            sortable="custom"
-        ></el-table-column>
-
-        <el-table-column
-            prop="rating"
-            label="Rating"
-            sortable="custom"
-        ></el-table-column>
-
-        <el-table-column
-            prop="tax_number"
-            label="Tax number"
-            sortable="custom"
-        ></el-table-column>
-
-        <!-- SHOW/EDIT/DELETE BUTTON IN THE TABLE -->
-        <el-table-column
-            label="Show/Edit/Delete"
+            label="Edit/Delete"
         >
             <template #default="scope">
 
@@ -91,12 +69,19 @@
 <script lang="ts" setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests;
-import { useCustomerStore } from '@/Stores/customerStore';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 
-let customerStore = useCustomerStore();
+const emit = defineEmits(['getData', 'handleEdit', 'handleDelete']);
 
-const emit = defineEmits(['getCustomers', 'handleEdit', 'handleDelete']);
+const props = defineProps({
+    tableColumns: Array,
+    store: Object,
+    company_name: String,
+    batchDeleteUrl: String,
+    modelSingular: String,
+    modelPlural: String,
+    selectedObjects: String
+});
 
 //BATCH DELETE
 /**
@@ -113,29 +98,29 @@ const clearSelection = () => {
 /**
  * For batch delete.
  * Will receive an array of users from @selection-change="handleSelectionChange", by default.
- * Will store these users in customerStore.selectedCustomers.
+ * Will store these users in store.selectedObjects
  */
-const handleSelectionChange = (selectedCustomersArray: []) => {
-    customerStore.selectedCustomers = selectedCustomersArray;
+const handleSelectionChange = (arrayOfSelectedObjects: []) => {
+    props.store[props.selectedObjects] = arrayOfSelectedObjects;
 }
 
 /**
- * Deletes multiple selected customers at the same time.
+ * Deletes multiple selected objects at the same time.
  */
 const batchDelete = () => {
-    //Here we extract the selected customers' ids, and store them in an array.
-    const customerIds = customerStore.selectedCustomers.map((customer) => customer.id)
-    //Here we extract the selected customers' company names, and store them in an array.
-    const customerCompanyNames = customerStore.selectedCustomers.map((customer) => customer.company_name)
-    let stringOfNames = '<br>';//Here we will add the customer names to a string, so that we can show them in the confirmation message.
-    customerCompanyNames.forEach((customerCompanyName) => {
-        console.log(customerCompanyName)
-        stringOfNames += customerCompanyName + '<br>'
+    //Here we extract the selected objects' ids, and store them in an array.
+    const objectIdsForBatchDeleting = props.store[props.selectedObjects].map((object) => object.id)
+    //Here we extract the selected objects' company names, and store them in an array.
+    const warningItemNamesForBatchDelete = props.store[props.selectedObjects].map((object) => object.id)
+    let stringOfNames = '<br>';//Here we will add the object names to a string, so that we can show them in the confirmation message.
+    warningItemNamesForBatchDelete.forEach((warningItemName) => {
+        console.log(warningItemName)
+        stringOfNames += warningItemName + '<br>'
     })
 
-    // Asks for confirmation message, for deleting the customer.
+    // Asks for confirmation message, for deleting the object.
     ElMessageBox.confirm(
-        'The selected customers will be deleted:' + stringOfNames + 'Continue?',
+        `The selected ${props.modelPlural} will be deleted: ${stringOfNames}. Continue?`,
         'Warning',
         {
             confirmButtonText: 'OK',
@@ -147,17 +132,17 @@ const batchDelete = () => {
     .then(() => {
         //If the deleting wish is confirmed, then we send the delete request to the backend.
         router.post(
-            '/customers-batch-delete',
+            props.batchDeleteUrl,//the url where we send the batch delete request
             {
-                customerIds: customerIds//customers with these ids will be deleted
+                customerIds: objectIdsForBatchDeleting//objects with these ids will be deleted
             },
             {
                 onSuccess: () => {
                     ElMessage({
-                        message: 'Customer deleted successfully',
+                        message: `${props.modelSingular} deleted successfully`,
                         type: 'success',
                     });
-                    router.reload({ only: ['dataFromCustomerController'] });
+                    router.reload({ only: ['dataFromController'] });
                 },
                 onError: (errors) => {
                     ElMessage.error('Oops, something went wrong during batch delete.')
@@ -191,17 +176,17 @@ const sort = ( { prop, order }: Sort): void => {
 
     //Setting the sort order in data()
     if (order === 'descending') {
-        customerStore.sortOrder = 'desc';
+        props.store.sortOrder = 'desc';
     } else {
-        customerStore.sortOrder = 'asc';
+        props.store.sortOrder = 'asc';
     }
     //Setting sortColumn ind data()
-    customerStore.sortColumn = prop;
-    getCustomers();
+    props.store.sortColumn = prop;
+    getData();
 };
 
-const getCustomers = () => {
-    emit('getCustomers');
+const getData = () => {
+    emit('getData');
 };
 
 const handleEdit = (index: number, row: any) => {

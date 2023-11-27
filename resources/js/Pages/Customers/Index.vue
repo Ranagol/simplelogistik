@@ -22,6 +22,13 @@
             @getData="getData"
             @handleEdit="handleEdit"
             @handleDelete="handleDelete"
+            :tableColumns="data.customerTableColumns"
+            :store="customerStore"
+            warningItemForBatchDelete="company_name"
+            batchDeleteUrl="/customers-batch-delete"
+            modelSingular="customer"
+            modelPlural="customers"
+            selectedObjects="selectedCustomers"
         />
 
         <!-- PAGINATION -->
@@ -42,7 +49,7 @@ import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Shared/SearchField.vue';
-import Table from '@/Pages/Customers/CustomersTable.vue';
+import Table from '@/Shared/Table.vue';
 import Pagination from '@/Pages/Customers/Pagination.vue';
 
 let customerStore = useCustomerStore();
@@ -52,7 +59,7 @@ let props = defineProps(
     {
         // elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
         errors: Object, 
-        dataFromCustomerController: Object,
+        dataFromController: Object,
 
         /**
          * We need to pass the searchTermProp, sortColumnProp and sortOrderProp from the backend
@@ -68,11 +75,11 @@ let props = defineProps(
 //WATCHERS FOR PROPS: they send data received from backend to Pinia store
 //Sends the customers to Pinia store, as soon arrives from backend.
 watch(
-    () => props.dataFromCustomerController,
+    () => props.dataFromController,
     (newVal: object, oldVal: object): void => {
         /**
          * Unfortunatelly, customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromCustomerController. We need
+         * That is what we have here in the dataFromController. We need
          * seaparted customers and separated pagination data. This will happen in computed properties.
          */
         customerStore.customers = newVal.data;
@@ -80,7 +87,7 @@ watch(
         /**
          * All pagination related data is stored here. 
          * Unfortunatelly,customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromCustomerController. We need
+         * That is what we have here in the dataFromController. We need
          * seaparated customers and separated pagination data. This will happen in computed properties.
          * Here. So, this is the pagination related data. And a small reminder:
          * 
@@ -89,7 +96,7 @@ watch(
          * page-size	        paginationData.per_page             Number of items / page
          * total	            paginationData.total                Number of all db records
          */
-        customerStore.paginationData = _.omit({...props.dataFromCustomerController}, 'data');
+        customerStore.paginationData = _.omit({...props.dataFromController}, 'data');
     },
     { immediate: true, deep: true }
 );
@@ -119,6 +126,42 @@ watch(
     { immediate: true, deep: true }
 );
 
+let data = reactive({
+    customerTableColumns: [
+        {
+            label: 'Id',
+            prop: 'id',
+            sortable: 'custom',
+            width: '70px',
+        },
+        {
+            label: 'Internal CID',
+            prop: 'internal_cid',
+            sortable: 'custom',
+        },
+        {
+            label: 'Company name',
+            prop: 'company_name',
+            sortable: 'custom',
+        },
+        {
+            label: 'Email',
+            prop: 'email',
+            sortable: 'custom',
+        },
+        {
+            label: 'Tax number',
+            prop: 'tax_number',
+            sortable: 'custom',
+        },
+        {
+            label: 'Rating',
+            prop: 'rating',
+            sortable: 'custom',
+            width: '100px',
+        }
+    ],
+});
 
 
 //METHODS
@@ -203,7 +246,7 @@ const handleDelete = (index, object) => {
                         message: 'Customer deleted successfully',
                         type: 'success',
                     });
-                    router.reload({ only: ['dataFromCustomerController'] });
+                    router.reload({ only: ['dataFromController'] });
                 },
                 onError: (errors) => {
                     ElMessage.error('Oops, something went wrong while deleting a customer.')
@@ -244,7 +287,7 @@ const createCustomer = () => {
                     type: 'success',
                 });
                 // get customers again, so that the new customer is displayed
-                router.reload({ only: ['dataFromCustomerController'] })
+                router.reload({ only: ['dataFromController'] })
                 customerStore.elDialogVisible = false;
             },
             onError: (errors) => {
@@ -266,7 +309,7 @@ const editCustomer = () => {
                     message: 'Customer edited successfully',
                     type: 'success',
                 });
-                router.reload({ only: ['dataFromCustomerController'] })
+                router.reload({ only: ['dataFromController'] })
                 customerStore.elDialogVisible = false;
             },
             onError: (errors) => {

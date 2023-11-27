@@ -42,6 +42,7 @@ Route::resource('customers', TmsCustomerController::class);
 Route::post('/customers-batch-delete', [TmsCustomerController::class, 'batchDelete'])->name('customers.batch.delete');
 Route::resource('cargo-orders', TmsCargoOrderController::class);
 Route::resource('addresses', TmsAddressController::class);
+Route::post('/addresses-batch-delete', [TmsAddressController::class, 'batchDelete'])->name('addresses.batch.delete');
 Route::resource('experiments', ExperimentController::class);
 Route::resource('vehicles', TmsVehicleController::class);
 Route::resource('requirements', TmsRequirementController::class);

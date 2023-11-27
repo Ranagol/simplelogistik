@@ -31,7 +31,7 @@ class TmsCustomerController extends Controller
 
         $t = 8;
         return Inertia::render('Customers/Index', [
-            'dataFromCustomerController' => $customers,
+            'dataFromController' => $customers,
             'searchTermProp' => $searchTerm,
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,

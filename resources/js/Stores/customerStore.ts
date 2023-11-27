@@ -7,9 +7,9 @@ export const useCustomerStore = defineStore(
     'customer', {
 
     state: () => ({
-        customers: [] as TmsCustomers,
+        customers: [] as TmsCustomers,//these are customers
         selectedCustomer: {} as TmsCustomer,//for edit, create, delete
-        selectedCustomers: [] as TmsCustomers,//this is for batch delete
+        selectedObjects: [] as TmsCustomers,//this is for batch delete
         searchTerm: '',//for search field
         mode: '',
         elDialogVisible: false as boolean,//turns on the popup

@@ -54,7 +54,7 @@ let props = defineProps(
     {
         // elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
         errors: Object, 
-        dataFromCustomerController: Object,
+        dataFromController: Object,
 
         /**
          * We need to pass the searchTermProp, sortColumnProp and sortOrderProp from the backend
@@ -70,11 +70,11 @@ let props = defineProps(
 //WATCHERS FOR PROPS: they send data received from backend to Pinia store
 //Sends the customers to Pinia store, as soon arrives from backend.
 watch(
-    () => props.dataFromCustomerController,
+    () => props.dataFromController,
     (newVal: object, oldVal: object): void => {
         /**
          * Unfortunatelly, customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromCustomerController. We need
+         * That is what we have here in the dataFromController. We need
          * seaparted customers and separated pagination data. This will happen in computed properties.
          */
         customerStore.customers = newVal.data;
@@ -82,7 +82,7 @@ watch(
         /**
          * All pagination related data is stored here. 
          * Unfortunatelly,customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromCustomerController. We need
+         * That is what we have here in the dataFromController. We need
          * seaparated customers and separated pagination data. This will happen in computed properties.
          * Here. So, this is the pagination related data. And a small reminder:
          * 
@@ -91,7 +91,7 @@ watch(
          * page-size	        paginationData.per_page             Number of items / page
          * total	            paginationData.total                Number of all db records
          */
-        customerStore.paginationData = _.omit({...props.dataFromCustomerController}, 'data');
+        customerStore.paginationData = _.omit({...props.dataFromController}, 'data');
     },
     { immediate: true, deep: true }
 );
@@ -205,7 +205,7 @@ const handleDelete = (index, object) => {
                         message: 'Customer deleted successfully',
                         type: 'success',
                     });
-                    router.reload({ only: ['dataFromCustomerController'] });
+                    router.reload({ only: ['dataFromController'] });
                 },
                 onError: (errors) => {
                     ElMessage.error('Oops, something went wrong while deleting a customer.')
@@ -246,7 +246,7 @@ const createCustomer = () => {
                     type: 'success',
                 });
                 // get customers again, so that the new customer is displayed
-                router.reload({ only: ['dataFromCustomerController'] })
+                router.reload({ only: ['dataFromController'] })
                 customerStore.elDialogVisible = false;
             },
             onError: (errors) => {
@@ -268,7 +268,7 @@ const editCustomer = () => {
                     message: 'Customer edited successfully',
                     type: 'success',
                 });
-                router.reload({ only: ['dataFromCustomerController'] })
+                router.reload({ only: ['dataFromController'] })
                 customerStore.elDialogVisible = false;
             },
             onError: (errors) => {
