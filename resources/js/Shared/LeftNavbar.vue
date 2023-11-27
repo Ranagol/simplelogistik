@@ -95,6 +95,59 @@
                 </el-menu-item>
             </el-sub-menu>
 
+            <!-- VEHICLES -->
+            <el-sub-menu
+                index="vehicles"
+            >
+                <template #title>
+                    <span>Vehicles</span>
+                </template>
+
+                <el-menu-item 
+                    index="vehicles.index"
+                >
+                    <NavLink
+                        href="/vehicles"
+                    >Vehicles list</NavLink>
+                </el-menu-item>
+
+                <!-- JUST FOR TEMPORARY DISPLAY -->
+                <el-menu-item 
+                    index="222"
+                >
+                    <NavLink
+                        href="/random"
+                    >Just temporary</NavLink>
+                </el-menu-item>
+            </el-sub-menu>
+
+            <!-- REQUIREMENTS -->
+            <el-sub-menu
+                index="requirements"
+            >
+                <template #title>
+                    <span>Requirements</span>
+                </template>
+
+                <!-- ADDRESSES INDEX -->
+                <el-menu-item 
+                    index="requirements.index"
+                >
+                    <NavLink
+                        href="/requirements"
+                    >Requirements list</NavLink>
+                </el-menu-item>
+
+                <!-- JUST FOR TEMPORARY DISPLAY -->
+                <el-menu-item 
+                    index="222"
+                >
+                    <NavLink
+                        href="/random"
+                    >Just temporary</NavLink>
+                </el-menu-item>
+            </el-sub-menu>
+
             <!-- CARGOORDERS -->
             <el-sub-menu
                 index="cargo-orders"
@@ -143,12 +196,12 @@ export default defineComponent({
     },
     methods: {
         handleOpen(key: string, keyPath: string) {
-            console.log('handleOpen');
-            console.log(key, keyPath);
+            // console.log('handleOpen');
+            // console.log(key, keyPath);
         },
         handleClose(key: string, keyPath: string) {
-            console.log('handleClose');
-            console.log(key, keyPath);
+            // console.log('handleClose');
+            // console.log(key, keyPath);
         }
     }
 });

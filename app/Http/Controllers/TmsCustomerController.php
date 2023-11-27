@@ -6,7 +6,6 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsCustomer;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsCustomerController extends Controller
@@ -40,7 +39,7 @@ class TmsCustomerController extends Controller
         ]);
     }
 
-    public function show($id): void
+    public function show(string $id): void
     {
         $customer = TmsCustomer::find($id);
     }
@@ -77,7 +76,7 @@ class TmsCustomerController extends Controller
      * @param [type] $id
      * @return void
      */
-    public function update(Request $request, $id): void
+    public function update(Request $request, string $id): void
     {
         $request->validate([
             'company_name' => 'required|string|min:2|max:100',
@@ -99,7 +98,7 @@ class TmsCustomerController extends Controller
      * @param [type] $id
      * @return void
      */
-    public function destroy(Request $request, $id): void
+    public function destroy(Request $request, string $id): void
     {
         TmsCustomer::destroy($id);
     }
@@ -176,5 +175,3 @@ class TmsCustomerController extends Controller
         return $customers;
     }
 }
-
-

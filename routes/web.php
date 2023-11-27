@@ -9,8 +9,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ExperimentController;
 use App\Http\Controllers\TmsAddressController;
+use App\Http\Controllers\TmsVehicleController;
 use App\Http\Controllers\TmsCustomerController;
 use App\Http\Controllers\TmsCargoOrderController;
+use App\Http\Controllers\TmsRequirementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,10 @@ Route::post('/customers-batch-delete', [TmsCustomerController::class, 'batchDele
 Route::resource('cargo-orders', TmsCargoOrderController::class);
 Route::resource('addresses', TmsAddressController::class);
 Route::resource('experiments', ExperimentController::class);
+Route::resource('vehicles', TmsVehicleController::class);
+Route::resource('requirements', TmsRequirementController::class);
+
+
 
 
 
