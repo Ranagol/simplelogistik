@@ -1,13 +1,13 @@
 <template>
     <el-pagination
-        :current-page="customerStore.paginationData.current_page"
-        :page-size="customerStore.paginationData.per_page"
-        :total="customerStore.paginationData.total"
+        :current-page="props.store.paginationData.current_page"
+        :page-size="props.store.paginationData.per_page"
+        :total="props.store.paginationData.total"
         :page-sizes="[5, 10, 15, 20]"
         layout="total, sizes, prev, pager, next, jumper"
 
-        @update:current-page="page => customerStore.setCurrentPage(page)"
-        @update:page-size="size => customerStore.setPageSize(size)"
+        @update:current-page="page => props.store.setCurrentPage(page)"
+        @update:page-size="size => props.store.setPageSize(size)"
 
         @size-change="handleItemsPerPageChange"
         @current-change="handleCurrentPageChange"
@@ -18,11 +18,12 @@
 <script lang="ts" setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests;
-import { useCustomerStore } from '@/Stores/customerStore';
 
-let customerStore = useCustomerStore();
+const emit = defineEmits(['getData']);
 
-const emit = defineEmits(['getCustomers']);
+const props = defineProps({
+    store: Object,
+});
 
 /**
  * PAGINATION 1
@@ -32,8 +33,8 @@ const emit = defineEmits(['getCustomers']);
  * We set the this.paginationData.per_page to the new value.
  */
  const handleItemsPerPageChange = (newItemsPerPage: number): void => {
-    customerStore.paginationData.per_page = newItemsPerPage;
-    getCustomers();
+    props.store.paginationData.per_page = newItemsPerPage;
+    getData();
 };
 
 /**
@@ -45,12 +46,12 @@ const emit = defineEmits(['getCustomers']);
  * ->paginate().
  */
  const handleCurrentPageChange = (newCurrentPage: number) => {
-    customerStore.paginationData.current_page = newCurrentPage;
-    getCustomers();
+    props.store.paginationData.current_page = newCurrentPage;
+    getData();
 };
 
-function getCustomers() {
-    emit('getCustomers');
+function getData() {
+    emit('getData');
 }
 
 </script>

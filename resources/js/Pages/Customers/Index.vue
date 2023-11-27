@@ -34,6 +34,7 @@
         <!-- PAGINATION -->
         <Pagination
             @getData="getData"
+            :store="customerStore"
         />
     </Card>
 
@@ -50,7 +51,7 @@ import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Shared/SearchField.vue';
 import Table from '@/Shared/Table.vue';
-import Pagination from '@/Pages/Customers/Pagination.vue';
+import Pagination from '@/Shared/Pagination.vue';
 
 let customerStore = useCustomerStore();
 
