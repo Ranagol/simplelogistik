@@ -1,24 +1,6 @@
 <template>
     <Card>
-        <ul>
-            <!-- :class... Here we set the background, text, look of the selected nav item
-            If we are one the Home page, the Home nav item will be selected, and so on.
-            -->
-            <!-- <li
-                v-for="menuItem in menuItems"
-                :key="menuItem.name"
-                class="nav_item"
-                :class="{ 'selected_nav_item': $page.component === menuItem.path }"
-            >
-                <NavLink
-                    :href="menuItem.url"
-                >{{ menuItem.name }}</NavLink>
-            </li> -->
-        </ul>
 
-        
-
-        <!-- DYNAMIC WITH LOOPING -->
         <el-menu
             @open="handleOpen"
             @close="handleClose"

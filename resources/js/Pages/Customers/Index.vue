@@ -73,7 +73,7 @@ let props = defineProps(
 //Sends the customers to Pinia store, as soon arrives from backend.
 watch(
     () => props.dataFromCustomerController,
-    (newVal, oldVal) => {
+    (newVal: object, oldVal: object): void => {
         /**
          * Unfortunatelly, customers are coming in from backend mixed with pagination data.
          * That is what we have here in the dataFromCustomerController. We need
@@ -101,7 +101,7 @@ watch(
 //Sends the errors to Pinia store, as soon arrives from backend.
 watch(
     () => props.errors,
-    (newVal, oldVal) => {
+    (newVal: object, oldVal: object): void => {
         customerStore.errors = newVal;
     },
     { immediate: true, deep: true }
@@ -109,7 +109,7 @@ watch(
 
 watch(
     () => props.sortColumnProp,
-    (newVal, oldVal) => {
+    (newVal: string, oldVal: string): void => {
         customerStore.sortColumn = newVal;
     },
     { immediate: true, deep: true }
@@ -117,11 +117,11 @@ watch(
 
 watch(
     () => props.sortOrderProp,
-    (newVal, oldVal) => {
+    (newVal: string, oldVal: string): void => {
         customerStore.sortOrder = newVal;
     },
     { immediate: true, deep: true }
-)
+);
 
 
 
@@ -142,18 +142,18 @@ watch(
  * Now customers from this function arrive to props. There is a watcher for props, that sends customers
  * from props to Pinia store.
  */
-let getCustomers = () => {
+let getCustomers = (): void => {
     const customers = router.get(
         '/customers',
         {
             /**
              * This is the data that we send to the backend.
              */
-            searchTerm: customerStore.searchTerm,
-            sortColumn: customerStore.sortColumn,
-            sortOrder: customerStore.sortOrder,
-            page: customerStore.paginationData.current_page,
-            newItemsPerPage: customerStore.paginationData.per_page,
+            searchTerm: customerStore.searchTerm as string,
+            sortColumn: customerStore.sortColumn as string,
+            sortOrder: customerStore.sortOrder as string,
+            page: customerStore.paginationData.current_page as string,
+            newItemsPerPage: customerStore.paginationData.per_page as string,
         }
     );
 };
