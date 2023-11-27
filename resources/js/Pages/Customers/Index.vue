@@ -24,7 +24,7 @@
             @handleDelete="handleDelete"
             :tableColumns="data.customerTableColumns"
             :store="customerStore"
-            warningItemForBatchDelete="company_name"
+            warningItem="company_name"
             batchDeleteUrl="/customers-batch-delete"
             modelSingular="customer"
             modelPlural="customers"

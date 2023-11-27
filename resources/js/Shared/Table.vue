@@ -80,7 +80,8 @@ const props = defineProps({
     batchDeleteUrl: String,
     modelSingular: String,
     modelPlural: String,
-    selectedObjects: String
+    selectedObjects: String,
+    warningItem: String,
 });
 
 //BATCH DELETE
@@ -111,7 +112,7 @@ const batchDelete = () => {
     //Here we extract the selected objects' ids, and store them in an array.
     const objectIdsForBatchDeleting = props.store[props.selectedObjects].map((object) => object.id)
     //Here we extract the selected objects' company names, and store them in an array.
-    const warningItemNamesForBatchDelete = props.store[props.selectedObjects].map((object) => object.id)
+    const warningItemNamesForBatchDelete = props.store[props.selectedObjects].map((object) => object[props.warningItem])
     let stringOfNames = '<br>';//Here we will add the object names to a string, so that we can show them in the confirmation message.
     warningItemNamesForBatchDelete.forEach((warningItemName) => {
         console.log(warningItemName)
