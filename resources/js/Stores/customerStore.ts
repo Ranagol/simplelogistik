@@ -1,22 +1,25 @@
 import { defineStore } from 'pinia';
+import { TmsCustomer } from '@/types/model_to_type';
+import { TmsCustomers } from '@/types/model_to_type';
+import { PaginationData } from '@/types/customTypes';
 
 export const useCustomerStore = defineStore(
     'customer', {
 
     state: () => ({
-        customers: [],
-        selectedCustomer: {},//for edit, create, delete
-        selectedCustomers: [],//this is for batch delete
+        customers: [] as TmsCustomers,
+        selectedCustomer: {} as TmsCustomer,//for edit, create, delete
+        selectedCustomers: [] as TmsCustomers,//this is for batch delete
         searchTerm: '',//for search field
         mode: '',
-        elDialogVisible: false,//turns on the popup
+        elDialogVisible: false as boolean,//turns on the popup
 
         //sort in el-table
         sortOrder: '' as string,
         sortColumn: '' as string,
 
         //pagination
-        paginationData: {},
+        paginationData: {} as PaginationData,
 
         errors: {},//validation errors from the backend
         title: '',//the title for the createEditCustomer component
@@ -36,11 +39,11 @@ export const useCustomerStore = defineStore(
 
     actions: {//like methods. Use .this here
 
-        customersToStore(customers) {
+        customersToStore(customers: TmsCustomers) {
             this.customers = customers;
         },
 
-        deleteCustomer(customer) {
+        deleteCustomer(customer: TmsCustomer) {
             this.customers = this.customers.filter((item) => item.id !== customer.id);
         },
 
@@ -50,11 +53,11 @@ export const useCustomerStore = defineStore(
             this.customers[index] = newlyEditedCustomer;
         },
 
-        setCurrentPage(page) {
+        setCurrentPage(page: number) {
             this.paginationData.current_page = page;
         },
 
-        setPageSize(size) {
+        setPageSize(size: number) {
             this.paginationData.per_page = size;
         },
     },

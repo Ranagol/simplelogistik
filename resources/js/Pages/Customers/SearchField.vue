@@ -44,7 +44,6 @@ function getCustomers() {
     emit('getCustomers');
 }
 
-
 //SETTING FOCUS IN INPUT FIELD
 let searchTermRef = ref(null);
 onMounted(() => {

@@ -26,8 +26,6 @@
             @handleDelete="handleDelete"
         />
 
-        
-
         <!-- PAGINATION -->
         <Pagination
             @getCustomers="getCustomers"
@@ -157,35 +155,6 @@ let getCustomers = (): void => {
         }
     );
 };
-
-
-
-/**
- * PAGINATION 1
- * Example: by  default, we display 10 records per page. The user can change this to
- * 20, 30, 40... If the user for example changes the 10 to 20 records per page, then this
- * function will be triggered.
- * We set the this.paginationData.per_page to the new value.
- */
- const handleItemsPerPageChange = (newItemsPerPage: number): void => {
-    data.paginationData.per_page = newItemsPerPage;
-    getCustomers();
-};
-
-/**
- * PAGINATION 2
- * If there is any change, any click on the pagination element, we want to trigger this
- * pageChange() function. Now, if there is a change, then we will be moved to another
- * pagination page. Aka, there will be a new currentPage state. This new currentPage
- * will be automatically sent as an argument from the el-pagination component to Laravel
- * ->paginate().
- */
- const handleCurrentPageChange = (newCurrentPage: number) => {
-    data.paginationData.current_page = newCurrentPage;
-    getCustomers();
-};
-
-
 
 /**
  * This function is triggered when the user clicks on the create new customer button.

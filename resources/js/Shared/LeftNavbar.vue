@@ -169,7 +169,6 @@ export default defineComponent({
     font-weight: bold;
     color: white;
     border-radius: 6.4px;
-    /*box-shadow: 0 1px 3px #7367F0;*/
 }
 
 </style>
