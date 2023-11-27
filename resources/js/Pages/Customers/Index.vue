@@ -41,8 +41,8 @@ import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
-import SearchField from '@/Pages/Customers/SearchField.vue';
-import Table from '@/Pages/Customers/Table.vue';
+import SearchField from '@/Shared/SearchField.vue';
+import Table from '@/Pages/Customers/CustomersTable.vue';
 import Pagination from '@/Pages/Customers/Pagination.vue';
 
 let customerStore = useCustomerStore();
