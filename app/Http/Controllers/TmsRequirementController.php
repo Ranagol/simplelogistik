@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\TmsRe
 use App\Models\TmsRequirement;
-TmsRequirementuse Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsRequirementController extends Controller
