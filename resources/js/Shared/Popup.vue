@@ -4,16 +4,17 @@
         :title=props.store.title
         @open="handleDialogOpened"
     >
-        <CreateEditCustomer
+        <!-- :key="data.componentKey" makes component refreshing -->
+        <CreateEditCustomerContainer
             @submit="submit"
             :key="data.componentKey"
-        ></CreateEditCustomer>
+        ></CreateEditCustomerContainer>
 
     </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
+import CreateEditCustomerContainer from '@/Pages/Customers/CreateEditCustomerContainer.vue';
 import { reactive, watch, ref } from 'vue';
 
 const props = defineProps({

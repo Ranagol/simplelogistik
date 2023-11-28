@@ -12,7 +12,7 @@ export const useCustomerStore = defineStore(
         selectedObjects: [] as TmsCustomers,//this is for batch delete
         searchTerm: '',//for search field
         mode: '',
-        elDialogVisible: false as boolean,//turns on the popup
+        elDialogVisible: true as boolean,//turns on the popup
 
         //sort in el-table
         sortOrder: '' as string,
