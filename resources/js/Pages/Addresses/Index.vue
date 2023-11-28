@@ -240,7 +240,7 @@ let getData = (): void => {
 
 /**
  * This function is triggered when the user clicks on the create new address button.
- * It sets the mode to 'create', and it sets the selectedCustomer to the customerResetValues.
+ * It sets the mode to 'create', and it sets the selectedAddress to the customerResetValues.
  */
 const handleCreate = () => {
     console.log('handleCreate()');
@@ -251,7 +251,7 @@ const handleCreate = () => {
 
 /**
  * This function is triggered when the user clicks on the edit button in the table.
- * It sets the mode to 'edit', and it sets the selectedCustomer to the address object
+ * It sets the mode to 'edit', and it sets the selectedAddress to the address object
  * that the user wants to edit.
  */
 const handleEdit = (index, object) => {
@@ -259,7 +259,7 @@ const handleEdit = (index, object) => {
     addressStore.mode = 'edit';
     addressStore.elDialogVisible = true;
     addressStore.title = 'Edit address';
-    addressStore.selectedCustomer = object;
+    addressStore.selectedAddress = object;
 };
 
 /**
@@ -309,7 +309,7 @@ const handleDelete = (index, object) => {
  * Sends the create or edit address request to the backend.
  */
  const submit = () => {
-    console.log('submit')
+    console.log('submit in Index triggered')
     if (addressStore.mode == 'create') {
         createAddress();
     } else if (addressStore.mode == 'edit') {
@@ -318,9 +318,10 @@ const handleDelete = (index, object) => {
 }
 
 const createAddress = () => {
+    console.log('createAddress() triggered');
     router.post(
         '/addresses', 
-        addressStore.selectedCustomer, 
+        addressStore.selectedAddress, 
         {
             onSuccess: () => {
                 ElMessage({
@@ -342,8 +343,8 @@ const createAddress = () => {
 const editAddress = () => {
 
     router.put(
-        `/addresses/${addressStore.selectedCustomer.id}`, 
-        addressStore.selectedCustomer,
+        `/addresses/${addressStore.selectedAddress.id}`, 
+        addressStore.selectedAddress,
         {
             onSuccess: () => {
                 ElMessage({
