@@ -29,7 +29,7 @@
             @handleDelete="handleDelete"
             :tableColumns="data.addressTableColumns"
             :store="addressStore"
-            warningItem="customer_id"
+            warningItem="first_name"
             batchDeleteUrl="/addresses-batch-delete"
             modelSingular="address"
             modelPlural="addresses"

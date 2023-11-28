@@ -121,7 +121,7 @@ const batchDelete = () => {
 
     // Asks for confirmation message, for deleting the object.
     ElMessageBox.confirm(
-        `The selected ${props.modelPlural} will be deleted: ${stringOfNames}. Continue?`,
+        `The selected ${props.modelPlural} will be deleted: ${stringOfNames} Continue?`,
         'Warning',
         {
             confirmButtonText: 'OK',
@@ -135,7 +135,7 @@ const batchDelete = () => {
         router.post(
             props.batchDeleteUrl,//the url where we send the batch delete request
             {
-                customerIds: objectIdsForBatchDeleting//objects with these ids will be deleted
+                ids: objectIdsForBatchDeleting//objects with these ids will be deleted
             },
             {
                 onSuccess: () => {

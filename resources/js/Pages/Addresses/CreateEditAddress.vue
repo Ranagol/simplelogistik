@@ -259,21 +259,21 @@ const rules = reactive<FormRules<RuleForm>>({
  */
 const emit = defineEmits(['submit']);
 const submitForm = async (formEl: FormInstance | undefined) => {
-    console.log('validation for triggered');
+    // console.log('validation for triggered');
     if (!formEl) return;
 
     await formEl.validate((valid, fields) => {
         if (valid) {//if validation is OK, then submit the address
-            console.log('FE validation OK, submit! This is the address', address)
+            // console.log('FE validation OK, submit! This is the address', address)
             // const purifiedAddress = purifyAddressData(address);
             addressStore.selectedAddress = address;
-            console.log('addressStore.selectedAddress:', addressStore.selectedAddress)
+            // console.log('addressStore.selectedAddress:', addressStore.selectedAddress)
             emit('submit');
             
         } else {//if validation is not OK, then show the errors
-            console.log('FE validation not OK, error submit!', fields)
-            console.log('address:', address)
-            console.log('addressStore.selectedAddress:', addressStore.selectedAddress)
+            // console.log('FE validation not OK, error submit!', fields)
+            // console.log('address:', address)
+            // console.log('addressStore.selectedAddress:', addressStore.selectedAddress)
         }
     })
 }

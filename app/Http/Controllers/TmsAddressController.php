@@ -59,7 +59,6 @@ class TmsAddressController extends Controller
      */
     public function store(TmsAddressRequest $request): void
     {
-        // dd($request->all());
         TmsAddress::create($request->all());
     }
 
@@ -104,9 +103,9 @@ class TmsAddressController extends Controller
      */
     public function batchDelete(Request $request): void
     {
-        $addressIds = $request->addressIds;
-        // dd($addressIds);
-        TmsAddress::destroy($addressIds);
+        $ids = $request->ids;
+        // dd($ids);
+        TmsAddress::destroy($ids);
     }
 
     /**
