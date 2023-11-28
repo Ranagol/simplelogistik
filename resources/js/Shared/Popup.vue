@@ -1,11 +1,11 @@
 <template>
     <el-dialog
-        v-model="customerStore.elDialogVisible"
-        :title=customerStore.title
+        v-model="props.store.elDialogVisible"
+        :title=props.store.title
         @open="handleDialogOpened"
     >
         <CreateEditCustomer
-            @submitCustomer="submitCustomer"
+            @submit="submit"
             :key="data.componentKey"
         ></CreateEditCustomer>
 
@@ -15,10 +15,10 @@
 <script lang="ts" setup>
 import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 import { reactive, watch, ref } from 'vue';
-import { useCustomerStore } from '@/Stores/customerStore';
 
-let customerStore = useCustomerStore();
-
+const props = defineProps({
+    store: Object,
+});
 /**
  * This is used to refresh the el-dialog component.
  * Problem: choose customer to edit, then click cancel, and then choose another customer to edit.
@@ -42,13 +42,13 @@ let data = reactive({
     componentKey: 0,
 });
             
-const emit = defineEmits(['submitCustomer']);
+const emit = defineEmits(['submit']);
 
 /**
  * Triggers the process of create/edit customer on Index.vue
  */
-const submitCustomer = () => {
-    emit('submitCustomer');//send the customer to the parent Index.vue
+const submit = () => {
+    emit('submit');//send the customer to the parent Index.vue
 };
 
 </script>

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- :key="data.componentKey" -->
         <el-form
             ref="ruleFormRef"
             :model="customer"
@@ -255,9 +254,9 @@ const rules = reactive<FormRules<RuleForm>>({
 })
 
 /**
- * Does the frontend validation, and if it is OK, then calls the submitCustomer() function.
+ * Does the frontend validation, and if it is OK, then calls the submit() function.
  */
-const emit = defineEmits(['submitCustomer']);
+const emit = defineEmits(['submit']);
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
 
@@ -265,7 +264,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (valid) {//if validation is OK, then submit the customer
             
             customerStore.selectedCustomer = customer;
-            emit('submitCustomer');
+            emit('submit');
             
         } else {//if validation is not OK, then show the errors
             // console.log('FE validation not OK, error submit!', fields)

@@ -14,7 +14,8 @@
 
         <!-- CREATE NEW CUSTOMER POPUP -->
         <Popup
-            @submitCustomer="submitCustomer"
+            @submit="submit"
+            :store="customerStore"
         ></Popup>
 
         <!-- CUSTOMERS TABLE -->
@@ -268,8 +269,8 @@ const handleDelete = (index, object) => {
 /**
  * Sends the create or edit customer request to the backend.
  */
- const submitCustomer = () => {
-    console.log('submitCustomer')
+ const submit = () => {
+    console.log('submit')
     if (customerStore.mode == 'create') {
         createCustomer();
     } else if (customerStore.mode == 'edit') {
