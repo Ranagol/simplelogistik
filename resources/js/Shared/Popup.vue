@@ -4,19 +4,19 @@
         :title=props.store.title
         @open="handleDialogOpened"
     >
-        <CreateEditCustomer
-            @submit="submit"
-            :key="data.componentKey"
-        ></CreateEditCustomer>
-
+        <!-- SLOT FOR INSERTING CreateEdit... component -->
+        <slot></slot>
     </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 import { reactive, watch, ref } from 'vue';
 
 const props = defineProps({
+    
+    /**
+     * Parent Index.vue sends the store object, that contains all necesary data.
+     */
     store: Object,
 });
 /**
@@ -42,14 +42,6 @@ let data = reactive({
     componentKey: 0,
 });
             
-const emit = defineEmits(['submit']);
-
-/**
- * Triggers the process of create/edit customer on Index.vue
- */
-const submit = () => {
-    emit('submit');//send the customer to the parent Index.vue
-};
 
 </script>
 

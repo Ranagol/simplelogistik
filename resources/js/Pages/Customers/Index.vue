@@ -16,7 +16,12 @@
         <Popup
             @submit="submit"
             :store="customerStore"
-        ></Popup>
+        >
+            <CreateEditCustomer
+                @submit="submit"
+                :key="data.componentKey"
+            ></CreateEditCustomer>
+        </Popup>
 
         <!-- CUSTOMERS TABLE -->
         <Table
@@ -53,6 +58,8 @@ import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Shared/SearchField.vue';
 import Table from '@/Shared/Table.vue';
 import Pagination from '@/Shared/Pagination.vue';
+import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
+
 
 let customerStore = useCustomerStore();
 
