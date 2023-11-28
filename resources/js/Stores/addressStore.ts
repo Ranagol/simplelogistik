@@ -3,11 +3,11 @@ import { TmsAddress } from '@/types/model_to_type';
 import { TmsAddresses } from '@/types/model_to_type';
 import { PaginationData } from '@/types/customTypes';
 
-export const useCustomerStore = defineStore(
+export const useAddressStore = defineStore(
     'address', {
 
     state: () => ({
-        addresses: [] as TmsAddresses,
+        addresses: [] as TmsAddresses,//these are addresses
         selectedAddress: {} as TmsAddress,//for edit, create, delete
         selectedAddresses: [] as TmsAddresses,//this is for batch delete
         searchTerm: '',//for search field
@@ -24,12 +24,12 @@ export const useCustomerStore = defineStore(
         errors: {},//validation errors from the backend
         title: '',//the title for the createEditCustomer component
         addressResetValues: {
-            company_name: '',
-            name: '',
-            email: '',
-            rating: '',
-            tax_number: '',
-            internal_cid: '',
+            // company_name: '',
+            // name: '',
+            // email: '',
+            // rating: '',
+            // tax_number: '',
+            // internal_cid: '',
         },
     }),
 
@@ -39,7 +39,7 @@ export const useCustomerStore = defineStore(
 
     actions: {//like methods. Use .this here
 
-        addreesesToStore(addresses: TmsAddresses) {
+        addressesToStore(addresses: TmsAddresses) {
             this.addresses = addresses;
         },
 

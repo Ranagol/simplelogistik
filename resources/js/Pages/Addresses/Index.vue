@@ -1,53 +1,60 @@
 <template>
-    <Head :title="Customer" />
+    <Head title="Address" />
 
     <Card>
-        <h1>Customers</h1>
+        <h1>Addresses</h1>
 
         <SearchField
-            @getCustomers="getCustomers"
+            placeholder="Search addresses..."
+            :store="addressStore"
+            @getData="getData"
+            createButtonText="Create new address"
+            @handleCreate="handleCreate"
         />
 
-        <!-- CREATE NEW CUSTOMER POPUP -->
+        <!-- CREATE NEW ADDRESS POPUP -->
         <Popup
-            @submitCustomer="submitCustomer"
+            @submit="submit"
+            :store="addressStore"
         ></Popup>
 
-        <!-- CREATE NEW CUSTOMER BUTTON -->
-        <el-button
-            @click="handleCreate"
-            type="info"
-        >Create new customer</el-button>
-
-        <!-- CUSTOMERS TABLE -->
+        <!-- ADDRESSES TABLE -->
         <Table
-            @getCustomers="getCustomers"
+            @getData="getData"
             @handleEdit="handleEdit"
             @handleDelete="handleDelete"
+            :tableColumns="data.addressTableColumns"
+            :store="addressStore"
+            warningItem="customer_id"
+            batchDeleteUrl="/addresses-batch-delete"
+            modelSingular="address"
+            modelPlural="addresses"
+            selectedObjects="selectedAddresses"
         />
 
         <!-- PAGINATION -->
         <Pagination
-            @getCustomers="getCustomers"
+            @getData="getData"
+            :store="addressStore"
         />
     </Card>
 
 </template>
 
 <script lang="ts" setup>
-import { Customer } from '@/types/models/Customer';
+import { TmsAddress } from '@/types/model_to_type';
 import Card from '@/Shared/Card.vue';
 import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
 import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
-import { useCustomerStore } from '@/Stores/customerStore';
-import SearchField from '@/Pages/Customers/SearchField.vue';
-import Table from '@/Pages/Customers/Table.vue';
-import Pagination from '@/Pages/Customers/Pagination.vue';
+import { useAddressStore } from '@/Stores/addressStore';
+import SearchField from '@/Shared/SearchField.vue';
+import Table from '@/Shared/Table.vue';
+import Pagination from '@/Shared/Pagination.vue';
 
-let customerStore = useCustomerStore();
+let addressStore = useAddressStore();
 
 // PROPS
 let props = defineProps( 
@@ -68,22 +75,22 @@ let props = defineProps(
 );
 
 //WATCHERS FOR PROPS: they send data received from backend to Pinia store
-//Sends the customers to Pinia store, as soon arrives from backend.
+//Sends the addresses to Pinia store, as soon arrives from backend.
 watch(
     () => props.dataFromController,
     (newVal: object, oldVal: object): void => {
         /**
-         * Unfortunatelly, customers are coming in from backend mixed with pagination data.
+         * Unfortunatelly, addresses are coming in from backend mixed with pagination data.
          * That is what we have here in the dataFromController. We need
-         * seaparted customers and separated pagination data. This will happen in computed properties.
+         * seaparted addresses and separated pagination data. This will happen in computed properties.
          */
-        customerStore.customers = newVal.data;
+        addressStore.addresses = newVal.data;
 
         /**
          * All pagination related data is stored here. 
-         * Unfortunatelly,customers are coming in from backend mixed with pagination data.
+         * Unfortunatelly,addresses are coming in from backend mixed with pagination data.
          * That is what we have here in the dataFromController. We need
-         * seaparated customers and separated pagination data. This will happen in computed properties.
+         * seaparated addresses and separated pagination data. This will happen in computed properties.
          * Here. So, this is the pagination related data. And a small reminder:
          * 
          * el-pagination        Laravel ->paginate()
@@ -91,7 +98,7 @@ watch(
          * page-size	        paginationData.per_page             Number of items / page
          * total	            paginationData.total                Number of all db records
          */
-        customerStore.paginationData = _.omit({...props.dataFromController}, 'data');
+        addressStore.paginationData = _.omit({...props.dataFromController}, 'data');
     },
     { immediate: true, deep: true }
 );
@@ -100,7 +107,7 @@ watch(
 watch(
     () => props.errors,
     (newVal: object, oldVal: object): void => {
-        customerStore.errors = newVal;
+        addressStore.errors = newVal;
     },
     { immediate: true, deep: true }
 );
@@ -108,7 +115,7 @@ watch(
 watch(
     () => props.sortColumnProp,
     (newVal: string, oldVal: string): void => {
-        customerStore.sortColumn = newVal;
+        addressStore.sortColumn = newVal;
     },
     { immediate: true, deep: true }
 );
@@ -116,17 +123,87 @@ watch(
 watch(
     () => props.sortOrderProp,
     (newVal: string, oldVal: string): void => {
-        customerStore.sortOrder = newVal;
+        addressStore.sortOrder = newVal;
     },
     { immediate: true, deep: true }
 );
 
+let data = reactive({
+    addressTableColumns: [
+        {
+            label: 'Id',
+            prop: 'id',
+            sortable: 'custom',
+            width: '70px',
+        },
+        {
+            label: 'First name',
+            prop: 'first_name',
+            sortable: 'custom',
+        },
+        {
+            label: 'Last name',
+            prop: 'last_name',
+            sortable: 'custom',
+        },
+        {
+            label: 'Street',
+            prop: 'street',
+            sortable: 'custom',
+        },
+        {
+            label: 'House number',
+            prop: 'house_number',
+            sortable: 'custom',
+        },
+        // {
+        //     label: 'Zip code',
+        //     prop: 'zip_code',
+        //     sortable: 'custom',
+        // },
+        {
+            label: 'City',
+            prop: 'city',
+            sortable: 'custom',
+        },
+        {
+            label: 'Country',
+            prop: 'country',
+            sortable: 'custom',
+        },
+        {
+            label: 'State',
+            prop: 'state',
+            sortable: 'custom',
+        },
+        {
+            label: 'Address type',
+            prop: 'type_of_address',
+            sortable: 'custom',
+        },
+        {
+            label: 'Comment',
+            prop: 'comment',
+            sortable: 'custom',
+        },
+        // {
+        //     label: 'Customer id',
+        //     prop: 'customer_id',
+        //     sortable: 'custom',
+        // },
+        // {
+        //     label: 'Forwarder id',
+        //     prop: 'forwarder_id',
+        //     sortable: 'custom',
+        // },
+    ],
+});
 
 
 //METHODS
 
 /**
- * getCustomers() is triggered by: 
+ * getData() is triggered by: 
  * 
  * the search button, 
  * the sorting clicks, 
@@ -134,60 +211,60 @@ watch(
  * Also on input field clear/reset.
  * If enter is hit by the user.
  * 
- * It sends a request to the backend to get the customers. The backend will return the customers 
- * sorted and the pagination data. getCustomers() does not have arguments, because it uses the
+ * It sends a request to the backend to get the addresses. The backend will return the addresses 
+ * sorted and the pagination data. getData() does not have arguments, because it uses the
  * data from data(). Because every search/sort/paginate change is in the data().
- * Now customers from this function arrive to props. There is a watcher for props, that sends customers
+ * Now addresses from this function arrive to props. There is a watcher for props, that sends addresses
  * from props to Pinia store.
  */
-let getCustomers = (): void => {
-    const customers = router.get(
-        '/customers',
+let getData = (): void => {
+    const addresses = router.get(
+        '/addresses',
         {
             /**
              * This is the data that we send to the backend.
              */
-            searchTerm: customerStore.searchTerm as string,
-            sortColumn: customerStore.sortColumn as string,
-            sortOrder: customerStore.sortOrder as string,
-            page: customerStore.paginationData.current_page as string,
-            newItemsPerPage: customerStore.paginationData.per_page as string,
+            searchTerm: addressStore.searchTerm as string,
+            sortColumn: addressStore.sortColumn as string,
+            sortOrder: addressStore.sortOrder as string,
+            page: addressStore.paginationData.current_page as string,
+            newItemsPerPage: addressStore.paginationData.per_page as string,
         }
     );
 };
 
 /**
- * This function is triggered when the user clicks on the create new customer button.
+ * This function is triggered when the user clicks on the create new address button.
  * It sets the mode to 'create', and it sets the selectedCustomer to the customerResetValues.
  */
 const handleCreate = () => {
     console.log('handleCreate()');
-    customerStore.elDialogVisible = true;
-    customerStore.title = 'Create new customer';
-    customerStore.mode = 'create';
+    addressStore.elDialogVisible = true;
+    addressStore.title = 'Create new address';
+    addressStore.mode = 'create';
 };
 
 /**
  * This function is triggered when the user clicks on the edit button in the table.
- * It sets the mode to 'edit', and it sets the selectedCustomer to the customer object
+ * It sets the mode to 'edit', and it sets the selectedCustomer to the address object
  * that the user wants to edit.
  */
 const handleEdit = (index, object) => {
     console.log('handleEdit()');
-    customerStore.mode = 'edit';
-    customerStore.elDialogVisible = true;
-    customerStore.title = 'Edit customer';
-    customerStore.selectedCustomer = object;
+    addressStore.mode = 'edit';
+    addressStore.elDialogVisible = true;
+    addressStore.title = 'Edit address';
+    addressStore.selectedCustomer = object;
 };
 
 /**
- * Sends the delete customer request to the backend.
+ * Sends the delete address request to the backend.
  */
 const handleDelete = (index, object) => {
 
-    // Asks for confirmation message, for deleting the customer.
+    // Asks for confirmation message, for deleting the address.
     ElMessageBox.confirm(
-        `Customer  ${object.company_name} will be deleted. Continue?`,
+        `Address for  ${object.first_name} ${object.last_name} will be deleted. Continue?`,
         'Warning',
         {
             confirmButtonText: 'OK',
@@ -198,17 +275,17 @@ const handleDelete = (index, object) => {
     .then(() => {
         //If the deleting wish is confirmed, then we send the delete request to the backend.
         router.delete(
-            `/customers/${object.id}`,
+            `/addresses/${object.id}`,
             {
                 onSuccess: () => {
                     ElMessage({
-                        message: 'Customer deleted successfully',
+                        message: 'Address deleted successfully',
                         type: 'success',
                     });
                     router.reload({ only: ['dataFromController'] });
                 },
                 onError: (errors) => {
-                    ElMessage.error('Oops, something went wrong while deleting a customer.')
+                    ElMessage.error('Oops, something went wrong while deleting a address.')
                     ElMessage(errors);
                 }
             }
@@ -224,55 +301,55 @@ const handleDelete = (index, object) => {
 };
 
 /**
- * Sends the create or edit customer request to the backend.
+ * Sends the create or edit address request to the backend.
  */
- const submitCustomer = () => {
-    console.log('submitCustomer')
-    if (customerStore.mode == 'create') {
-        createCustomer();
-    } else if (customerStore.mode == 'edit') {
-        editCustomer();
+ const submit = () => {
+    console.log('submit')
+    if (addressStore.mode == 'create') {
+        createAddress();
+    } else if (addressStore.mode == 'edit') {
+        editAddress();
     }
 }
 
-const createCustomer = () => {
+const createAddress = () => {
     router.post(
-        '/customers', 
-        customerStore.selectedCustomer, 
+        '/addresses', 
+        addressStore.selectedCustomer, 
         {
             onSuccess: () => {
                 ElMessage({
-                    message: 'Customer created successfully',
+                    message: 'Address created successfully',
                     type: 'success',
                 });
-                // get customers again, so that the new customer is displayed
+                // get addresses again, so that the new address is displayed
                 router.reload({ only: ['dataFromController'] })
-                customerStore.elDialogVisible = false;
+                addressStore.elDialogVisible = false;
             },
             onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while creating a new customer.')
+                ElMessage.error('Oops, something went wrong while creating a new address.')
                 ElMessage(errors);
             }
         }
     )
 };
 
-const editCustomer = () => {
+const editAddress = () => {
 
     router.put(
-        `/customers/${customerStore.selectedCustomer.id}`, 
-        customerStore.selectedCustomer,
+        `/addresses/${addressStore.selectedCustomer.id}`, 
+        addressStore.selectedCustomer,
         {
             onSuccess: () => {
                 ElMessage({
-                    message: 'Customer edited successfully',
+                    message: 'Address edited successfully',
                     type: 'success',
                 });
                 router.reload({ only: ['dataFromController'] })
-                customerStore.elDialogVisible = false;
+                addressStore.elDialogVisible = false;
             },
             onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while editing a customer.')
+                ElMessage.error('Oops, something went wrong while editing a address.')
                 ElMessage(errors);
             }
         }

@@ -32,7 +32,7 @@ class TmsAddressController extends Controller
 
         $t = 8;
         return Inertia::render('Addresses/Index', [
-            'dataFromAddressController' => $addresses,
+            'dataFromController' => $addresses,
             'searchTermProp' => $searchTerm,
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
@@ -145,7 +145,10 @@ class TmsAddressController extends Controller
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('first_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('street', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('city', 'like', '%' . $searchTerm . '%');
             })
             
             /**

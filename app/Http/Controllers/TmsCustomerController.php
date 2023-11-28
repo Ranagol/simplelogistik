@@ -144,7 +144,9 @@ class TmsCustomerController extends Controller
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                ->orWhere('company_name', 'like', '%' . $searchTerm . '%')
+                ->orWhere('email', 'like', '%' . $searchTerm . '%');
             })
             
             /**
