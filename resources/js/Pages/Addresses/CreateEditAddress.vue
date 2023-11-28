@@ -28,27 +28,26 @@
 
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="addressStore.errors.company_name"
-                    v-text="addressStore.errors.company_name"
+                    v-if="addressStore.errors[inputField.prop]"
+                    v-text="addressStore.errors[inputField.prop]"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>
 
-          
 
-            <!-- BUTTONS will be displayed in create and edit mode, and will not be displayed
-            in show mode.-->
             <div
                 class="flex flex-row"
                 v-if="addressStore.mode==='create' || addressStore.mode==='edit' "
             >
+                <!-- SUBMIT BUTTON -->
                 <el-form-item class="pr-5">
                     <el-button
                         type="primary"
                         @click="submitForm(ruleFormRef)"
                     >Submit</el-button>
                 </el-form-item>
-    
+                
+                <!-- CANCEL BUTTON -->
                 <el-form-item class="pr-5">
                     <el-button
                         type="danger"
@@ -83,6 +82,7 @@ const ruleFormRef = ref<FormInstance>();
  let address = reactive({
 //     //Use this for creating a new address
     first_name: {
+        prop: 'first_name',
         value: '',
         element: 'el-input',
         label: 'First name',
@@ -93,6 +93,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     last_name: {
+        prop: 'last_name',
         value: '',
         element: 'el-input',
         label: 'Last name',
@@ -103,6 +104,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     street: {
+        prop: 'street',
         value: '',
         element: 'el-input',
         label: 'Street',
@@ -113,6 +115,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     house_number: {
+        prop: 'house_number',
         value: '',
         element: 'el-input',
         label: 'House number',
@@ -123,6 +126,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     zip_code: {
+        prop: 'zip_code',
         value: '',
         element: 'el-input',
         label: 'Zip code',
@@ -133,6 +137,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     city: {
+        prop: 'city',
         value: '',
         element: 'el-input',
         label: 'City',
@@ -143,6 +148,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     country: {
+        prop: 'country',
         value: '',
         element: 'el-input',
         label: 'Country',
@@ -153,6 +159,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     state: {
+        prop: 'state',
         value: '',
         element: 'el-input',
         label: 'State',
@@ -163,6 +170,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     type_of_address: {
+        prop: 'type_of_address',
         value: '',
         element: 'el-input',
         label: 'Type of address',
@@ -173,6 +181,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     comment: {
+        prop: 'comment',
         value: '',
         element: 'el-input',
         label: 'Comment',
@@ -183,6 +192,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     customer_id: {
+        prop: 'customer_id',
         value: '',
         element: 'el-input',
         label: 'Customer ID',
@@ -193,6 +203,7 @@ const ruleFormRef = ref<FormInstance>();
         clearable: true,
     },
     forwarder_id: {
+        prop: 'forwarder_id',
         value: '',
         element: 'el-input',
         label: 'Forwarder ID',
@@ -201,12 +212,7 @@ const ruleFormRef = ref<FormInstance>();
         showWordLimit: true,
         maxlength: 255,
         clearable: true,
-    },
-
-    
-
-//     //Use this to stamp addresses during development
-    
+    }
 });
 
 /**
@@ -244,7 +250,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     await formEl.validate((valid, fields) => {
         if (valid) {//if validation is OK, then submit the address
             
-            addressStore.selectedCustomer = address;
+            const purifiedAddress = purifyAddressData(address);
+            addressStore.selectedCustomer = purifiedAddress;
             emit('submit');
             
         } else {//if validation is not OK, then show the errors
@@ -253,6 +260,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             // console.log('addressStore.selectedCustomer:', addressStore.selectedCustomer)
         }
     })
+}
+
+/**
+ * Removes input field related data, that was needed for loopin out the input fields, but it is not
+ * needed when we send address data to the backend, for create or edit.
+ */
+const purifyAddressData = (address: object) => {
+    let purifiedAddress = {};
+    for (let [key, value] of Object.entries(address)) {
+        purifiedAddress[key] = value.value;
+    }
+    return purifiedAddress;
 }
 
 /**
@@ -278,6 +297,23 @@ let updateSelectedCustomer = () => {
 onBeforeMount(() => {
     if (addressStore.mode==='edit') {
         address = addressStore.selectedCustomer; 
+    }
+});
+
+onMounted(() => {
+    if (addressStore.mode==='create') {
+        address.first_name.value = 'Arni';
+        address.last_name.value = 'Schmidt';
+        address.street.value = 'Hauptstrasse';
+        address.house_number.value = '1';
+        address.zip_code.value = '1234';
+        address.city.value = 'Wien';
+        address.country.value = 'Austria';
+        address.state.value = 'Wien';
+        address.type_of_address.value = 'Home';
+        address.comment.value = 'This is a comment';
+        address.customer_id.value = '1';
+        address.forwarder_id.value = '1';
     }
 });
 

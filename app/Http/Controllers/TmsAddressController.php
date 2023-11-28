@@ -8,6 +8,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsCustomer;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Requests\TmsAddressRequest;
 
 class TmsAddressController extends Controller
 {
@@ -53,41 +54,24 @@ class TmsAddressController extends Controller
      * to the user, and then the FE component calls the $this->index() method, which returns the addresses.
      * So, the user gets his feedback, and the customer list is refreshed.
      *
-     * @param Request $request
+     * @param TmsAddressRequest $request
      * @return void
      */
-    public function store(Request $request): void
+    public function store(TmsAddressRequest $request): void
     {
-        $request->validate([
-            'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',
-        ]);
-        
+        // dd($request->all());
         TmsAddress::create($request->all());
     }
 
     /**
      * Updates addresses. Inertia automatically sends succes or error feedback to the frontend.
      *
-     * @param Request $request
+     * @param TmsAddressRequest $request
      * @param [type] $id
      * @return void
      */
-    public function update(Request $request, string $id): void
+    public function update(TmsAddressRequest $request, string $id): void
     {
-        $request->validate([
-            'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',
-        ]);
-        
         TmsAddress::find($id)->update($request->all());
     }
 
