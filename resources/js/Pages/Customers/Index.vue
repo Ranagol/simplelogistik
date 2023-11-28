@@ -19,7 +19,6 @@
         >
             <CreateEditCustomer
                 @submit="submit"
-                :key="data.componentKey"
             ></CreateEditCustomer>
         </Popup>
 

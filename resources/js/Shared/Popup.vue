@@ -5,7 +5,10 @@
         @open="handleDialogOpened"
     >
         <!-- SLOT FOR INSERTING CreateEdit... component -->
-        <slot></slot>
+        <slot
+            :key="data.componentKey"
+        ></slot>
+        
     </el-dialog>
 </template>
 
@@ -13,14 +16,14 @@
 import { reactive, watch, ref } from 'vue';
 
 const props = defineProps({
-    
+
     /**
      * Parent Index.vue sends the store object, that contains all necesary data.
      */
     store: Object,
 });
 /**
- * This is used to refresh the el-dialog component.
+ * This is used to refresh the el-dialog component. Absolutely necesary.
  * Problem: choose customer to edit, then click cancel, and then choose another customer to edit.
  * While the app knows the correct customer to edit, the el-dialog component does not display the
  * correct customer. The only way to make it work is to change the key of the child CreateEditCustomer.vue.
