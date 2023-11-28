@@ -25,7 +25,7 @@ class TmsCustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'internal_cid' => $this->faker->regexify('[A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4}'),
+            'internal_cid' => $this->faker->unique()->numberBetween(10000, 99999),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'company_name' => $this->faker->company,

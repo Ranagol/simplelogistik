@@ -24,7 +24,7 @@ class TmsAddressFactory extends Factory
             'last_name' => $this->faker->lastName,
             'street' => $this->faker->streetName,
             'house_number' => $this->faker->buildingNumber,
-            'zipcode' => $this->faker->postcode,
+            'zip_code' => $this->faker->postcode,
             'city' => $this->faker->city,
             'country' => $this->faker->country,
             'state' => $this->faker->state,

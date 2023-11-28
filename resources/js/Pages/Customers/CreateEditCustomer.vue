@@ -3,9 +3,9 @@
         <el-form
             ref="ruleFormRef"
             :model="customer"
-            label-position="top"
+            label-position="left"
             :rules="rules"
-            
+            label-width="150px"
         >
             <el-form-item
                 label="Company name"
