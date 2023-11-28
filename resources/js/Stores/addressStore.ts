@@ -22,15 +22,7 @@ export const useAddressStore = defineStore(
         paginationData: {} as PaginationData,
 
         errors: {},//validation errors from the backend
-        title: '',//the title for the createEditCustomer component
-        addressResetValues: {
-            // company_name: '',
-            // name: '',
-            // email: '',
-            // rating: '',
-            // tax_number: '',
-            // internal_cid: '',
-        },
+        title: '',//the title for the createEdit component
     }),
 
     getters: {//like computed properties. Use state here.
