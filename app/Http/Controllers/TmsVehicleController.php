@@ -7,6 +7,7 @@ use Inertia\Response;
 use App\Models\TmsVehicle;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Requests\TmsVehicleRequest;
 
 class TmsVehicleController extends Controller
 {
@@ -25,17 +26,14 @@ class TmsVehicleController extends Controller
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
         $elDialogVisible = $request->elDialogVisible ?? false;
-
         
         $vehicles = $this->getVehicles($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
 
-        $t = 8;
         return Inertia::render('Vehicles/Index', [
-            'dataFromVehicleController' => $vehicles,
+            'dataFromController' => $vehicles,
             'searchTermProp' => $searchTerm,
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
-            // 'elDialogVisibleProp' => $elDialogVisible,
         ]);
     }
 
@@ -52,41 +50,23 @@ class TmsVehicleController extends Controller
      * to the user, and then the FE component calls the $this->index() method, which returns the vehicles.
      * So, the user gets his feedback, and the vehicle list is refreshed.
      *
-     * @param Request $request
+     * @param TmsVehicleRequest $request
      * @return void
      */
-    public function store(Request $request): void
+    public function store(TmsVehicleRequest $request): void
     {
-        $request->validate([
-            'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',
-        ]);
-        
         TmsVehicle::create($request->all());
     }
 
     /**
      * Updates vehicles. Inertia automatically sends succes or error feedback to the frontend.
      *
-     * @param Request $request
+     * @param TmsVehicleRequest $request
      * @param [type] $id
      * @return void
      */
-    public function update(Request $request, string $id): void
+    public function update(TmsVehicleRequest $request, string $id): void
     {
-        $request->validate([
-            'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',
-        ]);
-        
         TmsVehicle::find($id)->update($request->all());
     }
 
@@ -119,9 +99,8 @@ class TmsVehicleController extends Controller
      */
     public function batchDelete(Request $request): void
     {
-        $vehicleIds = $request->vehicleIds;
-        // dd($vehicleIds);
-        TmsVehicle::destroy($vehicleIds);
+        $ids = $request->ids;
+        TmsVehicle::destroy($ids);
     }
 
     /**
@@ -144,7 +123,9 @@ class TmsVehicleController extends Controller
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('vehicle_type', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('plate_number', 'like', '%' . $searchTerm . '%');
             })
             
             /**
