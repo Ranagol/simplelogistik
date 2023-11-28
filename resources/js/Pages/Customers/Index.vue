@@ -147,6 +147,11 @@ let data = reactive({
             sortable: 'custom',
         },
         {
+            label: 'Name',
+            prop: 'name',
+            sortable: 'custom',
+        },
+        {
             label: 'Email',
             prop: 'email',
             sortable: 'custom',
