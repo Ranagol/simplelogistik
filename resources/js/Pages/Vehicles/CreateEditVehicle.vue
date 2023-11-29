@@ -63,9 +63,9 @@
     </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
-// import type { FormInstance, FormRules } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import { useVehicleStore } from '@/Stores/vehicleStore';
 
 let vehicleStore = useVehicleStore();
@@ -259,7 +259,7 @@ const rules = reactive({
  * Does the frontend validation, and if it is OK, then calls the submit() function.
  */
 const emit = defineEmits(['submit']);
-const submitForm = async () => {
+const submitForm = async (formEl) => {
     // console.log('validation for triggered');
     if (!formEl) return;
 
