@@ -58,7 +58,7 @@ import SearchField from '@/Shared/SearchField.vue';
 import Table from '@/Shared/Table.vue';
 import Pagination from '@/Shared/Pagination.vue';
 // import CreateEditVehicle from '@/Pages/Requirements/CreateEditVehicle.vue';
-import { DataFromController } from '@/types/customTypes';
+import { DataFromController, PaginationData } from '@/types/customTypes';
 
 let requirementStore = useRequirementStore();
 
@@ -104,7 +104,9 @@ watch(
          * page-size	        paginationData.per_page             Number of items / page
          * total	            paginationData.total                Number of all db records
          */
-        requirementStore.paginationData = _.omit({...props.dataFromController}, 'data');
+        if (props.dataFromController) {
+            requirementStore.paginationData = _.omit({...props.dataFromController}, 'data') as PaginationData;
+        }
     },
     { immediate: true, deep: true }
 );
@@ -112,7 +114,7 @@ watch(
 //Sends the errors to Pinia store, as soon arrives from backend.
 watch(
     () => props.errors,
-    (newVal: object, oldVal: object): void => {
+    (newVal: object) => {
         requirementStore.errors = newVal;
     },
     { immediate: true, deep: true }
@@ -120,10 +122,10 @@ watch(
 
 watch(
     () => props.sortColumnProp,
-    (newVal: string, oldVal: string): void => {
+    (newVal: string) => {
         requirementStore.sortColumn = newVal;
     },
-    { immediate: true, deep: true }
+    { immediate: true }
 );
 
 watch(
@@ -131,7 +133,7 @@ watch(
     (newVal: string, oldVal: string): void => {
         requirementStore.sortOrder = newVal;
     },
-    { immediate: true, deep: true }
+    { immediate: true }
 );
 
 let data = reactive({
