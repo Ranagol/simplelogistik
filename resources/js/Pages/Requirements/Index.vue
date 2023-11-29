@@ -4,23 +4,23 @@
     <Card>
         <h1>Requirements</h1>
 
-        <!-- <SearchField
+        <SearchField
             placeholder="Search requirements..."
             :store="requirementStore"
             @getData="getData"
             createButtonText="Create new requirement"
             @handleCreate="handleCreate"
-        /> -->
+        />
 
         <!-- CREATE NEW REQUIREMENT POPUP -->
-        <!-- <Popup
+        <Popup
             @submit="submit"
             :store="requirementStore"
         >
             <CreateEditVehicle
                 @submit="submit"
             />
-        </Popup> -->
+        </Popup>
 
         <!-- REQUIREMENTS TABLE -->
         <Table
@@ -37,10 +37,10 @@
         />
 
         <!-- PAGINATION -->
-        <!-- <Pagination
+        <Pagination
             @getData="getData"
             :store="requirementStore"
-        /> -->
+        />
     </Card>
 
 </template>
