@@ -1,15 +1,12 @@
 import { defineStore } from 'pinia';
-import { TmsVehicle } from '@/types/model_to_type';
-import { TmsVehicles } from '@/types/model_to_type';
-import { PaginationData } from '@/types/customTypes';
 
 export const useVehicleStore = defineStore(
     'vehicle', {
 
     state: () => ({
-        vehicles: [] as TmsVehicles,//these are vehicles
-        selectedVehicle: {} as TmsVehicle,//for edit, create, delete
-        selectedVehicles: [] as TmsVehicles,//this is for batch delete
+        vehicles: [],//these are vehicles
+        selectedVehicle: {},//for edit, create, delete
+        selectedVehicles: [],//this is for batch delete
         searchTerm: '',//for search field
         mode: '',
         elDialogVisible: false as boolean,//turns on the popup
@@ -19,7 +16,7 @@ export const useVehicleStore = defineStore(
         sortColumn: '' as string,
 
         //pagination
-        paginationData: {} as PaginationData,
+        paginationData: {},
 
         errors: {},//validation errors from the backend
         title: '',//the title for the createEdit component
@@ -31,11 +28,11 @@ export const useVehicleStore = defineStore(
 
     actions: {//like methods. Use .this here
 
-        vehiclesToStore(vehicles: TmsVehicles) {
+        vehiclesToStore(vehicles) {
             this.vehicles = vehicles;
         },
 
-        deleteVehicle(vehicle: TmsVehicle) {
+        deleteVehicle(vehicle) {
             this.vehicles = this.vehicles.filter((item) => item.id !== vehicle.id);
         },
 

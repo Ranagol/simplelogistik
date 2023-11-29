@@ -1,15 +1,12 @@
 import { defineStore } from 'pinia';
-import { TmsCustomer } from '@/types/model_to_type';
-import { TmsCustomers } from '@/types/model_to_type';
-import { PaginationData } from '@/types/customTypes';
 
 export const useCustomerStore = defineStore(
     'customer', {
 
     state: () => ({
-        customers: [] as TmsCustomers,//these are customers
-        selectedCustomer: {} as TmsCustomer,//for edit, create, delete
-        selectedObjects: [] as TmsCustomers,//this is for batch delete
+        customers: [],//these are customers
+        selectedCustomer: {},//for edit, create, delete
+        selectedObjects: [],//this is for batch delete
         searchTerm: '',//for search field
         mode: '',
         elDialogVisible: false as boolean,//turns on the popup
@@ -19,7 +16,7 @@ export const useCustomerStore = defineStore(
         sortColumn: '' as string,
 
         //pagination
-        paginationData: {} as PaginationData,
+        paginationData: {},
 
         errors: {},//validation errors from the backend
         title: '',//the title for the createEditCustomer component
@@ -39,11 +36,11 @@ export const useCustomerStore = defineStore(
 
     actions: {//like methods. Use .this here
 
-        customersToStore(customers: TmsCustomers) {
+        customersToStore(customers) {
             this.customers = customers;
         },
 
-        deleteCustomer(customer: TmsCustomer) {
+        deleteCustomer(customer) {
             this.customers = this.customers.filter((item) => item.id !== customer.id);
         },
 
