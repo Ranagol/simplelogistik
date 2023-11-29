@@ -23,7 +23,7 @@
         </Popup> -->
 
         <!-- REQUIREMENTS TABLE -->
-        <!-- <Table
+        <Table
             @getData="getData"
             @handleEdit="handleEdit"
             @handleDelete="handleDelete"
@@ -34,7 +34,7 @@
             modelSingular="requirement"
             modelPlural="requirements"
             selectedObjects="selectedVehicles"
-        /> -->
+        />
 
         <!-- PAGINATION -->
         <!-- <Pagination
@@ -58,7 +58,7 @@ import SearchField from '@/Shared/SearchField.vue';
 import Table from '@/Shared/Table.vue';
 import Pagination from '@/Shared/Pagination.vue';
 // import CreateEditVehicle from '@/Pages/Requirements/CreateEditVehicle.vue';
-import { DataFromController, PaginationData } from '@/types/customTypes';
+import { DataFromController, PaginationData, TableColumn } from '@/types/customTypes';
 
 let requirementStore = useRequirementStore();
 
@@ -122,7 +122,7 @@ watch(
 
 watch(
     () => props.sortColumnProp,
-    (newVal: string) => {
+    (newVal: string | undefined) => {
         requirementStore.sortColumn = newVal;
     },
     { immediate: true }
@@ -130,7 +130,7 @@ watch(
 
 watch(
     () => props.sortOrderProp,
-    (newVal: string, oldVal: string): void => {
+    (newVal: string | undefined) => {
         requirementStore.sortOrder = newVal;
     },
     { immediate: true }
@@ -141,59 +141,19 @@ let data = reactive({
         {
             prop: 'id',
             label: 'Id',
-            sortable: 'custom',
+            sortable: 'custom'
         },
         {
             prop: 'name',
             label: 'Name',
-            sortable: 'custom',
+            sortable: 'custom'
         },
         {
-            prop: 'max_weight',
-            label: 'Max weight',
-            sortable: 'custom',
-        },
-        {
-            prop: 'max_pickup_weight',
-            label: 'Max pickup weight',
-            sortable: 'custom',
-        },
-        {
-            prop: 'max_pickup_width',
-            label: 'Max pickup width',
-            sortable: 'custom',
-        },
-        {
-            prop: 'max_pickup_height',
-            label: 'Max pickup height',
-            sortable: 'custom',
-        },
-        {
-            prop: 'max_pickup_length',
-            label: 'Max pickup length',
-            sortable: 'custom',
-        },
-        {
-            prop: 'vehicle_type',
-            label: 'Requirement type',
-            sortable: 'custom',
-        },
-        {
-            prop: 'plate_number',
-            label: 'Plate number',
-            sortable: 'custom',
-        },
-        {
-            prop: 'forwarder_id',
-            label: 'Forw. id',
-            sortable: 'custom',
-        },
-        {
-            prop: 'address_id',
-            label: 'Address id',
-            sortable: 'custom',
+            prop: 'remarks',
+            label: 'Remarks',
+            sortable: 'custom'
         }
-    ],
+    ] as TableColumn[],
 });
 
 
@@ -224,15 +184,15 @@ let getData = (): void => {
             searchTerm: requirementStore.searchTerm as string,
             sortColumn: requirementStore.sortColumn as string,
             sortOrder: requirementStore.sortOrder as string,
-            page: requirementStore.paginationData.current_page as string,
-            newItemsPerPage: requirementStore.paginationData.per_page as string,
+            page: requirementStore.paginationData.current_page as number,
+            newItemsPerPage: requirementStore.paginationData.per_page as number,
         }
     );
 };
 
 /**
  * This function is triggered when the user clicks on the create new requirement button.
- * It sets the mode to 'create', and it sets the selectedVehicle to the customerResetValues.
+ * It sets the mode to 'create', and it sets the selectedRequirement to the customerResetValues.
  */
 const handleCreate = () => {
     console.log('handleCreate()');
@@ -243,25 +203,25 @@ const handleCreate = () => {
 
 /**
  * This function is triggered when the user clicks on the edit button in the table.
- * It sets the mode to 'edit', and it sets the selectedVehicle to the requirement object
+ * It sets the mode to 'edit', and it sets the selectedRequirement to the requirement object
  * that the user wants to edit.
  */
-const handleEdit = (index, object) => {
-    console.log('handleEdit()');
+const handleEdit = (index: string, object: TmsRequirement) => {
+    console.log('handleEdit() and this is the index: ', index);
     requirementStore.mode = 'edit';
     requirementStore.elDialogVisible = true;
     requirementStore.title = 'Edit requirement';
-    requirementStore.selectedVehicle = object;
+    requirementStore.selectedRequirement = object;
 };
 
 /**
  * Sends the delete requirement request to the backend.
  */
-const handleDelete = (index, object) => {
+const handleDelete = (index = null, object: TmsRequirement) => {
 
     // Asks for confirmation message, for deleting the requirement.
     ElMessageBox.confirm(
-        `Requirement  ${object.name} ${object.plate_number} will be deleted. Continue?`,
+        `Requirement  ${object.name} will be deleted. Continue?`,
         'Warning',
         {
             confirmButtonText: 'OK',
@@ -313,7 +273,7 @@ const create = () => {
     console.log('create() triggered');
     router.post(
         '/requirements', 
-        requirementStore.selectedVehicle, 
+        requirementStore.selectedRequirement, 
         {
             onSuccess: () => {
                 ElMessage({
@@ -335,8 +295,8 @@ const create = () => {
 const edit = () => {
 
     router.put(
-        `/requirements/${requirementStore.selectedVehicle.id}`, 
-        requirementStore.selectedVehicle,
+        `/requirements/${requirementStore.selectedRequirement.id}`, 
+        requirementStore.selectedRequirement,
         {
             onSuccess: () => {
                 ElMessage({

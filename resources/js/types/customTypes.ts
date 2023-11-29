@@ -52,3 +52,11 @@ export interface CustomerErrors {
     tax_number: string | null,
     internal_cid: string | null,
 }
+
+//Used in Requirements/Index and Table
+export interface TableColumn {
+    prop: string;
+    label: string;
+    sortable: string;
+    width?: string;
+}

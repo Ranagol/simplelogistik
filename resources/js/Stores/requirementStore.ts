@@ -15,8 +15,8 @@ export const useRequirementStore = defineStore(
         elDialogVisible: false as boolean,//turns on the popup
 
         //sort in el-table
-        sortOrder: '' as string,
-        sortColumn: '' as string,
+        sortOrder: '' as string | undefined,
+        sortColumn: '' as string | undefined,
 
         //pagination
         paginationData: {} as PaginationData,

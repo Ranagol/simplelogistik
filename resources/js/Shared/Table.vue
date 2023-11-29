@@ -70,18 +70,36 @@
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests;
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
+import type { PropType } from 'vue';
+import { TableColumn } from '@/types/customTypes';
+import { TmsRequirement } from '@/types/model_to_type';
 
 const emit = defineEmits(['getData', 'handleEdit', 'handleDelete']);
 
 const props = defineProps({
-    tableColumns: Array,
-    store: Object,
+    tableColumns: [] as PropType<TableColumn[]>,
+    store: {
+        type: {} as PropType<any>,
+        required: true,
+    },
     company_name: String,
-    batchDeleteUrl: String,
+    batchDeleteUrl: {
+        type: String,
+        required: true,
+    },
     modelSingular: String,
-    modelPlural: String,
-    selectedObjects: String,
-    warningItem: String,
+    modelPlural: {
+        type: String,
+        required: true,
+    },
+    selectedObjects: {
+        type: String,
+        required: true,
+    },
+    warningItem: {
+        type: String,
+        required: true,
+    },
 });
 
 //BATCH DELETE
@@ -109,12 +127,20 @@ const handleSelectionChange = (arrayOfSelectedObjects: []) => {
  * Deletes multiple selected objects at the same time.
  */
 const batchDelete = () => {
+    
     //Here we extract the selected objects' ids, and store them in an array.
-    const objectIdsForBatchDeleting = props.store[props.selectedObjects].map((object) => object.id)
+    const objectIdsForBatchDeleting = props.store[props.selectedObjects].map((object: TmsRequirement) => object.id);
+
+    interface TmsRequirement {
+        [key: string]: any;
+        id: number;
+    }
+    
     //Here we extract the selected objects' company names, and store them in an array.
-    const warningItemNamesForBatchDelete = props.store[props.selectedObjects].map((object) => object[props.warningItem])
+    const warningItemNamesForBatchDelete = props.store[props.selectedObjects].map((object: TmsRequirement) => object[props.warningItem]);
+    
     let stringOfNames = '<br>';//Here we will add the object names to a string, so that we can show them in the confirmation message.
-    warningItemNamesForBatchDelete.forEach((warningItemName) => {
+    warningItemNamesForBatchDelete.forEach((warningItemName: string) => {
         console.log(warningItemName)
         stringOfNames += warningItemName + '<br>'
     })
