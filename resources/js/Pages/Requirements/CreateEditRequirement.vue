@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
+import { reactive, ref, onMounted, onBeforeMount } from 'vue';
 import { useRequirementStore } from '@/Stores/requirementStore';
 
 let requirementStore = useRequirementStore();
@@ -78,7 +78,7 @@ const ruleFormRef = ref();
     1. requirement: this is for v-model and frontend validation.
     2. requirementFields: this is hardcoded data, for actually looping out the input fields.
  */
-let requirement = reactive<RuleForm>({
+let requirement = reactive({
     name: '',
     remarks: '',
 });
@@ -119,12 +119,12 @@ let requirementFields = reactive({
  * The validation rules for the form.
  */
 const rules = reactive({
-    // name: [
-    //     { required: true, message: 'Name is required FE', trigger: 'blur' },
-    // ],
-    // remarks: [
-    //     { required: true, message: 'Remarks is required FE', trigger: 'blur' },
-    // ],
+    name: [
+        { required: true, message: 'Name is required FE', trigger: 'blur' },
+    ],
+    remarks: [
+        { required: true, message: 'Remarks is required FE', trigger: 'blur' },
+    ],
 });
 
 /**

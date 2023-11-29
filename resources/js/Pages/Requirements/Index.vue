@@ -56,7 +56,7 @@ import { useRequirementStore } from '@/Stores/requirementStore';
 import SearchField from '@/Shared/SearchField.vue';
 import Table from '@/Shared/Table.vue';
 import Pagination from '@/Shared/Pagination.vue';
-// import CreateEditRequirement from '@/Pages/Requirements/CreateEditRequirement.vue';
+import CreateEditRequirement from '@/Pages/Requirements/CreateEditRequirement.vue';
 
 let requirementStore = useRequirementStore();
 

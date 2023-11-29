@@ -12,7 +12,7 @@
             2. addressFields: this is hardcoded data, for actually looping out the input fields. -->
             <el-form-item
                 v-for="(inputField, index) in addressFields"
-                :key="inputField.id"
+                :key="index"
                 :label="inputField.label"
                 :prop="inputField.prop"
             >
