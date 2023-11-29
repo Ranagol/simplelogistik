@@ -180,29 +180,16 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus'
+<script setup>
+import { reactive, ref, onBeforeMount } from 'vue';
 import { useCustomerStore } from '@/Stores/customerStore';
 
 let customerStore = useCustomerStore();
 
 /**
- * Here we define, what structure should have the customer object.
- */
-interface RuleForm {
-    company_name: string,
-    name: string,
-    email: string,
-    rating: string,
-    tax_number: string,
-    internal_cid: string,
-}
-
-/**
  * This contains the whole el-form. Needed for the validation.
  */
-const ruleFormRef = ref<FormInstance>()
+const ruleFormRef = ref()
 
 /**
  * The customer object that is being sent to the backend.
@@ -210,7 +197,7 @@ const ruleFormRef = ref<FormInstance>()
  * used to create a reactive and mutable object. The object is of type RuleForm (as defined earlier), 
  * and it's initially set with all properties as empty strings. 
  */
- let customer = reactive<RuleForm>({
+ let customer = reactive({
     //Use this for creating a new customer
     // company_name: '',
     // name: '',
@@ -231,7 +218,7 @@ const ruleFormRef = ref<FormInstance>()
 /**
  * The validation rules for the form.
  */
-const rules = reactive<FormRules<RuleForm>>({
+const rules = reactive({
     company_name: [
         { required: true, message: 'Company name is required FE', trigger: 'blur' },
         { min: 3, max: 100, message: 'Length should be 3 to 100', trigger: 'blur' },
@@ -257,7 +244,7 @@ const rules = reactive<FormRules<RuleForm>>({
  * Does the frontend validation, and if it is OK, then calls the submit() function.
  */
 const emit = defineEmits(['submit']);
-const submitForm = async (formEl: FormInstance | undefined) => {
+const submitForm = async (formEl) => {
     if (!formEl) return;
 
     await formEl.validate((valid, fields) => {
