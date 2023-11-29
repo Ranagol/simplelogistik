@@ -17,7 +17,7 @@
             @submit="submit"
             :store="requirementStore"
         >
-            <CreateEditVehicle
+            <CreateEditRequirement
                 @submit="submit"
             />
         </Popup>
@@ -56,7 +56,7 @@ import { useRequirementStore } from '@/Stores/requirementStore';
 import SearchField from '@/Shared/SearchField.vue';
 import Table from '@/Shared/Table.vue';
 import Pagination from '@/Shared/Pagination.vue';
-// import CreateEditVehicle from '@/Pages/Requirements/CreateEditVehicle.vue';
+// import CreateEditRequirement from '@/Pages/Requirements/CreateEditRequirement.vue';
 
 let requirementStore = useRequirementStore();
 

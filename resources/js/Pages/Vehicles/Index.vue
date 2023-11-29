@@ -45,7 +45,7 @@
 
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { TmsVehicle } from '@/types/model_to_type';
 import Card from '@/Shared/Card.vue';
 import _ from 'lodash';
@@ -83,7 +83,7 @@ let props = defineProps(
 //Sends the vehicles to Pinia store, as soon arrives from backend.
 watch(
     () => props.dataFromController,
-    (newVal: object, oldVal: object): void => {
+    (newVal, oldVal) => {
         /**
          * Unfortunatelly, vehicles are coming in from backend mixed with pagination data.
          * That is what we have here in the dataFromController. We need
@@ -111,7 +111,7 @@ watch(
 //Sends the errors to Pinia store, as soon arrives from backend.
 watch(
     () => props.errors,
-    (newVal: object, oldVal: object): void => {
+    (newVal, oldVal) => {
         vehicleStore.errors = newVal;
     },
     { immediate: true, deep: true }
@@ -119,7 +119,7 @@ watch(
 
 watch(
     () => props.sortColumnProp,
-    (newVal: string, oldVal: string): void => {
+    (newVal, oldVal) => {
         vehicleStore.sortColumn = newVal;
     },
     { immediate: true, deep: true }
@@ -127,7 +127,7 @@ watch(
 
 watch(
     () => props.sortOrderProp,
-    (newVal: string, oldVal: string): void => {
+    (newVal, oldVal) => {
         vehicleStore.sortOrder = newVal;
     },
     { immediate: true, deep: true }
@@ -211,18 +211,18 @@ let data = reactive({
  * Now vehicles from this function arrive to props. There is a watcher for props, that sends vehicles
  * from props to Pinia store.
  */
-let getData = (): void => {
+let getData = () => {
     const vehicles = router.get(
         '/vehicles',
         {
             /**
              * This is the data that we send to the backend.
              */
-            searchTerm: vehicleStore.searchTerm as string,
-            sortColumn: vehicleStore.sortColumn as string,
-            sortOrder: vehicleStore.sortOrder as string,
-            page: vehicleStore.paginationData.current_page as string,
-            newItemsPerPage: vehicleStore.paginationData.per_page as string,
+            searchTerm: vehicleStore.searchTerm,
+            sortColumn: vehicleStore.sortColumn,
+            sortOrder: vehicleStore.sortOrder,
+            page: vehicleStore.paginationData.current_page,
+            newItemsPerPage: vehicleStore.paginationData.per_page,
         }
     );
 };

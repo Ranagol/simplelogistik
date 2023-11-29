@@ -63,11 +63,10 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus'
+// import type { FormInstance, FormRules } from 'element-plus'
 import { useVehicleStore } from '@/Stores/vehicleStore';
-import { TmsVehicle } from '@/types/model_to_type';
 
 let vehicleStore = useVehicleStore();
 
@@ -80,7 +79,7 @@ const ruleFormRef = ref<FormInstance>();
     1. vehicle: this is for v-model and frontend validation.
     2. vehicleFields: this is hardcoded data, for actually looping out the input fields.
  */
-let vehicle = reactive<RuleForm>({
+let vehicle = reactive({
     name: '',
     max_weight: '',
     max_pickup_weight: '',
