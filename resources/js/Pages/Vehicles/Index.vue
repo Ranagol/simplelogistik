@@ -12,17 +12,17 @@
             @handleCreate="handleCreate"
         />
 
-        <!-- CREATE NEW ADDRESS POPUP -->
-        <!-- <Popup
+        <!-- CREATE NEW VEHICLE POPUP -->
+        <Popup
             @submit="submit"
             :store="vehicleStore"
         >
             <CreateEditVehicle
                 @submit="submit"
             />
-        </Popup> -->
+        </Popup>
 
-        <!-- ADDRESSES TABLE -->
+        <!-- VEHICLES TABLE -->
         <Table
             @getData="getData"
             @handleEdit="handleEdit"
@@ -171,7 +171,7 @@ let data = reactive({
             sortable: 'custom',
         },
         {
-            prop: 'vehicly_type',
+            prop: 'vehicle_type',
             label: 'Vehicle type',
             sortable: 'custom',
         },
@@ -190,7 +190,6 @@ let data = reactive({
             label: 'Address id',
             sortable: 'custom',
         }
-        
     ],
 });
 
@@ -230,7 +229,7 @@ let getData = (): void => {
 
 /**
  * This function is triggered when the user clicks on the create new vehicle button.
- * It sets the mode to 'create', and it sets the selectedAddress to the customerResetValues.
+ * It sets the mode to 'create', and it sets the selectedVehicle to the customerResetValues.
  */
 const handleCreate = () => {
     console.log('handleCreate()');
@@ -241,7 +240,7 @@ const handleCreate = () => {
 
 /**
  * This function is triggered when the user clicks on the edit button in the table.
- * It sets the mode to 'edit', and it sets the selectedAddress to the vehicle object
+ * It sets the mode to 'edit', and it sets the selectedVehicle to the vehicle object
  * that the user wants to edit.
  */
 const handleEdit = (index, object) => {
@@ -249,7 +248,7 @@ const handleEdit = (index, object) => {
     vehicleStore.mode = 'edit';
     vehicleStore.elDialogVisible = true;
     vehicleStore.title = 'Edit vehicle';
-    vehicleStore.selectedAddress = object;
+    vehicleStore.selectedVehicle = object;
 };
 
 /**
@@ -311,7 +310,7 @@ const create = () => {
     console.log('create() triggered');
     router.post(
         '/vehicles', 
-        vehicleStore.selectedAddress, 
+        vehicleStore.selectedVehicle, 
         {
             onSuccess: () => {
                 ElMessage({
@@ -333,8 +332,8 @@ const create = () => {
 const edit = () => {
 
     router.put(
-        `/vehicles/${vehicleStore.selectedAddress.id}`, 
-        vehicleStore.selectedAddress,
+        `/vehicles/${vehicleStore.selectedVehicle.id}`, 
+        vehicleStore.selectedVehicle,
         {
             onSuccess: () => {
                 ElMessage({
