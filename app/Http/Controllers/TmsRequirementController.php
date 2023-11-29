@@ -7,6 +7,7 @@ use Inertia\Response;
 use App\Models\TmsRequirement;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Requests\TmsRequirementRequest;
 
 class TmsRequirementController extends Controller
 {
@@ -28,71 +29,51 @@ class TmsRequirementController extends Controller
         
         $requirements = $this->getRequirements($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
 
-        $t = 8;
         return Inertia::render('Requirements/Index', [
-            'dataFromRequirementController' => $requirements,
+            'dataFromController' => $requirements,
             'searchTermProp' => $searchTerm,
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
-            // 'elDialogVisibleProp' => $elDialogVisible,
         ]);
     }
 
     public function show(string $id): void
     {
-        $requirement = TmsRequirement::find($id);
+        $vehicle = TmsRequirement::find($id);
     }
 
     /**
      * Stores requirements. Inertia automatically sends succes or error feedback to the frontend.
      * 
-     * A little explanation: here we only save the requirement into db.
+     * A little explanation: here we only save the vehicle into db.
      * This simply triggers onSuccess event in FE component, which then displays the success message
      * to the user, and then the FE component calls the $this->index() method, which returns the requirements.
-     * So, the user gets his feedback, and the requirement list is refreshed.
+     * So, the user gets his feedback, and the vehicle list is refreshed.
      *
-     * @param Request $request
+     * @param TmsRequirementRequest $request
      * @return void
      */
-    public function store(Request $request): void
+    public function store(TmsRequirementRequest $request): void
     {
-        $request->validate([
-            'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',
-        ]);
-        
         TmsRequirement::create($request->all());
     }
 
     /**
      * Updates requirements. Inertia automatically sends succes or error feedback to the frontend.
      *
-     * @param Request $request
+     * @param TmsRequirementRequest $request
      * @param [type] $id
      * @return void
      */
-    public function update(Request $request, string $id): void
+    public function update(TmsRequirementRequest $request, string $id): void
     {
-        $request->validate([
-            'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',
-        ]);
-        
         TmsRequirement::find($id)->update($request->all());
     }
 
     /**
      * Deletes requirements. This triggers the onSuccess event in FE component, which then displays
      * the success message to the user, and then the FE component calls the $this->index() method,
-     * which returns the requirements. So, the user gets his feedback, and the requirement list is refreshed.
+     * which returns the requirements. So, the user gets his feedback, and the vehicle list is refreshed.
      * 
      * @param [type] $id
      * @return void
@@ -118,9 +99,8 @@ class TmsRequirementController extends Controller
      */
     public function batchDelete(Request $request): void
     {
-        $customerIds = $request->customerIds;
-        // dd($customerIds);
-        TmsRequirement::destroy($customerIds);
+        $ids = $request->ids;
+        TmsRequirement::destroy($ids);
     }
 
     /**
@@ -143,7 +123,8 @@ class TmsRequirementController extends Controller
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('remarks', 'like', '%' . $searchTerm . '%');
             })
             
             /**

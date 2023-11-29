@@ -9,6 +9,8 @@
  * IMPORTANT: this file will be overwritten, so don't put anything here.
  */
 
+import { TmsRequirement } from "./model_to_type";
+
 export interface PaginationData {
 
     current_page: number;
@@ -24,4 +26,29 @@ export interface PaginationData {
     to: number;
     total: number;
 
+}
+
+export interface DataFromController {
+    data: TmsRequirement[];
+    current_page: number;
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: any[]; // Replace 'any' with the actual type of the items in the array if known
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+};
+
+export interface CustomerErrors {
+    company_name: string | null,
+    name: string | null,
+    email: string | null,
+    rating: string | null,
+    tax_number: string | null,
+    internal_cid: string | null,
 }
