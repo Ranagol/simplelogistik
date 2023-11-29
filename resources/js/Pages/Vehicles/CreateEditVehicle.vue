@@ -63,9 +63,8 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus'
 import { useVehicleStore } from '@/Stores/vehicleStore';
 
 let vehicleStore = useVehicleStore();
