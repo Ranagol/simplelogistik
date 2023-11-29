@@ -1,10 +1,7 @@
 <template>
     <Card>
 
-        <el-menu
-            @open="handleOpen"
-            @close="handleClose"
-        >
+        <el-menu>
 
             <!-- HOME -->
             <el-menu-item index="Home">
@@ -179,32 +176,13 @@
     </Card>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent } from 'vue';
 import Card from "./Card.vue";
 import NavLink from "./NavLink.vue";
-export default defineComponent({
-    components: {
-        Card,
-        NavLink
-    },
-    data() {
-        return {
-            
-            
-        }
-    },
-    methods: {
-        handleOpen(key: string, keyPath: string) {
-            // console.log('handleOpen');
-            // console.log(key, keyPath);
-        },
-        handleClose(key: string, keyPath: string) {
-            // console.log('handleClose');
-            // console.log(key, keyPath);
-        }
-    }
-});
+
+
+
 </script>
 
 <style scoped>

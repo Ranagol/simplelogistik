@@ -135,7 +135,62 @@ watch(
 
 let data = reactive({
     tableColumns: [
-
+        {
+            prop: 'id',
+            label: 'Id',
+            sortable: 'custom',
+        },
+        {
+            prop: 'name',
+            label: 'Name',
+            sortable: 'custom',
+        },
+        {
+            prop: 'max_weight',
+            label: 'Max weight',
+            sortable: 'custom',
+        },
+        {
+            prop: 'max_pickup_weight',
+            label: 'Max pickup weight',
+            sortable: 'custom',
+        },
+        {
+            prop: 'max_pickup_width',
+            label: 'Max pickup width',
+            sortable: 'custom',
+        },
+        {
+            prop: 'max_pickup_height',
+            label: 'Max pickup height',
+            sortable: 'custom',
+        },
+        {
+            prop: 'max_pickup_length',
+            label: 'Max pickup length',
+            sortable: 'custom',
+        },
+        {
+            prop: 'vehicly_type',
+            label: 'Vehicle type',
+            sortable: 'custom',
+        },
+        {
+            prop: 'plate_number',
+            label: 'Plate number',
+            sortable: 'custom',
+        },
+        {
+            prop: 'forwarder_id',
+            label: 'Forw. id',
+            sortable: 'custom',
+        },
+        {
+            prop: 'address_id',
+            label: 'Address id',
+            sortable: 'custom',
+        }
+        
     ],
 });
 
