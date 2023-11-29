@@ -95,7 +95,7 @@ export type TmsContacts = TmsContact[]
 
 export interface TmsCustomer {
   // columns
-  id: number
+  id?: number
   internal_cid: string
   name: string
   email: string

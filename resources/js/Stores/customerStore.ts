@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { TmsCustomer } from '@/types/model_to_type';
 import { TmsCustomers } from '@/types/model_to_type';
-import { PaginationData } from '@/types/customTypes';
+import { PaginationData, CustomerErrors } from '@/types/customTypes';
 
 export const useCustomerStore = defineStore(
     'customer', {
@@ -15,13 +15,20 @@ export const useCustomerStore = defineStore(
         elDialogVisible: false as boolean,//turns on the popup
 
         //sort in el-table
-        sortOrder: '' as string,
-        sortColumn: '' as string,
+        sortOrder: '' as string | undefined,
+        sortColumn: '' as string | undefined,
 
         //pagination
         paginationData: {} as PaginationData,
 
-        errors: {},//validation errors from the backend
+        errors: {
+            company_name: '',
+            name: '',
+            email: '',
+            rating: '',
+            tax_number: '',
+            internal_cid: '',
+        } as CustomerErrors,//validation errors from the backend
         title: '',//the title for the createEditCustomer component
         customerResetValues: {
             company_name: '',

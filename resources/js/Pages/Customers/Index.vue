@@ -58,7 +58,8 @@ import SearchField from '@/Shared/SearchField.vue';
 import Table from '@/Shared/Table.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
-
+import { DataFromController, PaginationData } from '@/types/customTypes';
+import type { PropType } from 'vue';
 
 let customerStore = useCustomerStore();
 
@@ -67,7 +68,7 @@ let props = defineProps(
     {
         // elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
         errors: Object, 
-        dataFromController: Object,
+        dataFromController: Object as PropType<DataFromController>,
 
         /**
          * We need to pass the searchTermProp, sortColumnProp and sortOrderProp from the backend
@@ -83,14 +84,14 @@ let props = defineProps(
 //WATCHERS FOR PROPS: they send data received from backend to Pinia store
 //Sends the customers to Pinia store, as soon arrives from backend.
 watch(
-    () => props.dataFromController,
-    (newVal: object, oldVal: object): void => {
+    (): any => props.dataFromController,//TODO PROBLEM
+    (newDataFromController: DataFromController ) => {
         /**
          * Unfortunatelly, customers are coming in from backend mixed with pagination data.
          * That is what we have here in the dataFromController. We need
          * seaparted customers and separated pagination data. This will happen in computed properties.
          */
-        customerStore.customers = newVal.data;
+        customerStore.customers = newDataFromController.data;
 
         /**
          * All pagination related data is stored here. 
@@ -104,7 +105,9 @@ watch(
          * page-size	        paginationData.per_page             Number of items / page
          * total	            paginationData.total                Number of all db records
          */
-        customerStore.paginationData = _.omit({...props.dataFromController}, 'data');
+        if (props.dataFromController) {
+            customerStore.paginationData = _.omit({...props.dataFromController}, 'data') as PaginationData;
+        }
     },
     { immediate: true, deep: true }
 );
@@ -112,7 +115,7 @@ watch(
 //Sends the errors to Pinia store, as soon arrives from backend.
 watch(
     () => props.errors,
-    (newVal: object, oldVal: object): void => {
+    (newVal: object ): void => {
         customerStore.errors = newVal;
     },
     { immediate: true, deep: true }
@@ -120,18 +123,18 @@ watch(
 
 watch(
     () => props.sortColumnProp,
-    (newVal: string, oldVal: string): void => {
+    (newVal) => {
         customerStore.sortColumn = newVal;
     },
-    { immediate: true, deep: true }
+    { immediate: true }
 );
 
 watch(
     () => props.sortOrderProp,
-    (newVal: string, oldVal: string): void => {
+    (newVal)=> {
         customerStore.sortOrder = newVal;
     },
-    { immediate: true, deep: true }
+    { immediate: true }
 );
 
 let data = reactive({
@@ -204,8 +207,8 @@ let getData = (): void => {
             searchTerm: customerStore.searchTerm as string,
             sortColumn: customerStore.sortColumn as string,
             sortOrder: customerStore.sortOrder as string,
-            page: customerStore.paginationData.current_page as string,
-            newItemsPerPage: customerStore.paginationData.per_page as string,
+            page: customerStore.paginationData.current_page as number,
+            newItemsPerPage: customerStore.paginationData.per_page as number,
         }
     );
 };
@@ -226,7 +229,7 @@ const handleCreate = () => {
  * It sets the mode to 'edit', and it sets the selectedCustomer to the customer object
  * that the user wants to edit.
  */
-const handleEdit = (index, object) => {
+const handleEdit = (object: TmsCustomer) => {
     console.log('handleEdit()');
     customerStore.mode = 'edit';
     customerStore.elDialogVisible = true;
@@ -237,7 +240,7 @@ const handleEdit = (index, object) => {
 /**
  * Sends the delete customer request to the backend.
  */
-const handleDelete = (index, object) => {
+const handleDelete = (object: TmsCustomer) => {
 
     // Asks for confirmation message, for deleting the customer.
     ElMessageBox.confirm(

@@ -184,6 +184,7 @@
 import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { useCustomerStore } from '@/Stores/customerStore';
+import { TmsCustomer } from '@/types/model_to_type';
 
 let customerStore = useCustomerStore();
 
@@ -210,7 +211,7 @@ const ruleFormRef = ref<FormInstance>()
  * used to create a reactive and mutable object. The object is of type RuleForm (as defined earlier), 
  * and it's initially set with all properties as empty strings. 
  */
- let customer = reactive<RuleForm>({
+ let customer = reactive<TmsCustomer>({
     //Use this for creating a new customer
     // company_name: '',
     // name: '',
@@ -223,7 +224,7 @@ const ruleFormRef = ref<FormInstance>()
     company_name: 'Dummy from Create',
     name: 'sdfv',
     email: 'bla@gmail.com',
-    rating: '5',
+    rating: 5,
     tax_number: '5555',
     internal_cid: '66666',
 })
