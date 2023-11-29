@@ -67,7 +67,7 @@
 import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { useAddressStore } from '@/Stores/addressStore';
-import { TmsAddress } from '@/types/TmsAddress';
+// import { TmsAddress } from '@/types/TmsAddress';
 
 let addressStore = useAddressStore();
 
