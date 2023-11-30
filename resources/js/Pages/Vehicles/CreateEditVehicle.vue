@@ -63,24 +63,22 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus'
 import { useVehicleStore } from '@/Stores/vehicleStore';
-import { TmsVehicle } from '@/types/model_to_type';
 
 let vehicleStore = useVehicleStore();
 
 /**
  * This contains the whole el-form. Needed for the validation.
  */
-const ruleFormRef = ref<FormInstance>();
+const ruleFormRef = ref();
 /**
  * Here we loop out our input field. Now this looping has two sources:
     1. vehicle: this is for v-model and frontend validation.
     2. vehicleFields: this is hardcoded data, for actually looping out the input fields.
  */
-let vehicle = reactive<RuleForm>({
+let vehicle = reactive({
     name: '',
     max_weight: '',
     max_pickup_weight: '',
@@ -215,7 +213,7 @@ let vehicleFields = reactive({
 /**
  * The validation rules for the form.
  */
-const rules = reactive<FormRules<RuleForm>>({
+const rules = reactive({
     name: [
         { required: true, message: 'Name is required FE', trigger: 'blur' },
         { min: 1, max: 255, message: 'Name length should be between 1 and 255 characters', trigger: 'blur' }
@@ -260,7 +258,7 @@ const rules = reactive<FormRules<RuleForm>>({
  * Does the frontend validation, and if it is OK, then calls the submit() function.
  */
 const emit = defineEmits(['submit']);
-const submitForm = async (formEl: FormInstance | undefined) => {
+const submitForm = async (formEl) => {
     // console.log('validation for triggered');
     if (!formEl) return;
 

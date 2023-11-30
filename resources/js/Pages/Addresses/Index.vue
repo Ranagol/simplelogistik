@@ -46,7 +46,6 @@
 </template>
 
 <script lang="ts" setup>
-import { TmsAddress } from '@/types/model_to_type';
 import Card from '@/Shared/Card.vue';
 import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';

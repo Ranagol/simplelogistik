@@ -1,7 +1,4 @@
 import { defineStore } from 'pinia';
-import { TmsAddress } from '@/types/model_to_type';
-import { TmsAddresses } from '@/types/model_to_type';
-import { PaginationData } from '@/types/customTypes';
 
 export const useAddressStore = defineStore(
     'address', {

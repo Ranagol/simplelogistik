@@ -46,6 +46,8 @@ Route::resource('experiments', ExperimentController::class);
 Route::resource('vehicles', TmsVehicleController::class);
 Route::post('/vehicles-batch-delete', [TmsVehicleController::class, 'batchDelete'])->name('vehicles.batch.delete');
 Route::resource('requirements', TmsRequirementController::class);
+Route::post('/requirements-batch-delete', [TmsRequirementController::class, 'batchDelete'])->name('requirements.batch.delete');
+
 
 
 Route::get('/dashboard', function () {

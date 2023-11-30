@@ -12,7 +12,7 @@
             2. addressFields: this is hardcoded data, for actually looping out the input fields. -->
             <el-form-item
                 v-for="(inputField, index) in addressFields"
-                :key="inputField.id"
+                :key="index"
                 :label="inputField.label"
                 :prop="inputField.prop"
             >
@@ -63,24 +63,23 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-import { reactive, ref, watch, onMounted, onActivated, onUpdated, onBeforeMount } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus'
+<script setup>
+import { reactive, ref, onMounted, onBeforeMount } from 'vue';
+// import type { FormInstance, FormRules } from 'element-plus'
 import { useAddressStore } from '@/Stores/addressStore';
-import { TmsAddress } from '@/types/TmsAddress';
 
 let addressStore = useAddressStore();
 
 /**
  * This contains the whole el-form. Needed for the validation.
  */
-const ruleFormRef = ref<FormInstance>();
+const ruleFormRef = ref();
 /**
  * Here we loop out our input field. Now this looping has two sources:
     1. address: this is for v-model and frontend validation.
     2. addressFields: this is hardcoded data, for actually looping out the input fields.
  */
-let address = reactive<RuleForm>({
+let address = reactive({
     first_name: '',
     last_name: '',
     street: '',
@@ -239,7 +238,7 @@ let addressFields = reactive({
 /**
  * The validation rules for the form.
  */
-const rules = reactive<FormRules<RuleForm>>({
+const rules = reactive({
     first_name: [{ required: true, message: 'Please input first name FE', trigger: 'blur' }],
     last_name: [{ required: true, message: 'Please input last name FE', trigger: 'blur' }],
     street: [{ required: true, message: 'Please input street FE', trigger: 'blur' }],
@@ -258,14 +257,13 @@ const rules = reactive<FormRules<RuleForm>>({
  * Does the frontend validation, and if it is OK, then calls the submit() function.
  */
 const emit = defineEmits(['submit']);
-const submitForm = async (formEl: FormInstance | undefined) => {
+const submitForm = async (formEl) => {
     // console.log('validation for triggered');
     if (!formEl) return;
 
     await formEl.validate((valid, fields) => {
         if (valid) {//if validation is OK, then submit the address
             // console.log('FE validation OK, submit! This is the address', address)
-            // const purifiedAddress = purifyAddressData(address);
             addressStore.selectedAddress = address;
             // console.log('addressStore.selectedAddress:', addressStore.selectedAddress)
             emit('submit');
@@ -279,23 +277,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 }
 
 /**
- * Removes input field related data, that was needed for loopin out the input fields, but it is not
- * needed when we send address data to the backend, for create or edit.
- */
-const purifyAddressData = (address: object) => {
-    let purifiedAddress = {};
-    for (let [key, value] of Object.entries(address)) {
-        purifiedAddress[key] = value.value;
-    }
-    return purifiedAddress;
-}
-
-/**
  * Close the popup, and resets the address values in this component to empty.
  */
 let cancel = () => {
     addressStore.elDialogVisible = false;
-    addressStore.selectedAddress = addressStore.customerResetValues;//resetting all address fields
+    addressStore.selectedAddress = addressStore.addressResetValues;//resetting all address fields
 }
 
 /**

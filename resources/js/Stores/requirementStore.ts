@@ -1,19 +1,19 @@
 import { defineStore } from 'pinia';
 
-export const useVehicleStore = defineStore(
+export const useRequirementStore = defineStore(
     'vehicle', {
 
     state: () => ({
-        vehicles: [],//these are vehicles
-        selectedVehicle: {},//for edit, create, delete
-        selectedVehicles: [],//this is for batch delete
+        requirements: [],//these are requirements
+        selectedRequirement: {},//for edit, create, delete
+        selectedRequirements: [],//this is for batch delete
         searchTerm: '',//for search field
         mode: '',
-        elDialogVisible: false as boolean,//turns on the popup
+        elDialogVisible: false,//turns on the popup
 
         //sort in el-table
-        sortOrder: '' as string,
-        sortColumn: '' as string,
+        sortOrder: '',
+        sortColumn: '',
 
         //pagination
         paginationData: {},
@@ -28,22 +28,22 @@ export const useVehicleStore = defineStore(
 
     actions: {//like methods. Use .this here
 
-        vehiclesToStore(vehicles) {
-            this.vehicles = vehicles;
+        requirementsToStore(requirements) {
+            this.requirements = requirements;
         },
 
-        deleteVehicle(vehicle) {
-            this.vehicles = this.vehicles.filter((item) => item.id !== vehicle.id);
+        deleteRequirement(vehicle) {
+            this.requirements = this.requirements.filter((item) => item.id !== vehicle.id);
         },
 
         /**
          * Here we simply find the index of the object that we want to edit, and then replace it with
          * the newly edited object.
          */
-        editVehicle() {
-            let newlyEditedVehicle = this.selectedVehicle;
-            let index = this.vehicles.findIndex((nonEditedVehicle) => nonEditedVehicle.id === newlyEditedVehicle.id);
-            this.vehicles[index] = newlyEditedVehicle;
+        editRequirement() {
+            let newlyEditedRequirement = this.selectedRequirement;
+            let index = this.requirements.findIndex((nonEditedRequirement) => nonEditedRequirement.id === newlyEditedRequirement.id);
+            this.requirements[index] = newlyEditedRequirement;
         },
 
         setCurrentPage(page: number) {
