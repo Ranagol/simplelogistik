@@ -2,20 +2,13 @@
     <Head title="Home" />
 
     <Card>
-        <h1>Home</h1>
+        <h1 class="font-semibold text-xl text-gray-800 leading-tight">Home</h1>
     </Card>
 </template>
 
-<script lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
-import { defineComponent } from 'vue';
+<script setup>
+import { Head } from '@inertiajs/vue3';
 import Card from '@/Shared/Card.vue';
-export default defineComponent({
-    components: {
-        Head,
-        Card
-    },
-});
 
 
 

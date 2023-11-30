@@ -3,41 +3,32 @@
 
         <el-menu>
 
-            <!-- HOME -->
-            <el-menu-item index="Home">
+            <!-- DASHBOARD -->
+            <el-menu-item index="Dashboard">
                 <NavLink
-                    href="/"
-                >Home</NavLink>
+                    href="/dashboard"
+                >Dashboard</NavLink>
             </el-menu-item>
 
-            <!-- LOGIN -->
-            <el-menu-item index="Login">
-                <NavLink
-                    href="/login"
-                >Login</NavLink>
-            </el-menu-item>
+            <!-- CARGOORDERS -->
+            <el-sub-menu
+                index="cargo-orders"
+            >
+                <template #title>
+                    <span>Orders</span>
+                </template>
 
-            <!-- REGISTER -->
-            <el-menu-item index="Register">
-                <NavLink
-                    href="/register"
-                >Register</NavLink>
-            </el-menu-item>
+                <!-- CARGOORDERS INDEX -->
+                <el-menu-item 
+                    index="cargo-orders.index"
+                >
+                    <NavLink
+                        href="/cargo-orders"
+                    >Orders list</NavLink>
+                </el-menu-item>
 
-            <!-- REGISTER -->
-            <el-menu-item index="Experiment">
-                <NavLink
-                    href="/experiments"
-                >Experiment</NavLink>
-            </el-menu-item>
+            </el-sub-menu>
 
-            <!-- PALMYRA -->
-            <el-menu-item index="Pamyra">
-                <NavLink
-                    href="/pamyra"
-                >Pamyra</NavLink>
-            </el-menu-item>
-            
             <!-- CUSTOMERS -->
             <el-sub-menu
                 index="customers"
@@ -55,14 +46,6 @@
                     >Customers list</NavLink>
                 </el-menu-item>
 
-                <!-- JUST FOR TEMPORARY DISPLAY -->
-                <el-menu-item 
-                    index="111"
-                >
-                    <NavLink
-                        href="/random"
-                    >Just temporary</NavLink>
-                </el-menu-item>
             </el-sub-menu>
 
             <!-- ADDRESSES -->
@@ -82,24 +65,17 @@
                     >Addresses list</NavLink>
                 </el-menu-item>
 
-                <!-- JUST FOR TEMPORARY DISPLAY -->
-                <el-menu-item 
-                    index="222"
-                >
-                    <NavLink
-                        href="/random"
-                    >Just temporary</NavLink>
-                </el-menu-item>
             </el-sub-menu>
-
-            <!-- VEHICLES -->
+            
+            <!-- OTHER -->
             <el-sub-menu
-                index="vehicles"
+                index="other"
             >
                 <template #title>
-                    <span>Vehicles</span>
+                    <span>Other</span>
                 </template>
 
+                <!-- VEHICLES -->
                 <el-menu-item 
                     index="vehicles.index"
                 >
@@ -108,25 +84,7 @@
                     >Vehicles list</NavLink>
                 </el-menu-item>
 
-                <!-- JUST FOR TEMPORARY DISPLAY -->
-                <el-menu-item 
-                    index="222"
-                >
-                    <NavLink
-                        href="/random"
-                    >Just temporary</NavLink>
-                </el-menu-item>
-            </el-sub-menu>
-
-            <!-- REQUIREMENTS -->
-            <el-sub-menu
-                index="requirements"
-            >
-                <template #title>
-                    <span>Requirements</span>
-                </template>
-
-                <!-- ADDRESSES INDEX -->
+                <!-- REQUREMENTS -->
                 <el-menu-item 
                     index="requirements.index"
                 >
@@ -135,43 +93,35 @@
                     >Requirements list</NavLink>
                 </el-menu-item>
 
-                <!-- JUST FOR TEMPORARY DISPLAY -->
-                <el-menu-item 
-                    index="222"
-                >
+                <!-- PALMYRA -->
+                <el-menu-item index="Pamyra">
                     <NavLink
-                        href="/random"
-                    >Just temporary</NavLink>
+                        href="/pamyra"
+                    >Pamyra</NavLink>
                 </el-menu-item>
+
+                <!-- LOGIN -->
+                <el-menu-item index="Login">
+                    <NavLink
+                        href="/login"
+                    >Login</NavLink>
+                </el-menu-item>
+
+                <!-- REGISTER -->
+                <el-menu-item index="Register">
+                    <NavLink
+                        href="/register"
+                    >Register</NavLink>
+                </el-menu-item>
+
+                <!-- REGISTER -->
+                <el-menu-item index="Experiment">
+                    <NavLink
+                        href="/experiments"
+                    >Experiment</NavLink>
+                </el-menu-item>
+
             </el-sub-menu>
-
-            <!-- CARGOORDERS -->
-            <el-sub-menu
-                index="cargo-orders"
-            >
-                <template #title>
-                    <span>Cargo orders list</span>
-                </template>
-
-                <!-- CARGOORDERS INDEX -->
-                <el-menu-item 
-                    index="cargo-orders.index"
-                >
-                    <NavLink
-                        href="/cargo-orders"
-                    >Cargo orders</NavLink>
-                </el-menu-item>
-
-                <!-- JUST FOR TEMPORARY DISPLAY -->
-                <el-menu-item 
-                    index="333"
-                >
-                    <NavLink
-                        href="/random"
-                    >Just temporary</NavLink>
-                </el-menu-item>
-            </el-sub-menu>
-
         </el-menu>
     </Card>
 </template>
