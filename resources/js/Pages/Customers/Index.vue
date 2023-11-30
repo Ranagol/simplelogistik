@@ -1,5 +1,5 @@
 <template>
-    <Head title="Customer" />
+    <Head title="Customers" />
 
     <Card>
         <h1>Customers</h1>

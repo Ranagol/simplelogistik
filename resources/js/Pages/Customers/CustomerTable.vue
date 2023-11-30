@@ -47,7 +47,7 @@
             <template #default="scope">
                 <Link
                     class="hover:underline text-blue-500"
-                    :href="`/customers/${scope.row.id}`"
+                    :href="`/customers/${scope.row.id}/edit`"
                 >{{ scope.row.company_name }}</Link>
             </template>
         </el-table-column>

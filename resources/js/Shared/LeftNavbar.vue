@@ -11,12 +11,12 @@
             </el-menu-item>
 
             <!-- CARGOORDERS -->
-            <el-sub-menu
+            <!-- <el-sub-menu
                 index="cargo-orders"
             >
                 <template #title>
                     <span>Orders</span>
-                </template>
+                </template> -->
 
                 <!-- CARGOORDERS INDEX -->
                 <el-menu-item 
@@ -27,15 +27,15 @@
                     >Orders list</NavLink>
                 </el-menu-item>
 
-            </el-sub-menu>
+            <!-- </el-sub-menu> -->
 
             <!-- CUSTOMERS -->
-            <el-sub-menu
+            <!-- <el-sub-menu
                 index="customers"
             >
                 <template #title>
                     <span>Customers</span>
-                </template>
+                </template> -->
 
                 <!-- CUSTOMERS INDEX -->
                 <el-menu-item 
@@ -46,15 +46,15 @@
                     >Customers list</NavLink>
                 </el-menu-item>
 
-            </el-sub-menu>
+            <!-- </el-sub-menu> -->
 
             <!-- ADDRESSES -->
-            <el-sub-menu
+            <!-- <el-sub-menu
                 index="addresses"
             >
                 <template #title>
                     <span>Addresses</span>
-                </template>
+                </template> -->
 
                 <!-- ADDRESSES INDEX -->
                 <el-menu-item 
@@ -65,7 +65,7 @@
                     >Addresses list</NavLink>
                 </el-menu-item>
 
-            </el-sub-menu>
+            <!-- </el-sub-menu> -->
             
             <!-- OTHER -->
             <el-sub-menu

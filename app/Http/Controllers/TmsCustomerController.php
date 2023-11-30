@@ -44,6 +44,14 @@ class TmsCustomerController extends Controller
         $customer = TmsCustomer::find($id);
     }
 
+    public function edit(string $id): Response
+    {
+        $customer = TmsCustomer::find($id);
+        return Inertia::render('Customers/CreateEditBase', [
+            'customer' => $customer,
+        ]);
+    }
+
     /**
      * Stores customers. Inertia automatically sends succes or error feedback to the frontend.
      * 
