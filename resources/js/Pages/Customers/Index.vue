@@ -23,11 +23,10 @@
         </Popup>
 
         <!-- CUSTOMERS TABLE -->
-        <Table
+        <CustomerTable
             @getData="getData"
             @handleEdit="handleEdit"
             @handleDelete="handleDelete"
-            :tableColumns="data.customerTableColumns"
             :store="customerStore"
             warningItem="company_name"
             batchDeleteUrl="/customers-batch-delete"
@@ -54,7 +53,7 @@ import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Shared/SearchField.vue';
-import Table from '@/Shared/Table.vue';
+import CustomerTable from './CustomerTable.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 
@@ -133,47 +132,7 @@ watch(
     { immediate: true, deep: true }
 );
 
-let data = reactive({
-    customerTableColumns: [
-        {
-            label: 'Id',
-            prop: 'id',
-            sortable: 'custom',
-            width: '70px',
-        },
-        {
-            label: 'Internal CID',
-            prop: 'internal_cid',
-            sortable: 'custom',
-        },
-        {
-            label: 'Company name',
-            prop: 'company_name',
-            sortable: 'custom',
-        },
-        {
-            label: 'Name',
-            prop: 'name',
-            sortable: 'custom',
-        },
-        {
-            label: 'Email',
-            prop: 'email',
-            sortable: 'custom',
-        },
-        {
-            label: 'Tax number',
-            prop: 'tax_number',
-            sortable: 'custom',
-        },
-        {
-            label: 'Rating',
-            prop: 'rating',
-            sortable: 'custom',
-            width: '100px',
-        }
-    ],
-});
+
 
 
 //METHODS
