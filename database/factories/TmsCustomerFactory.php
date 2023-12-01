@@ -27,7 +27,8 @@ class TmsCustomerFactory extends Factory
     {
         return [
             'internal_cid' => $this->faker->unique()->numberBetween(10000, 99999),
-            'name' => $this->faker->name,
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
             'email' => $this->faker->unique()->safeEmail,
             'company_name' => $this->faker->company,
             'tax_number' => $this->faker->randomNumber(9, true),

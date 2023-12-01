@@ -36,8 +36,14 @@
             
 
         <el-table-column
-            label="name"
-            prop="name"
+            label="First name"
+            prop="first_name"
+            sortable="custom"
+        />
+
+        <el-table-column
+            label="Last name"
+            prop="last_name"
             sortable="custom"
         />
 
