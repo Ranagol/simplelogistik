@@ -5,7 +5,7 @@
     <Card>
         <h1
             class="font-semibold text-xl text-gray-800 leading-tight mb-2"
-        >Customer: {{ customer.company_name }}</h1>
+        >{{ customer.company_name }}</h1>
 
         <el-tabs
             type="border-card"
@@ -16,7 +16,13 @@
             >
                 <DataTab
                     v-model="data.customerData"
-                />
+                >
+                    <template #buttonSubmitTab>
+                        <ButtonSubmitTab
+                            @submit="submit"
+                        />
+                    </template>
+                </DataTab>
             </el-tab-pane>
 
             <el-tab-pane
@@ -24,7 +30,13 @@
             >
                 <AddressesTab
                     v-model="data.customerData"
-                />
+                >
+                    <template #buttonSubmitTab>
+                        <ButtonSubmitTab
+                            @submit="submit"
+                        />
+                    </template>
+                </AddressesTab>
             </el-tab-pane>
 
             <el-tab-pane
@@ -32,7 +44,13 @@
             >
                 <ContactsTab
                     v-model="data.customerData"
-                />
+                >   
+                    <template #buttonSubmitTab>
+                        <ButtonSubmitTab
+                            @submit="submit"
+                        />
+                    </template>
+                </ContactsTab>
             </el-tab-pane>
 
             <el-tab-pane
@@ -40,7 +58,13 @@
             >
                 <OrdersTab
                     v-model="data.customerData"
-                />
+                >
+                    <template #buttonSubmitTab>
+                        <ButtonSubmitTab
+                            @submit="submit"
+                        />
+                    </template>
+                </OrdersTab>
             </el-tab-pane>
 
             <el-tab-pane
@@ -48,7 +72,13 @@
             >
                 <OffersTab
                     v-model="data.customerData"
-                />
+                >
+                    <template #buttonSubmitTab>
+                        <ButtonSubmitTab
+                            @submit="submit"
+                        />
+                    </template>    
+                </OffersTab>    
             </el-tab-pane>
 
             <el-tab-pane
@@ -56,7 +86,13 @@
             >
                 <IndividualTab
                     v-model="data.customerData"
-                />
+                >
+                    <template #buttonSubmitTab>
+                        <ButtonSubmitTab
+                            @submit="submit"
+                        />
+                    </template>
+                </IndividualTab>
             </el-tab-pane>
         </el-tabs>
     </Card>
@@ -72,7 +108,7 @@ import ContactsTab from '@/Pages/Customers/CustomerTabs/ContactsTab.vue';
 import OrdersTab from '@/Pages/Customers/CustomerTabs/OrdersTab.vue';
 import OffersTab from '@/Pages/Customers/CustomerTabs/OffersTab.vue';
 import IndividualTab from '@/Pages/Customers/CustomerTabs/IndividualTab.vue';
-
+import ButtonSubmitTab from '@/Shared/ButtonSubmitTab.vue';
 
 
 const props = defineProps({
@@ -96,6 +132,10 @@ watch(
 const data = reactive({
     customerData: props.customer
 });
+
+const submit = () => {
+    console.log('submit');
+}
 
 
 

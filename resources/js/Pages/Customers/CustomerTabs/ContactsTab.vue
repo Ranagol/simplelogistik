@@ -1,10 +1,10 @@
 <template>
+    <slot name="buttonSubmitTab"></slot>
     {{ data.customer }}
 </template>
 
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
-import { router} from '@inertiajs/vue3';//for sending requests;
 
 let props = defineProps({
     modelValue: {
@@ -17,9 +17,13 @@ let data = reactive({
     customer: props.modelValue
 });
 
+/**
+ * This does the customer data synchronization with the parent CreateEditBase component. With
+ * v-model magic. This is not sending a signal for saving the customer! Just the customer.
+ */
 const emit = defineEmits(['update:modelValue']);
 function handleChange(){
-    emit('update:modelValue', 'putHereTheNewCustomerObject');
+    emit('update:modelValue', data.customer);
 }
 
 

@@ -31,6 +31,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabPanel: typeof import('element-plus/es')['ElTabPanel']
     ElTabs: typeof import('element-plus/es')['ElTabs']
   }
 }
