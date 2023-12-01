@@ -35,7 +35,6 @@ class TmsCustomerController extends Controller
             'searchTermProp' => $searchTerm,
             'sortColumnProp' => $sortColumn,
             'sortOrderProp' => $sortOrder,
-            // 'elDialogVisibleProp' => $elDialogVisible,
         ]);
     }
 

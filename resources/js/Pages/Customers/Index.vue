@@ -4,6 +4,7 @@
     <Card>
         <h1>Customers</h1>
 
+        <!-- SEARCH FIELD -->
         <SearchField
             placeholder="Search customers..."
             :store="customerStore"
@@ -12,27 +13,13 @@
             @handleCreate="handleCreate"
         />
 
-        <!-- CREATE NEW CUSTOMER POPUP -->
-        <Popup
-            @submit="submit"
-            :store="customerStore"
-        >
-            <CreateEditCustomer
-                @submit="submit"
-            ></CreateEditCustomer>
-        </Popup>
-
         <!-- CUSTOMERS TABLE -->
+               
         <CustomerTable
+            v-model:sortColumn="data.sortColumn"
+            v-model:sortOrder="data.sortOrder"
+            :customers="data.customers"
             @getData="getData"
-            @handleEdit="handleEdit"
-            @handleDelete="handleDelete"
-            :store="customerStore"
-            warningItem="company_name"
-            batchDeleteUrl="/customers-batch-delete"
-            modelSingular="customer"
-            modelPlural="customers"
-            selectedObjects="selectedCustomers"
         />
 
         <!-- PAGINATION -->
@@ -47,7 +34,6 @@
 <script setup>
 import Card from '@/Shared/Card.vue';
 import _ from 'lodash';
-import Popup from '@/Shared/Popup.vue';
 import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
@@ -55,7 +41,6 @@ import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Shared/SearchField.vue';
 import CustomerTable from './CustomerTable.vue';
 import Pagination from '@/Shared/Pagination.vue';
-import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
 
 
 let customerStore = useCustomerStore();
@@ -77,6 +62,13 @@ let props = defineProps(
         sortOrderProp: String,
     }
 );
+
+let data = reactive({
+    customers: props.dataFromController.data,
+    searchTerm: props.searchTermProp,
+    sortColumn: props.sortColumnProp,
+    sortOrder: props.sortOrderProp,
+});
 
 //WATCHERS FOR PROPS: they send data received from backend to Pinia store
 //Sends the customers to Pinia store, as soon arrives from backend.
@@ -116,26 +108,6 @@ watch(
     { immediate: true, deep: true }
 );
 
-watch(
-    () => props.sortColumnProp,
-    (newVal, oldVal) => {
-        customerStore.sortColumn = newVal;
-    },
-    { immediate: true, deep: true }
-);
-
-watch(
-    () => props.sortOrderProp,
-    (newVal) => {
-        customerStore.sortOrder = newVal;
-    },
-    { immediate: true, deep: true }
-);
-
-
-
-
-//METHODS
 
 /**
  * getData() is triggered by: 
@@ -153,6 +125,7 @@ watch(
  * from props to Pinia store.
  */
 let getData = () => {
+    console.log('getData() in index.vue');
     const customers = router.get(
         '/customers',
         {
@@ -160,8 +133,8 @@ let getData = () => {
              * This is the data that we send to the backend.
              */
             searchTerm: customerStore.searchTerm,
-            sortColumn: customerStore.sortColumn,
-            sortOrder: customerStore.sortOrder,
+            sortColumn: data.sortColumn,
+            sortOrder: data.sortOrder,
             page: customerStore.paginationData.current_page,
             newItemsPerPage: customerStore.paginationData.per_page,
         }
@@ -173,8 +146,6 @@ let getData = () => {
  * It sets the mode to 'create', and it sets the selectedCustomer to the customerResetValues.
  */
 const handleCreate = () => {
-    console.log('handleCreate()');
-    customerStore.elDialogVisible = true;
     customerStore.title = 'Create new customer';
     customerStore.mode = 'create';
 };
@@ -187,7 +158,6 @@ const handleCreate = () => {
 const handleEdit = (index, object) => {
     console.log('handleEdit()');
     customerStore.mode = 'edit';
-    customerStore.elDialogVisible = true;
     customerStore.title = 'Edit customer';
     customerStore.selectedCustomer = object;
 };
