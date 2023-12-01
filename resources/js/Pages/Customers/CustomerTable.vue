@@ -59,6 +59,16 @@
             sortable="custom"
         />
 
+        <el-table-column
+            label="Registration date"
+            prop="created_at"
+            sortable="custom"
+        >
+            <template #default="scope">
+                {{ formatDate(scope.row.created_at) }}
+            </template>
+        </el-table-column>
+
     </el-table>
 
 </template>
@@ -66,6 +76,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
+import moment from 'moment';
 
 const emit = defineEmits(['getData', 'update:sortOrder', 'update:sortColumn']);
 
@@ -95,6 +106,15 @@ const sort = ( { prop, order }) => {
     emit('update:sortColumn', prop);
     //Sending a signal to Index.vue to get the customers by the new sort order
     emit('getData');
+};
+
+/**
+ * FORMATTING
+ * formatDate() is used to format the date in the table
+ */
+const formatDate = (dateString) => {
+    const dateObject = moment(dateString);
+    return dateObject.format('DD-MM-YYYY');
 };
 
 </script>
