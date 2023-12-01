@@ -13,12 +13,14 @@
             label='Id'
             prop='id'
             sortable='custom'
+            width='80px'
         />
 
         <el-table-column
             label='Customer number'
             prop='internal_cid'
             sortable='custom'
+            width='190px'
         >
             <template #default="scope">
                 <Link
@@ -57,12 +59,14 @@
             label="Tax number"
             prop="tax_number"
             sortable="custom"
+            width='190px'
         />
 
         <el-table-column
             label="Registration date"
             prop="created_at"
             sortable="custom"
+            width='190px'
         >
             <template #default="scope">
                 {{ formatDate(scope.row.created_at) }}
