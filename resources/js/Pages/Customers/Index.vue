@@ -21,8 +21,8 @@
 
         <!-- PAGINATION -->
         <Pagination
+            v-model:paginationData="data.paginationData"
             @getData="getData"
-            :store="customerStore"
         />
     </Card>
 
@@ -39,13 +39,11 @@ import SearchField from '@/Shared/SearchField.vue';
 import CustomerTable from './CustomerTable.vue';
 import Pagination from '@/Shared/Pagination.vue';
 
-
 let customerStore = useCustomerStore();
 
 // PROPS
 let props = defineProps( 
     {
-        // elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
         errors: Object, 
         dataFromController: Object,
 
@@ -65,6 +63,7 @@ let data = reactive({
     searchTerm: props.searchTermProp,
     sortColumn: props.sortColumnProp,
     sortOrder: props.sortOrderProp,
+    paginationData: _.omit({...props.dataFromController}, 'data')
 });
 
 //WATCHERS FOR PROPS: they send data received from backend to Pinia store
@@ -132,8 +131,8 @@ let getData = () => {
             searchTerm: data.searchTerm,
             sortColumn: data.sortColumn,
             sortOrder: data.sortOrder,
-            page: customerStore.paginationData.current_page,
-            newItemsPerPage: customerStore.paginationData.per_page,
+            page: data.paginationData.current_page,
+            newItemsPerPage: data.paginationData.per_page,
         }
     );
 };

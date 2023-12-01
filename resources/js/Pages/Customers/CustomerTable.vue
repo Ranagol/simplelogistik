@@ -10,6 +10,12 @@
         class="mt-2"
     >
         <el-table-column
+            label='Id'
+            prop='id'
+            sortable='custom'
+        />
+
+        <el-table-column
             label='Customer number'
             prop='internal_cid'
             sortable='custom'
