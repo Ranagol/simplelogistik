@@ -80,6 +80,7 @@ const sort = ( { prop, order }) => {
     }
     //Setting the sort column in data()
     emit('update:sortColumn', prop);
+    //Sending a signal to Index.vue to get the customers by the new sort order
     emit('getData');
 };
 

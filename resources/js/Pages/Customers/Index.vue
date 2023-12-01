@@ -6,15 +6,12 @@
 
         <!-- SEARCH FIELD -->
         <SearchField
+            v-model:searchTerm="data.searchTerm"
             placeholder="Search customers..."
-            :store="customerStore"
             @getData="getData"
-            createButtonText="Create new customer"
-            @handleCreate="handleCreate"
         />
 
         <!-- CUSTOMERS TABLE -->
-               
         <CustomerTable
             v-model:sortColumn="data.sortColumn"
             v-model:sortOrder="data.sortOrder"
@@ -132,7 +129,7 @@ let getData = () => {
             /**
              * This is the data that we send to the backend.
              */
-            searchTerm: customerStore.searchTerm,
+            searchTerm: data.searchTerm,
             sortColumn: data.sortColumn,
             sortOrder: data.sortOrder,
             page: customerStore.paginationData.current_page,
