@@ -11,6 +11,7 @@
             type="border-card"
             stretch
         >
+            <!-- CUSTOMER GENERAL DATA -->
             <el-tab-pane
                 label="General customer data"
             >
@@ -25,6 +26,7 @@
                 </DataTab>
             </el-tab-pane>
 
+            <!-- ADDRESSES -->
             <el-tab-pane
                 label="Addresses"
             >
@@ -39,6 +41,7 @@
                 </AddressesTab>
             </el-tab-pane>
 
+            <!-- CONTACTS -->
             <el-tab-pane
                 label="Contacts"
             >
@@ -53,6 +56,7 @@
                 </ContactsTab>
             </el-tab-pane>
 
+            <!-- ORDERS -->
             <el-tab-pane
                 label="Orders"
             >
@@ -67,6 +71,7 @@
                 </OrdersTab>
             </el-tab-pane>
 
+            <!-- OFFERS -->
             <el-tab-pane
                 label="Offers"
             >
@@ -81,6 +86,7 @@
                 </OffersTab>    
             </el-tab-pane>
 
+            <!-- INDIVIDUAL SETTINGS -->
             <el-tab-pane
                 label="Individual settings"
             >
@@ -109,7 +115,7 @@ import OrdersTab from '@/Pages/Customers/CustomerTabs/OrdersTab.vue';
 import OffersTab from '@/Pages/Customers/CustomerTabs/OffersTab.vue';
 import IndividualTab from '@/Pages/Customers/CustomerTabs/IndividualTab.vue';
 import ButtonSubmitTab from '@/Shared/ButtonSubmitTab.vue';
-
+import Card from '@/Shared/Card.vue';
 
 const props = defineProps({
 
@@ -122,12 +128,6 @@ const props = defineProps({
     }
 });
 
-watch(
-    () => props.customer, 
-    (newVal) => {
-        data.customerData = newVal;
-    }
-);
 
 const data = reactive({
     customerData: props.customer
