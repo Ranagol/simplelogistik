@@ -59,50 +59,30 @@ let props = defineProps(
 );
 
 let data = reactive({
+    /**
+     * Unfortunatelly, customers are coming in from backend mixed with pagination data.
+     * That is what we have here in the dataFromController. We need
+     * seaparted customers and separated pagination data. This will happen in computed properties.
+     */
     customers: props.dataFromController.data,
     searchTerm: props.searchTermProp,
     sortColumn: props.sortColumnProp,
     sortOrder: props.sortOrderProp,
+
+    /**
+     * All pagination related data is stored here. 
+     * Unfortunatelly,customers are coming in from backend mixed with pagination data.
+     * That is what we have here in the dataFromController. We need
+     * seaparated customers and separated pagination data. This will happen in computed properties.
+     * Here. So, this is the pagination related data. And a small reminder:
+     * 
+     * el-pagination        Laravel ->paginate()
+     * current-page	        paginationData.current_page         Where the user is currently
+     * page-size	        paginationData.per_page             Number of items / page
+     * total	            paginationData.total                Number of all db records
+     */
     paginationData: _.omit({...props.dataFromController}, 'data')
 });
-
-//WATCHERS FOR PROPS: they send data received from backend to Pinia store
-//Sends the customers to Pinia store, as soon arrives from backend.
-watch(
-    () => props.dataFromController,
-    (newVal, oldVal) => {
-        /**
-         * Unfortunatelly, customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromController. We need
-         * seaparted customers and separated pagination data. This will happen in computed properties.
-         */
-        customerStore.customers = newVal.data;
-
-        /**
-         * All pagination related data is stored here. 
-         * Unfortunatelly,customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromController. We need
-         * seaparated customers and separated pagination data. This will happen in computed properties.
-         * Here. So, this is the pagination related data. And a small reminder:
-         * 
-         * el-pagination        Laravel ->paginate()
-         * current-page	        paginationData.current_page         Where the user is currently
-         * page-size	        paginationData.per_page             Number of items / page
-         * total	            paginationData.total                Number of all db records
-         */
-        customerStore.paginationData = _.omit({...props.dataFromController}, 'data');
-    },
-    { immediate: true, deep: true }
-);
-
-//Sends the errors to Pinia store, as soon arrives from backend.
-watch(
-    () => props.errors,
-    (newVal) => {
-        customerStore.errors = newVal;
-    },
-    { immediate: true, deep: true }
-);
 
 
 /**

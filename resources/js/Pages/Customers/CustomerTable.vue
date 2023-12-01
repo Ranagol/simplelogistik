@@ -19,20 +19,21 @@
             label='Customer number'
             prop='internal_cid'
             sortable='custom'
-        />
-
-        <el-table-column
-            label='Company'
-            prop='company_name'
-            sortable='custom'
         >
             <template #default="scope">
                 <Link
                     class="hover:underline text-blue-500"
                     :href="`/customers/${scope.row.id}/edit`"
-                >{{ scope.row.company_name }}</Link>
+                >{{ scope.row.internal_cid }}</Link>
             </template>
         </el-table-column>
+
+        <el-table-column
+            label='Company'
+            prop='company_name'
+            sortable='custom'
+        />
+            
 
         <el-table-column
             label="name"
