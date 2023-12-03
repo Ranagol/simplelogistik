@@ -23,7 +23,8 @@ class TmsCustomerRequest extends FormRequest
     {
         return [
             'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
+            'first_name' => 'required|string|min:2|max:200',
+            'last_name' => 'required|string|min:2|max:200',
             'email' => 'required|email|max:100',
             'rating' => 'required|integer|between:1,5',
             'tax_number' => 'required|string|min:2|max:50',

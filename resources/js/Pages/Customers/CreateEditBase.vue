@@ -1,11 +1,14 @@
 <template>
 
-    <Head :title="customer.company_name"/>
+    <!-- <Head
+        v-if="customerData !== undefined"
+        :title="customerData.company_name"
+    /> -->
 
     <Card>
-        <h1
+        <!-- <h1
             class="font-semibold text-xl text-gray-800 leading-tight mb-2"
-        >{{ customer.company_name }}</h1>
+        >{{ customerData.company_name }}</h1> -->
 
         <el-tabs
             type="border-card"
@@ -107,7 +110,6 @@
 
 <script setup>
 import { reactive, ref, onBeforeMount, watch } from 'vue';
-import { useCustomerStore } from '@/Stores/customerStore';
 import DataTab from '@/Pages/Customers/CustomerTabs/DataTab.vue';
 import AddressesTab from '@/Pages/Customers/CustomerTabs/AddressesTab.vue';
 import ContactsTab from '@/Pages/Customers/CustomerTabs/ContactsTab.vue';
@@ -116,13 +118,15 @@ import OffersTab from '@/Pages/Customers/CustomerTabs/OffersTab.vue';
 import IndividualTab from '@/Pages/Customers/CustomerTabs/IndividualTab.vue';
 import ButtonSubmitTab from '@/Shared/ButtonSubmitTab.vue';
 import Card from '@/Shared/Card.vue';
+import { router } from '@inertiajs/vue3'
+
 
 const props = defineProps({
 
     /**
      * The customer object.
      */
-    customer: {
+    record: {
         type: Object,
         required: true
     }
@@ -130,12 +134,56 @@ const props = defineProps({
 
 
 const data = reactive({
-    customerData: props.customer
+    customerData: props.record
 });
 
 const submit = () => {
     console.log('submit');
+    editCustomer();
+
 }
+
+const editCustomer = () => {
+    router.put(
+        `/customers/${data.customerData.id}`, 
+        data.customerData,
+        {
+            onSuccess: () => {
+                ElMessage({
+                    message: 'Customer edited successfully',
+                    type: 'success',
+                });
+                router.reload({ only: ['record'] })
+            },
+            onError: (errors) => {
+                ElMessage.error('Oops, something went wrong while editing a customer.')
+                ElMessage(errors);
+            }
+        }
+    )
+};
+
+const createCustomer = () => {
+    router.post(
+        '/customers', 
+        customerStore.selectedCustomer, 
+        {
+            onSuccess: () => {
+                ElMessage({
+                    message: 'Customer created successfully',
+                    type: 'success',
+                });
+                // get customers again, so that the new customer is displayed
+                router.reload({ only: ['dataFromController'] })
+                customerStore.elDialogVisible = false;
+            },
+            onError: (errors) => {
+                ElMessage.error('Oops, something went wrong while creating a new customer.')
+                ElMessage(errors);
+            }
+        }
+    )
+};
 
 
 

@@ -193,48 +193,8 @@ const handleDelete = (index, object) => {
     }
 }
 
-const createCustomer = () => {
-    router.post(
-        '/customers', 
-        customerStore.selectedCustomer, 
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer created successfully',
-                    type: 'success',
-                });
-                // get customers again, so that the new customer is displayed
-                router.reload({ only: ['dataFromController'] })
-                customerStore.elDialogVisible = false;
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while creating a new customer.')
-                ElMessage(errors);
-            }
-        }
-    )
-};
 
-const editCustomer = () => {
 
-    router.put(
-        `/customers/${customerStore.selectedCustomer.id}`, 
-        customerStore.selectedCustomer,
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer edited successfully',
-                    type: 'success',
-                });
-                router.reload({ only: ['dataFromController'] })
-                customerStore.elDialogVisible = false;
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while editing a customer.')
-                ElMessage(errors);
-            }
-        }
-    )
-};
+
 
 </script>

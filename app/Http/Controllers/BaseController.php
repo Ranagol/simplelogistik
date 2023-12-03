@@ -17,7 +17,6 @@ abstract class BaseController extends Controller
     protected string $modelName;
     protected string $vueIndexPath;
     protected string $vueCreateEditPath;
-    protected FormRequest $validator;
 
     /**
      * Returns records.
@@ -75,8 +74,26 @@ abstract class BaseController extends Controller
      */
     public function store(): void
     {
-        $newRecord = $this->validator->validated();//do validation
-        $this->model::create($newRecord);//create new record in db
+        /**
+         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
+         * calling this method?
+         * In this code, app($this->getRequestClass()) will return an instance of TmsCustomerRequest 
+         * when called from TmsCustomerController.
+         * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
+         * TmsCustomerRequest.
+         */
+        $request = app($this->getRequestClass());//
+        
+        /**
+         * The validated method is used to get the validated data from the request.
+         */
+        $newRecord = $request->validated();//do validation
+
+        /**
+         * 1. Find the relevant record and...
+         * 2. ...update it.
+         */
+        $this->model->create($newRecord);
     }
 
     /**
@@ -87,8 +104,26 @@ abstract class BaseController extends Controller
      */
     public function update(string $id): void
     {
-        $newRecord = $this->validator->validated();//do validation
-        $this->model::find($id)->update($newRecord);//update record in db
+        /**
+         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
+         * calling this method?
+         * In this code, app($this->getRequestClass()) will return an instance of TmsCustomerRequest 
+         * when called from TmsCustomerController.
+         * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
+         * TmsCustomerRequest.
+         */
+        $request = app($this->getRequestClass());//
+        
+        /**
+         * The validated method is used to get the validated data from the request.
+         */
+        $newRecord = $request->validated();//do validation
+
+        /**
+         * 1. Find the relevant record and...
+         * 2. ...update it.
+         */
+        $this->model->find($id)->update($newRecord);
     }
 
     /**
@@ -180,5 +215,10 @@ abstract class BaseController extends Controller
 
             // dd($records);
         return $records;
+    }
+
+    protected function getRequestClass()
+    {
+        return Request::class; // Default to the base request class
     }
 }

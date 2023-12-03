@@ -12,6 +12,15 @@ class TmsCustomerController extends BaseController
         $this->model = new TmsCustomer();
         $this->vueIndexPath = 'Customers/Index';
         $this->vueCreateEditPath = 'Customers/CreateEditBase';
-        $this->validator = new TmsCustomerRequest();
+    }
+
+    /**
+     * This is used for dynamic validation. Which happens in the parent BaseController.
+     *
+     * @return string
+     */
+    protected function getRequestClass(): string
+    {
+        return TmsCustomerRequest::class;
     }
 }
