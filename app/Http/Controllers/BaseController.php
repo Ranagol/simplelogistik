@@ -51,13 +51,12 @@ abstract class BaseController extends Controller
         $record = $this->model::find($id);
     }
 
-    public function edit(string $id): Response
+    public function create()
     {
-        $record = $this->model::find($id);
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                'record' => $record,
+                'mode' => 'create'
             ]
         );
     }
@@ -94,6 +93,18 @@ abstract class BaseController extends Controller
          * 2. ...update it.
          */
         $this->model->create($newRecord);
+    }
+
+    public function edit(string $id): Response
+    {
+        $record = $this->model::find($id);
+        return Inertia::render(
+            $this->vueCreateEditPath, 
+            [
+                'record' => $record,
+                'mode' => 'edit'
+            ]
+        );
     }
 
     /**

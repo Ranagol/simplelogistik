@@ -1,9 +1,9 @@
 <template>
 
-    <!-- <Head
-        v-if="customerData !== undefined"
-        :title="customerData.company_name"
-    /> -->
+    <!-- //TODO this has to be corrected. -->
+    <Head
+        :title="props.mode"
+    />
 
     <Card>
         <!-- <h1
@@ -129,17 +129,33 @@ const props = defineProps({
     record: {
         type: Object,
         required: true
+    },
+
+    /**
+     * mode is either 'create' or 'edit'. This is decided in the controller. This component will
+     * behave differently depending on which mode is it.
+     */
+    mode: {
+        type: String,
+        required: true
     }
 });
 
-
 const data = reactive({
+
+    /**
+     * The customer object.
+     */
     customerData: props.record
 });
 
 const submit = () => {
     console.log('submit');
-    editCustomer();
+    if (props.mode === 'edit') {
+        editCustomer();
+    } else {
+        createCustomer();
+    }
 
 }
 
@@ -163,27 +179,27 @@ const editCustomer = () => {
     )
 };
 
-const createCustomer = () => {
-    router.post(
-        '/customers', 
-        customerStore.selectedCustomer, 
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer created successfully',
-                    type: 'success',
-                });
-                // get customers again, so that the new customer is displayed
-                router.reload({ only: ['dataFromController'] })
-                customerStore.elDialogVisible = false;
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while creating a new customer.')
-                ElMessage(errors);
-            }
-        }
-    )
-};
+// const createCustomer = () => {
+//     router.post(
+//         '/customers', 
+//         customerStore.selectedCustomer, 
+//         {
+//             onSuccess: () => {
+//                 ElMessage({
+//                     message: 'Customer created successfully',
+//                     type: 'success',
+//                 });
+//                 // get customers again, so that the new customer is displayed
+//                 router.reload({ only: ['dataFromController'] })
+//                 customerStore.elDialogVisible = false;
+//             },
+//             onError: (errors) => {
+//                 ElMessage.error('Oops, something went wrong while creating a new customer.')
+//                 ElMessage(errors);
+//             }
+//         }
+//     )
+// };
 
 
 

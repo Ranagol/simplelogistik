@@ -5,11 +5,21 @@
         <h1>Customers</h1>
 
         <!-- SEARCH FIELD -->
-        <SearchField
-            v-model:searchTerm="data.searchTerm"
-            placeholder="Search customers..."
-            @getData="getData"
-        />
+        <div class="flex flex-row">
+            <SearchField
+                v-model:searchTerm="data.searchTerm"
+                placeholder="Search customers..."
+                @getData="getData"
+            />
+
+            <el-button
+                type="success"
+                class="mt-1"
+                @click="handleCreate"
+            >Create</el-button>
+
+        </div>
+        
 
         <!-- CUSTOMERS TABLE -->
         <CustomerTable
@@ -119,24 +129,11 @@ let getData = () => {
 
 /**
  * This function is triggered when the user clicks on the create new customer button.
- * It sets the mode to 'create', and it sets the selectedCustomer to the customerResetValues.
  */
 const handleCreate = () => {
-    customerStore.title = 'Create new customer';
-    customerStore.mode = 'create';
+    router.get('customers/create');
 };
 
-/**
- * This function is triggered when the user clicks on the edit button in the table.
- * It sets the mode to 'edit', and it sets the selectedCustomer to the customer object
- * that the user wants to edit.
- */
-const handleEdit = (index, object) => {
-    console.log('handleEdit()');
-    customerStore.mode = 'edit';
-    customerStore.title = 'Edit customer';
-    customerStore.selectedCustomer = object;
-};
 
 /**
  * Sends the delete customer request to the backend.
@@ -180,18 +177,6 @@ const handleDelete = (index, object) => {
         })
     })    
 };
-
-/**
- * Sends the create or edit customer request to the backend.
- */
- const submit = () => {
-    console.log('submit')
-    if (customerStore.mode == 'create') {
-        createCustomer();
-    } else if (customerStore.mode == 'edit') {
-        editCustomer();
-    }
-}
 
 
 
