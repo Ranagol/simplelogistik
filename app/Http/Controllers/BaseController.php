@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests\TmsCustomerRequest;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Foundation\Http\FormRequest;
 
 
 abstract class BaseController extends Controller
@@ -15,6 +17,7 @@ abstract class BaseController extends Controller
     protected string $modelName;
     protected string $vueIndexPath;
     protected string $vueCreateEditPath;
+    protected FormRequest $validator;
 
     /**
      * Returns records.
@@ -68,42 +71,24 @@ abstract class BaseController extends Controller
      * to the user, and then the FE component calls the $this->index() method, which returns the records.
      * So, the user gets his feedback, and the record list is refreshed.
      *
-     * @param Request $request
      * @return void
      */
-    public function store(Request $request): void
+    public function store(): void
     {
-        $request->validate([
-            'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',
-        ]);
-        
-        $this->model::create($request->all());
+        $newRecord = $this->validator->validated();//do validation
+        $this->model::create($newRecord);//create new record in db
     }
 
     /**
      * Updates records. Inertia automatically sends succes or error feedback to the frontend.
      *
-     * @param Request $request
-     * @param [type] $id
+     * @param string $id
      * @return void
      */
-    public function update(Request $request, string $id): void
+    public function update(string $id): void
     {
-        $request->validate([
-            'company_name' => 'required|string|min:2|max:100',
-            'name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',
-        ]);
-        
-        $this->model::find($id)->update($request->all());
+        $newRecord = $this->validator->validated();//do validation
+        $this->model::find($id)->update($newRecord);//update record in db
     }
 
     /**
@@ -141,7 +126,7 @@ abstract class BaseController extends Controller
     }
 
     /**
-     * Returns records.
+     * Returns records for records list (Index.vue component)
      *
      * @param string|null $searchTerm
      * @param string|null $sortColumn
@@ -162,6 +147,7 @@ abstract class BaseController extends Controller
             ->when($searchTerm, function($query, $searchTerm) {
 
                 /**
+                 * This is a bit tricky.
                  * Here we use a model scope. The model scope code is defined in the relevant model.
                  * https://laravel.com/docs/10.x/eloquent#local-scopes
                  */

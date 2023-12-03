@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-// use Inertia\Inertia;
-// use Inertia\Response;
 use App\Models\TmsCustomer;
-// use Illuminate\Http\Request;
-// use App\Http\Controllers\BaseController;
-// use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Requests\TmsCustomerRequest;
 
 class TmsCustomerController extends BaseController
 {
@@ -16,5 +12,6 @@ class TmsCustomerController extends BaseController
         $this->model = new TmsCustomer();
         $this->vueIndexPath = 'Customers/Index';
         $this->vueCreateEditPath = 'Customers/CreateEditBase';
+        $this->validator = new TmsCustomerRequest();
     }
 }
