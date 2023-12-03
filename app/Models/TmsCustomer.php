@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class TmsCustomer extends Model
 {
@@ -64,4 +65,21 @@ class TmsCustomer extends Model
     {
         return $this->belongsToMany(TmsCustomerReq::class, 'requirements_for_customers');
     }
+
+    /**
+     * This here is a Laravel local scope, for searching by search term.
+     * https://laravel.com/docs/10.x/eloquent#local-scopes
+     *
+     * @param Builder $query
+     * @param string $searchTerm
+     * @return Builder
+     */
+    public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
+    {
+        return $query->where('company_name', 'like', "%{$searchTerm}%")
+            ->orWhere('email', 'like', "%{$searchTerm}%");
+    }
+
+    
+                
 }

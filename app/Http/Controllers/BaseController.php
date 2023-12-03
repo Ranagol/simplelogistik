@@ -135,9 +135,9 @@ abstract class BaseController extends Controller
      */
     public function batchDelete(Request $request): void
     {
-        $customerIds = $request->customerIds;
-        // dd($customerIds);
-        $this->model::destroy($customerIds);
+        $ids = $request->ids;
+        // dd($ids);
+        $this->model::destroy($ids);
     }
 
     /**
@@ -160,9 +160,12 @@ abstract class BaseController extends Controller
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%')
-                ->orWhere('company_name', 'like', '%' . $searchTerm . '%')
-                ->orWhere('email', 'like', '%' . $searchTerm . '%');
+
+                /**
+                 * Here we use a model scope. The model scope code is defined in the relevant model.
+                 * https://laravel.com/docs/10.x/eloquent#local-scopes
+                 */
+                $query->searchBySearchTerm($searchTerm);
             })
             
             /**
