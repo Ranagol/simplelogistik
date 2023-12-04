@@ -27,6 +27,26 @@ class TmsCustomer extends Model
     protected $guarded = ['id'];
     protected $table = "tms_customers";
 
+    /**
+     * These values are stored as 0 or 1 in the database. But we want to use them as booleans.
+     * So we use this casting for this.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'auto_book_as_private' => 'boolean',
+        'dangerous_goods' => 'boolean',
+        'bussiness_customer' => 'boolean',
+        'debt_collection' => 'boolean',
+        'direct_debit' => 'boolean',
+        'manual_collective_invoicing' => 'boolean',
+        'only_paypal_sofort_amazon_vorkasse' => 'boolean',
+        'private_customer' => 'boolean',
+        'invoice_customer' => 'boolean',
+        'poor_payment_morale' => 'boolean',
+        'can_login' => 'boolean',
+    ];
+
     //*************RELATIONSHIPS*************************************** */
 
     public function addresses(): HasMany

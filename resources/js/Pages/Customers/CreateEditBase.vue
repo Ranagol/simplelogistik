@@ -33,6 +33,7 @@
             >
                 <DataTab
                     v-model="data.customerData"
+                    :errors="errorsComputed"
                 >
                     <template #buttonSubmitTab>
                         <ButtonSubmitTab
@@ -48,6 +49,7 @@
             >
                 <AddressesTab
                     v-model="data.customerData"
+                    :errors="errorsComputed"
                 >
                     <template #buttonSubmitTab>
                         <ButtonSubmitTab
@@ -58,11 +60,12 @@
             </el-tab-pane>
 
             <!-- CONTACTS -->
-            <el-tab-pane
+            <!-- <el-tab-pane
                 label="Contacts"
             >
                 <ContactsTab
                     v-model="data.customerData"
+                    :errors="errorsComputed"
                 >   
                     <template #buttonSubmitTab>
                         <ButtonSubmitTab
@@ -70,14 +73,15 @@
                         />
                     </template>
                 </ContactsTab>
-            </el-tab-pane>
+            </el-tab-pane> -->
 
             <!-- ORDERS -->
-            <el-tab-pane
+            <!-- <el-tab-pane
                 label="Orders"
             >
                 <OrdersTab
                     v-model="data.customerData"
+                    :errors="errorsComputed"
                 >
                     <template #buttonSubmitTab>
                         <ButtonSubmitTab
@@ -85,14 +89,15 @@
                         />
                     </template>
                 </OrdersTab>
-            </el-tab-pane>
+            </el-tab-pane> -->
 
             <!-- OFFERS -->
-            <el-tab-pane
+            <!-- <el-tab-pane
                 label="Offers"
             >
                 <OffersTab
                     v-model="data.customerData"
+                    :errors="errorsComputed"
                 >
                     <template #buttonSubmitTab>
                         <ButtonSubmitTab
@@ -100,7 +105,7 @@
                         />
                     </template>    
                 </OffersTab>    
-            </el-tab-pane>
+            </el-tab-pane> -->
 
             <!-- INDIVIDUAL SETTINGS -->
             <el-tab-pane
@@ -108,6 +113,7 @@
             >
                 <IndividualTab
                     v-model="data.customerData"
+                    :errors="errorsComputed"
                 >
                     <template #buttonSubmitTab>
                         <ButtonSubmitTab
@@ -122,7 +128,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, onBeforeMount, watch } from 'vue';
+import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import DataTab from '@/Pages/Customers/CustomerTabs/DataTab.vue';
 import AddressesTab from '@/Pages/Customers/CustomerTabs/AddressesTab.vue';
 import ContactsTab from '@/Pages/Customers/CustomerTabs/ContactsTab.vue';
@@ -158,6 +164,16 @@ const props = defineProps({
      */
     errors: Object,
 });
+
+/**
+ * This watcher simply helps to validation errors from props.errors to go to the child components.
+ * For some reason this is not reactive enough without the computed.
+ */
+let errorsComputed = computed(() => {
+    return props.errors;
+});
+
+
 
 const data = reactive({
 

@@ -23,6 +23,8 @@ class TmsCustomerRequest extends FormRequest
     {
         return [
             'company_name' => 'required|string|min:2|max:100',
+            // 'company_name' => 'boolean',
+
             'first_name' => 'required|string|min:2|max:200',
             'last_name' => 'required|string|min:2|max:200',
             'email' => 'required|email|max:100',
@@ -41,7 +43,6 @@ class TmsCustomerRequest extends FormRequest
             'invoice_customer' => 'nullable|boolean',
             'poor_payment_morale' => 'nullable|boolean',
             'can_login' => 'nullable|boolean',
-
             
             /**
              * These will work with mutators defined in model
@@ -51,7 +52,9 @@ class TmsCustomerRequest extends FormRequest
             'customer_type' => 'required|string|min:2|max:100',
             'invoice_dispatch' => 'required|string|min:2|max:100',
             'invoice_shipping_method' => 'required|string|min:2|max:100',
-            'payment_method' => 'required|string|min:2|max:100',
+            // 'payment_method' => 'required|string|min:2|max:100',
+            'payment_method' => 'required|boolean',
+
         ];
     }
 }
