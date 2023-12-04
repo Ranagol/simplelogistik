@@ -98,6 +98,7 @@ abstract class BaseController extends Controller
     public function edit(string $id): Response
     {
         $record = $this->model::find($id);
+
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
@@ -212,6 +213,8 @@ abstract class BaseController extends Controller
                 //... but if sort is not specified, please return sort by id and ascending.
                 return $query->orderBy('id', 'desc');
             })
+
+            // ->with('contactAddresses')
             
             /**
              * PAGINATION

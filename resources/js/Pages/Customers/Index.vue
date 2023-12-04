@@ -19,6 +19,8 @@
             >Create</el-button>
 
         </div>
+
+        {{ data.customers[0] }}
         
 
         <!-- CUSTOMERS TABLE -->

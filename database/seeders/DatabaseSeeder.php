@@ -51,9 +51,6 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call([
-            TmsPaymentMethodSeeder::class,
-            TmsInvoiceDispatchSeeder::class,
-            TmsInvoiceShippingMethodSeeder::class,
             TmsDispatcherSeeder::class,
             TmsCustomerSeeder::class,
             TmsForwarderSeeder::class,
