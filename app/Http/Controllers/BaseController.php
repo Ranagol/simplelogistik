@@ -129,6 +129,7 @@ abstract class BaseController extends Controller
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
+        // dd($newRecord);
 
         /**
          * 1. Find the relevant record and...

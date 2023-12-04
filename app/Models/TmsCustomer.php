@@ -11,6 +11,7 @@ use App\Models\TmsCargoHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TmsCustomerReq;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +26,8 @@ class TmsCustomer extends Model
 
     protected $guarded = ['id'];
     protected $table = "tms_customers";
+
+    //*************RELATIONSHIPS*************************************** */
 
     public function addresses(): HasMany
     {
@@ -66,6 +69,8 @@ class TmsCustomer extends Model
         return $this->belongsToMany(TmsCustomerReq::class, 'requirements_for_customers');
     }
 
+    //*************SCOPES*************************************** */
+
     /**
      * This here is a Laravel local scope, for searching by search term.
      * https://laravel.com/docs/10.x/eloquent#local-scopes
@@ -80,6 +85,56 @@ class TmsCustomer extends Model
             ->orWhere('email', 'like', "%{$searchTerm}%");
     }
 
-    
-                
+    //*************MUTATORS*************************************** */
+
+
+    protected function customerType(): Attribute
+    {
+        return Attribute::make(
+            //gets from db, transforms it. 1 will become 'Bussiness customer'.
+            get: fn (string $value) => $this->getCustomerType($value),
+            //gets from request, transforms it. 'Bussiness customer' will become 1.
+            set: fn (string $value) => $this->setCustomerType($value),
+        );
+    }
+
+    private function getCustomerType($value) {
+        // return 'xxxx';
+        $customerType = '';
+        switch ($value) {
+            case 1:
+                $customerType = 'Bussiness customer';
+                break;
+            case 2:
+                $customerType = 'Private customer';
+                break;
+            case 3:
+                $customerType = 'Forwarder';
+                break;
+            default:
+                $customerType = 'There is no defined customer type';
+        }
+
+        return $customerType;
+    }
+
+    private function setCustomerType($value) {
+        $customerType = '';
+        switch ($value) {
+            case 'Bussiness customer':
+                $customerType = 1;
+                break;
+            case 'Private customer':
+                $customerType = 2;
+                break;
+            case 'Forwarder':
+                $customerType = 3;
+                break;
+            default:
+                $customerType = 'There is no defined customer type';
+        }
+
+        return $customerType;
+    }
+
 }

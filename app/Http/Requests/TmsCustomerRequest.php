@@ -29,6 +29,7 @@ class TmsCustomerRequest extends FormRequest
             'rating' => 'required|integer|between:1,5',
             'tax_number' => 'required|string|min:2|max:50',
             'internal_cid' => 'required|string|min:2|max:100',
+            'customer_type' => 'required|string|min:2|max:100',
         ];
     }
 }
