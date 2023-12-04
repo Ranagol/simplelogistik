@@ -85,55 +85,92 @@ class TmsCustomer extends Model
             ->orWhere('email', 'like', "%{$searchTerm}%");
     }
 
-    //*************MUTATORS*************************************** */
+    //*************MUTATORS AND ACCESSORS*************************************** */
 
-
+    /**
+     * Here we set the customer type db column possible options. This array will be used during
+     * seeding too. So, when you want to add a new customer type, this is the place to do it.
+     */
+    const CUSTOMER_TYPES = [
+        1 => 'Bussiness customer',
+        2 => 'Private customer',
+        3 => 'Forwarder',
+    ];
+    
     protected function customerType(): Attribute
     {
         return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Bussiness customer'.
-            get: fn (string $value) => $this->getCustomerType($value),
-            //gets from request, transforms it. 'Bussiness customer' will become 1.
-            set: fn (string $value) => $this->setCustomerType($value),
+
+            /**
+             * Accessor
+             * gets from db, transforms it. 1 will become 'Bussiness customer'.
+             * directly looks up the customer type in the CUSTOMER_TYPES constant using the provided 
+             * value. If the value is not found in the constant, it defaults to 'Missing data.'.
+             */
+            get: fn (string $value) => self::CUSTOMER_TYPES[$value] ?? 'Missing data.',
+
+            /**
+             * Mutator
+             * gets from request, transforms it. 'Bussiness customer' will become 1.
+             * 
+             * To implement the setter using the CUSTOMER_TYPES constant, you need to flip the array 
+             * keys and values because you're mapping from the string representation back to the 
+             * integer value.
+             * he set method uses array_flip to swap the keys and values of the CUSTOMER_TYPES 
+             * constant, then looks up the integer value corresponding to the provided customer type 
+             * string. If the string is not found in the flipped array, it defaults to 'Missing data.'.
+             */
+            set: fn (string $value) => array_flip(self::CUSTOMER_TYPES)[$value] ?? 'Missing data.',
         );
     }
 
-    private function getCustomerType($value) {
-        // return 'xxxx';
-        $customerType = '';
-        switch ($value) {
-            case 1:
-                $customerType = 'Bussiness customer';
-                break;
-            case 2:
-                $customerType = 'Private customer';
-                break;
-            case 3:
-                $customerType = 'Forwarder';
-                break;
-            default:
-                $customerType = 'There is no defined customer type';
-        }
+    const INVOICE_DISPATCHES = [
+        1 => 'Direct',
+        2 => 'Collected invoicing',
+    ];
 
-        return $customerType;
+    protected function invoiceDispatch(): Attribute
+    {
+        // dd('xxxx');
+        return Attribute::make(
+            //gets from db, transforms it. 1 will become 'Bussiness customer'.
+            get: fn (string $value) => self::INVOICE_DISPATCHES[$value] ?? 'Missing data.',
+            //gets from request, transforms it. 'Bussiness customer' will become 1.
+            set: fn (string $value) => array_flip(self::INVOICE_DISPATCHES)[$value] ?? 'Missing data.',
+        );
     }
 
-    private function setCustomerType($value) {
-        $customerType = '';
-        switch ($value) {
-            case 'Bussiness customer':
-                $customerType = 1;
-                break;
-            case 'Private customer':
-                $customerType = 2;
-                break;
-            case 'Forwarder':
-                $customerType = 3;
-                break;
-            default:
-                $customerType = 'There is no defined customer type';
-        }
-        return $customerType;
+    const INVOICE_SHIPPING_METHODS = [
+        1 => 'Email',
+        2 => 'Post',
+    ];
+
+    protected function invoiceShippingMethod(): Attribute
+    {
+        return Attribute::make(
+            //gets from db, transforms it. 1 will become 'Bussiness customer'.
+            get: fn (string $value) => self::INVOICE_SHIPPING_METHODS[$value] ?? 'Missing data.',
+            //gets from request, transforms it. 'Bussiness customer' will become 1.
+            set: fn (string $value) => array_flip(self::INVOICE_SHIPPING_METHODS)[$value] ?? 'Missing data.',
+        );
     }
+
+    const PAYMENT_METHODS = [
+        1 => 'PayPal',
+        2 => 'Sofort',
+        3 => 'Amazon',
+        4 => 'Vorkasse',
+    ];
+
+    protected function paymentMethod(): Attribute
+    {
+        return Attribute::make(
+            //gets from db, transforms it. 1 will become 'Bussiness customer'.
+            get: fn (string $value) => self::PAYMENT_METHODS[$value] ?? 'Missing data.',
+            //gets from request, transforms it. 'Bussiness customer' will become 1.
+            set: fn (string $value) => array_flip(self::PAYMENT_METHODS)[$value] ?? 'Missing data.',
+        );
+    }
+    
 
 }

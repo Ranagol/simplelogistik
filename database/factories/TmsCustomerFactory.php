@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\TmsCustomer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_customer>
@@ -46,10 +47,14 @@ class TmsCustomerFactory extends Factory
             'poor_payment_morale' => $this->faker->boolean,
             'can_login' => $this->faker->boolean,
 
-            'customer_type' => $this->faker->numberBetween(1, 5),
-            'invoice_dispatch' => $this->faker->numberBetween(1, 5),
-            'invoice_shipping_method' => $this->faker->numberBetween(1, 5),
-            'payment_method' => $this->faker->numberBetween(1, 5),
+            /**
+             * Here we select a random value from the CUSTOMER_TYPES array, which is defined in the 
+             * TmsCustomer model. This is important, seeding will not work without this.
+             */
+            'customer_type' => Arr::random(TmsCustomer::CUSTOMER_TYPES),
+            'invoice_dispatch' => Arr::random(TmsCustomer::INVOICE_DISPATCHES),
+            'invoice_shipping_method' => Arr::random(TmsCustomer::INVOICE_SHIPPING_METHODS),
+            'payment_method' => Arr::random(TmsCustomer::PAYMENT_METHODS),
         ];
     }
 }
