@@ -1,28 +1,32 @@
 <template>
     <el-pagination
-        :current-page="props.store.paginationData.current_page"
-        :page-size="props.store.paginationData.per_page"
-        :total="props.store.paginationData.total"
+        :current-page="props.paginationData.current_page"
+        :page-size="props.paginationData.per_page"
+        :total="props.paginationData.total"
         :page-sizes="[5, 10, 15, 20]"
         layout="total, sizes, prev, pager, next, jumper"
-
-        @update:current-page="page => props.store.setCurrentPage(page)"
-        @update:page-size="size => props.store.setPageSize(size)"
-
         @size-change="handleItemsPerPageChange"
         @current-change="handleCurrentPageChange"
     />
     
 </template>
 
-<script lang="ts" setup>
-import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
-import { router} from '@inertiajs/vue3';//for sending requests;
+<script setup>
+import { reactive } from 'vue';
 
-const emit = defineEmits(['getData']);
+const emit = defineEmits(['getData', 'update:paginationData']);
 
 const props = defineProps({
-    store: Object,
+    paginationData: Object,
+});
+
+/**
+ * In this case we must have the paginationData in data() to. paginationData has a specific object
+ * structure, needed for Laravel. So here, we just change some specific valus in the paginationData,
+ * and then we send the whole object back to parent index.vue.
+ */
+let data = reactive({
+    paginationData: props.paginationData,
 });
 
 /**
@@ -32,9 +36,10 @@ const props = defineProps({
  * function will be triggered.
  * We set the this.paginationData.per_page to the new value.
  */
- const handleItemsPerPageChange = (newItemsPerPage: number): void => {
-    props.store.paginationData.per_page = newItemsPerPage;
-    getData();
+ const handleItemsPerPageChange = (newItemsPerPage) => {
+    data.paginationData.per_page = newItemsPerPage;
+    emit('update:paginationData', data.paginationData);//we update the paginationData in parent index.vue
+    emit('getData');//we send a signal to index.vue that he needs to get new data, with the new paginationData
 };
 
 /**
@@ -45,14 +50,12 @@ const props = defineProps({
  * will be automatically sent as an argument from the el-pagination component to Laravel
  * ->paginate().
  */
- const handleCurrentPageChange = (newCurrentPage: number) => {
-    props.store.paginationData.current_page = newCurrentPage;
-    getData();
+ const handleCurrentPageChange = (newCurrentPage) => {
+    data.paginationData.current_page = newCurrentPage;
+    emit('update:paginationData', data.paginationData);
+    emit('getData');
 };
 
-function getData() {
-    emit('getData');
-}
 
 </script>
 

@@ -229,9 +229,9 @@ const rules = reactive({
     email: [
         { required: true, message: 'Email is required FE', trigger: 'blur' },
     ],
-    // rating: [
-    //     { required: true, message: 'Rating is required FE', trigger: 'blur' },
-    // ],
+    rating: [
+        { required: true, message: 'Rating is required FE', trigger: 'blur' },
+    ],
     tax_number: [
         { required: true, message: 'Tax number is required FE', trigger: 'blur' },
     ],

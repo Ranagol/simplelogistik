@@ -1,45 +1,38 @@
 <template>
-    <Head title="Customer" />
+    <Head title="Customers" />
 
     <Card>
         <h1>Customers</h1>
 
-        <SearchField
-            placeholder="Search customers..."
-            :store="customerStore"
-            @getData="getData"
-            createButtonText="Create new customer"
-            @handleCreate="handleCreate"
-        />
+        <!-- SEARCH FIELD -->
+        <div class="flex flex-row">
+            <SearchField
+                v-model:searchTerm="data.searchTerm"
+                placeholder="Search customers..."
+                @getData="getData"
+            />
 
-        <!-- CREATE NEW CUSTOMER POPUP -->
-        <Popup
-            @submit="submit"
-            :store="customerStore"
-        >
-            <CreateEditCustomer
-                @submit="submit"
-            ></CreateEditCustomer>
-        </Popup>
+            <el-button
+                type="success"
+                class="mt-1"
+                @click="handleCreate"
+            >Create</el-button>
+
+        </div>
+        
 
         <!-- CUSTOMERS TABLE -->
-        <Table
+        <CustomerTable
+            v-model:sortColumn="data.sortColumn"
+            v-model:sortOrder="data.sortOrder"
+            :customers="data.customers"
             @getData="getData"
-            @handleEdit="handleEdit"
-            @handleDelete="handleDelete"
-            :tableColumns="data.customerTableColumns"
-            :store="customerStore"
-            warningItem="company_name"
-            batchDeleteUrl="/customers-batch-delete"
-            modelSingular="customer"
-            modelPlural="customers"
-            selectedObjects="selectedCustomers"
         />
 
         <!-- PAGINATION -->
         <Pagination
+            v-model:paginationData="data.paginationData"
             @getData="getData"
-            :store="customerStore"
         />
     </Card>
 
@@ -48,23 +41,19 @@
 <script setup>
 import Card from '@/Shared/Card.vue';
 import _ from 'lodash';
-import Popup from '@/Shared/Popup.vue';
 import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Shared/SearchField.vue';
-import Table from '@/Shared/Table.vue';
+import CustomerTable from './CustomerTable.vue';
 import Pagination from '@/Shared/Pagination.vue';
-import CreateEditCustomer from '@/Pages/Customers/CreateEditCustomer.vue';
-
 
 let customerStore = useCustomerStore();
 
 // PROPS
 let props = defineProps( 
     {
-        // elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
         errors: Object, 
         dataFromController: Object,
 
@@ -79,104 +68,32 @@ let props = defineProps(
     }
 );
 
-//WATCHERS FOR PROPS: they send data received from backend to Pinia store
-//Sends the customers to Pinia store, as soon arrives from backend.
-watch(
-    () => props.dataFromController,
-    (newVal, oldVal) => {
-        /**
-         * Unfortunatelly, customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromController. We need
-         * seaparted customers and separated pagination data. This will happen in computed properties.
-         */
-        customerStore.customers = newVal.data;
-
-        /**
-         * All pagination related data is stored here. 
-         * Unfortunatelly,customers are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromController. We need
-         * seaparated customers and separated pagination data. This will happen in computed properties.
-         * Here. So, this is the pagination related data. And a small reminder:
-         * 
-         * el-pagination        Laravel ->paginate()
-         * current-page	        paginationData.current_page         Where the user is currently
-         * page-size	        paginationData.per_page             Number of items / page
-         * total	            paginationData.total                Number of all db records
-         */
-        customerStore.paginationData = _.omit({...props.dataFromController}, 'data');
-    },
-    { immediate: true, deep: true }
-);
-
-//Sends the errors to Pinia store, as soon arrives from backend.
-watch(
-    () => props.errors,
-    (newVal) => {
-        customerStore.errors = newVal;
-    },
-    { immediate: true, deep: true }
-);
-
-watch(
-    () => props.sortColumnProp,
-    (newVal, oldVal) => {
-        customerStore.sortColumn = newVal;
-    },
-    { immediate: true, deep: true }
-);
-
-watch(
-    () => props.sortOrderProp,
-    (newVal) => {
-        customerStore.sortOrder = newVal;
-    },
-    { immediate: true, deep: true }
-);
-
 let data = reactive({
-    customerTableColumns: [
-        {
-            label: 'Id',
-            prop: 'id',
-            sortable: 'custom',
-            width: '70px',
-        },
-        {
-            label: 'Internal CID',
-            prop: 'internal_cid',
-            sortable: 'custom',
-        },
-        {
-            label: 'Company name',
-            prop: 'company_name',
-            sortable: 'custom',
-        },
-        {
-            label: 'Name',
-            prop: 'name',
-            sortable: 'custom',
-        },
-        {
-            label: 'Email',
-            prop: 'email',
-            sortable: 'custom',
-        },
-        {
-            label: 'Tax number',
-            prop: 'tax_number',
-            sortable: 'custom',
-        },
-        {
-            label: 'Rating',
-            prop: 'rating',
-            sortable: 'custom',
-            width: '100px',
-        }
-    ],
+    /**
+     * Unfortunatelly, customers are coming in from backend mixed with pagination data.
+     * That is what we have here in the dataFromController. We need
+     * seaparted customers and separated pagination data. This will happen in computed properties.
+     */
+    customers: props.dataFromController.data,
+    searchTerm: props.searchTermProp,
+    sortColumn: props.sortColumnProp,
+    sortOrder: props.sortOrderProp,
+
+    /**
+     * All pagination related data is stored here. 
+     * Unfortunatelly,customers are coming in from backend mixed with pagination data.
+     * That is what we have here in the dataFromController. We need
+     * seaparated customers and separated pagination data. This will happen in computed properties.
+     * Here. So, this is the pagination related data. And a small reminder:
+     * 
+     * el-pagination        Laravel ->paginate()
+     * current-page	        paginationData.current_page         Where the user is currently
+     * page-size	        paginationData.per_page             Number of items / page
+     * total	            paginationData.total                Number of all db records
+     */
+    paginationData: _.omit({...props.dataFromController}, 'data')
 });
 
-
-//METHODS
 
 /**
  * getData() is triggered by: 
@@ -194,44 +111,29 @@ let data = reactive({
  * from props to Pinia store.
  */
 let getData = () => {
+    console.log('getData() in index.vue');
     const customers = router.get(
         '/customers',
         {
             /**
              * This is the data that we send to the backend.
              */
-            searchTerm: customerStore.searchTerm,
-            sortColumn: customerStore.sortColumn,
-            sortOrder: customerStore.sortOrder,
-            page: customerStore.paginationData.current_page,
-            newItemsPerPage: customerStore.paginationData.per_page,
+            searchTerm: data.searchTerm,
+            sortColumn: data.sortColumn,
+            sortOrder: data.sortOrder,
+            page: data.paginationData.current_page,
+            newItemsPerPage: data.paginationData.per_page,
         }
     );
 };
 
 /**
  * This function is triggered when the user clicks on the create new customer button.
- * It sets the mode to 'create', and it sets the selectedCustomer to the customerResetValues.
  */
 const handleCreate = () => {
-    console.log('handleCreate()');
-    customerStore.elDialogVisible = true;
-    customerStore.title = 'Create new customer';
-    customerStore.mode = 'create';
+    router.get('customers/create');
 };
 
-/**
- * This function is triggered when the user clicks on the edit button in the table.
- * It sets the mode to 'edit', and it sets the selectedCustomer to the customer object
- * that the user wants to edit.
- */
-const handleEdit = (index, object) => {
-    console.log('handleEdit()');
-    customerStore.mode = 'edit';
-    customerStore.elDialogVisible = true;
-    customerStore.title = 'Edit customer';
-    customerStore.selectedCustomer = object;
-};
 
 /**
  * Sends the delete customer request to the backend.
@@ -276,60 +178,8 @@ const handleDelete = (index, object) => {
     })    
 };
 
-/**
- * Sends the create or edit customer request to the backend.
- */
- const submit = () => {
-    console.log('submit')
-    if (customerStore.mode == 'create') {
-        createCustomer();
-    } else if (customerStore.mode == 'edit') {
-        editCustomer();
-    }
-}
 
-const createCustomer = () => {
-    router.post(
-        '/customers', 
-        customerStore.selectedCustomer, 
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer created successfully',
-                    type: 'success',
-                });
-                // get customers again, so that the new customer is displayed
-                router.reload({ only: ['dataFromController'] })
-                customerStore.elDialogVisible = false;
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while creating a new customer.')
-                ElMessage(errors);
-            }
-        }
-    )
-};
 
-const editCustomer = () => {
 
-    router.put(
-        `/customers/${customerStore.selectedCustomer.id}`, 
-        customerStore.selectedCustomer,
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Customer edited successfully',
-                    type: 'success',
-                });
-                router.reload({ only: ['dataFromController'] })
-                customerStore.elDialogVisible = false;
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while editing a customer.')
-                ElMessage(errors);
-            }
-        }
-    )
-};
 
 </script>
