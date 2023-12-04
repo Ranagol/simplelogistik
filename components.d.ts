@@ -33,7 +33,5 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabPanel: typeof import('element-plus/es')['ElTabPanel']
     ElTabs: typeof import('element-plus/es')['ElTabs']
-    ElTabPane: typeof import('element-plus/es')['ElTabPane']
-    ElTabs: typeof import('element-plus/es')['ElTabs']
   }
 }
