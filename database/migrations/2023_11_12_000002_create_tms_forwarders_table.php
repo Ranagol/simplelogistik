@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('company_name',200)->nullable();
             $table->string('tax_number',200)->nullable();
             $table->integer('rating')->unsigned()->nullable();
+            $table->integer('forwarder_type')->unsigned()->nullable();
             $table->string('comments')->nullable();
             $table->timestamps();
         });

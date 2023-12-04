@@ -15,6 +15,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('internal_cid', 20);                           // e.g.  C000 0007 1093 0276 0123 4567 89AB CDEF
             $table->string('first_name', 100);
+            $table->string('last_name', 100);
+            $table->string('email', 200)->unique();
             $table->string('company_name',200)->nullable();
             $table->string('tax_number',200)->nullable();
             $table->integer('rating')->unsigned()->nullable();
@@ -30,13 +32,12 @@ return new class extends Migration
             $table->boolean('invoice_customer')->nullable();
             $table->boolean('poor_payment_morale')->nullable();
             $table->boolean('can_login')->default(true)->nullable();
-            
-            $table->unsignedBigInteger('tms_invoice_dispatch_id');
-            $table->foreign('tms_invoice_dispatch_id')->references('id')->on('tms_invoice_dispatches');
-            $table->unsignedBigInteger('tms_invoice_shipping_method_id');
-            $table->foreign('tms_invoice_shipping_method_id')->references('id')->on('tms_invoice_shipping_methods');
-            $table->unsignedBigInteger('tms_payment_method_id');
-            $table->foreign('tms_payment_method_id')->references('id')->on('tms_payment_methods');
+
+            //These will work with mutators defined in model
+            $table->integer('customer_type')->unsigned()->nullable();
+            $table->integer('invoice_dispatch')->unsigned()->nullable();
+            $table->integer('invoice_shipping_method')->unsigned()->nullable();
+            $table->integer('payment_method')->unsigned()->nullable();
 
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();

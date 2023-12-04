@@ -45,9 +45,11 @@ class TmsCustomerFactory extends Factory
             'invoice_customer' => $this->faker->boolean,
             'poor_payment_morale' => $this->faker->boolean,
             'can_login' => $this->faker->boolean,
-            'tms_invoice_dispatch_id' => $this->faker->randomElement(DB::table('tms_invoice_dispatches')->pluck('id')->toArray()),
-            'tms_invoice_shipping_method_id' => $this->faker->randomElement(DB::table('tms_invoice_shipping_methods')->pluck('id')->toArray()),
-            'tms_payment_method_id' => $this->faker->randomElement(DB::table('tms_payment_methods')->pluck('id')->toArray()),
+
+            'customer_type' => $this->faker->numberBetween(1, 5),
+            'invoice_dispatch' => $this->faker->numberBetween(1, 5),
+            'invoice_shipping_method' => $this->faker->numberBetween(1, 5),
+            'payment_method' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

@@ -31,6 +31,7 @@ class TmsForwarderFactory extends Factory
             'company_name' => $this->faker->company,
             'tax_number' => $this->faker->randomNumber(9, true),
             'rating' => $this->faker->numberBetween(1, 5),
+            'forwarder_type' => $this->faker->numberBetween(1, 2),
             'comments' => $this->faker->sentence,
         ];
     }
