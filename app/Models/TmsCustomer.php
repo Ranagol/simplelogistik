@@ -133,7 +133,6 @@ class TmsCustomer extends Model
             default:
                 $customerType = 'There is no defined customer type';
         }
-
         return $customerType;
     }
 
