@@ -288,19 +288,13 @@ let data = reactive({
 });
 
 
-
-
-
-
-
-
-
 /**
  * Customers may or may not have address related data (street, city, country, etc). So we need
  * to use computed for this. 
  * You can use the _.get function from Lodash to safely access nested properties. This function 
  * allows you to provide a path to the property you want to access and a default value to return if 
- * any part of the path is undefined
+ * any part of the path is undefined.
+ * https://lodash.com/docs/4.17.15#get
  */
 let street = computed(() => {
     let street = _.get(data, 'customer.contact_addresses[0].street', '');

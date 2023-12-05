@@ -1,6 +1,7 @@
 <template>
-    <slot name="buttonSubmitTab"></slot>
-    {{ data.customer }}
+    <!-- <slot name="buttonSubmitTab"></slot> -->
+    <!-- <pre>{{ JSON.stringify(data.customer, null, 2) }}</pre> -->
+    
 </template>
 
 <script setup>
