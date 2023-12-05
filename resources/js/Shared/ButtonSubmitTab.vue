@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-row justify-end">
+    <div class="flex flex-row justify-end mb-3">
         <el-button
             type="primary"
             @click="submit"

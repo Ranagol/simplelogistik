@@ -1,6 +1,9 @@
 <template>
     <slot name="buttonSubmitTab"></slot>
-    {{ data.customer }}
+
+    <!-- {{ data.customer }} -->
+    <!-- <pre>{{ JSON.stringify(data.customer, null, 2) }}</pre> -->
+
     <el-form
         ref="ruleFormRef"
         :model="data.customer"
@@ -80,6 +83,94 @@
                 class="text-red-500 text-xs mt-1"
             ></div>
         </el-form-item>
+
+        <!-- ***************************** -->
+
+        <!-- This here is not editable, it is only for displaying. Now, this street may or may not
+            exist. So this column we handle with computed. Since this is not validated, also there
+            is no props in el-form-item. 
+         -->
+        <el-form-item
+            label="Street"
+        >
+            <el-input
+                :model-value="street"
+                disabled
+                placeholder="Street"
+                type="text"
+            />
+
+        </el-form-item>
+
+        <!-- This here is not editable, it is only for displaying. Now, this street may or may not
+            exist. So this column we handle with computed. Since this is not validated, also there
+            is no props in el-form-item. 
+         -->
+         <el-form-item
+            label="House number"
+        >
+            <el-input
+                :model-value="houseNumber"
+                disabled
+                placeholder="House number"
+                type="text"
+                show-word-limit
+                :maxlength="255"
+                clearable
+                @input="update()"
+                @clear="update()"
+                @change="update()"
+            />
+
+        </el-form-item>
+
+        <!-- This here is not editable, it is only for displaying. Now, this street may or may not
+            exist. So this column we handle with computed. Since this is not validated, also there
+            is no props in el-form-item. 
+         -->
+         <el-form-item
+            label="Zip code"
+        >
+            <el-input
+                :model-value="zipCode"
+                disabled
+                placeholder="Zip code"
+                type="text"
+                show-word-limit
+                :maxlength="255"
+                clearable
+                @input="update()"
+                @clear="update()"
+                @change="update()"
+            />
+
+        </el-form-item>
+
+        <!-- This here is not editable, it is only for displaying. Now, this street may or may not
+            exist. So this column we handle with computed. Since this is not validated, also there
+            is no props in el-form-item. 
+         -->
+         <el-form-item
+            label="City"
+        >
+            <el-input
+                :model-value="city"
+                disabled
+                placeholder="City"
+                type="text"
+                show-word-limit
+                :maxlength="255"
+                clearable
+                @input="update()"
+                @clear="update()"
+                @change="update()"
+            />
+
+        </el-form-item>
+
+
+
+        <!-- ************************* -->
 
         <el-form-item
             label="Email"
@@ -178,6 +269,7 @@
 
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
+import _ from 'lodash';
 
 let props = defineProps({
     modelValue: {
@@ -194,6 +286,56 @@ let props = defineProps({
 let data = reactive({
     customer: props.modelValue
 });
+
+
+
+
+
+
+
+
+
+/**
+ * Customers may or may not have address related data (street, city, country, etc). So we need
+ * to use computed for this. 
+ * You can use the _.get function from Lodash to safely access nested properties. This function 
+ * allows you to provide a path to the property you want to access and a default value to return if 
+ * any part of the path is undefined
+ */
+let street = computed(() => {
+    let street = _.get(data, 'customer.contact_addresses[0].street', '');
+    if (street) {
+        return data.customer.contact_addresses[0].street;
+    }
+    return '';
+    
+});
+
+let houseNumber = computed(() => {
+    let houseNumber = _.get(data, 'customer.contact_addresses[0].house_number', '');
+    if (houseNumber) {
+        return data.customer.contact_addresses[0].house_number;
+    }
+    return '';
+});
+
+let zipCode = computed(() => {
+    let zipCode = _.get(data, 'customer.contact_addresses[0].zip_code', '');
+    if (zipCode) {
+        return data.customer.contact_addresses[0].zip_code;
+    }
+    return '';
+});
+
+let city = computed(() => {
+    let city = _.get(data, 'customer.contact_addresses[0].city', '');
+    if (city) {
+        return data.customer.contact_addresses[0].city;
+    }
+    return '';
+});
+
+
 
 /**
  * This does the customer data synchronization with the parent CreateEditBase component. With
