@@ -57,7 +57,10 @@ class TmsCustomerController extends BaseController
     }
 
     /**
-     * Returns records for records list (Index.vue component)
+     * Returns records for records list (Index.vue component). The only reason why we use this
+     * function here and not the one inherited from the parent is the 
+     * ->with('contactAddresses')
+     * line. We must return customers with contact addresses.
      *
      * @param string|null $searchTerm
      * @param string|null $sortColumn

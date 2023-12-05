@@ -4,25 +4,19 @@
         :title="props.mode"
     />
 
-    <!-- <pre>{{ JSON.stringify(data.addressData, null, 2) }}</pre> -->
+    <pre>{{ JSON.stringify(data.addressData, null, 2) }}</pre>
 
 
     <Card>
-        <div class="flex flex-row mb-3">
-            <h1
-                class="font-semibold text-xl text-gray-800 leading-tight mr-6"
-            >Edit</h1>
+        
+        <!-- ADDRESS HEADER WITH BASIC ADDRESS DATA -->
+        <Header
+            :address="data.addressData"
+        />
 
-            <span
-                v-if="data.addressData.company_name"
-                class="font-semibold text-xl text-gray-800 leading-tight mr-6"
-            >{{data.addressData.company_name }}</span>
-
-            <span
-                v-if="data.addressData.internal_cid"
-                class="font-semibold text-xl text-gray-800 leading-tight mr-6"
-            >Address id: {{data.addressData.id }}</span>
-        </div>
+        <ButtonSubmitTab
+            @submit="submit"
+        />
 
         <el-form
             ref="ruleFormRef"
@@ -84,24 +78,17 @@
             <el-form-item
                 label="Address type"
                 prop="address_type"
-                width="100px"
             >
                 <el-select
                     v-model="data.addressData.address_type"
-                    placeholder="Address type"
-                    type="text"
-                    show-word-limit
-                    :maxlength="255"
                     clearable
-                    @input="update()"
-                    @clear="update()"
                     @change="update()"
                 >
                     <el-option
-                        v-for="item in addressTypes"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                        v-for="(item, index) in props.addressTypes"
+                        :key="index"
+                        :label="item"
+                        :value="item"
                     ></el-option>
                 </el-select>
                     
@@ -263,31 +250,6 @@
                 ></div>
             </el-form-item>
 
-            <el-form-item
-                label="Type of address"
-                prop="type_of_address"
-                width="100px"
-            >
-                <el-input
-                    v-model="data.addressData.type_of_address"
-                    placeholder="Type of address"
-                    type="text"
-                    show-word-limit
-                    :maxlength="255"
-                    clearable
-                    @input="update()"
-                    @clear="update()"
-                    @change="update()"
-                    disabled
-                />
-
-                <!-- BACKEND VALIDATION ERROR DISPLAY -->
-                <div
-                    v-if="props.errors.type_of_address"
-                    v-text="props.errors.type_of_address"
-                    class="text-red-500 text-xs mt-1"
-                ></div>
-            </el-form-item>
 
             <el-form-item
                 label="Comment"
@@ -324,6 +286,7 @@
                     placeholder="Customer id"
                     type="number"
                     show-word-limit
+                    disabled
                     :maxlength="255"
                     clearable
                     @input="update()"
@@ -349,6 +312,7 @@
                     placeholder="Forwarder id"
                     type="number"
                     show-word-limit
+                    disabled
                     :maxlength="255"
                     clearable
                     @input="update()"
@@ -372,8 +336,8 @@
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import ButtonSubmitTab from '@/Shared/ButtonSubmitTab.vue';
 import Card from '@/Shared/Card.vue';
-import { router } from '@inertiajs/vue3'
-
+import { router } from '@inertiajs/vue3';
+import Header from './Header.vue';
 
 const props = defineProps({
 
@@ -391,6 +355,14 @@ const props = defineProps({
      */
     mode: {
         type: String,
+        required: true
+    },
+
+    /**
+     * The address types that are defined in TmsAddress model. The backend is sending this data here.
+     */
+    addressTypes: {
+        type: Array,
         required: true
     },
 
@@ -518,8 +490,6 @@ const submitForm = async (formEl) => {
 
     await formEl.validate((valid, fields) => {
         if (valid) {//if validation is OK, then submit the address
-            
-            customerStore.selectedCustomer = address;
             emit('submit');
             
         } else {//if validation is not OK, then show the errors
@@ -531,11 +501,9 @@ const submitForm = async (formEl) => {
 }
 
 /**
- * Close the popup, and resets the address values in this component to empty.
+ * Resets the address values in this component to empty.
  */
 let cancel = () => {
-    customerStore.elDialogVisible = false;
-    customerStore.selectedCustomer = customerStore.customerResetValues;//resetting all address fields
 }
 
 /**
@@ -543,7 +511,7 @@ let cancel = () => {
  * or 'edit'. Not needed for create mode.
  */
 let update = () => {
-    customerStore.selectedCustomer = address;
+    
 }
 
 

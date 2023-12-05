@@ -100,12 +100,7 @@
             prop="forwarder_id"
             sortable="custom"
         />
-
-
-
     </el-table> 
-        
-
 </template>
 
 <script setup>

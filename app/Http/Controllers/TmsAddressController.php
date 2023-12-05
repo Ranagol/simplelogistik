@@ -16,7 +16,31 @@ class TmsAddressController extends BaseController
     public function __construct()
     {
         $this->model = new TmsAddress();
-        $this->vueIndexPath = 'Addresses/Index';
-        $this->vueCreateEditPath = 'Addresses/CreateEditBase';
+        $this->vueIndexPath = 'Addresses/IndexAddress/Index';
+        $this->vueCreateEditPath = 'Addresses/CreateEditAddress/CreateEditBase';
+    }
+
+    /**
+     * This is used for dynamic validation. Which happens in the parent BaseController.
+     *
+     * @return string
+     */
+    protected function getRequestClass(): string
+    {
+        return TmsAddressRequest::class;
+    }
+
+    public function edit(string $id): Response
+    {
+        $record = $this->model::find($id);
+
+        return Inertia::render(
+            $this->vueCreateEditPath, 
+            [
+                'record' => $record,
+                'mode' => 'edit',
+                'addressTypes' => TmsAddress::ADDRESS_TYPES,
+            ]
+        );
     }
 }
