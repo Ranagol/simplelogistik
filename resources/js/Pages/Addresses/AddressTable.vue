@@ -32,7 +32,14 @@
             label="Address type"
             prop="address_type"
             sortable="custom"
-        />
+        >
+            <template #default="scope">
+                <Link
+                    class="hover:underline text-blue-500"
+                    :href="`/addresses/${scope.row.id}/edit`"
+                >{{ scope.row.address_type }}</Link>
+            </template>
+        </el-table-column>
 
         <el-table-column
             label="Street"

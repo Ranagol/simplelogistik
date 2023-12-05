@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class TmsAddress extends Model
 {
@@ -36,6 +38,27 @@ class TmsAddress extends Model
     public function cargoOrdersByTargetAddresses(): HasMany
     {
         return $this->hasMany(TmsCargoOrder::class, 'target_address_id');
+    }
+
+    //*************SCOPES*************************************** */
+
+    /**
+     * This here is a Laravel local scope, for searching by search term.
+     * https://laravel.com/docs/10.x/eloquent#local-scopes
+     *
+     * @param Builder $query
+     * @param string $searchTerm
+     * @return Builder
+     */
+    public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
+    {
+        return $query->where('first_name', 'like', "%{$searchTerm}%")
+            ->orWhere('last_name', 'like', "%{$searchTerm}%")
+            ->orWhere('street', 'like', "%{$searchTerm}%")
+            ->orWhere('city', 'like', "%{$searchTerm}%")
+            ->orWhere('country', 'like', "%{$searchTerm}%")
+            ->orWhere('state', 'like', "%{$searchTerm}%")
+            ->orWhere('comment', 'like', "%{$searchTerm}%");
     }
 
     //*************MUTATORS AND ACCESSORS*************************************** */

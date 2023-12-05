@@ -20,9 +20,6 @@
 
         </div>
 
-
-
-
         <!-- ADDRESSES TABLE -->
         <AddressTable
             v-model:sortColumn="data.sortColumn"
@@ -31,13 +28,11 @@
             @getData="getData"
         />
 
-
-
         <!-- PAGINATION -->
-        <!-- <Pagination
+        <Pagination
+            v-model:paginationData="data.paginationData"
             @getData="getData"
-            :store="addressStore"
-        /> -->
+        />
     </Card>
 
 </template>
