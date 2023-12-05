@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('internal_cid', 20);                           // e.g.  C000 0007 1093 0276 0123 4567 89AB CDEF
             $table->string('first_name', 100);
             $table->string('last_name', 100);
-            $table->string('email', 200)->unique();
             $table->string('company_name',200)->nullable();
+            $table->string('email', 200)->nullable();
             $table->string('tax_number',200)->nullable();
             $table->integer('rating')->unsigned()->nullable();
 

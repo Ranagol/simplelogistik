@@ -51,6 +51,29 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+
+    ####################################
+    # Simple Cargo Adminer
+    ####################################
+
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: phpmyadmintms
+        hostname: phpmyadmin
+        ports:
+            - 3000:80
+        environment:
+            - PMA_HOST=${DB_HOST}
+            - PMA_PORT=3306
+            - PMA_USER=root
+            - PMA_PASSWORD=
+            - PMA_ARBITRARY=1
+        depends_on:
+            - mysql
+
+    #########################################
+    # Redis
+    #########################################
     redis:
         image: 'redis:alpine'
         ports:
