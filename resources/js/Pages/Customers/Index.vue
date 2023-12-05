@@ -20,7 +20,13 @@
 
         </div>
 
+        <hr>
+
+        <!-- {{ data.customers }} -->
+        <hr>
         {{ data.customers[0] }}
+
+        <hr>
         
 
         <!-- CUSTOMERS TABLE -->

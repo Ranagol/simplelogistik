@@ -58,16 +58,14 @@ class TmsCustomer extends Model
      * This is needed for the customers, for the edit and the list view. We have to display (if exist)
      * the headquarter address of the customer. If that does not exist, we have to display the
      * billing address. 
+     * To achive this, we have to order the addresses by address_type, and take the first one.
      *
      * @return HasMany
      */
     public function contactAddresses(): HasMany
     {
         return $this->hasMany(TmsAddress::class, 'customer_id')
-                    ->where('address_type', 1)
-                    ->orWhere('address_type', 2)
-                    ->orderBy('address_type', 'asc');//Because headquarter must be always first, if exists.
-
+                    ->orderBy('address_type', 'asc');
     }
 
     public function cargoOrders(): HasMany

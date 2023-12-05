@@ -56,6 +56,33 @@
         />
 
         <el-table-column
+            label="Address"
+            sortable="custom"
+        >
+            <template #default="scope">
+                {{ scope.row.contact_addresses[0]?.street }} {{ scope.row.contact_addresses[0]?.house_number }}
+            </template>
+        </el-table-column>
+
+        <el-table-column
+            label="Zip code"
+            sortable="custom"
+        >
+            <template #default="scope">
+                {{ scope.row.contact_addresses[0]?.zip_code }}
+            </template>
+        </el-table-column>
+
+        <el-table-column
+            label="City"
+            sortable="custom"
+        >
+            <template #default="scope">
+                {{ scope.row.contact_addresses[0]?.city }}
+            </template>
+        </el-table-column>
+
+        <el-table-column
             label="Tax number"
             prop="tax_number"
             sortable="custom"
