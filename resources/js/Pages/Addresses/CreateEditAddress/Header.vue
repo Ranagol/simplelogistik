@@ -16,12 +16,10 @@
             {{ props.address.country }}
         </span>
 
-        <span
+        <!-- <span
             v-if="props.address.id"
             class="font-semibold text-xl text-gray-800 leading-tight mr-6"
-        >Address id: {{props.address.id }}</span>
-
-        
+        >Address id: {{props.address.id }}</span>         -->
     </div>
 </template>
 
