@@ -188,14 +188,14 @@ const data = reactive({
 const submit = () => {
     console.log('submit');
     if (props.mode === 'edit') {
-        editCustomer();
+        edit();
     } else {
-        createCustomer();
+        create();
     }
 
 }
 
-const editCustomer = () => {
+const edit = () => {
     router.put(
         `/customers/${data.customerData.id}`, 
         data.customerData,
@@ -215,7 +215,7 @@ const editCustomer = () => {
     )
 };
 
-// const createCustomer = () => {
+// const create = () => {
 //     router.post(
 //         '/customers', 
 //         customerStore.selectedCustomer, 
