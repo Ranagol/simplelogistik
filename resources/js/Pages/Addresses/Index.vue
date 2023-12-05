@@ -4,48 +4,45 @@
     <Card>
         <h1>Addresses</h1>
 
-        <SearchField
-            placeholder="Search addresses..."
-            :store="addressStore"
-            @getData="getData"
-            createButtonText="Create new address"
-            @handleCreate="handleCreate"
-        />
-
-        <!-- CREATE NEW ADDRESS POPUP -->
-        <Popup
-            @submit="submit"
-            :store="addressStore"
-        >
-            <CreateEditAddress
-                @submit="submit"
+        <!-- SEARCH FIELD -->
+        <div class="flex flex-row">
+            <SearchField
+                v-model:searchTerm="data.searchTerm"
+                placeholder="Search addresses..."
+                @getData="getData"
             />
-        </Popup>
+
+            <el-button
+                type="success"
+                class="mt-1"
+                @click="handleCreate"
+            >Create</el-button>
+
+        </div>
+
+
+
 
         <!-- ADDRESSES TABLE -->
-        <Table
+        <AddressTable
+            v-model:sortColumn="data.sortColumn"
+            v-model:sortOrder="data.sortOrder"
+            :customers="data.addresses"
             @getData="getData"
-            @handleEdit="handleEdit"
-            @handleDelete="handleDelete"
-            :tableColumns="data.addressTableColumns"
-            :store="addressStore"
-            warningItem="first_name"
-            batchDeleteUrl="/addresses-batch-delete"
-            modelSingular="address"
-            modelPlural="addresses"
-            selectedObjects="selectedAddresses"
         />
 
+
+
         <!-- PAGINATION -->
-        <Pagination
+        <!-- <Pagination
             @getData="getData"
             :store="addressStore"
-        />
+        /> -->
     </Card>
 
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import Card from '@/Shared/Card.vue';
 import _ from 'lodash';
 import Popup from '@/Shared/Popup.vue';
@@ -57,13 +54,13 @@ import SearchField from '@/Shared/SearchField.vue';
 import Table from '@/Shared/Table.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import CreateEditAddress from '@/Pages/Addresses/CreateEditAddress.vue';
+import AddressTable from './AddressTable.vue';
 
 let addressStore = useAddressStore();
 
 // PROPS
 let props = defineProps( 
     {
-        // elDialogVisibleProp: Boolean,//THIS MIGHT BE NOT NEEDED
         errors: Object, 
         dataFromController: Object,
 
@@ -78,133 +75,32 @@ let props = defineProps(
     }
 );
 
-//WATCHERS FOR PROPS: they send data received from backend to Pinia store
-//Sends the addresses to Pinia store, as soon arrives from backend.
-watch(
-    () => props.dataFromController,
-    (newVal: object, oldVal: object): void => {
-        /**
-         * Unfortunatelly, addresses are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromController. We need
-         * seaparted addresses and separated pagination data. This will happen in computed properties.
-         */
-        addressStore.addresses = newVal.data;
-
-        /**
-         * All pagination related data is stored here. 
-         * Unfortunatelly,addresses are coming in from backend mixed with pagination data.
-         * That is what we have here in the dataFromController. We need
-         * seaparated addresses and separated pagination data. This will happen in computed properties.
-         * Here. So, this is the pagination related data. And a small reminder:
-         * 
-         * el-pagination        Laravel ->paginate()
-         * current-page	        paginationData.current_page         Where the user is currently
-         * page-size	        paginationData.per_page             Number of items / page
-         * total	            paginationData.total                Number of all db records
-         */
-        addressStore.paginationData = _.omit({...props.dataFromController}, 'data');
-    },
-    { immediate: true, deep: true }
-);
-
-//Sends the errors to Pinia store, as soon arrives from backend.
-watch(
-    () => props.errors,
-    (newVal: object, oldVal: object): void => {
-        addressStore.errors = newVal;
-    },
-    { immediate: true, deep: true }
-);
-
-watch(
-    () => props.sortColumnProp,
-    (newVal: string, oldVal: string): void => {
-        addressStore.sortColumn = newVal;
-    },
-    { immediate: true, deep: true }
-);
-
-watch(
-    () => props.sortOrderProp,
-    (newVal: string, oldVal: string): void => {
-        addressStore.sortOrder = newVal;
-    },
-    { immediate: true, deep: true }
-);
-
 let data = reactive({
-    addressTableColumns: [
-        {
-            label: 'Id',
-            prop: 'id',
-            sortable: 'custom',
-            width: '70px',
-        },
-        {
-            label: 'First name',
-            prop: 'first_name',
-            sortable: 'custom',
-        },
-        {
-            label: 'Last name',
-            prop: 'last_name',
-            sortable: 'custom',
-        },
-        {
-            label: 'Street',
-            prop: 'street',
-            sortable: 'custom',
-        },
-        {
-            label: 'House number',
-            prop: 'house_number',
-            sortable: 'custom',
-        },
-        // {
-        //     label: 'Zip code',
-        //     prop: 'zip_code',
-        //     sortable: 'custom',
-        // },
-        {
-            label: 'City',
-            prop: 'city',
-            sortable: 'custom',
-        },
-        {
-            label: 'Country',
-            prop: 'country',
-            sortable: 'custom',
-        },
-        {
-            label: 'State',
-            prop: 'state',
-            sortable: 'custom',
-        },
-        {
-            label: 'Address type',
-            prop: 'type_of_address',
-            sortable: 'custom',
-        },
-        {
-            label: 'Comment',
-            prop: 'comment',
-            sortable: 'custom',
-        },
-        // {
-        //     label: 'Customer id',
-        //     prop: 'customer_id',
-        //     sortable: 'custom',
-        // },
-        // {
-        //     label: 'Forwarder id',
-        //     prop: 'forwarder_id',
-        //     sortable: 'custom',
-        // },
-    ],
+    /**
+     * Unfortunatelly, addresses are coming in from backend mixed with pagination data.
+     * That is what we have here in the dataFromController. We need
+     * seaparted addresses and separated pagination data. This will happen in computed properties.
+     */
+    addresses: props.dataFromController.data,
+    searchTerm: props.searchTermProp,
+    sortColumn: props.sortColumnProp,
+    sortOrder: props.sortOrderProp,
+
+    /**
+     * All pagination related data is stored here. 
+     * Unfortunatelly,addresses are coming in from backend mixed with pagination data.
+     * That is what we have here in the dataFromController. We need
+     * seaparated addresses and separated pagination data. This will happen in computed properties.
+     * Here. So, this is the pagination related data. And a small reminder:
+     * 
+     * el-pagination        Laravel ->paginate()
+     * current-page	        paginationData.current_page         Where the user is currently
+     * page-size	        paginationData.per_page             Number of items / page
+     * total	            paginationData.total                Number of all db records
+     */
+    paginationData: _.omit({...props.dataFromController}, 'data')
 });
 
-
-//METHODS
 
 /**
  * getData() is triggered by: 
@@ -221,45 +117,29 @@ let data = reactive({
  * Now addresses from this function arrive to props. There is a watcher for props, that sends addresses
  * from props to Pinia store.
  */
-let getData = (): void => {
+let getData = () => {
     const addresses = router.get(
         '/addresses',
         {
             /**
              * This is the data that we send to the backend.
              */
-            searchTerm: addressStore.searchTerm as string,
-            sortColumn: addressStore.sortColumn as string,
-            sortOrder: addressStore.sortOrder as string,
-            page: addressStore.paginationData.current_page as string,
-            newItemsPerPage: addressStore.paginationData.per_page as string,
+            searchTerm: data.searchTerm,
+            sortColumn: data.sortColumn,
+            sortOrder: data.sortOrder,
+            page: data.paginationData.current_page,
+            newItemsPerPage: data.paginationData.per_page,
         }
     );
 };
 
 /**
  * This function is triggered when the user clicks on the create new address button.
- * It sets the mode to 'create', and it sets the selectedAddress to the customerResetValues.
  */
 const handleCreate = () => {
-    console.log('handleCreate()');
-    addressStore.elDialogVisible = true;
-    addressStore.title = 'Create new address';
-    addressStore.mode = 'create';
+    router.get('addresses/create');
 };
 
-/**
- * This function is triggered when the user clicks on the edit button in the table.
- * It sets the mode to 'edit', and it sets the selectedAddress to the address object
- * that the user wants to edit.
- */
-const handleEdit = (index, object) => {
-    console.log('handleEdit()');
-    addressStore.mode = 'edit';
-    addressStore.elDialogVisible = true;
-    addressStore.title = 'Edit address';
-    addressStore.selectedAddress = object;
-};
 
 /**
  * Sends the delete address request to the backend.
@@ -302,63 +182,6 @@ const handleDelete = (index, object) => {
             message: 'Delete canceled',
         })
     })    
-};
-
-/**
- * Sends the create or edit address request to the backend.
- */
- const submit = () => {
-    console.log('submit in Index triggered')
-    if (addressStore.mode == 'create') {
-        createAddress();
-    } else if (addressStore.mode == 'edit') {
-        editAddress();
-    }
-}
-
-const createAddress = () => {
-    console.log('createAddress() triggered');
-    router.post(
-        '/addresses', 
-        addressStore.selectedAddress, 
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Address created successfully',
-                    type: 'success',
-                });
-                // get addresses again, so that the new address is displayed
-                router.reload({ only: ['dataFromController'] })
-                addressStore.elDialogVisible = false;
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while creating a new address.')
-                ElMessage(errors);
-            }
-        }
-    )
-};
-
-const editAddress = () => {
-
-    router.put(
-        `/addresses/${addressStore.selectedAddress.id}`, 
-        addressStore.selectedAddress,
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Address edited successfully',
-                    type: 'success',
-                });
-                router.reload({ only: ['dataFromController'] })
-                addressStore.elDialogVisible = false;
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while editing a address.')
-                ElMessage(errors);
-            }
-        }
-    )
 };
 
 </script>

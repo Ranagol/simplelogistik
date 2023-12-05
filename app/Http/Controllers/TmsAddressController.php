@@ -16,7 +16,7 @@ class TmsAddressController extends BaseController
     public function __construct()
     {
         $this->model = new TmsAddress();
-        $this->vueIndexPath = 'Customers/Index';
-        $this->vueCreateEditPath = 'Customers/CreateEditBase';
+        $this->vueIndexPath = 'Addresses/Index';
+        $this->vueCreateEditPath = 'Addresses/CreateEditBase';
     }
 }

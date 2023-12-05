@@ -20,15 +20,6 @@
 
         </div>
 
-        <hr>
-
-        <!-- {{ data.customers }} -->
-        <hr>
-        {{ data.customers[0] }}
-
-        <hr>
-        
-
         <!-- CUSTOMERS TABLE -->
         <CustomerTable
             v-model:sortColumn="data.sortColumn"
@@ -119,7 +110,6 @@ let data = reactive({
  * from props to Pinia store.
  */
 let getData = () => {
-    console.log('getData() in index.vue');
     const customers = router.get(
         '/customers',
         {
@@ -185,9 +175,5 @@ const handleDelete = (index, object) => {
         })
     })    
 };
-
-
-
-
 
 </script>
