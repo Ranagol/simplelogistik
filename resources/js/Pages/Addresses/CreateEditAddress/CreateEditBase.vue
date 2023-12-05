@@ -6,7 +6,7 @@
 
     <pre>{{ JSON.stringify(data.addressData, null, 2) }}</pre>
 
-
+    <!-- EDIT ADDRESS -->
     <Card>
         
         <!-- ADDRESS HEADER WITH BASIC ADDRESS DATA -->
@@ -277,13 +277,13 @@
             </el-form-item>
 
             <el-form-item
-                label="Customer id"
+                label="Address id"
                 prop="customer_id"
                 width="100px"
             >
                 <el-input
                     v-model="data.addressData.customer_id"
-                    placeholder="Customer id"
+                    placeholder="Address id"
                     type="number"
                     show-word-limit
                     disabled
@@ -362,7 +362,7 @@ const props = defineProps({
      * The address types that are defined in TmsAddress model. The backend is sending this data here.
      */
     addressTypes: {
-        type: Array,
+        type: Object,
         required: true
     },
 
@@ -399,7 +399,6 @@ const submit = () => {
     } else {
         create();
     }
-
 }
 
 const edit = () => {
@@ -409,7 +408,7 @@ const edit = () => {
         {
             onSuccess: () => {
                 ElMessage({
-                    message: 'Customer edited successfully',
+                    message: 'Address edited successfully',
                     type: 'success',
                 });
                 router.reload({ only: ['record'] })
@@ -429,7 +428,7 @@ const edit = () => {
 //         {
 //             onSuccess: () => {
 //                 ElMessage({
-//                     message: 'Customer created successfully',
+//                     message: 'Address created successfully',
 //                     type: 'success',
 //                 });
 //                 // get addresses again, so that the new address is displayed
