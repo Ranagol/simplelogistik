@@ -32,7 +32,27 @@ const props = defineProps({
      */
     record: {
         type: Object,
-        required: true
+        /**
+         * The default value is a function that returns an empty address object.
+         */
+        default: () => ({
+            id: null,
+            first_name: null,
+            last_name: null,
+            address_type: null,
+            street: "",
+            house_number: null,
+            zip_code: "",
+            city: "",
+            country: "",
+            state: null,
+            type_of_address: null,
+            comment: null,
+            customer_id: null,
+            forwarder_id: null,
+            created_at: null,
+            updated_at: null
+        }),
     },
 
     /**

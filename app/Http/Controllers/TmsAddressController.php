@@ -30,6 +30,24 @@ class TmsAddressController extends BaseController
         return TmsAddressRequest::class;
     }
 
+    public function create(): Response
+    {
+        return Inertia::render(
+            $this->vueCreateEditPath, 
+            [
+                // 'record' => $record,
+                'mode' => 'create',
+                'addressTypes' => TmsAddress::ADDRESS_TYPES,
+            ]
+        );
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $id
+     * @return Response
+     */
     public function edit(string $id): Response
     {
         $record = $this->model::find($id);
