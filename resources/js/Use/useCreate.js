@@ -1,10 +1,10 @@
 import { router } from '@inertiajs/vue3';
 
 /**
- * @param {*} url The base url where we send the request. Example: /addresses
- * @param {*} newObject The object we want to create. Example: an address object
- * @param {*} modelName The name of the model we want to create. Example: address
- * @param {*} propNameForPageReload The name of the prop (defined in controller) we want to reload.
+ * @param {String} url The base url where we send the request. Example: /addresses
+ * @param {Object} newObject The object we want to create. Example: an address object
+ * @param {String} modelName The name of the model we want to create. Example: address
+ * @param {String} propNameForPageReload The name of the prop (defined in controller) we want to reload.
  */
 export function useCreate(url, newObject, modelName, propNameForPageReload) {
 

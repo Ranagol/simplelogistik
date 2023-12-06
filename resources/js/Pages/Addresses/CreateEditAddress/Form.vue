@@ -26,6 +26,18 @@
             </el-form-item>
 
 
+            <!-- DELETE BUTTON -->
+            <el-form-item
+                v-if="props.mode === 'edit'"
+            >
+                <el-button
+                    @click="destroy"
+                    type="danger"
+                    name="button"
+                >Delete</el-button>
+            </el-form-item>
+
+
         </div>
 
         <el-form-item
@@ -88,7 +100,7 @@
                 @change="update()"
             >
                 <el-option
-                    v-for="(item, index) in data.addressDataTypes"
+                    v-for="(item, index) in props.addressTypes"
                     :key="index"
                     :label="item"
                     :value="item"
@@ -310,18 +322,19 @@
             prop="forwarder_id"
             width="100px"
         >
-            <el-input
+            <!-- EL-SELECT -->
+            <el-select
                 v-model="data.addressData.forwarder_id"
-                placeholder="Forwarder id"
-                type="number"
-                show-word-limit
-                disabled
-                :maxlength="255"
                 clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"                    
-            />
+                @change="update()"
+            >
+                <!-- <el-option
+                    v-for="(item, index) in props.addressTypes"
+                    :key="index"
+                    :label="item"
+                    :value="item"
+                ></el-option> -->
+            </el-select>
 
             <!-- BACKEND VALIDATION ERROR DISPLAY -->
             <div
@@ -353,13 +366,18 @@ const props = defineProps({
         type: String,
         required: true
     },
+
+    addressTypes: {
+        type: Array,
+        required: true
+    },
 });
 
 const data = reactive({
     addressData: props.address,
 });
 
-const emit = defineEmits(['update:address', 'submit']);
+const emit = defineEmits(['update:address', 'submit', 'destroy']);
 
 const update = () => {
     emit('update:address', data.addressData);
@@ -367,6 +385,11 @@ const update = () => {
 
 const submit = () => {
     emit('submit');
+}
+
+//It is called destroy, because delete is a reserved word in JS
+const destroy = () => {
+    emit('destroy');
 }
 
 

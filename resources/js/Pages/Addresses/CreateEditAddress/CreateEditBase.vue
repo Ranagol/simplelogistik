@@ -14,7 +14,9 @@
             v-model:address="data.addressData"
             :errors="props.errors"
             :mode="props.mode"
+            :addressTypes="props.addressTypes"
             @submit="submit"
+            @destroy="destroy"
         />
 
     </Card>
@@ -27,6 +29,7 @@ import { router } from '@inertiajs/vue3';
 import Form from './Form.vue';
 import { useEdit } from '@/Use/useEdit';
 import { useCreate } from '@/Use/useCreate';
+import { useDestroy } from '@/Use/useDestroy';
 
 const props = defineProps({
 
@@ -137,6 +140,17 @@ const submit = () => {
             'record'
         );
     }
+}
+
+const destroy = () => {
+    console.log('destroy');
+    useDestroy(
+        `Address will be deleted. Continue?`,
+        'addresses', 
+        data.addressData.id,
+        'address',
+        'record'
+    );
 }
 
 
