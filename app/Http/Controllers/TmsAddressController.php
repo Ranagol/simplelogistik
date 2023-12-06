@@ -9,6 +9,7 @@ use App\Models\TmsCustomer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsAddressRequest;
+use App\Models\TmsForwarder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsAddressController extends BaseController
@@ -38,8 +39,37 @@ class TmsAddressController extends BaseController
                 // 'record' => $record,
                 'mode' => 'create',
                 'addressTypes' => TmsAddress::ADDRESS_TYPES,
+                // we send all customers and forwarders to the FE, so that the user can select them
+                'customers' => TmsCustomer::all()->map(function ($customer) {
+                    return [
+                        'id' => $customer->id,
+                        'name' => $this->generateCustomerName($customer),
+                    ];
+                }),
+                'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
+                    return [
+                        'id' => $forwarder->id,
+                        'name' => $forwarder->company_name,
+                    ];
+                }),
+
             ]
         );
+    }
+
+    /**
+     * If this is a company return the company name, otherwise return the name of the person.
+     * This name will be created from the first and last name.
+     *
+     * @return string
+     */
+    private function generateCustomerName(TmsCustomer $customer): string
+    {
+        if ($customer->company_name) {
+            return $customer->company_name;
+        }
+
+        return $customer->first_name . ' ' . $customer->last_name;
     }
 
     /**
@@ -98,6 +128,19 @@ class TmsAddressController extends BaseController
                 'record' => $record,
                 'mode' => 'edit',
                 'addressTypes' => TmsAddress::ADDRESS_TYPES,
+                // we send all customers and forwarders to the FE, so that the user can select them
+                'customers' => TmsCustomer::all()->map(function ($customer) {
+                    return [
+                        'id' => $customer->id,
+                        'name' => $this->generateCustomerName($customer),
+                    ];
+                }),
+                'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
+                    return [
+                        'id' => $forwarder->id,
+                        'name' => $forwarder->company_name,
+                    ];
+                }),
             ]
         );
     }

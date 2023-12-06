@@ -291,23 +291,26 @@
             ></div>
         </el-form-item>
 
+        <!-- CUSTOMER -->
         <el-form-item
-            label="Customer id"
+            label="Customer"
             prop="customer_id"
             width="100px"
         >
-            <el-input
+            <!-- EL-SELECT -->
+            <el-select
                 v-model="data.addressData.customer_id"
-                placeholder="Address id"
-                type="number"
-                show-word-limit
-                disabled
-                :maxlength="255"
                 clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"                    
-            />
+                filterable
+                @change="update()"
+            >
+                <el-option
+                    v-for="(item, index) in props.customers"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                ></el-option>
+            </el-select>
 
             <!-- BACKEND VALIDATION ERROR DISPLAY -->
             <div
@@ -317,8 +320,9 @@
             ></div>
         </el-form-item>
 
+        <!-- FORWARDER -->
         <el-form-item
-            label="Forwarder id"
+            label="Forwarder"
             prop="forwarder_id"
             width="100px"
         >
@@ -326,14 +330,15 @@
             <el-select
                 v-model="data.addressData.forwarder_id"
                 clearable
+                filterable
                 @change="update()"
             >
-                <!-- <el-option
-                    v-for="(item, index) in props.addressTypes"
+                <el-option
+                    v-for="(item, index) in props.forwarders"
                     :key="index"
-                    :label="item"
-                    :value="item"
-                ></el-option> -->
+                    :label="item.name"
+                    :value="item.id"
+                ></el-option>
             </el-select>
 
             <!-- BACKEND VALIDATION ERROR DISPLAY -->
@@ -369,6 +374,16 @@ const props = defineProps({
     },
 
     addressTypes: {
+        type: Array,
+        required: true
+    },
+
+    customers: {
+        type: Array,
+        required: true
+    },
+
+    forwarders: {
         type: Array,
         required: true
     },

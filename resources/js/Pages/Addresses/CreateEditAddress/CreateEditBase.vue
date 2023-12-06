@@ -15,6 +15,8 @@
             :errors="props.errors"
             :mode="props.mode"
             :addressTypes="props.addressTypes"
+            :customers="props.customers"
+            :forwarders="props.forwarders"
             @submit="submit"
             @destroy="destroy"
         />
@@ -79,6 +81,16 @@ const props = defineProps({
      * The errors object that is sent from the backend, and contains the validation errors.
      */
     errors: Object,
+
+    customers: {
+        type: Array,
+        required: true
+    },
+
+    forwarders: {
+        type: Array,
+        required: true
+    },
 });
 
 //for developing and testing purposes
