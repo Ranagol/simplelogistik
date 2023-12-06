@@ -14,8 +14,8 @@ class TmsCustomerController extends BaseController
     public function __construct()
     {
         $this->model = new TmsCustomer();
-        $this->vueIndexPath = 'Customers/Index';
-        $this->vueCreateEditPath = 'Customers/CreateEditBase';
+        $this->vueIndexPath = 'Customers/IndexCustomer/Index';
+        $this->vueCreateEditPath = 'Customers/CreateEditCustomer/CreateEditBase';
     }
 
     /**

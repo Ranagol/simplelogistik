@@ -129,12 +129,12 @@
 
 <script setup>
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
-import DataTab from '@/Pages/Customers/CustomerTabs/DataTab.vue';
-import AddressesTab from '@/Pages/Customers/CustomerTabs/AddressesTab.vue';
-import ContactsTab from '@/Pages/Customers/CustomerTabs/ContactsTab.vue';
-import OrdersTab from '@/Pages/Customers/CustomerTabs/OrdersTab.vue';
-import OffersTab from '@/Pages/Customers/CustomerTabs/OffersTab.vue';
-import IndividualTab from '@/Pages/Customers/CustomerTabs/IndividualTab.vue';
+import DataTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/DataTab.vue';
+import AddressesTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/AddressesTab.vue';
+import ContactsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/ContactsTab.vue';
+import OrdersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OrdersTab.vue';
+import OffersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OffersTab.vue';
+import IndividualTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/IndividualTab.vue';
 import ButtonSubmitTab from '@/Shared/ButtonSubmitTab.vue';
 import Card from '@/Shared/Card.vue';
 import { router } from '@inertiajs/vue3'
