@@ -76,17 +76,10 @@ class TmsAddressController extends BaseController
         $newlyCreatedRecord = $this->model->create($newRecord);
 
         /**
-         * With this, we achieve that, that after creating a new record, the user is redirected
-         * to the edit page of the newly created record.
+         * @Christoph said that we need to redirect the user after a successful create to the edit 
+         * page.
          */
-        return Inertia::render(
-            $this->vueCreateEditPath, 
-            [
-                'record' => $newlyCreatedRecord,
-                'mode' => 'edit',
-                'addressTypes' => TmsAddress::ADDRESS_TYPES,
-            ]
-        );
+        return Inertia::location("{$newlyCreatedRecord->id}/edit");
     }
 
     /**
