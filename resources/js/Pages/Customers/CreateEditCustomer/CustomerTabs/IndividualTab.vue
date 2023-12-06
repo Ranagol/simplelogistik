@@ -1,6 +1,6 @@
 <template>
     <slot name="buttonSubmitTab"></slot>
-    {{ data.customer }}
+    
     <el-form
         ref="ruleFormRef"
         :model="data.customer"

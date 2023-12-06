@@ -60,7 +60,7 @@
             </el-tab-pane>
 
             <!-- CONTACTS -->
-            <!-- <el-tab-pane
+            <el-tab-pane
                 label="Contacts"
             >
                 <ContactsTab
@@ -73,10 +73,10 @@
                         />
                     </template>
                 </ContactsTab>
-            </el-tab-pane> -->
+            </el-tab-pane>
 
             <!-- ORDERS -->
-            <!-- <el-tab-pane
+            <el-tab-pane
                 label="Orders"
             >
                 <OrdersTab
@@ -89,10 +89,10 @@
                         />
                     </template>
                 </OrdersTab>
-            </el-tab-pane> -->
+            </el-tab-pane>
 
             <!-- OFFERS -->
-            <!-- <el-tab-pane
+            <el-tab-pane
                 label="Offers"
             >
                 <OffersTab
@@ -105,7 +105,7 @@
                         />
                     </template>    
                 </OffersTab>    
-            </el-tab-pane> -->
+            </el-tab-pane>
 
             <!-- INDIVIDUAL SETTINGS -->
             <el-tab-pane
