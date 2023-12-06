@@ -43,16 +43,22 @@ export function useDestroy(
                         message: `${modelName} deleted successfully`,
                         type: 'success',
                     });
-
-                    //If we want to just refresh the current page
+                    
+                    /**
+                     * If we want to just refresh the current page.
+                     */
                     if(propNameForPageReload) {
                         router.reload({ only: [propNameForPageReload] })
                     }
-
-                    //rerouting to the listing/index page, when all is done.
+                    
+                    /**
+                     * rerouting to the listing/index page, when all is done. This is a full redirect.
+                     * However, here we must use an absolute url, because we are redirecting to a new domain.
+                     * Example: http://localhost/addresses
+                     */
                     if(reRoutingUrl) {
                         console.log('reRoutingUrl: ', reRoutingUrl)
-                        router.visit(reRoutingUrl, { method: 'get' });//http://localhost/addresses/32/localhost/addresses 404 (Not Found)
+                        router.visit(reRoutingUrl, { method: 'get' });
                     }
                     
                 },

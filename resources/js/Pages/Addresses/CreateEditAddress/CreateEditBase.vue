@@ -141,7 +141,8 @@ const submit = () => {
             'addresses', 
             data.addressData,
             'address',
-            'record'
+            null,
+            'http://localhost/addresses'
         );
     }
 }

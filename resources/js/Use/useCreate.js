@@ -5,20 +5,38 @@ import { router } from '@inertiajs/vue3';
  * @param {Object} newObject The object we want to create. Example: an address object
  * @param {String} modelName The name of the model we want to create. Example: address
  * @param {String} propNameForPageReload The name of the prop (defined in controller) we want to reload.
+ * @param {String} reRoutingUrl The url we want to reroute to, after the create is done.
  */
-export function useCreate(url, newObject, modelName, propNameForPageReload) {
+export function useCreate(url, newObject, modelName, propNameForPageReload, reRoutingUrl) {
 
     router.post(
         `/${url}`, 
         newObject,
         {
-            onSuccess: () => {
+            onSuccess: (testing) => {
                 console.log('useCreate onSuccess triggered')
+                console.log('testing:', testing)
                 ElMessage({
                     message: `${modelName} created successfully`,
                     type: 'success',
                 });
-                router.reload({ only: [propNameForPageReload] })
+                
+                // /**
+                //      * If we want to just refresh the current page.
+                //      */
+                // if(propNameForPageReload) {
+                //     router.reload({ only: [propNameForPageReload] })
+                // }
+                
+                // /**
+                //  * rerouting to the listing/index page, when all is done. This is a full redirect.
+                //  * However, here we must use an absolute url, because we are redirecting to a new domain.
+                //  * Example: http://localhost/addresses
+                //  */
+                // if(reRoutingUrl) {
+                //     console.log('reRoutingUrl: ', reRoutingUrl)
+                //     router.visit(reRoutingUrl, { method: 'get' });
+                // }
             },
             onError: (errors) => {
                 console.log('useCreate onError triggered')

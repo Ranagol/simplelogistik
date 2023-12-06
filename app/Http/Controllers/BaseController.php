@@ -69,9 +69,8 @@ abstract class BaseController extends Controller
      * to the user, and then the FE component calls the $this->index() method, which returns the records.
      * So, the user gets his feedback, and the record list is refreshed.
      *
-     * @return void
      */
-    public function store(): void
+    public function store()
     {
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
