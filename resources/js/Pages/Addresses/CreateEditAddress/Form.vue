@@ -280,7 +280,7 @@
         </el-form-item>
 
         <el-form-item
-            label="Address id"
+            label="Customer id"
             prop="customer_id"
             width="100px"
         >

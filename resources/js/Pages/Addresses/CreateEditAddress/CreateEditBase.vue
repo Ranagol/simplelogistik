@@ -25,6 +25,8 @@ import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import Card from '@/Shared/Card.vue';
 import { router } from '@inertiajs/vue3';
 import Form from './Form.vue';
+import { useEdit } from '@/Use/useEdit';
+import { useCreate } from '@/Use/useCreate';
 
 const props = defineProps({
 
@@ -37,22 +39,19 @@ const props = defineProps({
          * The default value is a function that returns an empty address object.
          */
         default: () => ({
-            id: null,
-            first_name: null,
-            last_name: null,
-            address_type: null,
-            street: "",
-            house_number: null,
-            zip_code: "",
-            city: "",
-            country: "",
-            state: null,
-            type_of_address: null,
-            comment: null,
-            customer_id: null,
-            forwarder_id: null,
-            created_at: null,
-            updated_at: null
+            first_name: 'Random text',
+            last_name: 'Random text',
+            address_type: 'Main headquarters',
+            street: "Random text",
+            house_number: 'Random text',
+            zip_code: "Random text",
+            city: "Random text",
+            country: "Random text",
+            state: 'Random text',
+            type_of_address: '',
+            comment: 'Random text',
+            customer_id: 1,
+            forwarder_id: 1,
         }),
     },
 
@@ -73,99 +72,73 @@ const props = defineProps({
         required: true
     },
 
-    
-
     /**
      * The errors object that is sent from the backend, and contains the validation errors.
      */
     errors: Object,
 });
 
-/**
- * This watcher simply helps to validation errors from props.errors to go to the child components.
- * For some reason this is not reactive enough without the computed.
- */
-let errorsComputed = computed(() => {
-    return props.errors;
-});
+const dummyAddress = {
+    first_name: 'Random text',
+    last_name: 'Random text',
+    address_type: 'Main headquarters',
+    street: "Random text",
+    house_number: 'Random text',
+    zip_code: "Random text",
+    city: "Random text",
+    country: "Random text",
+    state: 'Random text',
+    type_of_address: '',
+    comment: 'Random text',
+    customer_id: 1,
+    forwarder_id: 1,
+};
 
-
+const emptyAddress = {
+    first_name: null,
+    last_name: null,
+    address_type: null,
+    street: "",
+    house_number: null,
+    zip_code: "",
+    city: "",
+    country: "",
+    state: null,
+    type_of_address: null,
+    comment: null,
+    customer_id: null,
+    forwarder_id: null,
+};
 
 const data = reactive({
 
     /**
      * The address object.
      */
-    addressData: props.record
+    addressData: props.record,
 });
 
 const submit = () => {
     console.log('submit');
     if (props.mode === 'edit') {
-        edit();
+        useEdit(//edits the address
+            'addresses', 
+            data.addressData.id,
+            data.addressData,
+            'address',
+            'record'
+        );
+
     } else {
-        create();
+        useCreate(//creates the address
+            'addresses', 
+            data.addressData,
+            'address',
+            'record'
+        );
     }
 }
 
-const edit = () => {
-    router.put(
-        `/addresses/${data.addressData.id}`, 
-        data.addressData,
-        {
-            onSuccess: () => {
-                ElMessage({
-                    message: 'Address edited successfully',
-                    type: 'success',
-                });
-                router.reload({ only: ['record'] })
-            },
-            onError: (errors) => {
-                ElMessage.error('Oops, something went wrong while editing a address.')
-                ElMessage(errors);
-            }
-        }
-    )
-};
-
-// const create = () => {
-//     router.post(
-//         '/addresses', 
-//         customerStore.selectedCustomer, 
-//         {
-//             onSuccess: () => {
-//                 ElMessage({
-//                     message: 'Address created successfully',
-//                     type: 'success',
-//                 });
-//                 // get addresses again, so that the new address is displayed
-//                 router.reload({ only: ['dataFromController'] })
-//                 customerStore.elDialogVisible = false;
-//             },
-//             onError: (errors) => {
-//                 ElMessage.error('Oops, something went wrong while creating a new address.')
-//                 ElMessage(errors);
-//             }
-//         }
-//     )
-// };
-
-
-
-
-/**
- * Resets the address values in this component to empty.
- */
-let cancel = () => {
-}
-
-/**
- * Update the selectedCustomer object in store. This is needed when the mode is 'show'
- * or 'edit'. Not needed for create mode.
- */
-let update = () => {
-    
-}
 
 
 

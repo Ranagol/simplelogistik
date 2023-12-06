@@ -1,10 +1,12 @@
 <template>
     
+    <!-- CREATE OR EDIT as title -->
     <div class="flex flex-row mb-3">
         <h1
             class="font-semibold text-xl text-gray-800 leading-tight mr-6"
         >{{_.capitalize(props.mode) }} </h1>
 
+        <!-- ADDRESS DETAILS -->
         <span
             v-if="props.mode === 'edit'"
             class="font-semibold text-xl text-gray-800 leading-tight mr-6"
@@ -16,6 +18,7 @@
             {{ props.address.country }}
         </span>
 
+        <!-- ADDRESS ID -->
         <span
             v-if="props.mode === 'edit'"
             class="font-semibold text-xl text-gray-800 leading-tight mr-6"
