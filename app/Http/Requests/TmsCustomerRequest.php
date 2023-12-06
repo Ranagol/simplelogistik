@@ -23,7 +23,7 @@ class TmsCustomerRequest extends FormRequest
     {
         return [
             'company_name' => 'required|string|min:2|max:100',
-            // 'company_name' => 'boolean',
+            // 'company_name' => 'boolean',//just for testing validation
 
             'first_name' => 'required|string|min:2|max:200',
             'last_name' => 'required|string|min:2|max:200',

@@ -35,7 +35,6 @@ class TmsCustomerController extends BaseController
             [
                 // 'record' => $record,
                 'mode' => 'create',
-
             ]
         );
     }

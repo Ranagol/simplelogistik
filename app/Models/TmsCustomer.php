@@ -139,9 +139,9 @@ class TmsCustomer extends Model
              * Accessor
              * gets from db, transforms it. 1 will become 'Bussiness customer'.
              * directly looks up the customer type in the CUSTOMER_TYPES constant using the provided 
-             * value. If the value is not found in the constant, it defaults to 'Missing data.'.
+             * value. If the value is not found in the constant, it defaults to 'Missing data xxx.'.
              */
-            get: fn (string $value) => self::CUSTOMER_TYPES[$value] ?? 'Missing data.',
+            get: fn (string $value) => self::CUSTOMER_TYPES[$value] ?? 'Missing data xxx.',
 
             /**
              * Mutator
@@ -152,9 +152,9 @@ class TmsCustomer extends Model
              * integer value.
              * he set method uses array_flip to swap the keys and values of the CUSTOMER_TYPES 
              * constant, then looks up the integer value corresponding to the provided customer type 
-             * string. If the string is not found in the flipped array, it defaults to 'Missing data.'.
+             * string. If the string is not found in the flipped array, it defaults to 'Missing data xxx.'.
              */
-            set: fn (string $value) => array_flip(self::CUSTOMER_TYPES)[$value] ?? 'Missing data.',
+            set: fn (string $value) => array_flip(self::CUSTOMER_TYPES)[$value] ?? 'Missing data xxx.',
         );
     }
 
@@ -168,9 +168,9 @@ class TmsCustomer extends Model
         // dd('xxxx');
         return Attribute::make(
             //gets from db, transforms it. 1 will become 'Bussiness customer'.
-            get: fn (string $value) => self::INVOICE_DISPATCHES[$value] ?? 'Missing data.',
+            get: fn (string $value) => self::INVOICE_DISPATCHES[$value] ?? 'Missing data xxx.',
             //gets from request, transforms it. 'Bussiness customer' will become 1.
-            set: fn (string $value) => array_flip(self::INVOICE_DISPATCHES)[$value] ?? 'Missing data.',
+            set: fn (string $value) => array_flip(self::INVOICE_DISPATCHES)[$value] ?? 'Missing data xxx.',
         );
     }
 
@@ -183,9 +183,9 @@ class TmsCustomer extends Model
     {
         return Attribute::make(
             //gets from db, transforms it. 1 will become 'Bussiness customer'.
-            get: fn (string $value) => self::INVOICE_SHIPPING_METHODS[$value] ?? 'Missing data.',
+            get: fn (string $value) => self::INVOICE_SHIPPING_METHODS[$value] ?? 'Missing data xxx.',
             //gets from request, transforms it. 'Bussiness customer' will become 1.
-            set: fn (string $value) => array_flip(self::INVOICE_SHIPPING_METHODS)[$value] ?? 'Missing data.',
+            set: fn (string $value) => array_flip(self::INVOICE_SHIPPING_METHODS)[$value] ?? 'Missing data xxx.',
         );
     }
 
@@ -200,9 +200,9 @@ class TmsCustomer extends Model
     {
         return Attribute::make(
             //gets from db, transforms it. 1 will become 'Bussiness customer'.
-            get: fn (string $value) => self::PAYMENT_METHODS[$value] ?? 'Missing data.',
+            get: fn (string $value) => self::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
             //gets from request, transforms it. 'Bussiness customer' will become 1.
-            set: fn (string $value) => array_flip(self::PAYMENT_METHODS)[$value] ?? 'Missing data.',
+            set: fn (string $value) => array_flip(self::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
         );
     }
     
