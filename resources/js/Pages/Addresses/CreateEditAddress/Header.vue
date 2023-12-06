@@ -5,7 +5,6 @@
 
         <!-- ADDRESS DETAILS -->
         <h1
-            v-if="props.mode === 'edit'"
             class="font-semibold text-xl text-gray-800 leading-tight mr-6"
         >
             {{ props.headerText }}

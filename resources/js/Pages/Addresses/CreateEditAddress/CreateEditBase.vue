@@ -155,7 +155,7 @@ const destroy = () => {
         data.addressData.id,
         'address',
         null,
-        'addresses'
+        'http://localhost/addresses'
     );
 }
 

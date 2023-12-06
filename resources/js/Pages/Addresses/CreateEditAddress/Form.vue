@@ -58,7 +58,6 @@
                 @change="update()"
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
             <div
                 v-if="props.errors.first_name"
                 v-text="props.errors.first_name"
@@ -357,7 +356,6 @@ import _ from 'lodash';
 const props = defineProps({
     address: {
         type: Object,
-        required: true
     },
 
     errors: {
@@ -377,11 +375,12 @@ const props = defineProps({
 });
 
 const data = reactive({
-    addressData: props.address,
+    addressData: props.address || {},
 });
 
 const headerText = computed(() => {
-    if (props.mode === 'edit') {
+    //_.get() returns undefined if the path doesn't exist. Which is faulty.
+    if (props.mode === 'edit' && _.get(props.address, 'id')) {
         return _.capitalize(props.mode) + ` address id: ${props.address.id}`;
     } else {
         return _.capitalize(props.mode) + ' new address';

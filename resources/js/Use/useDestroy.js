@@ -1,5 +1,18 @@
 import { router } from '@inertiajs/vue3';
 
+/**
+ * Deletes a record from the database.
+ * 
+ * @param {String} warningMessage Example: Are you sure you want to delete this address?
+ * @param {String} url Example: addresses
+ * @param {String} id  Example: 32
+ * @param {String} modelName Example: address
+ * @param {String} propNameForPageReload Example: record
+ * @param {String} reRoutingUrl Example: http://localhost/addresses/32/localhost/addresses
+ * 
+ * At the end of delete, we either simply refresh the page (then we use propNameForPageReload), or 
+ * we reroute to a new page (then we use reRoutingUrl).
+ */
 export function useDestroy(
     warningMessage, 
     url, 
@@ -35,6 +48,12 @@ export function useDestroy(
                     if(propNameForPageReload) {
                         router.reload({ only: [propNameForPageReload] })
                     }
+
+                    //rerouting to the listing/index page, when all is done.
+                    if(reRoutingUrl) {
+                        console.log('reRoutingUrl: ', reRoutingUrl)
+                        router.visit(reRoutingUrl, { method: 'get' });//http://localhost/addresses/32/localhost/addresses 404 (Not Found)
+                    }
                     
                 },
                 onError: (errors) => {
@@ -44,15 +63,7 @@ export function useDestroy(
                 }
             }
         );
-
-        //rerouting to the listing/index page, when all is done.
-        if(reRoutingUrl) {
-            console.log('reRoutingUrl: ', reRoutingUrl)
-            router.push(reRoutingUrl)
-        }
-
     })
-    
     .catch(() => {
         //If the deleting wish is canceled, then we show a message.
         ElMessage({
@@ -60,8 +71,4 @@ export function useDestroy(
             message: 'Delete canceled',
         })
     })  
-
-
-
-    
 }
