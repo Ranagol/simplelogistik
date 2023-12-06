@@ -16,7 +16,7 @@
 <script setup>
 
 const props = defineProps({
-    address: {
+    record: {
         type: Object,
         required: true,
     },

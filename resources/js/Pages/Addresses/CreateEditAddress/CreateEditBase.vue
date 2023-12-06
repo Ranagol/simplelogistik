@@ -140,7 +140,7 @@ const submit = () => {
     if (props.mode === 'edit') {
         //edits the address
         useEdit(
-            'addresses', 
+            'addresses',
             data.addressData.id,
             data.addressData,
             'address',
@@ -150,7 +150,7 @@ const submit = () => {
     } else {
         //creates the address
         useCreate(
-            'addresses', 
+            'addresses',
             data.addressData,
             'address',
             null,
@@ -164,7 +164,7 @@ const destroy = () => {
     //deletes the address
     useDestroy(
         `Address will be deleted. Continue?`,
-        'addresses', 
+        'addresses',
         data.addressData.id,
         'address',
         null,

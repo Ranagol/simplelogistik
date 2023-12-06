@@ -12,7 +12,7 @@
             
             <!-- ADDRESS HEADER WITH BASIC ADDRESS DATA -->
             <Header
-                :address="data.addressData"
+                :record="data.addressData"
                 :mode="props.mode"
                 :headerText="headerText"
             />
@@ -354,7 +354,7 @@
 
 <script setup>
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
-import Header from './Header.vue';
+import Header from '@/Shared/Crud/Header.vue';
 import _ from 'lodash';
 
 

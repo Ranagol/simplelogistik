@@ -52,8 +52,8 @@ class TmsCustomerRequest extends FormRequest
             'customer_type' => 'required|string|min:2|max:100',
             'invoice_dispatch' => 'required|string|min:2|max:100',
             'invoice_shipping_method' => 'required|string|min:2|max:100',
-            // 'payment_method' => 'required|string|min:2|max:100',
-            'payment_method' => 'required|boolean',
+            'payment_method' => 'required|string|min:2|max:100',
+            // 'payment_method' => 'required|boolean',//this here is to trigger validation error
 
         ];
     }
