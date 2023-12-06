@@ -11,9 +11,10 @@
         <div class="flex flex-row mb-2 justify-between">
             
             <!-- ADDRESS HEADER WITH BASIC ADDRESS DATA -->
-            <!-- <Header
+            <Header
                 :address="data.addressData"
-            /> -->
+                :mode="props.mode"
+            />
             
             <!-- SUBMIT BUTTON -->
             <el-form-item>
@@ -345,6 +346,11 @@ const props = defineProps({
 
     errors: {
         type: Object,
+        required: true
+    },
+
+    mode: {
+        type: String,
         required: true
     },
 });

@@ -13,6 +13,7 @@
         <Form
             v-model:address="data.addressData"
             :errors="props.errors"
+            :mode="props.mode"
             @submit="submit"
         />
 
