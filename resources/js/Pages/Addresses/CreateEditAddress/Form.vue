@@ -14,6 +14,7 @@
             <Header
                 :address="data.addressData"
                 :mode="props.mode"
+                :headerText="headerText"
             />
             
             <!-- SUBMIT BUTTON -->
@@ -350,6 +351,8 @@
 <script setup>
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import Header from './Header.vue';
+import _ from 'lodash';
+
 
 const props = defineProps({
     address: {
@@ -377,6 +380,14 @@ const data = reactive({
     addressData: props.address,
 });
 
+const headerText = computed(() => {
+    if (props.mode === 'edit') {
+        return _.capitalize(props.mode) + ` address id: ${props.address.id}`;
+    } else {
+        return _.capitalize(props.mode) + ' new address';
+    }
+});
+
 const emit = defineEmits(['update:address', 'submit', 'destroy']);
 
 const update = () => {
@@ -399,8 +410,6 @@ const destroy = () => {
 //  * This contains the whole el-form. Needed for the validation.
 //  */
 //  const ruleFormRef = ref()
-
-
 
 // /**
 //  * The validation rules for the form.

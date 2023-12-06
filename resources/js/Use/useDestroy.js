@@ -1,6 +1,13 @@
 import { router } from '@inertiajs/vue3';
 
-export function useDestroy(warningMessage, url, id, modelName, propNameForPageReload) {
+export function useDestroy(
+    warningMessage, 
+    url, 
+    id, 
+    modelName, 
+    propNameForPageReload = null,
+    reRoutingUrl = null
+) {
 
     // Asks for confirmation message, for deleting the address.
     ElMessageBox.confirm(
@@ -23,7 +30,12 @@ export function useDestroy(warningMessage, url, id, modelName, propNameForPageRe
                         message: `${modelName} deleted successfully`,
                         type: 'success',
                     });
-                    router.reload({ only: [propNameForPageReload] })
+
+                    //If we want to just refresh the current page
+                    if(propNameForPageReload) {
+                        router.reload({ only: [propNameForPageReload] })
+                    }
+                    
                 },
                 onError: (errors) => {
                     console.log('useDestroy onError triggered')
@@ -32,7 +44,15 @@ export function useDestroy(warningMessage, url, id, modelName, propNameForPageRe
                 }
             }
         );
+
+        //rerouting to the listing/index page, when all is done.
+        if(reRoutingUrl) {
+            console.log('reRoutingUrl: ', reRoutingUrl)
+            router.push(reRoutingUrl)
+        }
+
     })
+    
     .catch(() => {
         //If the deleting wish is canceled, then we show a message.
         ElMessage({

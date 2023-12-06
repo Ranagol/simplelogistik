@@ -81,6 +81,7 @@ const props = defineProps({
     errors: Object,
 });
 
+//for developing and testing purposes
 const dummyAddress = {
     first_name: 'Random text',
     last_name: 'Random text',
@@ -97,6 +98,7 @@ const dummyAddress = {
     forwarder_id: 1,
 };
 
+//for developing and testing purposes
 const emptyAddress = {
     first_name: null,
     last_name: null,
@@ -124,7 +126,8 @@ const data = reactive({
 const submit = () => {
     console.log('submit');
     if (props.mode === 'edit') {
-        useEdit(//edits the address
+        //edits the address
+        useEdit(
             'addresses', 
             data.addressData.id,
             data.addressData,
@@ -133,7 +136,8 @@ const submit = () => {
         );
 
     } else {
-        useCreate(//creates the address
+        //creates the address
+        useCreate(
             'addresses', 
             data.addressData,
             'address',
@@ -144,12 +148,14 @@ const submit = () => {
 
 const destroy = () => {
     console.log('destroy');
+    //deletes the address
     useDestroy(
         `Address will be deleted. Continue?`,
         'addresses', 
         data.addressData.id,
         'address',
-        'record'
+        null,
+        'addresses'
     );
 }
 
