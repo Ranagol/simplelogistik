@@ -166,11 +166,12 @@
                     ></el-option>
                 </el-select>
                     
-                    <div
-                        v-if="props.errors.customer_type"
-                        v-text="props.errors.customer_type"
-                        class="text-red-500 text-xs mt-1"
-                    ></div>
+                <div
+                    v-if="props.errors.customer_type"
+                    v-text="props.errors.customer_type"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+
             </el-form-item>
 
             <el-form-item

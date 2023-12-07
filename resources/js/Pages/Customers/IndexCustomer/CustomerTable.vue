@@ -5,6 +5,7 @@
         @sort-change="sort"
         ref="multipleTableRef"
         stripe
+        fit
         highlight-current-row
         empty-text="No result. Try with different search parameters."
         class="mt-2"
@@ -14,12 +15,14 @@
             label='Id'
             prop='id'
             sortable='custom'
+            width="80px"
         />
 
         <el-table-column
             label='C. number'
             prop='internal_cid'
             sortable='custom'
+            width="150px"
         >
             <template #default="scope">
                 <Link
@@ -33,24 +36,34 @@
             label='Company'
             prop='company_name'
             sortable='custom'
+            width="300"
         />
             
+        <el-table-column
+            label='Cust. type'
+            prop='customer_type'
+            sortable='custom'
+            width="200px"
+        />
 
         <el-table-column
             label="First name"
             prop="first_name"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="Last name"
             prop="last_name"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="Address"
             sortable="custom"
+            width="250px"
         >
             <template #default="scope">
                 {{ scope.row.contact_addresses[0]?.street }} 
@@ -61,6 +74,7 @@
         <el-table-column
             label="Zip code"
             sortable="custom"
+            width="150px"
         >
             <template #default="scope">
                 {{ scope.row.contact_addresses[0]?.zip_code }}
@@ -70,6 +84,7 @@
         <el-table-column
             label="City"
             sortable="custom"
+            width="150px"
         >
             <template #default="scope">
                 {{ scope.row.contact_addresses[0]?.city }}
@@ -80,18 +95,21 @@
             label="Email"
             prop="email"
             sortable="custom"
+            width="250px"
         />
 
         <el-table-column
             label="Tax number"
             prop="tax_number"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="Registration date"
             prop="created_at"
             sortable="custom"
+            width="250px"
         >
             <template #default="scope">
                 {{ formatDate(scope.row.created_at) }}

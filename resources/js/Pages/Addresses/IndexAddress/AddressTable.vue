@@ -20,18 +20,21 @@
             label="First name"
             prop="first_name"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="Last name"
             prop="last_name"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="Address type"
             prop="address_type"
             sortable="custom"
+            width="200px"
         >
             <template #default="scope">
                 <Link
@@ -45,60 +48,69 @@
             label="Street"
             prop="street"
             sortable="custom"
+            width="250px"
         />
 
         <el-table-column
             label="House number"
             prop="house_number"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="Zip code"
             prop="zip_code"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="City"
             prop="city"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="Country"
             prop="country"
             sortable="custom"
+            width="250px"
         />
 
         <el-table-column
             label="State"
             prop="state"
             sortable="custom"
+            width="150px"
         />
 
-        <el-table-column
+        <!-- <el-table-column
             label="Type of address"
             prop="type_of_address"
             sortable="custom"
-        />
+        /> -->
 
         <el-table-column
             label="Comment"
             prop="comment"
             sortable="custom" 
+            width="300px"
         />
 
         <el-table-column
             label="Cust. id"
             prop="customer_id"
             sortable="custom"
+            width="150px"
         />
 
         <el-table-column
             label="Forwarder id"
             prop="forwarder_id"
             sortable="custom"
+            width="150px"
         />
     </el-table> 
 </template>

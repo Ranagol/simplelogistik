@@ -32,12 +32,12 @@ class TmsAddressRequest extends FormRequest
             'city' => 'required|string|max:100',
             'country' => 'required|string|max:100',
             'state' => 'nullable|string|max:100',
-            // 'type_of_address' => 'nullable|string|max:255',
+            // 'type_of_address' => 'nullable|string|max:255',//this is not needed, we have address_type
             'comment' => 'nullable|string|max:255',
-            'customer_id' => 'nullable|integer',
-            'forwarder_id' => 'nullable|integer',
+            // 'customer_id' => 'nullable|integer',
+            // 'forwarder_id' => 'nullable|integer',
+            'customer_id' => 'nullable|integer|exists:tms_customers,id',
+            'forwarder_id' => 'nullable|integer|exists:tms_forwarders,id',
         ];
-        // 'customer_id' => 'nullable|integer|exists:tms_customers,id',
-        // 'forwarder_id' => 'nullable|integer|exists:tms_forwarders,id',
     }
 }
