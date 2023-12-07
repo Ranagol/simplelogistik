@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Builder;
 class TmsCustomer extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    // use SoftDeletes;//I turned off soft delete, because it is confusing during development and testing.
 
     protected $guarded = ['id'];
     protected $table = "tms_customers";

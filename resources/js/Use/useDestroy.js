@@ -57,13 +57,11 @@ export function useDestroy(
                      * Example: http://localhost/addresses
                      */
                     if(reRoutingUrl) {
-                        console.log('reRoutingUrl: ', reRoutingUrl)
                         router.visit(reRoutingUrl, { method: 'get' });
                     }
                     
                 },
                 onError: (errors) => {
-                    console.log('useDestroy onError triggered')
                     ElMessage.error('Oops, something went wrong while deleting a address.')
                     ElMessage(errors);
                 }

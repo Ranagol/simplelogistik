@@ -154,7 +154,6 @@ const emptyCustomer = {
 
 
 const submit = () => {
-    console.log('submit from CreateEditBase.vue');
     if (props.mode === 'edit') {
         //edits the customer
         useEdit(

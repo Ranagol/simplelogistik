@@ -14,32 +14,28 @@ export function useCreate(url, newObject, modelName, propNameForPageReload, reRo
         newObject,
         {
             onSuccess: (testing) => {
-                console.log('useCreate onSuccess triggered')
-                console.log('testing:', testing)
                 ElMessage({
                     message: `${modelName} created successfully`,
                     type: 'success',
                 });
                 
-                // /**
-                //      * If we want to just refresh the current page.
-                //      */
-                // if(propNameForPageReload) {
-                //     router.reload({ only: [propNameForPageReload] })
-                // }
+                /**
+                     * If we want to just refresh the current page.
+                     */
+                if(propNameForPageReload) {
+                    router.reload({ only: [propNameForPageReload] })
+                }
                 
-                // /**
-                //  * rerouting to the listing/index page, when all is done. This is a full redirect.
-                //  * However, here we must use an absolute url, because we are redirecting to a new domain.
-                //  * Example: http://localhost/addresses
-                //  */
-                // if(reRoutingUrl) {
-                //     console.log('reRoutingUrl: ', reRoutingUrl)
-                //     router.visit(reRoutingUrl, { method: 'get' });
-                // }
+                /**
+                 * rerouting to the listing/index page, when all is done. This is a full redirect.
+                 * However, here we must use an absolute url, because we are redirecting to a new domain.
+                 * Example: http://localhost/addresses
+                 */
+                if(reRoutingUrl) {
+                    router.visit(reRoutingUrl, { method: 'get' });
+                }
             },
             onError: (errors) => {
-                console.log('useCreate onError triggered')
                 ElMessage.error('Oops, something went wrong while creating a address.')
                 ElMessage(errors);
             }

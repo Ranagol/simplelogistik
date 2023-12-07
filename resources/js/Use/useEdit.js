@@ -17,7 +17,6 @@ export function useEdit(url, id, editableObject, modelName, propNameForPageReloa
         editableObject,
         {
             onSuccess: () => {
-                console.log('useEdit onSuccess triggered')
                 ElMessage({
                     message: `${modelName} edited successfully`,
                     type: 'success',
@@ -25,7 +24,6 @@ export function useEdit(url, id, editableObject, modelName, propNameForPageReloa
                 router.reload({ only: [propNameForPageReload] })
             },
             onError: (errors) => {
-                console.log('useEdit onError triggered')
                 ElMessage.error('Oops, something went wrong while editing a address.')
                 ElMessage(errors);
             }

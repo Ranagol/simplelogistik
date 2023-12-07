@@ -25,7 +25,10 @@
             <IndividualTab
                 v-model="data.customer"
                 :errors="props.errors"
+                :mode="props.mode"
                 :selectOptions="props.selectOptions"
+                @submit="submit"
+                @destroy="destroy"
             >
             </IndividualTab>
         </el-tab-pane>
@@ -142,7 +145,7 @@ const emit = defineEmits(['submit', 'update:customer', 'destroy']);
 watch(
     () => data.customer, 
     (newValue, oldValue) => {
-        console.log('data.customer changed', newValue, oldValue);
+        // console.log('data.customer changed', newValue, oldValue);
         emit('update:customer', newValue);
     },
     { deep: true }
@@ -150,11 +153,9 @@ watch(
 
 const submit = () => {
     emit('submit');
-    console.log('submit() from Tabs.vue');
 }  
 
 const destroy = () => {
-    console.log('destroy');
     emit('destroy');
 }
 
