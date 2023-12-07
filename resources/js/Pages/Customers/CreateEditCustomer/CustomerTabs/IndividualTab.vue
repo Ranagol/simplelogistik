@@ -35,6 +35,7 @@
 
         </div>
 
+        <!-- THE FORM -->
         <div>
             <el-form-item
                 label="Auto book as private"
@@ -147,7 +148,6 @@
             </el-form-item>
 
             <!-- EL-SELECT FIELDS START HERE -->
-
             <el-form-item
                 label="Customer type"
                 prop="customer_type"
@@ -167,8 +167,8 @@
                 </el-select>
                     
                     <div
-                        v-if="props.errors.address_type"
-                        v-text="props.errors.address_type"
+                        v-if="props.errors.customer_type"
+                        v-text="props.errors.customer_type"
                         class="text-red-500 text-xs mt-1"
                     ></div>
             </el-form-item>
@@ -192,8 +192,8 @@
                 </el-select>
                     
                     <div
-                        v-if="props.errors.address_type"
-                        v-text="props.errors.address_type"
+                        v-if="props.errors.invoice_dispatch"
+                        v-text="props.errors.invoice_dispatch"
                         class="text-red-500 text-xs mt-1"
                     ></div>
             </el-form-item>
@@ -217,8 +217,8 @@
                 </el-select>
                     
                     <div
-                        v-if="props.errors.address_type"
-                        v-text="props.errors.address_type"
+                        v-if="props.errors.invoice_shipping_method"
+                        v-text="props.errors.invoice_shipping_method"
                         class="text-red-500 text-xs mt-1"
                     ></div>
             </el-form-item>
@@ -242,8 +242,8 @@
                 </el-select>
                     
                     <div
-                        v-if="props.errors.address_type"
-                        v-text="props.errors.address_type"
+                        v-if="props.errors.payment_method"
+                        v-text="props.errors.payment_method"
                         class="text-red-500 text-xs mt-1"
                     ></div>
             </el-form-item>

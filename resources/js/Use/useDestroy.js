@@ -38,7 +38,6 @@ export function useDestroy(
             `/${url}/${id}`, 
             {
                 onSuccess: () => {
-                    console.log('useDestroy onSuccess triggered')
                     ElMessage({
                         message: `${modelName} deleted successfully`,
                         type: 'success',

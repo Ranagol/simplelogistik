@@ -177,7 +177,6 @@ const submit = () => {
 }
 
 const destroy = () => {
-    console.log('destroy');
     //deletes the customer
     useDestroy(
         `Customer will be deleted. Continue?`,
