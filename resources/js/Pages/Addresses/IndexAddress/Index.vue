@@ -24,7 +24,7 @@
         <AddressTable
             v-model:sortColumn="data.sortColumn"
             v-model:sortOrder="data.sortOrder"
-            :customers="data.addresses"
+            :addresses="data.addresses"
             @getData="getData"
         />
 

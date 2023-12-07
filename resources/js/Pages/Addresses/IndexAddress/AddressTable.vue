@@ -1,6 +1,6 @@
 <template>
     <el-table
-        :data="props.customers"
+        :data="props.addresses"
         style="width: 100%"
         @sort-change="sort"
         ref="multipleTableRef"
@@ -123,7 +123,7 @@ import moment from 'moment';
 const emit = defineEmits(['getData', 'update:sortOrder', 'update:sortColumn']);
 
 const props = defineProps({
-    customers: Array,
+    addresses: Array,
     sortColumn: String,
     sortOrder: String,
 });
@@ -146,7 +146,7 @@ const sort = ( { prop, order }) => {
     }
     //Setting the sort column in data()
     emit('update:sortColumn', prop);
-    //Sending a signal to Index.vue to get the customers by the new sort order
+    //Sending a signal to Index.vue to get the addresses by the new sort order
     emit('getData');
 };
 

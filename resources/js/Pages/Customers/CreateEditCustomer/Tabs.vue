@@ -45,7 +45,7 @@
         </el-tab-pane>
 
         <!-- CONTACTS -->
-        <!-- <el-tab-pane
+        <el-tab-pane
             label="Contacts"
         >
             <ContactsTab
@@ -53,10 +53,10 @@
                 :errors="props.errors"
             >   
             </ContactsTab>
-        </el-tab-pane> -->
+        </el-tab-pane>
 
         <!-- ORDERS -->
-        <!-- <el-tab-pane
+        <el-tab-pane
             label="Orders"
         >
             <OrdersTab
@@ -64,10 +64,10 @@
                 :errors="props.errors"
             >
             </OrdersTab>
-        </el-tab-pane> -->
+        </el-tab-pane>
 
         <!-- OFFERS -->
-        <!-- <el-tab-pane
+        <el-tab-pane
             label="Offers"
         >
             <OffersTab
@@ -75,7 +75,7 @@
                 :errors="props.errors"
             >    
             </OffersTab>    
-        </el-tab-pane> -->
+        </el-tab-pane>
 
         
 
