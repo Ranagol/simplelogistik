@@ -141,6 +141,37 @@ class TmsCustomerController extends BaseController
         );
     }
 
+    public function addComment(Request $request, TmsCustomer $customer)
+    {
+        //comment validation
+        $request->validate([
+            'comment' => 'required|string|max:500',
+        ]);
+
+        //Get the logged in user
+        $user = auth()->user();
+
+        //Get the current date in this format 2023-12-04 14:01:26
+        $date = date('Y-m-d H:i:s');
+
+        //Getting the currently existing comments
+        $comments = $customer->comments;
+
+        //Formating the new comment that we want to add to the existing comments
+        $comments[] = [
+            'user_name' => $user->name,
+            'comment' => $request->comment,
+            'date' => $date,
+        ];
+
+        //Updating the comments column in the customers table
+        $customer->update([
+            'comments' => $comments,
+        ]);
+
+        return redirect()->back();
+    }
+
     
 
     /**

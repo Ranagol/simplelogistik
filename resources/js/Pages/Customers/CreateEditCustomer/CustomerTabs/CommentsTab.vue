@@ -10,13 +10,23 @@
         show-word-limit
     />
 
+    <!-- BACKEND VALIDATION ERROR DISPLAY -->
+    <div
+        v-if="props.errors.comments"
+        v-text="props.errors.comments"
+        class="text-red-500 text-xs mt-1"
+    ></div>
+
     <el-button
         type="primary"
         @click="submit"
         class="mt-3"
     >Create comment</el-button>
 
-    <!-- {{ customer.comments }} -->
+    <div
+        v-if="props.customer.comments"
+    >{{ customer.comments }}</div>
+    
 
 
 </template>
@@ -30,6 +40,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+
+    errors: {
+        type: Object,
+    },
 });
 
 let data = reactive({
@@ -42,7 +56,9 @@ const submit = () => {
     router.patch(
         `/customers/${props.customer.id}/comments/create`,
         // "/customers",
-        data.comment,
+        {
+            comment: data.comment,
+        },
         {
             onSuccess: () => {
                 console.log('success');

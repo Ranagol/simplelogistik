@@ -10,6 +10,7 @@
         >
             <CommentsTab
                 :customer="data.customer"
+                :errors="props.errors"
             />
             
         </el-tab-pane>
