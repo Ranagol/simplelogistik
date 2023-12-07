@@ -21,10 +21,10 @@ const props = defineProps({
         required: true,
     },
 
-    mode: {
-        type: String,
-        required: true,
-    },
+    // mode: {
+    //     type: String,
+    //     required: true,
+    // },
 
     headerText: {
         type: String,

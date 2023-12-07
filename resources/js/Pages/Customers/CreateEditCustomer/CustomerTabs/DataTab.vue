@@ -1,275 +1,314 @@
 <template>
-    <slot name="buttonSubmitTab"></slot>
+    <!-- <slot name="buttonSubmitTab"></slot> -->
 
     <!-- {{ data.customer }} -->
     <!-- <pre>{{ JSON.stringify(data.customer, null, 2) }}</pre> -->
 
+    <!-- :rules="rules" -->
     <el-form
         ref="ruleFormRef"
         :model="data.customer"
         label-position="left"
-        :rules="rules"
+        
         label-width="150px"
     >
-        <el-form-item
-            label="Company name"
-            prop="company_name"
-            width="100px"
-        >
-            <el-input
-                v-model="data.customer.company_name"
-                placeholder="Company name"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
+        <!-- HEADER -->
+        <div class="flex flex-row mb-2 justify-between">
+            
+            <!-- ADDRESS HEADER WITH BASIC ADDRESS DATA -->
+            <Header
+                :record="data.customer"
+                :mode="props.mode"
+                :headerText="headerText"
             />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.company_name"
-                v-text="props.errors.company_name"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <el-form-item
-            label="First name"
-            prop="first_name"
-        >
-            <el-input
-                v-model="data.customer.first_name"
-                placeholder="First name"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.name"
-                v-text="props.errors.name"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <el-form-item
-            label="Last name"
-            prop="last_name"
-        >
-            <el-input
-                v-model="data.customer.last_name"
-                placeholder="Last name"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.name"
-                v-text="props.errors.name"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <!-- ***************************** -->
-
-        <!-- This here is not editable, it is only for displaying. Now, this street may or may not
-            exist. So this column we handle with computed. Since this is not validated, also there
-            is no props in el-form-item. 
-         -->
-        <el-form-item
-            label="Street"
-        >
-            <el-input
-                :model-value="street"
-                disabled
-                placeholder="Street"
-                type="text"
-            />
-
-        </el-form-item>
-
-        <!-- This here is not editable, it is only for displaying. Now, this street may or may not
-            exist. So this column we handle with computed. Since this is not validated, also there
-            is no props in el-form-item. 
-         -->
-         <el-form-item
-            label="House number"
-        >
-            <el-input
-                :model-value="houseNumber"
-                disabled
-                placeholder="House number"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-        </el-form-item>
-
-        <!-- This here is not editable, it is only for displaying. Now, this street may or may not
-            exist. So this column we handle with computed. Since this is not validated, also there
-            is no props in el-form-item. 
-         -->
-         <el-form-item
-            label="Zip code"
-        >
-            <el-input
-                :model-value="zipCode"
-                disabled
-                placeholder="Zip code"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-        </el-form-item>
-
-        <!-- This here is not editable, it is only for displaying. Now, this street may or may not
-            exist. So this column we handle with computed. Since this is not validated, also there
-            is no props in el-form-item. 
-         -->
-         <el-form-item
-            label="City"
-        >
-            <el-input
-                :model-value="city"
-                disabled
-                placeholder="City"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-        </el-form-item>
+            
+            <!-- SUBMIT BUTTON -->
+            <el-form-item>
+                <el-button
+                    @click="submit"
+                    type="primary"
+                    name="button"
+                >Submit</el-button>
+            </el-form-item>
 
 
+            <!-- DELETE BUTTON -->
+            <el-form-item
+                v-if="props.mode === 'edit'"
+            >
+                <el-button
+                    @click="destroy"
+                    type="danger"
+                    name="button"
+                >Delete</el-button>
+            </el-form-item>
 
-        <!-- ************************* -->
+        </div>
 
-        <el-form-item
-            label="Email"
-            prop="email"
-        >
-            <el-input
-                v-model="data.customer.email"
-                placeholder="Email"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
+        <div>
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.email"
-                v-text="props.errors.email"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
+            
+            <el-form-item
+                label="Company name"
+                prop="company_name"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.customer.company_name"
+                    placeholder="Company name"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
 
-        <el-form-item
-            label="Rating"
-            prop="rating"
-        >
-            <el-input
-                v-model="data.customer.rating"
-                placeholder="Rating"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.rating"
-                v-text="props.errors.rating"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="props.errors.company_name"
+                    v-text="props.errors.company_name"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+            </el-form-item>
 
-        <el-form-item
-            label="Tax number"
-            prop="tax_number"
-        >
-            <el-input
-                v-model="data.customer.tax_number"
-                placeholder="Tax number"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.tax_number"
-                v-text="props.errors.tax_number"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
+            <el-form-item
+                label="First name"
+                prop="first_name"
+            >
+                <el-input
+                    v-model="data.customer.first_name"
+                    placeholder="First name"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
 
-        <el-form-item
-            label="Customer number"
-            prop="internal_cid"
-        >
-            <el-input
-                v-model="data.customer.internal_cid"
-                placeholder="Customer number"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.internal_cid"
-                v-text="props.errors.internal_cid"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="props.errors.name"
+                    v-text="props.errors.name"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+            </el-form-item>
+
+            <el-form-item
+                label="Last name"
+                prop="last_name"
+            >
+                <el-input
+                    v-model="data.customer.last_name"
+                    placeholder="Last name"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="props.errors.name"
+                    v-text="props.errors.name"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+            </el-form-item>
+
+            <!-- ***************************** -->
+
+            <!-- This here is not editable, it is only for displaying. Now, this street may or may not
+                exist. So this column we handle with computed. Since this is not validated, also there
+                is no props in el-form-item. 
+            -->
+            <el-form-item
+                label="Street"
+            >
+                <el-input
+                    :model-value="street"
+                    disabled
+                    placeholder="Street"
+                    type="text"
+                />
+
+            </el-form-item>
+
+            <!-- This here is not editable, it is only for displaying. Now, this street may or may not
+                exist. So this column we handle with computed. Since this is not validated, also there
+                is no props in el-form-item. 
+            -->
+            <el-form-item
+                label="House number"
+            >
+                <el-input
+                    :model-value="houseNumber"
+                    disabled
+                    placeholder="House number"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+            </el-form-item>
+
+            <!-- This here is not editable, it is only for displaying. Now, this street may or may not
+                exist. So this column we handle with computed. Since this is not validated, also there
+                is no props in el-form-item. 
+            -->
+            <el-form-item
+                label="Zip code"
+            >
+                <el-input
+                    :model-value="zipCode"
+                    disabled
+                    placeholder="Zip code"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+            </el-form-item>
+
+            <!-- This here is not editable, it is only for displaying. Now, this street may or may not
+                exist. So this column we handle with computed. Since this is not validated, also there
+                is no props in el-form-item. 
+            -->
+            <el-form-item
+                label="City"
+            >
+                <el-input
+                    :model-value="city"
+                    disabled
+                    placeholder="City"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+            </el-form-item>
+
+
+
+            <!-- ************************* -->
+
+            <el-form-item
+                label="Email"
+                prop="email"
+            >
+                <el-input
+                    v-model="data.customer.email"
+                    placeholder="Email"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="props.errors.email"
+                    v-text="props.errors.email"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+            </el-form-item>
+
+            <el-form-item
+                label="Rating"
+                prop="rating"
+            >
+                <el-input
+                    v-model="data.customer.rating"
+                    placeholder="Rating"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="props.errors.rating"
+                    v-text="props.errors.rating"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+            </el-form-item>
+
+            <el-form-item
+                label="Tax number"
+                prop="tax_number"
+            >
+                <el-input
+                    v-model="data.customer.tax_number"
+                    placeholder="Tax number"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="props.errors.tax_number"
+                    v-text="props.errors.tax_number"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+            </el-form-item>
+
+            <el-form-item
+                label="Customer number"
+                prop="internal_cid"
+            >
+                <el-input
+                    v-model="data.customer.internal_cid"
+                    placeholder="Customer number"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+                <!-- BACKEND VALIDATION ERROR DISPLAY -->
+                <div
+                    v-if="props.errors.internal_cid"
+                    v-text="props.errors.internal_cid"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+            </el-form-item>
+        </div>
     </el-form>
 </template>
 
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import _ from 'lodash';
+import Header from '@/Shared/Crud/Header.vue';
 
 let props = defineProps({
     modelValue: {
@@ -290,7 +329,8 @@ let data = reactive({
 
 /**
  * Customers may or may not have address related data (street, city, country, etc). So we need
- * to use computed for this. 
+ * to use computed for this. That is because customers actually do not have address, we pull in
+ * address data from address table, with relationship. So address here needs special treatment.
  * You can use the _.get function from Lodash to safely access nested properties. This function 
  * allows you to provide a path to the property you want to access and a default value to return if 
  * any part of the path is undefined.
@@ -329,6 +369,20 @@ let city = computed(() => {
     return '';
 });
 
+/**
+ * Generates header text for the Header component.
+ */
+const headerText = computed(() => {
+
+    return 'Random hardcoded title';
+//_.get() returns undefined if the path doesn't exist. Which is faulty.
+// if (props.mode === 'edit' && _.get(props.customer, 'id')) {
+//     return _.capitalize(props.mode) + ` customer id: ${props.customer.id}`;
+// } else {
+//     return _.capitalize(props.mode) + ' new customer';
+// }
+});
+
 
 
 /**
@@ -336,8 +390,17 @@ let city = computed(() => {
  * v-model magic. This is not sending a signal for saving the customer! Just the data.customer.
  */
 const emit = defineEmits(['update:modelValue']);
-function handleChange(){
+
+/**
+ * Here we only update the parent's customer, using v-model magic. This is not sending a signal.
+ */
+const update = () =>{
     emit('update:modelValue', data.customer);
+}
+
+const submit = () => {
+    console.log('submit');
+    // emit('submit', data.customer);
 }
 
 

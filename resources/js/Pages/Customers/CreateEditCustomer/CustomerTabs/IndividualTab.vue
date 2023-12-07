@@ -1,11 +1,12 @@
 <template>
     <slot name="buttonSubmitTab"></slot>
     
+    <!-- :rules="rules" -->
     <el-form
         ref="ruleFormRef"
         :model="data.customer"
         label-position="left"
-        :rules="rules"
+        
         label-width="150px"
     >
         <el-form-item

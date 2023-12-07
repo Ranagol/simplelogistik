@@ -40,7 +40,7 @@ const props = defineProps({
             first_name: "John",
             last_name: "Doe",
             company_name: "Belladonna",
-            email: 'bla@gmail.com',
+            email: 'thisEmailMustBeUniqAddANumber@gmail.com',
             tax_number: 'random text',
             rating: 5,
             auto_book_as_private: true,

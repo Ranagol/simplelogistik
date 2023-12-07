@@ -1,11 +1,5 @@
 <template>
 
-    <!-- <Header
-        :record="data.customer"
-        :mode="props.mode"
-        :headerText="headerText"
-    /> -->
-
     <el-tabs
         type="border-card"
         stretch
@@ -18,76 +12,7 @@
                 v-model="data.customer"
                 :errors="props.errors"
             >
-                <template #buttonSubmitTab>
-                    <ButtonSubmitTab
-                        @submit="submit"
-                    />
-                </template>
             </DataTab>
-        </el-tab-pane>
-
-        <!-- ADDRESSES -->
-        <el-tab-pane
-            label="Addresses"
-        >
-            <AddressesTab
-                v-model="data.customer"
-                :errors="props.errors"
-            >
-                <template #buttonSubmitTab>
-                    <ButtonSubmitTab
-                        @submit="submit"
-                    />
-                </template>
-            </AddressesTab>
-        </el-tab-pane>
-
-        <!-- CONTACTS -->
-        <el-tab-pane
-            label="Contacts"
-        >
-            <ContactsTab
-                v-model="data.customer"
-                :errors="props.errors"
-            >   
-                <template #buttonSubmitTab>
-                    <ButtonSubmitTab
-                        @submit="submit"
-                    />
-                </template>
-            </ContactsTab>
-        </el-tab-pane>
-
-        <!-- ORDERS -->
-        <el-tab-pane
-            label="Orders"
-        >
-            <OrdersTab
-                v-model="data.customer"
-                :errors="props.errors"
-            >
-                <template #buttonSubmitTab>
-                    <ButtonSubmitTab
-                        @submit="submit"
-                    />
-                </template>
-            </OrdersTab>
-        </el-tab-pane>
-
-        <!-- OFFERS -->
-        <el-tab-pane
-            label="Offers"
-        >
-            <OffersTab
-                v-model="data.customer"
-                :errors="props.errors"
-            >
-                <template #buttonSubmitTab>
-                    <ButtonSubmitTab
-                        @submit="submit"
-                    />
-                </template>    
-            </OffersTab>    
         </el-tab-pane>
 
         <!-- INDIVIDUAL SETTINGS -->
@@ -98,13 +23,55 @@
                 v-model="data.customer"
                 :errors="props.errors"
             >
-                <template #buttonSubmitTab>
-                    <ButtonSubmitTab
-                        @submit="submit"
-                    />
-                </template>
             </IndividualTab>
         </el-tab-pane>
+
+        <!-- ADDRESSES -->
+        <el-tab-pane
+            label="Addresses"
+        >
+            <AddressesTab
+                v-model="data.customer"
+                :errors="props.errors"
+            >
+            </AddressesTab>
+        </el-tab-pane>
+
+        <!-- CONTACTS -->
+        <!-- <el-tab-pane
+            label="Contacts"
+        >
+            <ContactsTab
+                v-model="data.customer"
+                :errors="props.errors"
+            >   
+            </ContactsTab>
+        </el-tab-pane> -->
+
+        <!-- ORDERS -->
+        <!-- <el-tab-pane
+            label="Orders"
+        >
+            <OrdersTab
+                v-model="data.customer"
+                :errors="props.errors"
+            >
+            </OrdersTab>
+        </el-tab-pane> -->
+
+        <!-- OFFERS -->
+        <!-- <el-tab-pane
+            label="Offers"
+        >
+            <OffersTab
+                v-model="data.customer"
+                :errors="props.errors"
+            >    
+            </OffersTab>    
+        </el-tab-pane> -->
+
+        
+
     </el-tabs>
 
 </template>
@@ -119,7 +86,6 @@ import OffersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OffersT
 import IndividualTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/IndividualTab.vue';
 import ButtonSubmitTab from '@/Shared/ButtonSubmitTab.vue';
 import _ from 'lodash';
-
 
 const props = defineProps({
 
@@ -175,16 +141,7 @@ watch(
 
 
 
-const headerText = computed(() => {
 
-    return 'Random hardcoded title';
-    //_.get() returns undefined if the path doesn't exist. Which is faulty.
-    // if (props.mode === 'edit' && _.get(props.customer, 'id')) {
-    //     return _.capitalize(props.mode) + ` customer id: ${props.customer.id}`;
-    // } else {
-    //     return _.capitalize(props.mode) + ' new customer';
-    // }
-});
 
 
 
