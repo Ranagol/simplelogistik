@@ -25,6 +25,10 @@ class TmsCustomer extends Model
     // use SoftDeletes;//I turned off soft delete, because it is confusing during development and testing.
 
     protected $guarded = ['id'];
+    protected $fillable = [
+        'comments'
+    ];
+    
     protected $table = "tms_customers";
 
     /**
@@ -34,6 +38,7 @@ class TmsCustomer extends Model
      * @var array
      */
     protected $casts = [
+        //booleans
         'auto_book_as_private' => 'boolean',
         'dangerous_goods' => 'boolean',
         'bussiness_customer' => 'boolean',
@@ -45,6 +50,8 @@ class TmsCustomer extends Model
         'invoice_customer' => 'boolean',
         'poor_payment_morale' => 'boolean',
         'can_login' => 'boolean',
+        //json data
+        'comments' => 'array',
     ];
 
     //*************RELATIONSHIPS*************************************** */

@@ -4,6 +4,18 @@
         type="border-card"
         stretch
     >
+        <!-- COMMENTS -->
+        <el-tab-pane
+            label="Comments"
+        >
+            <CommentsTab
+                :customer="data.customer"
+            />
+            
+        </el-tab-pane>
+
+
+
         <!-- CUSTOMER GENERAL DATA -->
         <el-tab-pane
             label="General customer data"
@@ -91,6 +103,7 @@ import ContactsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/Conta
 import OrdersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OrdersTab.vue';
 import OffersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OffersTab.vue';
 import IndividualTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/IndividualTab.vue';
+import CommentsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/CommentsTab.vue';
 import ButtonSubmitTab from '@/Shared/ButtonSubmitTab.vue';
 import _ from 'lodash';
 

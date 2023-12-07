@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', UserController::class);
     Route::resource('customers', TmsCustomerController::class);
-    Route::post('/customers-batch-delete', [TmsCustomerController::class, 'batchDelete'])->name('customers.batch.delete');
+    Route::patch('/customers/{customer}/comments/create', [TmsCustomerController::class, 'addComment'])->name('customers.comments.create');
     Route::resource('cargo-orders', TmsCargoOrderController::class);
     Route::resource('addresses', TmsAddressController::class);
     Route::post('/addresses-batch-delete', [TmsAddressController::class, 'batchDelete'])->name('addresses.batch.delete');
