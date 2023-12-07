@@ -9,6 +9,7 @@
             v-model:customer="data.customerData"
             :errors="errorsComputed"
             :mode="props.mode"
+            :selectOptions="props.selectOptions"
             @submit="submit"
             @destroy="destroy"
         />
@@ -18,7 +19,6 @@
 
 <script setup>
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
-
 import Card from '@/Shared/Card.vue';
 import { router } from '@inertiajs/vue3'
 import { useEdit } from '@/Use/useEdit';
@@ -26,7 +26,6 @@ import { useCreate } from '@/Use/useCreate';
 import { useDestroy } from '@/Use/useDestroy';
 import _ from 'lodash';
 import Tabs from '@/Pages/Customers/CreateEditCustomer/Tabs.vue';
-
 
 const props = defineProps({
 
@@ -61,6 +60,12 @@ const props = defineProps({
             payment_method: "PayPal"
         })
     },
+
+    /**
+     * These are the possibly selectable options for the el-select in customer create or edit form.
+     * The options are fetched from the backend.
+     */
+    selectOptions: Object,
 
     /**
      * mode is either 'create' or 'edit'. This is decided in the controller. This component will
@@ -167,7 +172,7 @@ const submit = () => {
             data.customerData,
             'customer',
             null,
-            'http://localhost/customers'
+            null
         );
     }
 }

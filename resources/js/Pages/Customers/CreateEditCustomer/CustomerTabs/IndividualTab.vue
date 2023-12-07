@@ -6,7 +6,6 @@
         ref="ruleFormRef"
         :model="data.customer"
         label-position="left"
-        
         label-width="150px"
     >
         <el-form-item
@@ -119,8 +118,107 @@
             />
         </el-form-item>
 
-        
+        <!-- EL-SELECT FIELDS START HERE -->
 
+        <el-form-item
+            label="Customer type"
+            prop="customer_type"
+            :label-width="data.labelWidth"
+        >
+            <el-select
+                v-model="data.customer.customer_type"
+                clearable
+                @change="update()"
+            >
+                <el-option
+                    v-for="(item, index) in props.selectOptions.customerTypes"
+                    :key="index"
+                    :label="item"
+                    :value="item"
+                ></el-option>
+            </el-select>
+                
+                <div
+                    v-if="props.errors.address_type"
+                    v-text="props.errors.address_type"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+        </el-form-item>
+
+        <el-form-item
+            label="Invoice dispatch"
+            prop="invoice_dispatch"
+            :label-width="data.labelWidth"
+        >
+            <el-select
+                v-model="data.customer.invoice_dispatch"
+                clearable
+                @change="update()"
+            >
+                <el-option
+                    v-for="(item, index) in props.selectOptions.invoiceDispatches"
+                    :key="index"
+                    :label="item"
+                    :value="item"
+                ></el-option>
+            </el-select>
+                
+                <div
+                    v-if="props.errors.address_type"
+                    v-text="props.errors.address_type"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+        </el-form-item>
+
+        <el-form-item
+            label="Invoice shipping method"
+            prop="invoice_shipping_method"
+            :label-width="data.labelWidth"
+        >
+            <el-select
+                v-model="data.customer.invoice_shipping_method"
+                clearable
+                @change="update()"
+            >
+                <el-option
+                    v-for="(item, index) in props.selectOptions.invoiceShippingMethods"
+                    :key="index"
+                    :label="item"
+                    :value="item"
+                ></el-option>
+            </el-select>
+                
+                <div
+                    v-if="props.errors.address_type"
+                    v-text="props.errors.address_type"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+        </el-form-item>
+
+        <el-form-item
+            label="Payment method"
+            prop="payment_method"
+            :label-width="data.labelWidth"
+        >
+            <el-select
+                v-model="data.customer.payment_method"
+                clearable
+                @change="update()"
+            >
+                <el-option
+                    v-for="(item, index) in props.selectOptions.paymentMethods"
+                    :key="index"
+                    :label="item"
+                    :value="item"
+                ></el-option>
+            </el-select>
+                
+                <div
+                    v-if="props.errors.address_type"
+                    v-text="props.errors.address_type"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+        </el-form-item>
 
     </el-form>
 </template>
@@ -129,29 +227,33 @@
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 
 
-// 'auto_book_as_private' => 'boolean',
-// 'dangerous_goods' => 'boolean',
-// 'bussiness_customer' => 'boolean',
-// 'debt_collection' => 'boolean',
-// 'direct_debit' => 'boolean',
-// 'manual_collective_invoicing' => 'boolean',
-// 'only_paypal_sofort_amazon_vorkasse' => 'boolean',
-// 'private_customer' => 'boolean',
-// 'invoice_customer' => 'boolean',
-// 'poor_payment_morale' => 'boolean',
-// 'can_login' => 'boolean',
 
 let props = defineProps({
+
+    // The customer object.
     modelValue: {
         type: Object,
         required: true
     },
+
+    // validation errors
     errors: Object,
+
+    /**
+     * These are the possibly selectable options for the el-select in customer create or edit form.
+     * The options are fetched from the backend.
+     */
+    selectOptions: Object,
 });
 
 let data = reactive({
     customer: props.modelValue,
-    labelWidth: '260px',// for the el-form-item label width
+
+    /**
+     * The label width for the el-form-item. This is used to make the label text and the input field
+     * aligned. The distance between the label and the input field.
+     */
+    labelWidth: '260px',
 });
 
 /**

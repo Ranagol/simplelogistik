@@ -11,6 +11,9 @@
             <DataTab
                 v-model="data.customer"
                 :errors="props.errors"
+                :mode="props.mode"
+                @submit="submit"
+                @destroy="destroy"
             >
             </DataTab>
         </el-tab-pane>
@@ -22,6 +25,7 @@
             <IndividualTab
                 v-model="data.customer"
                 :errors="props.errors"
+                :selectOptions="props.selectOptions"
             >
             </IndividualTab>
         </el-tab-pane>
@@ -110,6 +114,12 @@ const props = defineProps({
      * The errors object that is sent from the backend, and contains the validation errors.
      */
     errors: Object,
+
+    /**
+     * These are the possibly selectable options for the el-select in customer create or edit form.
+     * The options are fetched from the backend.
+     */
+    selectOptions: Object,
 });
 
 
@@ -121,7 +131,7 @@ const data = reactive({
     customer: props.customer
 });
 
-const emit = defineEmits(['submit', 'update:customer']);
+const emit = defineEmits(['submit', 'update:customer', 'destroy']);
 
 
 /**
@@ -137,6 +147,16 @@ watch(
     },
     { deep: true }
 );
+
+const submit = () => {
+    emit('submit');
+    console.log('submit() from Tabs.vue');
+}  
+
+const destroy = () => {
+    console.log('destroy');
+    emit('destroy');
+}
 
 
 
@@ -178,10 +198,7 @@ watch(
  * Does the frontend validation, and if it is OK, then calls the submit() function.
  */
 
-const submit = () => {
-    emit('submit');
-    console.log('submit() from Tabs.vue');
-}   
+ 
 
 // const submitForm = async (formEl) => {
 //     if (!formEl) return;

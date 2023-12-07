@@ -28,6 +28,34 @@ class TmsCustomerController extends BaseController
         return TmsCustomerRequest::class;
     }
 
+    /**
+     * Returns records.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function index(Request $request): Response
+    {
+        $searchTerm = $request->searchTerm;
+        $sortColumn = $request->sortColumn;
+        $sortOrder = $request->sortOrder;
+        //pagination stuff sent from front-end
+        $page = $request->page;
+        $newItemsPerPage = (int)$request->newItemsPerPage;
+        
+        $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+
+        return Inertia::render(
+            $this->vueIndexPath, 
+            [
+                'dataFromController' => $records,
+                'searchTermProp' => $searchTerm,
+                'sortColumnProp' => $sortColumn,
+                'sortOrderProp' => $sortOrder,
+            ]
+        );
+    }
+
     public function create(): Response
     {
         return Inertia::render(
@@ -35,6 +63,13 @@ class TmsCustomerController extends BaseController
             [
                 // 'record' => $record,
                 'mode' => 'create',
+                //These are the possibly selectable options for the el-select in customer create or edit form.
+                'selectOptions' => [
+                    'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
+                    'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
+                    'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
+                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                ]
             ]
         );
     }
@@ -80,34 +115,31 @@ class TmsCustomerController extends BaseController
     }
 
     /**
-     * Returns records.
+     * We have overwrittten this function from the parent, because we need here customers with
+     * contact addresses.
      *
-     * @param Request $request
+     * @param string $id
      * @return Response
      */
-    public function index(Request $request): Response
+    public function edit(string $id): Response
     {
-        $searchTerm = $request->searchTerm;
-        $sortColumn = $request->sortColumn;
-        $sortOrder = $request->sortOrder;
-        //pagination stuff sent from front-end
-        $page = $request->page;
-        $newItemsPerPage = (int)$request->newItemsPerPage;
-        
-        $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+        $record = $this->model::with('contactAddresses')->find($id);
 
         return Inertia::render(
-            $this->vueIndexPath, 
+            $this->vueCreateEditPath, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'record' => $record,
+                'mode' => 'edit',
+                //These are the possibly selectable options for the el-select in customer create or edit form.
+                'selectOptions' => [
+                    'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
+                    'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
+                    'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
+                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                ]
             ]
         );
     }
-
-    
 
     
 
@@ -171,25 +203,5 @@ class TmsCustomerController extends BaseController
 
             // dd($records);
         return $records;
-    }
-
-    /**
-     * We have overwrittten this function from the parent, because we need here customers with
-     * contact addresses.
-     *
-     * @param string $id
-     * @return Response
-     */
-    public function edit(string $id): Response
-    {
-        $record = $this->model::with('contactAddresses')->find($id);
-
-        return Inertia::render(
-            $this->vueCreateEditPath, 
-            [
-                'record' => $record,
-                'mode' => 'edit'
-            ]
-        );
     }
 }

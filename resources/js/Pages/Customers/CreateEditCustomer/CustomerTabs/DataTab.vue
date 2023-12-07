@@ -27,10 +27,8 @@
                 <el-button
                     @click="submit"
                     type="primary"
-                    name="button"
-                >Submit</el-button>
+                >Submit22</el-button>
             </el-form-item>
-
 
             <!-- DELETE BUTTON -->
             <el-form-item
@@ -39,15 +37,12 @@
                 <el-button
                     @click="destroy"
                     type="danger"
-                    name="button"
                 >Delete</el-button>
             </el-form-item>
 
         </div>
 
         <div>
-
-            
             <el-form-item
                 label="Company name"
                 prop="company_name"
@@ -311,6 +306,10 @@ import _ from 'lodash';
 import Header from '@/Shared/Crud/Header.vue';
 
 let props = defineProps({
+
+    /**
+     * The customer object.
+     */
     modelValue: {
         type: Object,
         required: true
@@ -320,6 +319,15 @@ let props = defineProps({
      * The errors object that is sent from the backend, and contains the validation errors.
      */
     errors: Object,
+
+    /**
+     * mode is either 'create' or 'edit'. This is decided in the controller. This component will
+     * behave differently depending on which mode is it.
+     */
+    mode: {
+        type: String,
+        required: true
+    },
 });
 
 let data = reactive({
@@ -389,7 +397,7 @@ const headerText = computed(() => {
  * This does the customer data synchronization with the parent CreateEditBase component. With
  * v-model magic. This is not sending a signal for saving the customer! Just the data.customer.
  */
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'submit', 'destroy']);
 
 /**
  * Here we only update the parent's customer, using v-model magic. This is not sending a signal.
@@ -400,7 +408,12 @@ const update = () =>{
 
 const submit = () => {
     console.log('submit');
-    // emit('submit', data.customer);
+    emit('submit');
+}
+
+const destroy = () => {
+    console.log('destroy');
+    emit('destroy');
 }
 
 

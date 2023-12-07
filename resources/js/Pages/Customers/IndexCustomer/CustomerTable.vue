@@ -14,14 +14,12 @@
             label='Id'
             prop='id'
             sortable='custom'
-            :width='data.w80'
         />
 
         <el-table-column
             label='C. number'
             prop='internal_cid'
             sortable='custom'
-            :width="data.w150"
         >
             <template #default="scope">
                 <Link
@@ -35,7 +33,6 @@
             label='Company'
             prop='company_name'
             sortable='custom'
-            :width="data.w400"
         />
             
 
@@ -43,32 +40,27 @@
             label="First name"
             prop="first_name"
             sortable="custom"
-            :width='data.w150'
-
         />
 
         <el-table-column
             label="Last name"
             prop="last_name"
             sortable="custom"
-            :width='data.w150'
         />
 
         <el-table-column
             label="Address"
             sortable="custom"
-            :width='data.w300'
         >
             <template #default="scope">
-                {{ scope.row.contact_addresses[0]?.street }} {{ scope.row.contact_addresses[0]?.house_number }}
+                {{ scope.row.contact_addresses[0]?.street }} 
+                {{ scope.row.contact_addresses[0]?.house_number }}
             </template>
         </el-table-column>
 
         <el-table-column
             label="Zip code"
             sortable="custom"
-            :width='w300'
-            min-width="250px"
         >
             <template #default="scope">
                 {{ scope.row.contact_addresses[0]?.zip_code }}
@@ -78,8 +70,6 @@
         <el-table-column
             label="City"
             sortable="custom"
-            :width='w400'
-            min-width="250px"
         >
             <template #default="scope">
                 {{ scope.row.contact_addresses[0]?.city }}
@@ -90,22 +80,18 @@
             label="Email"
             prop="email"
             sortable="custom"
-            width='250px'
-
         />
 
         <el-table-column
             label="Tax number"
             prop="tax_number"
             sortable="custom"
-            width='200px'
         />
 
         <el-table-column
             label="Registration date"
             prop="created_at"
             sortable="custom"
-            width='200px'
         >
             <template #default="scope">
                 {{ formatDate(scope.row.created_at) }}
@@ -127,14 +113,6 @@ const props = defineProps({
     customers: Array,
     sortColumn: String,
     sortOrder: String,
-});
-
-const data = reactive({
-    w80: '80px',
-    w150: '150px',
-    w250: '250px',
-    w300: '300px',
-    w400: '400px',
 });
 
 /**
