@@ -18,8 +18,8 @@
 
     <!-- BACKEND VALIDATION ERROR DISPLAY -->
     <div
-        v-if="props.errors.comment"
-        v-text="props.errors.comment"
+        v-if="data.errors.comment"
+        v-text="data.errors.comment"
         class="text-red-500 text-xs mt-1"
     ></div>
 
@@ -63,6 +63,7 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { router} from '@inertiajs/vue3';//for sending requests;
+import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     customer: {
@@ -81,15 +82,20 @@ watch(
     { deep: true }
 );
 
-let data = reactive({
+// let data = reactive({
+//     comment: '',
+//     customer: props.customer,
+// });
+
+const data = useForm({
     comment: '',
     customer: props.customer,
-});
+}); 
 
 const submit = () => {
     console.log('submit comment creating started');
 
-    router.patch(
+    data.patch(
         `/customers/${props.customer.id}/comments/create`,
         {
             comment: data.comment,
