@@ -169,8 +169,9 @@ class TmsCustomerController extends BaseController
             'comments' => $comments,
         ]);
 
+        // return redirect()->route('customers.edit', ['customer' => $customer->id]);
         //redirecting the user to the edit page, where he can see the newly added comment
-        return Inertia::location("http://localhost/customers/{$customer->id}/edit");
+        // return Inertia::location("http://localhost/customers/{$customer->id}/edit");//how to simply refresh the page instead of redirecting?
     }
 
     

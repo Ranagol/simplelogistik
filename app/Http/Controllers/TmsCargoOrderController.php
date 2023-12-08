@@ -59,13 +59,13 @@ class TmsCargoOrderController extends BaseController
          * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
          * TmsCustomerRequest.
          */
-        $request = app($this->getRequestClass());//
+        $request = app($this->getRequestClass());
         
         /**
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
-
+        dd($newRecord);
         /**
          * 1. Find the relevant record and...
          * 2. ...update it.

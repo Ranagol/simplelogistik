@@ -1,7 +1,7 @@
 <template>
     <el-form
         ref="ruleFormRef"
-        :model="data.cargoOrderData"
+        :model="form.cargoOrderData"
         label-position="left"
         :rules="rules"
         label-width="150px"
@@ -12,7 +12,7 @@
             
             <!-- ADDRESS HEADER WITH BASIC ADDRESS DATA -->
             <Header
-                :record="data.cargoOrderData"
+                :record="form.cargoOrderData"
                 :mode="props.mode"
                 :headerText="headerText"
             />
@@ -44,9 +44,21 @@
             prop="internal_oid"
         >
             <el-input
-                v-model="data.cargoOrderData.internal_oid"
+                v-model="form.cargoOrderData.internal_oid"
                 placeholder="Internal oid"
+                @input="update()"
+                @clear="update()"
+                @change="update()"
             ></el-input>
+
+            <!-- <BackendValidationErrorDisplay :errors="props.errors.internal_oid" /> -->
+
+            <div
+                v-if="props.errors.internal_oid"
+                v-text="props.errors.internal_oid"
+                class="text-red-500 text-xs mt-1"
+            ></div>
+
         </el-form-item>
 
         <!-- CUSTOMER -->
@@ -55,11 +67,11 @@
             prop="customer_id"
         >
             <el-select
-                v-model="data.cargoOrderData.customer_id"
+                v-model="form.cargoOrderData.customer_id"
                 placeholder="Customer"
             >
                 <el-option
-                    v-for="customer in data.customers"
+                    v-for="customer in form.customers"
                     :key="customer.id"
                     :label="customer.name"
                     :value="customer.id"
@@ -73,11 +85,11 @@
             prop="contact_id"
         >
             <el-select
-                v-model="data.cargoOrderData.contact_id"
+                v-model="form.cargoOrderData.contact_id"
                 placeholder="Contact"
             >
                 <el-option
-                    v-for="contact in data.contacts"
+                    v-for="contact in form.contacts"
                     :key="contact.id"
                     :label="contact.name"
                     :value="contact.id"
@@ -91,11 +103,11 @@
             prop="start_address_id"
         >
             <el-select
-                v-model="data.cargoOrderData.start_address_id"
+                v-model="form.cargoOrderData.start_address_id"
                 placeholder="Start address"
             >
                 <el-option
-                    v-for="address in data.addresses"
+                    v-for="address in form.addresses"
                     :key="address.id"
                     :label="address.name"
                     :value="address.id"
@@ -109,11 +121,11 @@
             prop="target_address_id"
         >
             <el-select
-                v-model="data.cargoOrderData.target_address_id"
+                v-model="form.cargoOrderData.target_address_id"
                 placeholder="Target address"
             >
                 <el-option
-                    v-for="address in data.addresses"
+                    v-for="address in form.addresses"
                     :key="address.id"
                     :label="address.name"
                     :value="address.id"
@@ -127,7 +139,7 @@
             prop="description"
         >
             <el-input
-                v-model="data.cargoOrderData.description"
+                v-model="form.cargoOrderData.description"
                 placeholder="Description"
             ></el-input>
         </el-form-item>
@@ -138,7 +150,7 @@
             prop="shipping_price"
         >
             <el-input
-                v-model="data.cargoOrderData.shipping_price"
+                v-model="form.cargoOrderData.shipping_price"
                 placeholder="Shipping price"
             ></el-input>
         </el-form-item>
@@ -149,7 +161,7 @@
             prop="shipping_price_netto"
         >
             <el-input
-                v-model="data.cargoOrderData.shipping_price_netto"
+                v-model="form.cargoOrderData.shipping_price_netto"
                 placeholder="Shipping price netto"
             ></el-input>
         </el-form-item>
@@ -160,7 +172,7 @@
             prop="pickup_date"
         >
             <el-date-picker
-                v-model="data.cargoOrderData.pickup_date"
+                v-model="form.cargoOrderData.pickup_date"
                 type="date"
                 placeholder="Pickup date"
                 value-format="yyyy-MM-dd"
@@ -173,13 +185,13 @@
             prop="delivery_date"
         >
             <el-date-picker
-                v-model="data.cargoOrderData.delivery_date"
+                v-model="form.cargoOrderData.delivery_date"
                 type="date"
                 placeholder="Delivery date"
                 value-format="yyyy-MM-dd"
             ></el-date-picker>
         </el-form-item>
-        
+
     </el-form>
 </template>
 
@@ -187,7 +199,8 @@
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import Header from '@/Shared/Crud/Header.vue';
 import _ from 'lodash';
-
+import { useForm } from '@inertiajs/vue3';
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
     cargoOrder: {
@@ -206,36 +219,23 @@ const props = defineProps({
 
 });
 
-const data = reactive({
+const form = useForm({
     cargoOrderData: props.cargoOrder || {},
-    columns: [
-        'id',
-        'internal_oid',
-        'customer_id',
-        'contact_id',
-        'start_address_id',
-        'target_address_id',
-        'description',
-        'shipping_price',
-        'shipping_price_netto',
-        'pickup_date',
-        'delivery_date',
-    ],
 });
 
 const headerText = computed(() => {
     //_.get() returns undefined if the path doesn't exist. Which is faulty.
     if (props.mode === 'edit' && _.get(props.cargoOrder, 'id')) {
-        return _.capitalize(props.mode) + ` cargoOrder id: ${props.cargoOrder.id}`;
+        return _.capitalize(props.mode) + ` cargo order id: ${props.cargoOrder.id}`;
     } else {
-        return _.capitalize(props.mode) + ' new cargoOrder';
+        return _.capitalize(props.mode) + ' new cargo order';
     }
 });
 
 const emit = defineEmits(['update:cargoOrder', 'submit', 'destroy']);
 
 const update = () => {
-    emit('update:cargoOrder', data.cargoOrderData);
+    emit('update:cargoOrder', form.cargoOrderData);
 }
 
 const submit = () => {

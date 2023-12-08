@@ -148,6 +148,21 @@ const data = reactive({
 
 const emit = defineEmits(['submit', 'update:customer', 'destroy']);
 
+/**
+ * This watcher is needed for comment creating. When a comment is created, the backend sends back
+ * the updated customer object, and we need to update the customer object in this component. But,
+ * only the comments property of the customer object is updated. Which is a nested property update.
+ * Vue can't see this change, without this watcher. But, with this watcher, Vue can see the change.
+ * Then the customer with the new comments arrives to data. Then it is automatically passed to the
+ * child component. Which is what we wanted.
+ */
+watch(
+    () => props.customer, 
+    (newValue, oldValue) => {
+        data.customer = newValue;
+    },
+    { deep: true }
+);
 
 /**
  * Watch for changes in the customer object. In case of any change, it will immediatelly
@@ -170,64 +185,5 @@ const submit = () => {
 const destroy = () => {
     emit('destroy');
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * The validation rules for the form.
- */
- const rules = reactive({
-    // company_name: [
-    //     { required: true, message: 'Company name is required FE', trigger: 'blur' },
-    //     { min: 3, max: 100, message: 'Length should be 3 to 100', trigger: 'blur' },
-    // ],
-    // name: [
-    //         { required: true, message: 'Name is required FE', trigger: 'blur' },
-    //     ],
-    // email: [
-    //     { required: true, message: 'Email is required FE', trigger: 'blur' },
-    // ],
-    // rating: [
-    //     { required: true, message: 'Rating is required FE', trigger: 'blur' },
-    // ],
-    // tax_number: [
-    //     { required: true, message: 'Tax number is required FE', trigger: 'blur' },
-    // ],
-    // internal_cid: [
-    //     { required: true, message: 'Internal CID is required FE', trigger: 'blur' },
-    // ],
-})
-
-/**
- * Does the frontend validation, and if it is OK, then calls the submit() function.
- */
-
- 
-
-// const submitForm = async (formEl) => {
-//     if (!formEl) return;
-
-//     await formEl.validate((valid, fields) => {
-//         if (valid) {//if validation is OK, then submit the customer
-            
-//             emit('submit');
-            
-//         } else {//if validation is not OK, then show the errors
-//             // console.log('FE validation not OK, error submit!', fields)
-//             // console.log('customer:', customer)
-//             // console.log('customerStore.selectedCustomer:', customerStore.selectedCustomer)
-//         }
-//     })
-// }
-
 
 </script>

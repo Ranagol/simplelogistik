@@ -83,14 +83,12 @@ const props = defineProps({
 });
 
 /**
- * This watcher simply helps to validation errors from props.errors to go to the child components.
+ * This simply helps to validation errors from props.errors to go to the child components.
  * For some reason this is not reactive enough without the computed.
  */
 let errorsComputed = computed(() => {
     return props.errors;
 });
-
-
 
 const data = reactive({
 
@@ -99,6 +97,22 @@ const data = reactive({
      */
     customerData: props.record
 });
+
+/**
+ * This watcher is needed for comment creating. When a comment is created, the backend sends back
+ * the updated customer object, and we need to update the customer object in this component. But,
+ * only the comments property of the customer object is updated. Which is a nested property update.
+ * Vue can't see this change, without this watcher. But, with this watcher, Vue can see the change.
+ * Then the customer with the new comments arrives to data. Then it is automatically passed to the
+ * child component. Which is what we wanted.
+ */
+watch(
+    () => props.record, 
+    (newValue, oldValue) => {
+        data.customerData = newValue;
+    },
+    { deep: true }
+);
 
 const dummyCustomer = {
     internal_cid: "C000",

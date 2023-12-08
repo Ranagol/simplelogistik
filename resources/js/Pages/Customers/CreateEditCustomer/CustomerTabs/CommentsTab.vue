@@ -79,6 +79,7 @@
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
+import { router} from '@inertiajs/vue3';//for sending requests;
 
 const props = defineProps({
     customer: {
@@ -128,15 +129,13 @@ const submit = async (elFormRef) => {
     await elFormRef.validate((valid, fields) => {
         // If the FE validation is ok...
         if (valid) {
-            console.log('submit!')
+            console.log('submit FE validation passed!')
             data.patch(//this data here is actually a form helper, that was named by me as data
                 `/customers/${props.customer.id}/comments/create`,
                 {
-                    comment: data.comment,
-                },
-                {
+                    data: data.comment,
                     onSuccess: () => {
-                        console.log('success');
+                        console.log('onSuccess triggered');
                     },
                     onError: () => {
                         console.log('error');
