@@ -29,13 +29,10 @@
                 show-word-limit
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY, with the help of the form helper. Remember:
-            form helper = data, because const data = useForm({... ... -->
-            <div
-                v-if="data.errors.comment"
-                v-text="data.errors.comment"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay
+                :errorMessage="data.errors.comment"
+            />
+
         </el-form-item>
 
         <el-form-item>
@@ -81,6 +78,7 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
     customer: {
@@ -111,11 +109,11 @@ const data = useForm({
      * To turn off FE validation for comment, simply comment out the rules for comment.
      */
     rules: {
-        comment: [
-            { required: true, message: 'Please enter a comment FE', trigger: 'blur' },
-            { min: 3, message: 'Comment must be at least 3 characters long', trigger: 'blur' },
-            { max: 500, message: 'Comment must be at most 500 characters long', trigger: 'blur' },
-        ],
+        // comment: [
+        //     { required: true, message: 'Please enter a comment FE', trigger: 'blur' },
+        //     { min: 3, message: 'Comment must be at least 3 characters long', trigger: 'blur' },
+        //     { max: 500, message: 'Comment must be at most 500 characters long', trigger: 'blur' },
+        // ],
     },
 }); 
 
