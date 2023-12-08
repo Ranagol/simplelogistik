@@ -30,8 +30,10 @@ class TmsCargoOrderRequest extends FormRequest
             'description' => 'required|string|max:255',
             'shipping_price' => 'required|numeric|between:0,9999999999.99',
             'shipping_price_netto' => 'required|numeric|between:0,9999999999.99',
-            'pickup_date' => 'nullable|date',
-            'delivery_date' => 'nullable|date',
+            'pickup_date' => 'required|date',
+            'delivery_date' => 'required|date',
+            // 'pickup_date' => 'nullable|date',
+            // 'delivery_date' => 'nullable|date',
         ];
     }
 }
