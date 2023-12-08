@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class TmsCargoOrder extends Model
 {
@@ -53,5 +55,19 @@ class TmsCargoOrder extends Model
     public function offerPrices(): HasMany
     {
         return $this->hasMany(TmsOfferPrice::class, 'cargo_order_id');
+    }
+
+    /**
+     * This here is a Laravel local scope, for searching by search term.
+     * https://laravel.com/docs/10.x/eloquent#local-scopes
+     *
+     * @param Builder $query
+     * @param string $searchTerm
+     * @return Builder
+     */
+    public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
+    {
+        return $query->where('description', 'like', "%{$searchTerm}%")
+            ->orWhere('internal_oid', 'like', "%{$searchTerm}%");
     }
 }

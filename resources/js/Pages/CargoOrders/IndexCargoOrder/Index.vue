@@ -2,13 +2,15 @@
     <Head title="CargoOrder" />
 
     <Card>
-        <h1>CargoOrders</h1>
+        <h1
+            class="font-semibold text-xl text-gray-800 leading-tight mr-6 mb-3"
+        >Cargo orders</h1>
 
         <!-- SEARCH FIELD -->
         <div class="flex flex-row">
             <SearchField
                 v-model:searchTerm="data.searchTerm"
-                placeholder="Search cargoOrders..."
+                placeholder="Search cargo orders..."
                 @getData="getData"
             />
 
