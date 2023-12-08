@@ -4,19 +4,6 @@
         type="border-card"
         stretch
     >
-        <!-- COMMENTS -->
-        <el-tab-pane
-            label="Comments"
-        >
-            <CommentsTab
-                :customer="data.customer"
-                :errors="props.errors"
-            />
-            
-        </el-tab-pane>
-
-
-
         <!-- CUSTOMER GENERAL DATA -->
         <el-tab-pane
             label="General customer data"
@@ -44,6 +31,17 @@
                 @destroy="destroy"
             >
             </IndividualTab>
+        </el-tab-pane>
+
+        <!-- COMMENTS -->
+        <el-tab-pane
+            label="Comments"
+        >
+            <CommentsTab
+                :customer="data.customer"
+                :errors="props.errors"
+            />
+            
         </el-tab-pane>
 
         <!-- ADDRESSES -->
