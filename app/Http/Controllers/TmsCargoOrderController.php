@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
-use App\Http\Controllers\BaseController;
-use App\Http\Requests\TmsAddressRequest;
 use App\Models\TmsCargoOrder;
-use App\Models\TmsForwarder;
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\TmsCargoOrderRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsCargoOrderController extends BaseController
