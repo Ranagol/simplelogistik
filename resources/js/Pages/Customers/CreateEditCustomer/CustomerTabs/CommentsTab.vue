@@ -18,8 +18,8 @@
 
     <!-- BACKEND VALIDATION ERROR DISPLAY -->
     <div
-        v-if="props.errors.comments"
-        v-text="props.errors.comments"
+        v-if="props.errors.comment"
+        v-text="props.errors.comment"
         class="text-red-500 text-xs mt-1"
     ></div>
 
@@ -30,9 +30,9 @@
         class="mt-3"
     >Create new comment</el-button>
 
-    <div
+    <!-- <div
         v-if="data.customer.comments"
-    >{{ data.customer.comments }}</div>
+    >{{ data.customer.comments }}</div> -->
 
     <!-- TABLE FOR DISPLAYING ALL COMMENTS BELONGING TO THE CLIENT -->
     <el-table
