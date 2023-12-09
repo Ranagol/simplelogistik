@@ -58,11 +58,8 @@
                 @change="update()"
             />
 
-            <div
-                v-if="props.errors.first_name"
-                v-text="props.errors.first_name"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.first_name"/>
+
         </el-form-item>
 
         <el-form-item
@@ -82,12 +79,8 @@
                 @change="update()"
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.last_name"
-                v-text="props.errors.last_name"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.last_name"/>
+
         </el-form-item>
 
         <el-form-item
@@ -107,12 +100,8 @@
                 ></el-option>
             </el-select>
                 
-                <!-- BACKEND VALIDATION ERROR DISPLAY -->
-                <div
-                    v-if="props.errors.address_type"
-                    v-text="props.errors.address_type"
-                    class="text-red-500 text-xs mt-1"
-                ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.address_type"/>
+
         </el-form-item>
 
         <el-form-item
@@ -132,12 +121,8 @@
                 @change="update()"
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.street"
-                v-text="props.errors.street"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.street"/>
+
         </el-form-item>
 
         <el-form-item
@@ -157,12 +142,8 @@
                 @change="update()"
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.house_number"
-                v-text="props.errors.house_number"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.house_number"/>
+
         </el-form-item>
 
         <el-form-item
@@ -182,12 +163,8 @@
                 @change="update()"
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.zip_code"
-                v-text="props.errors.zip_code"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.zip_code"/>
+
         </el-form-item>
 
         <el-form-item
@@ -207,12 +184,8 @@
                 @change="update()"
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.city"
-                v-text="props.errors.city"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.city"/>
+
         </el-form-item>
 
         <el-form-item
@@ -232,12 +205,8 @@
                 @change="update()"
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.country"
-                v-text="props.errors.country"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.country"/>
+
         </el-form-item>
 
         <el-form-item
@@ -257,12 +226,8 @@
                 @change="update()"
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.state"
-                v-text="props.errors.state"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.state"/>
+
         </el-form-item>
 
 
@@ -283,12 +248,8 @@
                 @change="update()"                    
             />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.comment"
-                v-text="props.errors.comment"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.comment"/>
+
         </el-form-item>
 
         <!-- CUSTOMER -->
@@ -312,12 +273,8 @@
                 ></el-option>
             </el-select>
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.customer_id"
-                v-text="props.errors.customer_id"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.customer_id"/>
+
         </el-form-item>
 
         <!-- FORWARDER -->
@@ -341,12 +298,8 @@
                 ></el-option>
             </el-select>
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.forwarder_id"
-                v-text="props.errors.forwarder_id"
-                class="text-red-500 text-xs mt-1"
-            ></div>
+            <BackendValidationErrorDisplay :errorMessage="props.errors.forwarder_id"/>
+            
         </el-form-item>
 
     </el-form>
@@ -356,6 +309,7 @@
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import Header from '@/Shared/Crud/Header.vue';
 import _ from 'lodash';
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 
 const props = defineProps({
