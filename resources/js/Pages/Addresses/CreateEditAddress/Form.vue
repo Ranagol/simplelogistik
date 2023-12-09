@@ -299,7 +299,7 @@
             </el-select>
 
             <BackendValidationErrorDisplay :errorMessage="props.errors.forwarder_id"/>
-            
+
         </el-form-item>
 
     </el-form>
@@ -313,40 +313,66 @@ import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidation
 
 
 const props = defineProps({
+
+    /**
+     * The address object.
+     */
     address: {
         type: Object,
     },
 
+    /**
+     * The validation errors object. Comes from the backend.
+     */
     errors: {
         type: Object,
         required: true
     },
 
+    /**
+     * mode is either 'create' or 'edit'. This is decided in the controller. This component will
+     * behave differently depending on which mode is it.
+     */
     mode: {
         type: String,
         required: true
     },
 
+    /**
+     * The address types. Needed for the address type select.
+     */
     addressTypes: {
         type: Array,
         required: true
     },
 
+    /**
+     * The customers. Needed for the customer select.
+     */
     customers: {
         type: Array,
         required: true
     },
-
+    
+    /**
+     * The forwarders. Needed for the forwarder select.
+     */
     forwarders: {
         type: Array,
         required: true
     },
 });
 
+/**
+ * The data object that contains the address data.
+ */
 const data = reactive({
     addressData: props.address || {},
 });
 
+/**
+ * This form has a header. This header's text is dynamic, and it is created here.
+ */
 const headerText = computed(() => {
     //_.get() returns undefined if the path doesn't exist. Which is faulty.
     if (props.mode === 'edit' && _.get(props.address, 'id')) {
@@ -358,10 +384,16 @@ const headerText = computed(() => {
 
 const emit = defineEmits(['update:address', 'submit', 'destroy']);
 
+/**
+ * Only updates the parent's address object. No triggering of submit or edit.
+ */
 const update = () => {
     emit('update:address', data.addressData);
 }
 
+/**
+ * Triggers the submit event.
+ */
 const submit = () => {
     emit('submit');
 }
