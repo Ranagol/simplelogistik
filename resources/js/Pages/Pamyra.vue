@@ -14,7 +14,7 @@
     </Card>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { router } from '@inertiajs/vue3';//for sending requests;
 import Card from '../Shared/Card.vue';

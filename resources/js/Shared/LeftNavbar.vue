@@ -114,13 +114,6 @@
                     >Register</NavLink>
                 </el-menu-item>
 
-                <!-- REGISTER -->
-                <el-menu-item index="Experiment">
-                    <NavLink
-                        href="/experiments"
-                    >Experiment</NavLink>
-                </el-menu-item>
-
             </el-sub-menu>
         </el-menu>
     </Card>

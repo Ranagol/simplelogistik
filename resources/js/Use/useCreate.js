@@ -6,6 +6,9 @@ import { router } from '@inertiajs/vue3';
  * @param {String} modelName The name of the model we want to create. Example: address
  * @param {String} propNameForPageReload The name of the prop (defined in controller) we want to reload.
  * @param {String} reRoutingUrl The url we want to reroute to, after the create is done.
+ * 
+ * This composable can create new object in the backend db. It can send the request, and it can display
+ * a feedback message, if the create was successful or not.
  */
 export function useCreate(url, newObject, modelName, propNameForPageReload, reRoutingUrl) {
 

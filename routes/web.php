@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ExperimentController;
 use App\Http\Controllers\TmsAddressController;
 use App\Http\Controllers\TmsVehicleController;
 use App\Http\Controllers\TmsCustomerController;
@@ -43,7 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/customers/{customer}/comments/create', [TmsCustomerController::class, 'addComment'])->name('customers.comments.create');
     Route::resource('cargo-orders', TmsCargoOrderController::class);
     Route::resource('addresses', TmsAddressController::class);
-    Route::resource('experiments', ExperimentController::class);
     Route::resource('vehicles', TmsVehicleController::class);
     Route::resource('requirements', TmsRequirementController::class);
 
