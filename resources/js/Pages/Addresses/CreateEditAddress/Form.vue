@@ -408,7 +408,8 @@ const destroy = () => {
 
 /**
  * Starts the submitting proces. First step: frontend validation. It takes the el-form as an
- * argument. This is possible, because the el-form is captured in const elFormRef = ref();.
+ * argument. This is possible, because the el-form is captured in const elFormRef = ref(); The
+ * el-form has the logic for FE validation. 
  */
  const submit = (elFormRef) => {
     validate(elFormRef);
@@ -439,7 +440,8 @@ const destroy = () => {
 }
 
 /**
- * The FE validation rules for the form. 
+ * The FE validation rules for the form. We import this from a separate file, because it is too
+ * long to be here.
  */
 const rules = reactive( addressValidationRules );
 
