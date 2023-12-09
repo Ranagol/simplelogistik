@@ -1,6 +1,6 @@
 <template>
     <el-form
-        ref="ruleFormRef"
+        ref="elFormRef"
         :model="data.addressData"
         label-position="left"
         :rules="rules"
@@ -20,7 +20,7 @@
             <!-- SUBMIT BUTTON -->
             <el-form-item>
                 <el-button
-                    @click="submit"
+                    @click="submit(elFormRef)"
                     type="primary"
                     name="button"
                 >Submit</el-button>
@@ -392,10 +392,10 @@ const update = () => {
 }
 
 /**
- * Triggers the submit event.
+ * Starts the submitting proces. First step: frontend validation.
  */
-const submit = () => {
-    emit('submit');
+const submit = (elFormRef) => {
+    doFrontendValidation(elFormRef);
 }
 
 //It is called destroy, because delete is a reserved word in JS
@@ -404,38 +404,42 @@ const destroy = () => {
 }
 
 
+//*************************** FRONTEND FORM VALIDATION ***************************//
 
+/**
+ * This contains the whole el-form. Needed for the validation.
+ */
+ const elFormRef = ref();
 
-// /**
-//  * This contains the whole el-form. Needed for the validation.
-//  */
-//  const ruleFormRef = ref()
+/**
+ * The validation rules for the form.
+ */
+const rules = reactive({
+    first_name: [
+        { required: true, message: 'Please fill this field.', trigger: 'blur' },
+    ],
+})
 
-// /**
-//  * The validation rules for the form.
-//  */
-// const rules = reactive({
-//     //empty
-// })
+/**
+ * Does the frontend validation, and if it is OK, then calls the submit() function.
+ */
+const doFrontendValidation = async (elFormRef) => {
+    console.log('submit() called, FE validation starts')
+    if (!elFormRef) return;
 
-// /**
-//  * Does the frontend validation, and if it is OK, then calls the submit() function.
-//  */
-// const emit = defineEmits(['submit']);
-// const submitForm = async (formEl) => {
-//     if (!formEl) return;
-
-//     await formEl.validate((valid, fields) => {
-//         if (valid) {//if validation is OK, then submit the address
-//             emit('submit');
-            
-//         } else {//if validation is not OK, then show the errors
-//             // console.log('FE validation not OK, error submit!', fields)
-//             // console.log('address:', address)
-//             // console.log('customerStore.selectedCustomer:', customerStore.selectedCustomer)
-//         }
-//     })
-// }
+    await elFormRef.validate((valid, fields) => {
+        
+        if (valid) {
+            //if validation is OK, then submit
+            console.log('FE validation OK, submit!', fields)
+            emit('submit');
+        
+        } else {
+            //if validation is not OK, then log the errors
+            console.log('FE validation not OK, error submit!', fields)
+        }
+    })
+}
 
 
 </script>
