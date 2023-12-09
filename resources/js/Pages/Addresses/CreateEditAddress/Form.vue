@@ -38,9 +38,9 @@
                 >Delete</el-button>
             </el-form-item>
 
-
         </div>
 
+        <!-- THE FORM -->
         <div>
 
             <el-form-item
@@ -313,7 +313,7 @@ import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import Header from '@/Shared/Crud/Header.vue';
 import _ from 'lodash';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
-import { useValidation } from '@/Use/useValidation';
+import addressValidationRules from './addressValidationRules.js';
 
 const props = defineProps({
 
@@ -401,22 +401,24 @@ const destroy = () => {
 
 
 //*************************** FRONTEND FORM VALIDATION ***************************//
-
-/**
- * Starts the submitting proces. First step: frontend validation.
- */
- const submit = (elFormRef) => {
-    validate(elFormRef);
-}
-
 /**
  * This contains the whole el-form. Needed for the validation.
  */
  const elFormRef = ref();
 
 /**
+ * Starts the submitting proces. First step: frontend validation. It takes the el-form as an
+ * argument. This is possible, because the el-form is captured in const elFormRef = ref();.
+ */
+ const submit = (elFormRef) => {
+    validate(elFormRef);
+}
+
+/**
  * Does the frontend validation, and if it is OK, then emits the signal for creating/editing. That
- * signal is received by the parent CreateEditAddress.vue component.
+ * signal is received by the parent CreateEditAddress.vue component. If it is not ok, then:
+ * 1. there will be red error messages under the relevant fields
+ * 2. no emit will happen
  */
  const validate = async (elFormRef) => {
     console.log('submit() called, FE validation starts')
@@ -437,47 +439,9 @@ const destroy = () => {
 }
 
 /**
- * The validation rules for the form.
+ * The FE validation rules for the form. 
  */
-const rules = reactive({
-    first_name: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    last_name: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    address_type: [
-        { required: true, message: 'Please fill this field.', trigger: 'change' },
-    ],
-    street: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    house_number: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    zip_code: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    city: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    country: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    state: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    comment: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    customer_id: [
-        { required: true, message: 'Please fill this field.', trigger: 'change' },
-    ],
-    forwarder_id: [
-        { required: true, message: 'Please fill this field.', trigger: 'change' },
-    ],
-
-})
+const rules = reactive( addressValidationRules );
 
 
 
