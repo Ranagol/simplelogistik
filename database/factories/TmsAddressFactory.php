@@ -30,7 +30,7 @@ class TmsAddressFactory extends Factory
             'city' => $this->faker->city,
             'country' => $this->faker->country,
             'state' => $this->faker->state,
-            'comment' => $this->faker->sentence,
+            'address_additional_information' => $this->faker->sentence,
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
         ];

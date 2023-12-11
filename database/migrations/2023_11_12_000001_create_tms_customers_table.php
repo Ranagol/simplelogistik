@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tms_customers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('internal_cid', 20);                           // e.g.  C000 0007 1093 0276 0123 4567 89AB CDEF
+            $table->string('internal_cid', 20);                   
             $table->string('first_name', 100);
             $table->string('last_name', 100);
             $table->string('company_name',200)->nullable();

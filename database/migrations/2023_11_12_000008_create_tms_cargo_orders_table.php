@@ -30,6 +30,23 @@ return new class extends Migration
             $table->string('pickup_date')->nullable();
             $table->string('delivery_date')->nullable();
 
+            //these are additional, so far non-existing but needed columns*************************
+            
+
+            //$table->string('description', 255)->comment('This is a description column');//TODO ASK C
+            
+
+            //origin column must be added. (Pamyra, sales, Google Ads, Shipping ... something)
+
+            //F. said origin_order_is is needed.Connected to the origin_order column. 
+
+            //provision column. Example, for Pamyra orders the provision is 6%.
+
+            //customer_reference column. Example: when customer says please add this to the invoice.
+
+            //
+
+
 
 
 

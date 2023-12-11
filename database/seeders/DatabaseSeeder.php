@@ -10,6 +10,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use App\Models\TmsOfferPrice;
+use App\Models\TmsParcel;
 use App\Models\TmsRequirement;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -68,9 +69,7 @@ class DatabaseSeeder extends Seeder
             TmsCustomerReqSeeder::class,
             TmsTransportLicenseSeeder::class,
             PivotTableSeeder::class,
+            TmsParcelSeeder::class,
         ]);
-
-
-        
     }
 }
