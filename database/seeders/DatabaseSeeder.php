@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Pivot;
 use App\Models\TmsAddress;
-
+use App\Models\TmsCountry;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
@@ -70,6 +70,7 @@ class DatabaseSeeder extends Seeder
             TmsTransportLicenseSeeder::class,
             PivotTableSeeder::class,
             TmsParcelSeeder::class,
+            TmsCountrySeeder::class,
         ]);
     }
 }
