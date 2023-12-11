@@ -13,6 +13,7 @@ return new class extends Migration
     {
 
         Schema::create('tms_cargo_orders', function (Blueprint $table) {
+            //these are done by default
             $table->bigIncrements('id');
             $table->string('internal_oid', 200);
             $table->unsignedBigInteger('customer_id');
@@ -21,13 +22,17 @@ return new class extends Migration
             $table->foreign('contact_id')->references('id')->on('tms_contacts');
             $table->unsignedBigInteger('start_address_id');
             $table->foreign('start_address_id')->references('id')->on('tms_addresses');
-            $table->unsignedBigInteger('target_address_id');
+            $table->unsignedBigInteger('target_address_id');//change to delivery
             $table->foreign('target_address_id')->references('id')->on('tms_addresses');
             $table->string('description', 255);
             $table->decimal('shipping_price', 10, 2);
             $table->decimal('shipping_price_netto', 10, 2);
             $table->string('pickup_date')->nullable();
             $table->string('delivery_date')->nullable();
+
+
+
+
             $table->timestamps();
         });
     }

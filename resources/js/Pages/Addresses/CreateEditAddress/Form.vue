@@ -433,7 +433,7 @@ const destroy = () => {
             emit('submit');
         
         } else {
-            //if validation is not OK, then log the errors
+            //if validation is not OK, then log the problematic validation fields
             console.log('FE validation not OK, error submit!', fields)
         }
     })
