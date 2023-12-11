@@ -25,9 +25,6 @@ class TmsCustomer extends Model
     // use SoftDeletes;//I turned off soft delete, because it is confusing during development and testing.
 
     protected $guarded = ['id'];
-    protected $fillable = [
-        'comments'
-    ];
     
     protected $table = "tms_customers";
 

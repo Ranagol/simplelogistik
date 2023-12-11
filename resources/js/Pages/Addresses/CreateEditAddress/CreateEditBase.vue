@@ -172,10 +172,6 @@ const destroy = () => {
     );
 }
 
-
-
-
-
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
 <template>
     <el-form
-        ref="ruleFormRef"
+        ref="elFormRef"
         :model="data.addressData"
         label-position="left"
         :rules="rules"
@@ -20,7 +20,7 @@
             <!-- SUBMIT BUTTON -->
             <el-form-item>
                 <el-button
-                    @click="submit"
+                    @click="submit(elFormRef)"
                     type="primary"
                     name="button"
                 >Submit</el-button>
@@ -38,316 +38,272 @@
                 >Delete</el-button>
             </el-form-item>
 
-
         </div>
 
-        <el-form-item
-            label="First name"
-            prop="first_name"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.first_name"
-                placeholder="First name"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
+        <!-- THE FORM -->
+        <div>
 
-            <div
-                v-if="props.errors.first_name"
-                v-text="props.errors.first_name"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <el-form-item
-            label="Last name"
-            prop="last_name"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.last_name"
-                placeholder="Last name"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.last_name"
-                v-text="props.errors.last_name"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <el-form-item
-            label="Address type"
-            prop="address_type"
-        >
-            <el-select
-                v-model="data.addressData.address_type"
-                clearable
-                @change="update()"
+            <el-form-item
+                label="First name"
+                prop="first_name"
+                width="100px"
             >
-                <el-option
-                    v-for="(item, index) in props.addressTypes"
-                    :key="index"
-                    :label="item"
-                    :value="item"
-                ></el-option>
-            </el-select>
-                
-                <!-- BACKEND VALIDATION ERROR DISPLAY -->
-                <div
-                    v-if="props.errors.address_type"
-                    v-text="props.errors.address_type"
-                    class="text-red-500 text-xs mt-1"
-                ></div>
-        </el-form-item>
+                <el-input
+                    v-model="data.addressData.first_name"
+                    placeholder="First name"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
 
-        <el-form-item
-            label="Street"
-            prop="street"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.street"
-                placeholder="Street"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
+                <BackendValidationErrorDisplay :errorMessage="props.errors.first_name"/>
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.street"
-                v-text="props.errors.street"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
+            </el-form-item>
 
-        <el-form-item
-            label="House number"
-            prop="house_number"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.house_number"
-                placeholder="House number"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.house_number"
-                v-text="props.errors.house_number"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <el-form-item
-            label="Zip code"
-            prop="zip_code"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.zip_code"
-                placeholder="Zip code"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.zip_code"
-                v-text="props.errors.zip_code"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <el-form-item
-            label="City"
-            prop="city"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.city"
-                placeholder="City"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.city"
-                v-text="props.errors.city"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <el-form-item
-            label="Country"
-            prop="country"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.country"
-                placeholder="Country"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.country"
-                v-text="props.errors.country"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <el-form-item
-            label="State"
-            prop="state"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.state"
-                placeholder="State"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.state"
-                v-text="props.errors.state"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-
-        <el-form-item
-            label="Comment"
-            prop="comment"
-            width="100px"
-        >
-            <el-input
-                v-model="data.addressData.comment"
-                placeholder="Comment"
-                type="text"
-                show-word-limit
-                :maxlength="255"
-                clearable
-                @input="update()"
-                @clear="update()"
-                @change="update()"                    
-            />
-
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.comment"
-                v-text="props.errors.comment"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
-
-        <!-- CUSTOMER -->
-        <el-form-item
-            label="Customer"
-            prop="customer_id"
-            width="100px"
-        >
-            <!-- EL-SELECT -->
-            <el-select
-                v-model="data.addressData.customer_id"
-                clearable
-                filterable
-                @change="update()"
+            <el-form-item
+                label="Last name"
+                prop="last_name"
+                width="100px"
             >
-                <el-option
-                    v-for="(item, index) in props.customers"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.id"
-                ></el-option>
-            </el-select>
+                <el-input
+                    v-model="data.addressData.last_name"
+                    placeholder="Last name"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.customer_id"
-                v-text="props.errors.customer_id"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
+                <BackendValidationErrorDisplay :errorMessage="props.errors.last_name"/>
 
-        <!-- FORWARDER -->
-        <el-form-item
-            label="Forwarder"
-            prop="forwarder_id"
-            width="100px"
-        >
-            <!-- EL-SELECT -->
-            <el-select
-                v-model="data.addressData.forwarder_id"
-                clearable
-                filterable
-                @change="update()"
+            </el-form-item>
+
+            <el-form-item
+                label="Address type"
+                prop="address_type"
             >
-                <el-option
-                    v-for="(item, index) in props.forwarders"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.id"
-                ></el-option>
-            </el-select>
+                <el-select
+                    v-model="data.addressData.address_type"
+                    clearable
+                    @change="update()"
+                >
+                    <el-option
+                        v-for="(item, index) in props.addressTypes"
+                        :key="index"
+                        :label="item"
+                        :value="item"
+                    ></el-option>
+                </el-select>
+                    
+                <BackendValidationErrorDisplay :errorMessage="props.errors.address_type"/>
 
-            <!-- BACKEND VALIDATION ERROR DISPLAY -->
-            <div
-                v-if="props.errors.forwarder_id"
-                v-text="props.errors.forwarder_id"
-                class="text-red-500 text-xs mt-1"
-            ></div>
-        </el-form-item>
+            </el-form-item>
+
+            <el-form-item
+                label="Street"
+                prop="street"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.addressData.street"
+                    placeholder="Street"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.street"/>
+
+            </el-form-item>
+
+            <el-form-item
+                label="House number"
+                prop="house_number"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.addressData.house_number"
+                    placeholder="House number"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.house_number"/>
+
+            </el-form-item>
+
+            <el-form-item
+                label="Zip code"
+                prop="zip_code"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.addressData.zip_code"
+                    placeholder="Zip code"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.zip_code"/>
+
+            </el-form-item>
+
+            <el-form-item
+                label="City"
+                prop="city"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.addressData.city"
+                    placeholder="City"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.city"/>
+
+            </el-form-item>
+
+            <el-form-item
+                label="Country"
+                prop="country"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.addressData.country"
+                    placeholder="Country"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.country"/>
+
+            </el-form-item>
+
+            <el-form-item
+                label="State"
+                prop="state"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.addressData.state"
+                    placeholder="State"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.state"/>
+
+            </el-form-item>
+
+
+            <el-form-item
+                label="Comment"
+                prop="comment"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.addressData.comment"
+                    placeholder="Comment"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"                    
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.comment"/>
+
+            </el-form-item>
+
+            <!-- CUSTOMER -->
+            <el-form-item
+                label="Customer"
+                prop="customer_id"
+                width="100px"
+            >
+                <!-- EL-SELECT -->
+                <el-select
+                    v-model="data.addressData.customer_id"
+                    clearable
+                    filterable
+                    @change="update()"
+                >
+                    <el-option
+                        v-for="(item, index) in props.customers"
+                        :key="index"
+                        :label="item.name"
+                        :value="item.id"
+                    ></el-option>
+                </el-select>
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.customer_id"/>
+
+            </el-form-item>
+
+            <!-- FORWARDER -->
+            <el-form-item
+                label="Forwarder"
+                prop="forwarder_id"
+                width="100px"
+            >
+                <!-- EL-SELECT -->
+                <el-select
+                    v-model="data.addressData.forwarder_id"
+                    clearable
+                    filterable
+                    @change="update()"
+                >
+                    <el-option
+                        v-for="(item, index) in props.forwarders"
+                        :key="index"
+                        :label="item.name"
+                        :value="item.id"
+                    ></el-option>
+                </el-select>
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.forwarder_id"/>
+
+            </el-form-item>
+        </div>
 
     </el-form>
 </template>
@@ -356,43 +312,70 @@
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import Header from '@/Shared/Crud/Header.vue';
 import _ from 'lodash';
-
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
+import addressValidationRules from './addressValidationRules.js';
 
 const props = defineProps({
+
+    /**
+     * The address object.
+     */
     address: {
         type: Object,
     },
 
+    /**
+     * The validation errors object. Comes from the backend.
+     */
     errors: {
         type: Object,
         required: true
     },
 
+    /**
+     * mode is either 'create' or 'edit'. This is decided in the controller. This component will
+     * behave differently depending on which mode is it.
+     */
     mode: {
         type: String,
         required: true
     },
 
+    /**
+     * The address types. Needed for the address type select.
+     */
     addressTypes: {
         type: Array,
         required: true
     },
 
+    /**
+     * The customers. Needed for the customer select.
+     */
     customers: {
         type: Array,
         required: true
     },
-
+    
+    /**
+     * The forwarders. Needed for the forwarder select.
+     */
     forwarders: {
         type: Array,
         required: true
     },
 });
 
+/**
+ * The data object that contains the address data.
+ */
 const data = reactive({
     addressData: props.address || {},
 });
 
+/**
+ * This form has a header. This header's text is dynamic, and it is created here.
+ */
 const headerText = computed(() => {
     //_.get() returns undefined if the path doesn't exist. Which is faulty.
     if (props.mode === 'edit' && _.get(props.address, 'id')) {
@@ -404,12 +387,11 @@ const headerText = computed(() => {
 
 const emit = defineEmits(['update:address', 'submit', 'destroy']);
 
+/**
+ * Only updates the parent's address object. No triggering of submit or edit. No need for validation.
+ */
 const update = () => {
     emit('update:address', data.addressData);
-}
-
-const submit = () => {
-    emit('submit');
 }
 
 //It is called destroy, because delete is a reserved word in JS
@@ -418,38 +400,52 @@ const destroy = () => {
 }
 
 
+//*************************** FRONTEND FORM VALIDATION ***************************//
+/**
+ * This contains the whole el-form. Needed for the validation.
+ */
+ const elFormRef = ref();
+
+/**
+ * Starts the submitting proces. First step: frontend validation. It takes the el-form as an
+ * argument. This is possible, because the el-form is captured in const elFormRef = ref(); The
+ * el-form has the logic for FE validation. 
+ */
+ const submit = (elFormRef) => {
+    validate(elFormRef);
+}
+
+/**
+ * Does the frontend validation, and if it is OK, then emits the signal for creating/editing. That
+ * signal is received by the parent CreateEditAddress.vue component. If it is not ok, then:
+ * 1. there will be red error messages under the relevant fields
+ * 2. no emit will happen
+ */
+ const validate = async (elFormRef) => {
+    console.log('submit() called, FE validation starts')
+    if (!elFormRef) return;
+
+    await elFormRef.validate((valid, fields) => {
+        
+        if (valid) {
+            //if validation is OK, then submit
+            console.log('FE validation OK, submit!', fields)
+            emit('submit');
+        
+        } else {
+            //if validation is not OK, then log the problematic validation fields
+            console.log('FE validation not OK, error submit!', fields)
+        }
+    })
+}
+
+/**
+ * The FE validation rules for the form. We import this from a separate file, because it is too
+ * long to be here.
+ */
+const rules = reactive( addressValidationRules );
 
 
-// /**
-//  * This contains the whole el-form. Needed for the validation.
-//  */
-//  const ruleFormRef = ref()
-
-// /**
-//  * The validation rules for the form.
-//  */
-// const rules = reactive({
-//     //empty
-// })
-
-// /**
-//  * Does the frontend validation, and if it is OK, then calls the submit() function.
-//  */
-// const emit = defineEmits(['submit']);
-// const submitForm = async (formEl) => {
-//     if (!formEl) return;
-
-//     await formEl.validate((valid, fields) => {
-//         if (valid) {//if validation is OK, then submit the address
-//             emit('submit');
-            
-//         } else {//if validation is not OK, then show the errors
-//             // console.log('FE validation not OK, error submit!', fields)
-//             // console.log('address:', address)
-//             // console.log('customerStore.selectedCustomer:', customerStore.selectedCustomer)
-//         }
-//     })
-// }
 
 
 </script>
