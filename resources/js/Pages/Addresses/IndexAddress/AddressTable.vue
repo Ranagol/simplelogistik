@@ -74,7 +74,7 @@
 
         <el-table-column
             label="Country"
-            prop="country"
+            prop="country_code"
             sortable="custom"
             width="250px"
         />

@@ -15,14 +15,15 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->string('avis_phone')->nullable();
             $table->integer('address_type')->unsigned()->nullable();
             $table->string('street', 200);
             $table->string('house_number',200)->nullable();
             $table->string('zip_code',20);
             $table->string('city',100);
-            $table->string('country',100);
+            $table->string('country_code',100)->comment(('The numeric country code)'));
             $table->string('state',100)->nullable();
-            $table->string('type_of_address')->nullable();
+            // $table->string('type_of_address')->nullable();
             $table->string('address_additional_information',255)->comment('This is actually the comment part, but it is calledaddress_additional_information in Pamyra. ')->nullable();
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('tms_customers');

@@ -100,4 +100,22 @@ class TmsAddress extends Model
             set: fn (string $value) => array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.',
         );
     }
+
+    protected function countryCode(): Attribute
+    {
+        return Attribute::make(
+
+            /**
+             * $value is for example 238, the numeric country code for Sweden. Here we want to
+             * return instead 238 => Sweden.
+             */
+            get: fn (string $value) => TmsCountry::where('numeric_code', $value)->first()->country_name ?? 'Missing data TmsAddress model.',
+            
+            /**
+             * $value is for example Sweden, the country name. Here we want to return instead
+             * Sweden => 238.
+             */
+            set: fn (string $value) => TmsCountry::where('country_name', $value)->first()->numeric_code ?? 'Missing data TmsAddress model.',
+        );
+    }
 }

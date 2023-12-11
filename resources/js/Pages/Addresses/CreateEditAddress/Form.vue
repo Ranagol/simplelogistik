@@ -192,11 +192,11 @@
 
             <el-form-item
                 label="Country"
-                prop="country"
+                prop="country_code"
                 width="100px"
             >
                 <el-input
-                    v-model="data.addressData.country"
+                    v-model="data.addressData.country_code"
                     placeholder="Country"
                     type="text"
                     show-word-limit
@@ -207,7 +207,7 @@
                     @change="update()"
                 />
 
-                <BackendValidationErrorDisplay :errorMessage="props.errors.country"/>
+                <BackendValidationErrorDisplay :errorMessage="props.errors.country_code"/>
 
             </el-form-item>
 
