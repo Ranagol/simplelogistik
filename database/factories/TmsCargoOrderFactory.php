@@ -20,7 +20,7 @@ class TmsCargoOrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'internal_oid' => $this->faker->uuid,
+            'order_number' => $this->faker->uuid,
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'contact_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'pickup_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),

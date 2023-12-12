@@ -41,10 +41,10 @@
         <!-- INTERNAL OID -->
         <el-form-item
             label="Internal oid"
-            prop="internal_oid"
+            prop="order_number"
         >
             <el-input
-                v-model="data.cargoOrderData.internal_oid"
+                v-model="data.cargoOrderData.order_number"
                 placeholder="Internal oid"
                 clearable
                 @input="update()"
@@ -52,7 +52,7 @@
                 @change="update()"
             ></el-input>
 
-            <BackendValidationErrorDisplay :errorMessage="props.errors.internal_oid" />
+            <BackendValidationErrorDisplay :errorMessage="props.errors.order_number" />
 
         </el-form-item>
 

@@ -22,7 +22,7 @@ class TmsCargoOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'internal_oid' => 'required|string|max:200',
+            'order_number' => 'required|string|max:200',
             'customer_id' => 'required|integer|exists:tms_customers,id',
             'contact_id' => 'required|integer|exists:tms_contacts,id',
             'pickup_address_id' => 'required|integer|exists:tms_addresses,id',

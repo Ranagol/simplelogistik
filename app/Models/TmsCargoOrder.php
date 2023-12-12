@@ -86,6 +86,6 @@ class TmsCargoOrder extends Model
     public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
     {
         return $query->where('description', 'like', "%{$searchTerm}%")
-            ->orWhere('internal_oid', 'like', "%{$searchTerm}%");
+            ->orWhere('order_number', 'like', "%{$searchTerm}%");
     }
 }

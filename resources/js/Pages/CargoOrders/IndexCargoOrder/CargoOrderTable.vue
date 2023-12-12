@@ -11,23 +11,23 @@
     >
         <!-- Here we want:
         1. Dynamically loop out columns of the el table
-        2. Make internal_oid column a link that leads to the individual edit page. -->
+        2. Make order_number column a link that leads to the individual edit page. -->
         <el-table-column
             v-for="(columnName, index) in data.columns"
             :label='columnName'
             :prop='columnName'
             sortable='custom'
         >   
-            <!-- Add link only for the internal_oid column, don't do this to any other column -->
+            <!-- Add link only for the order_number column, don't do this to any other column -->
             <template 
-                v-if="columnName === 'internal_oid'"
+                v-if="columnName === 'order_number'"
                 #default="scope"
             >
                 <!-- This is the link, that leads to the edit page -->
                 <Link
                     class="hover:underline text-blue-500"
                     :href="`/cargo-orders/${scope.row.id}/edit`"
-                >{{ scope.row.internal_oid }}</Link>
+                >{{ scope.row.order_number }}</Link>
             </template>
         </el-table-column>
 
@@ -51,7 +51,7 @@ const props = defineProps({
 const data = reactive({
     columns: [
         'id',
-        'internal_oid',
+        'order_number',
         'customer_id',
         'contact_id',
         'pickup_address_id',

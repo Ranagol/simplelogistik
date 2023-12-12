@@ -16,7 +16,7 @@ return new class extends Migration
 
             //these are done by default
             $table->bigIncrements('id');
-            $table->string('internal_oid', 200);
+            $table->string('order_number', 200);
 
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');

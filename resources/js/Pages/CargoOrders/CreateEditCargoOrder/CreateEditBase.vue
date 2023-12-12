@@ -41,7 +41,7 @@ const props = defineProps({
          * The default value is a function that returns an empty cargoOrder object.
          */
         default: () => ({
-            internal_oid: 'some_oid', 
+            order_number: 'some_oid', 
             customer_id: 1, 
             contact_id: 1, 
             pickup_address_id: 1, 
@@ -72,7 +72,7 @@ const props = defineProps({
 
 //for developing and testing purposes
 const dummyAddress = {
-    internal_oid: 'some_oid', 
+    order_number: 'some_oid', 
     customer_id: 1, 
     contact_id: 1, 
     pickup_address_id: 1, 
@@ -86,7 +86,7 @@ const dummyAddress = {
 
 //for developing and testing purposes
 const emptyAddress = {
-    internal_oid: '', 
+    order_number: '', 
     customer_id: '', 
     contact_id: '', 
     pickup_address_id: '', 

@@ -49,7 +49,7 @@ export type TmsCargoHistories = TmsCargoHistory[]
 export interface TmsCargoOrder {
   // columns
   id: number
-  internal_oid: string
+  order_number: string
   customer_id: number
   contact_id: number
   pickup_address_id: number
