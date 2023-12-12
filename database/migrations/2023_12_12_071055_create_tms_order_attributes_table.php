@@ -16,8 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tms_cargo_order_id')->comment('An attribute always belongs to a cargo order.');
             $table->foreign('tms_cargo_order_id')->references('id')->on('tms_cargo_orders');
             $table->string('type', 200)->comment('Example: customer chooses extra service, like sms notification when package is delivered. This has additional cost.')->nullable();
-            $table->integer('price')->comment('The price of the attribute/extra service.')->nullable();
-            $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('price', 10, 2)->comment('The price of the attribute/extra service.')->nullable();
             $table->string('description', 255)->comment('This is a description column')->nullable();
             $table->timestamps();
         });

@@ -21,6 +21,7 @@ class TmsForwardingContractFactory extends Factory
     {
         return [
             'internal_fcid' => $this->faker->uuid(),
+            'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'vehicle_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),

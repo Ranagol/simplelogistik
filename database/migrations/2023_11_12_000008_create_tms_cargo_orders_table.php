@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreign('start_address_id')->references('id')->on('tms_addresses');
             $table->unsignedBigInteger('target_address_id');//change to delivery
             $table->foreign('target_address_id')->references('id')->on('tms_addresses');
+
             $table->string('description', 255);
             $table->decimal('shipping_price', 10, 2);
             $table->decimal('shipping_price_netto', 10, 2);
