@@ -105,10 +105,10 @@
         <!-- START ADDRESS -->
         <el-form-item
             label="Start address"
-            prop="start_address_id"
+            prop="pickup_address_id"
         >
             <el-select
-                v-model="data.cargoOrderData.start_address_id"
+                v-model="data.cargoOrderData.pickup_address_id"
                 placeholder="Start address"
                 @change="update()"
                 clearable
@@ -121,17 +121,17 @@
                 ></el-option>
             </el-select>
 
-            <BackendValidationErrorDisplay :errorMessage="props.errors.start_address_id" />
+            <BackendValidationErrorDisplay :errorMessage="props.errors.pickup_address_id" />
 
         </el-form-item>
 
         <!-- TARGET ADDRESS -->
         <el-form-item
             label="Target address"
-            prop="target_address_id"
+            prop="delivery_address_id"
         >
             <el-select
-                v-model="data.cargoOrderData.target_address_id"
+                v-model="data.cargoOrderData.delivery_address_id"
                 placeholder="Target address"
                 @change="update()"
                 clearable
@@ -144,7 +144,7 @@
                 ></el-option>
             </el-select>
 
-            <BackendValidationErrorDisplay :errorMessage="props.errors.target_address_id" />
+            <BackendValidationErrorDisplay :errorMessage="props.errors.delivery_address_id" />
 
         </el-form-item>
 

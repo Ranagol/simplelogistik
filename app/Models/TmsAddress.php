@@ -32,12 +32,12 @@ class TmsAddress extends Model
 
     public function cargoOrdersByStartAddresses(): HasMany
     {
-        return $this->hasMany(TmsCargoOrder::class, 'start_address_id');
+        return $this->hasMany(TmsCargoOrder::class, 'pickup_address_id');
     }
 
     public function cargoOrdersByTargetAddresses(): HasMany
     {
-        return $this->hasMany(TmsCargoOrder::class, 'target_address_id');
+        return $this->hasMany(TmsCargoOrder::class, 'delivery_address_id');
     }
 
     //*************SCOPES*************************************** */

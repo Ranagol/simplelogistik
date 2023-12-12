@@ -52,8 +52,8 @@ export interface TmsCargoOrder {
   internal_oid: string
   customer_id: number
   contact_id: number
-  start_address_id: number
-  target_address_id: number
+  pickup_address_id: number
+  delivery_address_id: number
   description: string
   shipping_price: number
   shipping_price_netto: number
