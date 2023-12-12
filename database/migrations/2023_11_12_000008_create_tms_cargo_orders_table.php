@@ -14,10 +14,16 @@ return new class extends Migration
         // ORDERS TABLE
         Schema::create('tms_cargo_orders', function (Blueprint $table) {
 
-            //these are done by default
+            //Basic order details
             $table->bigIncrements('id');
             $table->string('order_number', 200);
+            $table->string('description', 255);
+            $table->string('origin')->comment('The origin of the order. Example: Pamyra, Sales, Google Ads, Shipping ...')->nullable();
+            $table->string('customer_reference')->comment('Customer reference. Example: when customer says please add this to the invoice.')->nullable();
+            $table->decimal('shipping_price', 10, 2);
+            $table->decimal('shipping_price_netto', 10, 2);
 
+            //Foreign keys
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('contact_id');
@@ -28,10 +34,6 @@ return new class extends Migration
             $table->foreign('pickup_address_id')->references('id')->on('tms_addresses');
             $table->unsignedBigInteger('delivery_address_id');//change to delivery
             $table->foreign('delivery_address_id')->references('id')->on('tms_addresses');
-
-            $table->string('description', 255);
-            $table->decimal('shipping_price', 10, 2);
-            $table->decimal('shipping_price_netto', 10, 2);
 
             //Avis phone numbers. 
             $table->string('avis_customer_phone', 200)->comment('One time use customer phone number')->nullable();

@@ -26,6 +26,8 @@ class TmsCargoOrderFactory extends Factory
             'pickup_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'delivery_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'description' => $this->faker->sentence,
+            'origin' => $this->faker->randomElement(['Pamyra', 'Sales', 'Google Ads', 'Shipping calc.']),
+            'customer_reference' => $this->faker->sentence(3),
             'shipping_price' => $this->faker->randomFloat(2, 1, 100),
             'shipping_price_netto' => $this->faker->randomFloat(2, 1, 100),
 
