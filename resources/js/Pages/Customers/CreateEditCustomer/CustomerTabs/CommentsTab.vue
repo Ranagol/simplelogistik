@@ -25,8 +25,6 @@
                 placeholder="Add a comment"
                 v-model="data.comment"
                 minlength="3"
-                maxlength="500"
-                show-word-limit
             />
 
             <BackendValidationErrorDisplay
@@ -54,6 +52,7 @@
         :data="data.customer.comments"
         class="mt-2"
         width="50%"
+        :default-sort="{prop: 'date', order: 'descending'}"
     >
         <el-table-column
             prop="date"
@@ -63,7 +62,7 @@
         <el-table-column
             prop="comment"
             label="Comment"
-            width="180"
+            width="800"
         ></el-table-column>
         <el-table-column
             prop="user_name"
@@ -129,8 +128,12 @@ const submit = async (elFormRef) => {
     await elFormRef.validate((valid, fields) => {
         // If the FE validation is ok...
         if (valid) {
-            console.log('submit FE validation passed!')
-            data.patch(//this data here is actually a form helper, that was named by me as data
+
+            /**
+             * Here we send the request to the backend.
+             * this data here is actually a form helper, that was named by me as data
+             */
+            data.patch(
                 `/customers/${props.customer.id}/comments/create`,
                 {
                     data: data.comment,
@@ -144,9 +147,10 @@ const submit = async (elFormRef) => {
                     },
                 }
             );
+            //After the request is sent, we clear the form
+            data.comment = '';
         } else {
             //If the FE validation is not ok...
-            console.log('error submit!', fields);
             ElMessage.error('Oops, something went wrong while creating the comment.')
             ElMessage(errors);
         }

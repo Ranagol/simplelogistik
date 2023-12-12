@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email', 200)->nullable();
             $table->string('tax_number',200)->nullable();
             $table->integer('rating')->unsigned()->nullable();
+            $table->json('comments')->nullable();
 
             $table->boolean('auto_book_as_private')->nullable();
             $table->boolean('dangerous_goods')->nullable();
