@@ -47,6 +47,10 @@ class TmsCustomer extends Model
         'invoice_customer' => 'boolean',
         'poor_payment_morale' => 'boolean',
         'can_login' => 'boolean',
+        'paypal' => 'boolean',
+        'sofort' => 'boolean',
+        'amazon' => 'boolean',
+        'vorkasse' => 'boolean',
         //json data
         'comments' => 'array',
     ];
