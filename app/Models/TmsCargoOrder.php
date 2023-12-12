@@ -68,6 +68,13 @@ class TmsCargoOrder extends Model
         return $this->hasMany(TmsOrderAttribute::class, 'tms_cargo_order_id');
     }
 
+    public function forwardingContract(): HasOne
+    {
+        return $this->hasOne(TmsForwardingContract::class, 'order_id');
+    }
+
+
+
     /**
      * This here is a Laravel local scope, for searching by search term.
      * https://laravel.com/docs/10.x/eloquent#local-scopes
