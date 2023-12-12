@@ -32,9 +32,15 @@ class TmsCargoOrderFactory extends Factory
             'avis_customer_phone' => $this->faker->phoneNumber,
             'avis_sender_phone' => $this->faker->phoneNumber,
             'avis_receiver_phone' => $this->faker->phoneNumber,
+
+            'pickup_date_from' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
+            'pickup_date_to' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
+            'pickup_comments' => $this->faker->sentence,
+
+            'delivery_date_from' => $this->faker->dateTimeBetween('+2 weeks', '+3 weeks'),
+            'delivery_date_to' => $this->faker->dateTimeBetween('+3 weeks', '+4 weeks'),
+            'delivery_comments' => $this->faker->sentence,
             
-            // 'pickup_date' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
-            // 'delivery_date' => $this->faker->dateTimeBetween('+1 month', '+2 months'),
         ];
     }
 }

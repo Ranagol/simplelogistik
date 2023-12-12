@@ -33,18 +33,22 @@ return new class extends Migration
             $table->decimal('shipping_price', 10, 2);
             $table->decimal('shipping_price_netto', 10, 2);
 
+            //Avis phone numbers. 
             $table->string('avis_customer_phone', 200)->comment('One time use customer phone number')->nullable();
             $table->string('avis_sender_phone', 200)->comment('One time use sender phone number')->nullable();
             $table->string('avis_receiver_phone', 200)->comment('One time use receiver phone number')->nullable();
 
-            // $table->string('pickup_date')->nullable();
-            // $table->string('delivery_date')->nullable();
+            //Pickup time period details. Important: this is a time PERIOD.
+            $table->dateTime('pickup_date_from')->comment('The pickup date AND time. Equal to Pamyra pickupDate.dateFrom + pickupDate.timeFromFrom')->nullable();
+            $table->dateTime('pickup_date_to')->comment('The pickup date AND time. Equal to Pamyra pickupDate.dateTo + pickupDate.timeFromTo')->nullable();
+            $table->string('pickup_comments')->comment('Equal to Pamyra pickupDate.asString. Special comments regarding pickup.')->nullable();
 
-            //Pickup time details
+            //Delivery time period details. Important: this is a time PERIOD.
+            $table->dateTime('delivery_date_from')->comment('The delivery date AND time. Equal to Pamyra deliveryDate.dateFrom + deliveryDate.timeFromFrom')->nullable();
+            $table->dateTime('delivery_date_to')->comment('The delivery date AND time. Equal to Pamyra deliveryDate.dateTo + deliveryDate.timeFromTo')->nullable();
+            $table->string('delivery_comments')->comment('Equal to Pamyra deliveryDate.asString. Special comments regarding delivery.')->nullable();
+
             
-
-
-
 
 
 
