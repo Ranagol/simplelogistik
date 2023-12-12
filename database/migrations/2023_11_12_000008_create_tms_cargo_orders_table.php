@@ -18,10 +18,12 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('order_number', 200);
             $table->string('description', 255);
+            $table->string('type_of_transport', 200)->comment('The type of transport. Example: LTL, FTL, Express, Air, Sea, Rail, Intermodal, Courier, Special')->nullable();
             $table->string('origin')->comment('The origin of the order. Example: Pamyra, Sales, Google Ads, Shipping ...')->nullable();
             $table->string('customer_reference')->comment('Customer reference. Example: when customer says please add this to the invoice.')->nullable();
             $table->decimal('shipping_price', 10, 2);
             $table->decimal('shipping_price_netto', 10, 2);
+            $table->json('order_edited_events')->comment('When somebody edits the order, that must be registered here.')->nullable();//this does not need a factory/faker line
 
             //Foreign keys
             $table->unsignedBigInteger('customer_id');
