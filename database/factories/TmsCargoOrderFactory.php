@@ -28,6 +28,11 @@ class TmsCargoOrderFactory extends Factory
             'description' => $this->faker->sentence,
             'shipping_price' => $this->faker->randomFloat(2, 1, 100),
             'shipping_price_netto' => $this->faker->randomFloat(2, 1, 100),
+
+            'avis_customer_phone' => $this->faker->phoneNumber,
+            'avis_sender_phone' => $this->faker->phoneNumber,
+            'avis_receiver_phone' => $this->faker->phoneNumber,
+            
             'pickup_date' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
             'delivery_date' => $this->faker->dateTimeBetween('+1 month', '+2 months'),
         ];

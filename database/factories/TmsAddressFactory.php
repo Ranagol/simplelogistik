@@ -281,7 +281,6 @@ class TmsAddressFactory extends Factory
         return [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'avis_phone' => $this->faker->phoneNumber,
             'address_type' => Arr::random(TmsAddress::ADDRESS_TYPES),
             'street' => $this->faker->streetName,
             'house_number' => $this->faker->buildingNumber,

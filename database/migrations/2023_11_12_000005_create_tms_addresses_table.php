@@ -15,7 +15,6 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('avis_phone')->nullable();
             $table->integer('address_type')->unsigned()->nullable();
             $table->string('street', 200);
             $table->string('house_number',200)->nullable();

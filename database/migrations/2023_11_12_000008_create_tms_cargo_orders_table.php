@@ -28,6 +28,11 @@ return new class extends Migration
             $table->string('description', 255);
             $table->decimal('shipping_price', 10, 2);
             $table->decimal('shipping_price_netto', 10, 2);
+
+            $table->string('avis_customer_phone', 200)->comment('One time use customer phone number')->nullable();
+            $table->string('avis_sender_phone', 200)->comment('One time use sender phone number')->nullable();
+            $table->string('avis_receiver_phone', 200)->comment('One time use receiver phone number')->nullable();
+
             $table->string('pickup_date')->nullable();
             $table->string('delivery_date')->nullable();
 
