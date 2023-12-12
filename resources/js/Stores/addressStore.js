@@ -4,19 +4,19 @@ export const useAddressStore = defineStore(
     'address', {
 
     state: () => ({
-        addresses: [] as TmsAddresses,//these are addresses
-        selectedAddress: {} as TmsAddress,//for edit, create, delete
-        selectedAddresses: [] as TmsAddresses,//this is for batch delete
+        addresses: [],//these are addresses
+        selectedAddress: {},//for edit, create, delete
+        selectedAddresses: [],//this is for batch delete
         searchTerm: '',//for search field
         mode: '',
-        elDialogVisible: false as boolean,//turns on the popup
+        elDialogVisible: false,//turns on the popup
 
         //sort in el-table
-        sortOrder: '' as string,
-        sortColumn: '' as string,
+        sortOrder: '',
+        sortColumn: '',
 
         //pagination
-        paginationData: {} as PaginationData,
+        paginationData: {},
 
         errors: {},//validation errors from the backend
         title: '',//the title for the createEdit component
@@ -28,11 +28,11 @@ export const useAddressStore = defineStore(
 
     actions: {//like methods. Use .this here
 
-        addressesToStore(addresses: TmsAddresses) {
+        addressesToStore(addresses) {
             this.addresses = addresses;
         },
 
-        deleteAddress(address: TmsAddress) {
+        deleteAddress(address) {
             this.addresses = this.addresses.filter((item) => item.id !== address.id);
         },
 
@@ -42,11 +42,11 @@ export const useAddressStore = defineStore(
             this.addresses[index] = newlyEditedAddress;
         },
 
-        setCurrentPage(page: number) {
+        setCurrentPage(page) {
             this.paginationData.current_page = page;
         },
 
-        setPageSize(size: number) {
+        setPageSize(size) {
             this.paginationData.per_page = size;
         },
     },

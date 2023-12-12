@@ -9,11 +9,11 @@ export const useVehicleStore = defineStore(
         selectedVehicles: [],//this is for batch delete
         searchTerm: '',//for search field
         mode: '',
-        elDialogVisible: false as boolean,//turns on the popup
+        elDialogVisible: false,//turns on the popup
 
         //sort in el-table
-        sortOrder: '' as string,
-        sortColumn: '' as string,
+        sortOrder: '',
+        sortColumn: '',
 
         //pagination
         paginationData: {},
@@ -46,11 +46,11 @@ export const useVehicleStore = defineStore(
             this.vehicles[index] = newlyEditedVehicle;
         },
 
-        setCurrentPage(page: number) {
+        setCurrentPage(page) {
             this.paginationData.current_page = page;
         },
 
-        setPageSize(size: number) {
+        setPageSize(size) {
             this.paginationData.per_page = size;
         },
     },

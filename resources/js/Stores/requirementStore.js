@@ -46,11 +46,11 @@ export const useRequirementStore = defineStore(
             this.requirements[index] = newlyEditedRequirement;
         },
 
-        setCurrentPage(page: number) {
+        setCurrentPage(page) {
             this.paginationData.current_page = page;
         },
 
-        setPageSize(size: number) {
+        setPageSize(size) {
             this.paginationData.per_page = size;
         },
     },

@@ -24,7 +24,7 @@ createInertiaApp({
      * component has a layout property set, falling back to a default layout (Layout) if one is not
      * specified in the component itself.
      */
-    resolve: (pageName) => {
+    resolve: (pageName): any => {
 
         /**
          * FINDING THE PAGE
@@ -37,6 +37,7 @@ createInertiaApp({
             `./Pages/${pageName}.vue`,
             import.meta.glob("./Pages/**/*.vue")
         );
+        
 
         /**
          * ADDING THE LAYOUT.VUE
@@ -44,7 +45,7 @@ createInertiaApp({
          * resolve and then executes the provided callback function. Inside the callback function, it
          * modifies the layout property.
          */
-        page.then((module) => {
+        page.then((module: any) => {
             // If the page does not have his own private layout, then it has to use the general Layout.vue
             module.default.layout = module.default.layout || Layout;//TODO how to fix this TS issue?
         });

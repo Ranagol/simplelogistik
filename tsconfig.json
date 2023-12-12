@@ -16,5 +16,15 @@
         },
         "types": ["element-plus/global"]
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.vue"]
+    "include": [
+        "resources/js/**/*.ts", 
+        "resources/js/**/*.js", 
+        "resources/js/**/*.d.ts", 
+        "resources/js/**/*.vue", 
+        "resources/js/Stores/customerStore.js", 
+        "resources/js/Stores/requirementStore.js", 
+        "resources/js/Stores/vehicleStore.js",
+        "resources/js/Stores/addressStore.js", 
+        "resources/js/app.ts"
+    ]
 }
