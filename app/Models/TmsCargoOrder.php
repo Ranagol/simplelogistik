@@ -43,9 +43,9 @@ class TmsCargoOrder extends Model
         return $this->belongsTo(TmsAddress::class, 'target_address_id');
     }
 
-    public function cargoHistory(): HasOne
+    public function cargoHistory(): HasMany
     {
-        return $this->hasOne(TmsCargoHistory::class, 'cargo_order_id');
+        return $this->hasMany(TmsCargoHistory::class, 'cargo_order_id');
     }
 
     public function invoice(): HasOne
