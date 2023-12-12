@@ -20,7 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->string('invoice_number');
-            $table->dateTime('invoice_date');
+            $table->date('invoice_date');
+            $table->date('invoice_received_date')->nullable();
             $table->string('currency');
             $table->decimal('invoice_sum', 10,2);
             $table->decimal('tax',10,2);

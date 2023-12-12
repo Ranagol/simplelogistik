@@ -25,6 +25,7 @@ class TmsInvoiceFactory extends Factory
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'invoice_number' => $this->faker->bothify('INV-####'),
             'invoice_date' => $this->faker->dateTime(),
+            'invoice_received_date' => $this->faker->dateTime(),
             'currency' => $this->faker->currencyCode(),
             'invoice_sum' => $this->faker->randomFloat(2, 0, 10000),
             'tax' => $this->faker->randomFloat(2, 0, 1000),
