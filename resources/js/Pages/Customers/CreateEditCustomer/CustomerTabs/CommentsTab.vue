@@ -48,22 +48,25 @@
 
 
     <!-- TABLE FOR DISPLAYING ALL COMMENTS BELONGING TO THE CLIENT -->
+    <!-- :default-sort="{prop: 'date', order: 'descending'}" -->
     <el-table
         :data="data.customer.comments"
         class="mt-2"
         width="50%"
-        :default-sort="{prop: 'date', order: 'descending'}"
+        :default-sort="sortGuardian"
     >
         <el-table-column
             prop="date"
             label="Date"
             width="180"
         ></el-table-column>
+
         <el-table-column
             prop="comment"
             label="Comment"
             width="800"
         ></el-table-column>
+
         <el-table-column
             prop="user_name"
             label="Created by"
@@ -79,13 +82,13 @@ import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from '
 import { useForm } from '@inertiajs/vue3';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 import { router} from '@inertiajs/vue3';//for sending requests;
+import _ from 'lodash';
 
 const props = defineProps({
     customer: {
         type: Object,
         required: true,
     },
-
 });
 
 watch(
@@ -116,6 +119,22 @@ const data = useForm({
         // ],
     },
 }); 
+
+/**
+ * Problem: el-table does not have a prop for default sorting, always and immediatelly.
+ * Because first all is rendered, then the data arrives from the backend.
+ * To solve this issue, we use this sortGuardian computed property.
+ * {prop: 'date', order: 'descending'}
+ */
+let sortGuardian = computed(() => {
+    //If data.customer.comments exists, then we sort by date, descending
+    if(_.get(data.customer, 'comments' )) {
+        return {prop: 'date', order: 'descending'}
+    } else {
+        //If data.customer.comments does not exist, then we sort by ... nothing. Hence the empty object.
+        return {}
+    }
+})
 
 /**
  * This triggers the FE validation. It is triggered when the user clicks the submit button.

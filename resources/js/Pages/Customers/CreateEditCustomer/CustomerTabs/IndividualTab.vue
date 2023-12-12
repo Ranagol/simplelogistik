@@ -98,12 +98,42 @@
             </el-form-item>
 
             <el-form-item
-                label="Only paypal sofort amazon vorkasse"
-                prop="only_paypal_sofort_amazon_vorkasse"
+                label="Paypal"
+                prop="paypal"
                 :label-width="data.labelWidth"
             >   
                 <el-checkbox
-                    v-model="data.customer.only_paypal_sofort_amazon_vorkasse"
+                    v-model="data.customer.paypal"
+                />
+            </el-form-item>
+
+            <el-form-item
+                label="Sofort"
+                prop="sofort"
+                :label-width="data.labelWidth"
+            >   
+                <el-checkbox
+                    v-model="data.customer.sofort"
+                />
+            </el-form-item>
+
+            <el-form-item
+                label="Amazon"
+                prop="amazon"
+                :label-width="data.labelWidth"
+            >   
+                <el-checkbox
+                    v-model="data.customer.amazon"
+                />
+            </el-form-item>
+
+            <el-form-item
+                label="Vorkasse"
+                prop="vorkasse"
+                :label-width="data.labelWidth"
+            >   
+                <el-checkbox
+                    v-model="data.customer.vorkasse"
                 />
             </el-form-item>
 
@@ -254,7 +284,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
+import { reactive, computed } from 'vue';
 import _ from 'lodash';
 
 
