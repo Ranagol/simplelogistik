@@ -61,8 +61,11 @@ class TmsCargoOrder extends Model
     public function parcels(): HasMany
     {
         return $this->hasMany(TmsParcel::class, 'tms_cargo_order_id');
-        // return $this->hasMany(TmsParcel::class);
+    }
 
+    public function orderAttributes(): HasMany
+    {
+        return $this->hasMany(TmsOrderAttribute::class, 'tms_cargo_order_id');
     }
 
     /**

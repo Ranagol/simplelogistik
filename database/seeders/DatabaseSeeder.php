@@ -71,6 +71,7 @@ class DatabaseSeeder extends Seeder
             PivotTableSeeder::class,
             TmsParcelSeeder::class,
             TmsCountrySeeder::class,
+            TmsOrderAttributeSeeder::class,
         ]);
     }
 }
