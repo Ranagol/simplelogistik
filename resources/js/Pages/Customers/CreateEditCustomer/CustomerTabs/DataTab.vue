@@ -1,7 +1,5 @@
 <template>
-    <!-- <slot name="buttonSubmitTab"></slot> -->
 
-    <!-- {{ data.customer }} -->
     <!-- <pre>{{ JSON.stringify(data.customer, null, 2) }}</pre> -->
 
     <!-- :rules="rules" -->

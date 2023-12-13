@@ -103,7 +103,6 @@ import OrdersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OrdersT
 import OffersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OffersTab.vue';
 import IndividualTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/IndividualTab.vue';
 import CommentsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/CommentsTab.vue';
-import ButtonSubmitTab from '@/Shared/ButtonSubmitTab.vue';
 import _ from 'lodash';
 
 const props = defineProps({
