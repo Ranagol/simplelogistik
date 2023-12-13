@@ -76,22 +76,22 @@
                 </template>
 
                 <!-- VEHICLES -->
-                <el-menu-item 
+                <!-- <el-menu-item 
                     index="vehicles.index"
                 >
                     <NavLink
                         href="/vehicles"
                     >Vehicles list</NavLink>
-                </el-menu-item>
+                </el-menu-item> -->
 
                 <!-- REQUREMENTS -->
-                <el-menu-item 
+                <!-- <el-menu-item 
                     index="requirements.index"
                 >
                     <NavLink
                         href="/requirements"
                     >Requirements list</NavLink>
-                </el-menu-item>
+                </el-menu-item> -->
 
                 <!-- PALMYRA -->
                 <el-menu-item index="Pamyra">

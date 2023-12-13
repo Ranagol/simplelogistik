@@ -18,7 +18,6 @@
             :label="_.upperFirst(_.toLower(_.startCase(_.camelCase(columnName))))"
             :prop='columnName'
             sortable='custom'
-            :width="calculateColumnWidth(columnName)"
         >   
             <!-- Add link only for the order_number column, don't do this to any other column -->
             <template 
@@ -90,14 +89,6 @@ const sort = ( { prop, order }) => {
     emit('getData');
 };
 
-const calculateColumnWidth = (columnName) => {
-
-    if (true) {
-        return columnName.length * 30;
-    } else {
-        return 300;
-    }
-};
 
 /**
  * FORMATTING
