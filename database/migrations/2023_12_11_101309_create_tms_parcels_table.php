@@ -15,15 +15,18 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tms_cargo_order_id');
             $table->foreign('tms_cargo_order_id')->references('id')->on('tms_cargo_orders');
-            $table->integer('width')->comment('Parcel width in cm');
-            $table->integer('height')->comment('Parcel height in cm');
-            $table->integer('length')->comment('Parcel length in cm');
-            $table->decimal('weight', 10, 2)->comment('Parcel weight in kg');
             $table->boolean('is_hazardous')->default(false)->comment('Is the parcel hazardous?');
-            $table->boolean('is_stackable')->default(false)->comment('Is the parcel stackable?');
             $table->string('information', 255)->nullable()->comment('Additional information about the parcel');
-            $table->integer('name')->comment('This is actually the type of parcel. Example: package, bulky goods, euro pallet, disposable pallet, etc.');//this will be solved with mutators and accessors
-            $table->integer('number')->comment('This is a property of Pamyra orders. Not sure what it is for.');
+
+            //Columns coming from Pamyra. All column from Pamyra must be prefixed with p_.
+            $table->string('p_name')->comment('This is actually the type of parcel. Example: package, bulky goods, euro pallet, disposable pallet, etc.');
+            $table->string('p_height')->comment('Parcel height in cm');
+            $table->string('p_length')->comment('Parcel length in cm');
+            $table->string('p_width')->comment('Parcel width in cm');
+            $table->string('p_number')->comment('This is a property of Pamyra orders. Number is an index of transport objects.');
+            $table->string('p_stackable')->comment('Is the parcel stackable?');
+            $table->string('p_weight')->comment('Parcel weight in kg');
+            
             $table->timestamps();
         });
     }

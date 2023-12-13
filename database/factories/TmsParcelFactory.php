@@ -18,15 +18,15 @@ class TmsParcelFactory extends Factory
     {
         return [
             'tms_cargo_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
-            'width' => $this->faker->numberBetween(1, 100),
-            'height' => $this->faker->numberBetween(1, 100),
-            'length' => $this->faker->numberBetween(1, 100),
-            'weight' => $this->faker->randomFloat(2, 0.1, 100),
             'is_hazardous' => $this->faker->boolean,
-            'is_stackable' => $this->faker->boolean,
             'information' => $this->faker->sentence,
-            'name' => $this->faker->numberBetween(1, 4),//this will be solved with mutators and accessors
-            'number' => $this->faker->numberBetween(1, 100),
+            'p_name' => $this->faker->randomElement(['package', 'bulky goods', 'euro pallet', 'disposable pallet']),
+            'p_height' => $this->faker->randomFloat(2, 0, 200),
+            'p_length' => $this->faker->randomFloat(2, 0, 200),
+            'p_width' => $this->faker->randomFloat(2, 0, 200),
+            'p_number' => $this->faker->unique()->numerify('Parcel ####'),
+            'p_stackable' => $this->faker->boolean,
+            'p_weight' => $this->faker->randomFloat(2, 0, 100),
         ];
     }
 }

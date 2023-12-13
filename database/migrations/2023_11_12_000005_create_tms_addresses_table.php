@@ -22,12 +22,13 @@ return new class extends Migration
             $table->string('city',100);
             $table->string('country_code',100)->comment(('The numeric country code)'));
             $table->string('state',100)->nullable();
-            // $table->string('type_of_address')->nullable();
             $table->string('address_additional_information',255)->comment('This is actually the comment part, but it is calledaddress_additional_information in Pamyra. ')->nullable();
+            
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id')->nullable();
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
+            
             $table->timestamps();
         });
     }
