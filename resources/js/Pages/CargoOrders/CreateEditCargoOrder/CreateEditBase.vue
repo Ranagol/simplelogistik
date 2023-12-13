@@ -6,8 +6,7 @@
 
     <!-- CREATE EDIT CARGO ORDER -->
     <Card>
-
-
+        
         <Tabs
             v-model:cargoOrder="data.cargoOrderData"
             :errors="props.errors"

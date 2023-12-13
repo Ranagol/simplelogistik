@@ -12,22 +12,25 @@
         <!-- Here we want:
         1. Dynamically loop out columns of the el table
         2. Make order_number column a link that leads to the individual edit page. -->
+        <!-- :label="_.startCase(_.camelCase(columnName))" -->
         <el-table-column
             v-for="(columnName, index) in data.columns"
-            :label='columnName'
+            :label="_.upperFirst(_.toLower(_.startCase(_.camelCase(columnName))))"
             :prop='columnName'
             sortable='custom'
+            :width="calculateColumnWidth(columnName)"
         >   
             <!-- Add link only for the order_number column, don't do this to any other column -->
             <template 
-                v-if="columnName === 'order_number'"
+                v-if="columnName === 'p_order_number'"
                 #default="scope"
             >
                 <!-- This is the link, that leads to the edit page -->
                 <Link
                     class="hover:underline text-blue-500"
                     :href="`/cargo-orders/${scope.row.id}/edit`"
-                >{{ scope.row.order_number }}</Link>
+                >{{ scope.row.p_order_number }}</Link>
+
             </template>
         </el-table-column>
 
@@ -39,6 +42,7 @@
 import { Link } from '@inertiajs/vue3';
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import moment from 'moment';
+import _ from 'lodash';
 
 const emit = defineEmits(['getData', 'update:sortOrder', 'update:sortColumn']);
 
@@ -51,7 +55,7 @@ const props = defineProps({
 const data = reactive({
     columns: [
         'id',
-        'order_number',
+        'p_order_number',
         'customer_id',
         'contact_id',
         'pickup_address_id',
@@ -84,6 +88,15 @@ const sort = ( { prop, order }) => {
     emit('update:sortColumn', prop);
     //Sending a signal to Index.vue to get the cargoOrders by the new sort order
     emit('getData');
+};
+
+const calculateColumnWidth = (columnName) => {
+
+    if (true) {
+        return columnName.length * 30;
+    } else {
+        return 300;
+    }
 };
 
 /**

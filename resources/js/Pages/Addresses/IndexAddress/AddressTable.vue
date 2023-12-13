@@ -86,12 +86,6 @@
             width="150px"
         />
 
-        <!-- <el-table-column
-            label="Type of address"
-            prop="type_of_address"
-            sortable="custom"
-        /> -->
-
         <el-table-column
             label="Comment"
             prop="comment"
