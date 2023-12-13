@@ -178,15 +178,20 @@
             </el-form-item>
 
             <!-- EL-SELECT FIELDS START HERE -->
+            <!-- PROBLEM: the options window is not closing automatically, when an options is
+            selected. Solution: use ref for el-select, then on change close the 
+            options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
+            https://github.com/ElemeFE/element/issues/11048 -->
             <el-form-item
                 label="Customer type"
                 prop="customer_type"
                 :label-width="data.labelWidth"
             >
                 <el-select
+                    ref="customerTypeRef"
                     v-model="data.customer.customer_type"
                     clearable
-                    @change="update()"
+                    @change="$refs.customerTypeRef.blur()"
                 >
                     <el-option
                         v-for="(item, index) in props.selectOptions.customerTypes"
@@ -204,15 +209,20 @@
 
             </el-form-item>
 
+            <!-- PROBLEM: the options window is not closing automatically, when an options is
+            selected. Solution: use ref for el-select, then on change close the 
+            options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
+            https://github.com/ElemeFE/element/issues/11048 -->
             <el-form-item
                 label="Invoice dispatch"
                 prop="invoice_dispatch"
                 :label-width="data.labelWidth"
             >
                 <el-select
+                    ref="invoiceDispatchRef"
                     v-model="data.customer.invoice_dispatch"
                     clearable
-                    @change="update()"
+                    @change="$refs.invoiceDispatchRef.blur()"
                 >
                     <el-option
                         v-for="(item, index) in props.selectOptions.invoiceDispatches"
@@ -229,15 +239,20 @@
                     ></div>
             </el-form-item>
 
+            <!-- PROBLEM: the options window is not closing automatically, when an options is
+            selected. Solution: use ref for el-select, then on change close the 
+            options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
+            https://github.com/ElemeFE/element/issues/11048 -->
             <el-form-item
                 label="Invoice shipping method"
                 prop="invoice_shipping_method"
                 :label-width="data.labelWidth"
             >
                 <el-select
+                    ref="invoiceShippingMethodRef"
                     v-model="data.customer.invoice_shipping_method"
                     clearable
-                    @change="update()"
+                    @change="$refs.invoiceShippingMethodRef.blur()"
                 >
                     <el-option
                         v-for="(item, index) in props.selectOptions.invoiceShippingMethods"
@@ -254,15 +269,20 @@
                     ></div>
             </el-form-item>
 
+            <!-- PROBLEM: the options window is not closing automatically, when an options is
+            selected. Solution: use ref for el-select, then on change close the 
+            options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
+            https://github.com/ElemeFE/element/issues/11048 -->
             <el-form-item
                 label="Payment method"
                 prop="payment_method"
                 :label-width="data.labelWidth"
             >
                 <el-select
+                    ref="paymentMethodRef"
                     v-model="data.customer.payment_method"
                     clearable
-                    @change="update()"
+                    @change="$refs.paymentMethodRef.blur()"
                 >
                     <el-option
                         v-for="(item, index) in props.selectOptions.paymentMethods"
@@ -272,11 +292,12 @@
                     ></el-option>
                 </el-select>
                     
-                    <div
-                        v-if="props.errors.payment_method"
-                        v-text="props.errors.payment_method"
-                        class="text-red-500 text-xs mt-1"
-                    ></div>
+                <div
+                    v-if="props.errors.payment_method"
+                    v-text="props.errors.payment_method"
+                    class="text-red-500 text-xs mt-1"
+                ></div>
+                
             </el-form-item>
         </div>
 
@@ -341,6 +362,7 @@ if (props.mode === 'edit' && _.get(data.customer, 'id')) {
  * v-model magic. This is not sending a signal for saving the customer! Just the customer.
  */
 const emit = defineEmits(['update:modelValue']);
+
 function handleChange(){
     emit('update:modelValue', data.customer);
 }
