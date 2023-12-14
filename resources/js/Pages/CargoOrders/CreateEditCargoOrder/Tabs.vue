@@ -69,7 +69,7 @@
 <script setup>
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import _ from 'lodash';
-import DataTab from './CargoOrderTabs/DataTab.vue';
+import DataTab from './CargoOrderTabs/DataTab/DataTab.vue';
 import TrackingTab from './CargoOrderTabs/TrackingTab.vue';
 import DocumentsTab from './CargoOrderTabs/DocumentsTab.vue';
 import InfoToolTab from './CargoOrderTabs/InfoToolTab.vue';

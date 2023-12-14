@@ -2,9 +2,10 @@
     <Head title="CargoOrder" />
 
     <Card>
-        <h1
-            class="font-semibold text-xl text-gray-800 leading-tight mr-6 mb-3"
-        >Cargo orders</h1>
+
+        <Title 
+            title="Cargo orders" 
+        />
 
         <!-- SEARCH FIELD -->
         <div class="flex flex-row">
@@ -49,6 +50,7 @@ import { useAddressStore } from '@/Stores/addressStore';
 import SearchField from '@/Shared/SearchField.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import CargoOrderTable from './CargoOrderTable.vue';
+import Title from '@/Shared/Title.vue';
 
 let addressStore = useAddressStore();
 

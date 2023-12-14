@@ -443,7 +443,9 @@ const destroy = () => {
  * The FE validation rules for the form. We import this from a separate file, because it is too
  * long to be here.
  */
-const rules = reactive( addressValidationRules );
+const rules = reactive(
+    addressValidationRules//this is = to addressValidationRules: addressValidationRules
+);
 
 
 
