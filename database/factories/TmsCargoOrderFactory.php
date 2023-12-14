@@ -24,36 +24,27 @@ class TmsCargoOrderFactory extends Factory
             'contact_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'pickup_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'delivery_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
-            'description' => $this->faker->sentence,
             'type_of_transport' => $this->faker->randomElement(['General cargo', 'LTL/FTL', 'Direct transport', 'Parcell up to 31.5 kg', 'Special order']),
             'origin' => $this->faker->randomElement(['Pamyra', 'Sales', 'Google Ads', 'Shipping calc.']),
-            'customer_reference' => $this->faker->sentence(3),
-            'shipping_price' => $this->faker->randomFloat(2, 1, 100),
-            'shipping_price_netto' => $this->faker->randomFloat(2, 1, 100),
+            'customer_reference' => $this->faker->numerify('Ref #######'),
 
             'avis_customer_phone' => $this->faker->phoneNumber,
             'avis_sender_phone' => $this->faker->phoneNumber,
             'avis_receiver_phone' => $this->faker->phoneNumber,
-
-
-
-
-
-
 
             'p_calculation_model_name' => $this->faker->word,
             'p_order_number' => $this->faker->unique()->numerify('Order ####'),
             'p_order_pdf' => $this->faker->url,
             'p_payment_method' => $this->faker->randomElement(['Credit Card', 'Paypal', 'Bank Transfer']),
             'p_date_of_sale' => $this->faker->date(),
-            'p_date_of_canellation' => $this->faker->date(),
+            'p_date_of_cancellation' => $this->faker->date(),
             'p_pickup_date_from' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'p_pickup_date_to' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
             'p_pickup_comments' => $this->faker->sentence,
             'p_delivery_date_from' => $this->faker->dateTimeBetween('+2 weeks', '+3 weeks'),
             'p_delivery_date_to' => $this->faker->dateTimeBetween('+3 weeks', '+4 weeks'),
             'p_delivery_comments' => $this->faker->sentence,
-            'p_description_of_transport' => $this->faker->sentence,
+            'p_description_of_transport' => $this->faker->sentence($nbWords = 3),
             'p_particularities' => $this->faker->sentence,
             'p_loading_meter' => $this->faker->randomFloat(2, 0, 100),
             'p_square_meter' => $this->faker->randomFloat(2, 0, 100),

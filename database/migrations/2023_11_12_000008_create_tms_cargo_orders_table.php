@@ -16,12 +16,9 @@ return new class extends Migration
 
             //Basic order details
             $table->bigIncrements('id');
-            $table->string('description', 255);
             $table->string('type_of_transport', 200)->comment('The type of transport. Example: LTL, FTL, Express, Air, Sea, Rail, Intermodal, Courier, Special')->nullable();
             $table->string('origin')->comment('The origin of the order. Example: Pamyra, Sales, Google Ads, Shipping ...')->nullable();
             $table->string('customer_reference')->comment('Customer reference. Example: when customer says please add this to the invoice.')->nullable();
-            $table->decimal('shipping_price', 10, 2);
-            $table->decimal('shipping_price_netto', 10, 2);
             $table->decimal('provision', 10, 2)->comment('Example, for Pamyra orders the provision is 6%.')->nullable();
             $table->json('order_edited_events')->comment('When somebody edits the order, that must be registered here.')->nullable();//this does not need a factory/faker line
 
@@ -48,7 +45,7 @@ return new class extends Migration
             $table->string('p_order_pdf')->nullable();
             $table->string('p_payment_method')->nullable();
             $table->string('p_date_of_sale')->nullable();
-            $table->string('p_date_of_canellation')->nullable();
+            $table->string('p_date_of_cancellation')->nullable();
             //Pickup time period details. Important: this is a time PERIOD. We adapted Pamyra stuff to our needs here.
             $table->dateTime('p_pickup_date_from')->comment('The pickup date AND time. Equal to Pamyra pickupDate.dateFrom + pickupDate.timeFromFrom')->nullable();
             $table->dateTime('p_pickup_date_to')->comment('The pickup date AND time. Equal to Pamyra pickupDate.dateTo + pickupDate.timeFromTo')->nullable();

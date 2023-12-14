@@ -75,9 +75,65 @@
             </template>
         </el-table-column>
 
-        
+        <el-table-column
+            width="250"
+            label="Pickup address"
+            sortable="custom"
+        >
+            <template #default="scope">
+                code**  {{ scope.row.start_address.city }}
+            </template>
+        </el-table-column>
+
+        <el-table-column
+            width="250"
+            label="Delivery address"
+            sortable="custom"
+        >
+            <template #default="scope">
+                code**  {{ scope.row.target_address.city }}
+            </template>
+        </el-table-column>
+
+        <!-- inhalt???? -->
+        <el-table-column
+            width="350"
+            label="Description"
+            sortable="custom"
+            prop="p_description_of_transport"
+        ></el-table-column>
 
 
+        <!-- frachtpreis???? -->
+        <el-table-column
+            width="350"
+            label="Price gross"
+            sortable="custom"
+            prop="p_price_gross"
+        ></el-table-column>
+
+        <!-- sendungspositionen??? -->
+        <el-table-column
+            width="400"
+            label="Number of positions"
+            sortable="custom"
+            prop="origin"
+        ></el-table-column>
+
+        <!-- warenwert???????? -->
+        <el-table-column
+            width="200"
+            label="Value of goods"
+            sortable="custom"
+            prop="p_value_of_goods"
+        ></el-table-column>
+
+        <el-table-column
+            width="350"
+            label="Customer reference"
+            sortable="custom"
+            prop="customer_reference"
+        ></el-table-column>
         
     </el-table>
 
