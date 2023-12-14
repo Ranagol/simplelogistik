@@ -117,7 +117,7 @@ class TmsCargoOrderController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::find($id);
+        $record = $this->model::with(['parcels', 'startAddress', 'targetAddress'])->find($id);
 
         return Inertia::render(
             $this->vueCreateEditPath, 
