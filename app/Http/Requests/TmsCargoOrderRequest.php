@@ -24,7 +24,7 @@ class TmsCargoOrderRequest extends FormRequest
         return [
             'type_of_transport' => 'nullable|string|max:200',
             'origin' => 'nullable|string|max:255',
-            'customer_reference' => 'nullable|string|max:255',
+            'customer_reference' => 'required|string|max:255',
             'provision' => 'nullable|numeric|between:0,99.99',
             'order_edited_events' => 'nullable|json',
             'customer_id' => 'required|exists:tms_customers,id',

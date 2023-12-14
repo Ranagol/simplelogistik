@@ -47,7 +47,7 @@ const props = defineProps({
 const emit = defineEmits(['submit', 'destroy']);
 
 const submit = () => {
-    console.log('submit from Header.vue');
+    // console.log('submit from Header.vue');
     emit('submit');
 }
 

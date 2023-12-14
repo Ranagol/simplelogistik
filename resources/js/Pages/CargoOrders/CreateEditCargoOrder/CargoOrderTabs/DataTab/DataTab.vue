@@ -177,9 +177,9 @@ const destroy = () => {
  * long to be here.
  */
 const rules = reactive({
-    customer_reference: [
-        { required: true, message: 'Please input your customer reference', trigger: 'blur' },
-    ]
+    // customer_reference: [
+    //     { required: true, message: 'Please input your customer reference', trigger: 'blur' },
+    // ]
 });
 
 </script>

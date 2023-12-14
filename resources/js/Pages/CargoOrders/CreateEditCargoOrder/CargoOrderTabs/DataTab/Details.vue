@@ -16,6 +16,11 @@
                 />
                 <!-- ...And for every type in el-input, we refresh the parent component
                 cargoOrder.customer_reference. Through the updateParent(). Only that.  -->
+                
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.customer_reference"
+                />
+
             </el-form-item>
 
             <!-- ORDER DATE -->
@@ -51,6 +56,7 @@
 
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
     cargoOrder: {
