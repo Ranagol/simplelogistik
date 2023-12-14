@@ -144,14 +144,7 @@ const sort = ( { prop, order }) => {
     emit('getData');
 };
 
-/**
- * FORMATTING
- * formatDate() is used to format the date in the table
- */
-const formatDate = (dateString) => {
-    const dateObject = moment(dateString);
-    return dateObject.format('DD-MM-YYYY');
-};
+
 
 </script>
 

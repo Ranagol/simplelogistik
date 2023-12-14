@@ -1,4 +1,5 @@
 <template>
+
     <el-table
         :data="props.cargoOrders"
         style="width: 100%"
@@ -8,20 +9,15 @@
         highlight-current-row
         empty-text="No result. Try with different search parameters."
         class="mt-2"
+        scrollbar-always-on
     >
-        <!-- Here we want:
-        1. Dynamically loop out columns of the el table
-        2. Make order_number column a link that leads to the individual edit page. -->
-        <!-- :label="_.startCase(_.camelCase(columnName))" -->
         <el-table-column
-            v-for="(columnName, index) in data.columns"
-            :label="_.upperFirst(_.toLower(_.startCase(_.camelCase(columnName))))"
-            :prop='columnName'
-            sortable='custom'
-        >   
-            <!-- Add link only for the order_number column, don't do this to any other column -->
+            width="250"
+            prop="p_order_number"
+            label="Order number"
+            sortable="custom"
+        >
             <template 
-                v-if="columnName === 'p_order_number'"
                 #default="scope"
             >
                 <!-- This is the link, that leads to the edit page -->
@@ -31,10 +27,60 @@
                 >{{ scope.row.p_order_number }}</Link>
 
             </template>
+
+        </el-table-column>
+
+        <el-table-column
+            width="250"
+            prop="p_order_status"
+            label="Order status"
+            sortable="custom"
+        >Pull from cargoHistories
+        </el-table-column>
+
+        <el-table-column
+            width="250"
+            prop="type_of_transport"
+            label="Type of transport"
+            sortable="custom"  
+        ></el-table-column>
+
+        <el-table-column
+            width="250"
+            prop="created_at"
+            label="Order date"
+            sortable="custom"
+        >
+            <template #default="scope">
+                {{ formatDate(scope.row.created_at) }}
+            </template>
+        
+        </el-table-column>
+
+        <el-table-column
+            width="400"
+            label="Pickup date period"
+        >
+            <template #default="scope">
+                {{ scope.row.p_pickup_date_from }} - {{ scope.row.p_pickup_date_to }}
+            </template>
+        </el-table-column>
+
+        <el-table-column
+            width="400"
+            label="Delivery date period"
+        >
+            <template #default="scope">
+                {{ scope.row.p_delivery_date_from }} - {{ scope.row.p_delivery_date_to }}
+            </template>
         </el-table-column>
 
         
-    </el-table> 
+
+
+        
+    </el-table>
+
 </template>
 
 <script setup>
@@ -68,6 +114,22 @@ const data = reactive({
 });
 
 /**
+ * columnTextShortener() is used to shorten the text in the table
+ */
+const columnTextShortener = (text) =>{
+    return text;
+};
+
+/**
+ * FORMATTING
+ * formatDate() is used to format the date in the table
+ */
+ const formatDate = (dateString) => {
+    const dateObject = moment(dateString);
+    return dateObject.format('DD.MM.YYYY');
+};
+
+/**
  * SORTING
  * sort() is activated by the main table header sort arrows. 
  * Problem: el-table returns ascending or descending, however my backend works with 
@@ -90,14 +152,6 @@ const sort = ( { prop, order }) => {
 };
 
 
-/**
- * FORMATTING
- * formatDate() is used to format the date in the table
- */
-const formatDate = (dateString) => {
-    const dateObject = moment(dateString);
-    return dateObject.format('DD-MM-YYYY');
-};
 
 </script>
 
