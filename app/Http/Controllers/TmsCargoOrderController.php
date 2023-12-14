@@ -171,7 +171,7 @@ class TmsCargoOrderController extends BaseController
                 return $query->orderBy('id', 'desc');
             })
 
-            //We want only these columns from cargo orders table.
+            //We want only these columns from cargo orders table.//TODO this is unfinished, I am waiting to be told, what columns are needed in the index page. All so far written is needed for sure, but there is more...
             // ->select(
             //     'id', 'p_order_number', 'type_of_transport', 'created_at', 'p_pickup_date_to',  
             //     'p_pickup_date_from', 'p_delivery_date_to', 'p_delivery_date_from', 

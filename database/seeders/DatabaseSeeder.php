@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call([
+            TmsCountrySeeder::class,
             TmsDispatcherSeeder::class,
             TmsCustomerSeeder::class,
             TmsForwarderSeeder::class,
@@ -70,7 +71,6 @@ class DatabaseSeeder extends Seeder
             TmsTransportLicenseSeeder::class,
             PivotTableSeeder::class,
             TmsParcelSeeder::class,
-            TmsCountrySeeder::class,
             TmsOrderAttributeSeeder::class,
         ]);
     }

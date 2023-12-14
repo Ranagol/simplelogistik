@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\TmsCargoOrder;
+use App\Models\TmsCountry;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\TmsCargoOrder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class TmsAddress extends Model
@@ -108,14 +109,26 @@ class TmsAddress extends Model
             /**
              * $value is for example 238, the numeric country code for Sweden. Here we want to
              * return instead 238 => Sweden.
+             * 
+             * App\Models\TmsCountry::where('numeric_code', 4)->value('country_name')//this returns 'Afghanistan'
              */
-            get: fn (string $value) => TmsCountry::where('numeric_code', $value)->first()->country_name ?? 'Missing data TmsAddress model.',
+            get: fn (string $value) => TmsCountry::where('numeric_code', $value)->value('country_name') ?? 'Getter problem',
+            // get: fn (string $value) => 'Afghanistan' ?? 'Getter problem',//this works getting
+            // get: fn (string $value) => TmsCountry::where('numeric_code', 4)->value('country_name') ?? 'Getter problem',
+
             
             /**
              * $value is for example Sweden, the country name. Here we want to return instead
              * Sweden => 238.
+             * 
+             * App\Models\TmsCountry::where('country_name','Afghanistan')->value('numeric_code')//this returns 4
              */
-            set: fn (string $value) => TmsCountry::where('country_name', $value)->first()->numeric_code ?? 'Missing data TmsAddress model.',
+            set: fn (string $value) => TmsCountry::where('country_name', $value)->value('numeric_code') ?? 'Setter problem',
+            // set: fn (string $value) => 4 ?? 'Setter problem',//this works with seedeing
+            // set: fn (string $value) => TmsCountry::where('country_name', 'Afghanistan')->value('numeric_code') ?? 'Setter problem',
+
+
+
         );
     }
 }
