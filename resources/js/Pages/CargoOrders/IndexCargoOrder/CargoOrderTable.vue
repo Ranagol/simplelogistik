@@ -12,6 +12,13 @@
         scrollbar-always-on
     >
         <el-table-column
+            width="100"
+            prop="id"
+            label="ID"
+        ></el-table-column>
+
+
+        <el-table-column
             width="250"
             prop="p_order_number"
             label="Order number"
@@ -46,7 +53,7 @@
         ></el-table-column>
 
         <el-table-column
-            width="250"
+            width="150"
             prop="created_at"
             label="Order date"
             sortable="custom"
@@ -109,15 +116,30 @@
             prop="p_calculated_transport_price"
         ></el-table-column>
 
-        <!-- sendungspositionen -->
-        <!-- these needs additional work on parcells //TODO not finished -->
-        <!-- There might be more than one parcells, or no parcell at all -->
         <el-table-column
-            width="300"
-            label="Parcell info - not finished"
-            sortable="custom"
-            prop="origin"
-        ></el-table-column>
+            width="400"
+            label="Parcels"
+        >
+            <template #default="scope">
+                <!-- We loop out every parcel here. -->
+                <div
+                    v-for="(parcel, index) in scope.row.parcels"
+                    v-if="scope.row.parcels.length > 0"
+                    :key="index"
+                >   
+                    Parcell {{ index + 1 }}:
+                    {{parcel.p_height}}
+                    x{{ parcel.p_width }}
+                    x{{ parcel.p_length }}
+                    cm - {{ parcel.p_weight }} kg
+                
+                </div>
+                <!-- If there are not parcells, then display 'No parcel data.' -->
+                <div
+                    v-else
+                >No parcel data.</div>
+            </template>
+        </el-table-column>
 
         <el-table-column
             width="200"

@@ -181,7 +181,8 @@ class TmsCargoOrderController extends BaseController
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
                 'startAddress:id,city,country_code,first_name,last_name', 
-                'targetAddress:id,city,country_code,first_name,last_name'
+                'targetAddress:id,city,country_code,first_name,last_name',
+                'parcels'
             ])
             // ->with(['startAddress' => function($query) {
             //     $query->addSelect(
