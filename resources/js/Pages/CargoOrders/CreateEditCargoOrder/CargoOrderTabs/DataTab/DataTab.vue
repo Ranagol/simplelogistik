@@ -12,7 +12,7 @@
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
-            @submit="submit"
+            @submit="submit2(elFormRef)"
             @destroy="destroy"
         />
 
@@ -66,15 +66,7 @@
                     class="ml-6"
                 >Draft????</el-form-item>
             </div>
-
-            
-
-
-
         </el-card>
-
-
-
 
         <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>  
 
@@ -151,7 +143,9 @@ const destroy = () => {
  * argument. This is possible, because the el-form is captured in const elFormRef = ref(); The
  * el-form has the logic for FE validation. 
  */
- const submit = (elFormRef) => {
+ const submit2 = (elFormRef) => {
+
+    console.log('submit from DataTab.vue')
     validate(elFormRef);
 }
 
