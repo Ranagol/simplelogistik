@@ -19,7 +19,7 @@ class TmsAddressFactory extends Factory
      *
      * @return array
      */
-    protected $numericCountryCodes = [
+    protected $countries = [
         'Afghanistan',
         'Albania',
         'American Samoa',
@@ -42,7 +42,7 @@ class TmsAddressFactory extends Factory
             'house_number' => $this->faker->buildingNumber,
             'zip_code' => $this->faker->postcode,
             'city' => $this->faker->city,
-            'country_code' => Arr::random($this->numericCountryCodes),
+            'country_code' => Arr::random($this->countries),
             'state' => $this->faker->state,
             'address_additional_information' => $this->faker->sentence,
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),

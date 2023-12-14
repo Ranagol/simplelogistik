@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\TmsCargoOrder;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsCargoOrderRequest;
+use App\Models\TmsCountry;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsCargoOrderController extends BaseController
@@ -182,6 +183,15 @@ class TmsCargoOrderController extends BaseController
                 'startAddress:id,city,country_code,first_name,last_name', 
                 'targetAddress:id,city,country_code,first_name,last_name'
             ])
+            // ->with(['startAddress' => function($query) {
+            //     $query->addSelect(
+            //         [
+            //             'country_code' => TmsCountry::select('alpha2_code')
+            //                 ->whereColumn('alpha2_code', 'tms_addresses.country_code')
+            //                 ->limit(1)
+            //         ]
+            //     );
+            // }])
             
             /**
              * PAGINATION

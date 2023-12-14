@@ -94,39 +94,57 @@
                 code**  {{ scope.row.target_address.city }}
             </template>
         </el-table-column>
-
-        <!-- inhalt???? -->
+        
         <el-table-column
             width="350"
             label="Description"
             sortable="custom"
             prop="p_description_of_transport"
         ></el-table-column>
-
-
-        <!-- frachtpreis???? -->
+        
         <el-table-column
-            width="350"
+            width="150"
             label="Price gross"
             sortable="custom"
-            prop="p_price_gross"
+            prop="p_calculated_transport_price"
         ></el-table-column>
 
-        <!-- sendungspositionen??? -->
+        <!-- sendungspositionen -->
+        <!-- these needs additional work on parcells //TODO not finished -->
+        <!-- There might be more than one parcells, or no parcell at all -->
         <el-table-column
-            width="400"
-            label="Number of positions"
+            width="300"
+            label="Parcell info - not finished"
             sortable="custom"
             prop="origin"
         ></el-table-column>
 
-        <!-- warenwert???????? -->
         <el-table-column
             width="200"
             label="Value of goods"
             sortable="custom"
             prop="p_value_of_goods"
         ></el-table-column>
+
+        <el-table-column
+            width="250"
+            label="Pickup contact"
+            sortable="custom"
+        >
+            <template #default="scope">
+                {{ scope.row.start_address.first_name }} {{ scope.row.start_address.last_name }}
+            </template>
+        </el-table-column>
+
+        <el-table-column
+            width="250"
+            label="Delivery contact"
+            sortable="custom"
+        >
+            <template #default="scope">
+                {{ scope.row.target_address.first_name }} {{ scope.row.target_address.last_name }}
+            </template>
+        </el-table-column>
 
         <el-table-column
             width="350"
