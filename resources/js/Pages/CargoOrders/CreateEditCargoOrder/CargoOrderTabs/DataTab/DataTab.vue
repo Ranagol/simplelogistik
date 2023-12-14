@@ -6,13 +6,15 @@
         label-width="150px"
         :rules="rules"
     >   
-
         <!-- HEADER WITH DELETE AND SUBMIT BUTTON -->
+        <!-- Notice: whenever there is a 'submit emit from Header, the submit()
+            is triggered, AND it receives the elformRef, which is the el-form
+            itself. This is the secret for the FE validation.' -->
         <Header
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
-            @submit="submit2(elFormRef)"
+            @submit="submit(elFormRef)"
             @destroy="destroy"
         />
 
@@ -23,10 +25,9 @@
 
 
         <!-- DETAILS -->
-        <el-card class="box-card">
+        <!-- <el-card class="box-card">
             <div class="flex flex-row">
 
-                <!-- YOUR REFERENCE -->
                     <el-form-item
                     label="Your reference"
                     prop="customer_reference"
@@ -38,36 +39,36 @@
                     />
                 </el-form-item>
 
-                <!-- ORDER DATE -->
                 <el-form-item
                     label="Order date"
                     prop="order_date"
                     class="ml-6"
                 >12.12.2012???</el-form-item>
 
-                <!-- Imported via -->
                 <el-form-item
                     label="Imported via"
                     prop="imported_via"
                     class="ml-6"
                 >Manually?????</el-form-item>
 
-                <!-- Import timestamp -->
                 <el-form-item
                     label="Import timestamp"
                     prop="import_timestamp"
                     class="ml-6"
                 >12.12.2012.???????</el-form-item>
 
-                <!-- Status -->
                 <el-form-item
                     label="Status"
                     prop="status"
                     class="ml-6"
                 >Draft????</el-form-item>
             </div>
-        </el-card>
-
+        </el-card> -->
+        <Details
+            v-model:cargoOrder="data.cargoOrder"
+            :errors="props.errors"
+            :mode="props.mode"
+        />
         <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>  
 
     </el-form>
@@ -80,6 +81,7 @@ import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from '
 import _ from 'lodash';
 import Header from './Header.vue';
 import Title from '@/Shared/Title.vue';
+import Details from './Details.vue';
 
 let props = defineProps({
 
@@ -123,9 +125,6 @@ let data = reactive({
     emit('update:modelValue', data.customer);
 }
 
-// const submit = () => {
-//     emit('submit');
-// }
 
 const destroy = () => {
     emit('destroy');
@@ -143,7 +142,7 @@ const destroy = () => {
  * argument. This is possible, because the el-form is captured in const elFormRef = ref(); The
  * el-form has the logic for FE validation. 
  */
- const submit2 = (elFormRef) => {
+ const submit = (elFormRef) => {
 
     console.log('submit from DataTab.vue')
     validate(elFormRef);
@@ -164,7 +163,7 @@ const destroy = () => {
         if (valid) {
             //if validation is OK, then submit
             console.log('FE validation OK, submit!', fields)
-            emit('submit');
+            emit('submit');//this goes back to grandparent CreateEditBase.vue
         
         } else {
             //if validation is not OK, then log the problematic validation fields
