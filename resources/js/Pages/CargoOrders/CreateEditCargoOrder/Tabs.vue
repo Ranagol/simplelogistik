@@ -51,6 +51,18 @@
             />
         </el-tab-pane>
 
+        <el-tab-pane
+            label="Order history"
+        >
+            <OrderHistoryTab
+                v-model:cargoOrder="data.cargoOrder"
+                :errors="props.errors"
+                :mode="props.mode"
+                @submit="submit"
+                @destroy="destroy"
+            />
+        </el-tab-pane>
+
     </el-tabs>
 </template>
 
@@ -61,6 +73,7 @@ import DataTab from './CargoOrderTabs/DataTab.vue';
 import TrackingTab from './CargoOrderTabs/TrackingTab.vue';
 import DocumentsTab from './CargoOrderTabs/DocumentsTab.vue';
 import InfoToolTab from './CargoOrderTabs/InfoToolTab.vue';
+import OrderHistoryTab from './CargoOrderTabs/OrderHistoryTab.vue';
 
 const props = defineProps({
 
