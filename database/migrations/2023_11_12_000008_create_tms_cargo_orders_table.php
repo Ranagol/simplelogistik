@@ -61,6 +61,11 @@ return new class extends Migration
             $table->string('p_total_weight')->comment('Weight of the cargo')->nullable();
             $table->string('p_qubic_meter')->comment('Volume of the cargo')->nullable();
             $table->string('p_calculated_transport_price')->nullable();
+
+
+
+
+            
             $table->string('p_transport_price_gross')->nullable();
             $table->string('p_transport_price_vat')->nullable();
             $table->string('p_transport_price_net')->nullable();
