@@ -1,9 +1,10 @@
 <template>
     <el-form
-        ref="ruleFormRef"
+        ref="elFormRef"
         :model="data.cargoOrder"
         label-position="top"
         label-width="150px"
+        :rules="rules"
     >   
 
         <!-- HEADER WITH DELETE AND SUBMIT BUTTON -->
@@ -130,11 +131,62 @@ let data = reactive({
     emit('update:modelValue', data.customer);
 }
 
-const submit = () => {
-    emit('submit');
-}
+// const submit = () => {
+//     emit('submit');
+// }
 
 const destroy = () => {
     emit('destroy');
 }
+
+
+//*************************** FRONTEND FORM VALIDATION ***************************//
+/**
+ * This contains the whole el-form. Needed for the validation.
+ */
+ const elFormRef = ref();
+
+/**
+ * Starts the submitting proces. First step: frontend validation. It takes the el-form as an
+ * argument. This is possible, because the el-form is captured in const elFormRef = ref(); The
+ * el-form has the logic for FE validation. 
+ */
+ const submit = (elFormRef) => {
+    validate(elFormRef);
+}
+
+/**
+ * Does the frontend validation, and if it is OK, then emits the signal for creating/editing. That
+ * signal is received by the parent CreateEditAddress.vue component. If it is not ok, then:
+ * 1. there will be red error messages under the relevant fields
+ * 2. no emit will happen
+ */
+ const validate = async (elFormRef) => {
+    console.log('submit() called, FE validation starts')
+    if (!elFormRef) return;
+
+    await elFormRef.validate((valid, fields) => {
+        
+        if (valid) {
+            //if validation is OK, then submit
+            console.log('FE validation OK, submit!', fields)
+            emit('submit');
+        
+        } else {
+            //if validation is not OK, then log the problematic validation fields
+            console.log('FE validation not OK, error submit!', fields)
+        }
+    })
+}
+
+/**
+ * The FE validation rules for the form. We import this from a separate file, because it is too
+ * long to be here.
+ */
+const rules = reactive({
+    customer_reference: [
+        { required: true, message: 'Please input your customer reference', trigger: 'blur' },
+    ]
+});
+
 </script>
