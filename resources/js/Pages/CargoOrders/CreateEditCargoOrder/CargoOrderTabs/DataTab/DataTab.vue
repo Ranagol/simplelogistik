@@ -18,7 +18,7 @@
             @destroy="destroy"
         />
 
-        <!-- TITLE -->
+        <!-- SIMPLE PAGE TITLE -->
         <Title 
             title="Cargo order data"
         />
