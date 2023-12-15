@@ -1,0 +1,16 @@
+export default {
+    company_name: null,
+    first_name: null,
+    last_name: null,
+    address_type: null,
+    street: "",
+    house_number: null,
+    zip_code: "",
+    city: "",
+    country: "",
+    state: null,
+    type_of_address: null,
+    comment: null,
+    customer_id: null,
+    forwarder_id: null,
+}

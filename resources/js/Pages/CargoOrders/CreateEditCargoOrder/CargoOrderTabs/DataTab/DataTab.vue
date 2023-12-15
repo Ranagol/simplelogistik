@@ -23,7 +23,6 @@
             title="Cargo order data"
         />
 
-
         <!-- DETAILS -->
         <!-- <el-card class="box-card">
             <div class="flex flex-row">
@@ -69,6 +68,26 @@
             :errors="props.errors"
             :mode="props.mode"
         />
+
+        <!-- ADDRESSES -->
+        <div class="flex flex row">
+
+            <!-- PICKUP ADDRESS -->
+            <Address
+                v-model:address="data.cargoOrder.start_address"
+                :errors="props.errors"
+                :mode="props.mode"
+            />
+
+            <!-- DELIVERY ADDRESS -->
+            <Address
+                v-model:address="data.cargoOrder.target_address"
+                :errors="props.errors"
+                :mode="props.mode"
+            />
+
+        </div>
+
         <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>  
 
     </el-form>
@@ -82,6 +101,7 @@ import _ from 'lodash';
 import Header from './Header.vue';
 import Title from '@/Shared/Title.vue';
 import Details from './Details.vue';
+import Address from './Address.vue';
 
 let props = defineProps({
 

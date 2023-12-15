@@ -32,6 +32,9 @@ import Form from './Form.vue';
 import { useEdit } from '@/Use/useEdit';
 import { useCreate } from '@/Use/useCreate';
 import { useDestroy } from '@/Use/useDestroy';
+//@ = Pages
+import addressDummy from '@/Pages/Addresses/CreateEditAddress/addressDummy';//use this in props to have already filled address form for creating new address
+import addressEmpty from '@/Pages/Addresses/CreateEditAddress/addressEmpty';//use this in props to have empty address form for creating new address
 
 const props = defineProps({
 
@@ -43,21 +46,7 @@ const props = defineProps({
         /**
          * The default value is a function that returns an empty address object.
          */
-        default: () => ({
-            first_name: 'Random text',
-            last_name: 'Random text',
-            address_type: 'Main headquarters',
-            street: "Random text",
-            house_number: 'Random text',
-            zip_code: "Random text",
-            city: "Random text",
-            country: "Random text",
-            state: 'Random text',
-            type_of_address: '',
-            comment: 'Random text',
-            customer_id: 1,
-            forwarder_id: 1,
-        }),
+        default: () => (addressDummy),
     },
 
     /**
@@ -92,40 +81,6 @@ const props = defineProps({
         required: true
     },
 });
-
-//for developing and testing purposes
-const dummyAddress = {
-    first_name: 'Random text',
-    last_name: 'Random text',
-    address_type: 'Main headquarters',
-    street: "Random text",
-    house_number: 'Random text',
-    zip_code: "Random text",
-    city: "Random text",
-    country: "Random text",
-    state: 'Random text',
-    type_of_address: '',
-    comment: 'Random text',
-    customer_id: 1,
-    forwarder_id: 1,
-};
-
-//for developing and testing purposes
-const emptyAddress = {
-    first_name: null,
-    last_name: null,
-    address_type: null,
-    street: "",
-    house_number: null,
-    zip_code: "",
-    city: "",
-    country: "",
-    state: null,
-    type_of_address: null,
-    comment: null,
-    customer_id: null,
-    forwarder_id: null,
-};
 
 const data = reactive({
 
