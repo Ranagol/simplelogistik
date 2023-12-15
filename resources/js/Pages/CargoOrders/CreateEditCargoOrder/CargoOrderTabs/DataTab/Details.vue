@@ -1,6 +1,6 @@
 <template>
     <el-card class="box-card">
-        <div class="flex flex-row">
+        <div class="flex flex-row justify-between">
 
             <!-- YOUR REFERENCE -->
                 <el-form-item
@@ -10,7 +10,6 @@
                 <!-- Here the el-input just receives the customer_reference -->
                 <el-input
                     v-model="props.cargoOrder.customer_reference"
-                    clearable
                     placeholder="Your reference"
                     @input="updateParent"
                 />
