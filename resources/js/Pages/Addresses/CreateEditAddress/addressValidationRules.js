@@ -31,13 +31,13 @@ const addressValidationRules = {
     city: [
         { required: true, message: 'Please fill this field.', trigger: 'blur' },
     ],
-    country: [
+    country_code: [
         { required: true, message: 'Please fill this field.', trigger: 'blur' },
     ],
     state: [
         { required: true, message: 'Please fill this field.', trigger: 'blur' },
     ],
-    comment: [
+    address_additional_information: [
         { required: true, message: 'Please fill this field.', trigger: 'blur' },
     ],
     customer_id: [

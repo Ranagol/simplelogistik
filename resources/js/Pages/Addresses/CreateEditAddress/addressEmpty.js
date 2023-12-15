@@ -7,10 +7,10 @@ export default {
     house_number: null,
     zip_code: "",
     city: "",
-    country: "",
+    country_code: "",
     state: null,
     type_of_address: null,
-    comment: null,
+    address_additional_information: null,
     customer_id: null,
     forwarder_id: null,
 }

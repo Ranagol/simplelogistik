@@ -254,13 +254,13 @@
 
 
             <el-form-item
-                label="Comment"
-                prop="comment"
+                label="Additional info"
+                prop="address_additional_information"
                 width="100px"
             >
                 <el-input
-                    v-model="data.addressData.comment"
-                    placeholder="Comment"
+                    v-model="data.addressData.address_additional_information"
+                    placeholder="Additional information"
                     type="text"
                     show-word-limit
                     :maxlength="255"

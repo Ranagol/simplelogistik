@@ -7,10 +7,10 @@ export default  {
     house_number: 'Random text',
     zip_code: "Random text",
     city: "Random text",
-    country: "Random text",
+    country_code: "Afghanistan",
     state: 'Random text',
     type_of_address: '',
-    comment: 'Random text',
+    address_additional_information: 'Random text',
     customer_id: 1,
     forwarder_id: 1,
 }

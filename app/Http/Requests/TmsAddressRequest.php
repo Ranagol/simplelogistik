@@ -21,7 +21,6 @@ class TmsAddressRequest extends FormRequest
      */
     public function rules(): array
     {
-        
         return [
             'company_name' => 'nullable|string|max:255',
             'first_name' => 'nullable|string|max:255',
@@ -31,10 +30,10 @@ class TmsAddressRequest extends FormRequest
             'house_number' => 'nullable|string|max:200',
             'zip_code' => 'required|string|max:20',
             'city' => 'required|string|max:100',
-            'country' => 'required|string|max:100',
+            'country_code' => 'required|string|max:255',
             'state' => 'nullable|string|max:100',
             // 'type_of_address' => 'nullable|string|max:255',//this is not needed, we have address_type
-            'comment' => 'nullable|string|max:255',
+            'address_additional_information' => 'nullable|string|max:255',
             // 'customer_id' => 'nullable|integer',
             // 'forwarder_id' => 'nullable|integer',
             'customer_id' => 'nullable|integer|exists:tms_customers,id',
