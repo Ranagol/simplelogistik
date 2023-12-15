@@ -42,6 +42,26 @@
 
         <!-- THE FORM -->
         <div>
+            <el-form-item
+                label="Company name"
+                prop="company_name"
+                width="100px"
+            >
+                <el-input
+                    v-model="data.addressData.company_name"
+                    placeholder="Company name"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.name"/>
+
+            </el-form-item>
 
             <el-form-item
                 label="First name"

@@ -23,6 +23,7 @@ class TmsAddressRequest extends FormRequest
     {
         
         return [
+            'company_name' => 'nullable|string|max:255',
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'address_type' => 'required|string|max:255',

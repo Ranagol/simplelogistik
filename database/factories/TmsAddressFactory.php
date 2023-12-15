@@ -35,6 +35,7 @@ class TmsAddressFactory extends Factory
     public function definition(): array
     {
         return [
+            'company_name' => $this->faker->company,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'address_type' => Arr::random(TmsAddress::ADDRESS_TYPES),

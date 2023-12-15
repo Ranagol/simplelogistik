@@ -7,6 +7,9 @@
  * rules array itself, that is needed.
  */
 const addressValidationRules = {
+    company_name: [
+        { required: true, message: 'Please fill this field.', trigger: 'blur' },
+    ],
     first_name: [
         { required: true, message: 'Please fill this field.', trigger: 'blur' },
     ],
