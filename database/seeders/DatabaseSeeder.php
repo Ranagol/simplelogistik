@@ -57,20 +57,20 @@ class DatabaseSeeder extends Seeder
             TmsCustomerSeeder::class,
             TmsForwarderSeeder::class,
             TmsRequirementSeeder::class,
-            TmsAddressSeeder::class,
-            TmsContactSeeder::class,
+            TmsAddressSeeder::class,//for every customer and forwarder we need an address. Set customer and forwarder id in the address factory.
+            TmsContactSeeder::class,//for every customer and forwarder we need a contact. Set customer and forwarder id in the contact factory.
             TmsVehicleSeeder::class,
-            TmsCargoOrderSeeder::class,
-            TmsInvoiceSeeder::class,
+            TmsCargoOrderSeeder::class,//for every customer and his contact make 1 cargo order
+            TmsInvoiceSeeder::class,//for every cargo order make 1 invoice, add existing forwarder and customer id
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
-            TmsCargoHistorySeeder::class,
+            TmsCargoHistorySeeder::class,//for every cargo order we need 3 cargo histories
             TmsRequirementForForwarderSeeder::class,
             TmsVehicleReqSeeder::class,
             TmsCustomerReqSeeder::class,
             TmsTransportLicenseSeeder::class,
             PivotTableSeeder::class,
-            TmsParcelSeeder::class,
+            TmsParcelSeeder::class,//For every cargo order we need 2 parcels
             TmsOrderAttributeSeeder::class,
         ]);
     }
