@@ -141,6 +141,19 @@ class TmsAddressController extends BaseController
                         'name' => $forwarder->company_name,
                     ];
                 }),
+                /**
+                 * We send all existing country codes in the address table to the FE, so they would
+                 * become select options. So the user can selecte a country for the address. IMPORTANT:
+                 * although country codes are numbers (Example: 4 for Afghanistan), we send them as
+                 * country names (Example: Afghanistan). This is because the we use mutators and 
+                 * accessors for this. Find the mutator in the TmsAddress model.
+                 */
+                'countryCodes' => TmsAddress::select('country_code')
+                        ->distinct()
+                        ->get()
+                        ->map(function ($countryCode) {
+                            return $countryCode->country_code;
+                        }),
             ]
         );
     }

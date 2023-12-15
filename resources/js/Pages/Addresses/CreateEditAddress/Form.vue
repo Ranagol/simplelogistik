@@ -215,17 +215,20 @@
                 prop="country_code"
                 width="100px"
             >
-                <el-input
+                <!-- EL-SELECT -->
+                <el-select
                     v-model="data.addressData.country_code"
-                    placeholder="Country"
-                    type="text"
-                    show-word-limit
-                    :maxlength="255"
                     clearable
-                    @input="update()"
-                    @clear="update()"
+                    filterable
                     @change="update()"
-                />
+                >
+                    <el-option
+                        v-for="(item, index) in props.countryCodes"
+                        :key="index"
+                        :label="item"
+                        :value="item"
+                    ></el-option>
+                </el-select>
 
                 <BackendValidationErrorDisplay :errorMessage="props.errors.country_code"/>
 
@@ -381,6 +384,11 @@ const props = defineProps({
      * The forwarders. Needed for the forwarder select.
      */
     forwarders: {
+        type: Array,
+        required: true
+    },
+
+    countryCodes: {
         type: Array,
         required: true
     },
