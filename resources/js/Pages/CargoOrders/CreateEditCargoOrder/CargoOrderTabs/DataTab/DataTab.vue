@@ -24,45 +24,6 @@
         />
 
         <!-- DETAILS -->
-        <!-- <el-card class="box-card">
-            <div class="flex flex-row">
-
-                    <el-form-item
-                    label="Your reference"
-                    prop="customer_reference"
-                >
-                    <el-input
-                        v-model="data.cargoOrder.customer_reference"
-                        clearable
-                        placeholder="Your reference"
-                    />
-                </el-form-item>
-
-                <el-form-item
-                    label="Order date"
-                    prop="order_date"
-                    class="ml-6"
-                >12.12.2012???</el-form-item>
-
-                <el-form-item
-                    label="Imported via"
-                    prop="imported_via"
-                    class="ml-6"
-                >Manually?????</el-form-item>
-
-                <el-form-item
-                    label="Import timestamp"
-                    prop="import_timestamp"
-                    class="ml-6"
-                >12.12.2012.???????</el-form-item>
-
-                <el-form-item
-                    label="Status"
-                    prop="status"
-                    class="ml-6"
-                >Draft????</el-form-item>
-            </div>
-        </el-card> -->
         <Details
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
@@ -70,20 +31,27 @@
         />
 
         <!-- ADDRESSES -->
-        <div class="flex flex row">
+        <div class="flex flex-row">
 
             <!-- PICKUP ADDRESS -->
             <Address
                 v-model:address="data.cargoOrder.start_address"
                 :errors="props.errors"
                 :mode="props.mode"
+                pickupOrDelivery="Pickup"
+                class="grow"
             />
+
+            <!-- This is just an empty divider between columns -->
+            <div class="w-4"></div>
 
             <!-- DELIVERY ADDRESS -->
             <Address
                 v-model:address="data.cargoOrder.target_address"
                 :errors="props.errors"
                 :mode="props.mode"
+                pickupOrDelivery="Delivery"
+                class="grow"
             />
 
         </div>
