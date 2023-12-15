@@ -41,7 +41,7 @@ class TmsAddress extends Model
         return $this->hasMany(TmsCargoOrder::class, 'delivery_address_id');
     }
 
-    public function country(): BelongsTo
+    public function country(): BelongsTo//This does not work in Tinker testing. It returns null. Why?
     {
         return $this->belongsTo(TmsCountry::class, 'country_code', 'numeric_code');
     }

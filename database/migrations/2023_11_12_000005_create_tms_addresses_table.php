@@ -24,8 +24,11 @@ return new class extends Migration
             $table->string('state',100)->nullable();
             $table->string('address_additional_information',255)->comment('This is actually the comment part, but it is calledaddress_additional_information in Pamyra. ')->nullable();
             
-            $table->unsignedBigInteger('country_code');
+            
+            $table->unsignedBigInteger('country_code');//country
             $table->foreign('country_code')->references('numeric_code')->on('tms_countries');
+
+
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id')->nullable();
