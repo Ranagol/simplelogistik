@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('country_name');
             $table->string('alpha2_code');
             $table->string('alpha3_code');
-            $table->string('numeric_code');
+            $table->unsignedBigInteger('numeric_code')->index();
         });
     }
 

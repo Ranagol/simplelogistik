@@ -41,6 +41,11 @@ class TmsAddress extends Model
         return $this->hasMany(TmsCargoOrder::class, 'delivery_address_id');
     }
 
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(TmsCountry::class, 'country_code', 'numeric_code');
+    }
+
     //*************SCOPES*************************************** */
 
     /**
@@ -131,4 +136,7 @@ class TmsAddress extends Model
 
         );
     }
+
+    //*************DYNAMIC RELATIONSHIPS*************************************** */
+    
 }

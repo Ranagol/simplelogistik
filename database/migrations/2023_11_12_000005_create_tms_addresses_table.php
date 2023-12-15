@@ -21,10 +21,11 @@ return new class extends Migration
             $table->string('house_number',200)->nullable();
             $table->string('zip_code',20);
             $table->string('city',100);
-            $table->string('country_code',100)->comment(('The numeric country code. Solved with mutators. So on FE we actually display the country. See TmsAddress model, countryCode()'));
             $table->string('state',100)->nullable();
             $table->string('address_additional_information',255)->comment('This is actually the comment part, but it is calledaddress_additional_information in Pamyra. ')->nullable();
             
+            $table->unsignedBigInteger('country_code');
+            $table->foreign('country_code')->references('numeric_code')->on('tms_countries');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id')->nullable();
