@@ -56,7 +56,17 @@
 
         </div>
 
-        <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>  
+        <!-- PARCELLS -->
+        <Parcels
+            v-model:parcels="data.cargoOrder.parcels"
+            :errors="props.errors"
+            :mode="props.mode"
+        />
+
+
+        <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>
+        <!-- <pre>{{ JSON.stringify(props.cargoOrder.target_address, null, 2) }}</pre> -->
+
 
     </el-form>
 
@@ -70,6 +80,7 @@ import Header from './Header.vue';
 import Title from '@/Shared/Title.vue';
 import Details from './Details.vue';
 import Address from './Address.vue';
+import Parcels from './Parcels.vue';
 
 let props = defineProps({
 

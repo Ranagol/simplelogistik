@@ -11,9 +11,9 @@
                 v-model="data.address.company_name"
                 placeholder="Company name"
                 type="text"
-                show-word-limit
+                
                 :maxlength="255"
-                clearable
+                
                 @input="update()"
                 @clear="update()"
                 @change="update()"
@@ -34,9 +34,9 @@
                         v-model="data.address.first_name"
                         placeholder="First name"
                         type="text"
-                        show-word-limit
+                        
                         :maxlength="255"
-                        clearable
+                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -52,9 +52,9 @@
                         v-model="data.address.last_name"
                         placeholder="Last name"
                         type="text"
-                        show-word-limit
+                        
                         :maxlength="255"
-                        clearable
+                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -74,9 +74,9 @@
                         v-model="data.address.street"
                         placeholder="Street"
                         type="text"
-                        show-word-limit
+                        
                         :maxlength="255"
-                        clearable
+                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -92,9 +92,9 @@
                         v-model="data.address.house_number"
                         placeholder="House number"
                         type="text"
-                        show-word-limit
+                        
                         :maxlength="255"
-                        clearable
+                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -114,9 +114,9 @@
                         v-model="data.address.zip_code"
                         placeholder="Zip code"
                         type="text"
-                        show-word-limit
+                        
                         :maxlength="255"
-                        clearable
+                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -132,9 +132,9 @@
                         v-model="data.address.city"
                         placeholder="City"
                         type="text"
-                        show-word-limit
+                        
                         :maxlength="255"
-                        clearable
+                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -154,9 +154,9 @@
                         v-model="data.address.state"
                         placeholder="State"
                         type="text"
-                        show-word-limit
+                        
                         :maxlength="255"
-                        clearable
+                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -169,12 +169,12 @@
                     prop="country"
                 >
                     <el-input
-                        v-model="data.address.country"
+                        v-model="data.address.country_code"
                         placeholder="Should we put here something?"
                         type="text"
-                        show-word-limit
+                        
                         :maxlength="255"
-                        clearable
+                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
