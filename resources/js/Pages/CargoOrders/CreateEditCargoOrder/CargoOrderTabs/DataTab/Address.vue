@@ -187,6 +187,23 @@
 
             
         </div>
+
+        <!-- COMPANY NAME, 1 FULL ROW -->
+        <el-form-item
+            prop="address_additional_information"
+        >
+            <el-input
+                v-model="data.address.address_additional_information"
+                placeholder="Company name"
+                type="text"
+                
+                :maxlength="255"
+                
+                @input="update()"
+                @clear="update()"
+                @change="update()"
+            />
+        </el-form-item>
     </div>
 </template>
 
