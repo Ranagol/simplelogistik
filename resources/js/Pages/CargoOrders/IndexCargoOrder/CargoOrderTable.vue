@@ -114,12 +114,11 @@
             prop="p_calculated_transport_price"
         ></el-table-column>
 
-        <el-table-column
+        <!-- <el-table-column
             width="400"
             label="Parcels"
         >
             <template #default="scope">
-                <!-- We loop out every parcel here. -->
                 <div
                     v-for="(parcel, index) in scope.row.parcels"
                     v-if="scope.row.parcels.length > 0"
@@ -132,14 +131,13 @@
                     cm - {{ parcel.p_weight }} kg
                 
                 </div>
-                <!-- If there are not parcells, then display 'No parcel data.' -->
                 <div
                     v-else
                 >No parcel data.</div>
             </template>
-        </el-table-column>
+        </el-table-column> -->
 
-        <el-table-column
+        <!-- <el-table-column
             width="200"
             label="Value of goods"
             sortable="custom"
@@ -153,7 +151,7 @@
             <template #default="scope">
                 {{ scope.row.start_address.first_name }} {{ scope.row.start_address.last_name }}
             </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column
             width="250"
