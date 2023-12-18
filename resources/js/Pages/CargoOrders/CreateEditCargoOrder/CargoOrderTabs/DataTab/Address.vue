@@ -191,7 +191,56 @@
                     />
                 </el-form-item>
             </div>
+
+
+
+
+
+            <!-- EMAIL AND PHONE -->
+            <div class="grid grid-cols-2">
+
+                <!-- EMAIL -->
+                <el-form-item
+                    label="Email"
+                    prop="email"
+                >
+                    <el-input
+                        v-model="data.address.email"
+                        placeholder="Email"
+                        type="text"
+                        :maxlength="255"
+                        @input="update()"
+                        @clear="update()"
+                        @change="update()"
+                        class="mr-1"
+                    />
+                </el-form-item>
+
+                <!-- PHONE -->
+                <el-form-item
+                    label="Phone"
+                    prop=""
+                >
+                    <el-input
+                        v-model="data.address.country_id"
+                        placeholder="UNDER CONSTRUCTION"
+                        type="text"
+                        :maxlength="255"
+                        @input="update()"
+                        @clear="update()"
+                        @change="update()"
+                        class="ml-1"
+                    />
+                </el-form-item>
+            </div>
         </div>
+
+
+
+
+
+
+
 
         <!-- COMPANY NAME, 1 FULL ROW -->
         <el-form-item

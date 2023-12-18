@@ -3,6 +3,18 @@
 
         <el-menu>
 
+            <el-menu-item index="0">
+                <!-- This is a company logo, insid a link, so the image acts like a link -->
+                <NavLink
+                    href="/"
+                    >
+                    <img
+                        src="/images/logo.png"
+                        alt="Simplelogistik logo"
+                    />
+                </NavLink>
+            </el-menu-item>
+
             <!-- DASHBOARD -->
             <el-menu-item index="Dashboard">
                 <NavLink

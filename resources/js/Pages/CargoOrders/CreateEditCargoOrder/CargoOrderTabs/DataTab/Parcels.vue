@@ -19,13 +19,13 @@
             <el-table-column
                 label="Packaging"
                 prop="p_name"
-                width="200"
+                width="300"
             ></el-table-column>
 
             <el-table-column
                 label="Content"
                 prop="information"
-                width="400"
+                width="600"
             ></el-table-column>
 
             <el-table-column
@@ -51,14 +51,6 @@
                 prop="p_weight"
                 width="100"
             ></el-table-column>
-
-            <el-table-column
-                label="Menu?????"
-                prop=""
-                width="200"
-            ></el-table-column>
-            
-
 
         </el-table>
 
