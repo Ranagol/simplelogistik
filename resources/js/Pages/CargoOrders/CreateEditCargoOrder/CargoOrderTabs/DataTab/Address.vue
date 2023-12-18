@@ -176,7 +176,7 @@
 
                 <!-- COUNTRY -->
                 <el-form-item
-                    label="Country"
+                    label="IN PROGRESS..."
                     prop="country"
                 >
                     <el-input

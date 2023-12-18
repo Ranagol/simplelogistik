@@ -34,7 +34,7 @@
         <div class="flex flex-row">
 
             <Address
-                v-model:address="data.cargoOrder.customer_address"
+                v-model:address="data.cargoOrder.customer.headquarter"
                 :errors="props.errors"
                 :mode="props.mode"
                 title="Customer"
