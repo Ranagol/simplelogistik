@@ -83,11 +83,6 @@
             </el-sub-menu>
         </el-menu>
 
-        <el-switch
-            v-model="data.isCollapsed"
-            :active-action-icon="View"
-            :inactive-action-icon="Hide"
-        />
     </Card>
 </template>
 
