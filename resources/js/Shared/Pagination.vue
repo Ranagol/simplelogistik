@@ -7,6 +7,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         @size-change="handleItemsPerPageChange"
         @current-change="handleCurrentPageChange"
+        class="mt-5"
     />
     
 </template>

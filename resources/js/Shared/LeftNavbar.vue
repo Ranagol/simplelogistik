@@ -3,6 +3,7 @@
 
         <el-menu>
 
+            <!-- LOGO -->
             <el-menu-item index="0">
                 <!-- This is a company logo, insid a link, so the image acts like a link -->
                 <NavLink
@@ -23,61 +24,32 @@
             </el-menu-item>
 
             <!-- CARGOORDERS -->
-            <!-- <el-sub-menu
-                index="cargo-orders"
+            <el-menu-item 
+                index="cargo-orders.index"
             >
-                <template #title>
-                    <span>Orders</span>
-                </template> -->
-
-                <!-- CARGOORDERS INDEX -->
-                <el-menu-item 
-                    index="cargo-orders.index"
-                >
-                    <NavLink
-                        href="/cargo-orders"
-                    >Orders list</NavLink>
-                </el-menu-item>
-
-            <!-- </el-sub-menu> -->
+                <NavLink
+                    href="/cargo-orders"
+                >Orders list</NavLink>
+            </el-menu-item>
 
             <!-- CUSTOMERS -->
-            <!-- <el-sub-menu
-                index="customers"
+            <el-menu-item 
+                index="customers.index"
             >
-                <template #title>
-                    <span>Customers</span>
-                </template> -->
+                <NavLink
+                    href="/customers"
+                >Customers list</NavLink>
+            </el-menu-item>
 
-                <!-- CUSTOMERS INDEX -->
-                <el-menu-item 
-                    index="customers.index"
-                >
-                    <NavLink
-                        href="/customers"
-                    >Customers list</NavLink>
-                </el-menu-item>
-
-            <!-- </el-sub-menu> -->
 
             <!-- ADDRESSES -->
-            <!-- <el-sub-menu
-                index="addresses"
+            <el-menu-item 
+                index="addresses.index"
             >
-                <template #title>
-                    <span>Addresses</span>
-                </template> -->
-
-                <!-- ADDRESSES INDEX -->
-                <el-menu-item 
-                    index="addresses.index"
-                >
-                    <NavLink
-                        href="/addresses"
-                    >Addresses list</NavLink>
-                </el-menu-item>
-
-            <!-- </el-sub-menu> -->
+                <NavLink
+                    href="/addresses"
+                >Addresses list</NavLink>
+            </el-menu-item>
             
             <!-- OTHER -->
             <el-sub-menu
@@ -87,25 +59,7 @@
                     <span>Other</span>
                 </template>
 
-                <!-- VEHICLES -->
-                <!-- <el-menu-item 
-                    index="vehicles.index"
-                >
-                    <NavLink
-                        href="/vehicles"
-                    >Vehicles list</NavLink>
-                </el-menu-item> -->
-
-                <!-- REQUREMENTS -->
-                <!-- <el-menu-item 
-                    index="requirements.index"
-                >
-                    <NavLink
-                        href="/requirements"
-                    >Requirements list</NavLink>
-                </el-menu-item> -->
-
-                <!-- PALMYRA -->
+                <!-- PAMYRA -->
                 <el-menu-item index="Pamyra">
                     <NavLink
                         href="/pamyra"
@@ -131,11 +85,21 @@
     </Card>
 </template>
 
-<script lang="ts" setup>
-import { defineComponent } from 'vue';
+<script setup>
 import Card from "./Card.vue";
 import NavLink from "./NavLink.vue";
+import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 
+const data = reactive({
+    isCollapsed: true,
+});
+
+const handleOpen = (key, keyPath) => {
+    console.log(key, keyPath)
+}
+const handleClose = (key, keyPath) => {
+    console.log(key, keyPath)
+}
 
 
 </script>
