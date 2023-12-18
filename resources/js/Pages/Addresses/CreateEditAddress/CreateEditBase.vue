@@ -17,7 +17,7 @@
             :addressTypes="props.addressTypes"
             :customers="props.customers"
             :forwarders="props.forwarders"
-            :countryCodes="props.countryCodes"
+            :countries="props.countries"
             @submit="submit"
             @destroy="destroy"
         />
@@ -78,15 +78,6 @@ const props = defineProps({
     },
 
     forwarders: {
-        type: Array,
-        required: true
-    },
-
-    /**
-     * Exampe: ['Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Andorra'...]
-     * Needed to offer options for country selection in the address form.
-     */
-    countryCodes: {
         type: Array,
         required: true
     },

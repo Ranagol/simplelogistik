@@ -43,7 +43,8 @@ class TmsAddressFactory extends Factory
             'house_number' => $this->faker->buildingNumber,
             'zip_code' => $this->faker->postcode,
             'city' => $this->faker->city,
-            'country_code' => Arr::random($this->countries),
+            // 'country_id' => Arr::random($this->countries),
+            'country_id' => Arr::random([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),//these are the ids of the countries in the database
             'state' => $this->faker->state,
             'address_additional_information' => $this->faker->sentence,
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),

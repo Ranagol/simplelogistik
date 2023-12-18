@@ -9,6 +9,7 @@ use App\Models\TmsCustomer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsAddressRequest;
+use App\Models\TmsCountry;
 use App\Models\TmsForwarder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -29,6 +30,34 @@ class TmsAddressController extends BaseController
     protected function getRequestClass(): string
     {
         return TmsAddressRequest::class;
+    }
+
+    /**
+     * Returns records.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function index(Request $request): Response
+    {
+        $searchTerm = $request->searchTerm;
+        $sortColumn = $request->sortColumn;
+        $sortOrder = $request->sortOrder;
+        //pagination stuff sent from front-end
+        $page = $request->page;
+        $newItemsPerPage = (int)$request->newItemsPerPage;
+        
+        $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+
+        return Inertia::render(
+            $this->vueIndexPath, 
+            [
+                'dataFromController' => $records,
+                'searchTermProp' => $searchTerm,
+                'sortColumnProp' => $sortColumn,
+                'sortOrderProp' => $sortOrder,
+            ]
+        );
     }
 
     public function create(): Response
@@ -120,7 +149,7 @@ class TmsAddressController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::find($id);
+        $record = $this->model::with('country:id,country_name')->find($id);
 
         return Inertia::render(
             $this->vueCreateEditPath, 
@@ -145,20 +174,73 @@ class TmsAddressController extends BaseController
                         'name' => $forwarder->company_name,
                     ];
                 }),
-                /**
-                 * We send all existing country codes in the address table to the FE, so they would
-                 * become select options. So the user can selecte a country for the address. IMPORTANT:
-                 * although country codes are numbers (Example: 4 for Afghanistan), we send them as
-                 * country names (Example: Afghanistan). This is because we use mutators and 
-                 * accessors for this. Find the mutator in the TmsAddress model.
-                 */
-                'countryCodes' => TmsAddress::select('country_code')
-                        ->distinct()
-                        ->get()
-                        ->map(function ($countryCode) {
-                            return $countryCode->country_code;
-                        }),
+                //we send countries to the FE, so that the user can select them in el-select
+                'countries' => TmsCountry::all()->map(function ($country) {
+                    return [
+                        'id' => $country->id,
+                        'country_name' => $country->country_name,
+                    ];
+                }),
             ]
         );
+    }
+
+    /**
+     * Returns records for records list (Index.vue component)
+     *
+     * @param string|null $searchTerm
+     * @param string|null $sortColumn
+     * @param string|null $sortOrder
+     * @param integer|null $newItemsPerPage
+     * @return LengthAwarePaginator
+     */
+    private function getRecords(
+        string $searchTerm = null, 
+        string $sortColumn = null, 
+        string $sortOrder = null, 
+        int $newItemsPerPage = null,
+    ): LengthAwarePaginator
+    {
+        $records = $this->model::query()
+
+            // If there is a search term defined...
+            ->when($searchTerm, function($query, $searchTerm) {
+
+                /**
+                 * This is a bit tricky.
+                 * Here we use a model scope. The model scope code is defined in the relevant model.
+                 * https://laravel.com/docs/10.x/eloquent#local-scopes
+                 */
+                $query->searchBySearchTerm($searchTerm);
+            })
+            
+            /**
+             * SORTING
+             * When there is $sortColumn and $sortOrder defined
+             */
+            ->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
+                $query->orderBy($sortColumn, $sortOrder);
+            }, function ($query) {
+
+                //... but if sort is not specified, please return sort by id and ascending.
+                return $query->orderBy('id', 'desc');
+            })
+
+            ->with('country')
+            
+            /**
+             * PAGINATION
+             * If it is not otherwise specified, paginate by 10 items per page.
+             */
+            ->paginate($newItemsPerPage ? $newItemsPerPage : 10)
+
+            /**
+             * Include the query string too into pagination data links for page 1,2,3,4... 
+             * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
+             */
+            ->withQueryString();
+
+            // dd($records);
+        return $records;
     }
 }

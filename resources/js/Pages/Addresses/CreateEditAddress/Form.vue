@@ -212,25 +212,28 @@
 
             <el-form-item
                 label="Country"
-                prop="country_code"
+                prop="country.country_name"
                 width="100px"
             >
+
                 <!-- EL-SELECT -->
+                <!-- This el-select works with a whole object. Syncs a whole object. -->
                 <el-select
-                    v-model="data.addressData.country_code"
+                    v-model="data.addressData.country"
                     clearable
                     filterable
+                    value-key="id"
                     @change="update()"
                 >
                     <el-option
-                        v-for="(item, index) in props.countryCodes"
+                        v-for="(item, index) in props.countries"
                         :key="index"
-                        :label="item"
+                        :label="item.country_name"
                         :value="item"
                     ></el-option>
                 </el-select>
 
-                <BackendValidationErrorDisplay :errorMessage="props.errors.country_code"/>
+                <BackendValidationErrorDisplay :errorMessage="props.errors.country_name"/>
 
             </el-form-item>
 
@@ -388,7 +391,7 @@ const props = defineProps({
         required: true
     },
 
-    countryCodes: {
+    countries: {
         type: Array,
         required: true
     },
@@ -400,6 +403,28 @@ const props = defineProps({
 const data = reactive({
     addressData: props.address || {},
 });
+
+/**
+ * The country selecting in the address object is a bit specific. Because an address only has a 
+ * country_id, and everything else regarding the country is in the address.country object. 
+ * Which was sent from backend, as a relationship, because an address belongs to a country.
+ * When the selected country is changed, then, of course automatically the address.country object
+ * is also changed. But, the address.country_id is not changed. So, we have to change it manually.
+ * With a watcher. That happens here.
+ */
+watch(
+    () => data.addressData.country, 
+    (newValue, oldValue) => {
+        console.log('count changed');
+        console.log('oldValue:', oldValue);
+        console.log('newValue:', newValue);
+        if (newValue) {
+            data.addressData.country_id = newValue.id;
+        }
+    },
+    { deep: true }
+);
+
 
 /**
  * This form has a header. This header's text is dynamic, and it is created here.
