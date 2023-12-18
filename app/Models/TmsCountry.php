@@ -16,6 +16,6 @@ class TmsCountry extends Model
 
     public function addresses(): HasMany
     {
-        return $this->hasMany(TmsAddress::class, 'country_code', 'numeric_code');
+        return $this->hasMany(TmsAddress::class, 'country_id');
     }
 }
