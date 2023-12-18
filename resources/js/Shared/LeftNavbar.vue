@@ -8,7 +8,7 @@
                 <!-- This is a company logo, insid a link, so the image acts like a link -->
                 <NavLink
                     href="/"
-                    >
+                >
                     <img
                         src="/images/logo.png"
                         alt="Simplelogistik logo"
@@ -82,6 +82,12 @@
 
             </el-sub-menu>
         </el-menu>
+
+        <el-switch
+            v-model="data.isCollapsed"
+            :active-action-icon="View"
+            :inactive-action-icon="Hide"
+        />
     </Card>
 </template>
 
@@ -89,6 +95,7 @@
 import Card from "./Card.vue";
 import NavLink from "./NavLink.vue";
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
+import { Hide, View } from '@element-plus/icons-vue';
 
 const data = reactive({
     isCollapsed: true,
