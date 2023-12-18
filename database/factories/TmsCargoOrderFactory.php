@@ -33,7 +33,7 @@ class TmsCargoOrderFactory extends Factory
             'avis_receiver_phone' => $this->faker->phoneNumber,
 
             'p_calculation_model_name' => $this->faker->word,
-            'p_order_number' => $this->faker->unique()->numerify('Order ####'),
+            'p_order_number' => $this->faker->unique()->numerify('#######'),
             'p_order_pdf' => $this->faker->url,
             'p_payment_method' => $this->faker->randomElement(['Credit Card', 'Paypal', 'Bank Transfer']),
             'p_date_of_sale' => $this->faker->date(),

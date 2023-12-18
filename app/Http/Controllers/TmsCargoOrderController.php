@@ -172,27 +172,12 @@ class TmsCargoOrderController extends BaseController
                 return $query->orderBy('id', 'desc');
             })
 
-            //We want only these columns from cargo orders table.
-            // ->select(
-            //     'id', 'p_order_number', 'type_of_transport', 'created_at', 'p_pickup_date_to',  
-            //     'p_pickup_date_from', 'p_delivery_date_to', 'p_delivery_date_from', 
-            //     'pickup_address_id', 'delivery_address_id', 'customer_reference', )
-
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
                 'startAddress:id,city,country_id,first_name,last_name', 
                 'targetAddress:id,city,country_id,first_name,last_name',
                 'parcels'
             ])
-            // ->with(['startAddress' => function($query) {
-            //     $query->addSelect(
-            //         [
-            //             'country_code' => TmsCountry::select('alpha2_code')
-            //                 ->whereColumn('alpha2_code', 'tms_addresses.country_code')
-            //                 ->limit(1)
-            //         ]
-            //     );
-            // }])
             
             /**
              * PAGINATION

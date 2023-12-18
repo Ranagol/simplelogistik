@@ -65,20 +65,22 @@
         </el-table-column>
 
         <el-table-column
-            width="400"
+            width="350"
             label="Pickup date period"
         >
             <template #default="scope">
-                {{ scope.row.p_pickup_date_from }} - {{ scope.row.p_pickup_date_to }}
+                {{ formatDateTime(scope.row.p_pickup_date_from) }} 
+                - {{ formatDateTime(scope.row.p_pickup_date_to) }}
             </template>
         </el-table-column>
 
         <el-table-column
-            width="400"
+            width="350"
             label="Delivery date period"
         >
             <template #default="scope">
-                {{ scope.row.p_delivery_date_from }} - {{ scope.row.p_delivery_date_to }}
+                {{ formatDateTime(scope.row.p_delivery_date_from) }} 
+                - {{ formatDateTime(scope.row.p_delivery_date_to) }}
             </template>
         </el-table-column>
 
@@ -142,23 +144,28 @@
             label="Value of goods"
             sortable="custom"
             prop="p_value_of_goods"
-        ></el-table-column>
+        ></el-table-column>-->
 
         <el-table-column
-            width="250"
+            width="300"
             label="Pickup contact"
         >
             <template #default="scope">
-                {{ scope.row.start_address.first_name }} {{ scope.row.start_address.last_name }}
+                {{ scope.row.start_address.first_name }} 
+                {{ scope.row.start_address.last_name }}
+                {{ scope.row.avis_receiver_phone }}
+
             </template>
-        </el-table-column> -->
+        </el-table-column> 
 
         <el-table-column
             width="250"
             label="Delivery contact"
         >
             <template #default="scope">
-                {{ scope.row.target_address.first_name }} {{ scope.row.target_address.last_name }}
+                {{ scope.row.target_address.first_name }} 
+                {{ scope.row.target_address.last_name }}
+                {{ scope.row.avis_receiver_phone }}
             </template>
         </el-table-column>
 
@@ -217,6 +224,11 @@ const columnTextShortener = (text) =>{
  const formatDate = (dateString) => {
     const dateObject = moment(dateString);
     return dateObject.format('DD.MM.YYYY');
+};
+
+const formatDateTime = (dateString) => {
+    const dateObject = moment(dateString);
+    return dateObject.format('DD.MM.YYYY HH:mm');
 };
 
 /**
