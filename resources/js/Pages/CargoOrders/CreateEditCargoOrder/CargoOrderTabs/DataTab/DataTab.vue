@@ -19,9 +19,9 @@
         />
 
         <!-- SIMPLE PAGE TITLE -->
-        <Title 
+        <!-- <Title 
             title="Cargo order data"
-        />
+        /> -->
 
         <!-- DETAILS -->
         <Details
@@ -75,13 +75,8 @@
         />
 
         <br>
-        <br>
-        <br>
 
-
-        <!-- <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre> -->
-        <!-- <pre>{{ JSON.stringify(props.cargoOrder.target_address, null, 2) }}</pre> -->
-
+        <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>
 
     </el-form>
 

@@ -4,7 +4,7 @@
             
         <!-- TITLE -->
         <h1
-            class="font-semibold text-xl text-gray-800 leading-tight mr-6"
+            class="text-gray-500 leading-tight mr-6"
         >{{ _.capitalize(props.mode)}}</h1>
         
         <!-- SUBMIT BUTTON -->
