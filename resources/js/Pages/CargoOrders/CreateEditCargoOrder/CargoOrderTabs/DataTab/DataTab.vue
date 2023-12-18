@@ -33,12 +33,23 @@
         <!-- ADDRESSES -->
         <div class="flex flex-row">
 
+            <Address
+                v-model:address="data.cargoOrder.customer_address"
+                :errors="props.errors"
+                :mode="props.mode"
+                title="Customer"
+                class="grow"
+            />
+
+            <!-- This is just an empty divider between columns -->
+            <div class="w-4"></div>
+
             <!-- PICKUP ADDRESS -->
             <Address
                 v-model:address="data.cargoOrder.start_address"
                 :errors="props.errors"
                 :mode="props.mode"
-                pickupOrDelivery="Pickup"
+                title="Pickup"
                 class="grow"
             />
 
@@ -50,7 +61,7 @@
                 v-model:address="data.cargoOrder.target_address"
                 :errors="props.errors"
                 :mode="props.mode"
-                pickupOrDelivery="Delivery"
+                title="Delivery"
                 class="grow"
             />
 

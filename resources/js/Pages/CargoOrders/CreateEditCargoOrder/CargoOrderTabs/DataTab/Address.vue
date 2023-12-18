@@ -1,10 +1,13 @@
 <template>
     <div class="mt-4">
 
-        <div class="mb-2">{{ props.pickupOrDelivery }} address</div>
+        <div 
+            class="mb-2 font-bold"
+        >{{ props.title }} address</div>
 
         <!-- COMPANY NAME, 1 FULL ROW -->
         <el-form-item
+            label="Company name"
             prop="company_name"
         >
             <el-input
@@ -28,6 +31,7 @@
 
                 <!-- FIRST NAME -->
                 <el-form-item
+                    label="First name"
                     prop="first_name"
                 >
                     <el-input
@@ -46,6 +50,7 @@
 
                 <!-- LAST NAME -->
                 <el-form-item
+                    label="Last name"
                     prop="last_name"
                 >
                     <el-input
@@ -68,6 +73,7 @@
 
                 <!-- STREET -->
                 <el-form-item
+                    label="Street"
                     prop="street"
                 >
                     <el-input
@@ -86,6 +92,7 @@
 
                 <!-- HOUSE NUMBER -->
                 <el-form-item
+                    label="House number"
                     prop="house_number"
                 >
                     <el-input
@@ -108,6 +115,7 @@
 
                 <!-- ZIP CODE -->
                 <el-form-item
+                    label="Zip code"
                     prop="zip_code"
                 >
                     <el-input
@@ -126,6 +134,7 @@
 
                 <!-- CITY -->
                 <el-form-item
+                    label="City"
                     prop="city"
                 >
                     <el-input
@@ -148,6 +157,7 @@
 
                 <!-- STATE -->
                 <el-form-item
+                    label="State"
                     prop="state"
                 >
                     <el-input
@@ -166,15 +176,14 @@
 
                 <!-- COUNTRY -->
                 <el-form-item
+                    label="Country"
                     prop="country"
                 >
                     <el-input
-                        v-model="data.address.country_code"
-                        placeholder="Should we put here something?"
+                        v-model="data.address.country_id"
+                        placeholder="UNDER CONSTRUCTION"
                         type="text"
-                        
                         :maxlength="255"
-                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -182,14 +191,11 @@
                     />
                 </el-form-item>
             </div>
-
-
-
-            
         </div>
 
         <!-- COMPANY NAME, 1 FULL ROW -->
         <el-form-item
+            label="Additional information"
             prop="address_additional_information"
         >
             <el-input
@@ -233,10 +239,10 @@ const props = defineProps({
     mode: String,
 
     /**
-     * The pickupOrDelivery prop is either 'pickup' or 'delivery'. This is needed for the component 
+     * The title prop is either 'pickup' or 'delivery'. This is needed for the component 
      * title to render.
      */
-    pickupOrDelivery: String,
+    title: String,
 
 });
 

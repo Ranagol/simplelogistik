@@ -57,9 +57,28 @@ class TmsCustomer extends Model
 
     //*************RELATIONSHIPS*************************************** */
 
+    /**
+     * Relationship for all addresses. No matter is headquarter or billing, or whatever.
+     *
+     * @return HasMany
+     */
     public function addresses(): HasMany
     {
         return $this->hasMany(TmsAddress::class, 'customer_id');
+    }
+
+    /**
+     * Relationship for the headquarter address.
+     *
+     * @return HasOne
+     */
+    public function headquarter(): HasOne
+    {
+        return $this->hasOne(TmsAddress::class, 'customer_id')
+                    ->where('address_type', 1)
+                    ->orWhere('address_type', 2)
+                    ->orderBy('address_type', 'asc')
+                    ->take(1);
     }
 
     /**
