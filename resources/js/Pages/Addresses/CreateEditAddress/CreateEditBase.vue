@@ -81,6 +81,11 @@ const props = defineProps({
         type: Array,
         required: true
     },
+
+    countries: {
+        type: Array,
+        required: true
+    },
 });
 
 const data = reactive({

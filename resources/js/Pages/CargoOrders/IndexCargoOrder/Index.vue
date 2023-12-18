@@ -23,7 +23,7 @@
 
         </div>
 
-        <!-- CAROG ORDERS TABLE -->
+        <!-- CARGO ORDERS TABLE -->
         <CargoOrderTable
             v-model:sortColumn="data.sortColumn"
             v-model:sortOrder="data.sortOrder"
