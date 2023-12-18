@@ -1,11 +1,23 @@
 <template>
-    <Card>
+    <!-- <Card> -->
+        
 
-        <el-menu>
+        <el-menu
+            :collapse="data.isCollapsed"
+            @open="handleOpen"
+            @close="handleClose"
+            class="el-menu-vertical-demo"
+
+        >
+            <el-switch
+                v-model="data.isCollapsed"
+                :active-action-icon="View"
+                :inactive-action-icon="Hide"
+            />
 
             <!-- LOGO -->
-            <el-menu-item index="0">
-                <!-- This is a company logo, insid a link, so the image acts like a link -->
+            <!-- This is a company logo, inside a link, so the image acts like a link -->
+            <!-- <el-menu-item index="0">
                 <NavLink
                     href="/"
                 >
@@ -14,50 +26,58 @@
                         alt="Simplelogistik logo"
                     />
                 </NavLink>
-            </el-menu-item>
+            </el-menu-item> -->
 
             <!-- DASHBOARD -->
-            <el-menu-item index="Dashboard">
+            <!-- <el-menu-item index="Dashboard">
                 <NavLink
                     href="/dashboard"
                 >Dashboard</NavLink>
-            </el-menu-item>
+            </el-menu-item> -->
 
             <!-- CARGOORDERS -->
-            <el-menu-item 
+            <!-- <el-menu-item 
                 index="cargo-orders.index"
             >
                 <NavLink
                     href="/cargo-orders"
                 >Orders list</NavLink>
-            </el-menu-item>
+            </el-menu-item> -->
 
             <!-- CUSTOMERS -->
             <el-menu-item 
                 index="customers.index"
             >
-                <NavLink
-                    href="/customers"
-                >Customers list</NavLink>
+                <el-icon><location /></el-icon>
+
+                <template #title>
+                    <NavLink
+                        href="/customers"
+                    >Customers list</NavLink>
+                </template>
             </el-menu-item>
+
 
 
             <!-- ADDRESSES -->
             <el-menu-item 
                 index="addresses.index"
             >
-                <NavLink
-                    href="/addresses"
-                >Addresses list</NavLink>
+                <el-icon>
+                    <location />
+                </el-icon>
+
+                <template #title>
+                    <NavLink
+                        href="/addresses"
+                    >Addresses list</NavLink>
+                </template>
             </el-menu-item>
             
             <!-- OTHER -->
             <el-sub-menu
                 index="other"
             >
-                <template #title>
-                    <span>Other</span>
-                </template>
 
                 <!-- PAMYRA -->
                 <el-menu-item index="Pamyra">
@@ -83,12 +103,9 @@
             </el-sub-menu>
         </el-menu>
 
-        <el-switch
-            v-model="data.isCollapsed"
-            :active-action-icon="View"
-            :inactive-action-icon="Hide"
-        />
-    </Card>
+        
+
+    <!-- </Card> -->
 </template>
 
 <script setup>
@@ -96,17 +113,13 @@ import Card from "./Card.vue";
 import NavLink from "./NavLink.vue";
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { Hide, View } from '@element-plus/icons-vue';
+import { Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
+
 
 const data = reactive({
     isCollapsed: true,
 });
 
-const handleOpen = (key, keyPath) => {
-    console.log(key, keyPath)
-}
-const handleClose = (key, keyPath) => {
-    console.log(key, keyPath)
-}
 
 
 </script>
@@ -126,6 +139,12 @@ const handleClose = (key, keyPath) => {
     font-weight: bold;
     color: white;
     border-radius: 6.4px;
+}
+
+.el-menu-vertical-demo {
+    width: 300px;
+    min-height: 1200px;
+
 }
 
 </style>
