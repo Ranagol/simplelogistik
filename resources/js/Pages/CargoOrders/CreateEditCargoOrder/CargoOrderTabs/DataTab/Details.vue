@@ -25,23 +25,20 @@
             <!-- ORDER DATE -->
             <el-form-item
                 label="Order date"
-                prop="order_date"
+                prop="order_created_at"
                 class="ml-6"
-            >12.12.2012???</el-form-item>
+            >
+                <template #default="scope">
+                    {{ formatDate(props.cargoOrder.order_created_at) }}
+                </template>
+            </el-form-item>
 
             <!-- Imported via -->
             <el-form-item
-                label="Imported via"
+                label="Origin"
                 prop="imported_via"
                 class="ml-6"
             >Manually?????</el-form-item>
-
-            <!-- Import timestamp -->
-            <el-form-item
-                label="Import timestamp"
-                prop="import_timestamp"
-                class="ml-6"
-            >12.12.2012.???????</el-form-item>
 
             <!-- Status -->
             <el-form-item

@@ -52,6 +52,7 @@
             sortable="custom"  
         ></el-table-column>
 
+        <!-- *********************** -->
         <el-table-column
             width="150"
             prop="created_at"
@@ -59,7 +60,7 @@
             sortable="custom"
         >
             <template #default="scope">
-                {{ formatDate(scope.row.created_at) }}
+                {{ useDateFormatter(scope.row.created_at) }}
             </template>
         
         </el-table-column>
@@ -69,8 +70,8 @@
             label="Pickup date period"
         >
             <template #default="scope">
-                {{ formatDateTime(scope.row.p_pickup_date_from) }} 
-                - {{ formatDateTime(scope.row.p_pickup_date_to) }}
+                {{ useDateTimeFormatter(scope.row.p_pickup_date_from) }} 
+                - {{ useDateTimeFormatter(scope.row.p_pickup_date_to) }}
             </template>
         </el-table-column>
 
@@ -79,8 +80,8 @@
             label="Delivery date period"
         >
             <template #default="scope">
-                {{ formatDateTime(scope.row.p_delivery_date_from) }} 
-                - {{ formatDateTime(scope.row.p_delivery_date_to) }}
+                {{ useDateTimeFormatter(scope.row.p_delivery_date_from) }} 
+                - {{ useDateTimeFormatter(scope.row.p_delivery_date_to) }}
             </template>
         </el-table-column>
 
@@ -183,8 +184,10 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
-import moment from 'moment';
 import _ from 'lodash';
+import { useDateFormatter } from '@/Use/useDateFormatter.js';
+import { useDateTimeFormatter } from '@/Use/useDateTimeFormatter.js';
+
 
 const emit = defineEmits(['getData', 'update:sortOrder', 'update:sortColumn']);
 
@@ -217,19 +220,8 @@ const columnTextShortener = (text) =>{
     return text;
 };
 
-/**
- * FORMATTING
- * formatDate() is used to format the date in the table
- */
- const formatDate = (dateString) => {
-    const dateObject = moment(dateString);
-    return dateObject.format('DD.MM.YYYY');
-};
 
-const formatDateTime = (dateString) => {
-    const dateObject = moment(dateString);
-    return dateObject.format('DD.MM.YYYY HH:mm');
-};
+
 
 /**
  * SORTING
@@ -258,4 +250,4 @@ const sort = ( { prop, order }) => {
 </script>
 
 <style scoped>
-</style>
+</style>@/Use/useDateFormatter.js
