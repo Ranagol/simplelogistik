@@ -17,6 +17,7 @@
             :addressTypes="props.addressTypes"
             :customers="props.customers"
             :forwarders="props.forwarders"
+            :countries="props.countries"
             @submit="submit"
             @destroy="destroy"
         />
@@ -77,6 +78,11 @@ const props = defineProps({
     },
 
     forwarders: {
+        type: Array,
+        required: true
+    },
+
+    countries: {
         type: Array,
         required: true
     },

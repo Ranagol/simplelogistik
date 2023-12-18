@@ -31,9 +31,9 @@ const addressValidationRules = {
     city: [
         { required: true, message: 'Please fill this field.', trigger: 'blur' },
     ],
-    country_code: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
+    // country_code: [
+    //     { required: true, message: 'Please fill this field.', trigger: 'blur' },
+    // ],
     state: [
         { required: true, message: 'Please fill this field.', trigger: 'blur' },
     ],
