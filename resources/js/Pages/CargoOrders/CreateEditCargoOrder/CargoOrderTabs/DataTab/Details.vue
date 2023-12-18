@@ -25,27 +25,21 @@
             <!-- ORDER DATE -->
             <el-form-item
                 label="Order date"
-                prop="order_created_at"
-                class="ml-6"
             >
-                <template #default="scope">
-                    {{ formatDate(props.cargoOrder.order_created_at) }}
-                </template>
+                {{ useDateFormatter(props.cargoOrder.created_at) }}
             </el-form-item>
 
-            <!-- Imported via -->
             <el-form-item
                 label="Origin"
-                prop="imported_via"
-                class="ml-6"
-            >Manually?????</el-form-item>
+            >
+                {{ props.cargoOrder.origin }}
+            </el-form-item>
 
             <!-- Status -->
             <el-form-item
                 label="Status"
                 prop="status"
-                class="ml-6"
-            >Draft????</el-form-item>
+            >UNDER CONSTRUCTION</el-form-item>
         </div>
     </el-card>
 </template>
@@ -53,6 +47,7 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
+import { useDateFormatter } from '@/Use/useDateFormatter';
 
 const props = defineProps({
     cargoOrder: {
