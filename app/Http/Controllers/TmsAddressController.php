@@ -128,7 +128,11 @@ class TmsAddressController extends BaseController
                 'record' => $record,
                 'mode' => 'edit',
                 'addressTypes' => TmsAddress::ADDRESS_TYPES,
-                // we send all customers and forwarders to the FE, so that the user can select them
+                
+                /**
+                 * We send all customers and forwarders to the FE, so that the user can select them
+                 * in an el-select. Because every address must belong to a customer and a forwarder.
+                 */
                 'customers' => TmsCustomer::all()->map(function ($customer) {
                     return [
                         'id' => $customer->id,
@@ -145,7 +149,7 @@ class TmsAddressController extends BaseController
                  * We send all existing country codes in the address table to the FE, so they would
                  * become select options. So the user can selecte a country for the address. IMPORTANT:
                  * although country codes are numbers (Example: 4 for Afghanistan), we send them as
-                 * country names (Example: Afghanistan). This is because the we use mutators and 
+                 * country names (Example: Afghanistan). This is because we use mutators and 
                  * accessors for this. Find the mutator in the TmsAddress model.
                  */
                 'countryCodes' => TmsAddress::select('country_code')

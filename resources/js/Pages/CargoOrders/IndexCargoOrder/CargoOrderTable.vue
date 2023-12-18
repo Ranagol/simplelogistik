@@ -15,6 +15,7 @@
             width="100"
             prop="id"
             label="ID"
+            sortable="custom"
         ></el-table-column>
 
 
@@ -41,7 +42,6 @@
             width="250"
             prop="p_order_status"
             label="Order status"
-            sortable="custom"
         >Pull from cargoHistories
         </el-table-column>
 
@@ -85,7 +85,6 @@
         <el-table-column
             width="250"
             label="Pickup address"
-            sortable="custom"
         >
             <template #default="scope">
                 code**  {{ scope.row.start_address.city }}
@@ -95,7 +94,6 @@
         <el-table-column
             width="250"
             label="Delivery address"
-            sortable="custom"
         >
             <template #default="scope">
                 code**  {{ scope.row.target_address.city }}
@@ -151,7 +149,6 @@
         <el-table-column
             width="250"
             label="Pickup contact"
-            sortable="custom"
         >
             <template #default="scope">
                 {{ scope.row.start_address.first_name }} {{ scope.row.start_address.last_name }}
@@ -161,7 +158,6 @@
         <el-table-column
             width="250"
             label="Delivery contact"
-            sortable="custom"
         >
             <template #default="scope">
                 {{ scope.row.target_address.first_name }} {{ scope.row.target_address.last_name }}
