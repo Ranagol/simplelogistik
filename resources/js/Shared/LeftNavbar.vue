@@ -13,27 +13,12 @@
             <el-button
                 type="primary"
                 size="small"
-                :icon="data.isCollapsed ? Hide : View"
+                :icon="bla"
                 @click="data.isCollapsed = !data.isCollapsed"
-                :style="data.isCollapsed ? 'width: 100%' : 'width:60%'"
             >
             </el-button>
 
         </el-menu-item>
-        
-
-        <!-- LOGO -->
-        <!-- This is a company logo, inside a link, so the image acts like a link -->
-        <!-- <el-menu-item index="0">
-            <NavLink
-                href="/"
-            >
-                <img
-                    src="/images/logo.png"
-                    alt="Simplelogistik logo"
-                />
-            </NavLink>
-        </el-menu-item> -->
 
         <!-- DASHBOARD -->
         <el-menu-item index="Dashboard">

@@ -8,15 +8,12 @@
         <!-- COMPANY NAME, 1 FULL ROW -->
         <el-form-item
             label="Company name"
-            prop="company_name"
         >
             <el-input
                 v-model="data.address.company_name"
                 placeholder="Company name"
                 type="text"
-                
                 :maxlength="255"
-                
                 @input="update()"
                 @clear="update()"
                 @change="update()"
@@ -192,10 +189,6 @@
                 </el-form-item>
             </div>
 
-
-
-
-
             <!-- EMAIL AND PHONE -->
             <div class="grid grid-cols-2">
 
@@ -235,25 +228,16 @@
             </div>
         </div>
 
-
-
-
-
-
-
-
-        <!-- COMPANY NAME, 1 FULL ROW -->
+        <!-- ADDITIONAL INFO, 1 FULL ROW -->
         <el-form-item
             label="Additional information"
             prop="address_additional_information"
         >
             <el-input
                 v-model="data.address.address_additional_information"
-                placeholder="Company name"
+                placeholder="Additional information"
                 type="text"
-                
                 :maxlength="255"
-                
                 @input="update()"
                 @clear="update()"
                 @change="update()"
@@ -270,11 +254,29 @@ import addressEmpty from '@/Pages/Addresses/CreateEditAddress/addressEmpty';//us
 const props = defineProps({
     address: {
         type: Object,
-
+        required: true,
         /**
          * Returns an empty address object, if the order does not has one.
          */
-         default: () => (addressDummy),
+        //  default: () => addressDummy,
+        default: () => {
+            return {
+                company_name: 'Random text',
+                first_name: 'Random text',
+                last_name: 'Random text',
+                address_type: 'Main headquarters',
+                street: "Random text",
+                house_number: 'Random text',
+                zip_code: "Random text",
+                city: "Random text",
+                country_code: "Afghanistan",
+                state: 'Random text',
+                type_of_address: '',
+                address_additional_information: 'Random text',
+                customer_id: 1,
+                forwarder_id: 1,
+            }
+        }
     },
 
     /**

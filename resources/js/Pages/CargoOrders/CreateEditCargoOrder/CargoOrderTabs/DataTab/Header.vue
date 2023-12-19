@@ -20,9 +20,9 @@
             v-if="props.mode === 'edit'"
         >
             <el-button
-                @click="destroy"
+                @click="console.log('cancel order clicked, but no further steps are implemented yet')"
                 type="danger"
-            >Delete</el-button>
+            >Cancel order</el-button>
         </el-form-item>
 
     </div>
