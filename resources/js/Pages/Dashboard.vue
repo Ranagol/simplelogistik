@@ -5,6 +5,8 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
     </Card> -->
 
+    <i class="fa-solid fa-house"></i>
+
     <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
         <el-radio-button :label="false">expand</el-radio-button>
         <el-radio-button :label="true">collapse</el-radio-button>
