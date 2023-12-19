@@ -6,8 +6,7 @@
             :collapse="data.isCollapsed"
             @open="handleOpen"
             @close="handleClose"
-            class="el-menu-vertical-demo"
-
+            class="el-menu-vertical-demo set_height"
         >
             <!-- SWITCH -->
             <el-menu-item index="switch">
@@ -185,5 +184,12 @@ const data = reactive({
     min-height: 1200px;
 }
 */
+
+/* vh stands for "viewport height" and 100vh is equal to 100% of the height of the viewport. 
+The viewport is the user's visible area of a web page. So, 100vh will cover the entire height 
+of the screen (from the very top to the very bottom), regardless of the screen size.*/
+.set_height {
+    min-height: 100vh;
+}
 
 </style>
