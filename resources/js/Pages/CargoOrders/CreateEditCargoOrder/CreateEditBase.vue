@@ -1,19 +1,46 @@
 <template>
 
-    <Head
-        :title="props.mode"
-    />
+    <Head :title="props.mode"/>
 
     <!-- CREATE EDIT CARGO ORDER -->
     <Card>
 
-        <!-- SIMPLE PAGE TITLE -->
-        
+        <!-- TITLE WITH CREATE AND CANCEL ORDER BUTTON -->
+        <div class="flex flex-row justify-between">
 
-        <Title 
-            :title="title"
-        />
+            <!-- SIMPLE PAGE TITLE: THE ORDER NUMBER -->
+            <Title 
+                :title="title"
+            />
+
+            <div class="flex flex-row ">
+                <!-- SUBMIT BUTTON -->
+                <!-- Notice: whenever there is a 'submit emit from Header, the submit()
+                is triggered, AND it receives the elformRef, which is the el-form
+                itself. This is the secret for the FE validation.' -->
+                <el-form-item>
+                    <el-button
+                        @click="console.log('submit')"
+                        type="primary"
+                    >Save</el-button>
+                </el-form-item>
+
+                <!-- CANCEL ORDER BUTTON -->
+                <el-form-item
+                    
+                >
+                    <el-button
+                        @click="console.log('cancel order clicked, but no further steps are implemented yet')"
+                        type="danger"
+                    >Cancel order</el-button>
+                </el-form-item>
+            </div>
+            
+        </div>
+
         
+        
+        <!-- ALL TABS -->
         <Tabs
             v-model:cargoOrder="data.cargoOrderData"
             :errors="props.errors"

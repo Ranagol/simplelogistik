@@ -10,17 +10,11 @@
         <!-- Notice: whenever there is a 'submit emit from Header, the submit()
             is triggered, AND it receives the elformRef, which is the el-form
             itself. This is the secret for the FE validation.' -->
-        <Header
-            v-model:cargoOrder="data.cargoOrder"
+        <!-- <Header
             :errors="props.errors"
             :mode="props.mode"
             @submit="submit(elFormRef)"
             @destroy="destroy"
-        />
-
-        <!-- SIMPLE PAGE TITLE -->
-        <!-- <Title 
-            title="Cargo order data"
         /> -->
 
         <!-- DETAILS -->
