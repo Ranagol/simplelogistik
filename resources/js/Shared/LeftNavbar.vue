@@ -6,14 +6,19 @@
         @close="handleClose"
         class="set_height"
     >
-    
+
         <!-- SWITCH -->
         <el-menu-item index="switch">
-            <el-switch
-                v-model="data.isCollapsed"
-                :active-action-icon="View"
-                :inactive-action-icon="Hide"
-            />
+
+            <el-button
+                type="primary"
+                size="small"
+                :icon="data.isCollapsed ? Hide : View"
+                @click="data.isCollapsed = !data.isCollapsed"
+                :style="data.isCollapsed ? 'width: 100%' : 'width:60%'"
+            >
+            </el-button>
+
         </el-menu-item>
         
 
