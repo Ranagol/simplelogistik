@@ -2,12 +2,12 @@
     <el-container>
 
         <!-- LEFT NAVBAR -->
-        <el-aside width="15%" >
+        <el-aside>
             <LeftNavbar/>
         </el-aside>
 
         <!-- THE WEBPAGE -->
-        <el-container class="ml-5 mr-5 set-height">
+        <el-container class="ml-5 mr-5 set_height">
 
             <!-- HEADER -->
             <el-header>
@@ -58,7 +58,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
-    .set-height {
+
+    /* vh stands for "viewport height" and 100vh is equal to 100% of the height of the viewport. 
+    The viewport is the user's visible area of a web page. So, 100vh will cover the entire height 
+    of the screen (from the very top to the very bottom), regardless of the screen size.*/
+    .set_height {
         min-height: 100vh;
     }
 </style>

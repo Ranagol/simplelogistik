@@ -9,6 +9,7 @@
             class="el-menu-vertical-demo"
 
         >
+            <!-- SWITCH -->
             <el-menu-item index="switch">
                 <el-switch
                     v-model="data.isCollapsed"
@@ -158,6 +159,7 @@ const data = reactive({
 
 
 
+
 </script>
 
 <style scoped>
@@ -177,9 +179,11 @@ const data = reactive({
     border-radius: 6.4px;
 }
 
+/*
 .el-menu-vertical-demo {
     width: 300px;
     min-height: 1200px;
 }
+*/
 
 </style>
