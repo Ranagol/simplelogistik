@@ -2,11 +2,11 @@
     <el-container>
 
         <!-- LEFT NAVBAR -->
-        <el-aside>
+        <el-aside width="auto">
             <LeftNavbar/>
         </el-aside>
 
-        <!-- THE WEBPAGE -->
+        <!-- THE WEBPAGE MAIN CONTENT -->
         <el-container class="ml-5 mr-5 set_height">
 
             <!-- HEADER -->
