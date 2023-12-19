@@ -1,18 +1,36 @@
 <template>
-    <Card class="flex flex-row justify-end">
+    <Card class="flex flex-row justify-between">
+        <div>
+            <NavLink
+                href="/"
+            >
+                <img
+                    width="200"
+                    src="/images/logo.png"
+                    alt="Simplelogistik logo"
+                />
+            </NavLink>
 
-        <span
-            v-if="username"
-            class="mr-7"
-        >Welcome, {{ username }}</span>
+        </div>
 
-        <!-- Jeff did here a bit of an unnecesary complication. NavLink is a wrapper around the
-        Inertia Link component, so for some magical reason we can here use NavLink as if it were
-        the Link component. And the Link component can send request, can work with get/post/etc
-        methods. -->
-        <NavLink href="/logout" method="post" as="button">
-            Logout
-        </NavLink>
+        
+
+        <div class="flex flex-row justify-end">
+            <span
+                v-if="username"
+                class="mr-7"
+            >Welcome, {{ username }}</span>
+
+            <!-- Jeff did here a bit of an unnecesary complication. NavLink is a wrapper around the
+            Inertia Link component, so for some magical reason we can here use NavLink as if it were
+            the Link component. And the Link component can send request, can work with get/post/etc
+            methods. -->
+            <NavLink href="/logout" method="post" as="button">
+                Logout
+            </NavLink>
+        </div>
+
+        
 
     </Card>
 </template>

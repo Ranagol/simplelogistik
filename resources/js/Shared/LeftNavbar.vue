@@ -42,7 +42,7 @@
             <NavLink
                 href="/dashboard"
             >
-                <el-icon size="50"><Briefcase /></el-icon>
+                <el-icon size="40"><Briefcase /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
@@ -61,7 +61,7 @@
             <NavLink
                 href="/cargo-orders"
             >
-                <el-icon size="50"><Box /></el-icon>
+                <el-icon size="40"><Box /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
@@ -80,7 +80,7 @@
             <NavLink
                 href="/customers"
             >
-                <el-icon size="50"><Avatar /></el-icon>
+                <el-icon size="40"><Avatar /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
@@ -99,7 +99,7 @@
             <NavLink
                 href="/addresses"
             >
-                <el-icon size="50"><House /></el-icon>
+                <el-icon size="40"><House /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
@@ -115,7 +115,7 @@
             index="other"
         >
             <template #title>
-                <el-icon size="50"><IconMenu /></el-icon>
+                <el-icon size="40"><IconMenu /></el-icon>
                 <span>Other</span>
             </template>
 
