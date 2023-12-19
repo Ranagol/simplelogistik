@@ -9,11 +9,14 @@
             class="el-menu-vertical-demo"
 
         >
-            <el-switch
-                v-model="data.isCollapsed"
-                :active-action-icon="View"
-                :inactive-action-icon="Hide"
-            />
+            <el-menu-item index="switch">
+                <el-switch
+                    v-model="data.isCollapsed"
+                    :active-action-icon="View"
+                    :inactive-action-icon="Hide"
+                />
+            </el-menu-item>
+            
 
             <!-- LOGO -->
             <!-- This is a company logo, inside a link, so the image acts like a link -->
@@ -29,26 +32,34 @@
             </el-menu-item> -->
 
             <!-- DASHBOARD -->
-            <!-- <el-menu-item index="Dashboard">
-                <NavLink
-                    href="/dashboard"
-                >Dashboard</NavLink>
-            </el-menu-item> -->
+            <el-menu-item index="Dashboard">
+                <el-icon size="50"><Briefcase /></el-icon>
+
+                <template #title>
+                    <NavLink
+                        href="/dashboard"
+                    >Dashboard</NavLink>
+                </template>
+            </el-menu-item>
 
             <!-- CARGOORDERS -->
-            <!-- <el-menu-item 
+            <el-menu-item 
                 index="cargo-orders.index"
             >
-                <NavLink
-                    href="/cargo-orders"
-                >Orders list</NavLink>
-            </el-menu-item> -->
+                <el-icon size="50"><Box /></el-icon>
+
+                <template #title>
+                    <NavLink
+                        href="/cargo-orders"
+                    >Cargo orders list</NavLink>
+                </template>
+            </el-menu-item>
 
             <!-- CUSTOMERS -->
             <el-menu-item 
                 index="customers.index"
             >
-                <el-icon><location /></el-icon>
+                <el-icon size="50"><Avatar /></el-icon>
 
                 <template #title>
                     <NavLink
@@ -57,15 +68,11 @@
                 </template>
             </el-menu-item>
 
-
-
             <!-- ADDRESSES -->
             <el-menu-item 
                 index="addresses.index"
             >
-                <el-icon>
-                    <location />
-                </el-icon>
+                <el-icon size="50"><House /></el-icon>
 
                 <template #title>
                     <NavLink
@@ -78,6 +85,10 @@
             <el-sub-menu
                 index="other"
             >
+                <template #title>
+                    <el-icon size="50"><IconMenu /></el-icon>
+                    <span>Other</span>
+                </template>
 
                 <!-- PAMYRA -->
                 <el-menu-item index="Pamyra">
@@ -112,7 +123,7 @@
 import Card from "./Card.vue";
 import NavLink from "./NavLink.vue";
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
-import { Hide, View } from '@element-plus/icons-vue';
+import { Hide, View, House, Avatar, Box, Briefcase  } from '@element-plus/icons-vue';
 import { Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 
 
@@ -144,7 +155,6 @@ const data = reactive({
 .el-menu-vertical-demo {
     width: 300px;
     min-height: 1200px;
-
 }
 
 </style>
