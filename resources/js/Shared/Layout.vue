@@ -31,30 +31,13 @@
 </template>
 
 
-<script lang="ts">
+<script setup>
 import { defineComponent } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import LeftNavbar from './LeftNavbar.vue';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
-// import Nav from "./Nav.vue";
-export default defineComponent({
-    name:'Layout',
-    components: {
-        Head,
-        LeftNavbar,
-        Header,
-        Footer
-    },
-    data() {
-        return {
 
-        }
-    },
-    methods: {
-    },
-
-});
 </script>
 
 <style scoped>
