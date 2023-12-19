@@ -70,7 +70,7 @@
 
         <br>
 
-        <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>
+        <!-- <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre> -->
 
     </el-form>
 

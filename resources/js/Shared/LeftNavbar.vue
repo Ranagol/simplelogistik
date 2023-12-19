@@ -170,7 +170,8 @@ const data = reactive({
 The viewport is the user's visible area of a web page. So, 100vh will cover the entire height 
 of the screen (from the very top to the very bottom), regardless of the screen size.*/
 .set_height {
-    min-height: 100vh !important;
+    /*min-height: 100vh !important;*/
+    height: 100% !important;
 }
 
 </style>

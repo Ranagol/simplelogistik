@@ -111,8 +111,6 @@
                 ></div>
             </el-form-item>
 
-            <!-- ***************************** -->
-
             <!-- This here is not editable, it is only for displaying. Now, this street may or may not
                 exist. So this column we handle with computed. Since this is not validated, also there
                 is no props in el-form-item. 
@@ -194,10 +192,6 @@
                 />
 
             </el-form-item>
-
-
-
-            <!-- ************************* -->
 
             <el-form-item
                 label="Email"
