@@ -33,8 +33,15 @@
 
             <!-- DASHBOARD -->
             <el-menu-item index="Dashboard">
-                <el-icon size="50"><Briefcase /></el-icon>
+                
+                <!-- Icon with link -->
+                <NavLink
+                    href="/dashboard"
+                >
+                    <el-icon size="50"><Briefcase /></el-icon>
+                </NavLink>
 
+                <!-- Text with link -->
                 <template #title>
                     <NavLink
                         href="/dashboard"
@@ -42,16 +49,22 @@
                 </template>
             </el-menu-item>
 
-            <!-- CARGOORDERS -->
+            <!-- ORDERS -->
             <el-menu-item 
                 index="cargo-orders.index"
             >
-                <el-icon size="50"><Box /></el-icon>
+                <!-- Icon with link -->
+                <NavLink
+                    href="/cargo-orders"
+                >
+                    <el-icon size="50"><Box /></el-icon>
+                </NavLink>
 
+                <!-- Text with link -->
                 <template #title>
                     <NavLink
                         href="/cargo-orders"
-                    >Cargo orders list</NavLink>
+                    >Orders</NavLink>
                 </template>
             </el-menu-item>
 
@@ -59,12 +72,18 @@
             <el-menu-item 
                 index="customers.index"
             >
-                <el-icon size="50"><Avatar /></el-icon>
+                <!-- Icon with link -->
+                <NavLink
+                    href="/customers"
+                >
+                    <el-icon size="50"><Avatar /></el-icon>
+                </NavLink>
 
+                <!-- Text with link -->
                 <template #title>
                     <NavLink
                         href="/customers"
-                    >Customers list</NavLink>
+                    >Customers</NavLink>
                 </template>
             </el-menu-item>
 
@@ -72,12 +91,18 @@
             <el-menu-item 
                 index="addresses.index"
             >
-                <el-icon size="50"><House /></el-icon>
+                <!-- Icon with link -->
+                <NavLink
+                    href="/addresses"
+                >
+                    <el-icon size="50"><House /></el-icon>
+                </NavLink>
 
+                <!-- Text with link -->
                 <template #title>
                     <NavLink
                         href="/addresses"
-                    >Addresses list</NavLink>
+                    >Addresses</NavLink>
                 </template>
             </el-menu-item>
             
@@ -128,7 +153,7 @@ import { Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 
 
 const data = reactive({
-    isCollapsed: true,
+    isCollapsed: false,
 });
 
 
