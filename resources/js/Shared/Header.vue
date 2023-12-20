@@ -1,5 +1,7 @@
 <template>
     <Card class="flex flex-row justify-between">
+
+        <!-- THE LOGO IMAGE -->
         <div>
             <NavLink
                 href="/"
@@ -12,9 +14,8 @@
             </NavLink>
 
         </div>
-
         
-
+        <!-- WELCOME, USER -->
         <div class="flex flex-row justify-end">
             <span
                 v-if="username"
@@ -29,9 +30,6 @@
                 Logout
             </NavLink>
         </div>
-
-        
-
     </Card>
 </template>
 

@@ -4,7 +4,7 @@
         :collapse="data.isCollapsed"
         @open="handleOpen"
         @close="handleClose"
-        class="set_height"
+        class="set_height pl-5"
     >
 
         <!-- SWITCH -->

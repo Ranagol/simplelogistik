@@ -1,31 +1,34 @@
 <template>
     <el-container>
-
-        <!-- LEFT NAVBAR -->
-        <el-aside width="auto">
-            <LeftNavbar/>
-        </el-aside>
-
-        <!-- THE WEBPAGE MAIN CONTENT -->
-        <el-container class="ml-5 mr-5 set_height">
+        <el-container class="set_height">
 
             <!-- HEADER -->
             <el-header>
                 <Header/>
             </el-header>
 
-            <!-- MAIN -->
-            <el-main>
+            <el-container class="pl-5">
+                <!-- LEFT NAVBAR -->
+                <el-aside width="auto">
+                    <LeftNavbar/>
+                </el-aside>
 
-                <!-- SLOT -->
-                <slot />
-            </el-main>
+                <el-container>
 
-            <!-- FOOTER -->
-            <el-footer>
-                <Footer/>
-            </el-footer>
+                    <!-- THE WEBPAGE MAIN CONTENT -->
+                    <el-main>
 
+                        <!-- SLOT -->
+                        <slot />
+                    </el-main>
+
+                    <!-- FOOTER -->
+                    <el-footer>
+                        <Footer/>
+                    </el-footer>
+
+                </el-container>
+            </el-container>
         </el-container>
     </el-container>
 </template>
