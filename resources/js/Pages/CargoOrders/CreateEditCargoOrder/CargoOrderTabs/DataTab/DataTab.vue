@@ -12,9 +12,14 @@
             :mode="props.mode"
         />
 
+        <el-switch
+            v-model="data.showDetails2"
+        />
+
         <!-- ALL OTHER ORDER DETAILS -->
         <Details2Vue
             v-model:cargoOrder="data.cargoOrder"
+            v-if="data.showDetails2"
             :errors="props.errors"
             :mode="props.mode"
         />
@@ -110,7 +115,8 @@ let props = defineProps({
 });
 
 let data = reactive({
-    cargoOrder: props.cargoOrder
+    cargoOrder: props.cargoOrder,
+    showDetails2: false,
 });
 
 /**
