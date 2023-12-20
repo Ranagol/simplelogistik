@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('tms_cargo_order_id')->references('id')->on('tms_cargo_orders');
             $table->string('type', 200)->comment('Example: customer chooses extra service, like sms notification when package is delivered. This has additional cost.')->nullable();
             $table->decimal('price', 10, 2)->comment('The price of the attribute/extra service.')->nullable();
+            $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
             $table->string('description', 255)->comment('This is a description column')->nullable();
             $table->timestamps();
         });

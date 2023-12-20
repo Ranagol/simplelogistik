@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreign('cargo_order_id')->references('id')->on('tms_cargo_orders');
             $table->decimal('offered_price',10,2);
             $table->decimal('offered_price_net',10,2)->nullable();
+            $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
             $table->timestamps();
         });
     }
