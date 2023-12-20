@@ -7,7 +7,7 @@
 
         <!-- COMPANY NAME, 1 FULL ROW -->
         <el-form-item
-            label="Company name"
+            prop="company_name"
         >
             <el-input
                 v-model="data.address.company_name"
@@ -28,7 +28,6 @@
 
                 <!-- FIRST NAME -->
                 <el-form-item
-                    label="First name"
                     prop="first_name"
                 >
                     <el-input
@@ -47,7 +46,6 @@
 
                 <!-- LAST NAME -->
                 <el-form-item
-                    label="Last name"
                     prop="last_name"
                 >
                     <el-input
@@ -70,7 +68,6 @@
 
                 <!-- STREET -->
                 <el-form-item
-                    label="Street"
                     prop="street"
                 >
                     <el-input
@@ -89,16 +86,13 @@
 
                 <!-- HOUSE NUMBER -->
                 <el-form-item
-                    label="House number"
                     prop="house_number"
                 >
                     <el-input
                         v-model="data.address.house_number"
                         placeholder="House number"
                         type="text"
-                        
                         :maxlength="255"
-                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -112,16 +106,13 @@
 
                 <!-- ZIP CODE -->
                 <el-form-item
-                    label="Zip code"
                     prop="zip_code"
                 >
                     <el-input
                         v-model="data.address.zip_code"
                         placeholder="Zip code"
                         type="text"
-                        
                         :maxlength="255"
-                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -131,7 +122,6 @@
 
                 <!-- CITY -->
                 <el-form-item
-                    label="City"
                     prop="city"
                 >
                     <el-input
@@ -154,16 +144,13 @@
 
                 <!-- STATE -->
                 <el-form-item
-                    label="State"
                     prop="state"
                 >
                     <el-input
                         v-model="data.address.state"
                         placeholder="State"
                         type="text"
-                        
                         :maxlength="255"
-                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -173,7 +160,6 @@
 
                 <!-- COUNTRY -->
                 <el-form-item
-                    label="IN PROGRESS..."
                     prop="country"
                 >
                     <el-input
@@ -194,7 +180,6 @@
 
                 <!-- EMAIL -->
                 <el-form-item
-                    label="Email"
                     prop="email"
                 >
                     <el-input
@@ -211,12 +196,11 @@
 
                 <!-- PHONE -->
                 <el-form-item
-                    label="Phone"
-                    prop=""
+                    prop="phone"
                 >
                     <el-input
-                        v-model="data.address.country_id"
-                        placeholder="UNDER CONSTRUCTION"
+                        v-model="data.address.phone"
+                        placeholder="Phone"
                         type="text"
                         :maxlength="255"
                         @input="update()"
@@ -230,7 +214,6 @@
 
         <!-- ADDITIONAL INFO, 1 FULL ROW -->
         <el-form-item
-            label="Additional information"
             prop="address_additional_information"
         >
             <el-input
@@ -252,31 +235,14 @@ import addressDummy from '@/Pages/Addresses/CreateEditAddress/addressDummy';//us
 import addressEmpty from '@/Pages/Addresses/CreateEditAddress/addressEmpty';//use this in props to have empty address form for creating new address
 
 const props = defineProps({
+
     address: {
         type: Object,
         required: true,
         /**
          * Returns an empty address object, if the order does not has one.
          */
-        //  default: () => addressDummy,
-        default: () => {
-            return {
-                company_name: 'Random text',
-                first_name: 'Random text',
-                last_name: 'Random text',
-                address_type: 'Main headquarters',
-                street: "Random text",
-                house_number: 'Random text',
-                zip_code: "Random text",
-                city: "Random text",
-                country_code: "Afghanistan",
-                state: 'Random text',
-                type_of_address: '',
-                address_additional_information: 'Random text',
-                customer_id: 1,
-                forwarder_id: 1,
-            }
-        }
+        default: () => addressDummy,
     },
 
     /**
@@ -298,7 +264,13 @@ const props = defineProps({
 });
 
 const data = reactive({
-    address: props.address,
+
+    /**
+     * The address object comes from props. Usually. But it migh happend that the order does not
+     * have a headquarter address, or that the address is missing. In that case we should use the
+     * addressEmpty object. For development and testing purposes we can use the addressDummy object.
+     */
+    address: props.address || addressDummy
 });
 
 const emit = defineEmits(['update:address']);

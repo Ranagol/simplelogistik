@@ -2,8 +2,6 @@
     <el-form
         ref="elFormRef"
         :model="data.cargoOrder"
-        label-position="top"
-        label-width="150px"
         :rules="rules"
     >   
         <!-- HEADER WITH DELETE AND SUBMIT BUTTON -->
@@ -27,13 +25,13 @@
         <!-- ADDRESSES -->
         <div class="flex flex-row">
 
-            <!-- <Address
+            <Address
                 v-model:address="data.cargoOrder.customer.headquarter"
                 :errors="props.errors"
                 :mode="props.mode"
                 title="Customer"
                 class="grow"
-            /> -->
+            />
 
             <!-- This is just an empty divider between columns -->
             <div class="w-4"></div>
@@ -70,7 +68,7 @@
 
         <br>
 
-        <!-- <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre> -->
+        <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>
 
     </el-form>
 
