@@ -13,6 +13,18 @@ class TmsAddressSeeder extends Seeder
      */
     public function run(): void
     {
-        TmsAddress::factory(config('constants.numberOfDbRecords'))->create();
+        /**
+         * Currently, there are 4 address types in the database. For every address type, we want to
+         * create 20 addresses.
+         */
+        foreach (TmsAddress::ADDRESS_TYPES as $addressType) {
+            TmsAddress::factory(config('constants.numberOfDbRecords'))->create([
+                'address_type' => $addressType
+            ]);
+        }
     }
 }
+
+
+
+

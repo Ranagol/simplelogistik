@@ -15,19 +15,6 @@ class TmsAddressFactory extends Factory
     protected $model = TmsAddress::class;
 
     /**
-     * Numeric country codes, for seeding the country_code field.
-     *
-     * @return array
-     */
-    protected $countries = [
-        'Afghanistan',
-        'Albania',
-        'American Samoa',
-        'Andorra',
-        'Argentina',
-    ];
-
-    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -43,7 +30,6 @@ class TmsAddressFactory extends Factory
             'house_number' => $this->faker->buildingNumber,
             'zip_code' => $this->faker->postcode,
             'city' => $this->faker->city,
-            // 'country_id' => Arr::random($this->countries),
             'country_id' => Arr::random([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),//these are the ids of the countries in the database
             'state' => $this->faker->state,
             'phone' => $this->faker->phoneNumber,

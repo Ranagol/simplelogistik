@@ -7,11 +7,12 @@
             :prop="value"
         >
 
-            <el-tooltip
+            <!-- <el-tooltip
                 :content="key"
                 placement="top"
                 :auto-close="400"
-            >
+                effect="light"
+            > -->
                 <div class="flex flex-col mr-2">
 
                     <span class="ml-1">{{ key }}</span>
@@ -23,7 +24,7 @@
                     />
                 </div>
 
-            </el-tooltip>
+            <!-- </el-tooltip> -->
             
             <BackendValidationErrorDisplay
                 :errorMessage="props.errors.customer_reference"

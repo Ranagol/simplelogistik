@@ -27,14 +27,14 @@
             <NavLink
                 href="/dashboard"
             >
-                <el-icon size="40"><Histogram /></el-icon>
+                <el-icon size="40" :color="data.iconColor"><Histogram /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
             <template #title>
                 <NavLink
                     href="/dashboard"
-                    class="ml-1"
+                    class="ml-1 mr-7"
                 >Dashboard</NavLink>
             </template>
         </el-menu-item>
@@ -47,7 +47,7 @@
             <NavLink
                 href="/cargo-orders"
             >
-                <el-icon size="40"><Folder /></el-icon>
+                <el-icon size="40"  :color="data.iconColor"><Folder /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
@@ -67,7 +67,7 @@
             <NavLink
                 href="/customers"
             >
-                <el-icon size="40"><UserFilled /></el-icon>
+                <el-icon size="40" :color="data.iconColor"><UserFilled /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
@@ -87,7 +87,7 @@
             <NavLink
                 href="/addresses"
             >
-                <el-icon size="40"><Memo /></el-icon>
+                <el-icon size="40" :color="data.iconColor" class="no-inherit"><Memo /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
@@ -149,6 +149,11 @@ const data = reactive({
      * Whether the menu is collapsed or not. This is currently controlled by an el-switch.
      */
     isCollapsed: false,
+
+    // iconColor: '#6B7280'
+    iconColor: '#FF0000'
+
+    
 });
 
 

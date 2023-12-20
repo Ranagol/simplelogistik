@@ -72,13 +72,13 @@ class TmsCustomer extends Model
      *
      * @return HasOne
      */
-    public function headquarter(): HasOne
+    public function headquarter()
     {
         return $this->hasOne(TmsAddress::class, 'customer_id')
-                    ->where('address_type', 1)
-                    ->orWhere('address_type', 2)
-                    ->orderBy('address_type', 'asc')
-                    ->take(1);
+                    ->where('address_type', 1);
+                    // ->orWhere('address_type', 2)
+                    // ->orderBy('address_type', 'asc')
+                    // ->take(1);
     }
 
     /**
