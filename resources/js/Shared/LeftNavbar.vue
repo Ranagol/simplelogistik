@@ -27,13 +27,14 @@
             <NavLink
                 href="/dashboard"
             >
-                <el-icon size="40"><Briefcase /></el-icon>
+                <el-icon size="40"><Histogram /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
             <template #title>
                 <NavLink
                     href="/dashboard"
+                    class="ml-1"
                 >Dashboard</NavLink>
             </template>
         </el-menu-item>
@@ -46,13 +47,14 @@
             <NavLink
                 href="/cargo-orders"
             >
-                <el-icon size="40"><Box /></el-icon>
+                <el-icon size="40"><Folder /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
             <template #title>
                 <NavLink
                     href="/cargo-orders"
+                    class="ml-1"
                 >Orders</NavLink>
             </template>
         </el-menu-item>
@@ -65,13 +67,14 @@
             <NavLink
                 href="/customers"
             >
-                <el-icon size="40"><Avatar /></el-icon>
+                <el-icon size="40"><UserFilled /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
             <template #title>
                 <NavLink
                     href="/customers"
+                    class="ml-1"
                 >Customers</NavLink>
             </template>
         </el-menu-item>
@@ -84,12 +87,13 @@
             <NavLink
                 href="/addresses"
             >
-                <el-icon size="40"><House /></el-icon>
+                <el-icon size="40"><Memo /></el-icon>
             </NavLink>
 
             <!-- Text with link -->
             <template #title>
                 <NavLink
+                    class="ml-1"
                     href="/addresses"
                 >Addresses</NavLink>
             </template>
@@ -108,6 +112,7 @@
             <el-menu-item index="Pamyra">
                 <NavLink
                     href="/pamyra"
+                    class="ml-1"
                 >Pamyra</NavLink>
             </el-menu-item>
 
@@ -134,7 +139,7 @@
 import Card from "./Card.vue";
 import NavLink from "./NavLink.vue";
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
-import { Hide, View, House, Avatar, Box, Briefcase  } from '@element-plus/icons-vue';
+import { Memo, UserFilled, Histogram, Folder } from '@element-plus/icons-vue';
 import { Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 
 

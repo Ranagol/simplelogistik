@@ -10,7 +10,7 @@
             :placeholder="props.placeholder"
             :model-value="props.searchTerm"
             clearable
-            style="width: 50%"
+            style="width: 80%"
             ref="searchTermRef"
             @clear="getData"
             @change="getData"
