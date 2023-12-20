@@ -5,7 +5,7 @@
         <h1>Customers</h1>
 
         <!-- SEARCH FIELD -->
-        <div class="flex flex-row">
+        <div class="flex flex-row justify-between">
             <SearchField
                 v-model:searchTerm="data.searchTerm"
                 placeholder="Search customers..."

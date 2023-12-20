@@ -20,11 +20,11 @@
         />
     
         <!-- SEARCH BUTTON-->
-        <el-button
+        <!-- <el-button
             @click="getData"
             type="primary"
             class="ml-3 mt-1"
-        >Search</el-button>
+        >Search</el-button> -->
         
     </div>
 </template>

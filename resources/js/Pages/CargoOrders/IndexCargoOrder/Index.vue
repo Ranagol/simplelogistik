@@ -8,7 +8,7 @@
         />
 
         <!-- SEARCH FIELD -->
-        <div class="flex flex-row">
+        <div class="flex justify-between">
             <SearchField
                 v-model:searchTerm="data.searchTerm"
                 placeholder="Search cargo orders..."

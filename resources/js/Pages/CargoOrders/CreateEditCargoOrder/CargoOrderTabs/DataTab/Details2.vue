@@ -56,11 +56,23 @@ const props = defineProps({
 });
 
 /**
- * We do not want to display all the order properties, only some.
+ * We do not want to display all the order properties, only some. Order properties that should 
+ * not be displayed are listed in dontDisplayThese array. 
  */
 let selectedOrderProperties = computed(
     () => {
-  	    return props.cargoOrder;
+        const dontDisplayThese = [
+            'id', 'origin', 'order_edited_events', 'p_order_pdf', 'parcels', 
+            'start_address', 'target_address', 'updated_at', 'created_at',
+            'customer', 'pickup_address_id', 'delivery_address_id'
+        ];
+        const newOrder = {};//this will contain all order properties, that are needed for display.
+        for (const [key, value] of Object.entries(props.cargoOrder)) {
+            if (!dontDisplayThese.includes(key)) {
+                newOrder[key] = value;
+            }
+        }
+  	    return newOrder; 
     }
 );
 
