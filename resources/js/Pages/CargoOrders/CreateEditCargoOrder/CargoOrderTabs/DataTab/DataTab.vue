@@ -13,7 +13,11 @@
         />
 
         <!-- ALL OTHER ORDER DETAILS -->
-        
+        <Details2Vue
+            v-model:cargoOrder="data.cargoOrder"
+            :errors="props.errors"
+            :mode="props.mode"
+        />
 
 
 
@@ -78,6 +82,7 @@ import Title from '@/Shared/Title.vue';
 import Details from './Details.vue';
 import Address from './Address.vue';
 import Parcels from './Parcels.vue';
+import Details2Vue from './Details2.vue';
 
 let props = defineProps({
 
