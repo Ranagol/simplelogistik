@@ -2,7 +2,10 @@
     <Head title="Address" />
 
     <Card>
-        <h1>Addresses</h1>
+
+        <Title 
+            title="Addresses" 
+        />
 
         <!-- SEARCH FIELD -->
         <div class="flex justify-between">
@@ -50,6 +53,8 @@ import SearchField from '@/Shared/SearchField.vue';
 import Pagination from '@/Shared/Pagination.vue';
 // import CreateEditAddress from '@/Pages/Addresses/CreateEditAddress.vue';
 import AddressTable from './AddressTable.vue';
+import Title from '@/Shared/Title.vue';
+
 
 let addressStore = useAddressStore();
 

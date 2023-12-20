@@ -24,8 +24,6 @@
             :mode="props.mode"
         />
 
-
-
         <!-- ADDRESSES -->
         <div class="flex flex-row">
 

@@ -4,7 +4,7 @@
     <Card>
 
         <Title 
-            title="Cargo orders" 
+            title="Orders" 
         />
 
         <!-- SEARCH FIELD -->

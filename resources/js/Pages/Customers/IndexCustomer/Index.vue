@@ -2,7 +2,9 @@
     <Head title="Customers" />
 
     <Card>
-        <h1>Customers</h1>
+        <Title 
+            title="Customers" 
+        />
 
         <!-- SEARCH FIELD -->
         <div class="flex flex-row justify-between">
@@ -47,6 +49,8 @@ import { useCustomerStore } from '@/Stores/customerStore';
 import SearchField from '@/Shared/SearchField.vue';
 import CustomerTable from './CustomerTable.vue';
 import Pagination from '@/Shared/Pagination.vue';
+import Title from '@/Shared/Title.vue';
+
 
 let customerStore = useCustomerStore();
 
