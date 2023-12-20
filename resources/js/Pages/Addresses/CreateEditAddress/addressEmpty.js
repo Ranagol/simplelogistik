@@ -8,6 +8,8 @@ export default {
     zip_code: "",
     city: "",
     country_code: "",
+    email: null,
+    phone: null,
     state: null,
     type_of_address: null,
     address_additional_information: null,

@@ -4,23 +4,18 @@
         :model="data.cargoOrder"
         :rules="rules"
     >   
-        <!-- HEADER WITH DELETE AND SUBMIT BUTTON -->
-        <!-- Notice: whenever there is a 'submit emit from Header, the submit()
-            is triggered, AND it receives the elformRef, which is the el-form
-            itself. This is the secret for the FE validation.' -->
-        <!-- <Header
-            :errors="props.errors"
-            :mode="props.mode"
-            @submit="submit(elFormRef)"
-            @destroy="destroy"
-        /> -->
 
-        <!-- DETAILS -->
+        <!-- MAIN ORDER DETAILS: reference, date, origin, status-->
         <Details
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
         />
+
+        <!-- ALL OTHER ORDER DETAILS -->
+        
+
+
 
         <!-- ADDRESSES -->
         <div class="flex flex-row">

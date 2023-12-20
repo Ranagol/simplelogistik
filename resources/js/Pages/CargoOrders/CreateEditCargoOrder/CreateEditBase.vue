@@ -26,19 +26,15 @@
                 </el-form-item>
 
                 <!-- CANCEL ORDER BUTTON -->
-                <el-form-item
-                    
-                >
+                <el-form-item>
                     <el-button
                         @click="console.log('cancel order clicked, but no further steps are implemented yet')"
                         type="danger"
-                    >Cancel order</el-button>
+                        class="ml-4"
+                    >Cancel</el-button>
                 </el-form-item>
             </div>
-            
         </div>
-
-        
         
         <!-- ALL TABS -->
         <Tabs

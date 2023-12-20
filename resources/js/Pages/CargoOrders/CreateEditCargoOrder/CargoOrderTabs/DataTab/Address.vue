@@ -162,16 +162,22 @@
                 <el-form-item
                     prop="country"
                 >
-                    <el-input
-                        v-model="data.address.country_id"
-                        placeholder="UNDER CONSTRUCTION"
-                        type="text"
-                        :maxlength="255"
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="ml-1"
-                    />
+                    <el-tooltip
+                        content="Country"
+                        placement="top"
+                        :auto-close="400"
+                    >
+                        <el-input
+                            v-model="data.address.country"
+                            placeholder="COUNTRY - IN PROGRESS"
+                            type="text"
+                            :maxlength="255"
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="ml-1"
+                        />
+                    </el-tooltip>
                 </el-form-item>
             </div>
 

@@ -7,6 +7,8 @@ export default  {
     house_number: 'Random text',
     zip_code: "Random text",
     city: "Random text",
+    email: "Random text",
+    phone: "Random text",
     country_code: "Afghanistan",
     state: 'Random text',
     type_of_address: '',
