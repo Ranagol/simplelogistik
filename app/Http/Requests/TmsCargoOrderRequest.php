@@ -22,8 +22,8 @@ class TmsCargoOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type_of_transport' => 'nullable|string|max:200',
-            'origin' => 'nullable|string|max:255',
+            'type_of_transport' => 'required|string|max:200',
+            'origin' => 'required|string|max:255',
             'customer_reference' => 'required|string|max:255',
             'provision' => 'nullable|numeric|between:0,99.99',
             'order_edited_events' => 'nullable|json',
@@ -38,7 +38,7 @@ class TmsCargoOrderRequest extends FormRequest
             'p_calculation_model_name' => 'nullable|string|max:255',
             'p_order_number' => 'nullable|string|max:255',
             'p_order_pdf' => 'nullable|string|max:255',
-            'p_payment_method' => 'nullable|string|max:255',
+            'p_payment_method' => 'required|string|max:255',
             'p_date_of_sale' => 'nullable|date_format:Y-m-d',
             'p_date_of_cancellation' => 'nullable|date_format:Y-m-d',
             'p_pickup_date_from' => 'nullable|date',

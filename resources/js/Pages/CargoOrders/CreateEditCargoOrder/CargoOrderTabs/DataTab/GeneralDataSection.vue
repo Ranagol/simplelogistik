@@ -32,18 +32,25 @@
                         class="ml-1"
                     >Type of transport</span>
                     
-                    <!-- INPUT -->
-                    <el-input
+                    <el-select
                         v-model="props.cargoOrder.type_of_transport"
                         placeholder="Type of transport"
                         clearable
-                        @input="updateParent"
-                    />
+                        filterable
+                        @change="updateParent"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.typesOfTransport"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
 
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.customer_reference"
+                    :errorMessage="props.errors.type_of_transport"
                 />
 
             </el-form-item>
@@ -146,12 +153,20 @@
                     >Origin</span>
                     
                     <!-- INPUT -->
-                    <el-input
+                    <el-select
                         v-model="props.cargoOrder.origin"
-                        placeholder="Origin"
+                        placeholder="Type of transport"
                         clearable
-                        @input="updateParent"
-                    />
+                        filterable
+                        @change="updateParent"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.origins"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
 
                 </div>
                 
@@ -174,12 +189,20 @@
                     >Payment method</span>
                     
                     <!-- INPUT -->
-                    <el-input
+                    <el-select
                         v-model="props.cargoOrder.p_payment_method"
-                        placeholder="Payment method"
+                        placeholder="Type of transport"
                         clearable
-                        @input="updateParent"
-                    />
+                        filterable
+                        @change="updateParent"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.paymentMethods"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
 
                 </div>
                 
