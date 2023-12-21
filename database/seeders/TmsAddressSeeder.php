@@ -14,16 +14,27 @@ class TmsAddressSeeder extends Seeder
     public function run(): void
     {
         /**
-         * Currently, there are 4 address types in the database. For every address type, we want to
-         * create 20 addresses.
+         * constants.numberOfDbRecords is a constant. It should be 20. It means that in a general case
+         * we want 20 customers created, 20 orders created... so on, in the db. In general case.
+         * We want 4 addresses for every customer. The address type should be 1,2,3,4 once for every
+         * customer. So, we want 20 customers, and for every customer we want 4 addresses. That is
+         * 20*4 = 80 addresses. We want 80 addresses in the database. This is what we do here.
          */
-        foreach (TmsAddress::ADDRESS_TYPES as $addressType) {
-            TmsAddress::factory(config('constants.numberOfDbRecords'))->create([
-                'address_type' => $addressType
-            ]);
+        for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
+            /**
+             * Currently, there are 4 address types in the database. For every address type, we want to
+             * create 20 addresses.
+             */
+            foreach (TmsAddress::ADDRESS_TYPES as $addressType) {
+                TmsAddress::factory()->create([
+                    'address_type' => $addressType,
+                    'customer_id' => $i,
+                ]);
+            }
         }
     }
 }
+
 
 
 
