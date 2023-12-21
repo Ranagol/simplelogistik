@@ -5,8 +5,8 @@
         :rules="rules"
     >   
 
-        <!-- MAIN ORDER DETAILS: reference, date, origin, status-->
-        <GeneralDataSection
+        <!-- GENERAL DATA: reference, date, origin, status-->
+        <GeneralData
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
@@ -17,7 +17,7 @@
             v-model="data.showDetails2"
         />
 
-        <!-- ALL OTHER ORDER DETAILS -->
+        <!-- ALL OTHER ORDER DETAILS - TEMPORARY -->
         <Details2
             v-model:cargoOrder="data.cargoOrder"
             v-if="data.showDetails2"
@@ -26,42 +26,11 @@
         />
 
         <!-- ADDRESSES -->
-        <div class="flex flex-row">
-            
-            <!-- HEADQUARTER -->
-            <Address
-                v-model:address="data.cargoOrder.customer.headquarter"
-                :errors="props.errors"
-                :mode="props.mode"
-                title="Customer"
-                class="grow"
-            />
-
-            <!-- This is just an empty divider between columns -->
-            <div class="w-4"></div>
-
-            <!-- PICKUP ADDRESS -->
-            <Address
-                v-model:address="data.cargoOrder.start_address"
-                :errors="props.errors"
-                :mode="props.mode"
-                title="Pickup"
-                class="grow"
-            />
-
-            <!-- This is just an empty divider between columns -->
-            <div class="w-4"></div>
-
-            <!-- DELIVERY ADDRESS -->
-            <Address
-                v-model:address="data.cargoOrder.target_address"
-                :errors="props.errors"
-                :mode="props.mode"
-                title="Delivery"
-                class="grow"
-            />
-
-        </div>
+        <AddressBase
+            v-model:cargoOrder="data.cargoOrder"
+            :errors="props.errors"
+            :mode="props.mode"
+        />
 
         <!-- PARCELLS -->
         <Parcels
@@ -69,8 +38,7 @@
             :errors="props.errors"
             :mode="props.mode"
         />
-
-        <br>
+        
 
         <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>
 
@@ -82,9 +50,9 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import _ from 'lodash';
-import GeneralDataSection from './GeneralDataSection.vue';
-import Address from './Address.vue';
-import Parcels from './Parcels.vue';
+import GeneralData from './GeneralData.vue';
+import AddressBase from './Addresses/AddressBase.vue';
+import Parcels from './Parcels/Parcels.vue';
 import Details2 from './Details2.vue';
 import { useOrderStore } from '@/Stores/orderStore';
 
@@ -171,6 +139,7 @@ watch(
 }
 
 /**
+ * THIS IS TURNED OFF!!!!!!!!!!!!!!!!!
  * Does the frontend validation, and if it is OK, then emits the signal for creating/editing. That
  * signal is received by the parent CreateEditAddress.vue component. If it is not ok, then:
  * 1. there will be red error messages under the relevant fields
