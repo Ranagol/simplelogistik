@@ -20,7 +20,7 @@
                 itself. This is the secret for the FE validation.' -->
                 <el-form-item>
                     <el-button
-                        @click="submit"
+                        @click="triggerOrderSubmit"
                         type="primary"
                     >Save</el-button>
                 </el-form-item>
@@ -61,6 +61,9 @@ import Tabs from './Tabs.vue';
 import orderDummy from './orderDummy';
 import orderEmpty from './orderEmpty';
 import Title from '@/Shared/Title.vue';
+import { useOrderStore } from '@/Stores/orderStore';
+
+let orderStore = useOrderStore();
 
 const props = defineProps({
 
@@ -110,6 +113,18 @@ let title = computed(
     () => `Order ${data.cargoOrderData.p_order_number}`
 );
 
+/**
+ * The submit button and the order form are in two separate components. When we click on the submit
+ * button in this component, we want to trigger the submitting process in DataTab component which
+ * has the el-form and the FE validation. If the FE validation is OK, then the DataTab component will
+ * pass the submi triggering back here to this component. To make all this possible, we use Pinia for
+ * component communication.
+ */
+const triggerOrderSubmit = () => {
+    console.log('triggerOrderSubmit');
+    orderStore.triggerOrderSubmit = true;
+    
+}
 
 /**
  * Reminder: this submit works for both create and edit. Depending on the mode, the submit will

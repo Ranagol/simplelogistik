@@ -85,6 +85,8 @@ import GeneralDataSection from './GeneralDataSection.vue';
 import Address from './Address.vue';
 import Parcels from './Parcels.vue';
 import Details2 from './Details2.vue';
+import { useOrderStore } from '@/Stores/orderStore';
+
 
 let props = defineProps({
 
@@ -136,6 +138,17 @@ const destroy = () => {
 
 
 //*************************** FRONTEND FORM VALIDATION ***************************//
+let orderStore = useOrderStore();
+watch(
+    () => orderStore.triggerOrderSubmit,
+    (newValue, oldValue) => {
+        console.log('watcher in DataTab.vue triggered');
+        if (newValue === true) {
+            submit(elFormRef);
+        }
+    }
+);
+
 /**
  * This contains the whole el-form. Needed for the validation.
  */
@@ -160,6 +173,7 @@ const destroy = () => {
  */
  const validate = async (elFormRef) => {
     console.log('submit() called, FE validation starts')
+    console.log('elFormRef:', elFormRef)
     if (!elFormRef) return;
 
     await elFormRef.validate((valid, fields) => {
