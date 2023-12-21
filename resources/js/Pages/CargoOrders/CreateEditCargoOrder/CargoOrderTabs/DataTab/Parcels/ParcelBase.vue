@@ -16,13 +16,13 @@
         <div v-if="data.showParcelData">
 
             <ParcelOverview
-                :parcels="data.parcels"
+                v-model:cargoOrder="data.cargoOrder"
                 :errors="props.errors"
                 :mode="props.mode"
             />
 
             <ParcelTable
-                :parcels="data.parcels"
+                :parcels="props.cargoOrder.parcels"
                 :errors="props.errors"
                 :mode="props.mode"
             />
@@ -37,7 +37,7 @@ import ParcelOverview from './ParcelOverview.vue';
 import Title from '@/Shared/Title.vue';
 
 const props = defineProps({
-    parcels: {
+    cargoOrder: {
         type: Object,
         required: true,
     },
@@ -52,7 +52,7 @@ const props = defineProps({
 });
 
 const data = reactive({
-    parcels: props.parcels,
+    cargoOrder: props.cargoOrder,
     showParcelData: true,
 });
 

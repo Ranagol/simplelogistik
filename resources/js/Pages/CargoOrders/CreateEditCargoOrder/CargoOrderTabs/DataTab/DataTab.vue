@@ -29,7 +29,7 @@
 
         <!-- PARCELLS -->
         <ParcelBase
-            v-model:parcels="data.cargoOrder.parcels"
+            v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
         />
@@ -45,7 +45,7 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import _ from 'lodash';
-import GeneralData from './GeneralData.vue';
+import GeneralData from './GeneralData/GeneralData.vue';
 import AddressBase from './Addresses/AddressBase.vue';
 import ParcelBase from './Parcels/ParcelBase.vue';
 import Details2 from './Details2.vue';
