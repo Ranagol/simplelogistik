@@ -1,9 +1,24 @@
 <template>
     <div class="mt-4">
 
-        <div 
-            class="mb-2 font-bold"
-        >{{ props.title }} address</div>
+        <div
+            class="flex justify-between"
+        >
+            <!-- SUBTITLE -->
+            <div 
+                class="mb-4 font-bold"
+            >{{ props.title }} address</div>
+
+            <!-- BUTTON FOR ADDING MORE, ADDITIONAL ADDRESSES -->
+            <el-button
+                v-if="props.title === 'Delivery' || props.title === 'Pickup'"
+                type="success"
+                size="mini"
+            >+</el-button>
+
+        </div>
+
+        
 
         <!-- COMPANY NAME, 1 FULL ROW -->
         <el-form-item
