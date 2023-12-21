@@ -1,5 +1,5 @@
 <template>
-    <el-card class="box-card">
+    <div>
 
         <div class="flex justify-between">
 
@@ -337,7 +337,7 @@
 
             </el-form-item>
         </div>
-    </el-card>
+    </div>
 </template>
 
 <script setup>

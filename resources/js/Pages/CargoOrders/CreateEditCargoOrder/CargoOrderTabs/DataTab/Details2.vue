@@ -1,5 +1,22 @@
 <template>
-    <div class="mt-5 mb-5 grid grid-cols-5">
+
+    <!-- TITLE AND SWITCH-->
+    <div class="flex justify-between">
+        <Title 
+            title="Temporary Details2" 
+            class="mt-4 mb-2"
+        />
+
+        <el-switch
+            v-model="data.showDetails2"
+        ></el-switch>
+    </div>
+
+
+    <div 
+        v-if="data.showDetails2"
+        class="mt-5 mb-5 grid grid-cols-5"
+    >
         
         <el-form-item
             v-for="(value, key, index) in selectedOrderProperties"
@@ -33,6 +50,7 @@
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 import { useDateFormatter } from '@/Use/useDateFormatter';
+import Title from '@/Shared/Title.vue';
 
 const props = defineProps({
     cargoOrder: {
@@ -47,6 +65,10 @@ const props = defineProps({
         type: String,
         required: true
     },
+});
+
+let data = reactive({
+    showDetails2: true,
 });
 
 /**

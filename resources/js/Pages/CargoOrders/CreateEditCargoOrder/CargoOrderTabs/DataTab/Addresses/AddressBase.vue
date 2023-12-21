@@ -1,45 +1,58 @@
 <template>
 
-    <Title 
-        title="Addresses" 
-        class="mt-4 mb-2 ml-4"
-    />
+    <div>
+        <!-- TITLE AND SWITCH-->
+        <div class="flex justify-between">
+            <Title 
+                title="Addresses" 
+                class="mt-4 mb-2"
+            />
 
-    <div class="flex flex-row">
+            <el-switch
+                v-model="data.showAddresses"
+            ></el-switch>
+        </div>
+
+        <!-- MAIN CONTENT: ADDRESSES -->
+        <div 
+            v-if="data.showAddresses"
+            class="flex flex-row"
+        >
             
-        <!-- HEADQUARTER -->
-        <Address
-            v-model:address="data.cargoOrder.customer.headquarter"
-            :errors="props.errors"
-            :mode="props.mode"
-            title="Customer"
-            class="grow"
-        />
-
-        <!-- This is just an empty divider between columns -->
-        <div class="w-4"></div>
-
-        <!-- PICKUP ADDRESS -->
-        <Address
-            v-model:address="data.cargoOrder.start_address"
-            :errors="props.errors"
-            :mode="props.mode"
-            title="Pickup"
-            class="grow"
-        />
-
-        <!-- This is just an empty divider between columns -->
-        <div class="w-4"></div>
-
-        <!-- DELIVERY ADDRESS -->
-        <Address
-            v-model:address="data.cargoOrder.target_address"
-            :errors="props.errors"
-            :mode="props.mode"
-            title="Delivery"
-            class="grow"
-        />
-
+            <!-- HEADQUARTER -->
+            <Address
+                v-model:address="data.cargoOrder.customer.headquarter"
+                :errors="props.errors"
+                :mode="props.mode"
+                title="Customer"
+                class="grow"
+            />
+    
+            <!-- This is just an empty divider between columns -->
+            <div class="w-4"></div>
+    
+            <!-- PICKUP ADDRESS -->
+            <Address
+                v-model:address="data.cargoOrder.start_address"
+                :errors="props.errors"
+                :mode="props.mode"
+                title="Pickup"
+                class="grow"
+            />
+    
+            <!-- This is just an empty divider between columns -->
+            <div class="w-4"></div>
+    
+            <!-- DELIVERY ADDRESS -->
+            <Address
+                v-model:address="data.cargoOrder.target_address"
+                :errors="props.errors"
+                :mode="props.mode"
+                title="Delivery"
+                class="grow"
+            />
+    
+        </div>
     </div>
 </template>
 
@@ -66,6 +79,7 @@ const props = defineProps({
 
 const data = reactive({
     cargoOrder: props.cargoOrder,
+    showAddresses: true,
 }); 
 
 //WARNING: the emit part of the v-model here is missing!! Not done!!!!
