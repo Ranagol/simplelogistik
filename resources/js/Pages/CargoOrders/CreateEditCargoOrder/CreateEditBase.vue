@@ -20,7 +20,7 @@
                 itself. This is the secret for the FE validation.' -->
                 <el-form-item>
                     <el-button
-                        @click="console.log('submit')"
+                        @click="submit"
                         type="primary"
                     >Save</el-button>
                 </el-form-item>
@@ -107,9 +107,7 @@ const data = reactive({
 });
 
 let title = computed(
-    () => {
-  	    return `Order ${data.cargoOrderData.p_order_number}`;
-    }
+    () => `Order ${data.cargoOrderData.p_order_number}`
 );
 
 
@@ -118,7 +116,7 @@ let title = computed(
  * either create or edit the cargoOrder.
  */
 const submit = () => {
-    console.log('submit');
+    console.log('submit triggered in CreateEditBase.vue');
     if (props.mode === 'edit') {
         //edits the cargoOrder
         useEdit(

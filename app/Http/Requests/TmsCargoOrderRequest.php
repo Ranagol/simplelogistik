@@ -67,7 +67,10 @@ class TmsCargoOrderRequest extends FormRequest
             'p_vat_rate' => 'nullable|string|max:255',
             'p_value_insured' => 'nullable|string|max:255',
             'p_value_of_goods' => 'nullable|string|max:255',
-            'p_distance_km' => 'nullable|string|max:255',
+
+            // 'p_distance_km' => 'nullable|string|max:255',
+            'p_distance_km' => 'required|string|max:255',
+
             'p_duration_minutes' => 'nullable|string|max:255',
         ];
     }
