@@ -13,6 +13,14 @@ class TmsCargoOrderSeeder extends Seeder
      */
     public function run(): void
     {
-        TmsCargoOrder::factory(config('constants.numberOfDbRecords'))->create();
+        // TmsCargoOrder::factory(config('constants.numberOfDbRecords'))->create();
+        for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
+            TmsCargoOrder::factory()->create([
+                'customer_id' => $i,
+                'contact_id' => $i,
+                'pickup_address_id' => $i,
+                'delivery_address_id' => $i+1,
+            ]);
+        }
     }
 }

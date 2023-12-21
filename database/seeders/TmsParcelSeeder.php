@@ -13,6 +13,15 @@ class TmsParcelSeeder extends Seeder
      */
     public function run(): void
     {
-        TmsParcel::factory(config('constants.numberOfDbRecords'))->create();
+        // TmsParcel::factory(config('constants.numberOfDbRecords'))->create();
+        for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
+            TmsParcel::factory()->create([
+                'tms_cargo_order_id' => $i,
+            ]);
+            TmsParcel::factory()->create([
+                'tms_cargo_order_id' => $i,
+            ]);
+        }
+
     }
 }
