@@ -37,6 +37,7 @@
                         placeholder="Type of transport"
                         clearable
                         filterable
+                        style="width: 100%"
                         @change="updateParent"
                     >
                         <el-option
@@ -131,6 +132,7 @@
                         @change="updateParent()"
                         editable
                         clearable
+                        style="width: 100%"
                     ></el-date-picker>
 
                 </div>
@@ -233,6 +235,7 @@
                         @change="updateParent()"
                         editable
                         clearable
+                        style="width: 100%"
                     ></el-date-picker>
 
                 </div>
@@ -254,14 +257,6 @@
                         v-if="data.showLabel"
                         class="ml-1"
                     >Date of cancellation</span>
-                    
-                    <!-- INPUT -->
-                    <!-- <el-input
-                        :model-value="useDateFormatter(props.cargoOrder.p_date_of_cancellation)"
-                        placeholder="Date of cancellation"
-                        clearable
-                        @input="updateParent"
-                    /> -->
 
                     <el-date-picker
                         v-model="data.cargoOrder.p_date_of_cancellation"
@@ -271,6 +266,7 @@
                         @change="updateParent()"
                         editable
                         clearable
+                        style="width: 100%"
                     ></el-date-picker>
 
                 </div>
