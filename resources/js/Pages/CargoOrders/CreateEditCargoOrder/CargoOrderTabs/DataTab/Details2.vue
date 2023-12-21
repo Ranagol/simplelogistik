@@ -7,24 +7,17 @@
             :prop="value"
         >
 
-            <!-- <el-tooltip
-                :content="key"
-                placement="top"
-                :auto-close="400"
-                effect="light"
-            > -->
-                <div class="flex flex-col mr-2">
+            <div class="flex flex-col mr-2">
 
-                    <span class="ml-1">{{ key }}</span>
+                <span class="ml-1">{{ key }}</span>
 
-                    <el-input
-                        v-model="props.cargoOrder[key]"
-                        :placeholder="key"
-                        @input="updateParent"
-                    />
-                </div>
+                <el-input
+                    v-model="props.cargoOrder[key]"
+                    :placeholder="key"
+                    @input="updateParent"
+                />
+            </div>
 
-            <!-- </el-tooltip> -->
             
             <BackendValidationErrorDisplay
                 :errorMessage="props.errors.customer_reference"
@@ -66,7 +59,8 @@ let selectedOrderProperties = computed(
             'id', 'origin', 'order_edited_events', 'p_order_pdf', 'parcels', 
             'start_address', 'target_address', 'updated_at', 'created_at',
             'customer', 'pickup_address_id', 'delivery_address_id', 'customer_reference',
-            'customer_id', 'contact_id', 'p_order_number'
+            'customer_id', 'contact_id', 'p_order_number', 'order_date', 'type_of_transport',
+            'p_payment_method', 'p_date_of_sale', 'p_date_of_cancellation'
         ];
         const newOrder = {};//this will contain all order properties, that are needed for display.
         for (const [key, value] of Object.entries(props.cargoOrder)) {

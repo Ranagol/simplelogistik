@@ -29,13 +29,13 @@
         <div class="flex flex-row">
             
             <!-- HEADQUARTER -->
-            <!-- <Address
+            <Address
                 v-model:address="data.cargoOrder.customer.headquarter"
                 :errors="props.errors"
                 :mode="props.mode"
                 title="Customer"
                 class="grow"
-            /> -->
+            />
 
             <!-- This is just an empty divider between columns -->
             <div class="w-4"></div>
