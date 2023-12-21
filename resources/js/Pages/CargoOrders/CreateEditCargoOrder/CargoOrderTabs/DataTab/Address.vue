@@ -34,9 +34,7 @@
                         v-model="data.address.first_name"
                         placeholder="First name"
                         type="text"
-                        
                         :maxlength="255"
-                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"
@@ -52,9 +50,7 @@
                         v-model="data.address.last_name"
                         placeholder="Last name"
                         type="text"
-                        
                         :maxlength="255"
-                        
                         @input="update()"
                         @clear="update()"
                         @change="update()"

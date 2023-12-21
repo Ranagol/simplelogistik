@@ -65,7 +65,8 @@ let selectedOrderProperties = computed(
         const dontDisplayThese = [
             'id', 'origin', 'order_edited_events', 'p_order_pdf', 'parcels', 
             'start_address', 'target_address', 'updated_at', 'created_at',
-            'customer', 'pickup_address_id', 'delivery_address_id'
+            'customer', 'pickup_address_id', 'delivery_address_id', 'customer_reference',
+            'customer_id', 'contact_id', 'p_order_number'
         ];
         const newOrder = {};//this will contain all order properties, that are needed for display.
         for (const [key, value] of Object.entries(props.cargoOrder)) {
