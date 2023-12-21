@@ -168,8 +168,8 @@
                         :auto-close="400"
                     >
                         <el-input
-                            v-model="data.address.country"
-                            placeholder="COUNTRY - IN PROGRESS"
+                            v-model="data.address.country.country_name"
+                            placeholder="Country"
                             type="text"
                             :maxlength="255"
                             @input="update()"

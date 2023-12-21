@@ -120,9 +120,9 @@ class TmsCargoOrderController extends BaseController
         $record = $this->model::with(
             [
                 'parcels', 
-                'startAddress', 
-                'targetAddress',
-                'customer.headquarter'
+                'startAddress.country:id,country_name', 
+                'targetAddress.country:id,country_name',
+                'customer.headquarter.country:id,country_name',
             ]
         )->find($id);
 
@@ -198,7 +198,6 @@ class TmsCargoOrderController extends BaseController
              */
             ->withQueryString();
 
-            // dd($records);
         return $records;
     }
 }

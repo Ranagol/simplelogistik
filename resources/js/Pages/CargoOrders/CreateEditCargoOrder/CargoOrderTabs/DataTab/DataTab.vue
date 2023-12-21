@@ -26,7 +26,8 @@
 
         <!-- ADDRESSES -->
         <div class="flex flex-row">
-
+            
+            <!-- HEADQUARTER -->
             <Address
                 v-model:address="data.cargoOrder.customer.headquarter"
                 :errors="props.errors"
