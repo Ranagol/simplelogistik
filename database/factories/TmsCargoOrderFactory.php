@@ -27,6 +27,7 @@ class TmsCargoOrderFactory extends Factory
             'type_of_transport' => $this->faker->randomElement(TmsCargoOrder::TYPES_OF_TRANSPORT),
             'origin' => $this->faker->randomElement(TmsCargoOrder::ORIGINS),
             'customer_reference' => $this->faker->numerify('#######'),
+            'order_date' => $this->faker->date(),
 
             'avis_customer_phone' => $this->faker->phoneNumber,
             'avis_sender_phone' => $this->faker->phoneNumber,

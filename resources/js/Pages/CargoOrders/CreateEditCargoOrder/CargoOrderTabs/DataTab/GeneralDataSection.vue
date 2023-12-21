@@ -33,7 +33,7 @@
                     >Type of transport</span>
                     
                     <el-select
-                        v-model="props.cargoOrder.type_of_transport"
+                        v-model="data.cargoOrder.type_of_transport"
                         placeholder="Type of transport"
                         clearable
                         filterable
@@ -69,7 +69,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.cargoOrder.customer_reference"
+                        v-model="data.cargoOrder.customer_reference"
                         placeholder="Customer reference"
                         clearable
                         @input="updateParent"
@@ -97,7 +97,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.cargoOrder.status"
+                        v-model="data.cargoOrder.status"
                         placeholder="Status - IN PROGRESS"
                         clearable
                         @input="updateParent"
@@ -122,20 +122,21 @@
                         v-if="data.showLabel"
                         class="ml-1"
                     >Order date</span>
-                    
-                    <!-- INPUT -->
-                    <el-input
-                        :model-value="useDateFormatter(props.cargoOrder.created_at)"
-                        placeholder="Order date"
-                        disabled
+
+                    <el-date-picker
+                        v-model="data.cargoOrder.order_date"
+                        type="date"
+                        format="YYYY-MM-DD"
+                        value-format="YYYY-MM-DD"
+                        @change="updateParent()"
+                        editable
                         clearable
-                        @input="updateParent"
-                    />
+                    ></el-date-picker>
 
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.created_at"
+                    :errorMessage="props.errors.order_date"
                 />
 
             </el-form-item>
@@ -154,7 +155,7 @@
                     
                     <!-- INPUT -->
                     <el-select
-                        v-model="props.cargoOrder.origin"
+                        v-model="data.cargoOrder.origin"
                         placeholder="Type of transport"
                         clearable
                         filterable
@@ -190,7 +191,7 @@
                     
                     <!-- INPUT -->
                     <el-select
-                        v-model="props.cargoOrder.p_payment_method"
+                        v-model="data.cargoOrder.p_payment_method"
                         placeholder="Type of transport"
                         clearable
                         filterable
@@ -223,14 +224,16 @@
                         v-if="data.showLabel"
                         class="ml-1"
                     >Date of sale</span>
-                    
-                    <!-- INPUT -->
-                    <el-input
-                        :model-value="useDateFormatter(props.cargoOrder.p_date_of_sale)"
-                        placeholder="Date of sale"
+
+                    <el-date-picker
+                        v-model="data.cargoOrder.p_date_of_sale"
+                        type="date"
+                        format="YYYY-MM-DD"
+                        value-format="YYYY-MM-DD"
+                        @change="updateParent()"
+                        editable
                         clearable
-                        @input="updateParent"
-                    />
+                    ></el-date-picker>
 
                 </div>
                 
@@ -253,12 +256,22 @@
                     >Date of cancellation</span>
                     
                     <!-- INPUT -->
-                    <el-input
+                    <!-- <el-input
                         :model-value="useDateFormatter(props.cargoOrder.p_date_of_cancellation)"
                         placeholder="Date of cancellation"
                         clearable
                         @input="updateParent"
-                    />
+                    /> -->
+
+                    <el-date-picker
+                        v-model="data.cargoOrder.p_date_of_cancellation"
+                        type="date"
+                        format="YYYY-MM-DD"
+                        value-format="YYYY-MM-DD"
+                        @change="updateParent()"
+                        editable
+                        clearable
+                    ></el-date-picker>
 
                 </div>
                 
@@ -350,6 +363,7 @@ const props = defineProps({
 });
 
 let data = reactive({
+    cargoOrder: props.cargoOrder,
     showLabel: true,
     showToolTip: true,
     showGeneralData: true,

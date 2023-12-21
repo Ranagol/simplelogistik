@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('provision', 10, 2)->comment('Example, for Pamyra orders the provision is 6%.')->nullable();
             $table->json('order_edited_events')->comment('When somebody edits the order, that must be registered here.')->nullable();//this does not need a factory/faker line
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
+            $table->date('order_date')->nullable();
 
             //Foreign keys
             $table->unsignedBigInteger('customer_id');

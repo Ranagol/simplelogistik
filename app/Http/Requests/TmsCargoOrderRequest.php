@@ -28,6 +28,7 @@ class TmsCargoOrderRequest extends FormRequest
             'provision' => 'nullable|numeric|between:0,99.99',
             'order_edited_events' => 'nullable|json',
             'currency' => 'nullable|string|max:50',
+            'order_date' => 'nullable|date',
             'customer_id' => 'required|exists:tms_customers,id',
             'contact_id' => 'required|exists:tms_contacts,id',
             'pickup_address_id' => 'required|exists:tms_addresses,id',
