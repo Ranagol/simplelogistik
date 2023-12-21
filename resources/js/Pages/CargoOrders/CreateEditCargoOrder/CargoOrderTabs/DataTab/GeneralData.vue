@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="flex justify-between">
+        <div class="flex justify-between mt-6">
 
             <!-- TITLE -->
             <Title 

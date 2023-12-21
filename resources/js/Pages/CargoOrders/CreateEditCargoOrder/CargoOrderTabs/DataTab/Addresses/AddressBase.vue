@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="mt-6">
         <!-- TITLE AND SWITCH-->
         <div class="flex justify-between">
             <Title 

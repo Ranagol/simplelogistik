@@ -1,7 +1,7 @@
 <template>
 
     <!-- TITLE AND SWITCH-->
-    <div class="flex justify-between">
+    <div class="flex justify-between mt-6">
         <Title 
             title="Temporary Details2" 
             class="mt-4 mb-2"
