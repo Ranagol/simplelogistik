@@ -6,7 +6,7 @@
     >   
 
         <!-- MAIN ORDER DETAILS: reference, date, origin, status-->
-        <Details
+        <GeneralDataSection
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
@@ -17,7 +17,7 @@
         />
 
         <!-- ALL OTHER ORDER DETAILS -->
-        <Details2Vue
+        <Details2
             v-model:cargoOrder="data.cargoOrder"
             v-if="data.showDetails2"
             :errors="props.errors"
@@ -81,12 +81,10 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import _ from 'lodash';
-import Header from './Header.vue';
-import Title from '@/Shared/Title.vue';
-import Details from './Details.vue';
+import GeneralDataSection from './GeneralDataSection.vue';
 import Address from './Address.vue';
 import Parcels from './Parcels.vue';
-import Details2Vue from './Details2.vue';
+import Details2 from './Details2.vue';
 
 let props = defineProps({
 
