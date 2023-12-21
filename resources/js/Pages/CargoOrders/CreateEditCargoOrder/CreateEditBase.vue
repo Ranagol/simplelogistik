@@ -121,7 +121,6 @@ let title = computed(
  * component communication.
  */
 const triggerOrderSubmit = () => {
-    console.log('triggerOrderSubmit');
     orderStore.triggerOrderSubmit = true;
     
 }
@@ -131,7 +130,6 @@ const triggerOrderSubmit = () => {
  * either create or edit the cargoOrder.
  */
 const submit = () => {
-    console.log('submit triggered in CreateEditBase.vue');
     if (props.mode === 'edit') {
         //edits the cargoOrder
         useEdit(

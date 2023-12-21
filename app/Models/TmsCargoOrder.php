@@ -23,6 +23,30 @@ class TmsCargoOrder extends Model
     protected $guarded = ['id'];
     protected $table = "tms_cargo_orders";
 
+    const TYPES_OF_TRANSPORT = [
+        'General cargo',
+        'LTL/FTL',
+        'Direct transport',
+        'Parcell up to 31.5 kg',
+        'Special order'
+    ];
+
+    const ORIGINS = [
+        'Pamyra',
+        'Sales',
+        'Google Ads',
+        'Shipping calc.'
+    ];
+
+    const PAYMENT_METHODS = [
+        'Credit Card', 
+        'Paypal', 
+        'Bank Transfer',
+        'Amazon',
+        'Sofort',
+        'Vorkasse'
+    ];
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(TmsCustomer::class);

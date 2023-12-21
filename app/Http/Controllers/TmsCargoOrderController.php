@@ -131,6 +131,13 @@ class TmsCargoOrderController extends BaseController
             [
                 'record' => $record,
                 'mode' => 'edit',
+                //This is data for the select/options fields in the form, so the user can choose.
+                'selectOptions' => [
+                    'countries' => TmsCountry::select('id', 'country_name')->get(),
+                    'typesOfTransport' => TmsCargoOrder::TYPES_OF_TRANSPORT,
+                    'origins' => TmsCargoOrder::ORIGINS,
+                    'paymentMethods' => TmsCargoOrder::PAYMENT_METHODS,
+                ]
             ]
         );
     }

@@ -10,6 +10,7 @@
                 v-model:cargoOrder="data.cargoOrder"
                 :errors="props.errors"
                 :mode="props.mode"
+                :selectOptions="props.selectOptions"
                 @submit="submit"
                 @destroy="destroy"
             />

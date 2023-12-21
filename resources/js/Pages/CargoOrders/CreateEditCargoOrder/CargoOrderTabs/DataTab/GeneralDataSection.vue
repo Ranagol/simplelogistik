@@ -323,6 +323,7 @@ const props = defineProps({
         type: String,
         required: true
     },
+    selectOptions: Object,
 });
 
 let data = reactive({

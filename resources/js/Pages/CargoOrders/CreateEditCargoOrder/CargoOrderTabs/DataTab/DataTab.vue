@@ -10,6 +10,7 @@
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
+            :selectOptions="props.selectOptions"
         />
 
         <el-switch
@@ -28,13 +29,13 @@
         <div class="flex flex-row">
             
             <!-- HEADQUARTER -->
-            <Address
+            <!-- <Address
                 v-model:address="data.cargoOrder.customer.headquarter"
                 :errors="props.errors"
                 :mode="props.mode"
                 title="Customer"
                 class="grow"
-            />
+            /> -->
 
             <!-- This is just an empty divider between columns -->
             <div class="w-4"></div>
@@ -111,6 +112,8 @@ let props = defineProps({
         type: String,
         required: true
     },
+
+    selectOptions: Object,
 });
 
 let data = reactive({
@@ -142,7 +145,6 @@ let orderStore = useOrderStore();
 watch(
     () => orderStore.triggerOrderSubmit,
     (newValue, oldValue) => {
-        console.log('watcher in DataTab.vue triggered');
         if (newValue === true) {
             submit(elFormRef);
         }
@@ -161,8 +163,11 @@ watch(
  */
  const submit = (elFormRef) => {
 
-    console.log('submit from DataTab.vue')
-    validate(elFormRef);
+    emit('submit');//this goes back to grandparent CreateEditBase.vue
+    orderStore.triggerOrderSubmit = false;//Here we reset the trigger from the orderStore.
+
+
+    // validate(elFormRef);//Here I turned off the FE validation
 }
 
 /**
