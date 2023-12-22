@@ -4,26 +4,42 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Pivot;
-use App\Models\TmsAddress;
-use App\Models\TmsCountry;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\TmsCustomer;
-use App\Models\TmsForwarder;
-use App\Models\TmsOfferPrice;
 use App\Models\TmsParcel;
+use App\Models\TmsAddress;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TmsContact;
+use App\Models\TmsCountry;
+use App\Models\TmsInvoice;
+use App\Models\TmsVehicle;
+use App\Models\TmsCustomer;
+use Illuminate\Support\Str;
+use App\Models\TmsForwarder;
+use App\Models\TmsCargoOrder;
+use App\Models\TmsDispatcher;
+use App\Models\TmsOfferPrice;
 use App\Models\TmsRequirement;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\TmsParcelSeeder;
+use Database\Seeders\PivotTableSeeder;
 use Database\Seeders\TmsAddressSeeder;
 use Database\Seeders\TmsContactSeeder;
+use Database\Seeders\TmsCountrySeeder;
 use Database\Seeders\TmsInvoiceSeeder;
 use Database\Seeders\TmsVehicleSeeder;
 use Database\Seeders\TmsCustomerSeeder;
 use Database\Seeders\TmsForwarderSeeder;
 use Database\Seeders\TmsCargoOrderSeeder;
 use Database\Seeders\TmsDispatcherSeeder;
+use Database\Seeders\TmsOfferPriceSeeder;
+use Database\Seeders\TmsVehicleReqSeeder;
+use Database\Seeders\TmsCustomerReqSeeder;
 use Database\Seeders\TmsRequirementSeeder;
+use Database\Seeders\TmsCargoHistorySeeder;
+use Database\Seeders\TmsOrderAttributeSeeder;
+use Database\Seeders\TmsTransportLicenseSeeder;
+use Database\Seeders\TmsForwardingContractSeeder;
+use Database\Seeders\TmsRequirementForForwarderSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -33,7 +49,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        
+        //This will create 20 users.
         User::factory(config('constants.numberOfDbRecords'))->create();
 
         /**
@@ -58,7 +74,7 @@ class DatabaseSeeder extends Seeder
             TmsForwarderSeeder::class,
             TmsRequirementSeeder::class,
             TmsAddressSeeder::class,
-            TmsContactSeeder::class,//for every customer and forwarder we need a contact. Set customer and forwarder id in the contact factory.
+            TmsContactSeeder::class,
             TmsVehicleSeeder::class,
             TmsCargoOrderSeeder::class,
             TmsInvoiceSeeder::class,//for every cargo order make 1 invoice, add existing forwarder and customer id
@@ -73,5 +89,49 @@ class DatabaseSeeder extends Seeder
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
         ]);
+
+        // $dispatchers = TmsDispatcher::factory(5)->create();
+        // echo "dispatchers created\n";
+        // $customers = TmsCustomer::factory(20)->create();
+        // echo "customers created\n";
+        // $forwarders = TmsForwarder::factory(20)->create();
+        // echo "forwarders created\n";
+        // $requirements = TmsRequirement::factory(20)->create();
+        // echo "requirements created\n";
+
+        // $addressesCustomers = TmsAddress::factory()->count(4)->for($customers, 'address')->create();
+        // echo "addressesCustomers created\n";
+        // $addressesForwarders = TmsAddress::factory()->count(4)->for($forwarders, 'forwarder')->create();
+        // echo "addressesForwarders created\n";
+
+        // $contactsCustomers = TmsContact::factory()->count(2)->for($customers)->create();
+        // echo "contactsCustomers created\n";
+        // $contactsForwarders = TmsContact::factory()->count(2)->for($forwarders)->create();
+        // echo "contactsForwarders created\n";
+
+        // $vehicles = TmsVehicle::factory()->count(3)->for($forwarders)->create();//TODO ASK C: why would a vehicle belong to an address? Why does a vehicle must remember an address_id? Should this be the other way around? 
+        // echo "vehicles created\n";
+
+        // $ordersCustomers = TmsCargoOrder::factory()->count(2)->for($customers)->create();//TODO ASK C: why do we have the contact_id in the cargo order table? Why does a cargo order must remember a contact_id? The contact belongs to the order, not the other way around. Shoud not the contact know to which order it belongs? If the same contact can be reused for multiple users, should not we use here pivot table?
+        // echo "ordersCustomers created\n";
+        // $ordersForwarders = TmsCargoOrder::factory()->count(2)->for($forwarders)->create();
+        // echo "ordersForwarders created\n";
+
+        // $invoiceCustomers = TmsInvoice::factory()->count(1)->for($ordersCustomers)->create();
+        // echo "invoiceCustomers created\n";
+        // $invoiceForwarders = TmsInvoice::factory()->count(1)->for($ordersForwarders)->create();
+        // echo "invoiceForwarders created\n";
+
+        // $parcelsCustomerOrder = TmsParcel::factory()->count(2)->for($ordersCustomers)->create();
+        // echo "parcelsCustomerOrder created\n";
+        // $parcelsForwarderOrder = TmsParcel::factory()->count(2)->for($ordersForwarders)->create();
+        // echo "parcelsForwarderOrder created\n";
+
+
+
+
+
+
     }
 }
+

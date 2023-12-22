@@ -27,6 +27,10 @@ class TmsAddressSeeder extends Seeder
              */
             foreach (TmsAddress::ADDRESS_TYPES as $addressType) {
                 TmsAddress::factory()->create([
+                    /**
+                     * Here we explicitly define the value of the address_type and the customer_id.
+                     * All other columns will be defined by the  factory faker.
+                     */
                     'address_type' => $addressType,
                     'customer_id' => $i,
                 ]);
