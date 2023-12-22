@@ -73,6 +73,33 @@
 
             </el-form-item>
 
+            <el-form-item
+                prop="purchase_price"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Purchase price</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.purchase_price"
+                        placeholder="Purchase price"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.purchase_price"
+                />
+
+            </el-form-item>
+
 
 
             
@@ -84,6 +111,7 @@
 <script setup>
 import { defineProps, reactive } from 'vue';
 import Title from '@/Shared/Title.vue';
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
     cargoOrder: {

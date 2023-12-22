@@ -84,6 +84,7 @@ let selectedOrderProperties = computed(
             'customer_id', 'contact_id', 'p_order_number', 'order_date', 'type_of_transport',
             'p_payment_method', 'p_date_of_sale', 'p_date_of_cancellation',
             'p_loading_meter', 'p_total_weight', 'p_qubic_meter', 'p_square_meter',
+            'purchase_price', 'p_transport_price_vat', 'p_transport_price_net',
         ];
         const newOrder = {};//this will contain all order properties, that are needed for display.
         for (const [key, value] of Object.entries(props.cargoOrder)) {

@@ -62,8 +62,10 @@ class TmsCargoOrderRequest extends FormRequest
             
             'p_calculated_transport_price' => 'nullable|string|max:255',
             'p_transport_price_gross' => 'nullable|string|max:255',
+
             'p_transport_price_vat' => 'nullable|string|max:255',
             'p_transport_price_net' => 'nullable|string|max:255',
+            
             'p_customized_price_change' => 'nullable|string|max:255',
             'p_customized_price_mode' => 'nullable|string|max:255',
             'p_discount' => 'nullable|string|max:255',
