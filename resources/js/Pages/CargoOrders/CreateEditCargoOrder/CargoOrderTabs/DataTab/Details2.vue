@@ -68,7 +68,7 @@ const props = defineProps({
 });
 
 let data = reactive({
-    showDetails2: true,
+    showDetails2: false,
 });
 
 /**
@@ -82,7 +82,8 @@ let selectedOrderProperties = computed(
             'start_address', 'target_address', 'updated_at', 'created_at',
             'customer', 'pickup_address_id', 'delivery_address_id', 'customer_reference',
             'customer_id', 'contact_id', 'p_order_number', 'order_date', 'type_of_transport',
-            'p_payment_method', 'p_date_of_sale', 'p_date_of_cancellation'
+            'p_payment_method', 'p_date_of_sale', 'p_date_of_cancellation',
+            'p_loading_meter', 'p_total_weight', 'p_qubic_meter', 'p_square_meter',
         ];
         const newOrder = {};//this will contain all order properties, that are needed for display.
         for (const [key, value] of Object.entries(props.cargoOrder)) {

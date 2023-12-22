@@ -52,10 +52,12 @@ class TmsCargoOrderRequest extends FormRequest
             'p_delivery_comments' => 'nullable|string|max:255',
             'p_description_of_transport' => 'nullable|string|max:255',
             'p_particularities' => 'nullable|string|max:255',
-            'p_loading_meter' => 'nullable|string|max:255',
-            'p_square_meter' => 'nullable|string|max:255',
-            'p_total_weight' => 'nullable|string|max:255',
-            'p_qubic_meter' => 'nullable|string|max:255',
+
+            'p_loading_meter' => 'required|string|max:255',
+            'p_square_meter' => 'required|string|max:255',
+            'p_total_weight' => 'required|string|max:255',
+            'p_qubic_meter' => 'required|string|max:255',
+
             'p_calculated_transport_price' => 'nullable|string|max:255',
             'p_transport_price_gross' => 'nullable|string|max:255',
             'p_transport_price_vat' => 'nullable|string|max:255',
@@ -70,10 +72,7 @@ class TmsCargoOrderRequest extends FormRequest
             'p_vat_rate' => 'nullable|string|max:255',
             'p_value_insured' => 'nullable|string|max:255',
             'p_value_of_goods' => 'nullable|string|max:255',
-
-            // 'p_distance_km' => 'nullable|string|max:255',
             'p_distance_km' => 'required|string|max:255',
-
             'p_duration_minutes' => 'nullable|string|max:255',
         ];
     }

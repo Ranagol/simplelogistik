@@ -7,7 +7,7 @@
 
         <!-- LOADING METER -->
         <el-form-item
-            prop="p_square_meter"
+            prop="p_loading_meter"
         >   
             <div class="flex flex-col">
 
@@ -19,7 +19,7 @@
                 
                 <!-- INPUT -->
                 <el-input
-                    v-model="data.cargoOrder.p_square_meter"
+                    v-model="data.cargoOrder.p_loading_meter"
                     placeholder="Loading meter"
                     clearable
                     @input="updateParent"
@@ -28,7 +28,7 @@
             </div>
             
             <BackendValidationErrorDisplay
-                :errorMessage="props.errors.p_square_meter"
+                :errorMessage="props.errors.p_loading_meter"
             />
 
         </el-form-item>
@@ -122,6 +122,7 @@
 
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
     cargoOrder: {

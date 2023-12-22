@@ -362,7 +362,7 @@ let data = reactive({
     cargoOrder: props.cargoOrder,
     showLabel: true,
     showToolTip: true,
-    showGeneralData: true,
+    showGeneralData: false,
 });
 
 const emit = defineEmits(['update:cargoOrder']);
