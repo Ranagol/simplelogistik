@@ -273,17 +273,6 @@
                             class="ml-1"
                         >Country</span>
 
-                        <!-- <el-input
-                            v-model="data.address.country.country_name"
-                            placeholder="Country"
-                            type="text"
-                            :maxlength="255"
-                            @input="update()"
-                            @clear="update()"
-                            @change="update()"
-                            class="ml-1"
-                        /> -->
-
                         <!-- This el-select works with a whole object. Syncs a whole object. -->
                         <el-select
                             v-model="data.address.country.country_name"
