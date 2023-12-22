@@ -148,7 +148,7 @@ const data = reactive({
     /**
      * Whether the menu is collapsed or not. This is currently controlled by an el-switch.
      */
-    isCollapsed: false,
+    isCollapsed: true,
 
     // iconColor: '#6B7280'
     iconColor: '#FF0000'

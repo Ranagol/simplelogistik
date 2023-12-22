@@ -109,10 +109,10 @@ class DatabaseSeeder extends Seeder
         // $contactsForwarders = TmsContact::factory()->count(2)->for($forwarders)->create();
         // echo "contactsForwarders created\n";
 
-        // $vehicles = TmsVehicle::factory()->count(3)->for($forwarders)->create();//TODO ASK C: why would a vehicle belong to an address? Why does a vehicle must remember an address_id? Which address is this?
+        // $vehicles = TmsVehicle::factory()->count(3)->for($forwarders)->create();//
         // echo "vehicles created\n";
 
-        // $ordersCustomers = TmsCargoOrder::factory()->count(2)->for($customers)->create();//TODO ASK C: why do we have the contact_id in the cargo order table? Why does a cargo order must remember a contact_id? The contact belongs to the order, not the other way around. Shoud not the contact know to which order it belongs (Shouldn't we store the order_id in the contacts table?)? And if the same contact should be reused for multiple orders, should not we use here pivot table between orders and contacts?
+        // $ordersCustomers = TmsCargoOrder::factory()->count(2)->for($customers)->create();
         // echo "ordersCustomers created\n";
         // $ordersForwarders = TmsCargoOrder::factory()->count(2)->for($forwarders)->create();
         // echo "ordersForwarders created\n";
@@ -135,3 +135,4 @@ class DatabaseSeeder extends Seeder
     }
 }
 
+ 
