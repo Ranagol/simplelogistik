@@ -8,20 +8,29 @@
     >
 
         <!-- SWITCH -->
-        <el-menu-item 
-            index="switch"
-            class="absolute-button"
-        >
 
             <el-button
                 type="primary"
                 size="small"
                 :icon="bla"
                 @click="data.isCollapsed = !data.isCollapsed"
+                circle
+                class="absolute-button"
             >
+                <!-- We display ArrowLeft icon or ArrowRight icon depending if the el-menu is 
+                collapsed or expanded. -->
+                <el-icon
+                    v-if="!data.isCollapsed"
+                >
+                    <ArrowLeft />
+                </el-icon>
+                <el-icon
+                    v-else
+                >
+                    <ArrowRight />
+                </el-icon>
             </el-button>
 
-        </el-menu-item>
 
         <!-- DASHBOARD -->
         <el-menu-item index="Dashboard">
@@ -142,7 +151,7 @@
 import Card from "./Card.vue";
 import NavLink from "./NavLink.vue";
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
-import { Memo, UserFilled, Histogram, Folder } from '@element-plus/icons-vue';
+import { Memo, UserFilled, Histogram, Folder, ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
 import { Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 
 
