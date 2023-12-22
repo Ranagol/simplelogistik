@@ -28,6 +28,8 @@ class TmsCargoOrderFactory extends Factory
             'origin' => $this->faker->randomElement(TmsCargoOrder::ORIGINS),
             'customer_reference' => $this->faker->numerify('#######'),
             'order_date' => $this->faker->date(),
+            'purchase_price' => $this->faker->randomFloat(2, 0, 1000),
+            'month_and_year' => $this->faker->monthName() . ' - ' . $this->faker->year(),
 
             'avis_customer_phone' => $this->faker->phoneNumber,
             'avis_sender_phone' => $this->faker->phoneNumber,

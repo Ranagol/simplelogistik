@@ -23,6 +23,8 @@ return new class extends Migration
             $table->json('order_edited_events')->comment('When somebody edits the order, that must be registered here.')->nullable();//this does not need a factory/faker line
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
             $table->date('order_date')->nullable();
+            $table->string('purchase_price', 200)->comment('The purchase price of the order.')->nullable();
+            $table->string('month_and_year')->comment('The month and year of the order. Example: 2021-01')->nullable();
 
             //Foreign keys
             $table->unsignedBigInteger('customer_id');
