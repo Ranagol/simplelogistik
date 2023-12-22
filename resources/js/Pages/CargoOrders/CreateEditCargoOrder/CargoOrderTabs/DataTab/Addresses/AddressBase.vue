@@ -79,7 +79,7 @@ const props = defineProps({
 
 const data = reactive({
     cargoOrder: props.cargoOrder,
-    showAddresses: false,
+    showAddresses: true,
 }); 
 
 //WARNING: the emit part of the v-model here is missing!! Not done!!!!

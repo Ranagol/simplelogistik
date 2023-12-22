@@ -18,21 +18,30 @@
 
         </div>
 
-        
-
         <!-- COMPANY NAME, 1 FULL ROW -->
         <el-form-item
             prop="company_name"
         >
-            <el-input
-                v-model="data.address.company_name"
-                placeholder="Company name"
-                type="text"
-                :maxlength="255"
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
+            <div class="flex flex-col grow">
+
+                <!-- LABEL -->
+                <span
+                    v-if="data.showLabel"
+                    class="ml-1"
+                >Company name</span>
+
+                <el-input
+                    v-model="data.address.company_name"
+                    placeholder="Company name"
+                    type="text"
+                    :maxlength="255"
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+                
+            </div>
+
         </el-form-item>
 
         <!-- ROWS WITH TWO COLUMNS -->
@@ -45,32 +54,55 @@
                 <el-form-item
                     prop="first_name"
                 >
-                    <el-input
-                        v-model="data.address.first_name"
-                        placeholder="First name"
-                        type="text"
-                        :maxlength="255"
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="mr-1"
-                    />
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >First name</span>
+
+                        <el-input
+                            v-model="data.address.first_name"
+                            placeholder="First name"
+                            type="text"
+                            :maxlength="255"
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="mr-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
 
                 <!-- LAST NAME -->
                 <el-form-item
                     prop="last_name"
                 >
-                    <el-input
-                        v-model="data.address.last_name"
-                        placeholder="Last name"
-                        type="text"
-                        :maxlength="255"
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="ml-1"
-                    />
+
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Last name</span>
+
+                        <el-input
+                            v-model="data.address.last_name"
+                            placeholder="Last name"
+                            type="text"
+                            :maxlength="255"
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="ml-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
             </div>
 
@@ -81,34 +113,57 @@
                 <el-form-item
                     prop="street"
                 >
-                    <el-input
-                        v-model="data.address.street"
-                        placeholder="Street"
-                        type="text"
-                        
-                        :maxlength="255"
-                        
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="mr-1"
-                    />
+
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Street</span>
+
+                        <el-input
+                            v-model="data.address.street"
+                            placeholder="Street"
+                            type="text"
+                            
+                            :maxlength="255"                        
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="mr-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
 
                 <!-- HOUSE NUMBER -->
                 <el-form-item
                     prop="house_number"
                 >
-                    <el-input
-                        v-model="data.address.house_number"
-                        placeholder="House number"
-                        type="text"
-                        :maxlength="255"
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="ml-1"
-                    />
+
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >House number</span>
+
+                        <el-input
+                            v-model="data.address.house_number"
+                            placeholder="House number"
+                            type="text"
+                            :maxlength="255"
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="ml-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
             </div>
 
@@ -119,34 +174,58 @@
                 <el-form-item
                     prop="zip_code"
                 >
-                    <el-input
-                        v-model="data.address.zip_code"
-                        placeholder="Zip code"
-                        type="text"
-                        :maxlength="255"
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="mr-1"
-                    />
+
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Zip code</span>
+
+                        <el-input
+                            v-model="data.address.zip_code"
+                            placeholder="Zip code"
+                            type="text"
+                            :maxlength="255"
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="mr-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
 
                 <!-- CITY -->
                 <el-form-item
                     prop="city"
                 >
-                    <el-input
-                        v-model="data.address.city"
-                        placeholder="City"
-                        type="text"
-                        
-                        :maxlength="255"
-                        
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="ml-1"
-                    />
+
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >City</span>
+
+                        <el-input
+                            v-model="data.address.city"
+                            placeholder="City"
+                            type="text"
+                            
+                            :maxlength="255"
+                            
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="ml-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
             </div>
 
@@ -157,27 +236,43 @@
                 <el-form-item
                     prop="state"
                 >
-                    <el-input
-                        v-model="data.address.state"
-                        placeholder="State"
-                        type="text"
-                        :maxlength="255"
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="mr-1"
-                    />
+
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >State</span>
+
+                        <el-input
+                            v-model="data.address.state"
+                            placeholder="State"
+                            type="text"
+                            :maxlength="255"
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="mr-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
 
                 <!-- COUNTRY -->
                 <el-form-item
                     prop="country"
                 >
-                    <el-tooltip
-                        content="Country"
-                        placement="top"
-                        :auto-close="400"
-                    >
+
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Country</span>
+
                         <el-input
                             v-model="data.address.country.country_name"
                             placeholder="Country"
@@ -188,7 +283,9 @@
                             @change="update()"
                             class="ml-1"
                         />
-                    </el-tooltip>
+
+                    </div>
+                    
                 </el-form-item>
             </div>
 
@@ -199,32 +296,55 @@
                 <el-form-item
                     prop="email"
                 >
-                    <el-input
-                        v-model="data.address.email"
-                        placeholder="Email"
-                        type="text"
-                        :maxlength="255"
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="mr-1"
-                    />
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Email</span>
+
+                        <el-input
+                            v-model="data.address.email"
+                            placeholder="Email"
+                            type="text"
+                            :maxlength="255"
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="mr-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
 
                 <!-- PHONE -->
                 <el-form-item
                     prop="phone"
                 >
-                    <el-input
-                        v-model="data.address.phone"
-                        placeholder="Phone"
-                        type="text"
-                        :maxlength="255"
-                        @input="update()"
-                        @clear="update()"
-                        @change="update()"
-                        class="ml-1"
-                    />
+
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Phone</span>
+
+                        <el-input
+                            v-model="data.address.phone"
+                            placeholder="Phone"
+                            type="text"
+                            :maxlength="255"
+                            @input="update()"
+                            @clear="update()"
+                            @change="update()"
+                            class="ml-1"
+                        />
+
+                    </div>
+
                 </el-form-item>
             </div>
         </div>
@@ -233,15 +353,27 @@
         <el-form-item
             prop="address_additional_information"
         >
-            <el-input
-                v-model="data.address.address_additional_information"
-                placeholder="Additional information"
-                type="text"
-                :maxlength="255"
-                @input="update()"
-                @clear="update()"
-                @change="update()"
-            />
+
+            <div class="flex flex-col grow">
+
+                <!-- LABEL -->
+                <span
+                    v-if="data.showLabel"
+                    class="ml-1"
+                >Additional info</span>
+
+                <el-input
+                    v-model="data.address.address_additional_information"
+                    placeholder="Additional information"
+                    type="text"
+                    :maxlength="255"
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+            </div>
+
         </el-form-item>
     </div>
 </template>
@@ -287,7 +419,8 @@ const data = reactive({
      * have a headquarter address, or that the address is missing. In that case we should use the
      * addressEmpty object. For development and testing purposes we can use the addressDummy object.
      */
-    address: props.address || addressDummy
+    address: props.address || addressDummy,
+    showLabel: true,
 });
 
 const emit = defineEmits(['update:address']);

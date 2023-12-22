@@ -72,7 +72,7 @@ const props = defineProps({
 
 const data = reactive({
     cargoOrder: props.cargoOrder,
-    showVehicleReq: true,
+    showVehicleReq: false,
     showLabel: true,
 });
 
