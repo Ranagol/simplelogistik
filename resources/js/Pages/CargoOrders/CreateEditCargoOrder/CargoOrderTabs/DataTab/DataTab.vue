@@ -40,6 +40,13 @@
             :errors="props.errors"
             :mode="props.mode"
         />
+
+        <!-- VEHICLE REQUIREMENTS -->
+        <VehicleReqBase
+            v-model:cargoOrder="data.cargoOrder"
+            :errors="props.errors"
+            :mode="props.mode"
+        />
         
 
         <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>
@@ -58,7 +65,7 @@ import ParcelBase from './Parcels/ParcelBase.vue';
 import Details2 from './Details2.vue';
 import { useOrderStore } from '@/Stores/orderStore';
 import FinanceBase from './Finances/FinanceBase.vue';
-
+import VehicleReqBase from './VehicleRequirements/VehicleReqBase.vue';
 
 let props = defineProps({
 
