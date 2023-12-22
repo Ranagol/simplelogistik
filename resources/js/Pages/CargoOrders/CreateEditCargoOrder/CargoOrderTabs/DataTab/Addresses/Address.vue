@@ -260,7 +260,7 @@
 
                 </el-form-item>
 
-                <!-- COUNTRY -->
+                <!-- COUNTRY ******************************************-->
                 <el-form-item
                     prop="country"
                 >
@@ -273,7 +273,7 @@
                             class="ml-1"
                         >Country</span>
 
-                        <el-input
+                        <!-- <el-input
                             v-model="data.address.country.country_name"
                             placeholder="Country"
                             type="text"
@@ -282,7 +282,24 @@
                             @clear="update()"
                             @change="update()"
                             class="ml-1"
-                        />
+                        /> -->
+
+                        <!-- This el-select works with a whole object. Syncs a whole object. -->
+                        <el-select
+                            v-model="data.address.country.country_name"
+                            clearable
+                            filterable
+                            value-key="id"
+                            @change="update()"
+                            class="ml-1"
+                        >
+                            <el-option
+                                v-for="(item, index) in props.countries"
+                                :key="index"
+                                :label="item.country_name"
+                                :value="item"
+                            ></el-option>
+                        </el-select>
 
                     </div>
                     
@@ -409,6 +426,15 @@ const props = defineProps({
      * title to render.
      */
     title: String,
+
+    /**
+     * The countries prop is an array of all countries. This is needed for the country select
+     * to render.
+     */
+    countries: {
+        type: Array,
+        required: true,
+    },
 
 });
 

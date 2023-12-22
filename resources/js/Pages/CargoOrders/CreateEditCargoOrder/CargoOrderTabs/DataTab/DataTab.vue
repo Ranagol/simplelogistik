@@ -25,6 +25,7 @@
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
+            :countries="props.selectOptions.countries"
         />
 
         <!-- PARCELLS -->

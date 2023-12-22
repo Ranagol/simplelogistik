@@ -23,6 +23,7 @@
             <Address
                 v-model:address="data.cargoOrder.customer.headquarter"
                 :errors="props.errors"
+                :countries="props.countries"
                 :mode="props.mode"
                 title="Customer"
                 class="grow"
@@ -35,6 +36,7 @@
             <Address
                 v-model:address="data.cargoOrder.start_address"
                 :errors="props.errors"
+                :countries="props.countries"
                 :mode="props.mode"
                 title="Pickup"
                 class="grow"
@@ -47,6 +49,7 @@
             <Address
                 v-model:address="data.cargoOrder.target_address"
                 :errors="props.errors"
+                :countries="props.countries"
                 :mode="props.mode"
                 title="Delivery"
                 class="grow"
@@ -73,6 +76,10 @@ const props = defineProps({
     },
     mode: {
         type: String,
+        required: true,
+    },
+    countries: {
+        type: Array,
         required: true,
     },
 });
