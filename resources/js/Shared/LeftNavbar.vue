@@ -4,11 +4,14 @@
         :collapse="data.isCollapsed"
         @open="handleOpen"
         @close="handleClose"
-        class="set_height pl-5"
+        class="set_height pl-5 relative-container"
     >
 
         <!-- SWITCH -->
-        <el-menu-item index="switch">
+        <el-menu-item 
+            index="switch"
+            class="absolute-button"
+        >
 
             <el-button
                 type="primary"
@@ -178,6 +181,17 @@ const data = reactive({
 .set_height {
     /* We want the navbar to fill  the whole hight of the available space. */
     height: 100% !important;
+}
+
+.relative-container {
+    position: relative;
+}
+
+.absolute-button {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
 }
 
 </style>
