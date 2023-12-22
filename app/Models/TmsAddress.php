@@ -62,9 +62,8 @@ class TmsAddress extends Model
             ->orWhere('last_name', 'like', "%{$searchTerm}%")
             ->orWhere('street', 'like', "%{$searchTerm}%")
             ->orWhere('city', 'like', "%{$searchTerm}%")
-            ->orWhere('country', 'like', "%{$searchTerm}%")
             ->orWhere('state', 'like', "%{$searchTerm}%")
-            ->orWhere('comment', 'like', "%{$searchTerm}%");
+            ;
     }
 
     //*************MUTATORS AND ACCESSORS*************************************** */
