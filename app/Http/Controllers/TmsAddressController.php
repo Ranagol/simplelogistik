@@ -12,6 +12,7 @@ use App\Http\Requests\TmsAddressRequest;
 use App\Models\TmsCountry;
 use App\Models\TmsForwarder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Schema;
 
 class TmsAddressController extends BaseController
 {
@@ -62,10 +63,20 @@ class TmsAddressController extends BaseController
 
     public function create(): Response
     {
+        /**
+         * Here we create a new address object. It is not saved in the db. It has the up-to-date
+         * address object structure, and this is what we need on the front-end, when we want to
+         * create a new address. So we send this object to the front-end, it is emtpy, but it has 
+         * the right structure. Then on the FE, during the create process we simply fill in this
+         * data structure with the user input.
+         */
+        $record = $this->createEmptyAddress();
+        // dd($record);
+
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                // 'record' => $record,
+                'record' => $record,
                 'mode' => 'create',
                 'addressTypes' => TmsAddress::ADDRESS_TYPES,
                 // we send all customers and forwarders to the FE, so that the user can select them
@@ -84,6 +95,17 @@ class TmsAddressController extends BaseController
 
             ]
         );
+    }
+
+    private function createEmptyAddress(): TmsAddress
+    {
+        $columns = Schema::getColumnListing((new TmsAddress)->getTable());
+        $address = new TmsAddress();
+        foreach ($columns as $column) {
+            $address->$column = '';
+        }
+
+        return $address;
     }
 
     /**

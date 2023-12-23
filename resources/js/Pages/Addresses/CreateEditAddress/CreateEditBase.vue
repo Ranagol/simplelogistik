@@ -33,7 +33,6 @@ import Form from './Form.vue';
 import { useEdit } from '@/Use/useEdit';
 import { useCreate } from '@/Use/useCreate';
 import { useDestroy } from '@/Use/useDestroy';
-//@ = Pages
 import addressDummy from '@/Pages/Addresses/CreateEditAddress/addressDummy';//use this in props to have already filled address form for creating new address
 import addressEmpty from '@/Pages/Addresses/CreateEditAddress/addressEmpty';//use this in props to have empty address form for creating new address
 
@@ -47,7 +46,7 @@ const props = defineProps({
         /**
          * The default value is a function that returns an empty address object.
          */
-        default: () => (addressDummy),
+        default: () => addressDummy,
     },
 
     /**
