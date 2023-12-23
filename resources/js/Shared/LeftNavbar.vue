@@ -4,32 +4,32 @@
         :collapse="data.isCollapsed"
         @open="handleOpen"
         @close="handleClose"
-        class="set_height pl-5 relative-container"
+        class="set_height pl-5 relative_container"
     >
 
-        <!-- SWITCH -->
-
-            <el-button
-                type="primary"
-                size="small"
-                :icon="bla"
-                @click="data.isCollapsed = !data.isCollapsed"
-                circle
-                class="absolute-button"
-            >
-                <!-- We display ArrowLeft icon or ArrowRight icon depending if the el-menu is 
-                collapsed or expanded. -->
-                <el-icon
+        <!-- SWITCH FOR COLLAPSING/EXPANDING THE el-menu -->
+        <el-button
+            type="primary"
+            size="small"
+            :icon="bla"
+            @click="data.isCollapsed = !data.isCollapsed"
+            circle
+            class="absolute_button"
+        >
+            <!-- We display ArrowLeft icon or ArrowRight icon depending if the el-menu is 
+            collapsed or expanded. Now, in order for this button stay always on the right
+            edge/in the middle of the el-menu, the css class 'absolute_button' and 'relative
+            container' are mandatory. This will keep the el-button in the middle of the right 
+            side of the el-menu regardless of whether the el-menu is collapsed or expanded.-->
+            <el-icon>
+                <ArrowLeft 
                     v-if="!data.isCollapsed"
-                >
-                    <ArrowLeft />
-                </el-icon>
-                <el-icon
+                />
+                <ArrowRight 
                     v-else
-                >
-                    <ArrowRight />
-                </el-icon>
-            </el-button>
+                />
+            </el-icon>
+        </el-button>
 
 
         <!-- DASHBOARD -->
@@ -192,11 +192,20 @@ const data = reactive({
     height: 100% !important;
 }
 
-.relative-container {
+/*
+The relative_container class is added to the el-menu to make it a relative container.
+*/
+.relative_container {
     position: relative;
 }
 
-.absolute-button {
+/*
+This class positions the el-button absolutely within the el-menu.
+The top: 50%; and transform: translateY(-50%); styles vertically center the el-button within the 
+el-menu.
+The right: 0; style places the el-button on the right side of the el-menu.
+*/
+.absolute_button {
     position: absolute;
     top: 50%;
     right: 0;
