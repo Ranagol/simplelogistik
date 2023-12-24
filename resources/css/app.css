@@ -94,6 +94,9 @@ another element with  .el-input__wrapper class.*/
     /* padding: 10px 2px 10px 2px !important; */
     background-color: var(--component-background) !important;
     /* border-bottom: 1px solid var(--text-color) !important; *//* This targets the bottom border of the table cells */
+    border-left: none !important;/* This hides the left border of the table cells */
+    border-right: none !important;/* This hides the right border of the table cells */
+
 }
 
 /* Targets the table body cells, possibly */

@@ -9,6 +9,7 @@
         empty-text="No result. Try with different search parameters."
         class="mt-2 custom-table"
         :cell-style="cellStyle"
+        border
     >
         <el-table-column
             label='Id'
@@ -157,7 +158,4 @@ const sort = ( { prop, order }) => {
 </script>
 
 <style scoped>
-.custom-table .el-table__body td, .custom-table .el-table__header-wrapper tr {
-    border-color: gray !important;
-}
 </style>
