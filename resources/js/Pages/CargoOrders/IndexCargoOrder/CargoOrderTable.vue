@@ -9,6 +9,8 @@
         highlight-current-row
         empty-text="No result. Try with different search parameters."
         class="mt-2"
+        border
+        show-overflow-tooltip
         scrollbar-always-on
     >
         <el-table-column
@@ -20,7 +22,7 @@
 
 
         <el-table-column
-            width="250"
+            width="150"
             prop="p_order_number"
             label="Order number"
             sortable="custom"

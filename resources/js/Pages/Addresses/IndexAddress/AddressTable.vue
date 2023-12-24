@@ -9,6 +9,8 @@
         empty-text="No result. Try with different search parameters."
         class="mt-2 custom-table"
         border
+        show-overflow-tooltip
+        scrollbar-always-on
     >
         <el-table-column
             label='Id'
@@ -35,7 +37,8 @@
             label="Address type"
             prop="address_type"
             sortable="custom"
-            width="200px"
+            :width="setWidth(addressType)"
+            ref="addressType"
         >
             <template #default="scope">
                 <Link
@@ -49,7 +52,7 @@
             label="Street"
             prop="street"
             sortable="custom"
-            width="250px"
+            width="100px"
         />
 
         <el-table-column
@@ -114,6 +117,7 @@
 import { Link } from '@inertiajs/vue3';
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import moment from 'moment';
+import { set } from 'lodash';
 
 const emit = defineEmits(['getData', 'update:sortOrder', 'update:sortColumn']);
 
@@ -122,6 +126,14 @@ const props = defineProps({
     sortColumn: String,
     sortOrder: String,
 });
+
+
+const addressType = ref(null);//STOPPED HERE. THE IDEA IS: CATCH A COLUMN WITH A REF. IT MAY CONTAIN THE LABEL WIDTH, AND ALL THE ROWS IN IT? THEN SET THE WIDTH OF THE COLUMN TO THE WIDEST ROW IN IT.
+
+const setWidth = (ref) => {
+    console.log('ref', ref);
+    return '200px';
+};
 
 
 /**

@@ -10,6 +10,9 @@
         empty-text="No result. Try with different search parameters."
         class="mt-2"
         header-align="right"
+        border
+        show-overflow-tooltip
+        scrollbar-always-on
     >
         <el-table-column
             label='Id'
