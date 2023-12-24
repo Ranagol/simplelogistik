@@ -8,6 +8,7 @@
         highlight-current-row
         empty-text="No result. Try with different search parameters."
         class="mt-2"
+        :cell-style="cellStyle"
     >
         <el-table-column
             label='Id'
@@ -121,6 +122,13 @@ const props = defineProps({
     sortColumn: String,
     sortOrder: String,
 });
+
+const cellStyle = () => {
+    return { 
+        color: 'red',//indicator that this function is working
+        paddingLeft: '0.5% !important',//aligns the table body cell content with the table header cell content
+    };
+}
 
 /**
  * SORTING
