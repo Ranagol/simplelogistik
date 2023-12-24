@@ -8,7 +8,6 @@
         highlight-current-row
         empty-text="No result. Try with different search parameters."
         class="mt-2 custom-table"
-        :cell-style="cellStyle"
         border
     >
         <el-table-column
@@ -124,12 +123,6 @@ const props = defineProps({
     sortOrder: String,
 });
 
-const cellStyle = () => {
-    return { 
-        color: 'red',//indicator that this function is working
-        paddingLeft: '0.5% !important',//aligns the table body cell content with the table header cell content
-    };
-}
 
 /**
  * SORTING

@@ -87,6 +87,8 @@ another element with  .el-input__wrapper class.*/
 /* Targets the table header */
 .el-table th.el-table__cell>.cell {
     /* background-color: var(--component-background); */
+    padding-left: 0px !important;
+
 }
 
 /* Targets ALL table body cells */
