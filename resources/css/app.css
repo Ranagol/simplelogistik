@@ -88,7 +88,7 @@ another element with  .el-input__wrapper class.*/
 .el-table th.el-table__cell>.cell {
     /* background-color: var(--component-background); */
     padding-left: 0px !important;
-
+    white-space: nowrap;/* This prevents the table header from wrapping the text */
 }
 
 /* Targets ALL table body cells */
@@ -98,6 +98,7 @@ another element with  .el-input__wrapper class.*/
     /* border-bottom: 1px solid var(--text-color) !important; *//* This targets the bottom border of the table cells */
     border-left: none !important;/* This hides the left border of the table cells */
     border-right: none !important;/* This hides the right border of the table cells */
+    white-space: nowrap !important;/* This prevents the table body from wrapping the text */
 
 }
 
@@ -105,6 +106,8 @@ another element with  .el-input__wrapper class.*/
 .el-table td.el-table__cell div {
     padding: 1px;
     background-color: var(--component-background) !important;
+    white-space: nowrap !important;/* This prevents the table body from wrapping the text */
+
 }
 
 
