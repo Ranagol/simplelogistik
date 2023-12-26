@@ -102,10 +102,10 @@ another element with  .el-input__wrapper class.*/
 }
 
 
-/* Targets the table body cells, possibly */
+/* Targets the table body cells. The cells have a div inside. We target the div inside the cell.*/
 .el-table td.el-table__cell div {
     padding: 1px;
-    background-color: var(--component-background) !important;
+    /* background-color: red !important; */
     white-space: nowrap !important;/* This prevents the table body from wrapping the text */
 
 }

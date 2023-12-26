@@ -27,6 +27,7 @@ class TmsCargoOrderFactory extends Factory
             'type_of_transport' => $this->faker->randomElement(TmsCargoOrder::TYPES_OF_TRANSPORT),
             'origin' => $this->faker->randomElement(TmsCargoOrder::ORIGINS),
             'customer_reference' => $this->faker->numerify('#######'),
+            'provision' => $this->faker->randomFloat(2, 0, 10),
             'order_date' => $this->faker->date(),
             'purchase_price' => $this->faker->randomFloat(2, 0, 1000),
             'month_and_year' => $this->faker->monthName() . ' - ' . $this->faker->year(),
