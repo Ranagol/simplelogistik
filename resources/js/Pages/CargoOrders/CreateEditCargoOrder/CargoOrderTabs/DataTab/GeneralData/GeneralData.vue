@@ -332,6 +332,169 @@
                 />
 
             </el-form-item>
+
+            <el-form-item
+                prop="month_and_year"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Month and year</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.month_and_year"
+                        placeholder="Month and year"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.month_and_year"
+                />
+
+            </el-form-item>
+
+            <el-form-item
+                prop="p_calculation_model_name"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Calculation model name</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.p_calculation_model_name"
+                        placeholder="Calculation model name"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.p_calculation_model_name"
+                />
+
+            </el-form-item>
+
+            <!-- **********************THE FOLLOWING ITEMS ARE UNTESTED AND UNFINISHED. Input fields probalby work, but dateTime stuff should be DatePicker intstead of input fields.******************** -->
+            <el-form-item
+                prop="p_pickup_date_from"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Pickup date from</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.p_pickup_date_from"
+                        placeholder="Pickup date from"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.p_pickup_date_from"
+                />
+
+            </el-form-item>
+
+            <el-form-item
+                prop="p_pickup_date_to"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Pickup date to</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.p_pickup_date_to"
+                        placeholder="Pickup date to"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.p_pickup_date_to"
+                />
+
+            </el-form-item>
+
+            <el-form-item
+                prop="p_delivery_date_from"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Delivery date from</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.p_de"
+                        placeholder="Delivery date from"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.p_de"
+                />
+
+            </el-form-item>
+
+            <el-form-item
+                prop="p_delivery_date_to"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Delivery date to</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.p_delivery_date_to"
+                        placeholder="Delivery date to"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.p_delivery_date_to"
+                />
+
+            </el-form-item>
         </div>
     </div>
 </template>
@@ -361,8 +524,7 @@ const props = defineProps({
 let data = reactive({
     cargoOrder: props.cargoOrder,
     showLabel: true,
-    showToolTip: true,
-    showGeneralData: false,
+    showGeneralData: true,
 });
 
 const emit = defineEmits(['update:cargoOrder']);
