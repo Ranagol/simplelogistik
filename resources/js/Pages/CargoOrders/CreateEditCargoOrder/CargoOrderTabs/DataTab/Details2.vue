@@ -84,7 +84,15 @@ let selectedOrderProperties = computed(
             'customer_id', 'contact_id', 'p_order_number', 'order_date', 'type_of_transport',
             'p_payment_method', 'p_date_of_sale', 'p_date_of_cancellation',
             'p_loading_meter', 'p_total_weight', 'p_qubic_meter', 'p_square_meter',
-            'purchase_price', 'p_transport_price_vat', 'p_transport_price_net',
+            'purchase_price', 'p_transport_price_vat', 'p_transport_price_net', 'p_distance_km',
+            'p_duration_minutes',
+
+            'month_and_year', 'p_calculation_model_name', 'p_pickup_date_from', 'p_pickup_date_to',
+            'p_delivery_date_from', 'p_delivery_date_to', 
+            'provision', 'currency', 'p_calculated_transport_price', 'p_transport_price_gross',
+            'p_customized_price_change', 'p_customized_price_mode', 'p_discount', 'p_price_gross',
+            'p_price_net', 'p_price_vat', 'p_price_fuel_surcharge', 'p_vat_rate', 'p_value_insured',
+            'p_value_of_goods'
         ];
         const newOrder = {};//this will contain all order properties, that are needed for display.
         for (const [key, value] of Object.entries(props.cargoOrder)) {

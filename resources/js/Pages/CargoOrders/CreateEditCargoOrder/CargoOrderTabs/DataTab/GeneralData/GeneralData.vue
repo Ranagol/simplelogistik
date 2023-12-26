@@ -230,7 +230,7 @@
                     <el-date-picker
                         v-model="data.cargoOrder.p_date_of_sale"
                         type="date"
-                        format="YYYY-MM-DD"
+                        format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
                         @change="updateParent()"
                         editable
@@ -261,7 +261,7 @@
                     <el-date-picker
                         v-model="data.cargoOrder.p_date_of_cancellation"
                         type="date"
-                        format="YYYY-MM-DD"
+                        format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
                         @change="updateParent()"
                         editable
@@ -400,12 +400,17 @@
                     >Pickup date from</span>
                     
                     <!-- INPUT -->
-                    <el-input
+
+                    <el-date-picker
                         v-model="data.cargoOrder.p_pickup_date_from"
-                        placeholder="Pickup date from"
+                        type="datetime"
+                        format="DD-MM-YYYY HH:mm"
+                        value-format="YYYY-MM-DD HH:mm:ss"
+                        @change="updateParent()"
+                        editable
                         clearable
-                        @input="updateParent"
-                    />
+                        style="width: 100%"
+                    ></el-date-picker>
 
                 </div>
 
@@ -425,14 +430,17 @@
                         v-if="data.showLabel"
                         class="ml-1"
                     >Pickup date to</span>
-                    
-                    <!-- INPUT -->
-                    <el-input
+
+                    <el-date-picker
                         v-model="data.cargoOrder.p_pickup_date_to"
-                        placeholder="Pickup date to"
+                        type="datetime"
+                        format="DD-MM-YYYY HH:mm"
+                        value-format="YYYY-MM-DD HH:mm:ss"
+                        @change="updateParent()"
+                        editable
                         clearable
-                        @input="updateParent"
-                    />
+                        style="width: 100%"
+                    ></el-date-picker>
 
                 </div>
 
@@ -452,19 +460,22 @@
                         v-if="data.showLabel"
                         class="ml-1"
                     >Delivery date from</span>
-                    
-                    <!-- INPUT -->
-                    <el-input
-                        v-model="data.cargoOrder.p_de"
-                        placeholder="Delivery date from"
+
+                    <el-date-picker
+                        v-model="data.cargoOrder.p_delivery_date_from"
+                        type="datetime"
+                        format="DD-MM-YYYY HH:mm"
+                        value-format="YYYY-MM-DD HH:mm:ss"
+                        @change="updateParent()"
+                        editable
                         clearable
-                        @input="updateParent"
-                    />
+                        style="width: 100%"
+                    ></el-date-picker>
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_de"
+                    :errorMessage="props.errors.p_delivery_date_from"
                 />
 
             </el-form-item>
@@ -479,14 +490,17 @@
                         v-if="data.showLabel"
                         class="ml-1"
                     >Delivery date to</span>
-                    
-                    <!-- INPUT -->
-                    <el-input
+
+                    <el-date-picker
                         v-model="data.cargoOrder.p_delivery_date_to"
-                        placeholder="Delivery date to"
+                        type="datetime"
+                        format="DD-MM-YYYY HH:mm"
+                        value-format="YYYY-MM-DD HH:mm:ss"
+                        @change="updateParent()"
+                        editable
                         clearable
-                        @input="updateParent"
-                    />
+                        style="width: 100%"
+                    ></el-date-picker>
 
                 </div>
 
