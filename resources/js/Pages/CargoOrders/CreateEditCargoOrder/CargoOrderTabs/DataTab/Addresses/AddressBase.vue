@@ -25,6 +25,7 @@
                 :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"
+                v-model:avis_phone="data.cargoOrder.avis_customer_phone"
                 title="Customer"
                 class="grow"
             />
@@ -38,6 +39,8 @@
                 :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"
+                v-model:avis_phone="data.cargoOrder.avis_sender_phone"
+                v-model:comment="data.cargoOrder.p_pickup_comments"
                 title="Pickup"
                 class="grow"
             />
@@ -51,6 +54,8 @@
                 :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"
+                v-model:avis_phone="data.cargoOrder.avis_receiver_phone"
+                v-model:comment="data.cargoOrder.p_delivery_comments"
                 title="Delivery"
                 class="grow"
             />
@@ -86,7 +91,7 @@ const props = defineProps({
 
 const data = reactive({
     cargoOrder: props.cargoOrder,
-    showAddresses: false,
+    showAddresses: true,
 }); 
 
 //WARNING: the emit part of the v-model here is missing!! Not done!!!!

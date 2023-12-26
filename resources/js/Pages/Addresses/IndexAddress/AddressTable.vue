@@ -131,7 +131,7 @@ const props = defineProps({
 const addressType = ref(null);//STOPPED HERE. THE IDEA IS: CATCH A COLUMN WITH A REF. IT MAY CONTAIN THE LABEL WIDTH, AND ALL THE ROWS IN IT? THEN SET THE WIDTH OF THE COLUMN TO THE WIDEST ROW IN IT.
 
 const setWidth = (ref) => {
-    console.log('ref', ref);
+    // console.log('ref', ref);
     return '200px';
 };
 

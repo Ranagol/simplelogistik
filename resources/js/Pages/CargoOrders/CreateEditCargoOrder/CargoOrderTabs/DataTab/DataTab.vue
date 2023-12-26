@@ -14,11 +14,11 @@
         />
 
         <!-- ALL OTHER ORDER DETAILS - TEMPORARY -->
-        <Details2
+        <!-- <Details2
             v-model:cargoOrder="data.cargoOrder"
             :errors="props.errors"
             :mode="props.mode"
-        />
+        /> -->
 
         <!-- ADDRESSES -->
         <AddressBase

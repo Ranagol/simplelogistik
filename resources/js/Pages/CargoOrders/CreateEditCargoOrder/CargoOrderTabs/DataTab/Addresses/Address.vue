@@ -381,6 +381,60 @@
             </div>
 
         </el-form-item>
+
+        <!-- AVIS PHONE, 1 FULL ROW. BELONGS TO ORDER OBJECT NOT THE ADDRESS OBJECT -->
+        <!-- //TODO the avis phone might need to belong to addresses, not orders? Because
+        one order might have multiple pickup and multiple delivery addresses with avis phones?
+        Another solution: avis phone as new object belongst to address? Ask C. For now I will just
+        display this here. This topic must be decided when it comes to order editing.-->
+        <el-form-item v-if="props.avis_phone">
+
+            <div class="flex flex-col grow">
+
+                <!-- LABEL -->
+                <span
+                    v-if="data.showLabel"
+                    class="ml-1"
+                >Avis phone</span>
+
+                <el-input
+                    v-model="props.avis_phone"
+                    placeholder="Avis phone"
+                    type="text"
+                    :maxlength="255"
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+            </div>
+
+        </el-form-item>
+
+        <!--  -->
+        <el-form-item>
+
+            <div class="flex flex-col grow">
+
+                <!-- LABEL -->
+                <span
+                    v-if="data.showLabel"
+                    class="ml-1"
+                >Comment</span>
+
+                <el-input
+                    v-model="props.comment"
+                    placeholder="Comment"
+                    type="text"
+                    :maxlength="255"
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+            </div>
+
+        </el-form-item>
     </div>
 </template>
 
@@ -425,6 +479,26 @@ const props = defineProps({
         required: true,
     },
 
+    /**
+     * The avis phone is a burner phone number, that will be used only once, for the given order.
+     * IT DOES NOT BELONG TO THE ADDRESS, IT BELONGS TO THE ORDER OBJECT! It is displayed in the
+     * address form, because Francesco said so.
+     */
+    avis_phone: {
+        type: String,
+        required: false,
+    },
+
+    /**
+     * This is the special comment or info for the pickup or for the delivery.
+     * IT DOES NOT BELONG TO THE ADDRESS, IT BELONGS TO THE ORDER OBJECT! It is displayed in the
+     * address form, because Francesco said so.
+     */
+    comment: {
+        type: String,
+        required: false,
+    },
+
 });
 
 const data = reactive({
@@ -442,6 +516,7 @@ const emit = defineEmits(['update:address']);
 
 /**
  * Only updates the parent's address object. No triggering of submit or edit. No need for validation.
+ * Works with address object
  */
 const update = () => {
     emit('update:address', data.addressData);

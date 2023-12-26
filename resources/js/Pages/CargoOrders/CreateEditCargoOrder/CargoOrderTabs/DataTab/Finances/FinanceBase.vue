@@ -505,7 +505,7 @@ const props = defineProps({
 
 const data = reactive({
     cargoOrder: props.cargoOrder,
-    showFinances: true,
+    showFinances: false,
     showLabel: true,
 });
 
