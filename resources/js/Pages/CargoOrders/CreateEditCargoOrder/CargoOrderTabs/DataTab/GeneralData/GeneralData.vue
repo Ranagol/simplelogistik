@@ -509,6 +509,60 @@
                 />
 
             </el-form-item>
+
+            <el-form-item
+                prop="p_description_of_transport"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Description of transport</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.p_description_of_transport"
+                        placeholder="Description of transport"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.p_description_of_transport"
+                />
+
+            </el-form-item>
+
+            <el-form-item
+                prop="p_particularities"
+            >   
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Particularities</span>
+                    
+                    <!-- INPUT -->
+                    <el-input
+                        v-model="data.cargoOrder.p_particularities"
+                        placeholder="Particularities"
+                        clearable
+                        @input="updateParent"
+                    />
+
+                </div>
+
+                <BackendValidationErrorDisplay
+                    :errorMessage="props.errors.p_particularities"
+                />
+
+            </el-form-item>
         </div>
     </div>
 </template>
