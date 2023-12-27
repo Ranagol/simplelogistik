@@ -15,14 +15,27 @@
 
         <div v-if="data.showParcelData">
 
-            <ParcelOverview
+            <!-- THIS WORKS, BUT IT IS NOT NEEDED... -->
+            <!-- <SomeOrderData
                 v-model:cargoOrder="data.cargoOrder"
                 :errors="props.errors"
                 :mode="props.mode"
+            /> -->
+            
+            <!-- DISPLAYS ALL PARCELS -->
+            <ListOfParcels
+                :parcels="props.cargoOrder.parcels"
+                :errors="props.errors"
+                :mode="props.mode"
+            />
+            
+            <!-- DISPLAYS m2, m3, number of packages -->
+            <SumBase
+                :parcels="props.cargoOrder.parcels"
             />
 
             <ParcelTable
-                :parcels="props.cargoOrder.parcels"
+                v-model:parcels="data.cargoOrder.parcels"
                 :errors="props.errors"
                 :mode="props.mode"
             />
@@ -33,8 +46,11 @@
 <script setup>
 import { defineProps, reactive } from 'vue';
 import ParcelTable from './ParcelTable.vue';
-import ParcelOverview from './ParcelOverview.vue';
+import SomeOrderData from './SomeOrderData.vue';
 import Title from '@/Shared/Title.vue';
+import _ from 'lodash';
+import SumBase from './SumBase.vue';
+import ListOfParcels from './ListOfParcels.vue';
 
 const props = defineProps({
     cargoOrder: {
@@ -53,7 +69,7 @@ const props = defineProps({
 
 const data = reactive({
     cargoOrder: props.cargoOrder,
-    showParcelData: false,
+    showParcelData: true,
 });
 
 
