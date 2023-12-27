@@ -18,32 +18,7 @@ let data = reactive({
   
 });
 
-const emit = defineEmits(['hideModal']);
 
-let computedExample = computed(
-    () => {
-  	return 'random text by computed';
-    }
-);
-
-watch(
-    () => data, 
-    (newValue, oldValue) => {
-        console.log('count changed');
-        console.log('oldValue:', oldValue)
-        console.log('newValue:', newValue)
-    },
-    { deep: true }
-);
-
-//Emitting example
-function hideModal() {
-    emit('hideModal');
-}
-
-onMounted(() => {
-  console.log('onMounted.')
-});
 
 </script>
 

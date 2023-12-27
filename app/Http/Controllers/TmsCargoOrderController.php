@@ -9,6 +9,7 @@ use App\Models\TmsCargoOrder;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsCargoOrderRequest;
 use App\Models\TmsCountry;
+use App\Models\TmsParcel;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsCargoOrderController extends BaseController
@@ -135,8 +136,9 @@ class TmsCargoOrderController extends BaseController
                 'selectOptions' => [
                     'countries' => TmsCountry::select('id', 'country_name')->get(),
                     'typesOfTransport' => TmsCargoOrder::TYPES_OF_TRANSPORT,
-                    'origins' => TmsCargoOrder::ORIGINS,
+                    'origins' => TmsCargoOrder::ORIGINS,//Example: Pamyra, sales...
                     'paymentMethods' => TmsCargoOrder::PAYMENT_METHODS,
+                    'parcelTypes' => TmsParcel::PARCEL_TYPE,
                 ]
             ]
         );

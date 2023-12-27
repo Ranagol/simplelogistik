@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TmsParcel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,8 @@ class TmsParcelFactory extends Factory
             'tms_cargo_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'is_hazardous' => $this->faker->boolean,
             'information' => $this->faker->sentence,
-            'p_name' => $this->faker->randomElement(['package', 'bulky goods', 'euro pallet', 'disposable pallet']),
+            //Reminder: p_ means that this column comes from Pamyra
+            'p_name' => $this->faker->randomElement(TmsParcel::PARCEL_TYPE),//Since package type is called p_name in Pamyra, we use it here
             'p_height' => $this->faker->randomFloat(2, 0, 200),
             'p_length' => $this->faker->randomFloat(2, 0, 200),
             'p_width' => $this->faker->randomFloat(2, 0, 200),
