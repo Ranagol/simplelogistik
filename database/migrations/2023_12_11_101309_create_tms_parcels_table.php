@@ -20,12 +20,12 @@ return new class extends Migration
 
             //Columns coming from Pamyra. All column from Pamyra must be prefixed with p_.
             $table->string('p_name')->comment('This is actually the type of parcel. Example: package, bulky goods, euro pallet, disposable pallet, etc.');
-            $table->string('p_height')->comment('Parcel height in cm');
-            $table->string('p_length')->comment('Parcel length in cm');
-            $table->string('p_width')->comment('Parcel width in cm');
+            $table->float('p_height', 10, 2)->comment('Parcel height in cm');
+            $table->float('p_length', 10, 2)->comment('Parcel length in cm');
+            $table->float('p_width', 10, 2)->comment('Parcel width in cm');
             $table->string('p_number')->comment('This is a property of Pamyra orders. Number is an index of transport objects.');
-            $table->string('p_stackable')->comment('Is the parcel stackable?');
-            $table->string('p_weight')->comment('Parcel weight in kg');
+            $table->boolean('p_stackable')->comment('Is the parcel stackable?');
+            $table->float('p_weight', 10, 2)->comment('Parcel weight in kg');
             
             $table->timestamps();
         });

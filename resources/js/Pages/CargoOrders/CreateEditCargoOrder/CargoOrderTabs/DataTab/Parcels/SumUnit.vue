@@ -11,7 +11,7 @@
                 <span>{{ props.title }}</span>
                 
                 <span>
-                    {{ props.value }} {{ props.measureUnit }}
+                    {{ _.round(props.value, 2) }} {{ props.measureUnit }}
                 </span>
             </div>
         </div>
@@ -24,6 +24,7 @@
 
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
+import _ from 'lodash';
 
 
 let props = defineProps({
