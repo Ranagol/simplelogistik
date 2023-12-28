@@ -5,13 +5,16 @@
         class="card-header flex flex-row"
     >
         <!-- NUMBER OF THE PARCEL IN THE LIST -->
-        <el-form-item>
+        <el-form-item
+            class="w-8"
+        >
             <span>{{ index + 1 }}</span>
         </el-form-item>
 
         <!-- PARCEL TYPE -->
         <el-form-item
             prop="p_name"
+            class="w-1/6 pr-2"
         >   
                 
             <el-select
@@ -40,6 +43,7 @@
         <!-- ORDER CONTENT -->
         <el-form-item
             prop="information"
+            class="w-1/3 pr-2"
         >
             <el-input
                 v-model="data.parcel.information"
@@ -58,6 +62,7 @@
         <!-- LENGTH -->
         <el-form-item
             prop="p_length"
+            class="w-1/12 pr-2"
         >
             <el-input
                 v-model="data.parcel.p_length"
@@ -76,6 +81,7 @@
         <!-- WIDTH -->
         <el-form-item
             prop="p_width"  
+            class="w-1/12 pr-2"
         >
             <el-input
                 v-model="data.parcel.p_width"
@@ -94,6 +100,7 @@
         <!-- HEIGHT -->
         <el-form-item
             prop="p_height"
+            class="w-1/12 pr-2"
         >
             <el-input
                 v-model="data.parcel.p_height"
@@ -112,6 +119,7 @@
         <!-- WEIGHT -->
         <el-form-item
             prop="p_weight"
+            class="w-1/12 pr-2"
         >
             <el-input
                 v-model="data.parcel.p_weight"
@@ -128,7 +136,9 @@
         </el-form-item>
 
         <!-- DUPLICATE, NUMERIC DUPLICATE, DELETE -->
-        <el-form-item>
+        <el-form-item
+            class="pl-2"
+        >
             <el-button
                 type="primary"
                 icon="el-icon-plus"

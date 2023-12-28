@@ -3,15 +3,15 @@
     <el-card class="box-card">
         <!-- HEADER -->
         <template #header>
-            <div class="card-header flex flex-row ">
-                <span>#</span>
-                <span>Parcel type</span>
-                <span>Order content</span>
-                <span>Length cm</span>
-                <span>Width cm</span>
-                <span>Height cm</span>
-                <span>Weight kg</span>
-                <span>menu</span>
+            <div class="card-header flex flex-row">
+                <span class="w-8">#</span>
+                <span class="w-1/6 pl-2">Parcel type</span>
+                <span class="w-1/3 pl-2">Order content</span>
+                <span class="w-1/12 pl-2">Length cm</span>
+                <span class="w-1/12 pl-2">Width cm</span>
+                <span class="w-1/12 pl-2">Height cm</span>
+                <span class="w-1/12 pl-2">Weight kg</span>
+                <span class="pl-2">menu</span>
             </div>
         </template>
 
