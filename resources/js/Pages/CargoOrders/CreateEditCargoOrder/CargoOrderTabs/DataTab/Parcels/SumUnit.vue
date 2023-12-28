@@ -1,49 +1,47 @@
-
 <template>
+    <el-card>
+
+        <div class="grid grid-cols-2 gap-2">
+
+            <!-- 1 column: the svg logo -->
+            <slot></slot>
+
+            <!-- 2 column: the title, value, measure unit -->
+            <div class="flex flex-col">
+                <span>{{ props.title }}</span>
+                
+                <span>
+                    {{ props.value }} {{ props.measureUnit }}
+                </span>
+            </div>
+        </div>
+        
+        
+    </el-card>
+    
     
 </template>
 
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
-import { router} from '@inertiajs/vue3';//for sending requests;
-import _ from 'lodash';
-import { useForm } from '@inertiajs/vue3';
 
 
 let props = defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+    measureUnit: {
+        type: String,
+        required: true,
+    },
+    value: {
+        type: Number,
+        required: true,
+    },
     
 });
 
-let data = reactive({
-  
-});
-
-const emit = defineEmits(['hideModal']);
-
-let computedExample = computed(
-    () => {
-  	return 'random text by computed';
-    }
-);
-
-watch(
-    () => data, 
-    (newValue, oldValue) => {
-        console.log('count changed');
-        console.log('oldValue:', oldValue)
-        console.log('newValue:', newValue)
-    },
-    { deep: true }
-);
-
-//Emitting example
-function hideModal() {
-    emit('hideModal');
-}
-
-onMounted(() => {
-  console.log('onMounted.')
-});
 
 </script>
 

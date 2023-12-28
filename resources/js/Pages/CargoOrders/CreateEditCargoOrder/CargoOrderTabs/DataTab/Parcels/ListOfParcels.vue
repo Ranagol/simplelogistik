@@ -16,20 +16,16 @@
         </template>
 
         <!-- LIST OF PARCELS -->
-        <Parcel
-            v-for="(parcel, index) in data.parcels"
-            :key="index"
-            :index="index"
-            v-model:parcel="data.parcels[index]"
-            :parcelTypes="props.selectOptions.parcelTypes"
-            :errors="props.errors"
-        />
-
-
-        <!-- FOOTER WITH SUMS -->
-        <template #footer>
-            Footer content
-        </template>
+        <div>
+            <Parcel
+                v-for="(parcel, index) in data.parcels"
+                :key="index"
+                :index="index"
+                v-model:parcel="data.parcels[index]"
+                :parcelTypes="props.selectOptions.parcelTypes"
+                :errors="props.errors"
+            />
+        </div>
 
     </el-card>
     

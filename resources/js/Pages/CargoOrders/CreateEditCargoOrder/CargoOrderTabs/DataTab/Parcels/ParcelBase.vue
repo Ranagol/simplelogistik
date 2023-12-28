@@ -22,24 +22,19 @@
                 :mode="props.mode"
             /> -->
             
-            <!-- DISPLAYS ALL PARCELS -->
+            <!-- DISPLAYS ALL PARCELS-->
             <ListOfParcels
                 :parcels="props.cargoOrder.parcels"
                 :errors="props.errors"
                 :mode="props.mode"
                 :selectOptions="props.selectOptions"
             />
-            
-            <!-- DISPLAYS m2, m3, number of packages -->
+
             <SumBase
                 :parcels="props.cargoOrder.parcels"
             />
+            
 
-            <ParcelTable
-                v-model:parcels="data.cargoOrder.parcels"
-                :errors="props.errors"
-                :mode="props.mode"
-            />
         </div>
     </div>
 </template>
