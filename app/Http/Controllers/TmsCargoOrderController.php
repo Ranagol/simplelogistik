@@ -170,19 +170,33 @@ class TmsCargoOrderController extends BaseController
         //Get the order from db
         $orderFromDb = TmsCargoOrder::find($id);
 
-        // Update the TmsCargoOrder fields - this does not saves into db!!
-        $orderFromDb->fill($orderFromRequest);
-
         //If the order has parcels...
         if (!empty($orderFromRequest['parcels'])) {
 
-            // Update the TmsParcel objects - this does not saves into db!!
-            foreach ($orderFromRequest['parcels'] as $index => $parcelData) {
-                $orderFromDb->parcels[$index]->fill($parcelData);
-            }
+            TmsParcel::upsert(
+                //1-An array of records that should be updated or created.
+                $orderFromRequest['parcels'],
+                //2-The column(s) that should be used to determine if a record already exists.
+                
+                    'id',
+                
+                //3-The column(s) that should be updated if a matching record already exists.
+                [
+                    "is_hazardous",
+                    "information",
+                    "p_name",
+                    "p_height",
+                    "p_length",
+                    "p_width",
+                    "p_number",
+                    "p_stackable",
+                    "p_weight",
+                ]
+            );
+
         }
 
-        $orderFromDb->push();//save the order together with the parcels
+        $orderFromDb->update($orderFromRequest);//save the order
     }
 
     /**
@@ -251,3 +265,4 @@ class TmsCargoOrderController extends BaseController
         return $records;
     }
 }
+

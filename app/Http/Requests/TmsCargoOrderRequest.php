@@ -88,6 +88,7 @@ class TmsCargoOrderRequest extends FormRequest
             'p_duration_minutes' => 'nullable|string|max:255',
 
             //PARCEL VALIDATION
+            'parcels.*.id' => 'nullable|integer',
             'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_cargo_orders,id',
             'parcels.*.is_hazardous' => 'boolean',
             'parcels.*.information' => 'required|string|max:255',
@@ -118,7 +119,6 @@ class TmsCargoOrderRequest extends FormRequest
     public function messages()
     {
         return [
-
             'parcels.*.tms_cargo_order_id.required' => 'The cargo order ID field is required.',
             'parcels.*.tms_cargo_order_id.integer' => 'The cargo order ID must be an integer.',
             'parcels.*.tms_cargo_order_id.exists' => 'The cargo order ID must exist in the tms_cargo_orders table.',

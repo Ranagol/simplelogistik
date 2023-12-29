@@ -1,6 +1,6 @@
-
 <template>
     <el-card class="box-card">
+
         <!-- HEADER -->
         <template #header>
             <div class="card-header flex flex-row">
@@ -41,7 +41,6 @@
                 &nbsp; Add parcel
             </el-button>   
         </div>
-        
 
     </el-card>
     
@@ -53,10 +52,12 @@ import Parcel from './Parcel.vue';
 import { Plus } from '@element-plus/icons-vue';
 
 let props = defineProps({
+
     parcels: {
         type: Array,
         required: true,
     },
+    
     selectOptions: {
         type: Object,
         required: true,
@@ -123,6 +124,11 @@ const filterValidationError = (index) => {
     return filteredErrors;
 };
 
+/**
+ * Adds one new parcel to the list of parcels.
+ * Reminder: this is just a frontend addition. On order to add this parcel to the database,
+ * the user must submit the form. Logic for this is in the CreateEditOrder.vue.
+ */
 const addParcel = () => {
     data.parcels.push({
         p_type: null,
@@ -134,6 +140,12 @@ const addParcel = () => {
     });
 };
 
+/**
+ * Deletes one parcel from the list of parcels.
+ * index is created in the v-for loop in the template. We use it here to delete the right parcel.
+ * Reminder: this is just a frontend deletion. On order to delete this parcel from the database,
+ * the user must submit the form. Logic for this is in the CreateEditOrder.vue.
+ */
 const deleteParcel = (index) => {
     data.parcels.splice(index, 1);
 };  
