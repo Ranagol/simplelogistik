@@ -11,7 +11,7 @@
                 <span class="w-1/12 pl-2">Width cm</span>
                 <span class="w-1/12 pl-2">Height cm</span>
                 <span class="w-1/12 pl-2">Weight kg</span>
-                <span class="w-60 pl-2">menu</span>
+                <span class="w-60 pl-2">Actions</span>
             </div>
         </template>
 
@@ -26,6 +26,7 @@
                 v-model:parcel="data.parcels[index]"
                 :parcelTypes="props.selectOptions.parcelTypes"
                 :errors="filterValidationError(index)"
+                @deleteParcel="deleteParcel(index)"
             />
         </div>
 
@@ -132,6 +133,10 @@ const addParcel = () => {
         p_weight: null,
     });
 };
+
+const deleteParcel = (index) => {
+    data.parcels.splice(index, 1);
+};  
 
 
 

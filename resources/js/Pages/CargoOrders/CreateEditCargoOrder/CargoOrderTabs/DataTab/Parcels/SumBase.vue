@@ -101,7 +101,6 @@ let totalArea = computed(
         );
         //converting from cm2 to m2
         area = area / 10000;
-        console.log('area:', area)
         return area;
     }
 );

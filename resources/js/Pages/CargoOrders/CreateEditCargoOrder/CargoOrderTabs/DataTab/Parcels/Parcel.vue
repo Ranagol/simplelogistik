@@ -2,7 +2,7 @@
     <el-form
         :data="data.parcel"
         ref="parcelForm"
-        class="card-header flex flex-row"
+        class="card-header flex flex-row mt-2"
     >
         <!-- NUMBER OF THE PARCEL IN THE LIST -->
         <el-form-item
@@ -142,7 +142,7 @@
         >
             <el-button
                 type="primary"
-                size="mini"
+                size="small"
                 @click="duplicateParcel"
                 class="mr-2"
             >
@@ -154,7 +154,7 @@
                 :min="1"
                 :max="100"
                 :step="1"
-                size="mini"
+                size="small"
                 style="width: 60px"
                 @change="update"
                 class="mr-2"
@@ -162,7 +162,7 @@
 
             <el-button
                 type="danger"
-                size="mini"
+                size="small"
                 @click="deleteParcel"
                 class="mr-2"
             >
@@ -230,10 +230,21 @@ let data = reactive({
     parcel: props.parcel,
 });
 
+const emit = defineEmits(['updateParcel', 'duplicateParcel', 'deleteParcel']);
+
 
 
 const update = () => {
     console.log('update triggered');
+}
+
+const duplicateParcel = () => {
+    console.log('duplicateParcel triggered');
+}
+
+const deleteParcel = () => {
+    console.log('deleteParcel triggered');
+    emit('deleteParcel', props.index);
 }
 
 
