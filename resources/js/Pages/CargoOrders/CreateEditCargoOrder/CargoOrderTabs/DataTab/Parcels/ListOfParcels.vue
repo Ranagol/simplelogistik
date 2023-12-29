@@ -11,7 +11,7 @@
                 <span class="w-1/12 pl-2">Width cm</span>
                 <span class="w-1/12 pl-2">Height cm</span>
                 <span class="w-1/12 pl-2">Weight kg</span>
-                <span class="pl-2">menu</span>
+                <span class="w-60 pl-2">menu</span>
             </div>
         </template>
 
@@ -29,6 +29,19 @@
             />
         </div>
 
+        <!-- ADD PARCEL BUTTON -->
+        <div class="card-actions flex flex-row justify-center">
+            <el-button
+                type="primary"
+                @click="addParcel"
+            >   
+                <el-icon><Plus /></el-icon> 
+                <!-- &nbsp; is a simple empty space between words -->
+                &nbsp; Add parcel
+            </el-button>   
+        </div>
+        
+
     </el-card>
     
 </template>
@@ -36,6 +49,7 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import Parcel from './Parcel.vue';
+import { Plus } from '@element-plus/icons-vue';
 
 let props = defineProps({
     parcels: {
@@ -106,6 +120,17 @@ const filterValidationError = (index) => {
     }
 
     return filteredErrors;
+};
+
+const addParcel = () => {
+    data.parcels.push({
+        p_type: null,
+        p_name: null,
+        p_length: null,
+        p_width: null,
+        p_height: null,
+        p_weight: null,
+    });
 };
 
 

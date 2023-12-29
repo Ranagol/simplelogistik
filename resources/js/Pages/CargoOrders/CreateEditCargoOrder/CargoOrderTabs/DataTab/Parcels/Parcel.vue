@@ -137,31 +137,37 @@
 
         <!-- DUPLICATE, NUMERIC DUPLICATE, DELETE -->
         <el-form-item
-            class="pl-2"
+            class="w-60 pl-2"
+
         >
             <el-button
                 type="primary"
-                icon="el-icon-plus"
-                circle
                 size="mini"
                 @click="duplicateParcel"
-            ></el-button>
+                class="mr-2"
+            >
+                <el-icon><CopyDocument /></el-icon>
+            </el-button>
 
-            <el-button
-                type="primary"
-                icon="el-icon-plus"
-                circle
+            <el-input
+                v-model="data.parcel.duplicateNumeric"
+                :min="1"
+                :max="100"
+                :step="1"
                 size="mini"
-                @click="duplicateParcelNumeric"
-            ></el-button>
+                style="width: 60px"
+                @change="update"
+                class="mr-2"
+            />
 
             <el-button
                 type="danger"
-                icon="el-icon-delete"
-                circle
                 size="mini"
                 @click="deleteParcel"
-            ></el-button>
+                class="mr-2"
+            >
+                <el-icon><Delete /></el-icon>
+            </el-button>
         </el-form-item> 
 
     </el-form>
@@ -170,7 +176,7 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
-
+import { Delete, CopyDocument } from '@element-plus/icons-vue';
 
 let props = defineProps({
     parcel: {

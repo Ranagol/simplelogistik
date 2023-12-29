@@ -152,7 +152,7 @@ import Card from "./Card.vue";
 import NavLink from "./NavLink.vue";
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import { Memo, UserFilled, Histogram, Folder, ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
-import { Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
+import { Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue';
 
 
 const data = reactive({

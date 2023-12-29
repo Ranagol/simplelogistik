@@ -163,22 +163,26 @@ class TmsCargoOrderController extends BaseController
         $orderRequest = app(TmsCargoOrderRequest::class);
 
         /**
-         * The validated method is used to get the validated data from the orderRequest.
+         * The validated method is used to get the validated order data from the orderRequest.
          */
-        $orderNew = $orderRequest->validated();//do validation
+        $orderFromRequest = $orderRequest->validated();//do validation
 
-        //Get the original, old, not updated order
-        $orderOld = TmsCargoOrder::find($id);
+        //Get the order from db
+        $orderFromDb = TmsCargoOrder::find($id);
 
         // Update the TmsCargoOrder fields - this does not saves into db!!
-        $orderOld->fill($orderNew);
+        $orderFromDb->fill($orderFromRequest);
 
-        // Update the TmsParcel objects
-        foreach ($orderNew['parcels'] as $index => $parcelData) {
-            $orderOld->parcels[$index]->fill($parcelData);
+        //If the order has parcels...
+        if (!empty($orderFromRequest['parcels'])) {
+
+            // Update the TmsParcel objects - this does not saves into db!!
+            foreach ($orderFromRequest['parcels'] as $index => $parcelData) {
+                $orderFromDb->parcels[$index]->fill($parcelData);
+            }
         }
 
-        $orderOld->push();//save the order together with the parcels
+        $orderFromDb->push();//save the order together with the parcels
     }
 
     /**
