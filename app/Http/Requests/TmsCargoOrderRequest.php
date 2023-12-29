@@ -2,10 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\ValidationRules\ParcelValidationRule;
+use App\Http\Requests\TmsParcelRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TmsCargoOrderRequest extends FormRequest
 {
+    
+    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,6 +25,8 @@ class TmsCargoOrderRequest extends FormRequest
      */
     public function rules(): array
     {
+        $parcelRequest = new TmsParcelRequest();
+
         return [
             'type_of_transport' => 'required|string|max:200',
             'origin' => 'required|string|max:255',
@@ -78,6 +84,17 @@ class TmsCargoOrderRequest extends FormRequest
             'p_value_of_goods' => 'nullable|string|max:255',
             'p_distance_km' => 'required|string|max:255',
             'p_duration_minutes' => 'nullable|string|max:255',
+
+            // 'parcels' => 'nullable|array',//How to use here in TmsCargoOrderRequest the TmsParcelRequest for validation? Please note that the parcels is an array of many TmsParcel objects.
+            // 'parcels' => ['nullable', 'array'],
+
+            // OPTION 1 validation rule object***********************
+            // 'parcels.*' => new ParcelValidationRule(),
+
+            // OPTION 2 simple array validation**********************
+            // 'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_cargo_orders,id',
+            // 'parcels.*.is_hazardous' => 'boolean',
+            'parcels.*.p_name' => 'required|string|max:255',
         ];
     }
 }

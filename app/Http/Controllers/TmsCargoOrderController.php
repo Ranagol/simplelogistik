@@ -4,22 +4,29 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\TmsParcel;
+use App\Models\TmsCountry;
 use Illuminate\Http\Request;
 use App\Models\TmsCargoOrder;
+use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsCargoOrderRequest;
-use App\Models\TmsCountry;
-use App\Models\TmsParcel;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Validator;
 
-class TmsCargoOrderController extends BaseController
+// class TmsCargoOrderController extends BaseController
+class TmsCargoOrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->model = new TmsCargoOrder();
-        $this->vueIndexPath = 'CargoOrders/IndexCargoOrder/Index';
-        $this->vueCreateEditPath = 'CargoOrders/CreateEditCargoOrder/CreateEditBase';
-    }
+    private const VUE_INDEX_PATH = 'CargoOrders/IndexCargoOrder/Index';
+    private const VUE_CREATE_EDIT_PATH = 'CargoOrders/CreateEditCargoOrder/CreateEditBase';
+
+
+    // public function __construct(NewClass $newClass)
+    // {
+    //     $this->model = new TmsCargoOrder();
+    //     $this->vueIndexPath = 'CargoOrders/IndexCargoOrder/Index';
+    //     $this->vueCreateEditPath = 'CargoOrders/CreateEditCargoOrder/CreateEditBase';
+    // }
 
     /**
      * This is used for dynamic validation. Which happens in the parent BaseController.
@@ -95,7 +102,7 @@ class TmsCargoOrderController extends BaseController
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
-        dd($newRecord);
+        // dd($newRecord);
         /**
          * 1. Find the relevant record and...
          * 2. ...update it.
@@ -118,17 +125,17 @@ class TmsCargoOrderController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::with(
+        $record = TmsCargoOrder::with(
             [
                 'parcels', 
-                'startAddress.country:id,country_name', 
-                'targetAddress.country:id,country_name',
+                'startAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the user
+                'targetAddress.country:id,country_name',//TODO is this wrong? Should I get the addresses through the user
                 'customer.headquarter.country:id,country_name',
             ]
         )->find($id);
 
         return Inertia::render(
-            $this->vueCreateEditPath, 
+            self::VUE_CREATE_EDIT_PATH, 
             [
                 'record' => $record,
                 'mode' => 'edit',
@@ -142,6 +149,74 @@ class TmsCargoOrderController extends BaseController
                 ]
             ]
         );
+    }
+
+    /**
+     * Updates records. Inertia automatically sends succes or error feedback to the frontend.
+     * It also update multiple addresses, parcels... And this part gets a bit tricky.
+     *
+     */
+    public function update(TmsCargoOrderRequest $orderRequest, string $id): void
+    {
+        /**
+         * We get the $request on this awkward way, so this function is compatible with the parent
+         * update() function.
+         */
+        // ********OPTION 1**********************
+        // $orderRequest = app(TmsCargoOrderRequest::class);
+        // $parcelRequest = app(TmsParcelRequest::class);
+        // dd($parcelRequest);
+
+        /**
+         * The validated method is used to get the validated data from the orderRequest.
+         */
+        $orderNew = $orderRequest->validated();//do validation
+
+        // $parcels = $parcelRequest->validated();//do validation
+
+        // *********** OPTION 2*****************
+        // $parcels = $orderNew['parcels'];
+
+        // foreach ($parcels as $parcel) {
+        //     $validator = Validator::make(
+        //         $parcel,
+        //         [
+        //             'is_hazardous' => 'boolean',
+        //             'information' => 'required|string|max:255',
+        //             'p_name' => 'required|string|max:255',
+        //             'p_height' => 'required|numeric|between:0,9999999999.99',
+        //             'p_length' => 'required|numeric|between:0,9999999999.99',
+        //             'p_width' => 'required|numeric|between:0,9999999999.99',
+        //             'p_number' => 'required|string|max:255',//This is a property of Pamyra orders. Number is an index of transport objects.
+        //             'p_stackable' => 'boolean',
+        //             'p_weight' => 'required|numeric|between:0,9999999999.99',
+        //         ]
+        //     );
+
+        //     if ($validator->fails()) {
+        //         // Handle validation failure
+        //         // For example, you can throw a ValidationException
+        //         // dd($validator, $validator->errors());
+        //         throw new \Illuminate\Validation\ValidationException($validator);
+        //     }
+        // }
+
+        
+
+
+
+        //Get the original, old, not updated order
+        $orderOld = TmsCargoOrder::find($id);
+
+        // Update the TmsCargoOrder fields
+        $orderOld->fill($orderNew);
+
+        // Update the TmsParcel objects
+        foreach ($orderNew['parcels'] as $index => $parcelData) {
+            $orderOld->parcels[$index]->fill($parcelData);
+        }
+
+        $orderOld->push();//save the order together with the parcels
     }
 
     /**
