@@ -15,7 +15,9 @@
             </div>
         </template>
 
-        <!-- LIST OF PARCELS -->
+        <!-- LIST OF PARCELS, done with v-for -->
+        <!-- v-model:parcel="data.parcels[index]"   this must be done like this, do not replace this 
+        with simple parcel -->
         <div>
             <Parcel
                 v-for="(parcel, index) in data.parcels"
@@ -83,9 +85,11 @@ const filterValidationError = (index) => {
 
     //The filtered errors will be here in the end.
     let filteredErrors = {};
+
+    //We loop through all the error object properties. 
     for (const [key, value] of Object.entries(props.errors)) {
-        console.log('key:', key);//Example: parcels.0.p_name
-        console.log('value:', value);//Example: The parcels.0.p_name field is required.
+        // console.log('key:', key);//Example: parcels.0.p_name
+        // console.log('value:', value);//Example: The parcels.0.p_name field is required.
 
         //This is where we filter the right error for the right parcel.
         if (key.includes(`parcels.${index}`)) {

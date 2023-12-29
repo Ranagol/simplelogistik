@@ -28,6 +28,8 @@ class TmsCargoOrderRequest extends FormRequest
         $parcelRequest = new TmsParcelRequest();
 
         return [
+
+            //CARGO ORDER VALIDATION
             'type_of_transport' => 'required|string|max:200',
             'origin' => 'required|string|max:255',
             'customer_reference' => 'required|string|max:255',
@@ -85,11 +87,17 @@ class TmsCargoOrderRequest extends FormRequest
             'p_distance_km' => 'required|string|max:255',
             'p_duration_minutes' => 'nullable|string|max:255',
 
-
-
-            // 'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_cargo_orders,id',
-            // 'parcels.*.is_hazardous' => 'boolean',
+            //PARCEL VALIDATION
+            'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_cargo_orders,id',
+            'parcels.*.is_hazardous' => 'boolean',
+            'parcels.*.information' => 'required|string|max:255',
             'parcels.*.p_name' => 'required|string|max:255',
+            'parcels.*.p_height' => 'required|numeric|between:0,9999999999.99',
+            'parcels.*.p_length' => 'required|numeric|between:0,9999999999.99',
+            'parcels.*.p_width' => 'required|numeric|between:0,9999999999.99',
+            'parcels.*.p_number' => 'required|string|max:255',//This is a property of Pamyra orders. Number is an index of transport objects.
+            'parcels.*.p_stackable' => 'boolean',
+            'parcels.*.p_weight' => 'required|numeric|between:0,9999999999.99',
         ];
     }
 
@@ -110,9 +118,33 @@ class TmsCargoOrderRequest extends FormRequest
     public function messages()
     {
         return [
-            'parcels.*.p_name.required' => 'The parcel name field is required.',
-            'parcels.*.p_name.string' => 'The parcel name must be a string.',
-            'parcels.*.p_name.max' => 'The parcel name may not be greater than 255 characters.',
+
+            'parcels.*.tms_cargo_order_id.required' => 'The cargo order ID field is required for each parcel.',
+            'parcels.*.tms_cargo_order_id.integer' => 'The cargo order ID must be an integer for each parcel.',
+            'parcels.*.tms_cargo_order_id.exists' => 'The cargo order ID must exist in the tms_cargo_orders table for each parcel.',
+            'parcels.*.is_hazardous.boolean' => 'The is_hazardous field must be true or false for each parcel.',
+            'parcels.*.information.required' => 'The information field is required for each parcel.',
+            'parcels.*.information.string' => 'The information must be a string for each parcel.',
+            'parcels.*.information.max' => 'The information may not be greater than 255 characters for each parcel.',
+            'parcels.*.p_name.required' => 'The parcel type field is required for each parcel.',
+            'parcels.*.p_name.string' => 'The parcel type must be a string for each parcel.',
+            'parcels.*.p_name.max' => 'The parcel type may not be greater than 255 characters for each parcel.',
+            'parcels.*.p_height.required' => 'The height field is required for each parcel.',
+            'parcels.*.p_height.numeric' => 'The height must be a number for each parcel.',
+            'parcels.*.p_height.between' => 'The height must be between 0 and 9999999999.99 for each parcel.',
+            'parcels.*.p_length.required' => 'The length field is required for each parcel.',
+            'parcels.*.p_length.numeric' => 'The length must be a number for each parcel.',
+            'parcels.*.p_length.between' => 'The length must be between 0 and 9999999999.99 for each parcel.',
+            'parcels.*.p_width.required' => 'The width field is required for each parcel.',
+            'parcels.*.p_width.numeric' => 'The width must be a number for each parcel.',
+            'parcels.*.p_width.between' => 'The width must be between 0 and 9999999999.99 for each parcel.',
+            'parcels.*.p_number.required' => 'The number field is required for each parcel.',
+            'parcels.*.p_number.string' => 'The number must be a string for each parcel.',
+            'parcels.*.p_number.max' => 'The number may not be greater than 255 characters for each parcel.',
+            'parcels.*.p_stackable.boolean' => 'The stackable field must be true or false for each parcel.',
+            'parcels.*.p_weight.required' => 'The weight field is required for each parcel.',
+            'parcels.*.p_weight.numeric' => 'The weight must be a number for each parcel.',
+            'parcels.*.p_weight.between' => 'The weight must be between 0 and 9999999999.99 for each parcel.',
         ];
     }
 }
