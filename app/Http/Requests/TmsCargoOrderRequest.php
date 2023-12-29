@@ -85,16 +85,34 @@ class TmsCargoOrderRequest extends FormRequest
             'p_distance_km' => 'required|string|max:255',
             'p_duration_minutes' => 'nullable|string|max:255',
 
-            // 'parcels' => 'nullable|array',//How to use here in TmsCargoOrderRequest the TmsParcelRequest for validation? Please note that the parcels is an array of many TmsParcel objects.
-            // 'parcels' => ['nullable', 'array'],
 
-            // OPTION 1 validation rule object***********************
-            // 'parcels.*' => new ParcelValidationRule(),
 
-            // OPTION 2 simple array validation**********************
             // 'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_cargo_orders,id',
             // 'parcels.*.is_hazardous' => 'boolean',
             'parcels.*.p_name' => 'required|string|max:255',
+        ];
+    }
+
+    /**
+     * Sometimes we need custom validation erros messages, instead of the default ones, that Laravel
+     * provides. This method is used to override the default messages. 
+     * n Laravel, you can customize the validation error messages by overriding the messages method 
+     * in your form request class. Here's how you can do it for the parcels.*.p_name field:
+     * 
+     * In this example, the keys of 
+     * the array returned by the messages method correspond to the validation rules for the 
+     * parcels.*.p_name field. The values of the array are the custom error messages for these 
+     * validation rules. When validation fails, Laravel will use these custom error messages instead 
+     * of the default ones.
+     *
+     * @return void
+     */
+    public function messages()
+    {
+        return [
+            'parcels.*.p_name.required' => 'The parcel name field is required.',
+            'parcels.*.p_name.string' => 'The parcel name must be a string.',
+            'parcels.*.p_name.max' => 'The parcel name may not be greater than 255 characters.',
         ];
     }
 }

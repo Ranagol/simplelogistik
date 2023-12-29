@@ -23,7 +23,7 @@
                 :index="index"
                 v-model:parcel="data.parcels[index]"
                 :parcelTypes="props.selectOptions.parcelTypes"
-                :errors="props.errors"
+                :errors="filterValidationError(index)"
             />
         </div>
 
@@ -44,6 +44,26 @@ let props = defineProps({
         type: Object,
         required: true,
     },
+
+    /**
+     * Errors for the parcel. Will be used with BackendValidationErrorDisplay. However, here we
+     * have an additional level of complexity. There could be multiple parcels, so we need to
+     * display the errors for each parcel. The errors object will look like this (in case if the
+     * object has two parcels, and for both parcels the p_name field is required in validation but
+     * missing in the request (so the error will be the same for both parcels)):
+     * 
+     * "props": {
+        "errors": {
+            "parcels.0.p_name": "The parcels.0.p_name field is required.",
+            "parcels.1.p_name": "The parcels.1.p_name field is required."
+        },
+     * 
+     * 
+     * So we need to pass the errors for the current parcel to the BackendValidationErrorDisplayt.
+     * We will do this by passing the errors object to the parcel component and then filtering
+     * the errors object by the parcel index.
+     * To achieve this, we will use computed property, filteredValidationError().
+     */
     errors: {
         type: Object,
         required: true,
@@ -53,6 +73,36 @@ let props = defineProps({
 let data = reactive({
     parcels: props.parcels,
 });
+
+/**
+ * See props.errors for the explanation.
+ * index is created in the v-for loop in the template. We use it here to filter the errors, so the
+ * right Parcel component receives the right errors.
+ */
+const filterValidationError = (index) => {
+
+    //The filtered errors will be here in the end.
+    let filteredErrors = {};
+    for (const [key, value] of Object.entries(props.errors)) {
+        console.log('key:', key);//Example: parcels.0.p_name
+        console.log('value:', value);//Example: The parcels.0.p_name field is required.
+
+        //This is where we filter the right error for the right parcel.
+        if (key.includes(`parcels.${index}`)) {
+            
+            /**
+             * We need to remove the "parcels.0." part from the key, so the key will be "p_name" 
+             * instead of "parcels.0.p_name".
+             * We will use the key to display the error message for the right field.
+             */
+            const newKey = key.replace(`parcels.${index}.`, '');
+            console.log('newKey:', newKey);//Example: p_name 
+            filteredErrors[newKey] = value;
+        }
+    }
+
+    return filteredErrors;
+};
 
 
 

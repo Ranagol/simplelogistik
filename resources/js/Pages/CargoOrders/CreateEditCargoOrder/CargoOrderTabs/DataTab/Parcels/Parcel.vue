@@ -186,6 +186,24 @@ let props = defineProps({
         required: true,
     },
 
+    /**
+     * Errors for the parcel. Will be used with BackendValidationErrorDisplay. However, here we
+     * have an additional level of complexity. There could be multiple parcels, so we need to
+     * display the errors for each parcel. The errors object will look like this (in case if the
+     * object has two parcels, and for both parcels the p_name field is required in validation but
+     * missing in the request (so the error will be the same for both parcels)):
+     * 
+     * "props": {
+        "errors": {
+            "parcels.0.p_name": "The parcels.0.p_name field is required.",
+            "parcels.1.p_name": "The parcels.1.p_name field is required."
+        },
+     * 
+     * 
+     * So we need to pass the errors for the current parcel to the BackendValidationErrorDisplayt.
+     * We will do this by passing the errors object to the parcel component and then filtering
+     * the errors object by the parcel index.
+     */
     errors: {
         type: Object,
         required: true,
@@ -194,6 +212,7 @@ let props = defineProps({
     /**
      * We use this index simply to render the order number in the list. Like first parcel, 
      * second parcel, etc.
+     * We also use this index for the validation error display. See the comments for the errors.
      */
     index: {
         type: Number,
@@ -204,6 +223,8 @@ let props = defineProps({
 let data = reactive({
     parcel: props.parcel,
 });
+
+
 
 const update = () => {
     console.log('update triggered');

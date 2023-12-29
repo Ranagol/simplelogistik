@@ -14,19 +14,16 @@ use App\Http\Requests\TmsCargoOrderRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Validator;
 
-// class TmsCargoOrderController extends BaseController
-class TmsCargoOrderController extends Controller
+class TmsCargoOrderController extends BaseController
 {
-    private const VUE_INDEX_PATH = 'CargoOrders/IndexCargoOrder/Index';
-    private const VUE_CREATE_EDIT_PATH = 'CargoOrders/CreateEditCargoOrder/CreateEditBase';
 
 
-    // public function __construct(NewClass $newClass)
-    // {
-    //     $this->model = new TmsCargoOrder();
-    //     $this->vueIndexPath = 'CargoOrders/IndexCargoOrder/Index';
-    //     $this->vueCreateEditPath = 'CargoOrders/CreateEditCargoOrder/CreateEditBase';
-    // }
+    public function __construct()
+    {
+        $this->model = new TmsCargoOrder();
+        $this->vueIndexPath = 'CargoOrders/IndexCargoOrder/Index';
+        $this->vueCreateEditPath = 'CargoOrders/CreateEditCargoOrder/CreateEditBase';
+    }
 
     /**
      * This is used for dynamic validation. Which happens in the parent BaseController.
@@ -135,7 +132,7 @@ class TmsCargoOrderController extends Controller
         )->find($id);
 
         return Inertia::render(
-            self::VUE_CREATE_EDIT_PATH, 
+            $this->vueCreateEditPath, 
             [
                 'record' => $record,
                 'mode' => 'edit',
@@ -156,59 +153,24 @@ class TmsCargoOrderController extends Controller
      * It also update multiple addresses, parcels... And this part gets a bit tricky.
      *
      */
-    public function update(TmsCargoOrderRequest $orderRequest, string $id): void
+    public function update(string $id): void
     {
         /**
          * We get the $request on this awkward way, so this function is compatible with the parent
-         * update() function.
+         * update() function. Otherwise, we could just simply inject the TmsCargoOrderRequest
+         * into this function.
          */
-        // ********OPTION 1**********************
-        // $orderRequest = app(TmsCargoOrderRequest::class);
-        // $parcelRequest = app(TmsParcelRequest::class);
-        // dd($parcelRequest);
+        $orderRequest = app(TmsCargoOrderRequest::class);
 
         /**
          * The validated method is used to get the validated data from the orderRequest.
          */
         $orderNew = $orderRequest->validated();//do validation
 
-        // $parcels = $parcelRequest->validated();//do validation
-
-        // *********** OPTION 2*****************
-        // $parcels = $orderNew['parcels'];
-
-        // foreach ($parcels as $parcel) {
-        //     $validator = Validator::make(
-        //         $parcel,
-        //         [
-        //             'is_hazardous' => 'boolean',
-        //             'information' => 'required|string|max:255',
-        //             'p_name' => 'required|string|max:255',
-        //             'p_height' => 'required|numeric|between:0,9999999999.99',
-        //             'p_length' => 'required|numeric|between:0,9999999999.99',
-        //             'p_width' => 'required|numeric|between:0,9999999999.99',
-        //             'p_number' => 'required|string|max:255',//This is a property of Pamyra orders. Number is an index of transport objects.
-        //             'p_stackable' => 'boolean',
-        //             'p_weight' => 'required|numeric|between:0,9999999999.99',
-        //         ]
-        //     );
-
-        //     if ($validator->fails()) {
-        //         // Handle validation failure
-        //         // For example, you can throw a ValidationException
-        //         // dd($validator, $validator->errors());
-        //         throw new \Illuminate\Validation\ValidationException($validator);
-        //     }
-        // }
-
-        
-
-
-
         //Get the original, old, not updated order
         $orderOld = TmsCargoOrder::find($id);
 
-        // Update the TmsCargoOrder fields
+        // Update the TmsCargoOrder fields - this does not saves into db!!
         $orderOld->fill($orderNew);
 
         // Update the TmsParcel objects
