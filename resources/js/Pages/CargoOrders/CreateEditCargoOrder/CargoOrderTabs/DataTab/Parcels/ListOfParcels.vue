@@ -27,6 +27,7 @@
                 :parcelTypes="props.selectOptions.parcelTypes"
                 :errors="filterValidationError(index)"
                 @deleteParcel="deleteParcel(index)"
+                @duplicateParcel="duplicateParcel"
             />
         </div>
 
@@ -38,7 +39,7 @@
             >   
                 <el-icon><Plus /></el-icon> 
                 <!-- &nbsp; is a simple empty space between words -->
-                &nbsp; Add parcel
+                &nbsp; Add empty parcel
             </el-button>   
         </div>
 
@@ -50,6 +51,7 @@
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import Parcel from './Parcel.vue';
 import { Plus } from '@element-plus/icons-vue';
+import _ from 'lodash';
 
 let props = defineProps({
 
@@ -57,7 +59,7 @@ let props = defineProps({
         type: Array,
         required: true,
     },
-    
+
     selectOptions: {
         type: Object,
         required: true,
@@ -116,7 +118,7 @@ const filterValidationError = (index) => {
              * We will use the key to display the error message for the right field.
              */
             const newKey = key.replace(`parcels.${index}.`, '');
-            console.log('newKey:', newKey);//Example: p_name 
+            // console.log('newKey:', newKey);//Example: p_name 
             filteredErrors[newKey] = value;
         }
     }
@@ -149,6 +151,24 @@ const addParcel = () => {
 const deleteParcel = (index) => {
     data.parcels.splice(index, 1);
 };  
+
+/**
+ * This does the parcel numerical duplication. The duplication amount shows how many times the
+ * parcel should be duplicated. The current parcel's data will be used for the duplication, so the
+ * new duplicated parcels will have the same data as the current parcel.
+ * Reminder: this is just a frontend duplication. On order to duplicate this parcel in the database,
+ * the user must submit the form. Logic for this is in the CreateEditOrder.vue.
+ */
+const duplicateParcel = (duplicationAmount, parcel) => {
+    //We must create a completely new parcel object, otherwise the original parcel will be changed.
+    const newParcel = {...parcel};
+    //The original parcel id must be removed from clone parcels, otherwise the backend will throw an error.
+    newParcel.id = null;
+    //Here we create the given amount of new parcels.
+    for (let i = 0; i < duplicationAmount; i++) {
+        data.parcels.push(newParcel);
+    }
+};
 
 
 

@@ -169,17 +169,18 @@ class TmsCargoOrderController extends BaseController
 
         //Get the order from db
         $orderFromDb = TmsCargoOrder::find($id);
-
-        //If the order has parcels...
+        
+        /**
+         * If the order has parcels... Do create or update for each parcel, depending if the parcel
+         * already exists in the db or not. This will be recognised by the id column.
+         */
         if (!empty($orderFromRequest['parcels'])) {
 
             TmsParcel::upsert(
                 //1-An array of records that should be updated or created.
                 $orderFromRequest['parcels'],
                 //2-The column(s) that should be used to determine if a record already exists.
-                
-                    'id',
-                
+                'id',
                 //3-The column(s) that should be updated if a matching record already exists.
                 [
                     "is_hazardous",

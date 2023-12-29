@@ -16,14 +16,12 @@
             prop="p_name"
             class="w-1/6 pr-2"
         >   
-                
             <el-select
                 v-model="data.parcel.p_name"
                 placeholder="Parcel type"
                 clearable
                 filterable
                 style="width: 100%"
-                @change="update"
             >
                 <el-option
                     v-for="(item, index) in props.parcelTypes"
@@ -50,7 +48,6 @@
                 placeholder="Order content"
                 clearable
                 style="width: 100%"
-                @change="update"
             />
 
             <BackendValidationErrorDisplay
@@ -69,7 +66,6 @@
                 placeholder="Length cm"
                 clearable
                 style="width: 100%"
-                @change="update"
             />
 
             <BackendValidationErrorDisplay
@@ -88,7 +84,6 @@
                 placeholder="Width cm"
                 clearable
                 style="width: 100%"
-                @change="update"
             />
 
             <BackendValidationErrorDisplay
@@ -107,7 +102,6 @@
                 placeholder="Height cm"
                 clearable
                 style="width: 100%"
-                @change="update"
             />
 
             <BackendValidationErrorDisplay
@@ -126,7 +120,6 @@
                 placeholder="Weight kg"
                 clearable
                 style="width: 100%"
-                @change="update"
             />
 
             <BackendValidationErrorDisplay
@@ -140,34 +133,37 @@
             class="w-60 pl-2"
 
         >
-            <el-button
-                type="primary"
-                size="small"
-                @click="duplicateParcel"
-                class="mr-2"
-            >
-                <el-icon><CopyDocument /></el-icon>
-            </el-button>
-
-            <el-input
-                v-model="data.parcel.duplicateNumeric"
+            <!-- NUMBER INPUT FIELD FOR THE NUMERIC DUPLICATION -->
+            <el-input-number
+                v-model="data.duplicationAmount"
                 :min="1"
                 :max="100"
                 :step="1"
-                size="small"
-                style="width: 60px"
-                @change="update"
+                controls-position="right"
+                style="width: 80px"
                 class="mr-2"
             />
 
+            <!-- BUTTON FOR TRIGGERING THE NUMERIC DUPLICATION -->
+            <el-button
+                type="primary"
+                @click="duplicateParcel"
+            >
+                <el-icon>
+                    <CopyDocument />
+                </el-icon>
+            </el-button>
+
+            <!-- DELETE PARCEL BUTTON -->
             <el-button
                 type="danger"
-                size="small"
                 @click="deleteParcel"
-                class="mr-2"
             >
-                <el-icon><Delete /></el-icon>
+                <el-icon>
+                    <Delete />
+                </el-icon>
             </el-button>
+            
         </el-form-item> 
 
     </el-form>
@@ -228,6 +224,7 @@ let props = defineProps({
 
 let data = reactive({
     parcel: props.parcel,
+    duplicationAmount: 1,
 });
 
 const emit = defineEmits(['updateParcel', 'duplicateParcel', 'deleteParcel']);
@@ -238,12 +235,20 @@ const update = () => {
     console.log('update triggered');
 }
 
+/**
+ * Sends a sign to the parent component to create the given amount of numeric duplications for the
+ * selected parcel. The duplication amount shows how many times the parcel should be duplicated.
+ * The current parcel's data will be used for the duplication, so the new duplicated parcels will
+ * have the same data as the current parcel.
+ */
 const duplicateParcel = () => {
-    console.log('duplicateParcel triggered');
+    emit('duplicateParcel', data.duplicationAmount, data.parcel);
 }
 
+/**
+ * Sends a sign to the parent component to delete the parcel.
+ */
 const deleteParcel = () => {
-    console.log('deleteParcel triggered');
     emit('deleteParcel', props.index);
 }
 
