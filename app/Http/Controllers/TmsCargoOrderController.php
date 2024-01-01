@@ -158,7 +158,7 @@ class TmsCargoOrderController extends BaseController
         /**
          * We get the $request on this awkward way, so this function is compatible with the parent
          * update() function. Otherwise, we could just simply inject the TmsCargoOrderRequest
-         * into this function.
+         * into this function. Which would be much cleaner.
          */
         $orderRequest = app(TmsCargoOrderRequest::class);
 
@@ -170,15 +170,24 @@ class TmsCargoOrderController extends BaseController
         //Get the order from db
         $orderFromDb = TmsCargoOrder::find($id);
         
+        //Handle parcels
+        $this->handleParcelUpsert($orderFromRequest['parcels']);
+
+        //Update the order
+        $orderFromDb->update($orderFromRequest);
+    }
+
+    private function handleParcelUpsert(array $parcels): void
+    {
         /**
          * If the order has parcels... Do create or update for each parcel, depending if the parcel
          * already exists in the db or not. This will be recognised by the id column.
          */
-        if (!empty($orderFromRequest['parcels'])) {
+        if (!empty($parcels)) {
 
             TmsParcel::upsert(
                 //1-An array of records that should be updated or created.
-                $orderFromRequest['parcels'],
+                $parcels,
                 //2-The column(s) that should be used to determine if a record already exists.
                 'id',
                 //3-The column(s) that should be updated if a matching record already exists.
@@ -194,10 +203,7 @@ class TmsCargoOrderController extends BaseController
                     "p_weight",
                 ]
             );
-
         }
-
-        $orderFromDb->update($orderFromRequest);//save the order
     }
 
     /**
