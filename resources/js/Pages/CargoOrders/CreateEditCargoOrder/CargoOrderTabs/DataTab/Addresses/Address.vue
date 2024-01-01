@@ -387,7 +387,7 @@
         one order might have multiple pickup and multiple delivery addresses with avis phones?
         Another solution: avis phone as new object belongst to address? Ask C. For now I will just
         display this here. This topic must be decided when it comes to order editing.-->
-        <el-form-item v-if="props.avis_phone">
+        <el-form-item>
 
             <div class="flex flex-col grow">
 
@@ -398,13 +398,14 @@
                 >Avis phone</span>
 
                 <el-input
-                    v-model="props.avis_phone"
+                    :model-value="props.avis_phone"
                     placeholder="Avis phone"
                     type="text"
                     :maxlength="255"
-                    @input="update()"
-                    @clear="update()"
-                    @change="update()"
+                    clearable
+                    @input="handleAvisPhone"
+                    @clear="handleAvisPhone"
+                    @change="handleAvisPhone"
                 />
 
             </div>
@@ -423,13 +424,13 @@
                 >Comment</span>
 
                 <el-input
-                    v-model="props.comment"
+                    :model-value="props.comment"
                     placeholder="Comment"
                     type="text"
                     :maxlength="255"
-                    @input="update()"
-                    @clear="update()"
-                    @change="update()"
+                    @input="handleComment"
+                    @clear="handleComment"
+                    @change="handleComment"
                 />
 
             </div>
@@ -512,7 +513,7 @@ const data = reactive({
     showLabel: true,
 });
 
-const emit = defineEmits(['update:address']);
+const emit = defineEmits(['update:address', 'update:comment', 'update:avis_phone']);
 
 /**
  * Only updates the parent's address object. No triggering of submit or edit. No need for validation.
@@ -520,6 +521,26 @@ const emit = defineEmits(['update:address']);
  */
 const update = () => {
     emit('update:address', data.addressData);
+}
+
+/**
+ * Here we automatically catch the new value of the input field. Courtesy of Element Plus. We use this
+ * value to update the parent's avis_phone prop. No triggering of submit or edit. All this is done
+ * outside of the ordinary address object data handling, because avis_phone is not part of the address
+ * object. It is part of the order object.
+ */
+const handleAvisPhone = (value) => {
+    emit('update:avis_phone', value);
+}
+
+/**
+ * Here we automatically catch the new value of the input field. Courtesy of Element Plus. We use this
+ * value to update the parent's comment prop. No triggering of submit or edit. All this is done
+ * outside of the ordinary address object data handling, because comment is not part of the address
+ * object. It is part of the order object.
+ */
+const handleComment = (value) => {
+    emit('update:comment', value);
 }
 
 </script>

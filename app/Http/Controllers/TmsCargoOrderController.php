@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsParcel;
+use App\Models\TmsAddress;
 use App\Models\TmsCountry;
 use Illuminate\Http\Request;
 use App\Models\TmsCargoOrder;
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TmsCargoOrderRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Validator;
 
 class TmsCargoOrderController extends BaseController
 {
@@ -109,7 +110,7 @@ class TmsCargoOrderController extends BaseController
 
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
-         * page.
+         * page. This is what we do here, otherwise this line would not be needed.
          */
         return Inertia::location("{$newlyCreatedRecord->id}/edit");
     }
@@ -125,8 +126,8 @@ class TmsCargoOrderController extends BaseController
         $record = TmsCargoOrder::with(
             [
                 'parcels', 
-                'startAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the user
-                'targetAddress.country:id,country_name',//TODO is this wrong? Should I get the addresses through the user
+                'startAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the customer?
+                'targetAddress.country:id,country_name',//TODO is this wrong? Should I get the addresses through the customer?
                 'customer.headquarter.country:id,country_name',
             ]
         )->find($id);
@@ -150,7 +151,8 @@ class TmsCargoOrderController extends BaseController
 
     /**
      * Updates records. Inertia automatically sends succes or error feedback to the frontend.
-     * It also update multiple addresses, parcels... And this part gets a bit tricky.
+     * It also update multiple addresses, parcels... And this part gets a bit tricky. This tricky
+     * part is done in the handleHeadquarter() and handleParcel() functions.
      *
      */
     public function update(string $id): void
@@ -171,14 +173,59 @@ class TmsCargoOrderController extends BaseController
         $orderFromDb = TmsCargoOrder::find($id);
         
         //Handle parcels
-        $this->handleParcelUpsert($orderFromRequest['parcels']);
+        $this->handleParcel($orderFromRequest);
+
+        //Handle headquarter address
+        $this->handleHeadquarter($orderFromRequest);
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
     }
 
-    private function handleParcelUpsert(array $parcels): void
+    private function handleHeadquarter(array $orderFromRequest): void
     {
+        $headquarter = $orderFromRequest['customer']['headquarter'];
+
+        /**
+         * If the order has a headquarter address... Do create or update for the headquarter address,
+         * depending if the headquarter address already exists in the db or not. This will be 
+         * recognised by the id column.
+         */
+        if (!empty($headquarter)) {
+
+            TmsAddress::upsert(
+                //1-An array of records that should be updated or created.
+                [$headquarter],//only one headquarter address exists for one customer
+                //2-The column(s) that should be used to determine if a record already exists.
+                'id',
+                //3-The column(s) that should be updated if a matching record already exists.
+                [
+                    "company_name",
+                    "first_name",
+                    "last_name",
+                    "address_type",
+                    "street",
+                    "house_number",
+                    "zip_code",
+                    "city",
+                    "state",
+                    "phone",
+                    "email",
+                    "address_additional_information",
+                    "country_id",
+                    "customer_id",
+                    "forwarder_id",
+                    "created_at",
+                    "updated_at",
+                ]
+            );
+        }
+    }
+
+    private function handleParcel(array $orderFromRequest): void
+    {
+        $parcels = $orderFromRequest['parcels'];
+
         /**
          * If the order has parcels... Do create or update for each parcel, depending if the parcel
          * already exists in the db or not. This will be recognised by the id column.
