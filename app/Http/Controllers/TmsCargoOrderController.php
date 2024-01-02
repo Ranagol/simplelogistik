@@ -117,21 +117,49 @@ class TmsCargoOrderController extends BaseController
 
     /**
      * Edit a record.
+     * 
+     * Here we have a multiple level nested eager loading with only some columns selected. The
+     * relationships are: this order has one customer. The customer has one headquarter address. The
+     * headquarter belongs to a country.
+     *  
+     * Now, we want:
+     * customers: only id and company_name.
+     * headquarter: all columns.
+     * country: only id and country_name.
      *
      * @param string $id
      * @return Response
      */
     public function edit(string $id): Response
     {
+        //Gets the relevant data for us from db.
         $record = TmsCargoOrder::with(
             [
                 'parcels', 
                 'startAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the customer?
-                'targetAddress.country:id,country_name',//TODO is this wrong? Should I get the addresses through the customer?
-                'customer.headquarter.country:id,country_name',
+                'targetAddress.country:id,country_name',
+
+                //1. level of eager loading (customer with id and company_name)
+                'customer' => function ($query){
+                    $query->select('id', 'company_name')
+                            ->with(
+                                [
+
+                                    //2. level of eager loading (headquarter with all columns)
+                                    'headquarter' => function ($query){
+                                        $query->with(
+
+                                            //3. level of eager loading (country with id and country_name)
+                                            ['country:id,country_name']
+                                        );
+                                    }
+                                ]);
+                }
+
             ]
         )->find($id);
-
+        
+        //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
@@ -177,6 +205,11 @@ class TmsCargoOrderController extends BaseController
 
         //Handle headquarter address
         $this->handleHeadquarter($orderFromRequest);
+        //TODO ANDOR: I stopped here. The current problem: the addressType mutator does not triggers
+        //when we do upsert. So, the address_type column is not filled with the correct value. Because
+        //in the db, in address_type column, the app tries to write "headquarter", instead of
+        //number 1 (which is the correct value for headquarter address type). 
+        //What to do: check the data type: Ensure that the addressType attribute is being treated as a string in your TmsAddress model. The mutator expects the addressType value to be a string, so if it's being treated as a different data type, the mutator might not work correctly.
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
@@ -184,18 +217,22 @@ class TmsCargoOrderController extends BaseController
 
     private function handleHeadquarter(array $orderFromRequest): void
     {
-        $headquarter = $orderFromRequest['customer']['headquarter'];
 
         /**
          * If the order has a headquarter address... Do create or update for the headquarter address,
          * depending if the headquarter address already exists in the db or not. This will be 
          * recognised by the id column.
          */
-        if (!empty($headquarter)) {
+        if (!empty($orderFromRequest['customer']['headquarter'])) {
+
+            $headquarter = $orderFromRequest['customer']['headquarter'];
+            // dd($headquarter);
 
             TmsAddress::upsert(
                 //1-An array of records that should be updated or created.
-                [$headquarter],//only one headquarter address exists for one customer
+                [
+                    $headquarter//only one headquarter address exists for one customer
+                ],
                 //2-The column(s) that should be used to determine if a record already exists.
                 'id',
                 //3-The column(s) that should be updated if a matching record already exists.
@@ -224,13 +261,15 @@ class TmsCargoOrderController extends BaseController
 
     private function handleParcel(array $orderFromRequest): void
     {
-        $parcels = $orderFromRequest['parcels'];
 
         /**
          * If the order has parcels... Do create or update for each parcel, depending if the parcel
          * already exists in the db or not. This will be recognised by the id column.
          */
-        if (!empty($parcels)) {
+        if (!empty($orderFromRequest['parcels'])) {
+
+        $parcels = $orderFromRequest['parcels'];
+
 
             TmsParcel::upsert(
                 //1-An array of records that should be updated or created.

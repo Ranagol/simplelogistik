@@ -102,40 +102,12 @@ class TmsAddress extends Model
              * constant, then looks up the integer value corresponding to the provided address type
              * string. If the string is not found in the flipped array, it defaults to 'Missing data.'.
              */
-            set: fn (string $value) => array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.',
+            // set: fn (string $value) => array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.',
+            set: function (string $value) {//the old way
+                dd($value);
+                return array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.';
+            }
+
         );
     }
-
-    // protected function countryCode(): Attribute
-    // {
-    //     return Attribute::make(
-
-    //         /**
-    //          * $value is for example 238, the numeric country code for Sweden. Here we want to
-    //          * return instead 238 => Sweden.
-    //          * 
-    //          * App\Models\TmsCountry::where('numeric_code', 4)->value('country_name')//this returns 'Afghanistan'
-    //          */
-    //         get: fn (string $value) => TmsCountry::where('numeric_code', $value)->value('country_name') ?? 'Getter problem',
-    //         // get: fn (string $value) => 'Afghanistan' ?? 'Getter problem',//this works getting
-    //         // get: fn (string $value) => TmsCountry::where('numeric_code', 4)->value('country_name') ?? 'Getter problem',
-
-            
-    //         /**
-    //          * $value is for example Sweden, the country name. Here we want to return instead
-    //          * Sweden => 238.
-    //          * 
-    //          * App\Models\TmsCountry::where('country_name','Afghanistan')->value('numeric_code')//this returns 4
-    //          */
-    //         set: fn (string $value) => TmsCountry::where('country_name', $value)->value('numeric_code') ?? 'Setter problem',
-    //         // set: fn (string $value) => 4 ?? 'Setter problem',//this works with seedeing
-    //         // set: fn (string $value) => TmsCountry::where('country_name', 'Afghanistan')->value('numeric_code') ?? 'Setter problem',
-
-
-
-    //     );
-    // }
-
-    //*************DYNAMIC RELATIONSHIPS*************************************** */
-    
 }

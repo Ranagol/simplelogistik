@@ -87,7 +87,7 @@ class TmsCargoOrderRequest extends FormRequest
             'p_distance_km' => 'required|string|max:255',
             'p_duration_minutes' => 'nullable|string|max:255',
 
-            //PARCEL VALIDATION
+            //PARCEL VALIDATION (parcels is an array of objects, hence the * to symbolize the parcel object in parcels array)
             'parcels.*.id' => 'nullable|integer',
             'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_cargo_orders,id',
             'parcels.*.is_hazardous' => 'boolean',
@@ -99,6 +99,29 @@ class TmsCargoOrderRequest extends FormRequest
             'parcels.*.p_number' => 'required|string|max:255',//This is a property of Pamyra orders. Number is an index of transport objects.
             'parcels.*.p_stackable' => 'boolean',
             'parcels.*.p_weight' => 'required|numeric|between:0,9999999999.99',
+
+            //CUSTOMER VALIDATION
+            'customer.id' => 'nullable|integer',
+            'customer.company_name' => 'required|string|max:255',
+            'customer.headquarter' => 'array',
+
+            //HEADQUARTER VALIDATION (HEADQUARTER IS A PROPERTY OF CUSTOMER)
+            'customer.headquarter.id' => 'nullable|integer',
+            'customer.headquarter.company_name' => 'required|string|max:255',
+            'customer.headquarter.first_name' => 'required|string|max:255',
+            'customer.headquarter.last_name' => 'required|string|max:255',
+            'customer.headquarter.address_type' => 'required|string|max:255',
+            'customer.headquarter.street' => 'required|string|max:255',
+            'customer.headquarter.house_number' => 'required|string|max:255',
+            'customer.headquarter.zip_code' => 'required|string|max:255',
+            'customer.headquarter.city' => 'required|string|max:255',
+            'customer.headquarter.state' => 'required|string|max:255',
+            'customer.headquarter.phone' => 'required|string|max:255',
+            'customer.headquarter.email' => 'required|string|max:255',
+            'customer.headquarter.address_additional_information' => 'nullable|string|max:255',
+            'customer.headquarter.country_id' => 'required|exists:tms_countries,id',
+            'customer.headquarter.customer_id' => 'required|exists:tms_customers,id',
+            'customer.headquarter.forwarder_id' => 'required|exists:tms_forwarders,id',
         ];
     }
 
