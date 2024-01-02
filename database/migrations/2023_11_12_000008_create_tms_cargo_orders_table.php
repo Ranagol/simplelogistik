@@ -30,12 +30,12 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('contact_id');
-            $table->foreign('contact_id')->references('id')->on('tms_contacts');
+            $table->foreign('contact_id')->references('id')->on('tms_contacts')->comment('This is the contact person that is especially important, because this person has given us the official order. This is the reason why we keep this contact in the orders table.');
 
             //Addresses
-            $table->unsignedBigInteger('pickup_address_id');
+            $table->unsignedBigInteger('pickup_address_id')->comment('The pickup address of the order. Selected from the customers addresses. Must be here.');
             $table->foreign('pickup_address_id')->references('id')->on('tms_addresses');
-            $table->unsignedBigInteger('delivery_address_id');
+            $table->unsignedBigInteger('delivery_address_id')->comment('The delivery address of the order. Selected from the customers addresses. Must be here.');
             $table->foreign('delivery_address_id')->references('id')->on('tms_addresses');
 
             //Avis phone numbers. 

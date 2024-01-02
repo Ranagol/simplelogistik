@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\TmsForwarder;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_forwarder>
@@ -31,7 +32,7 @@ class TmsForwarderFactory extends Factory
             'company_name' => $this->faker->company,
             'tax_number' => $this->faker->randomNumber(9, true),
             'rating' => $this->faker->numberBetween(1, 5),
-            'forwarder_type' => $this->faker->numberBetween(1, 2),
+            'forwarder_type' => Arr::random(TmsForwarder::FORWARDER_TYPES),
             'comments' => $this->faker->sentence,
         ];
     }

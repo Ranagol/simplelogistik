@@ -13,7 +13,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-
+/**
+ * Address in general belong to a customer. Every customer has his own usual address where/from he
+ * usually sends his packages. When we have a specific order, then we select from these addresses
+ * the pickup and delivery address. These two special address will from this moment belong to the
+ * given order too. These two address ids will be stored in the orders table. Because they are so
+ * important.
+ */
 class TmsAddress extends Model
 {
     use HasFactory;
