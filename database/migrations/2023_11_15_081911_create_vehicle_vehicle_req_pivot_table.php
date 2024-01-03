@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requirements_for_vehicles', function (Blueprint $table) {
+        Schema::create('vehicle_vehicle_req_pivot', function (Blueprint $table) {
             $table->foreignId('tms_vehicle_id')->constrained('tms_vehicles');
             $table->foreignId('tms_vehicle_req_id')->constrained('tms_vehicle_reqs');
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requirements_for_vehicles');
+        Schema::dropIfExists('vehicle_vehicle_req_pivot');
     }
 };

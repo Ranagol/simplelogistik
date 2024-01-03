@@ -27,6 +27,6 @@ class TmsCustomerReq extends Model
 
     public function customers(): BelongsToMany
     {
-        return $this->belongsToMany(TmsCustomer::class, 'requirements_for_customers');
+        return $this->belongsToMany(TmsCustomer::class, 'customer_customer_req_pivot');
     }
 }

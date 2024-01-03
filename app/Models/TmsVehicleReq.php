@@ -22,6 +22,6 @@ class TmsVehicleReq extends Model
 
     public function vehicles(): BelongsToMany
     {
-        return $this->belongsToMany(TmsVehicle::class, 'requirements_for_vehicles');
+        return $this->belongsToMany(TmsVehicle::class, 'vehicle_vehicle_req_pivot');
     }
 }
