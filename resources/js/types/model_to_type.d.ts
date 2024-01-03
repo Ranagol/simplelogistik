@@ -27,7 +27,7 @@ export interface TmsAddress {
 }
 export type TmsAddresses = TmsAddress[]
 
-export interface TmsCargoHistory {
+export interface TmsOrderHistory {
   // columns
   id: number
   name: string
@@ -44,7 +44,7 @@ export interface TmsCargoHistory {
   cargo_order?: TmsCargoOrder
   forwarding_contract?: TmsForwardingContract
 }
-export type TmsCargoHistories = TmsCargoHistory[]
+export type TmsCargoHistories = TmsOrderHistory[]
 
 export interface TmsCargoOrder {
   // columns
@@ -66,7 +66,7 @@ export interface TmsCargoOrder {
   contact?: TmsContact
   start_address?: TmsAddress
   target_address?: TmsAddress
-  cargo_history?: TmsCargoHistory
+  cargo_history?: TmsOrderHistory
   invoice?: TmsInvoice
   offer_prices?: TmsOfferPrices
 }

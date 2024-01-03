@@ -7,7 +7,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsCustomer;
-use App\Models\TmsCargoHistory;
+use App\Models\TmsOrderHistory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -69,7 +69,7 @@ class TmsCargoOrder extends Model
 
     public function cargoHistory(): HasMany
     {
-        return $this->hasMany(TmsCargoHistory::class, 'cargo_order_id');
+        return $this->hasMany(TmsOrderHistory::class, 'cargo_order_id');
     }
 
     public function invoice(): HasOne

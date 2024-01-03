@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TmsCargoHistory extends Model
+class TmsOrderHistory extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $table = "tms_cargo_histories";
+    protected $table = "tms_order_histories";
     
     public function forwarder(): BelongsTo
     {

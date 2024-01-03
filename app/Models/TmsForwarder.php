@@ -6,7 +6,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsVehicle;
 use App\Models\TmsOfferPrice;
-use App\Models\TmsCargoHistory;
+use App\Models\TmsOrderHistory;
 use App\Models\TmsTransportLicense;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
@@ -39,7 +39,7 @@ class TmsForwarder extends Model
     
     public function cargoHistories(): HasMany
     {
-        return $this->hasMany(TmsCargoHistory::class, 'forwarder_id');
+        return $this->hasMany(TmsOrderHistory::class, 'forwarder_id');
     }
 
     public function offerPrices(): HasMany

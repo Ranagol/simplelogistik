@@ -7,7 +7,7 @@ use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
 use App\Models\TmsCargoOrder;
-use App\Models\TmsCargoHistory;
+use App\Models\TmsOrderHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TmsCustomerReq;
@@ -117,7 +117,7 @@ class TmsCustomer extends Model
     
     public function cargoHistories(): HasMany
     {
-        return $this->hasMany(TmsCargoHistory::class, 'customer_id');
+        return $this->hasMany(TmsOrderHistory::class, 'customer_id');
     }
 
     public function invoices(): HasMany

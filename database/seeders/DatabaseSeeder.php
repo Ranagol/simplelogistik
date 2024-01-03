@@ -35,7 +35,7 @@ use Database\Seeders\TmsOfferPriceSeeder;
 use Database\Seeders\TmsVehicleReqSeeder;
 use Database\Seeders\TmsCustomerReqSeeder;
 use Database\Seeders\TmsRequirementSeeder;
-use Database\Seeders\TmsCargoHistorySeeder;
+use Database\Seeders\TmsOrderHistorySeeder;
 use Database\Seeders\TmsOrderAttributeSeeder;
 use Database\Seeders\TmsTransportLicenseSeeder;
 use Database\Seeders\TmsForwardingContractSeeder;
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
             TmsInvoiceSeeder::class,
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
-            TmsCargoHistorySeeder::class,
+            TmsOrderHistorySeeder::class,
             TmsRequirementForForwarderSeeder::class,
             TmsVehicleReqSeeder::class,
             TmsCustomerReqSeeder::class,
