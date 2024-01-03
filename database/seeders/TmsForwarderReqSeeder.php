@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\TmsRequirementForForwarderFactory;
+use Database\Factories\TmsForwarderReqFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TmsRequirementForForwarderSeeder extends Seeder
+class TmsForwarderReqSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        TmsRequirementForForwarderFactory::new()->count(config('constants.numberOfDbRecords'))->create();
+        TmsForwarderReqFactory::new()->count(config('constants.numberOfDbRecords'))->create();
     }
 }

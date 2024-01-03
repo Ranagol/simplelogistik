@@ -239,7 +239,7 @@ export interface TmsRequirement {
 }
 export type TmsRequirements = TmsRequirement[]
 
-export interface TmsRequirementForForwarder {
+export interface TmsForwarderReq {
   // columns
   id: number
   requirement_id: number
@@ -247,7 +247,7 @@ export interface TmsRequirementForForwarder {
   created_at?: string|null
   updated_at?: string|null
 }
-export type TmsRequirementForForwarders = TmsRequirementForForwarder[]
+export type TmsForwarderReqs = TmsForwarderReq[]
 
 export interface TmsTransportLicense {
   // columns

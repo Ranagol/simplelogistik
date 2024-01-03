@@ -10,12 +10,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * These are the customer requirements.
+ */
 class TmsCustomerReq extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
     protected $table = "tms_customer_reqs";
+
     public function requirement(): BelongsTo
     {
         return $this->belongsTo(TmsRequirement::class);

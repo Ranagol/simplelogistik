@@ -22,17 +22,17 @@ class PivotTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->seedRequirementsForCustomersTable();
-        $this->seedRequirementsForVehiclesTable();
+        $this->seedCustomerReqsTable();
+        $this->seedVehicleReqsTable();
     }
 
     /**
-     * Connects TmsCustomers and TmsCustomerReqs, aka populates the requirements_for_customers pivot 
+     * Connects TmsCustomers and TmsCustomerReqs, aka populates the ... pivot 
      * table with random ids.
      *
      * @return void
      */
-    private function seedRequirementsForCustomersTable(): void
+    private function seedCustomerReqsTable(): void
     {
         $customers = TmsCustomer::all();
         $customerIds = $customers->pluck('id')->toArray();
@@ -58,7 +58,7 @@ class PivotTableSeeder extends Seeder
         }
     }
 
-    private function seedRequirementsForVehiclesTable(): void
+    private function seedVehicleReqsTable(): void
     {
         $vehicles = TmsVehicle::all();
         $vehicleIds = $vehicles->pluck('id')->toArray();

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // PIVOT TABLE
+        // PIVOT TABLE BETWEEN TMS_CUSTOMER AND TMS_CUSTOMER_REQ
         Schema::create('requirements_for_customers', function (Blueprint $table) {
             $table->foreignId('tms_customer_id')->constrained('tms_customers');
             $table->foreignId('tms_customer_req_id')->constrained('tms_customer_reqs');

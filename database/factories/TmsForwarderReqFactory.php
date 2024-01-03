@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\TmsRequirementForForwarder;
+use App\Models\TmsForwarderReq;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsoptionstoforwarder>
  */
-class TmsRequirementForForwarderFactory extends Factory
+class TmsForwarderReqFactory extends Factory
 {
-    protected $model = TmsRequirementForForwarder::class;
+    protected $model = TmsForwarderReq::class;
 
     /**
      * Define the model's default state.
