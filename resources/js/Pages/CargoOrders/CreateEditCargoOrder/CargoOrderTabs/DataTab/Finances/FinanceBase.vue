@@ -32,7 +32,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_transport_price_net"
+                        v-model="data.order.p_transport_price_net"
                         placeholder="Transport price net"
                         clearable
                         @input="updateParent"
@@ -59,7 +59,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_transport_price_vat"
+                        v-model="data.order.p_transport_price_vat"
                         placeholder="Transport price vat"
                         clearable
                         @input="updateParent"
@@ -86,7 +86,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.purchase_price"
+                        v-model="data.order.purchase_price"
                         placeholder="Purchase price"
                         clearable
                         @input="updateParent"
@@ -113,7 +113,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.provision"
+                        v-model="data.order.provision"
                         placeholder="Provision"
                         clearable
                         @input="updateParent"
@@ -140,7 +140,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.currency"
+                        v-model="data.order.currency"
                         placeholder="Currency"
                         clearable
                         @input="updateParent"
@@ -167,7 +167,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_calculated_transport_price"
+                        v-model="data.order.p_calculated_transport_price"
                         placeholder="Calculated transport price"
                         clearable
                         @input="updateParent"
@@ -194,7 +194,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_transport_price_gross"
+                        v-model="data.order.p_transport_price_gross"
                         placeholder="Transport price gross"
                         clearable
                         @input="updateParent"
@@ -221,7 +221,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_customized_price_change"
+                        v-model="data.order.p_customized_price_change"
                         placeholder="Customized price change"
                         clearable
                         @input="updateParent"
@@ -248,7 +248,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_customized_price_mode"
+                        v-model="data.order.p_customized_price_mode"
                         placeholder="Customized price mode"
                         clearable
                         @input="updateParent"
@@ -275,7 +275,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_discount"
+                        v-model="data.order.p_discount"
                         placeholder="Discount"
                         clearable
                         @input="updateParent"
@@ -302,7 +302,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_price_gross"
+                        v-model="data.order.p_price_gross"
                         placeholder="Price gross"
                         clearable
                         @input="updateParent"
@@ -329,7 +329,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_price_vat"
+                        v-model="data.order.p_price_vat"
                         placeholder="Price vat"
                         clearable
                         @input="updateParent"
@@ -356,7 +356,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_price_net"
+                        v-model="data.order.p_price_net"
                         placeholder="Price net"
                         clearable
                         @input="updateParent"
@@ -383,7 +383,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_price_fuel_surcharge"
+                        v-model="data.order.p_price_fuel_surcharge"
                         placeholder="Price fuel surcharge"
                         clearable
                         @input="updateParent"
@@ -410,7 +410,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_vat_rate"
+                        v-model="data.order.p_vat_rate"
                         placeholder="Vat rate"
                         clearable
                         @input="updateParent"
@@ -437,7 +437,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_value_insured"
+                        v-model="data.order.p_value_insured"
                         placeholder="Value insured"
                         clearable
                         @input="updateParent"
@@ -464,7 +464,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_value_of_goods"
+                        v-model="data.order.p_value_of_goods"
                         placeholder="Value of goods"
                         clearable
                         @input="updateParent"
@@ -489,7 +489,7 @@ import Title from '@/Shared/Title.vue';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
-    cargoOrder: {
+    order: {
         type: Object,
         required: true,
     },
@@ -504,7 +504,7 @@ const props = defineProps({
 });
 
 const data = reactive({
-    cargoOrder: props.cargoOrder,
+    order: props.order,
     showFinances: false,
     showLabel: true,
 });

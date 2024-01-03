@@ -1,7 +1,7 @@
 <template>
 
     <el-table
-        :data="props.cargoOrders"
+        :data="props.orders"
         style="width: 100%"
         @sort-change="sort"
         ref="multipleTableRef"
@@ -33,7 +33,7 @@
                 <!-- This is the link, that leads to the edit page -->
                 <Link
                     class="hover:underline text-blue-500"
-                    :href="`/cargo-orders/${scope.row.id}/edit`"
+                    :href="`/orders/${scope.row.id}/edit`"
                 >{{ scope.row.p_order_number }}</Link>
 
             </template>
@@ -194,7 +194,7 @@ import { useDateTimeFormatter } from '@/Use/useDateTimeFormatter.js';
 const emit = defineEmits(['getData', 'update:sortOrder', 'update:sortColumn']);
 
 const props = defineProps({
-    cargoOrders: Array,
+    orders: Array,
     sortColumn: String,
     sortOrder: String,
 });
@@ -243,7 +243,7 @@ const sort = ( { prop, order }) => {
     }
     //Setting the sort column in data()
     emit('update:sortColumn', prop);
-    //Sending a signal to Index.vue to get the cargoOrders by the new sort order
+    //Sending a signal to Index.vue to get the orders by the new sort order
     emit('getData');
 };
 

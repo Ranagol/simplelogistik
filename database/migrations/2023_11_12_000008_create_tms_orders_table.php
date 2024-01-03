@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         // ORDERS TABLE
-        Schema::create('tms_cargo_orders', function (Blueprint $table) {
+        Schema::create('tms_orders', function (Blueprint $table) {
 
             //Basic order details
             $table->bigIncrements('id');
@@ -90,6 +90,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_cargo_orders');
+        Schema::dropIfExists('tms_orders');
     }
 };

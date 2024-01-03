@@ -2,7 +2,7 @@
 
 use Inertia\Inertia;
 use App\Models\TmsCustomer;
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\UserController;
@@ -10,7 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TmsAddressController;
 use App\Http\Controllers\TmsVehicleController;
 use App\Http\Controllers\TmsCustomerController;
-use App\Http\Controllers\TmsCargoOrderController;
+use App\Http\Controllers\TmsOrderController;
 use App\Http\Controllers\TmsRequirementController;
 
 /*
@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('customers', TmsCustomerController::class);
     //This is the route for adding comments to a customer
     Route::patch('/customers/{customer}/comments/create', [TmsCustomerController::class, 'addComment'])->name('customers.comments.create');
-    Route::resource('cargo-orders', TmsCargoOrderController::class);
+    Route::resource('orders', TmsOrderController::class);
     Route::resource('addresses', TmsAddressController::class);
     Route::resource('vehicles', TmsVehicleController::class);
     Route::resource('requirements', TmsRequirementController::class);

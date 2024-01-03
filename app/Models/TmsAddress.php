@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\TmsCountry;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -37,14 +37,14 @@ class TmsAddress extends Model
         return $this->belongsTo(TmsForwarder::class);
     }
 
-    public function cargoOrdersByStartAddresses(): HasMany
+    public function ordersByStartAddresses(): HasMany
     {
-        return $this->hasMany(TmsCargoOrder::class, 'pickup_address_id');
+        return $this->hasMany(TmsOrder::class, 'pickup_address_id');
     }
 
-    public function cargoOrdersByTargetAddresses(): HasMany
+    public function ordersByTargetAddresses(): HasMany
     {
-        return $this->hasMany(TmsCargoOrder::class, 'delivery_address_id');
+        return $this->hasMany(TmsOrder::class, 'delivery_address_id');
     }
 
     public function country(): BelongsTo

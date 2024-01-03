@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,9 +27,9 @@ class TmsOrderHistory extends Model
         return $this->belongsTo(TmsCustomer::class);
     }
 
-    public function cargoOrder(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(TmsCargoOrder::class);
+        return $this->belongsTo(TmsOrder::class);
     }
 
     public function forwardingContract(): BelongsTo

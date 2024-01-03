@@ -22,8 +22,8 @@ export interface TmsAddress {
   // relations
   customer?: TmsCustomer
   forwarder?: TmsForwarder
-  cargo_orders_by_start_addresses?: TmsCargoOrders
-  cargo_orders_by_target_addresses?: TmsCargoOrders
+  cargo_orders_by_start_addresses?: TmsOrders
+  cargo_orders_by_target_addresses?: TmsOrders
 }
 export type TmsAddresses = TmsAddress[]
 
@@ -41,12 +41,12 @@ export interface TmsOrderHistory {
   // relations
   forwarder?: TmsForwarder
   customer?: TmsCustomer
-  cargo_order?: TmsCargoOrder
+  cargo_order?: TmsOrder
   forwarding_contract?: TmsForwardingContract
 }
 export type TmsCargoHistories = TmsOrderHistory[]
 
-export interface TmsCargoOrder {
+export interface TmsOrder {
   // columns
   id: number
   order_number: string
@@ -70,7 +70,7 @@ export interface TmsCargoOrder {
   invoice?: TmsInvoice
   offer_prices?: TmsOfferPrices
 }
-export type TmsCargoOrders = TmsCargoOrder[]
+export type TmsOrders = TmsOrder[]
 
 export interface TmsContact {
   // columns
@@ -87,7 +87,7 @@ export interface TmsContact {
   created_at?: string|null
   updated_at?: string|null
   // relations
-  cargo_orders?: TmsCargoOrders
+  cargo_orders?: TmsOrders
   customer?: TmsCustomer
   forwarder?: TmsForwarder
 }
@@ -106,7 +106,7 @@ export interface TmsCustomer {
   updated_at?: string|null
   // relations
   addresses?: TmsAddresses
-  cargo_orders?: TmsCargoOrders
+  cargo_orders?: TmsOrders
   contacts?: TmsContacts
   forwarding_contracts?: TmsForwardingContracts
   vehicle?: TmsVehicle
@@ -202,7 +202,7 @@ export interface TmsInvoice {
   created_at?: string|null
   updated_at?: string|null
   // relations
-  cargo_order?: TmsCargoOrder
+  cargo_order?: TmsOrder
   customer?: TmsCustomer
 }
 export type TmsInvoices = TmsInvoice[]
@@ -222,7 +222,7 @@ export interface TmsOfferPrice {
   updated_at?: string|null
   // relations
   forwarder?: TmsForwarder
-  cargo_order?: TmsCargoOrder
+  cargo_order?: TmsOrder
 }
 export type TmsOfferPrices = TmsOfferPrice[]
 

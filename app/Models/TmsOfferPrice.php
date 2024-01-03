@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\TmsForwarder;
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,8 +20,8 @@ class TmsOfferPrice extends Model
         return $this->belongsTo(TmsForwarder::class);
     }
 
-    public function cargoOrder(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(TmsCargoOrder::class);
+        return $this->belongsTo(TmsOrder::class);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,9 +14,9 @@ class TmsInvoice extends Model
     protected $guarded = ['id'];
     protected $table = "tms_invoices";
 
-    public function cargoOrder(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(TmsCargoOrder::class);
+        return $this->belongsTo(TmsOrder::class);
     }
 
     public function customer(): BelongsTo

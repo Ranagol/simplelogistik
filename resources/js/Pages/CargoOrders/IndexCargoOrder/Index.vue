@@ -1,5 +1,5 @@
 <template>
-    <Head title="CargoOrder" />
+    <Head title="order" />
 
     <Card>
 
@@ -24,10 +24,10 @@
         </div>
 
         <!-- CARGO ORDERS TABLE -->
-        <CargoOrderTable
+        <orderTable
             v-model:sortColumn="data.sortColumn"
             v-model:sortOrder="data.sortOrder"
-            :cargoOrders="data.cargoOrders"
+            :orders="data.orders"
             @getData="getData"
         />
 
@@ -49,7 +49,7 @@ import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useAddressStore } from '@/Stores/addressStore';
 import SearchField from '@/Shared/SearchField.vue';
 import Pagination from '@/Shared/Pagination.vue';
-import CargoOrderTable from './CargoOrderTable.vue';
+import orderTable from './orderTable.vue';
 import Title from '@/Shared/Title.vue';
 
 let addressStore = useAddressStore();
@@ -73,20 +73,20 @@ let props = defineProps(
 
 let data = reactive({
     /**
-     * Unfortunatelly, cargoOrders are coming in from backend mixed with pagination data.
+     * Unfortunatelly, orders are coming in from backend mixed with pagination data.
      * That is what we have here in the dataFromController. We need
-     * seaparted cargoOrders and separated pagination data. This will happen in computed properties.
+     * seaparted orders and separated pagination data. This will happen in computed properties.
      */
-    cargoOrders: props.dataFromController.data,
+    orders: props.dataFromController.data,
     searchTerm: props.searchTermProp,
     sortColumn: props.sortColumnProp,
     sortOrder: props.sortOrderProp,
 
     /**
      * All pagination related data is stored here. 
-     * Unfortunatelly,cargoOrders are coming in from backend mixed with pagination data.
+     * Unfortunatelly,orders are coming in from backend mixed with pagination data.
      * That is what we have here in the dataFromController. We need
-     * seaparated cargoOrders and separated pagination data. This will happen in computed properties.
+     * seaparated orders and separated pagination data. This will happen in computed properties.
      * Here. So, this is the pagination related data. And a small reminder:
      * 
      * el-pagination        Laravel ->paginate()
@@ -107,15 +107,15 @@ let data = reactive({
  * Also on input field clear/reset.
  * If enter is hit by the user.
  * 
- * It sends a request to the backend to get the cargoOrders. The backend will return the cargoOrders 
+ * It sends a request to the backend to get the orders. The backend will return the orders 
  * sorted and the pagination data. getData() does not have arguments, because it uses the
  * data from data(). Because every search/sort/paginate change is in the data().
- * Now cargoOrders from this function arrive to props. There is a watcher for props, that sends cargoOrders
+ * Now orders from this function arrive to props. There is a watcher for props, that sends orders
  * from props to Pinia store.
  */
 let getData = () => {
     router.get(
-        '/cargo-orders',
+        '/orders',
         {
             /**
              * This is the data that we send to the backend.
@@ -133,7 +133,7 @@ let getData = () => {
  * This function is triggered when the user clicks on the create new address button.
  */
 const handleCreate = () => {
-    router.get('cargo-orders/create');
+    router.get('orders/create');
 };
 
 

@@ -53,11 +53,11 @@
 
         <!-- ORDERS -->
         <el-menu-item 
-            index="cargo-orders.index"
+            index="orders.index"
         >
             <!-- Icon with link -->
             <NavLink
-                href="/cargo-orders"
+                href="/orders"
             >
                 <el-icon size="40"  :color="data.iconColor"><Folder /></el-icon>
             </NavLink>
@@ -65,7 +65,7 @@
             <!-- Text with link -->
             <template #title>
                 <NavLink
-                    href="/cargo-orders"
+                    href="/orders"
                     class="ml-1"
                 >Orders</NavLink>
             </template>

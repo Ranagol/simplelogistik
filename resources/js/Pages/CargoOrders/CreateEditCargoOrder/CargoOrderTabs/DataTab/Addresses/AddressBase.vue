@@ -21,11 +21,11 @@
             
             <!-- HEADQUARTER -->
             <Address
-                v-model:address="data.cargoOrder.customer.headquarter"
+                v-model:address="data.order.customer.headquarter"
                 :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"
-                v-model:avis_phone="data.cargoOrder.avis_customer_phone"
+                v-model:avis_phone="data.order.avis_customer_phone"
                 title="Customer"
                 class="grow"
             />
@@ -35,12 +35,12 @@
     
             <!-- PICKUP ADDRESS -->
             <Address
-                v-model:address="data.cargoOrder.start_address"
+                v-model:address="data.order.start_address"
                 :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"
-                v-model:avis_phone="data.cargoOrder.avis_sender_phone"
-                v-model:comment="data.cargoOrder.p_pickup_comments"
+                v-model:avis_phone="data.order.avis_sender_phone"
+                v-model:comment="data.order.p_pickup_comments"
                 title="Pickup"
                 class="grow"
             />
@@ -50,12 +50,12 @@
     
             <!-- DELIVERY ADDRESS -->
             <Address
-                v-model:address="data.cargoOrder.target_address"
+                v-model:address="data.order.target_address"
                 :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"
-                v-model:avis_phone="data.cargoOrder.avis_receiver_phone"
-                v-model:comment="data.cargoOrder.p_delivery_comments"
+                v-model:avis_phone="data.order.avis_receiver_phone"
+                v-model:comment="data.order.p_delivery_comments"
                 title="Delivery"
                 class="grow"
             />
@@ -71,7 +71,7 @@ import Address from './Address.vue';
 import Title from '@/Shared/Title.vue';
 
 const props = defineProps({
-    cargoOrder: {
+    order: {
         type: Object,
         required: true,
     },
@@ -90,7 +90,7 @@ const props = defineProps({
 });
 
 const data = reactive({
-    cargoOrder: props.cargoOrder,
+    order: props.order,
     showAddresses: true,
 }); 
 

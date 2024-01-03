@@ -47,7 +47,7 @@ class ParcelValidationRule implements ValidationRule
         }
 
         // return [
-        //     'tms_cargo_order_id' => 'required|integer|exists:tms_cargo_orders,id',
+        //     'tms_cargo_order_id' => 'required|integer|exists:tms_orders,id',
         //     'is_hazardous' => 'boolean',
         //     'information' => 'required|string|max:255',
         //     'p_name' => 'required|string|max:255',

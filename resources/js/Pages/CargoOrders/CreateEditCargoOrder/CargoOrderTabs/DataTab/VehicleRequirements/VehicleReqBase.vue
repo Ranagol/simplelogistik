@@ -32,7 +32,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_transport_price_net"
+                        v-model="data.order.p_transport_price_net"
                         placeholder="Transport price net"
                         clearable
                         @input="updateParent"
@@ -56,7 +56,7 @@ import Title from '@/Shared/Title.vue';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
-    cargoOrder: {
+    order: {
         type: Object,
         required: true,
     },
@@ -71,7 +71,7 @@ const props = defineProps({
 });
 
 const data = reactive({
-    cargoOrder: props.cargoOrder,
+    order: props.order,
     showVehicleReq: false,
     showLabel: true,
 });

@@ -33,7 +33,7 @@
                     >Type of transport</span>
                     
                     <el-select
-                        v-model="data.cargoOrder.type_of_transport"
+                        v-model="data.order.type_of_transport"
                         placeholder="Type of transport"
                         clearable
                         filterable
@@ -70,7 +70,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.customer_reference"
+                        v-model="data.order.customer_reference"
                         placeholder="Customer reference"
                         clearable
                         @input="updateParent"
@@ -98,7 +98,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.status"
+                        v-model="data.order.status"
                         placeholder="Status - IN PROGRESS"
                         clearable
                         @input="updateParent"
@@ -125,7 +125,7 @@
                     >Order date</span>
 
                     <el-date-picker
-                        v-model="data.cargoOrder.order_date"
+                        v-model="data.order.order_date"
                         type="date"
                         format="YYYY-MM-DD"
                         value-format="YYYY-MM-DD"
@@ -157,7 +157,7 @@
                     
                     <!-- INPUT -->
                     <el-select
-                        v-model="data.cargoOrder.origin"
+                        v-model="data.order.origin"
                         placeholder="Type of transport"
                         clearable
                         filterable
@@ -193,7 +193,7 @@
                     
                     <!-- INPUT -->
                     <el-select
-                        v-model="data.cargoOrder.p_payment_method"
+                        v-model="data.order.p_payment_method"
                         placeholder="Type of transport"
                         clearable
                         filterable
@@ -228,7 +228,7 @@
                     >Date of sale</span>
 
                     <el-date-picker
-                        v-model="data.cargoOrder.p_date_of_sale"
+                        v-model="data.order.p_date_of_sale"
                         type="date"
                         format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
@@ -259,7 +259,7 @@
                     >Date of cancellation</span>
 
                     <el-date-picker
-                        v-model="data.cargoOrder.p_date_of_cancellation"
+                        v-model="data.order.p_date_of_cancellation"
                         type="date"
                         format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
@@ -291,7 +291,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.cargoOrder.p_distance_km"
+                        v-model="props.order.p_distance_km"
                         placeholder="Distance (km)"
                         clearable
                         @input="updateParent"
@@ -319,7 +319,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.cargoOrder.p_duration_minutes"
+                        v-model="props.order.p_duration_minutes"
                         placeholder="Duration (min)"
                         clearable
                         @input="updateParent"
@@ -346,7 +346,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.month_and_year"
+                        v-model="data.order.month_and_year"
                         placeholder="Month and year"
                         clearable
                         @input="updateParent"
@@ -373,7 +373,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_calculation_model_name"
+                        v-model="data.order.p_calculation_model_name"
                         placeholder="Calculation model name"
                         clearable
                         @input="updateParent"
@@ -402,7 +402,7 @@
                     <!-- INPUT -->
 
                     <el-date-picker
-                        v-model="data.cargoOrder.p_pickup_date_from"
+                        v-model="data.order.p_pickup_date_from"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -432,7 +432,7 @@
                     >Pickup date to</span>
 
                     <el-date-picker
-                        v-model="data.cargoOrder.p_pickup_date_to"
+                        v-model="data.order.p_pickup_date_to"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -462,7 +462,7 @@
                     >Delivery date from</span>
 
                     <el-date-picker
-                        v-model="data.cargoOrder.p_delivery_date_from"
+                        v-model="data.order.p_delivery_date_from"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -492,7 +492,7 @@
                     >Delivery date to</span>
 
                     <el-date-picker
-                        v-model="data.cargoOrder.p_delivery_date_to"
+                        v-model="data.order.p_delivery_date_to"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -523,7 +523,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_description_of_transport"
+                        v-model="data.order.p_description_of_transport"
                         placeholder="Description of transport"
                         clearable
                         @input="updateParent"
@@ -550,7 +550,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.cargoOrder.p_particularities"
+                        v-model="data.order.p_particularities"
                         placeholder="Particularities"
                         clearable
                         @input="updateParent"
@@ -574,7 +574,7 @@ import { useDateFormatter } from '@/Use/useDateFormatter';
 import Title from '@/Shared/Title.vue';
 
 const props = defineProps({
-    cargoOrder: {
+    order: {
         type: Object,
         required: true
     },
@@ -590,19 +590,19 @@ const props = defineProps({
 });
 
 let data = reactive({
-    cargoOrder: props.cargoOrder,
+    order: props.order,
     showLabel: true,
     showGeneralData: false,
 });
 
-const emit = defineEmits(['update:cargoOrder']);
+const emit = defineEmits(['update:order']);
 
 /**
  * This function is called when the user types in the el-input. It updates the parent component
- * cargoOrder.customer_reference. It does not triggers anything!
+ * order.customer_reference. It does not triggers anything!
  */
 const updateParent = () => {
-    emit('update:cargoOrder', props.cargoOrder);
+    emit('update:order', props.order);
 }
 
 

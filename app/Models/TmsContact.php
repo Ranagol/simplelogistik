@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,9 +17,9 @@ class TmsContact extends Model
     protected $guarded = ['id'];
     protected $table = "tms_contacts";
     
-    public function cargoOrders(): HasMany
+    public function orders(): HasMany
     {
-        return $this->hasMany(TmsCargoOrder::class, 'contact_id');
+        return $this->hasMany(TmsOrder::class, 'contact_id');
     }
 
     public function customer(): BelongsTo

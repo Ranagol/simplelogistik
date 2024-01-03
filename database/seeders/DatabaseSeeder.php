@@ -14,7 +14,7 @@ use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
 use Illuminate\Support\Str;
 use App\Models\TmsForwarder;
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use App\Models\TmsDispatcher;
 use App\Models\TmsOfferPrice;
 use App\Models\TmsRequirement;
@@ -29,7 +29,7 @@ use Database\Seeders\TmsInvoiceSeeder;
 use Database\Seeders\TmsVehicleSeeder;
 use Database\Seeders\TmsCustomerSeeder;
 use Database\Seeders\TmsForwarderSeeder;
-use Database\Seeders\TmsCargoOrderSeeder;
+use Database\Seeders\TmsOrderSeeder;
 use Database\Seeders\TmsDispatcherSeeder;
 use Database\Seeders\TmsOfferPriceSeeder;
 use Database\Seeders\TmsVehicleReqSeeder;
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
             TmsAddressSeeder::class,
             TmsContactSeeder::class,
             TmsVehicleSeeder::class,
-            TmsCargoOrderSeeder::class,
+            TmsOrderSeeder::class,
             TmsInvoiceSeeder::class,
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
@@ -112,9 +112,9 @@ class DatabaseSeeder extends Seeder
         // $vehicles = TmsVehicle::factory()->count(3)->for($forwarders)->create();//
         // echo "vehicles created\n";
 
-        // $ordersCustomers = TmsCargoOrder::factory()->count(2)->for($customers)->create();
+        // $ordersCustomers = TmsOrder::factory()->count(2)->for($customers)->create();
         // echo "ordersCustomers created\n";
-        // $ordersForwarders = TmsCargoOrder::factory()->count(2)->for($forwarders)->create();
+        // $ordersForwarders = TmsOrder::factory()->count(2)->for($forwarders)->create();
         // echo "ordersForwarders created\n";
 
         // $invoiceCustomers = TmsInvoice::factory()->count(1)->for($ordersCustomers)->create();

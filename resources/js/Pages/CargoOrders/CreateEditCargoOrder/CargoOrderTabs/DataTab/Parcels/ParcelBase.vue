@@ -17,21 +17,21 @@
 
             <!-- THIS WORKS, BUT IT IS NOT NEEDED... -->
             <!-- <SomeOrderData
-                v-model:cargoOrder="data.cargoOrder"
+                v-model:order="data.order"
                 :errors="props.errors"
                 :mode="props.mode"
             /> -->
             
             <!-- DISPLAYS ALL PARCELS-->
             <ListOfParcels
-                :parcels="props.cargoOrder.parcels"
+                :parcels="props.order.parcels"
                 :errors="props.errors"
                 :mode="props.mode"
                 :selectOptions="props.selectOptions"
             />
 
             <SumBase
-                :parcels="props.cargoOrder.parcels"
+                :parcels="props.order.parcels"
             />
             
 
@@ -49,7 +49,7 @@ import SumBase from './SumBase.vue';
 import ListOfParcels from './ListOfParcels.vue';
 
 const props = defineProps({
-    cargoOrder: {
+    order: {
         type: Object,
         required: true,
     },
@@ -68,7 +68,7 @@ const props = defineProps({
 });
 
 const data = reactive({
-    cargoOrder: props.cargoOrder,
+    order: props.order,
     showParcelData: false,
 });
 

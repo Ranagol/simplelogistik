@@ -43,8 +43,8 @@ class TmsForwardingContract extends Model
         return $this->hasMany(TmsOrderHistory::class, 'forwarding_contract_id');
     }
 
-    public function cargoOrder(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(TmsCargoOrder::class, 'order_id');
+        return $this->belongsTo(TmsOrder::class, 'order_id');
     }
 }

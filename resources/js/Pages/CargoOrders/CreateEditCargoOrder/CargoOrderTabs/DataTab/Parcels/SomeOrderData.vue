@@ -19,7 +19,7 @@
                 
                 <!-- INPUT -->
                 <el-input
-                    v-model="data.cargoOrder.p_loading_meter"
+                    v-model="data.order.p_loading_meter"
                     placeholder="Loading meter"
                     clearable
                     @input="updateParent"
@@ -47,7 +47,7 @@
                 
                 <!-- INPUT -->
                 <el-input
-                    v-model="data.cargoOrder.p_square_meter"
+                    v-model="data.order.p_square_meter"
                     placeholder="Square meter"
                     clearable
                     @input="updateParent"
@@ -75,7 +75,7 @@
                 
                 <!-- INPUT -->
                 <el-input
-                    v-model="data.cargoOrder.p_total_weight"
+                    v-model="data.order.p_total_weight"
                     placeholder="Total weight (kg)"
                     clearable
                     @input="updateParent"
@@ -103,7 +103,7 @@
                 
                 <!-- INPUT -->
                 <el-input
-                    v-model="data.cargoOrder.p_qubic_meter"
+                    v-model="data.order.p_qubic_meter"
                     placeholder="Qubic meter"
                     clearable
                     @input="updateParent"
@@ -125,7 +125,7 @@ import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from '
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
-    cargoOrder: {
+    order: {
         type: Object,
         required: true,
     },
@@ -141,17 +141,17 @@ const props = defineProps({
 
 const data = reactive({
     showLabel: true,
-    cargoOrder: props.cargoOrder,
+    order: props.order,
 });
 
-const emit = defineEmits(['update:cargoOrder']);
+const emit = defineEmits(['update:order']);
 
 /**
  * This function is called when the user types in the el-input. It updates the parent component
- * cargoOrder.customer_reference. It does not triggers anything!
+ * order.customer_reference. It does not triggers anything!
  */
 const updateParent = () => {
-    emit('update:cargoOrder', data.cargoOrder);
+    emit('update:order', data.order);
 }
 
 </script>

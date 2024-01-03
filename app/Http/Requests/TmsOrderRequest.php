@@ -6,7 +6,7 @@ use App\Http\Requests\ValidationRules\ParcelValidationRule;
 use App\Http\Requests\TmsParcelRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TmsCargoOrderRequest extends FormRequest
+class TmsOrderRequest extends FormRequest
 {
     
     
@@ -89,7 +89,7 @@ class TmsCargoOrderRequest extends FormRequest
 
             //PARCEL VALIDATION (parcels is an array of objects, hence the * to symbolize the parcel object in parcels array)
             'parcels.*.id' => 'nullable|integer',
-            'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_cargo_orders,id',
+            'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_orders,id',
             'parcels.*.is_hazardous' => 'boolean',
             'parcels.*.information' => 'required|string|max:255',
             'parcels.*.p_name' => 'required|string|max:255',
@@ -144,7 +144,7 @@ class TmsCargoOrderRequest extends FormRequest
         return [
             'parcels.*.tms_cargo_order_id.required' => 'The cargo order ID field is required.',
             'parcels.*.tms_cargo_order_id.integer' => 'The cargo order ID must be an integer.',
-            'parcels.*.tms_cargo_order_id.exists' => 'The cargo order ID must exist in the tms_cargo_orders table.',
+            'parcels.*.tms_cargo_order_id.exists' => 'The cargo order ID must exist in the tms_orders table.',
             'parcels.*.is_hazardous.boolean' => 'The is_hazardous field must be true or false.',
             'parcels.*.information.required' => 'The information field is required.',
             'parcels.*.information.string' => 'The information must be a string.',

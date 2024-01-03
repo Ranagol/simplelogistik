@@ -7,7 +7,7 @@
             label="Order data"
         >
             <DataTab
-                v-model:cargoOrder="data.cargoOrder"
+                v-model:order="data.order"
                 :errors="props.errors"
                 :mode="props.mode"
                 :selectOptions="props.selectOptions"
@@ -20,7 +20,7 @@
             label="Tracking"
         >
             <TrackingTab
-                v-model:cargoOrder="data.cargoOrder"
+                v-model:order="data.order"
                 :errors="props.errors"
                 :mode="props.mode"
                 @submit="submit"
@@ -32,7 +32,7 @@
             label="Documents"
         >
             <DocumentsTab
-                v-model:cargoOrder="data.cargoOrder"
+                v-model:order="data.order"
                 :errors="props.errors"
                 :mode="props.mode"
                 @submit="submit"
@@ -44,7 +44,7 @@
             label="Info tool"
         >
             <InfoToolTab
-                v-model:cargoOrder="data.cargoOrder"
+                v-model:order="data.order"
                 :errors="props.errors"
                 :mode="props.mode"
                 @submit="submit"
@@ -56,7 +56,7 @@
             label="Order history"
         >
             <OrderHistoryTab
-                v-model:cargoOrder="data.cargoOrder"
+                v-model:order="data.order"
                 :errors="props.errors"
                 :mode="props.mode"
                 @submit="submit"
@@ -70,18 +70,18 @@
 <script setup>
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import _ from 'lodash';
-import DataTab from './CargoOrderTabs/DataTab/DataTab.vue';
-import TrackingTab from './CargoOrderTabs/TrackingTab.vue';
-import DocumentsTab from './CargoOrderTabs/DocumentsTab.vue';
-import InfoToolTab from './CargoOrderTabs/InfoToolTab.vue';
-import OrderHistoryTab from './CargoOrderTabs/OrderHistoryTab.vue';
+import DataTab from './orderTabs/DataTab/DataTab.vue';
+import TrackingTab from './orderTabs/TrackingTab.vue';
+import DocumentsTab from './orderTabs/DocumentsTab.vue';
+import InfoToolTab from './orderTabs/InfoToolTab.vue';
+import OrderHistoryTab from './orderTabs/OrderHistoryTab.vue';
 
 const props = defineProps({
 
     /**
-     * The cargoOrder object.
+     * The order object.
      */
-    cargoOrder: {
+    order: {
         type: Object,
         required: true
     },
@@ -110,23 +110,23 @@ const props = defineProps({
 const data = reactive({
 
     /**
-     * The cargoOrder object.
+     * The order object.
      */
-    cargoOrder: props.cargoOrder
+    order: props.order
 });
 
-const emit = defineEmits(['submit', 'update:cargoOrder', 'destroy']);
+const emit = defineEmits(['submit', 'update:order', 'destroy']);
 
 /**
- * Watch for changes in the cargoOrder object. In case of any change, it will immediatelly
- * update the parent component's cargoOrder object. We must use here watcher, because of the tabs.
+ * Watch for changes in the order object. In case of any change, it will immediatelly
+ * update the parent component's order object. We must use here watcher, because of the tabs.
  * In addresses, where there are no tabs, no watchers is used.
  */
  watch(
-    () => data.cargoOrder, 
+    () => data.order, 
     (newValue, oldValue) => {
-        // console.log('data.cargoOrder changed', newValue, oldValue);
-        emit('update:cargoOrder', newValue);
+        // console.log('data.order changed', newValue, oldValue);
+        emit('update:order', newValue);
     },
     { deep: true }
 );

@@ -38,7 +38,7 @@
         
         <!-- ALL TABS -->
         <Tabs
-            v-model:cargoOrder="data.cargoOrderData"
+            v-model:order="data.orderData"
             :errors="props.errors"
             :mode="props.mode"
             :selectOptions="props.selectOptions"
@@ -66,12 +66,12 @@ let orderStore = useOrderStore();
 const props = defineProps({
 
     /**
-     * The cargoOrder object.
+     * The order object.
      */
     record: {
         type: Object,
         /**
-         * The default value is a function that returns an empty cargoOrder object.
+         * The default value is a function that returns an empty order object.
          */
         default: () => (orderDummy),
 
@@ -102,13 +102,13 @@ const props = defineProps({
 const data = reactive({
 
     /**
-     * The cargoOrder object.
+     * The order object.
      */
-    cargoOrderData: props.record,
+    orderData: props.record,
 });
 
 let title = computed(
-    () => `Order ${data.cargoOrderData.p_order_number}`
+    () => `Order ${data.orderData.p_order_number}`
 );
 
 /**
@@ -125,41 +125,41 @@ const triggerOrderSubmit = () => {
 
 /**
  * Reminder: this submit works for both create and edit. Depending on the mode, the submit will
- * either create or edit the cargoOrder.
+ * either create or edit the order.
  */
 const submit = () => {
     if (props.mode === 'edit') {
-        //edits the cargoOrder
+        //edits the order
         useEdit(
-            'cargo-orders',
-            data.cargoOrderData.id,
-            data.cargoOrderData,
-            'cargoOrder',
+            'orders',
+            data.orderData.id,
+            data.orderData,
+            'order',
             'record'
         );
 
     } else {
-        //creates the cargoOrder
+        //creates the order
         useCreate(
-            'cargo-orders',
-            data.cargoOrderData,
-            'cargoOrder',
+            'orders',
+            data.orderData,
+            'order',
             null,
-            'http://localhost/cargo-orders'
+            'http://localhost/orders'
         );
     }
 }
 
 const destroy = () => {
     console.log('destroy');
-    //deletes the cargoOrder
+    //deletes the order
     useDestroy(
         `Address will be deleted. Continue?`,
-        'cargo-orders',
-        data.cargoOrderData.id,
-        'cargoOrder',
+        'orders',
+        data.orderData.id,
+        'order',
         null,
-        'http://localhost/cargo-orders'
+        'http://localhost/orders'
     );
 }
 

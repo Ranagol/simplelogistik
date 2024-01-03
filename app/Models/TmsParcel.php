@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,8 +21,8 @@ class TmsParcel extends Model
         'p_stackable' => 'boolean',
     ];
 
-    public function cargoOrder(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(TmsCargoOrder::class, 'tms_cargo_order_id');
+        return $this->belongsTo(TmsOrder::class, 'tms_cargo_order_id');
     }
 }

@@ -8,22 +8,22 @@ use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 use App\Models\TmsCountry;
 use Illuminate\Http\Request;
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\TmsCargoOrderRequest;
+use App\Http\Requests\TmsOrderRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class TmsCargoOrderController extends BaseController
+class TmsOrderController extends BaseController
 {
 
 
     public function __construct()
     {
-        $this->model = new TmsCargoOrder();
-        $this->vueIndexPath = 'CargoOrders/IndexCargoOrder/Index';
-        $this->vueCreateEditPath = 'CargoOrders/CreateEditCargoOrder/CreateEditBase';
+        $this->model = new TmsOrder();
+        $this->vueIndexPath = 'orders/Indexorder/Index';
+        $this->vueCreateEditPath = 'orders/CreateEditorder/CreateEditBase';
     }
 
     /**
@@ -33,7 +33,7 @@ class TmsCargoOrderController extends BaseController
      */
     protected function getRequestClass(): string
     {
-        return TmsCargoOrderRequest::class;
+        return TmsOrderRequest::class;
     }
 
     /**
@@ -133,7 +133,7 @@ class TmsCargoOrderController extends BaseController
     public function edit(string $id): Response
     {
         //Gets the relevant data for us from db.
-        $record = TmsCargoOrder::with(
+        $record = TmsOrder::with(
             [
                 'parcels', 
                 'startAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the customer?
@@ -168,9 +168,9 @@ class TmsCargoOrderController extends BaseController
                 //This is data for the select/options fields in the form, so the user can choose.
                 'selectOptions' => [
                     'countries' => TmsCountry::select('id', 'country_name')->get(),
-                    'typesOfTransport' => TmsCargoOrder::TYPES_OF_TRANSPORT,
-                    'origins' => TmsCargoOrder::ORIGINS,//Example: Pamyra, sales...
-                    'paymentMethods' => TmsCargoOrder::PAYMENT_METHODS,
+                    'typesOfTransport' => TmsOrder::TYPES_OF_TRANSPORT,
+                    'origins' => TmsOrder::ORIGINS,//Example: Pamyra, sales...
+                    'paymentMethods' => TmsOrder::PAYMENT_METHODS,
                     'parcelTypes' => TmsParcel::PARCEL_TYPE,
                 ]
             ]
@@ -187,10 +187,10 @@ class TmsCargoOrderController extends BaseController
     {
         /**
          * We get the $request on this awkward way, so this function is compatible with the parent
-         * update() function. Otherwise, we could just simply inject the TmsCargoOrderRequest
+         * update() function. Otherwise, we could just simply inject the TmsOrderRequest
          * into this function. Which would be much cleaner.
          */
-        $orderRequest = app(TmsCargoOrderRequest::class);
+        $orderRequest = app(TmsOrderRequest::class);
 
         /**
          * The validated method is used to get the validated order data from the orderRequest.
@@ -198,7 +198,7 @@ class TmsCargoOrderController extends BaseController
         $orderFromRequest = $orderRequest->validated();//do validation
 
         //Get the order from db
-        $orderFromDb = TmsCargoOrder::find($id);
+        $orderFromDb = TmsOrder::find($id);
         
         //Handle parcels
         $this->handleParcel($orderFromRequest);

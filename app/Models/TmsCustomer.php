@@ -6,7 +6,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use App\Models\TmsOrderHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
@@ -95,9 +95,9 @@ class TmsCustomer extends Model
                     ->orderBy('address_type', 'asc');
     }
 
-    public function cargoOrders(): HasMany
+    public function orders(): HasMany
     {
-        return $this->hasMany(TmsCargoOrder::class, 'customer_id');
+        return $this->hasMany(TmsOrder::class, 'customer_id');
     }
 
     public function contacts(): HasMany

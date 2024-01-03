@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\TmsCargoOrder;
+use App\Models\TmsOrder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_cargoorder>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_order>
  */
-class TmsCargoOrderFactory extends Factory
+class TmsOrderFactory extends Factory
 {
-    protected $model = TmsCargoOrder::class;
+    protected $model = TmsOrder::class;
 
     /**
      * Define the model's default state.
@@ -24,8 +24,8 @@ class TmsCargoOrderFactory extends Factory
             'contact_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'pickup_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'delivery_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
-            'type_of_transport' => $this->faker->randomElement(TmsCargoOrder::TYPES_OF_TRANSPORT),
-            'origin' => $this->faker->randomElement(TmsCargoOrder::ORIGINS),
+            'type_of_transport' => $this->faker->randomElement(TmsOrder::TYPES_OF_TRANSPORT),
+            'origin' => $this->faker->randomElement(TmsOrder::ORIGINS),
             'customer_reference' => $this->faker->numerify('#######'),
             'provision' => $this->faker->randomFloat(2, 0, 10),
             'order_date' => $this->faker->date(),
@@ -39,7 +39,7 @@ class TmsCargoOrderFactory extends Factory
             'p_calculation_model_name' => $this->faker->word,
             'p_order_number' => $this->faker->unique()->numerify('#######'),
             'p_order_pdf' => $this->faker->url,
-            'p_payment_method' => $this->faker->randomElement(TmsCargoOrder::PAYMENT_METHODS),
+            'p_payment_method' => $this->faker->randomElement(TmsOrder::PAYMENT_METHODS),
             'p_date_of_sale' => $this->faker->date(),
             'p_date_of_cancellation' => $this->faker->date(),
             'p_pickup_date_from' => $this->faker->dateTimeBetween('-1 week', '+1 week'),

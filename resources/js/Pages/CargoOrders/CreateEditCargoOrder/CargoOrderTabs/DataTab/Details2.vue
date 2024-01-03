@@ -29,7 +29,7 @@
                 <span class="ml-1">{{ key }}</span>
 
                 <el-input
-                    v-model="props.cargoOrder[key]"
+                    v-model="props.order[key]"
                     :placeholder="key"
                     @input="updateParent"
                 />
@@ -53,7 +53,7 @@ import { useDateFormatter } from '@/Use/useDateFormatter';
 import Title from '@/Shared/Title.vue';
 
 const props = defineProps({
-    cargoOrder: {
+    order: {
         type: Object,
         required: true
     },
@@ -95,7 +95,7 @@ let selectedOrderProperties = computed(
             'p_value_of_goods'
         ];
         const newOrder = {};//this will contain all order properties, that are needed for display.
-        for (const [key, value] of Object.entries(props.cargoOrder)) {
+        for (const [key, value] of Object.entries(props.order)) {
             if (!dontDisplayThese.includes(key)) {
                 newOrder[key] = value;
             }
@@ -105,13 +105,13 @@ let selectedOrderProperties = computed(
 );
 
 
-const emit = defineEmits(['update:cargoOrder']);
+const emit = defineEmits(['update:order']);
 
 /**
  * This function is called when the user types in the el-input. It updates the parent component
- * cargoOrder.customer_reference. It does not triggers anything!
+ * order.customer_reference. It does not triggers anything!
  */
 const updateParent = () => {
-    emit('update:cargoOrder', props.cargoOrder);
+    emit('update:order', props.order);
 }
 </script>

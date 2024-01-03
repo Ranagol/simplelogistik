@@ -1,7 +1,7 @@
 <template>
     <el-form
         ref="ruleFormRef"
-        :model="data.cargoOrder"
+        :model="data.order"
         label-position="left"
         label-width="150px"
     >   
@@ -38,7 +38,7 @@
 
         </div>
 
-        <!-- <pre>{{ JSON.stringify(props.cargoOrder, null, 2) }}</pre>   -->
+        <!-- <pre>{{ JSON.stringify(props.order, null, 2) }}</pre>   -->
 
     </el-form>
 
@@ -54,7 +54,7 @@ let props = defineProps({
     /**
      * The carogOrder object.
      */
-    cargoOrder: {
+    order: {
         type: Object,
         required: true
     },
@@ -75,14 +75,14 @@ let props = defineProps({
 });
 
 let data = reactive({
-    cargoOrder: props.cargoOrder
+    order: props.order
 });
 
 /**
  * This does the customer data synchronization with the parent CreateEditBase component. With
  * v-model magic. This is not sending a signal for saving the customer! Just the data.customer.
  */
- const emit = defineEmits(['update:cargoOrder', 'submit', 'destroy']);
+ const emit = defineEmits(['update:order', 'submit', 'destroy']);
 
 /**
  * Here we only update the parent's customer, using v-model magic. This is not sending a signal.

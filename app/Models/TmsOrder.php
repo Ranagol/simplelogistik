@@ -16,12 +16,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
-class TmsCargoOrder extends Model
+class TmsOrder extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $table = "tms_cargo_orders";
+    protected $table = "tms_orders";
 
     const TYPES_OF_TRANSPORT = [
         'General cargo',

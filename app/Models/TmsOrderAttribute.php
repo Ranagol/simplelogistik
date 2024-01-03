@@ -13,8 +13,8 @@ class TmsOrderAttribute extends Model
     protected $guarded = ['id'];
     protected $table = "tms_order_attributes";
 
-    public function cargoOrder(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(TmsCargoOrder::class, 'tms_cargo_order_id');
+        return $this->belongsTo(TmsOrder::class, 'tms_cargo_order_id');
     }
 }
