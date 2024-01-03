@@ -44,7 +44,7 @@
             width="250"
             prop="p_order_status"
             label="Order status"
-        >Pull from cargoHistories
+        >Pull from orderHistories
         </el-table-column>
 
         <el-table-column

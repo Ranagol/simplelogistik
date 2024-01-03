@@ -11,7 +11,7 @@
         <div class="flex justify-between">
             <SearchField
                 v-model:searchTerm="data.searchTerm"
-                placeholder="Search cargo orders..."
+                placeholder="Search orders..."
                 @getData="getData"
             />
 
@@ -23,8 +23,8 @@
 
         </div>
 
-        <!-- CARGO ORDERS TABLE -->
-        <orderTable
+        <!-- orders TABLE -->
+        <OrderTable
             v-model:sortColumn="data.sortColumn"
             v-model:sortOrder="data.sortOrder"
             :orders="data.orders"
@@ -49,7 +49,7 @@ import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useAddressStore } from '@/Stores/addressStore';
 import SearchField from '@/Shared/SearchField.vue';
 import Pagination from '@/Shared/Pagination.vue';
-import orderTable from './orderTable.vue';
+import OrderTable from './OrderTable.vue';
 import Title from '@/Shared/Title.vue';
 
 let addressStore = useAddressStore();
@@ -133,7 +133,7 @@ let getData = () => {
  * This function is triggered when the user clicks on the create new address button.
  */
 const handleCreate = () => {
-    router.get('orders/create');
+    router.get('Orders/create');
 };
 
 

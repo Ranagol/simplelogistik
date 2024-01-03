@@ -70,11 +70,11 @@
 <script setup>
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import _ from 'lodash';
-import DataTab from './orderTabs/DataTab/DataTab.vue';
-import TrackingTab from './orderTabs/TrackingTab.vue';
-import DocumentsTab from './orderTabs/DocumentsTab.vue';
-import InfoToolTab from './orderTabs/InfoToolTab.vue';
-import OrderHistoryTab from './orderTabs/OrderHistoryTab.vue';
+import DataTab from './OrderTabs/DataTab/DataTab.vue';
+import TrackingTab from './OrderTabs/TrackingTab.vue';
+import DocumentsTab from './OrderTabs/DocumentsTab.vue';
+import InfoToolTab from './OrderTabs/InfoToolTab.vue';
+import OrderHistoryTab from './OrderTabs/OrderHistoryTab.vue';
 
 const props = defineProps({
 

@@ -22,8 +22,8 @@ class TmsOrderController extends BaseController
     public function __construct()
     {
         $this->model = new TmsOrder();
-        $this->vueIndexPath = 'orders/Indexorder/Index';
-        $this->vueCreateEditPath = 'orders/CreateEditorder/CreateEditBase';
+        $this->vueIndexPath = 'Orders/IndexOrder/Index';
+        $this->vueCreateEditPath = 'Orders/CreateEditOrder/CreateEditBase';
     }
 
     /**
