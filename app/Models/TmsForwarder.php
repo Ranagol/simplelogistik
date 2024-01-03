@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TmsForwarder extends Model
 {
@@ -55,6 +55,12 @@ class TmsForwarder extends Model
     public function vehicles(): HasMany
     {
         return $this->hasMany(TmsVehicle::class, 'forwarder_id');
+    }
+
+    public function forwarderReqs(): BelongsToMany
+    {
+        //forwarder_forwarder_req_pivot is the pivot table name between forwarders and forwarder_reqs
+        return $this->belongsToMany(TmsForwarderReq::class, 'forwarder_forwarder_req_pivot');
     }
 
     //*************MUTATORS AND ACCESSORS*************************************** */

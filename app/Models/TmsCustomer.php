@@ -127,6 +127,7 @@ class TmsCustomer extends Model
 
     public function customerReqs(): BelongsToMany
     {
+        //customer_customer_req_pivot is the pivot table name between customers and customer_reqs
         return $this->belongsToMany(TmsCustomerReq::class, 'customer_customer_req_pivot');
     }
 
