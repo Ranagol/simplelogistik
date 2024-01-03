@@ -127,11 +127,6 @@ class DatabaseSeeder extends Seeder
         // $parcelsForwarderOrder = TmsParcel::factory()->count(2)->for($ordersForwarders)->create();
         // echo "parcelsForwarderOrder created\n";
 
-
-
-
-
-
     }
 }
 
