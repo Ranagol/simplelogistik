@@ -79,7 +79,7 @@ let selectedOrderProperties = computed(
     () => {
         const dontDisplayThese = [
             'id', 'origin', 'order_edited_events', 'p_order_pdf', 'parcels', 
-            'start_address', 'target_address', 'updated_at', 'created_at',
+            'pickup_address', 'delivery_address', 'updated_at', 'created_at',
             'customer', 'pickup_address_id', 'delivery_address_id', 'customer_reference',
             'customer_id', 'contact_id', 'p_order_number', 'order_date', 'type_of_transport',
             'p_payment_method', 'p_date_of_sale', 'p_date_of_cancellation',

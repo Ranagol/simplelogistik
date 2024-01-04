@@ -57,12 +57,12 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
-    public function startAddress(): BelongsTo
+    public function pickupAddress(): BelongsTo
     {
         return $this->belongsTo(TmsAddress::class, 'pickup_address_id');
     }
 
-    public function targetAddress(): BelongsTo
+    public function deliveryAddress(): BelongsTo
     {
         return $this->belongsTo(TmsAddress::class, 'delivery_address_id');
     }

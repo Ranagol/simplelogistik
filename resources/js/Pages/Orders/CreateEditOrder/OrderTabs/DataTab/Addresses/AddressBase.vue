@@ -35,7 +35,7 @@
     
             <!-- PICKUP ADDRESS -->
             <Address
-                v-model:address="data.order.start_address"
+                v-model:address="data.order.pickup_address"
                 :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"
@@ -50,7 +50,7 @@
     
             <!-- DELIVERY ADDRESS -->
             <Address
-                v-model:address="data.order.target_address"
+                v-model:address="data.order.delivery_address"
                 :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"

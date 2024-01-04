@@ -138,8 +138,8 @@ class TmsOrderController extends BaseController
         $record = TmsOrder::with(
             [
                 'parcels', 
-                'startAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the customer?
-                'targetAddress.country:id,country_name',
+                'pickupAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the customer?
+                'deliveryAddress.country:id,country_name',
 
                 //1. level of eager loading (customer with id and company_name)
                 'customer' => function ($query){
@@ -258,8 +258,8 @@ class TmsOrderController extends BaseController
 
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
-                'startAddress:id,city,zip_code', 
-                'targetAddress:id,city,zip_code',
+                'pickupAddress:id,city,zip_code', 
+                'deliveryAddress:id,city,zip_code',
                 'parcels'
             ])
             
