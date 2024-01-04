@@ -40,6 +40,8 @@
                     @clear="update()"
                     @change="update()"
                 />
+
+                <!-- <BackendValidationErrorDisplay :errorMessage="props.errors.company_name"/> -->
                 
             </div>
 
@@ -220,7 +222,6 @@
                             v-model="data.address.city"
                             placeholder="City"
                             type="text"
-                            
                             :maxlength="255"
                             clearable
                             @input="update()"
@@ -453,6 +454,7 @@
 import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import addressDummy from '@/Pages/Addresses/CreateEditAddress/addressDummy';//use this in props to have already filled address form for creating new address
 import addressEmpty from '@/Pages/Addresses/CreateEditAddress/addressEmpty';//use this in props to have empty address form for creating new address
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
 

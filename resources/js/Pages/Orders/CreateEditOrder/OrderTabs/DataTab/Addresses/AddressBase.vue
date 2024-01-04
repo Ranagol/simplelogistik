@@ -22,7 +22,7 @@
             <!-- HEADQUARTER -->
             <Address
                 v-model:address="data.order.customer.headquarter"
-                :errors="props.errors"
+                :errors="(props.errors.customer || {}).headquarter"
                 :countries="props.countries"
                 :mode="props.mode"
                 v-model:avis_phone="data.order.avis_customer_phone"
@@ -94,6 +94,5 @@ const data = reactive({
     showAddresses: true,
 }); 
 
-//WARNING: the emit part of the v-model here is missing!! Not done!!!!
 
 </script>
