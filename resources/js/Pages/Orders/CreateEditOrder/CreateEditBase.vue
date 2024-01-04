@@ -46,6 +46,10 @@
             @destroy="destroy"
         />
 
+        <!-- When scrolled all the way down, this widget will appear. Click on it will scroll the
+        user back to the top of the page. -->
+        <el-backtop :right="100" :bottom="100" />
+
     </Card>
 </template>
 
