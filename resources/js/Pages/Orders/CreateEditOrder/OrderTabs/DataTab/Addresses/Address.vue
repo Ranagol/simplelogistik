@@ -34,6 +34,7 @@
                     v-model="data.address.company_name"
                     placeholder="Company name"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="update()"
                     @clear="update()"
@@ -67,6 +68,7 @@
                             placeholder="First name"
                             type="text"
                             :maxlength="255"
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
@@ -94,6 +96,7 @@
                             v-model="data.address.last_name"
                             placeholder="Last name"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -126,7 +129,7 @@
                             v-model="data.address.street"
                             placeholder="Street"
                             type="text"
-                            
+                            clearable
                             :maxlength="255"                        
                             @input="update()"
                             @clear="update()"
@@ -156,6 +159,7 @@
                             placeholder="House number"
                             type="text"
                             :maxlength="255"
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
@@ -187,6 +191,7 @@
                             v-model="data.address.zip_code"
                             placeholder="Zip code"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -217,7 +222,7 @@
                             type="text"
                             
                             :maxlength="255"
-                            
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
@@ -249,6 +254,7 @@
                             v-model="data.address.state"
                             placeholder="State"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -260,7 +266,7 @@
 
                 </el-form-item>
 
-                <!-- COUNTRY ******************************************-->
+                <!-- COUNTRY -->
                 <el-form-item
                     prop="country"
                 >
@@ -314,6 +320,7 @@
                             v-model="data.address.email"
                             placeholder="Email"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -342,6 +349,7 @@
                             v-model="data.address.phone"
                             placeholder="Phone"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -372,6 +380,7 @@
                     v-model="data.address.address_additional_information"
                     placeholder="Additional information"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="update()"
                     @clear="update()"
@@ -427,6 +436,7 @@
                     :model-value="props.comment"
                     placeholder="Comment"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="handleComment"
                     @clear="handleComment"
