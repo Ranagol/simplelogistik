@@ -207,7 +207,7 @@ class TmsOrderController extends BaseController
         $this->handleHeadquarter($orderFromRequest);
         //TODO ANDOR: I stopped here. The current problem: the addressType mutator does not triggers
         //when we do upsert. So, the address_type column is not filled with the correct value. Because
-        //in the db, in address_type column, the app tries to write "headquarter", instead of
+        //in the db, in address_type column, the app tries to write "Main headquarters", instead of
         //number 1 (which is the correct value for headquarter address type). 
         //What to do: check the data type: Ensure that the addressType attribute is being treated as a string in your TmsAddress model. The mutator expects the addressType value to be a string, so if it's being treated as a different data type, the mutator might not work correctly.
 
@@ -228,36 +228,60 @@ class TmsOrderController extends BaseController
             $headquarter = $orderFromRequest['customer']['headquarter'];
             // dd($headquarter);
 
-            TmsAddress::upsert(
-                //1-An array of records that should be updated or created.
-                [
-                    $headquarter//only one headquarter address exists for one customer
-                ],
-                //2-The column(s) that should be used to determine if a record already exists.
-                'id',
-                //3-The column(s) that should be updated if a matching record already exists.
-                [
-                    "company_name",
-                    "first_name",
-                    "last_name",
-                    "address_type",
-                    "street",
-                    "house_number",
-                    "zip_code",
-                    "city",
-                    "state",
-                    "phone",
-                    "email",
-                    "address_additional_information",
-                    "country_id",
-                    "customer_id",
-                    "forwarder_id",
-                    "created_at",
-                    "updated_at",
-                ]
+
+            // $headquarter['address_type'] = $this->mutateAddressTypeManually($headquarter['address_type']);
+            // dd($headquarter);
+
+            TmsAddress::updateOrCreate(
+                // Condition array: Laravel will search for an existing record using these conditions
+                ['id' => $headquarter['id']],
+                // Values array: If a matching record is found, it will be updated with these values; if not, a new record will be created with these values
+                $headquarter
             );
+
+
+            //Start the upsert() process
+            // TmsAddress::upsert(
+            //     //1-An array of records that should be updated or created.
+            //     [
+            //         $headquarter//only one headquarter address exists for one customer
+            //     ],
+            //     //2-The column(s) that should be used to determine if a record already exists.
+            //     'id',
+            //     //3-The column(s) that should be updated if a matching record already exists.
+            //     [
+            //         "company_name",
+            //         "first_name",
+            //         "last_name",
+            //         "address_type",
+            //         "street",
+            //         "house_number",
+            //         "zip_code",
+            //         "city",
+            //         "state",
+            //         "phone",
+            //         "email",
+            //         "address_additional_information",
+            //         "country_id",
+            //         "customer_id",
+            //         "forwarder_id",
+            //         "created_at",
+            //         "updated_at",
+            //     ]
+            // );
         }
     }
+
+    /**
+     * Here we manually mutate the address type. Because the mutator does not triggers when we
+     * do upsert. So, the address_type column is not filled with the correct value. Because
+     * in the db, in address_type column, the app tries to write "Main headquarters", instead of
+     * number 1 (which is the correct value for headquarter address type). 
+     */
+    // private function mutateAddressTypeManually($value)
+    // {
+    //     return array_flip(TmsAddress::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.';
+    // }
 
     private function handleParcel(array $orderFromRequest): void
     {

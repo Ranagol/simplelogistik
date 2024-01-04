@@ -35,8 +35,6 @@ class TmsAddressRequest extends FormRequest
             'phone' => 'nullable|string|max:100',
             'email' => 'nullable|string|max:100',
             'address_additional_information' => 'nullable|string|max:255',
-            // 'customer_id' => 'nullable|integer',
-            // 'forwarder_id' => 'nullable|integer',
             'customer_id' => 'nullable|integer|exists:tms_customers,id',
             'forwarder_id' => 'nullable|integer|exists:tms_forwarders,id',
         ];

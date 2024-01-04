@@ -520,7 +520,8 @@ const emit = defineEmits(['update:address', 'update:comment', 'update:avis_phone
  * Works with address object
  */
 const update = () => {
-    emit('update:address', data.addressData);
+    console.log('update() triggered in Address.vue', data.address);
+    emit('update:address', data.address);
 }
 
 /**

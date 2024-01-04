@@ -99,7 +99,7 @@ class TmsAddress extends Model
 
             /**
              * Mutator
-             * gets from request, transforms it. 'Bussiness address' will become 1.
+             * gets from request, transforms it. 'Bussiness address' will become 2.
              *
              * To implement the setter using the ADDRESS_TYPES constant, you need to flip the array
              * keys and values because you're mapping from the string representation back to the
@@ -109,7 +109,7 @@ class TmsAddress extends Model
              * string. If the string is not found in the flipped array, it defaults to 'Missing data.'.
              */
             // set: fn (string $value) => array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.',
-            set: function (string $value) {//the old way
+            set: function (string $value) {//the old way, without arrow function
                 // dd($value);
                 return array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.';
             }
@@ -117,3 +117,4 @@ class TmsAddress extends Model
         );
     }
 }
+
