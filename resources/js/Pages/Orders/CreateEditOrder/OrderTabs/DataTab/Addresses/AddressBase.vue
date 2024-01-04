@@ -20,6 +20,7 @@
         >
             
             <!-- HEADQUARTER -->
+            <!-- There is no comment for the headquarter. -->
             <Address
                 v-model:address="data.order.customer.headquarter"
                 :errors="props.errors"
