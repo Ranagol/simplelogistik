@@ -54,7 +54,6 @@
             sortable="custom"  
         ></el-table-column>
 
-        <!-- *********************** -->
         <el-table-column
             width="150"
             prop="created_at"
@@ -92,7 +91,7 @@
             label="Pickup address"
         >
             <template #default="scope">
-                code**  {{ scope.row.start_address.city }}
+                {{ scope.row.start_address.zip_code }}  {{ scope.row.start_address.city }}
             </template>
         </el-table-column>
 
@@ -101,7 +100,7 @@
             label="Delivery address"
         >
             <template #default="scope">
-                code**  {{ scope.row.target_address.city }}
+                {{ scope.row.start_address.zip_code }}  {{ scope.row.target_address.city }}
             </template>
         </el-table-column>
         

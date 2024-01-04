@@ -90,26 +90,26 @@
             width="150px"
         />
 
-        <el-table-column
+        <!-- <el-table-column
             label="Comment"
             prop="comment"
             sortable="custom" 
             width="300px"
-        />
+        /> -->
 
-        <el-table-column
+        <!-- <el-table-column
             label="Cust. id"
             prop="customer_id"
             sortable="custom"
             width="150px"
-        />
+        /> -->
 
-        <el-table-column
+        <!-- <el-table-column
             label="Forwarder id"
             prop="forwarder_id"
             sortable="custom"
             width="150px"
-        />
+        /> -->
     </el-table> 
 </template>
 
