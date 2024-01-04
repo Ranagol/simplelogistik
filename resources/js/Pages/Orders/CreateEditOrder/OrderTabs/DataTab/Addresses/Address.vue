@@ -13,7 +13,7 @@
             <el-button
                 v-if="props.title === 'Delivery' || props.title === 'Pickup'"
                 type="success"
-                size="mini"
+                size="small"
             >+</el-button>
 
         </div>
@@ -281,7 +281,7 @@
 
                         <!-- This el-select works with a whole object. Syncs a whole object. -->
                         <el-select
-                            v-model="data.address.country.country_name"
+                            v-model="data.address.country_id"
                             clearable
                             filterable
                             value-key="id"
@@ -292,7 +292,7 @@
                                 v-for="(item, index) in props.countries"
                                 :key="index"
                                 :label="item.country_name"
-                                :value="item"
+                                :value="item.country_name"
                             ></el-option>
                         </el-select>
 
@@ -530,7 +530,7 @@ const emit = defineEmits(['update:address', 'update:comment', 'update:avis_phone
  * Works with address object
  */
 const update = () => {
-    console.log('update() triggered in Address.vue', data.address);
+    // console.log('update() triggered in Address.vue', data.address);
     emit('update:address', data.address);
 }
 

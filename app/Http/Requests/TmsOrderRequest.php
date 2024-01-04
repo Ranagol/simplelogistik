@@ -110,7 +110,7 @@ class TmsOrderRequest extends FormRequest
             'customer.headquarter.company_name' => 'required|string|max:255',
             'customer.headquarter.first_name' => 'required|string|max:255',
             'customer.headquarter.last_name' => 'required|string|max:255',
-            'customer.headquarter.address_type' => 'required|string|max:255',
+            'customer.headquarter.address_type' => 'required|string|max:255',//this is a mutator. TmsAddress::setAddressTypeAttribute() will be called.
             'customer.headquarter.street' => 'required|string|max:255',
             'customer.headquarter.house_number' => 'required|string|max:255',
             'customer.headquarter.zip_code' => 'required|string|max:255',
@@ -119,7 +119,7 @@ class TmsOrderRequest extends FormRequest
             'customer.headquarter.phone' => 'required|string|max:255',
             'customer.headquarter.email' => 'required|string|max:255',
             'customer.headquarter.address_additional_information' => 'nullable|string|max:255',
-            'customer.headquarter.country_id' => 'required|exists:tms_countries,id',
+            'customer.headquarter.country_id' => 'required',//this is a mutator. TmsAddress::setCountryIdAttribute() will be called.
             'customer.headquarter.customer_id' => 'required|exists:tms_customers,id',
             'customer.headquarter.forwarder_id' => 'required|exists:tms_forwarders,id',
         ];

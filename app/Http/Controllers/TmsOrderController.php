@@ -205,11 +205,6 @@ class TmsOrderController extends BaseController
 
         //Handle headquarter address
         $this->handleHeadquarter($orderFromRequest);
-        //TODO ANDOR: I stopped here. The current problem: the addressType mutator does not triggers
-        //when we do upsert. So, the address_type column is not filled with the correct value. Because
-        //in the db, in address_type column, the app tries to write "Main headquarters", instead of
-        //number 1 (which is the correct value for headquarter address type). 
-        //What to do: check the data type: Ensure that the addressType attribute is being treated as a string in your TmsAddress model. The mutator expects the addressType value to be a string, so if it's being treated as a different data type, the mutator might not work correctly.
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
@@ -222,66 +217,20 @@ class TmsOrderController extends BaseController
          * If the order has a headquarter address... Do create or update for the headquarter address,
          * depending if the headquarter address already exists in the db or not. This will be 
          * recognised by the id column.
+         * We can use updateOrCreate() here and not upsert(), because we have only one headquarter.
          */
         if (!empty($orderFromRequest['customer']['headquarter'])) {
 
             $headquarter = $orderFromRequest['customer']['headquarter'];
-            // dd($headquarter);
-
-
-            // $headquarter['address_type'] = $this->mutateAddressTypeManually($headquarter['address_type']);
-            // dd($headquarter);
 
             TmsAddress::updateOrCreate(
-                // Condition array: Laravel will search for an existing record using these conditions
+                // Check if we have this id on the db
                 ['id' => $headquarter['id']],
-                // Values array: If a matching record is found, it will be updated with these values; if not, a new record will be created with these values
+                //if no, create new. If yes, update. For this use the values from $headquarter.
                 $headquarter
             );
-
-
-            //Start the upsert() process
-            // TmsAddress::upsert(
-            //     //1-An array of records that should be updated or created.
-            //     [
-            //         $headquarter//only one headquarter address exists for one customer
-            //     ],
-            //     //2-The column(s) that should be used to determine if a record already exists.
-            //     'id',
-            //     //3-The column(s) that should be updated if a matching record already exists.
-            //     [
-            //         "company_name",
-            //         "first_name",
-            //         "last_name",
-            //         "address_type",
-            //         "street",
-            //         "house_number",
-            //         "zip_code",
-            //         "city",
-            //         "state",
-            //         "phone",
-            //         "email",
-            //         "address_additional_information",
-            //         "country_id",
-            //         "customer_id",
-            //         "forwarder_id",
-            //         "created_at",
-            //         "updated_at",
-            //     ]
-            // );
         }
     }
-
-    /**
-     * Here we manually mutate the address type. Because the mutator does not triggers when we
-     * do upsert. So, the address_type column is not filled with the correct value. Because
-     * in the db, in address_type column, the app tries to write "Main headquarters", instead of
-     * number 1 (which is the correct value for headquarter address type). 
-     */
-    // private function mutateAddressTypeManually($value)
-    // {
-    //     return array_flip(TmsAddress::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.';
-    // }
 
     private function handleParcel(array $orderFromRequest): void
     {
@@ -294,7 +243,7 @@ class TmsOrderController extends BaseController
 
         $parcels = $orderFromRequest['parcels'];
 
-
+            //Warning: upsert() can't work with mutators!
             TmsParcel::upsert(
                 //1-An array of records that should be updated or created.
                 $parcels,
