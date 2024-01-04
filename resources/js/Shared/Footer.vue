@@ -3,25 +3,17 @@
 
         <div
             class="flex-row"
-        > © 2023, Simplelogistik GmbH. All rights reserved.</div>
+        > © {{ data.currentYear }}, Simplelogistik GmbH. All rights reserved.</div>
 
     </footer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-export default defineComponent({
-    name: 'Footer',
-    components: {
-    },
-    data() {
-        return {
+<script setup>
+import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 
-        }
-    },
-    methods: {
-    },
-
+const data = reactive({
+    //counts automatiaclly the current year for the copyright section
+    currentYear: new Date().getFullYear()
 });
 </script>
 
