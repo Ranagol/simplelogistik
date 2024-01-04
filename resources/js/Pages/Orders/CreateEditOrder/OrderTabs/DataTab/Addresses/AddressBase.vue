@@ -22,7 +22,7 @@
             <!-- HEADQUARTER -->
             <Address
                 v-model:address="data.order.customer.headquarter"
-                :errors="(props.errors.customer || {}).headquarter"
+                :errors="props.errors"
                 :countries="props.countries"
                 :mode="props.mode"
                 v-model:avis_phone="data.order.avis_customer_phone"
@@ -92,7 +92,33 @@ const props = defineProps({
 const data = reactive({
     order: props.order,
     showAddresses: true,
+    // errorsHeadquarter: {},//works with watcher
 }); 
+
+
+
+
+
+
+
+
+
+// watch(
+//     () => props.errors, 
+//     (newVal) => {
+//         console.log('watcher triggered', newVal);
+//         console.log('watcher triggered', newVal['customer.headquarter.company_name']);
+//         // console.log('watcher triggered', newVal);
+
+        
+
+//         console.log('data.errorsHeadquarter', data.errorsHeadquarter);
+//     },
+//     { deep: true }
+// );
+
+
+
 
 
 </script>
