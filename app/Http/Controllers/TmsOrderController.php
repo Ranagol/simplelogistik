@@ -138,26 +138,13 @@ class TmsOrderController extends BaseController
         $record = TmsOrder::with(
             [
                 'parcels', 
-                'pickupAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the customer?
-                'deliveryAddress.country:id,country_name',
+                'pickupAddress',
+                'deliveryAddress',
 
-                //1. level of eager loading (customer with id and company_name)
-                'customer' => function ($query){
-                    $query->select('id', 'company_name')
-                            ->with(
-                                [
-
-                                    //2. level of eager loading (headquarter with all columns)
-                                    'headquarter' => function ($query){
-                                        $query->with(
-
-                                            //3. level of eager loading (country with id and country_name)
-                                            ['country:id,country_name']
-                                        );
-                                    }
-                                ]);
+                //Give me the belonging customer, with only id and company_name and with customers headquarter.
+                'customer' => function ($query) {
+                    $query->select('id', 'company_name')->with(['headquarter']);
                 }
-
             ]
         )->find($id);
         
