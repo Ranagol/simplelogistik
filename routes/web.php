@@ -11,7 +11,7 @@ use App\Http\Controllers\TmsAddressController;
 use App\Http\Controllers\TmsVehicleController;
 use App\Http\Controllers\TmsCustomerController;
 use App\Http\Controllers\TmsOrderController;
-use App\Http\Controllers\TmsRequirementController;
+use App\Http\Controllers\TmsGearController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', TmsOrderController::class);
     Route::resource('addresses', TmsAddressController::class);
     Route::resource('vehicles', TmsVehicleController::class);
-    Route::resource('requirements', TmsRequirementController::class);
+    Route::resource('requirements', TmsGearController::class);
 
 
 

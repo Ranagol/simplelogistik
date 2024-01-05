@@ -60,7 +60,7 @@ class TmsForwarder extends Model
     public function forwarderReqs(): BelongsToMany
     {
         //forwarder_forwarder_req_pivot is the pivot table name between forwarders and forwarder_reqs
-        return $this->belongsToMany(TmsForwarderReq::class, 'forwarder_forwarder_req_pivot');
+        return $this->belongsToMany(TmsOfferedGear::class, 'forwarder_forwarder_req_pivot');
     }
 
     //*************MUTATORS AND ACCESSORS*************************************** */

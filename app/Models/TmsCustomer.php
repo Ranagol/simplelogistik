@@ -10,7 +10,7 @@ use App\Models\TmsOrder;
 use App\Models\TmsOrderHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TmsCustomerReq;
+use App\Models\TmsNeededGear;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -128,7 +128,7 @@ class TmsCustomer extends Model
     public function customerReqs(): BelongsToMany
     {
         //customer_customer_req_pivot is the pivot table name between customers and customer_reqs
-        return $this->belongsToMany(TmsCustomerReq::class, 'customer_customer_req_pivot');
+        return $this->belongsToMany(TmsNeededGear::class, 'customer_customer_req_pivot');
     }
 
     //*************SCOPES*************************************** */

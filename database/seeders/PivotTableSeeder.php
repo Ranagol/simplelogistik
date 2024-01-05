@@ -6,8 +6,8 @@ use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use App\Models\TmsVehicleReq;
-use App\Models\TmsCustomerReq;
-use App\Models\TmsForwarderReq;
+use App\Models\TmsNeededGear;
+use App\Models\TmsOfferedGear;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -17,7 +17,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
  * 
  * We actually do not fake any new db data here.
  * We simply just connect the already existing models.
- * Example: TmsCustomers and TmsCustomerReqs are already seeded. We just need to connect them in
+ * Example: TmsCustomers and TmsNeededGears are already seeded. We just need to connect them in
  * their customer_customer_req_pivot table. We do that by getting all the customers and all the
  * requirements, and then we get random ids from both of them. Then we attach them to each other.
  * we do that with the attach() method.
@@ -35,7 +35,7 @@ class PivotTableSeeder extends Seeder
     }
 
     /**
-     * Connects TmsCustomers and TmsCustomerReqs, aka populates the ... pivot 
+     * Connects TmsCustomers and TmsNeededGears, aka populates the ... pivot 
      * table with random ids.
      *
      * @return void
@@ -47,7 +47,7 @@ class PivotTableSeeder extends Seeder
         //Get all customer ids
         $customerIds = $customers->pluck('id')->toArray();
         //Get all requirements
-        $requirements = TmsCustomerReq::all();
+        $requirements = TmsNeededGear::all();
         //Get all requirement ids
         $requirementsIds = $requirements->pluck('id')->toArray();
 
@@ -101,7 +101,7 @@ class PivotTableSeeder extends Seeder
     {
         $forwarders = TmsForwarder::all();
         $forwarderIds = $forwarders->pluck('id')->toArray();
-        $requirements = TmsForwarderReq::all();
+        $requirements = TmsOfferedGear::all();
         $requirementsIds = $requirements->pluck('id')->toArray();
 
         foreach ($forwarders as $forwarder) {

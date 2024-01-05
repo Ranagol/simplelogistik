@@ -17,7 +17,7 @@ class TmsVehicleReq extends Model
 
     public function requirement(): BelongsTo
     {
-        return $this->belongsTo(TmsRequirement::class);
+        return $this->belongsTo(TmsGear::class);
     }
 
     public function vehicles(): BelongsToMany

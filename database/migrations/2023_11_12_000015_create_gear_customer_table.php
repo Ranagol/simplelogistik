@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // PIVOT TABLE BETWEEN TMS_CUSTOMER AND TMS_CUSTOMER_REQ
-        Schema::create('customer_customer_req_pivot', function (Blueprint $table) {
+        Schema::create('tms_needed_gears', function (Blueprint $table) {
             $table->foreignId('tms_customer_id')->constrained('tms_customers');
-            $table->foreignId('tms_customer_req_id')->constrained('tms_customer_reqs');
+            $table->foreignId('tms_listed_gear_id')->constrained('tms_gears');
         });
     }
 
@@ -23,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customer_customer_req_pivot');
+        Schema::dropIfExists('tms_needed_gears');
     }
 };

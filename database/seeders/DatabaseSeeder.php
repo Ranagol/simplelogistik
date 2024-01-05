@@ -16,8 +16,7 @@ use Illuminate\Support\Str;
 use App\Models\TmsForwarder;
 use App\Models\TmsOrder;
 use App\Models\TmsDispatcher;
-use App\Models\TmsOfferPrice;
-use App\Models\TmsRequirement;
+use App\Models\TmsGear;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TmsParcelSeeder;
@@ -33,13 +32,11 @@ use Database\Seeders\TmsOrderSeeder;
 use Database\Seeders\TmsDispatcherSeeder;
 use Database\Seeders\TmsOfferPriceSeeder;
 use Database\Seeders\TmsVehicleReqSeeder;
-use Database\Seeders\TmsCustomerReqSeeder;
-use Database\Seeders\TmsRequirementSeeder;
+use Database\Seeders\TmsGearSeeder;
 use Database\Seeders\TmsOrderHistorySeeder;
 use Database\Seeders\TmsOrderAttributeSeeder;
 use Database\Seeders\TmsTransportLicenseSeeder;
 use Database\Seeders\TmsForwardingContractSeeder;
-use Database\Seeders\TmsForwarderReqSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -72,7 +69,7 @@ class DatabaseSeeder extends Seeder
             TmsDispatcherSeeder::class,
             TmsCustomerSeeder::class,
             TmsForwarderSeeder::class,
-            TmsRequirementSeeder::class,
+            TmsGearSeeder::class,
             TmsAddressSeeder::class,
             TmsContactSeeder::class,
             TmsVehicleSeeder::class,
@@ -81,9 +78,7 @@ class DatabaseSeeder extends Seeder
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
             TmsOrderHistorySeeder::class,
-            TmsForwarderReqSeeder::class,
             TmsVehicleReqSeeder::class,
-            TmsCustomerReqSeeder::class,
             TmsTransportLicenseSeeder::class,
             PivotTableSeeder::class,
             TmsParcelSeeder::class,
@@ -96,7 +91,7 @@ class DatabaseSeeder extends Seeder
         // echo "customers created\n";
         // $forwarders = TmsForwarder::factory(20)->create();
         // echo "forwarders created\n";
-        // $requirements = TmsRequirement::factory(20)->create();
+        // $requirements = TmsGear::factory(20)->create();
         // echo "requirements created\n";
 
         // $addressesCustomers = TmsAddress::factory()->count(4)->for($customers, 'address')->create();
