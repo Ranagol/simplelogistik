@@ -22,21 +22,25 @@ class TmsAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_name' => 'nullable|string|max:255',
-            'first_name' => 'nullable|string|max:255',
-            'last_name' => 'nullable|string|max:255',
-            'address_type' => 'required|string|max:255',
+            /**
+             * The id must be nullable, because of create. But must be validated, because of edit.
+             */
+            'id' => 'nullable|integer|exists:tms_addresses,id',
+            'company_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'address_type' => 'required|string|max:255',//this is a mutator. TmsAddress::setAddressTypeAttribute() will be called.
             'street' => 'required|string|max:200',
-            'house_number' => 'nullable|string|max:200',
+            'house_number' => 'required|string|max:200',
             'zip_code' => 'required|string|max:20',
             'city' => 'required|string|max:100',
-            'country_id' => 'required|integer|exists:tms_countries,id',
-            'state' => 'nullable|string|max:100',
-            'phone' => 'nullable|string|max:100',
-            'email' => 'nullable|string|max:100',
-            'address_additional_information' => 'nullable|string|max:255',
-            'customer_id' => 'nullable|integer|exists:tms_customers,id',
-            'forwarder_id' => 'nullable|integer|exists:tms_forwarders,id',
+            'country_id' => 'required|string',//this is a mutator. TmsAddress::setCountryIdAttribute() will be called.
+            'state' => 'required|string|max:100',
+            'phone' => 'required|string|max:100',
+            'email' => 'required|string|max:100',
+            'address_additional_information' => 'required|string|max:255',
+            'customer_id' => 'required|integer|exists:tms_customers,id',
+            'forwarder_id' => 'required|integer|exists:tms_forwarders,id',
         ];
     }
 }
