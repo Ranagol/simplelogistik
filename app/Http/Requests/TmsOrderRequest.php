@@ -25,7 +25,7 @@ class TmsOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        $parcelRequest = new TmsParcelRequest();
+        $addressRequest = new TmsAddressRequest();
 
         return [
 
@@ -103,61 +103,37 @@ class TmsOrderRequest extends FormRequest
             //CUSTOMER VALIDATION
             'customer.id' => 'nullable|integer',
             'customer.company_name' => 'required|string|max:255',
+
+            
+            /**
+             * HEADQUARTER ADDRESS VALIDATION (HEADQUARTER IS A PROPERTY OF CUSTOMER)
+             * For any nested stuff under pickup_address, use the * to symbolize it, and the 
+             * addressRules() function to check it. So, the * is essential here!
+             * 
+             * $addressRequest->addressRules() is reused TmsAddressRequest.
+             */
             'customer.headquarter' => 'array',
-
-            //HEADQUARTER VALIDATION (HEADQUARTER IS A PROPERTY OF CUSTOMER)
-            'customer.headquarter.id' => 'nullable|integer',
-            'customer.headquarter.company_name' => 'required|string|max:255',
-            'customer.headquarter.first_name' => 'required|string|max:255',
-            'customer.headquarter.last_name' => 'required|string|max:255',
-            'customer.headquarter.address_type' => 'required|string|max:255',//this is a mutator. TmsAddress::setAddressTypeAttribute() will be called.
-            'customer.headquarter.street' => 'required|string|max:255',
-            'customer.headquarter.house_number' => 'required|string|max:255',
-            'customer.headquarter.zip_code' => 'required|string|max:255',
-            'customer.headquarter.city' => 'required|string|max:255',
-            'customer.headquarter.state' => 'required|string|max:255',
-            'customer.headquarter.phone' => 'required|string|max:255',
-            'customer.headquarter.email' => 'required|string|max:255',
-            'customer.headquarter.address_additional_information' => 'nullable|string|max:255',
-            'customer.headquarter.country_id' => 'required',//this is a mutator. TmsAddress::setCountryIdAttribute() will be called.
-            'customer.headquarter.customer_id' => 'required|exists:tms_customers,id',
-            'customer.headquarter.forwarder_id' => 'required|exists:tms_forwarders,id',
-
-            //PICKUP ADDRESS VALIDATION
-            'pickup_address.id' => 'nullable|integer',
-            'pickup_address.company_name' => 'required|string|max:255',
-            'pickup_address.first_name' => 'required|string|max:255',
-            'pickup_address.last_name' => 'required|string|max:255',
-            'pickup_address.address_type' => 'required|string|max:255',//this is a mutator. TmsAddress::setAddressTypeAttribute() will be called.
-            'pickup_address.street' => 'required|string|max:255',
-            'pickup_address.house_number' => 'required|string|max:255',
-            'pickup_address.zip_code' => 'required|string|max:255',
-            'pickup_address.city' => 'required|string|max:255',
-            'pickup_address.state' => 'required|string|max:255',
-            'pickup_address.phone' => 'required|string|max:255',
-            'pickup_address.email' => 'required|string|max:255',
-            'pickup_address.address_additional_information' => 'nullable|string|max:255',
-            'pickup_address.country_id' => 'required',//this is a mutator. TmsAddress::setCountryIdAttribute() will be called.
-            'pickup_address.customer_id' => 'required|exists:tms_customers,id',
-            'pickup_address.forwarder_id' => 'required|exists:tms_forwarders,id',
-
-            //DELIVERY ADDRESS VALIDATION
-            'delivery_address.id' => 'nullable|integer',
-            'delivery_address.company_name' => 'required|string|max:255',
-            'delivery_address.first_name' => 'required|string|max:255',
-            'delivery_address.last_name' => 'required|string|max:255',
-            'delivery_address.address_type' => 'required|string|max:255',//this is a mutator. TmsAddress::setAddressTypeAttribute() will be called.
-            'delivery_address.street' => 'required|string|max:255',
-            'delivery_address.house_number' => 'required|string|max:255',
-            'delivery_address.zip_code' => 'required|string|max:255',
-            'delivery_address.city' => 'required|string|max:255',
-            'delivery_address.state' => 'required|string|max:255',
-            'delivery_address.phone' => 'required|string|max:255',
-            'delivery_address.email' => 'required|string|max:255',
-            'delivery_address.address_additional_information' => 'nullable|string|max:255',
-            'delivery_address.country_id' => 'required',//this is a mutator. TmsAddress::setCountryIdAttribute() will be called.
-            'delivery_address.customer_id' => 'required|exists:tms_customers,id',
-            'delivery_address.forwarder_id' => 'required|exists:tms_forwarders,id',
+            'customer.headquarter.*' => $addressRequest->addressRules(),
+            
+            /**
+             * PICKUP ADDRESS VALIDATION
+             * For any nested stuff under pickup_address, use the * to symbolize it, and the 
+             * addressRules() function to check it. So, the * is essential here!
+             * 
+             * $addressRequest->addressRules() is reused TmsAddressRequest.
+             */
+            'pickup_address' => 'array',
+            'pickup_address.*' => $addressRequest->addressRules(),
+            
+            /**
+             * DELIVERY ADDRESS VALIDATION
+             * For any nested stuff under pickup_address, use the * to symbolize it, and the 
+             * addressRules() function to check it. So, the * is essential here!
+             * 
+             * $addressRequest->addressRules() is reused TmsAddressRequest.
+             */
+            'delivery_address' => 'array',
+            'delivery_address.*' => $addressRequest->addressRules(),
 
         ];
     }
