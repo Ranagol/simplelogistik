@@ -4,6 +4,10 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Order attribute is a service that the customer can order, and must pay. Example: SMS notification 
+ * after the final delivery. This is an order attribute. 
+ */
 return new class extends Migration
 {
     /**
@@ -19,6 +23,8 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->comment('The price of the attribute/extra service. We must have a price and currency column here, because every order attribute is actually an additional service that the customer can order, and must pay. Example: SMS notification after the final delivery. For this the customer must pay.')->nullable();
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP.  We must have a price and currency column here, because every order attribute is actually an additional service that the customer can order, and must pay. Example: SMS notification after the final delivery. For this the customer must pay.')->default('EUR');
             $table->string('description', 255)->comment('This is a description column')->nullable();
+            $table->date('from_date')->comment('The date from which the order attribute price is valid.')->nullable();
+            $table->date('to_date')->comment('The date until which the order attribute price is valid.')->nullable();
             $table->timestamps();
         });
     }

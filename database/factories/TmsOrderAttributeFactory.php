@@ -21,6 +21,8 @@ class TmsOrderAttributeFactory extends Factory
             'type' => $this->faker->randomElement(['sms notification', 'extra packaging', 'priority delivery']),
             'price' => $this->faker->numberBetween(100, 1000),
             'description' => $this->faker->sentence,
+            'from_date' => $this->faker->dateTimeBetween('-1 year', '+1 year'),
+            'to_date' => $this->faker->dateTimeBetween('-1 year', '+1 year'),
         ];
     }
 }
