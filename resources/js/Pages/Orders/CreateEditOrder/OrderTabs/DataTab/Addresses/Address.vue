@@ -13,7 +13,7 @@
             <el-button
                 v-if="props.title === 'Delivery' || props.title === 'Pickup'"
                 type="success"
-                size="mini"
+                size="small"
             >+</el-button>
 
         </div>
@@ -34,11 +34,14 @@
                     v-model="data.address.company_name"
                     placeholder="Company name"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="update()"
                     @clear="update()"
                     @change="update()"
                 />
+
+                <!-- <BackendValidationErrorDisplay :errorMessage="props.errors.company_name"/> -->
                 
             </div>
 
@@ -67,6 +70,7 @@
                             placeholder="First name"
                             type="text"
                             :maxlength="255"
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
@@ -94,6 +98,7 @@
                             v-model="data.address.last_name"
                             placeholder="Last name"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -126,7 +131,7 @@
                             v-model="data.address.street"
                             placeholder="Street"
                             type="text"
-                            
+                            clearable
                             :maxlength="255"                        
                             @input="update()"
                             @clear="update()"
@@ -156,6 +161,7 @@
                             placeholder="House number"
                             type="text"
                             :maxlength="255"
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
@@ -187,6 +193,7 @@
                             v-model="data.address.zip_code"
                             placeholder="Zip code"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -215,9 +222,8 @@
                             v-model="data.address.city"
                             placeholder="City"
                             type="text"
-                            
                             :maxlength="255"
-                            
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
@@ -249,6 +255,7 @@
                             v-model="data.address.state"
                             placeholder="State"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -260,7 +267,7 @@
 
                 </el-form-item>
 
-                <!-- COUNTRY ******************************************-->
+                <!-- COUNTRY -->
                 <el-form-item
                     prop="country"
                 >
@@ -275,7 +282,7 @@
 
                         <!-- This el-select works with a whole object. Syncs a whole object. -->
                         <el-select
-                            v-model="data.address.country.country_name"
+                            v-model="data.address.country_id"
                             clearable
                             filterable
                             value-key="id"
@@ -286,7 +293,7 @@
                                 v-for="(item, index) in props.countries"
                                 :key="index"
                                 :label="item.country_name"
-                                :value="item"
+                                :value="item.country_name"
                             ></el-option>
                         </el-select>
 
@@ -314,6 +321,7 @@
                             v-model="data.address.email"
                             placeholder="Email"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -342,6 +350,7 @@
                             v-model="data.address.phone"
                             placeholder="Phone"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -372,6 +381,7 @@
                     v-model="data.address.address_additional_information"
                     placeholder="Additional information"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="update()"
                     @clear="update()"
@@ -412,7 +422,6 @@
 
         </el-form-item>
 
-        <!--  -->
         <el-form-item>
 
             <div class="flex flex-col grow">
@@ -427,6 +436,7 @@
                     :model-value="props.comment"
                     placeholder="Comment"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="handleComment"
                     @clear="handleComment"
@@ -443,6 +453,7 @@
 import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import addressDummy from '@/Pages/Addresses/CreateEditAddress/addressDummy';//use this in props to have already filled address form for creating new address
 import addressEmpty from '@/Pages/Addresses/CreateEditAddress/addressEmpty';//use this in props to have empty address form for creating new address
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
 
@@ -520,7 +531,8 @@ const emit = defineEmits(['update:address', 'update:comment', 'update:avis_phone
  * Works with address object
  */
 const update = () => {
-    emit('update:address', data.addressData);
+    // console.log('update() triggered in Address.vue', data.address);
+    emit('update:address', data.address);
 }
 
 /**

@@ -22,8 +22,8 @@ export interface TmsAddress {
   // relations
   customer?: TmsCustomer
   forwarder?: TmsForwarder
-  cargo_orders_by_start_addresses?: TmsOrders
-  cargo_orders_by_target_addresses?: TmsOrders
+  cargo_orders_by_pickup_addresses?: TmsOrders
+  cargo_orders_by_delivery_addresses?: TmsOrders
 }
 export type TmsAddresses = TmsAddress[]
 
@@ -64,8 +64,8 @@ export interface TmsOrder {
   // relations
   customer?: TmsCustomer
   contact?: TmsContact
-  start_address?: TmsAddress
-  target_address?: TmsAddress
+  pickup_address?: TmsAddress
+  delivery_address?: TmsAddress
   cargo_history?: TmsOrderHistory
   invoice?: TmsInvoice
   offer_prices?: TmsOfferPrices

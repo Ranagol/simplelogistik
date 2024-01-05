@@ -7,45 +7,45 @@
  * rules array itself, that is needed.
  */
 const addressValidationRules = {
-    company_name: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    first_name: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    last_name: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    address_type: [
-        { required: true, message: 'Please fill this field.', trigger: 'change' },
-    ],
-    street: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    house_number: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    zip_code: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    city: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    // country_code: [
-    //     { required: true, message: 'Please fill this field.', trigger: 'blur' },
+    // company_name: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
     // ],
-    state: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    address_additional_information: [
-        { required: true, message: 'Please fill this field.', trigger: 'blur' },
-    ],
-    customer_id: [
-        { required: true, message: 'Please fill this field.', trigger: 'change' },
-    ],
-    forwarder_id: [
-        { required: true, message: 'Please fill this field.', trigger: 'change' },
-    ],
+    // first_name: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // ],
+    // last_name: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // ],
+    // address_type: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'change' },
+    // ],
+    // street: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // ],
+    // house_number: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // ],
+    // zip_code: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // ],
+    // city: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // ],
+    // // country_code: [
+    // //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // // ],
+    // state: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // ],
+    // address_additional_information: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'blur' },
+    // ],
+    // customer_id: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'change' },
+    // ],
+    // forwarder_id: [
+    //     { required: true, message: 'Please fill this field FE.', trigger: 'change' },
+    // ],
 }
 
 export default addressValidationRules;
