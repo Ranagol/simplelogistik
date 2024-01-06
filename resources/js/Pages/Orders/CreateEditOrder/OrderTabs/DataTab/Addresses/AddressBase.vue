@@ -52,7 +52,7 @@
             <!-- DELIVERY ADDRESS -->
             <Address
                 v-model:address="data.order.delivery_address"
-                :errors="props.errors"
+                :errors="data.errorsDeliveryAddress"
                 :countries="props.countries"
                 :mode="props.mode"
                 v-model:avis_phone="data.order.avis_receiver_phone"
@@ -76,6 +76,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+
+    /**
+     * Thisis the errors object for the full order+address+parcel nested object.
+     */ 
     errors: {
         type: Object,
         required: true,
@@ -119,32 +123,61 @@ const data = reactive({
  * WARNING: pickup_address.company_name IS A STRING!!!! Not a nested object.
  * console.log('watcher triggered', newVal['customer.headquarter.company_name']);
  * 
- * 
+ * So, the whole process starts with this watcher triggering the sortErrors() function.
  */
 watch(
     () => props.errors, 
     (newVal) => {
-        console.log('watcher triggered');
         sortErrors(props.errors);
     },
     { deep: true }
 );
 
+/**
+ * SORT ERRORS
+ * 
+ * This function sorts the errors to the right place (headquarter, pickup, delivery).
+ * 
+ * @param {Object} errors 
+ */
 const sortErrors = (errors) => {
+
+    //The formatted and sorted errors will be stored here.
     const errorsHeadquarter = {};
     const errorsPickupAddress = {};
     const errorsDeliveryAddress = {};
 
+    /**
+     * Here we loop through all errors object in the props.errors.
+     */ 
     _.forEach(errors, (value, key) => {
         if (key.includes('customer.headquarter')) {
-            errorsHeadquarter[key] = value;
+            errorsHeadquarter[formatString(key, 'customer.headquarter.')] = value;
         } else if (key.includes('pickup_address')) {
-            errorsPickupAddress[key] = value;
+            errorsPickupAddress[formatString(key, 'pickup_address.')] = value;
         } else if (key.includes('delivery_address')) {
-            errorsDeliveryAddress[key] = value;
+            errorsDeliveryAddress[formatString(key, 'delivery_address.')] = value;
         }
     });
+    
+    /**
+     * We add the sorted errors to the data object. So, this will be reactive, and will be passed to
+     * the Address component as a prop.
+     */
+    data.errorsHeadquarter = errorsHeadquarter;
+    data.errorsPickupAddress = errorsPickupAddress;
+    data.errorsDeliveryAddress = errorsDeliveryAddress;
+};
 
+/**
+ * The backend returns this example validation error:
+ * "customer.headquarter.company_name": "The company name field is required."
+ * We want to have:
+ * "company_name": "The company name field is required."
+ * So, there is a string part, that has to be removed.
+ */ 
+const formatString = (stringToFormat, stringToRemove) => {
+    return stringToFormat.replace(stringToRemove, '');
 };
 
 

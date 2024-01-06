@@ -41,7 +41,7 @@
                     @change="update()"
                 />
 
-                <!-- <BackendValidationErrorDisplay :errorMessage="props.errors.company_name"/> -->
+                <BackendValidationErrorDisplay :errorMessage="props.errors.company_name"/>
                 
             </div>
 
@@ -77,6 +77,8 @@
                             class="mr-1"
                         />
 
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.first_name"/>
+
                     </div>
 
                 </el-form-item>
@@ -105,6 +107,8 @@
                             @change="update()"
                             class="ml-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.last_name"/>
 
                     </div>
 
@@ -139,6 +143,8 @@
                             class="mr-1"
                         />
 
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.street"/>
+
                     </div>
 
                 </el-form-item>
@@ -167,6 +173,8 @@
                             @change="update()"
                             class="ml-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.house_number"/>
 
                     </div>
 
@@ -201,6 +209,8 @@
                             class="mr-1"
                         />
 
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.zip_code"/>
+
                     </div>
 
                 </el-form-item>
@@ -229,6 +239,8 @@
                             @change="update()"
                             class="ml-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.city"/>
 
                     </div>
 
@@ -262,6 +274,8 @@
                             @change="update()"
                             class="mr-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.state"/>
 
                     </div>
 
@@ -297,6 +311,8 @@
                             ></el-option>
                         </el-select>
 
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.country_id"/>
+
                     </div>
                     
                 </el-form-item>
@@ -329,6 +345,8 @@
                             class="mr-1"
                         />
 
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.email"/>
+
                     </div>
 
                 </el-form-item>
@@ -357,6 +375,8 @@
                             @change="update()"
                             class="ml-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.phone"/>
 
                     </div>
 
@@ -388,6 +408,8 @@
                     @change="update()"
                 />
 
+                <BackendValidationErrorDisplay :errorMessage="props.errors.address_additional_information"/>
+
             </div>
 
         </el-form-item>
@@ -418,6 +440,9 @@
                     @change="handleAvisPhone"
                 />
 
+                <!-- //TODO Andor this here is unfinished, validation error message display not working -->
+                <!-- <BackendValidationErrorDisplay :errorMessage="props.orderErrors.avis_phone"/> -->
+
             </div>
 
         </el-form-item>
@@ -442,6 +467,8 @@
                     @clear="handleComment"
                     @change="handleComment"
                 />
+                <!-- //TODO Andor this here is unfinished, validation error message display not working -->
+                <!-- <BackendValidationErrorDisplay :errorMessage="props.orderErrors.comment"/> -->
 
             </div>
 
@@ -468,8 +495,16 @@ const props = defineProps({
 
     /**
      * The errors object that is sent from the backend, and contains the validation errors.
+     * But, this is only for the given Address.vue component errors.
      */
     errors: Object,
+
+    /**
+     * This is the order + address + parcel (so the whole, complete error object) error object.
+     * This is needed for the order.avis_phone and for the order.comment validation error message
+     * display.
+     */ 
+    orderErrors: Object,
 
     /**
      * The mode of the form.
