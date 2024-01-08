@@ -125,11 +125,14 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsInvoice::class, 'customer_id');
     }
 
-    // public function customerReqs(): BelongsToMany
-    // {
-    //     //customer_customer_req_pivot is the pivot table name between customers and customer_reqs
-    //     return $this->belongsToMany(TmsNeededGear::class, 'customer_customer_req_pivot');
-    // }
+    public function gears(): BelongsToMany
+    {
+        /**
+         * gear_customer is a pivot table between gear and customer
+         * customer_id and gear_id are the custom column names in the gear_customer pivot table
+         */
+        return $this->belongsToMany(TmsGear::class, 'gear_customer', 'customer_id', 'gear_id');
+    }
 
     //*************SCOPES*************************************** */
 

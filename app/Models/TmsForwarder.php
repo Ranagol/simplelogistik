@@ -57,11 +57,14 @@ class TmsForwarder extends Model
         return $this->hasMany(TmsVehicle::class, 'forwarder_id');
     }
 
-    // public function forwarderReqs(): BelongsToMany
-    // {
-    //     //forwarder_forwarder_req_pivot is the pivot table name between forwarders and forwarder_reqs
-    //     return $this->belongsToMany(TmsOfferedGear::class, 'forwarder_forwarder_req_pivot');
-    // }
+    public function gears(): BelongsToMany
+    {
+        /**
+         * gear_forwarder is a pivot table between gear and forwarder
+         * forwarder_id and gear_id are the custom column names in the gear_forwarder pivot table
+         */
+        return $this->belongsToMany(TmsGear::class, 'gear_forwarder', 'forwarder_id', 'gear_id');
+    }
 
     //*************MUTATORS AND ACCESSORS*************************************** */
 

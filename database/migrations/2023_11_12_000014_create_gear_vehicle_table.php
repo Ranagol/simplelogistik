@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_vehicle_reqs', function (Blueprint $table) {
-            $table->foreignId('tms_vehicle_id')->constrained('tms_vehicles');
-            $table->foreignId('tms_listed_gear_id')->constrained('tms_gears');
+        Schema::create('gear_vehicle', function (Blueprint $table) {
+            $table->foreignId('vehicle_id')->constrained('tms_vehicles');
+            $table->foreignId('gear_id')->constrained('tms_gears');
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_vehicle_reqs');
+        Schema::dropIfExists('gear_vehicle');
     }
 };
