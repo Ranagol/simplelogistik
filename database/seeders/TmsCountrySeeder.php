@@ -274,8 +274,6 @@ class TmsCountrySeeder extends Seeder
                 'numeric_code' => $item[3],
             ]);
         }
-
-        
         
     }
 }

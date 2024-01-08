@@ -140,6 +140,10 @@ class TmsAddress extends Model
     protected function countryId(): Attribute
     {
         return Attribute::make(
+
+            /**
+             * Here we return the country_name, instead of the country_id.
+             */
             get: function (string $value) {
                 $country = TmsCountry::find($value);
                 $countryName = $country ? $country->country_name : 'Missing data TmsAddress model.';
@@ -147,7 +151,17 @@ class TmsAddress extends Model
                 return $countryName;
             },
 
-            set: fn (string $value) => TmsCountry::where('country_name', $value)->first()->id,
+            //$value is for example: 13
+            /**
+             * Here we return the country_id, instead of the country_name. Because we must write the
+             * country_id into the db.
+             */
+            set: function (string $value) { 
+                dump($value);
+                $countryId = TmsCountry::where('country_name', $value)->first()->id;
+                dd($value, $countryId);
+                return $countryId;
+            }
         );
     }
 }
