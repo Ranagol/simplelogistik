@@ -17,6 +17,7 @@ use App\Models\TmsForwarder;
 use App\Models\TmsOrder;
 use App\Models\TmsDispatcher;
 use App\Models\TmsGear;
+use App\Models\TmsProvision;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TmsParcelSeeder;
@@ -83,6 +84,7 @@ class DatabaseSeeder extends Seeder
             // PivotTableSeeder::class,
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
+            TmsProvisionSeeder::class,
         ]);
 
         // $dispatchers = TmsDispatcher::factory(5)->create();
