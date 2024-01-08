@@ -48,25 +48,6 @@ class TmsAddressFactory extends Factory
             'city' => $this->faker->city,
             //Takes one random country name from the array of country names
             'country_id' => Arr::random($this->countryNames),
-            // 'country_id' => Arr::random(
-            //     [//TODO ANDOR pull this once from the database, instead of hardcoding it here
-            //         //The end result should be an array of string country names
-            //         "Afghanistan",
-            //         "Albania",
-            //         "Algeria",
-            //         "American Samoa",
-            //         "Andorra",
-            //         "Angola",
-            //         "Anguilla",
-            //         "Antarctica",
-            //         "Antigua and Barbuda",
-            //         "Argentina",
-            //         "Armenia",
-            //         "Aruba",
-            //         "Australia",
-            //         "Austria"
-            //     ]
-            // ),//these country names will become country ids in the database with a the TmsAddress::countrId() mutator
             'state' => $this->faker->state,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
