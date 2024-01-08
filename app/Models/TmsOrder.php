@@ -47,6 +47,17 @@ class TmsOrder extends Model
         'Vorkasse'
     ];
 
+    const STATUSES = [
+        1 => 'Order created',
+        2 => 'Waiting for forwarder',
+        3 => 'Forwarder found',
+        4 => 'Picked up',
+        5 => 'Delivered',
+        6 => 'Canceled',
+        7 => 'Invoice sent to customer',
+        8 => 'Invoice paid',
+    ];
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(TmsCustomer::class);
@@ -57,12 +68,12 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
-    public function startAddress(): BelongsTo
+    public function pickupAddress(): BelongsTo
     {
         return $this->belongsTo(TmsAddress::class, 'pickup_address_id');
     }
 
-    public function targetAddress(): BelongsTo
+    public function deliveryAddress(): BelongsTo
     {
         return $this->belongsTo(TmsAddress::class, 'delivery_address_id');
     }

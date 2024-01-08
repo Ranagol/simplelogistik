@@ -12,12 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tms_vehicle_reqs', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('requirement_id');
-            $table->foreign('requirement_id')->references('id')->on('tms_requirements');
-            $table->unsignedBigInteger('vehicle_id');
-            $table->foreign('vehicle_id')->references('id')->on('tms_vehicles');
-            $table->timestamps();
+            $table->foreignId('tms_vehicle_id')->constrained('tms_vehicles');
+            $table->foreignId('tms_listed_gear_id')->constrained('tms_gears');
         });
     }
 

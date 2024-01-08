@@ -29,7 +29,25 @@ class TmsAddressFactory extends Factory
             'house_number' => $this->faker->buildingNumber,
             'zip_code' => $this->faker->postcode,
             'city' => $this->faker->city,
-            'country_id' => Arr::random([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),//these are the ids of the countries in the database
+            'country_id' => Arr::random(
+                [//TODO ANDOR pull this once from the database, instead of hardcoding it here
+                    //The end result should be an array of string country names
+                    "Afghanistan",
+                    "Albania",
+                    "Algeria",
+                    "American Samoa",
+                    "Andorra",
+                    "Angola",
+                    "Anguilla",
+                    "Antarctica",
+                    "Antigua and Barbuda",
+                    "Argentina",
+                    "Armenia",
+                    "Aruba",
+                    "Australia",
+                    "Austria"
+                ]
+            ),//these country names will become country ids in the database with a the TmsAddress::countrId() mutator
             'state' => $this->faker->state,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
@@ -39,3 +57,4 @@ class TmsAddressFactory extends Factory
         ];
     }
 }
+

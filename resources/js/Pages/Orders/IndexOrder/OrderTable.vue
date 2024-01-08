@@ -54,7 +54,6 @@
             sortable="custom"  
         ></el-table-column>
 
-        <!-- *********************** -->
         <el-table-column
             width="150"
             prop="created_at"
@@ -92,7 +91,7 @@
             label="Pickup address"
         >
             <template #default="scope">
-                code**  {{ scope.row.start_address.city }}
+                {{ scope.row.pickup_address.zip_code }}  {{ scope.row.pickup_address.city }}
             </template>
         </el-table-column>
 
@@ -101,7 +100,7 @@
             label="Delivery address"
         >
             <template #default="scope">
-                code**  {{ scope.row.target_address.city }}
+                {{ scope.row.pickup_address.zip_code }}  {{ scope.row.delivery_address.city }}
             </template>
         </el-table-column>
         
@@ -154,8 +153,8 @@
             label="Pickup contact"
         >
             <template #default="scope">
-                {{ scope.row.start_address.first_name }} 
-                {{ scope.row.start_address.last_name }}
+                {{ scope.row.pickup_address.first_name }} 
+                {{ scope.row.pickup_address.last_name }}
                 {{ scope.row.avis_receiver_phone }}
 
             </template>
@@ -166,8 +165,8 @@
             label="Delivery contact"
         >
             <template #default="scope">
-                {{ scope.row.target_address.first_name }} 
-                {{ scope.row.target_address.last_name }}
+                {{ scope.row.delivery_address.first_name }} 
+                {{ scope.row.delivery_address.last_name }}
                 {{ scope.row.avis_receiver_phone }}
             </template>
         </el-table-column>

@@ -4,26 +4,28 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\TmsOrder;
 use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 use App\Models\TmsCountry;
 use Illuminate\Http\Request;
-use App\Models\TmsOrder;
+use App\Services\OrderService;
+use App\Http\Requests\TmsOrderRequest;
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\TmsOrderRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsOrderController extends BaseController
 {
+    private $orderService;
 
-
-    public function __construct()
+    public function __construct(OrderService $orderService)
     {
         $this->model = new TmsOrder();
         $this->vueIndexPath = 'Orders/IndexOrder/Index';
         $this->vueCreateEditPath = 'Orders/CreateEditOrder/CreateEditBase';
+        $this->orderService = $orderService;
     }
 
     /**
@@ -89,10 +91,10 @@ class TmsOrderController extends BaseController
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsCustomerRequest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
-         * TmsCustomerRequest.
+         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
+         * TmsNeededGearuest.
          */
         $request = app($this->getRequestClass());
         
@@ -136,26 +138,13 @@ class TmsOrderController extends BaseController
         $record = TmsOrder::with(
             [
                 'parcels', 
-                'startAddress.country:id,country_name', //TODO is this wrong? Should I get the addresses through the customer?
-                'targetAddress.country:id,country_name',
+                'pickupAddress',
+                'deliveryAddress',
 
-                //1. level of eager loading (customer with id and company_name)
-                'customer' => function ($query){
-                    $query->select('id', 'company_name')
-                            ->with(
-                                [
-
-                                    //2. level of eager loading (headquarter with all columns)
-                                    'headquarter' => function ($query){
-                                        $query->with(
-
-                                            //3. level of eager loading (country with id and country_name)
-                                            ['country:id,country_name']
-                                        );
-                                    }
-                                ]);
+                //Give me the belonging customer, with only id and company_name and with customers headquarter.
+                'customer' => function ($query) {
+                    $query->select('id', 'company_name')->with(['headquarter']);
                 }
-
             ]
         )->find($id);
         
@@ -201,95 +190,19 @@ class TmsOrderController extends BaseController
         $orderFromDb = TmsOrder::find($id);
         
         //Handle parcels
-        $this->handleParcel($orderFromRequest);
+        $this->orderService->handleParcel($orderFromRequest);
 
         //Handle headquarter address
-        $this->handleHeadquarter($orderFromRequest);
-        //TODO ANDOR: I stopped here. The current problem: the addressType mutator does not triggers
-        //when we do upsert. So, the address_type column is not filled with the correct value. Because
-        //in the db, in address_type column, the app tries to write "headquarter", instead of
-        //number 1 (which is the correct value for headquarter address type). 
-        //What to do: check the data type: Ensure that the addressType attribute is being treated as a string in your TmsAddress model. The mutator expects the addressType value to be a string, so if it's being treated as a different data type, the mutator might not work correctly.
+        $this->orderService->handleHeadquarter($orderFromRequest);
+
+        //Handle pickup address
+        $this->orderService->handlePickupAddress($orderFromRequest);
+
+        //Handle delivery address
+        $this->orderService->handleDeliveryAddress($orderFromRequest);
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
-    }
-
-    private function handleHeadquarter(array $orderFromRequest): void
-    {
-
-        /**
-         * If the order has a headquarter address... Do create or update for the headquarter address,
-         * depending if the headquarter address already exists in the db or not. This will be 
-         * recognised by the id column.
-         */
-        if (!empty($orderFromRequest['customer']['headquarter'])) {
-
-            $headquarter = $orderFromRequest['customer']['headquarter'];
-            // dd($headquarter);
-
-            TmsAddress::upsert(
-                //1-An array of records that should be updated or created.
-                [
-                    $headquarter//only one headquarter address exists for one customer
-                ],
-                //2-The column(s) that should be used to determine if a record already exists.
-                'id',
-                //3-The column(s) that should be updated if a matching record already exists.
-                [
-                    "company_name",
-                    "first_name",
-                    "last_name",
-                    "address_type",
-                    "street",
-                    "house_number",
-                    "zip_code",
-                    "city",
-                    "state",
-                    "phone",
-                    "email",
-                    "address_additional_information",
-                    "country_id",
-                    "customer_id",
-                    "forwarder_id",
-                    "created_at",
-                    "updated_at",
-                ]
-            );
-        }
-    }
-
-    private function handleParcel(array $orderFromRequest): void
-    {
-
-        /**
-         * If the order has parcels... Do create or update for each parcel, depending if the parcel
-         * already exists in the db or not. This will be recognised by the id column.
-         */
-        if (!empty($orderFromRequest['parcels'])) {
-
-        $parcels = $orderFromRequest['parcels'];
-
-
-            TmsParcel::upsert(
-                //1-An array of records that should be updated or created.
-                $parcels,
-                //2-The column(s) that should be used to determine if a record already exists.
-                'id',
-                //3-The column(s) that should be updated if a matching record already exists.
-                [
-                    "is_hazardous",
-                    "information",
-                    "p_name",
-                    "p_height",
-                    "p_length",
-                    "p_width",
-                    "p_number",
-                    "p_stackable",
-                    "p_weight",
-                ]
-            );
-        }
     }
 
     /**
@@ -338,8 +251,8 @@ class TmsOrderController extends BaseController
 
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
-                'startAddress:id,city,country_id,first_name,last_name', 
-                'targetAddress:id,city,country_id,first_name,last_name',
+                'pickupAddress:id,city,zip_code', 
+                'deliveryAddress:id,city,zip_code',
                 'parcels'
             ])
             

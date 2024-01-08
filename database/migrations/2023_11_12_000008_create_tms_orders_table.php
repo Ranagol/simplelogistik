@@ -16,14 +16,14 @@ return new class extends Migration
 
             //Basic order details
             $table->bigIncrements('id');
-            $table->string('type_of_transport', 200)->comment('The type of transport. Example: LTL, FTL, Express, Air, Sea, Rail, Intermodal, Courier, Special')->nullable();
+            $table->string('type_of_transport', 200)->comment('The type of transport. Example: LTL, FTL, Express, Air, Sea, Rail, Intermodal, Courier, Special')->default('parcel');
             $table->string('origin')->comment('The origin of the order. Example: Pamyra, Sales, Google Ads, Shipping ...')->nullable();
-            $table->string('customer_reference')->comment('Customer reference. Example: when customer says please add this to the invoice.')->nullable();
+            $table->string('customer_reference')->comment('Customer reference. Example: when customer says please add this to the invoice, we wish to have this addtional info on our invoice.')->nullable();
             $table->decimal('provision', 10, 2)->comment('Example, for Pamyra orders the provision is 6%.')->nullable();
             $table->json('order_edited_events')->comment('When somebody edits the order, that must be registered here.')->nullable();//this does not need a factory/faker line
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
             $table->date('order_date')->nullable();
-            $table->string('purchase_price', 200)->comment('The purchase price of the order.')->nullable();
+            $table->string('purchase_price', 200)->comment('The purchase price of the order.');
             $table->string('month_and_year')->comment('The month and year of the order. Example: 2021-01')->nullable();
 
             //Foreign keys

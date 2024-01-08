@@ -10,7 +10,7 @@ use App\Models\TmsOrder;
 use App\Models\TmsOrderHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TmsCustomerReq;
+use App\Models\TmsNeededGear;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,7 +35,7 @@ class TmsCustomer extends Model
      * @var array
      */
     protected $casts = [
-        //booleans
+        //boolean casting
         'auto_book_as_private' => 'boolean',
         'dangerous_goods' => 'boolean',
         'bussiness_customer' => 'boolean',
@@ -51,7 +51,7 @@ class TmsCustomer extends Model
         'sofort' => 'boolean',
         'amazon' => 'boolean',
         'vorkasse' => 'boolean',
-        //json data
+        //json data casting
         'comments' => 'array',
     ];
 
@@ -125,11 +125,11 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsInvoice::class, 'customer_id');
     }
 
-    public function customerReqs(): BelongsToMany
-    {
-        //customer_customer_req_pivot is the pivot table name between customers and customer_reqs
-        return $this->belongsToMany(TmsCustomerReq::class, 'customer_customer_req_pivot');
-    }
+    // public function customerReqs(): BelongsToMany
+    // {
+    //     //customer_customer_req_pivot is the pivot table name between customers and customer_reqs
+    //     return $this->belongsToMany(TmsNeededGear::class, 'customer_customer_req_pivot');
+    // }
 
     //*************SCOPES*************************************** */
 
@@ -156,7 +156,8 @@ class TmsCustomer extends Model
     const CUSTOMER_TYPES = [
         1 => 'Bussiness customer',
         2 => 'Private customer',
-        3 => 'Forwarder',
+        3 => 'Partner',
+        4 => 'Bussiness and forwarder',
     ];
     
     protected function customerType(): Attribute
