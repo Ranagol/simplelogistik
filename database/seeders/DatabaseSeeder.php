@@ -31,7 +31,7 @@ use Database\Seeders\TmsForwarderSeeder;
 use Database\Seeders\TmsOrderSeeder;
 use Database\Seeders\TmsDispatcherSeeder;
 use Database\Seeders\TmsOfferPriceSeeder;
-use Database\Seeders\TmsVehicleReqSeeder;
+// use Database\Seeders\TmsVehicleReqSeeder;
 use Database\Seeders\TmsGearSeeder;
 use Database\Seeders\TmsOrderHistorySeeder;
 use Database\Seeders\TmsOrderAttributeSeeder;
@@ -78,9 +78,9 @@ class DatabaseSeeder extends Seeder
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
             TmsOrderHistorySeeder::class,
-            TmsVehicleReqSeeder::class,
+            // TmsVehicleReqSeeder::class,
             TmsTransportLicenseSeeder::class,
-            PivotTableSeeder::class,
+            // PivotTableSeeder::class,
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
         ]);
