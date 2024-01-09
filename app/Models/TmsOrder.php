@@ -116,6 +116,7 @@ class TmsOrder extends Model
     {
         return $query->where('type_of_transport', 'like', "%{$searchTerm}%")
             ->orWhere('p_order_number', 'like', "%{$searchTerm}%")
+            ->orWhere('status', 'like', "%{$searchTerm}%")
             ;
     }
 
