@@ -84,6 +84,8 @@ class DatabaseSeeder extends Seeder
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
             TmsProvisionSeeder::class,
+            TmsPamyraOrderSeeder::class,
+            TmsNativeOrderSeeder::class,
         ]);
 
         // $dispatchers = TmsDispatcher::factory(5)->create();

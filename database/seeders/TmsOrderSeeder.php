@@ -13,13 +13,16 @@ class TmsOrderSeeder extends Seeder
      */
     public function run(): void
     {
-        // TmsOrder::factory(config('constants.numberOfDbRecords'))->create();
+        /**
+         * Here we create 20 orders. The order nr 1 will have 1 for customer_id, contact_id, 
+         * pickup_address_id and delivery_address_id. All 1. Then same for order nr 2.
+         * This can work only when we have 20 customers and 20 contacts in the database.
+         * Which we have.
+         */
         for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
             TmsOrder::factory()->create([
                 'customer_id' => $i,
                 'contact_id' => $i,
-                'pickup_address_id' => $i,
-                'delivery_address_id' => $i+1,
             ]);
         }
     }
