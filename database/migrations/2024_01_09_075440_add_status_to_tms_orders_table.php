@@ -15,9 +15,10 @@ return new class extends Migration
 
             /**
              * To add a column after a specific column in Laravel, you can use the after method. 
-             * This method is used to specify the order of columns in the table
+             * This method is used to specify the order of columns in the table.
+             * default('1') is actually 'Order created', see the mutator.
              */
-            $table->string('status')->nullable()->after('origin');
+            $table->tinyInteger('status')->default('1')->after('origin')->unsigned();//uses a mutator from TmsOrder model
         });
     }
 

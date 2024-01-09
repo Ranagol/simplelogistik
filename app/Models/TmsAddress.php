@@ -151,7 +151,6 @@ class TmsAddress extends Model
                 return $countryName;
             },
 
-            //$value is for example: 13
             /**
              * Here we return the country_id, instead of the country_name. Because we must write the
              * country_id into the db.

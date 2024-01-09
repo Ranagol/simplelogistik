@@ -28,7 +28,7 @@ class TmsOrderFactory extends Factory
             'origin' => $this->faker->randomElement(TmsOrder::ORIGINS),
             'status' => $this->faker->randomElement(TmsOrder::STATUSES),
             'customer_reference' => $this->faker->numerify('#######'),
-            'provision' => $this->faker->randomFloat(2, 0, 10),
+            'provision' => $this->faker->randomFloat(2, 0, 10),//provision should be less than 10%
             'order_date' => $this->faker->date(),
             'purchase_price' => $this->faker->randomFloat(2, 0, 1000),
             'month_and_year' => $this->faker->monthName() . ' - ' . $this->faker->year(),
