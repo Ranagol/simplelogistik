@@ -103,6 +103,48 @@ class TmsOrder extends Model
         return $this->hasOne(TmsForwardingContract::class, 'order_id');
     }
 
+    /**
+     * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder. It is either
+     * a PamyraOrder or a NativeOrder, never both. That is why we use this funny method here.
+     * It will return the suborder, either a PamyraOrder or a NativeOrder.
+     *
+     * @return HasOne
+     */
+    public function subOrder(): HasOne
+    {
+        //->exists() checks if there is a relationship existing in the db
+        if ($this->pamyraOrder()->exists()) {
+            return $this->pamyraOrder();
+        }
+        //->exists() checks if there is a relationship existing in the db
+        if ($this->nativeOrder()->exists()) {
+            return $this->nativeOrder();
+        }
+    }
+
+    /**
+     * See the comment above the subOrder() method.
+     *
+     * @return HasOne
+     */
+    public function pamyraOrder(): HasOne
+    {
+        return $this->hasOne(TmsPamyraOrder::class, 'order_id');
+    }
+
+    /**
+     * See the comment above the subOrder() method.
+     *
+     * @return HasOne
+     */
+    public function nativeOrder(): HasOne
+    {
+        return $this->hasOne(TmsNativeOrder::class, 'order_id');
+    }
+
+
+    //*************SCOPES*************************************** */
+
 
     /**
      * This here is a Laravel local scope, for searching by search term.
