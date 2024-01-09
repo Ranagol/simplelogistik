@@ -14,6 +14,14 @@ return new class extends Migration
         // ORDERS TABLE
         Schema::create('tms_orders', function (Blueprint $table) {
 
+            //Foreign keys
+            $table->unsignedBigInteger('customer_id');
+            $table->foreign('customer_id')->references('id')->on('tms_customers');
+            $table->unsignedBigInteger('contact_id');
+            $table->foreign('contact_id')->references('id')->on('tms_contacts')->comment('This is the contact person that is especially important, because this person has given us the official order. This is the reason why we keep this contact in the orders table.');
+            $table->unsignedBigInteger('partner_id');
+            $table->foreign('partner_id')->references('id')->on('tms_partners');
+            
             //Basic order details
             $table->bigIncrements('id');
             $table->string('type_of_transport', 200)->comment('The type of transport. Example: LTL, FTL, Express, Air, Sea, Rail, Intermodal, Courier, Special')->default('parcel');
@@ -25,12 +33,6 @@ return new class extends Migration
             $table->date('order_date')->nullable();
             $table->string('purchase_price', 200)->comment('The purchase price of the order.');
             $table->string('month_and_year')->comment('The month and year of the order. Example: 2021-01')->nullable();
-
-            //Foreign keys
-            $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('tms_customers');
-            $table->unsignedBigInteger('contact_id');
-            $table->foreign('contact_id')->references('id')->on('tms_contacts')->comment('This is the contact person that is especially important, because this person has given us the official order. This is the reason why we keep this contact in the orders table.');
 
             //Avis phone numbers. 
             $table->string('avis_customer_phone', 200)->comment('One time use customer phone number')->nullable();

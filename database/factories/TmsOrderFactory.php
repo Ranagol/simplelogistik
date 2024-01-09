@@ -22,6 +22,7 @@ class TmsOrderFactory extends Factory
         return [
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'contact_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'partner_id' => 1,//1 is Pamyra, that is good enough for now. 20 orders coming from Pamyra is realistic.
             'type_of_transport' => $this->faker->randomElement(TmsOrder::TYPES_OF_TRANSPORT),
             'origin' => $this->faker->randomElement(TmsOrder::ORIGINS),
             'status' => $this->faker->randomElement(TmsOrder::STATUSES),
