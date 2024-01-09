@@ -50,10 +50,10 @@ class TmsAddressFactory extends Factory
             'partner_id' => Arr::random([
                 null, null, null, null, null, null, null, null, null, null, null, null, null, null, 1,
             ]),
+
             'company_name' => $this->faker->company,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'address_type' => Arr::random(TmsAddress::ADDRESS_TYPES),
             'street' => $this->faker->streetName,
             'house_number' => $this->faker->buildingNumber,
             'zip_code' => $this->faker->postcode,
@@ -62,6 +62,11 @@ class TmsAddressFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
+
+            'is_pickup' => $this->faker->boolean,
+            'is_delivery' => $this->faker->boolean,
+            'is_billing' => $this->faker->boolean,
+            'is_headquarter' => $this->faker->boolean,
             
         ];
     }

@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string('company_name', 255)->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->integer('address_type')->comment('See TmsAddress model, ADDRESS_TYPE constant for additional info.')->unsigned()->nullable();
             $table->string('street', 200);
             $table->string('house_number',200)->nullable();
             $table->string('zip_code',20);
@@ -36,6 +35,11 @@ return new class extends Migration
             $table->string('address_additional_information',255)->comment('This is actually the comment part, but it is called address_additional_information in Pamyra. ')->nullable();
             $table->string('phone',100)->nullable();
             $table->string('email',100)->nullable();
+
+            $table->boolean('is_pickup')->nullable();
+            $table->boolean('is_delivery')->nullable();
+            $table->boolean('is_billing')->nullable();
+            $table->boolean('is_headquarter')->nullable();
             
             $table->timestamps();
         });

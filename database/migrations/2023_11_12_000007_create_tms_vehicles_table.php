@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('tms_vehicles', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            $table->unsignedBigInteger('forwarder_id');
+            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
+            $table->unsignedBigInteger('address_id');
+            $table->foreign('address_id')->references('id')->on('tms_addresses');
+            
             $table->string('name', 100);
             $table->decimal('max_weight', 10,2);
             $table->decimal('max_pickup_weight',10,2);
@@ -21,10 +27,7 @@ return new class extends Migration
             $table->decimal('max_pickup_length',10,2);
             $table->string('vehicle_type', 100);
             $table->string('plate_number', 50);
-            $table->unsignedBigInteger('forwarder_id');
-            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
-            $table->unsignedBigInteger('address_id');
-            $table->foreign('address_id')->references('id')->on('tms_addresses');
+            
             $table->timestamps();
         });
     }
