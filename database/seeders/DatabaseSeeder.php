@@ -17,6 +17,7 @@ use App\Models\TmsForwarder;
 use App\Models\TmsOrder;
 use App\Models\TmsDispatcher;
 use App\Models\TmsGear;
+use App\Models\TmsPartner;
 use App\Models\TmsProvision;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -69,6 +70,7 @@ class DatabaseSeeder extends Seeder
             TmsCountrySeeder::class,
             TmsDispatcherSeeder::class,
             TmsCustomerSeeder::class,
+            TmsPartnerSeeder::class,
             TmsForwarderSeeder::class,
             TmsGearSeeder::class,
             TmsAddressSeeder::class,
