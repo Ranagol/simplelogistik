@@ -13,17 +13,18 @@ return new class extends Migration
     {
         // ORDERS TABLE
         Schema::create('tms_orders', function (Blueprint $table) {
-
+            $table->bigIncrements('id');
+            
             //Foreign keys
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('contact_id');
             $table->foreign('contact_id')->references('id')->on('tms_contacts')->comment('This is the contact person that is especially important, because this person has given us the official order. This is the reason why we keep this contact in the orders table.');
-            $table->unsignedBigInteger('partner_id');
+            $table->unsignedBigInteger('partner_id')->nullable();
             $table->foreign('partner_id')->references('id')->on('tms_partners');
             
             //Basic order details
-            $table->bigIncrements('id');
+            
             $table->string('type_of_transport', 200)->comment('The type of transport. Example: LTL, FTL, Express, Air, Sea, Rail, Intermodal, Courier, Special')->default('parcel');
             $table->string('origin')->comment('The origin of the order. Example: Pamyra, Sales, Google Ads, Shipping ...')->nullable();
             $table->string('customer_reference')->comment('Customer reference. Example: when customer says please add this to the invoice, we wish to have this addtional info on our invoice.')->nullable();

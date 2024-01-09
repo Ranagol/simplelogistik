@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('tms_provisions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tms_customer_id');
-            $table->foreign('tms_customer_id')->references('id')->on('tms_customers');
-            $table->float('value', 10, 2)->comment('The provision valuein percentage. Example: 1.5%');
+            $table->unsignedBigInteger('partner_id')->nullable();
+            $table->foreign('partner_id')->references('id')->on('tms_partners');
+            $table->float('value', 10, 2)->comment('The provision value in percentage. Example: 1.5%');
             $table->date('valid_from')->comment('The provision is valid from this date');
             $table->date('valid_to')->comment('The provision is valid to this date');
             $table->timestamps();

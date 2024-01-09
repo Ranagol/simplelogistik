@@ -122,6 +122,11 @@ class TmsOrder extends Model
         }
     }
 
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(TmsPartner::class);
+    }
+
     /**
      * See the comment above the subOrder() method.
      *

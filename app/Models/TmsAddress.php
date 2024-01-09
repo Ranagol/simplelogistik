@@ -52,6 +52,11 @@ class TmsAddress extends Model
         return $this->belongsTo(TmsCountry::class, 'country_id');
     }
 
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(TmsPartner::class);
+    }
+
     //*************SCOPES*************************************** */
 
     /**

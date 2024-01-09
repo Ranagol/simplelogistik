@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('tms_addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            //FOREIGN KEYS
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->foreign('customer_id')->references('id')->on('tms_customers');
+            $table->unsignedBigInteger('forwarder_id')->nullable();
+            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
+            $table->unsignedBigInteger('country_id');//country
+            $table->foreign('country_id')->references('id')->on('tms_countries');
+            $table->unsignedBigInteger('partner_id')->nullable();
+            $table->foreign('partner_id')->references('id')->on('tms_partners');
+
             $table->string('company_name', 255)->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
@@ -22,17 +33,9 @@ return new class extends Migration
             $table->string('zip_code',20);
             $table->string('city',100);
             $table->string('state',100)->nullable();
-
+            $table->string('address_additional_information',255)->comment('This is actually the comment part, but it is called address_additional_information in Pamyra. ')->nullable();
             $table->string('phone',100)->nullable();
             $table->string('email',100)->nullable();
-            
-            $table->string('address_additional_information',255)->comment('This is actually the comment part, but it is called address_additional_information in Pamyra. ')->nullable();
-            $table->unsignedBigInteger('country_id');//country
-            $table->foreign('country_id')->references('id')->on('tms_countries');
-            $table->unsignedBigInteger('customer_id')->nullable();
-            $table->foreign('customer_id')->references('id')->on('tms_customers');
-            $table->unsignedBigInteger('forwarder_id')->nullable();
-            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             
             $table->timestamps();
         });

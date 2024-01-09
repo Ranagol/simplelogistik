@@ -38,6 +38,18 @@ class TmsAddressFactory extends Factory
     public function definition(): array
     {
         return [
+            'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            //Takes one random country name from the array of country names
+            'country_id' => Arr::random($this->countryNames),
+
+            /**
+             * This is a simple way to assure that about 90% of the addresses will NOT belong to a 
+             * partner. When it belongs to a partner, then it is partner_id = 1. 
+             */
+            'partner_id' => Arr::random([
+                null, null, null, null, null, null, null, null, null, null, null, null, null, null, 1,
+            ]),
             'company_name' => $this->faker->company,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
@@ -46,14 +58,11 @@ class TmsAddressFactory extends Factory
             'house_number' => $this->faker->buildingNumber,
             'zip_code' => $this->faker->postcode,
             'city' => $this->faker->city,
-            //Takes one random country name from the array of country names
-            'country_id' => Arr::random($this->countryNames),
             'state' => $this->faker->state,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
-            'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
-            'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            
         ];
     }
 }

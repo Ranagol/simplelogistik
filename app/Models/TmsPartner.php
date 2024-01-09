@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TmsPartner extends Model
 {
@@ -11,5 +12,25 @@ class TmsPartner extends Model
 
     protected $guarded = ['id'];
     protected $table = 'tms_partners';
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(TmsOrder::class, 'partner_id');
+    }
+
+    public function provisions(): HasMany
+    {
+        return $this->hasMany(TmsProvision::class, 'partner_id');
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(TmsAddress::class, 'partner_id');
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(TmsContact::class, 'partner_id');
+    }
     
 }
