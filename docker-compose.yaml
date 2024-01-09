@@ -6,6 +6,7 @@ services:
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-8.2/app
+        
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -27,6 +28,7 @@ services:
             - meilisearch
             - mailpit
             - selenium
+    
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -59,14 +61,15 @@ services:
     phpmyadmin:
         image: phpmyadmin
         container_name: phpmyadmintms
-        hostname: phpmyadmin
+        networks:
+            - sail
         ports:
             - 3000:80
         environment:
             - PMA_HOST=${DB_HOST}
             - PMA_PORT=3306
-            - PMA_USER=root
-            - PMA_PASSWORD=
+            - PMA_USER=${DB_USERNAME}
+            - PMA_PASSWORD=${DB_PASSWORD}
             - PMA_ARBITRARY=1
         depends_on:
             - mysql
@@ -123,6 +126,7 @@ services:
             - '/dev/shm:/dev/shm'
         networks:
             - sail
+    
 networks:
     sail:
         driver: bridge
@@ -132,4 +136,6 @@ volumes:
     sail-redis:
         driver: local
     sail-meilisearch:
+        driver: local
+    sail-installer:
         driver: local
