@@ -26,6 +26,7 @@ class TmsOrderFactory extends Factory
             'delivery_address_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'type_of_transport' => $this->faker->randomElement(TmsOrder::TYPES_OF_TRANSPORT),
             'origin' => $this->faker->randomElement(TmsOrder::ORIGINS),
+            'status' => $this->faker->randomElement(TmsOrder::STATUSES),
             'customer_reference' => $this->faker->numerify('#######'),
             'provision' => $this->faker->randomFloat(2, 0, 10),
             'order_date' => $this->faker->date(),

@@ -31,6 +31,9 @@ class TmsOrder extends Model
         'Special order'
     ];
 
+    /**
+     * This is the source, the origin of the order.
+     */
     const ORIGINS = [
         'Pamyra',
         'Sales',
@@ -47,6 +50,9 @@ class TmsOrder extends Model
         'Vorkasse'
     ];
 
+    /**
+     * These are the possible order statuses.
+     */
     const STATUSES = [
         1 => 'Order created',
         2 => 'Waiting for forwarder',
