@@ -124,16 +124,18 @@ class TmsOrder extends Model
     
     /**
      * These are the possible order statuses.
+     * Waring: if we display the keys too (like 1 => 'Order created'), then we Laravel return an
+     * object. If we display only the values (like 'Order created'), then Laravel returns an array.
      */
     const STATUSES = [
-        1 => 'Order created',
-        2 => 'Waiting for forwarder',
-        3 => 'Forwarder found',
-        4 => 'Picked up',
-        5 => 'Delivered',
-        6 => 'Canceled',
-        7 => 'Invoice sent to customer',
-        8 => 'Invoice paid',
+        'Order created',
+        'Waiting for forwarder',
+        'Forwarder found',
+        'Picked up',
+        'Delivered',
+        'Canceled',
+        'Invoice sent to customer',
+        'Invoice paid',
     ];
 
     /**

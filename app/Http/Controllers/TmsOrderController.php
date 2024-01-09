@@ -161,6 +161,7 @@ class TmsOrderController extends BaseController
                     'origins' => TmsOrder::ORIGINS,//Example: Pamyra, sales...
                     'paymentMethods' => TmsOrder::PAYMENT_METHODS,
                     'parcelTypes' => TmsParcel::PARCEL_TYPE,
+                    'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
                 ]
             ]
         );
