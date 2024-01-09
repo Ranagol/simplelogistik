@@ -27,7 +27,7 @@ class TmsCustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'internal_cid' => $this->faker->unique()->numberBetween(10000, 99999),
+            'internal_id' => $this->faker->unique()->numberBetween(10000, 99999),
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->unique()->safeEmail,

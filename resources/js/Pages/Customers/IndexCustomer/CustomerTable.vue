@@ -23,7 +23,7 @@
 
         <el-table-column
             label='C. number'
-            prop='internal_cid'
+            prop='internal_id'
             sortable='custom'
             width="150px"
         >
@@ -31,7 +31,7 @@
                 <Link
                     class="hover:underline text-blue-500"
                     :href="`/customers/${scope.row.id}/edit`"
-                >{{ scope.row.internal_cid }}</Link>
+                >{{ scope.row.internal_id }}</Link>
             </template>
         </el-table-column>
 
