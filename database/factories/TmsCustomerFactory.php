@@ -28,11 +28,21 @@ class TmsCustomerFactory extends Factory
     {
         return [
             'internal_id' => $this->faker->unique()->numberBetween(10000, 99999),
+
+            /**
+             * This method accepts an associative array where the keys are the values to be chosen 
+             * and the values are the relative probabilities of choosing each key. In this code, 
+             * null has a 90% chance of being chosen and 1 has a 10% chance. The probabilities don't 
+             * have to add up to 100, they are relative to each other. So in this case, null is 9 
+             * times more likely to be chosen than 1.
+             */
+            'forwarder_id' => $this->faker->randomElement([null => 90, 1 => 10]),
+
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->unique()->safeEmail,
             'company_name' => $this->faker->company,
-            'tax_number' => $this->faker->randomNumber(9, true),
+            'tax_number' => $this->faker->unique()->randomNumber(9, true),
             'rating' => $this->faker->numberBetween(1, 5),
             'payment_time' => $this->faker->numberBetween(1, 30),
 
@@ -63,3 +73,4 @@ class TmsCustomerFactory extends Factory
         ];
     }
 }
+

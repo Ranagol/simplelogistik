@@ -81,4 +81,43 @@ class TmsOrderAddress extends Model
 
         );
     }
+
+    /**
+     * Mutator and accessor for the country_id db column. It is used to transform the data that is 
+     * being retrieved from the database. In this case, we're using it to transform the country_id
+     * integer value into a string representation. It must be called countryId, because the db column
+     * is country_id.
+     * 
+     * get example: 1 will become 'Austria'.
+     * set example: 'Austria' will become 1.
+     * 
+     *
+     * @return Attribute
+     */
+    protected function countryId(): Attribute
+    {
+        return Attribute::make(
+
+            /**
+             * Here we return the country_name, instead of the country_id.
+             */
+            get: function (string $value) {
+                $country = TmsCountry::find($value);
+                $countryName = $country ? $country->country_name : 'Missing data TmsAddress model.';
+                // dd($countryName);
+                return $countryName;
+            },
+
+            /**
+             * Here we return the country_id, instead of the country_name. Because we must write the
+             * country_id into the db.
+             */
+            set: function (string $value) { 
+                // dump($value);
+                $countryId = TmsCountry::where('country_name', $value)->first()->id;
+                // dd($value, $countryId);
+                return $countryId;
+            }
+        );
+    }
 }

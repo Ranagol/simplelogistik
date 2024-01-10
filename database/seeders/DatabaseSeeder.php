@@ -17,6 +17,7 @@ use App\Models\TmsForwarder;
 use App\Models\TmsOrder;
 use App\Models\TmsDispatcher;
 use App\Models\TmsGear;
+use App\Models\TmsOrderAddress;
 use App\Models\TmsPartner;
 use App\Models\TmsProvision;
 use Illuminate\Database\Seeder;
@@ -82,12 +83,13 @@ class DatabaseSeeder extends Seeder
             TmsForwardingContractSeeder::class,
             TmsOrderHistorySeeder::class,
             TmsTransportLicenseSeeder::class,
-            PivotTableSeeder::class,
+            PivotTableSeeder::class,//all pivot table connections are created here.
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
             TmsProvisionSeeder::class,
             TmsPamyraOrderSeeder::class,
             TmsNativeOrderSeeder::class,
+            TmsOrderAddressSeeder::class,
         ]);
 
         // $dispatchers = TmsDispatcher::factory(5)->create();
