@@ -3,12 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Pivot;
 use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\TmsContact;
-use App\Models\TmsCountry;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
@@ -17,9 +15,6 @@ use App\Models\TmsForwarder;
 use App\Models\TmsOrder;
 use App\Models\TmsDispatcher;
 use App\Models\TmsGear;
-use App\Models\TmsOrderAddress;
-use App\Models\TmsPartner;
-use App\Models\TmsProvision;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TmsParcelSeeder;
@@ -70,9 +65,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TmsCountrySeeder::class,
             TmsDispatcherSeeder::class,
+            TmsForwarderSeeder::class,
             TmsCustomerSeeder::class,
             TmsPartnerSeeder::class,
-            TmsForwarderSeeder::class,
             TmsGearSeeder::class,
             TmsAddressSeeder::class,
             TmsContactSeeder::class,
