@@ -36,7 +36,8 @@ class TmsCustomerFactory extends Factory
              * have to add up to 100, they are relative to each other. So in this case, null is 9 
              * times more likely to be chosen than 1.
              */
-            'forwarder_id' => $this->faker->randomElement([null => 90, 1 => 10]),
+            'forwarder_id' => $this->faker->randomElement([null => 90, 20 => 10]),//not working with probabilities
+            'forwarder_id' => $this->faker->randomElement([null, null, null, null, null, null, 1]),
 
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,

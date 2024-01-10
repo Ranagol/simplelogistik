@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class TmsOrderAddressFactory extends Factory
 {
 
-    protected array $countryNames;
+    protected array $countryIds;
 
     public function __construct()
     {
@@ -27,7 +27,7 @@ class TmsOrderAddressFactory extends Factory
          * will transform this country name into a valid country id. There is no other way to fake
          * the country_id.
          */
-        $this->countryNames = TmsCountry::pluck('country_name')->toArray();
+        $this->countryIds = TmsCountry::pluck('id')->toArray();
     }
 
     /**
@@ -42,7 +42,7 @@ class TmsOrderAddressFactory extends Factory
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             //Takes one random country name from the array of country names
-            'country_id' => Arr::random($this->countryNames),//works with mutator
+            'country_id' => Arr::random($this->countryIds),
 
             /**
              * This is a simple way to assure that about 90% of the addresses will NOT belong to a 

@@ -4,8 +4,9 @@ namespace Database\Factories;
 
 use App\Models\TmsAddress;
 use App\Models\TmsCountry;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use App\Models\TmsForwarder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_address>
@@ -14,7 +15,13 @@ class TmsAddressFactory extends Factory
 {
     protected $model = TmsAddress::class;
 
-    protected array $countryNames;
+    /**
+     * Will have all the country names from the db, after the __construct() method is called.
+     * This is needed for faking.
+     *
+     * @var array
+     */
+    protected array $countryIds;
 
     public function __construct()
     {
@@ -27,7 +34,8 @@ class TmsAddressFactory extends Factory
          * will transform this country name into a valid country id. There is no other way to fake
          * the country_id.
          */
-        $this->countryNames = TmsCountry::pluck('country_name')->toArray();
+        $this->countryIds = TmsCountry::pluck('id')->toArray();
+        // $this->forwaderIds = TmsForwarder::pluck('id')->toArray();
     }
 
     /**
@@ -41,7 +49,7 @@ class TmsAddressFactory extends Factory
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             //Takes one random country name from the array of country names
-            'country_id' => Arr::random($this->countryNames),//works with mutator
+            'country_id' => Arr::random($this->countryIds),
 
             /**
              * This is a simple way to assure that about 90% of the addresses will NOT belong to a 
