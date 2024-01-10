@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gear_customer', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->foreignId('customer_id')->constrained('tms_customers');
             $table->foreignId('gear_id')->constrained('tms_gears');
+            $table->timestamps();
         });
     }
 

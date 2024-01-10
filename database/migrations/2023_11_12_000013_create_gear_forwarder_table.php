@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gear_forwarder', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->foreignId('forwarder_id')->constrained('tms_forwarders');
             $table->foreignId('gear_id')->constrained('tms_gears');
+            $table->timestamps();
         });
     }
 

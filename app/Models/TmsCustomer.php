@@ -165,8 +165,6 @@ class TmsCustomer extends Model
     const CUSTOMER_TYPES = [
         1 => 'Bussiness customer',
         2 => 'Private customer',
-        3 => 'Partner',
-        4 => 'Bussiness and forwarder',
     ];
     
     protected function customerType(): Attribute
