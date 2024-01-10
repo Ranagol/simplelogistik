@@ -6,6 +6,7 @@ import { createApp, h, DefineComponent } from 'vue';
 import { createInertiaApp, Link, Head } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+
 import Layout from './Shared/Layout.vue';
 import { createPinia } from 'pinia';
 
@@ -13,9 +14,21 @@ import { createPinia } from 'pinia';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
-
-
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+import { createI18n } from 'vue-i18n'
+
+import de from "../lang/de.json";
+import en from "../lang/en.json";
+
+const messages = {de, en};
+const config = {
+    locale: 'de',
+    fallbackLocale: 'en',
+    messages,
+}
+
+const translations = createI18n(config);
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -67,6 +80,7 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .use(ElementPlus)
             .use(createPinia())
+            .use(translations)
             .mount(el);
     },
 
