@@ -29,6 +29,13 @@ class TmsAddress extends Model
     protected $guarded = ['id'];
     protected $table = "tms_addresses";
 
+    protected $casts = [
+        'is_pickup' => 'boolean',
+        'is_delivery' => 'boolean',
+        'is_billing' => 'boolean',
+        'is_headquarter' => 'boolean',
+    ];
+
     /**
      * APPENDING (attaching a new column to the model, that is originally not in the model's table)
      * Here we want to add country_name to the Address model.

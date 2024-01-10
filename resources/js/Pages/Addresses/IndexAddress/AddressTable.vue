@@ -55,10 +55,10 @@
             :width="200"
         >
             <template #default="scope">
-                <Link
-                    class="hover:underline text-blue-500"
-                    :href="`/addresses/${scope.row.id}/edit`"
-                >{{ scope.row.address_type }}</Link>
+                <span v-if="scope.row.is_pickup">Pickup</span>
+                <span v-if="scope.row.is_delivery"> Delivery</span>
+                <span v-if="scope.row.is_billing"> Billing</span>
+                <span v-if="scope.row.is_headquarter"> Headquarter</span>
             </template>
         </el-table-column>
 
