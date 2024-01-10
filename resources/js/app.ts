@@ -20,10 +20,13 @@ import { createI18n } from 'vue-i18n'
 
 import de from "../lang/de.json";
 import en from "../lang/en.json";
+import es from "../lang/es.json";
+import it from "../lang/it.json";
+import fr from "../lang/fr.json";
 
-const messages = {de, en};
+const messages = {de, en, es, it, fr};
 const config = {
-    locale: 'de',
+    locale: sessionStorage.getItem('locale') || 'de',
     fallbackLocale: 'en',
     messages,
 }
@@ -32,7 +35,6 @@ const translations = createI18n(config);
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-
     /**
      * This code dynamically imports Vue.js components based on the page name and ensures that each im-ported
      * component has a layout property set, falling back to a default layout (Layout) if one is not
