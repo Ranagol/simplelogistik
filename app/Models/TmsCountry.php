@@ -277,6 +277,6 @@ class TmsCountry extends Model
 
     public function orderAddresses(): HasMany
     {
-        return $this->hasMany(TmsOrderAddress::class, 'order_id');
+        return $this->hasMany(TmsOrderAddress::class, 'country_id');
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\TmsOrder;
 use App\Models\TmsCountry;
+use App\Models\TmsPartner;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
-use App\Models\TmsOrder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -27,6 +29,20 @@ class TmsAddress extends Model
     protected $guarded = ['id'];
     protected $table = "tms_addresses";
 
+    /**
+     * APPENDING (attaching a new column to the model, that is originally not in the model's table)
+     * Here we want to add country_name to the Address model.
+     *
+     * @var array
+     */
+    protected $appends = ['country_name'];
+    public function getCountryNameAttribute(): string
+    {
+        $country = TmsCountry::find($this->country_id);//$this->country_id is the country_id of the current Address model.
+        $countryName = $country ? $country->country_name : 'TmsAddress appends error.';
+        return $countryName;
+    }
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(TmsCustomer::class);
@@ -37,20 +53,14 @@ class TmsAddress extends Model
         return $this->belongsTo(TmsForwarder::class);
     }
 
-    public function ordersByStartAddresses(): HasMany
-    {
-        return $this->hasMany(TmsOrder::class, 'pickup_address_id');
-    }
-
-    public function ordersByTargetAddresses(): HasMany
-    {
-        return $this->hasMany(TmsOrder::class, 'delivery_address_id');
-    }
-
     public function country(): BelongsTo
     {
         return $this->belongsTo(TmsCountry::class, 'country_id');
     }
+
+
+
+
 
     public function partner(): BelongsTo
     {
@@ -92,31 +102,31 @@ class TmsAddress extends Model
      *
      * @return Attribute
      */
-    protected function countryId(): Attribute
-    {
-        return Attribute::make(
+    // protected function countryId(): Attribute
+    // {
+    //     return Attribute::make(
 
-            /**
-             * Here we return the country_name, instead of the country_id.
-             */
-            get: function (string $value) {
-                $country = TmsCountry::find($value);
-                $countryName = $country ? $country->country_name : 'Missing data TmsAddress model.';
-                // dd($countryName);
-                return $countryName;
-            },
+    //         /**
+    //          * Here we return the country_name, instead of the country_id.
+    //          */
+    //         get: function (string $value) {
+    //             $country = TmsCountry::find($value);
+    //             $countryName = $country ? $country->country_name : 'Missing data TmsAddress model.';
+    //             // dd($countryName);
+    //             return $countryName;
+    //         },
 
-            /**
-             * Here we return the country_id, instead of the country_name. Because we must write the
-             * country_id into the db.
-             */
-            set: function (string $value) { 
-                // dump($value);
-                $countryId = TmsCountry::where('country_name', $value)->first()->id;
-                // dd($value, $countryId);
-                return $countryId;
-            }
-        );
-    }
+    //         /**
+    //          * Here we return the country_id, instead of the country_name. Because we must write the
+    //          * country_id into the db.
+    //          */
+    //         set: function (string $value) { 
+    //             // dump($value);
+    //             $countryId = TmsCountry::where('country_name', $value)->first()->id;
+    //             // dd($value, $countryId);
+    //             return $countryId;
+    //         }
+    //     );
+    // }
 }
 
