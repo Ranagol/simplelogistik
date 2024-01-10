@@ -17,6 +17,8 @@ class TmsCountry extends Model
 
     /**
      * List of all countries, that the app uses. For selection in forms, for seeding.
+     * This is the source, from where we use and seed all country related things. So if you want
+     * to change the country list, this is the place to do.
      */
     CONST COUNTRIES = [
         ["Afghanistan","AF","AFG","4"],

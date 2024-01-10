@@ -26,30 +26,30 @@ class TmsOrder extends Model
     protected $table = "tms_orders";
 
     const TYPES_OF_TRANSPORT = [
-        'General cargo',
-        'LTL/FTL',
-        'Direct transport',
-        'Parcell up to 31.5 kg',
-        'Special order'
+        1 => 'General cargo',
+        2 => 'LTL/FTL',
+        3 => 'Direct transport',
+        4 => 'Parcell up to 31.5 kg',
+        5 => 'Special order'
     ];
 
     /**
      * This is the source, the origin of the order.
      */
     const ORIGINS = [
-        'Pamyra',
-        'Sales',
-        'Google Ads',
-        'Shipping calc.'
+        1 => 'Pamyra',
+        2 => 'Sales',
+        3 => 'Google Ads',
+        4 => 'Shipping calc.'
     ];
 
     const PAYMENT_METHODS = [
-        'Credit Card', 
-        'Paypal', 
-        'Bank Transfer',
-        'Amazon',
-        'Sofort',
-        'Vorkasse'
+        1 => 'Credit Card', 
+        2 => 'Paypal', 
+        3 => 'Bank Transfer',
+        4 => 'Amazon',
+        5 => 'Sofort',
+        6 => 'Vorkasse'
     ];
 
     
@@ -187,14 +187,14 @@ class TmsOrder extends Model
      * object. If we display only the values (like 'Order created'), then Laravel returns an array.
      */
     const STATUSES = [
-        'Order created',
-        'Waiting for forwarder',
-        'Forwarder found',
-        'Picked up',
-        'Delivered',
-        'Canceled',
-        'Invoice sent to customer',
-        'Invoice paid',
+        1 => 'Order created',
+        2 => 'Waiting for forwarder',
+        3 =>'Forwarder found',
+        4 => 'Picked up',
+        5 => 'Delivered',
+        6 => 'Canceled',
+        7 => 'Invoice sent to customer',
+        8 => 'Invoice paid',
     ];
 
     /**

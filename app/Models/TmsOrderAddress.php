@@ -19,6 +19,8 @@ class TmsOrderAddress extends Model
     protected $guarded = ['id'];
     protected $table = "tms_order_addresses";
 
+    //*************************APPENDING************************** */
+
     /**
      * APPENDING (attaching a new column to the model, that is originally not in the model's table)
      * Here we want to add country_name to the Address model.
@@ -33,6 +35,8 @@ class TmsOrderAddress extends Model
         $countryName = $country ? $country->country_name : 'TmsAddress appends error.';
         return $countryName;
     }
+
+    //*************************RELATIONSHIPS************************** */
 
     public function order(): BelongsTo
     {
