@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_offered_gears', function (Blueprint $table) {
-            $table->foreignId('tms_forwarder_id')->constrained('tms_forwarders');
-            $table->foreignId('tms_listed_gear_id')->constrained('tms_gears');
+        Schema::create('gear_forwarder', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->foreignId('forwarder_id')->constrained('tms_forwarders');
+            $table->foreignId('gear_id')->constrained('tms_gears');
+            $table->timestamps();
         });
     }
 
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_offered_gears');
+        Schema::dropIfExists('gear_forwarder');
     }
 };

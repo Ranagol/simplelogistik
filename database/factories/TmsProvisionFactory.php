@@ -17,7 +17,12 @@ class TmsProvisionFactory extends Factory
     public function definition(): array
     {
         return [
-            'tms_customer_id' => 1,
+            
+            /**
+             * There will be 3 provisions faked. These 3 provisions can easily belong to one partner.
+             * So, the number 1 here is realistic.
+             */
+            'partner_id' => 1,
             'value' => $this->faker->randomFloat(2, 0, 10),//Example: 1.5%,
             'valid_from' => $date = $this->faker->date(),
             'valid_to' => $this->faker->dateTimeBetween($date, '+30 days')->format('Y-m-d'), 

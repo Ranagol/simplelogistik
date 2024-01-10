@@ -31,4 +31,9 @@ class TmsContact extends Model
     {
         return $this->belongsTo(TmsForwarder::class);
     }
+
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(TmsPartner::class);
+    }
 }

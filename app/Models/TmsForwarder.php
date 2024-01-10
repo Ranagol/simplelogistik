@@ -6,13 +6,14 @@ use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsVehicle;
 use App\Models\TmsOfferPrice;
+use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
 use App\Models\TmsTransportLicense;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TmsForwarder extends Model
@@ -57,11 +58,19 @@ class TmsForwarder extends Model
         return $this->hasMany(TmsVehicle::class, 'forwarder_id');
     }
 
-    // public function forwarderReqs(): BelongsToMany
-    // {
-    //     //forwarder_forwarder_req_pivot is the pivot table name between forwarders and forwarder_reqs
-    //     return $this->belongsToMany(TmsOfferedGear::class, 'forwarder_forwarder_req_pivot');
-    // }
+    public function gears(): BelongsToMany
+    {
+        /**
+         * gear_forwarder is a pivot table between gear and forwarder
+         * forwarder_id and gear_id are the custom column names in the gear_forwarder pivot table
+         */
+        return $this->belongsToMany(TmsGear::class, 'gear_forwarder', 'forwarder_id', 'gear_id');
+    }
+
+    public function orderAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id');
+    }
 
     //*************MUTATORS AND ACCESSORS*************************************** */
 

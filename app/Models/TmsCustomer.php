@@ -2,22 +2,23 @@
 
 namespace App\Models;
 
+use App\Models\TmsOrder;
 use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
-use App\Models\TmsOrder;
+use App\Models\TmsNeededGear;
+use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TmsNeededGear;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 
 class TmsCustomer extends Model
 {
@@ -125,11 +126,19 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsInvoice::class, 'customer_id');
     }
 
-    // public function customerReqs(): BelongsToMany
-    // {
-    //     //customer_customer_req_pivot is the pivot table name between customers and customer_reqs
-    //     return $this->belongsToMany(TmsNeededGear::class, 'customer_customer_req_pivot');
-    // }
+    public function gears(): BelongsToMany
+    {
+        /**
+         * gear_customer is a pivot table between gear and customer
+         * customer_id and gear_id are the custom column names in the gear_customer pivot table
+         */
+        return $this->belongsToMany(TmsGear::class, 'gear_customer', 'customer_id', 'gear_id');
+    }
+
+    public function orderAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id');
+    }
 
     //*************SCOPES*************************************** */
 
@@ -156,8 +165,6 @@ class TmsCustomer extends Model
     const CUSTOMER_TYPES = [
         1 => 'Bussiness customer',
         2 => 'Private customer',
-        3 => 'Partner',
-        4 => 'Bussiness and forwarder',
     ];
     
     protected function customerType(): Attribute

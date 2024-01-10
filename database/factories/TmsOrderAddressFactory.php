@@ -2,25 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\TmsAddress;
 use App\Models\TmsCountry;
+use App\Models\TmsOrderAddress;
 use Illuminate\Support\Arr;
-use App\Models\TmsForwarder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_address>
- */
-class TmsAddressFactory extends Factory
-{
-    protected $model = TmsAddress::class;
 
-    /**
-     * Will have all the country names from the db, after the __construct() method is called.
-     * This is needed for faking.
-     *
-     * @var array
-     */
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TmsOrderAddress>
+ */
+class TmsOrderAddressFactory extends Factory
+{
+
     protected array $countryIds;
 
     public function __construct()
@@ -35,7 +28,6 @@ class TmsAddressFactory extends Factory
          * the country_id.
          */
         $this->countryIds = TmsCountry::pluck('id')->toArray();
-        // $this->forwaderIds = TmsForwarder::pluck('id')->toArray();
     }
 
     /**
@@ -46,6 +38,7 @@ class TmsAddressFactory extends Factory
     public function definition(): array
     {
         return [
+            'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             //Takes one random country name from the array of country names
@@ -60,6 +53,7 @@ class TmsAddressFactory extends Factory
             ]),
 
             'company_name' => $this->faker->company,
+            'address_type' => Arr::random(TmsOrderAddress::ADDRESS_TYPES),//works with mutator
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'street' => $this->faker->streetName,
@@ -71,12 +65,6 @@ class TmsAddressFactory extends Factory
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
 
-            'is_pickup' => $this->faker->boolean,
-            'is_delivery' => $this->faker->boolean,
-            'is_billing' => $this->faker->boolean,
-            'is_headquarter' => $this->faker->boolean,
-            
         ];
     }
 }
-

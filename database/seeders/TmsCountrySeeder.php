@@ -19,7 +19,7 @@ class TmsCountrySeeder extends Seeder
          * The array of all countries is here: TmsCountry::COUNTRIES. We pull this array from the
          * db, and we loop thorugh this array. Every country in this array will be inserted into
          * the database.
-         * This is actually our TmsCountryFactory. 
+         * This is actually our TmsCountryFactory, the actualy TmsCountryFactory is not used.
          */
         foreach (TmsCountry::COUNTRIES as $country) {
             DB::table('tms_countries')->insert([

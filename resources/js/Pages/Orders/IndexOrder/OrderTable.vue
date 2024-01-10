@@ -42,9 +42,10 @@
 
         <el-table-column
             width="250"
-            prop="p_order_status"
+            prop="status"
             label="Order status"
-        >Pull from orderHistories
+            sortable="custom"
+        >
         </el-table-column>
 
         <el-table-column

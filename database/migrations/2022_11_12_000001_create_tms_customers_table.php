@@ -15,7 +15,11 @@ return new class extends Migration
 
             //Customer general info
             $table->bigIncrements('id');
-            $table->string('internal_cid', 20);                   
+
+            $table->unsignedBigInteger('forwarder_id')->nullable();
+            $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
+            
+            $table->string('internal_id', 20);                   
             $table->string('first_name', 100);
             $table->string('last_name', 100);
             $table->string('company_name',200)->nullable();

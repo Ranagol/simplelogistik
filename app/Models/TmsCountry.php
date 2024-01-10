@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Models\TmsAddress;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\TmsOrderAddress;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TmsCountry extends Model
 {
@@ -272,5 +273,10 @@ class TmsCountry extends Model
     public function addresses(): HasMany
     {
         return $this->hasMany(TmsAddress::class, 'country_id');
+    }
+
+    public function orderAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'country_id');
     }
 }

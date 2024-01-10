@@ -96,7 +96,7 @@ export type TmsContacts = TmsContact[]
 export interface TmsCustomer {
   // columns
   id: number
-  internal_cid: string
+  internal_id: string
   name: string
   email: string
   company_name?: string|null
@@ -148,7 +148,7 @@ export type TmsDispatchers = TmsDispatcher[]
 export interface TmsForwarder {
   // columns
   id: number
-  internal_fid: string
+  internal_id: string
   name: string
   email: string
   company_name?: string|null
