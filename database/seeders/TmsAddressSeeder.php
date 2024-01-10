@@ -16,19 +16,17 @@ class TmsAddressSeeder extends Seeder
         /**
          * constants.numberOfDbRecords is a constant. It should be 20. It means that in a general case
          * we want 20 customers created, 20 orders created... so on, in the db. In general case.
-         * We want 40 addresses.
+         * But in this specific case, we want 40 addresses. Therefore we multiply the constant by 2.
          */
         for ($i=1; $i <= config('constants.numberOfDbRecords') * 2; $i++) { 
             TmsAddress::factory()->create([
                 /**
-                 * Here we explicitly define the value of the address_type and the customer_id.
+                 * Here we explicitly define the value of the the customer_id.
                  * All other columns will be defined by the  factory faker.
                  */
                 'customer_id' => $i,
             ]);
         }
-        // TmsAddress::factory(config('constants.numberOfDbRecords') * 4)->create();
-
     }
 }
 

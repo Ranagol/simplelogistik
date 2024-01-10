@@ -41,7 +41,7 @@ class TmsAddressFactory extends Factory
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             //Takes one random country name from the array of country names
-            'country_id' => Arr::random($this->countryNames),
+            'country_id' => Arr::random($this->countryNames),//works with mutator
 
             /**
              * This is a simple way to assure that about 90% of the addresses will NOT belong to a 
