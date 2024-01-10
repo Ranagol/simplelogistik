@@ -27,7 +27,7 @@ class TmsAddress extends Model
     protected $guarded = ['id'];
     protected $table = "tms_addresses";
 
-    public function address(): BelongsTo
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(TmsCustomer::class);
     }

@@ -7,10 +7,11 @@ use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsCustomer;
+use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -122,6 +123,12 @@ class TmsOrder extends Model
         }
     }
 
+    /**
+     * An order could belong to a partner. This is optional, does not happen always. Example:
+     * an order that we received from Pamyra belongs (amongst other belongings) to Pamyra partner.
+     *
+     * @return BelongsTo
+     */
     public function partner(): BelongsTo
     {
         return $this->belongsTo(TmsPartner::class);
@@ -145,6 +152,11 @@ class TmsOrder extends Model
     public function nativeOrder(): HasOne
     {
         return $this->hasOne(TmsNativeOrder::class, 'order_id');
+    }
+
+    public function orderAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id');
     }
 
 

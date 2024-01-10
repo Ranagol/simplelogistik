@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TmsOrderAddress extends Model
 {
@@ -12,6 +13,31 @@ class TmsOrderAddress extends Model
 
     protected $guarded = ['id'];
     protected $table = "tms_order_addresses";
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(TmsOrder::class, 'order_id');
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(TmsCustomer::class, 'customer_id');
+    }
+
+    public function forwarder(): BelongsTo
+    {
+        return $this->belongsTo(TmsForwarder::class, 'forwarder_id');
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(TmsCountry::class, 'country_id');
+    }
+
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(TmsPartner::class, 'partner_id');
+    }
 
     /**
      * Here we set the address type db column possible options. This array will be used during

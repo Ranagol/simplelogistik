@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\TmsOrderAddress;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +27,11 @@ class TmsPartner extends Model
     public function addresses(): HasMany
     {
         return $this->hasMany(TmsAddress::class, 'partner_id');
+    }
+
+    public function orderAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id');
     }
 
     public function contacts(): HasMany
