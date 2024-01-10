@@ -1,6 +1,5 @@
 import './bootstrap';
 import '../css/app.css';
-import '../scss/layout.scss';
 
 import { createApp, h, DefineComponent } from 'vue';
 import { createInertiaApp, Link, Head } from '@inertiajs/vue3';
@@ -16,6 +15,9 @@ import 'element-plus/dist/index.css'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+import '../scss/app.scss';
+
+// Language Setup
 import { createI18n } from 'vue-i18n'
 
 import de from "../lang/de.json";
@@ -32,6 +34,7 @@ const config = {
 }
 
 const translations = createI18n(config);
+// Language Setup End
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -90,4 +93,3 @@ createInertiaApp({
         color: 'red',
     },
 });
-
