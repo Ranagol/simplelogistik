@@ -15,8 +15,6 @@ import 'element-plus/dist/index.css'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-import '../scss/app.scss';
-
 // Language Setup
 import { createI18n } from 'vue-i18n'
 
