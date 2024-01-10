@@ -32,6 +32,7 @@ class TmsAddress extends Model
     /**
      * APPENDING (attaching a new column to the model, that is originally not in the model's table)
      * Here we want to add country_name to the Address model.
+     * Under the country_name key in the response, we will get the country_name of the given address.
      *
      * @var array
      */
@@ -57,10 +58,6 @@ class TmsAddress extends Model
     {
         return $this->belongsTo(TmsCountry::class, 'country_id');
     }
-
-
-
-
 
     public function partner(): BelongsTo
     {
