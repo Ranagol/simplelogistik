@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
 
             //FOREIGN KEYS
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->foreign('order_id')->references('id')->on('tms_orders');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id')->nullable();
