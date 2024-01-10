@@ -92,7 +92,7 @@
 
         <el-table-column
             label="Country"
-            prop="country.country_name"
+            prop="country_name"
             sortable="custom"
             width="250px"
         />
