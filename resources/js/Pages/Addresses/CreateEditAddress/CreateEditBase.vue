@@ -9,7 +9,7 @@
     <!-- EDIT ADDRESS -->
     <Card>
 
-        <!-- ADDRESS FORM -->
+        <!-- OLD ADDRESS FORM -->
         <Form
             v-model:address="data.addressData"
             :errors="props.errors"
@@ -22,6 +22,23 @@
             @destroy="destroy"
         />
 
+        <!-- NEW ADDRESS FORM -->
+        <Address
+            v-model:address="data.addressData"
+            :errors="props.errors"
+            :mode="props.mode"
+            :addressTypes="props.addressTypes"
+            :customers="props.customers"
+            :forwarders="props.forwarders"
+            :countries="props.countries"
+            :showAvisPhone="false"
+            :showComment="false"
+            :showCustomer="true"
+            :showForwarder="true"
+            title="Address"
+            class="grow"
+        />
+
     </Card>
 </template>
 
@@ -30,6 +47,7 @@ import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import Card from '@/Shared/Card.vue';
 import { router } from '@inertiajs/vue3';
 import Form from './Form.vue';
+import Address from './Address.vue';
 import { useEdit } from '@/Use/useEdit';
 import { useCreate } from '@/Use/useCreate';
 import { useDestroy } from '@/Use/useDestroy';
@@ -85,6 +103,26 @@ const props = defineProps({
     countries: {
         type: Array,
         required: true
+    },
+
+    showAvisPhone: {
+        type: Boolean,
+        default: false
+    },
+
+    showComment: {
+        type: Boolean,
+        default: false
+    },
+
+    showCustomer: {
+        type: Boolean,
+        default: false
+    },
+
+    showForwarder: {
+        type: Boolean,
+        default: false
     },
 });
 

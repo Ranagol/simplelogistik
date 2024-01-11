@@ -88,6 +88,17 @@
             </OffersTab>    
         </el-tab-pane>
 
+        <!-- INVOICES -->
+        <el-tab-pane
+            label="Invoices"
+        >
+            <InvoicesTab
+                v-model="data.customer"
+                :errors="props.errors"
+            >    
+            </InvoicesTab>
+        </el-tab-pane>
+
         
 
     </el-tabs>
@@ -103,6 +114,7 @@ import OrdersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OrdersT
 import OffersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OffersTab.vue';
 import IndividualTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/IndividualTab.vue';
 import CommentsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/CommentsTab.vue';
+import InvoicesTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/InvoicesTab.vue';
 import _ from 'lodash';
 
 const props = defineProps({

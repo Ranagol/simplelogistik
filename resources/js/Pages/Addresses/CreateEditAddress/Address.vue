@@ -419,7 +419,9 @@
         one order might have multiple pickup and multiple delivery addresses with avis phones?
         Another solution: avis phone as new object belongst to address? Ask C. For now I will just
         display this here. This topic must be decided when it comes to order editing.-->
-        <el-form-item>
+        <el-form-item 
+            v-if="props.showAvisPhone"
+        >
 
             <div class="flex flex-col grow">
 
@@ -447,7 +449,9 @@
 
         </el-form-item>
 
-        <el-form-item>
+        <el-form-item
+            v-if="props.showComment"
+        >
 
             <div class="flex flex-col grow">
 
