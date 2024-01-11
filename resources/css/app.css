@@ -43,6 +43,7 @@
     --perfect-scrollbar-thumb: #4A5072;
     --skin-bordered-background: #2f3349;
     --skin-bordered-surface: #2f3349;
+    --el-menu-border-color: red;
 }
 
 /* CLASSES */
@@ -109,8 +110,3 @@ another element with  .el-input__wrapper class.*/
     white-space: nowrap !important;/* This prevents the table body from wrapping the text */
 
 }
-
-
-
-
-

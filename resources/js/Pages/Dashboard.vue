@@ -1,12 +1,6 @@
 <template>
     <Head title="Dashboard" />
-
-    <Card>
-        <Title 
-            title="Dashboard" 
-        />
-    </Card>
-
+    {{ $t("titles.dashboard") }}
 </template>
 
 <script setup>
