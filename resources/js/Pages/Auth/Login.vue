@@ -11,7 +11,6 @@
                 <InputLabel :for="form.email">{{ $t('mail') }}</InputLabel>
                 <TextInput
                     class="p-3 text-gray-700 rounded-lg w-full"
-                    label="Email"
                     type="email"
                     v-model="form.email"
                     :error="form.errors.email"
@@ -23,8 +22,7 @@
                 <InputLabel :for="form.password">{{ $t('password') }}</InputLabel>
                 <TextInput
                     class="p-3 text-gray-700 rounded-lg w-full"
-                    label="Email"
-                    type="email"
+                    type="password"
                     v-model="form.password"
                     :error="form.errors.password"
                     required
