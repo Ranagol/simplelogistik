@@ -74,6 +74,9 @@ class TmsAddressRequest extends FormRequest
 
             //We attach this forwarder with the appends trick in the TmsAddress
             'forwarder' => ['required', 'array'],
+
+            //We attach this partner with the appends trick in the TmsAddress
+            'partner' => ['required', 'array'],
         ];
     }
 }

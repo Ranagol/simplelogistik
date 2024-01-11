@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsAddress;
+use App\Models\TmsCountry;
+use App\Models\TmsPartner;
 use App\Models\TmsCustomer;
+use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsAddressRequest;
-use App\Models\TmsCountry;
-use App\Models\TmsForwarder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsAddressController extends BaseController
@@ -164,6 +165,8 @@ class TmsAddressController extends BaseController
         $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
         $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
         $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
+        $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
+
 
         /**
          * 1. Find the relevant record and...
@@ -218,6 +221,12 @@ class TmsAddressController extends BaseController
                         'country_name' => $country->country_name,
                     ];
                 }),
+                'partners' => TmsPartner::all()->map(function ($partner) {
+                    return [
+                        'id' => $partner->id,
+                        'name' => $partner->company_name,
+                    ];
+                }),
             ]
         );
     }
@@ -239,6 +248,8 @@ class TmsAddressController extends BaseController
         $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
         $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
         $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
+        $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
+
         // dd($newRecord);
 
         /**

@@ -47,6 +47,7 @@ class TmsAddress extends Model
         'country',
         'customer',
         'forwarder',
+        'partner'
     ];
     
     /**
@@ -101,6 +102,28 @@ class TmsAddress extends Model
         ];
 
         return $formattedForwarder;
+    }
+
+    public function getPartnerAttribute()
+    {
+        //$this->partner_id is the partner_id of the current Address model.
+        $partner = TmsPartner::select('id', 'company_name', 'name')->find($this->partner_id);
+        
+        if($partner && !$partner->company_name){
+            //If the partner has a company_name, let the company_name be the partner name.
+            $partnerName = $partner ? $partner->company_name : 'TmsAddress appends error.';
+        }else{
+            //If the partner has no company_name, let the first_name and last_name be the partner name.
+            $partnerName = $partner ? $partner->name : 'TmsAddress appends error.';
+        }
+
+        //We need only the id and the name of the partner. So we format the partner object.
+        $formattedPartner = [
+            'id' => $partner ? $partner->id : null,
+            'name' => $partner ? $partnerName : null
+        ];
+
+        return $formattedPartner;
     }
 
 

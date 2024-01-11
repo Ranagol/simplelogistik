@@ -42,11 +42,13 @@
             :addressTypes="props.addressTypes"
             :customers="props.customers"
             :forwarders="props.forwarders"
+            :partners="props.partners"
             :countries="props.countries"
             :showAvisPhone="false"
             :showComment="false"
             :showCustomer="true"
             :showForwarder="true"
+            :showPartner="true"
             class="grow"
         />
 
@@ -113,24 +115,9 @@ const props = defineProps({
         required: true
     },
 
-    showAvisPhone: {
-        type: Boolean,
-        default: false
-    },
-
-    showComment: {
-        type: Boolean,
-        default: false
-    },
-
-    showCustomer: {
-        type: Boolean,
-        default: false
-    },
-
-    showForwarder: {
-        type: Boolean,
-        default: false
+    partners: {
+        type: Array,
+        required: true
     },
 });
 

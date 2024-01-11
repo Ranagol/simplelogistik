@@ -414,9 +414,9 @@
 
         </el-form-item>
 
-        <!-- CUSTOMER AND FORWARDER -->
+        <!-- CUSTOMER AND FORWARDER AND PARTNER-->
         <div class="grid grid-rows">
-            <div class="grid grid-cols-2 gap-1">
+            <div class="grid grid-cols-3 gap-1">
 
                 <!-- CUSTOMER -->
                 <el-form-item
@@ -482,6 +482,38 @@
 
                     </div>
 
+                </el-form-item>
+
+                <!-- PARTNER -->
+                <el-form-item
+                    prop="partner_name"
+                    v-if="props.showPartner"
+                >
+                    <div class="flex flex-col grow">
+
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Partner name</span>
+
+                        <el-select
+                            v-model="data.address.partner"
+                            value-key="id"
+                            clearable
+                            filterable
+                            @change="update()"
+                        >
+                            <el-option
+                                v-for="(item, index) in props.partners"
+                                :key="index"
+                                :label="item.name"
+                                :value="item"
+                            ></el-option>
+                        </el-select>
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.partner"/>
+
+                    </div>
                 </el-form-item>
 
                 
@@ -650,6 +682,11 @@ const props = defineProps({
         required: true
     },
 
+    partners: {
+        type: Array,
+        required: true
+    },
+
     /**
      * The avis phone is a burner phone number, that will be used only once, for the given order.
      * IT DOES NOT BELONG TO THE ADDRESS, IT BELONGS TO THE ORDER OBJECT! It is displayed in the
@@ -686,6 +723,11 @@ const props = defineProps({
     },
 
     showForwarder: {
+        type: Boolean,
+        default: false
+    },
+
+    showPartner: {
         type: Boolean,
         default: false
     },
