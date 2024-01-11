@@ -187,6 +187,33 @@ class TmsAddressController extends BaseController
         );
     }
 
+    public function update(string $id): void
+    {
+        /**
+         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
+         * calling this method?
+         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * when called from TmsCustomerController.
+         */
+        $request = app($this->getRequestClass());
+        
+        /**
+         * The validated method is used to get the validated data from the request.
+         */
+        $newRecord = $request->validated();//do validation
+        $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
+        $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
+        $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
+        // dd($newRecord);
+
+        /**
+         * 
+         * 1. Find the relevant record and...
+         * 2. ...update it.
+         */
+        $this->model->find($id)->update($newRecord);
+    }
+
     /**
      * Returns records for records list (Index.vue component)
      *

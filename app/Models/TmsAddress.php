@@ -44,21 +44,26 @@ class TmsAddress extends Model
      * @var array
      */
     protected $appends = [
-        'country_name',
-        'customer_name',
-        'forwarder_name',
+        'country',
+        'customer',
+        'forwarder',
     ];
     
-    public function getCountryNameAttribute(): string
+    /**
+     * Attaches a the belonging country object to the Address model.
+     *
+     * @return object
+     */
+    public function getCountryAttribute(): object
     {
-        $country = TmsCountry::find($this->country_id);//$this->country_id is the country_id of the current Address model.
-        $countryName = $country ? $country->country_name : 'TmsAddress appends error.';
-        return $countryName;
+        //$this->country_id is the country_id of the current Address model.
+        return TmsCountry::select('id', 'country_name')->find($this->country_id);
     }
 
-    public function getCustomerNameAttribute(): string
+    public function getCustomerAttribute()
     {
-        $customer = TmsCustomer::find($this->customer_id);//$this->customer_id is the customer_id of the current Address model.
+        //$this->customer_id is the customer_id of the current Address model.
+        $customer = TmsCustomer::select('id', 'company_name', 'first_name', 'last_name')->find($this->customer_id);
         if($customer->company_name != null){
             //If the customer has a company_name, let the company_name be the customer_name.
             $customerName = $customer ? $customer->company_name : 'TmsAddress appends error.';
@@ -66,15 +71,36 @@ class TmsAddress extends Model
             //If the customer has no company_name, let the first_name and last_name be the customer_name.
             $customerName = $customer ? $customer->first_name.' '.$customer->last_name : 'TmsAddress appends error.';
         }
-        
-        return $customerName;
+
+        //We need only the id and the name of the customer. So we format the customer object.
+        $formattedCustomer = [
+            'id' => $customer->id,
+            'name' => $customerName,
+        ];
+
+        return $formattedCustomer;
     }
 
-    public function getForwarderNameAttribute(): string
+    public function getForwarderAttribute()
     {
-        $forwarder = TmsForwarder::find($this->forwarder_id);//$this->forwarder_id is the forwarder_id of the current Address model.
-        $forwarderName = $forwarder ? $forwarder->company_name : 'TmsAddress appends error.';
-        return $forwarderName;
+        //$this->forwarder_id is the forwarder_id of the current Address model.
+        $forwarder = TmsForwarder::select('id', 'company_name', 'name')->find($this->forwarder_id);
+        
+        if($forwarder->company_name != null){
+            //If the forwarder has a company_name, let the company_name be the customer_name.
+            $forwarderName = $forwarder ? $forwarder->company_name : 'TmsAddress appends error.';
+        }else{
+            //If the forwarder has no company_name, let the first_name and last_name be the customer_name.
+            $forwarderName = $forwarder ? $forwarder->name : 'TmsAddress appends error.';
+        }
+
+        //We need only the id and the name of the forwarder. So we format the forwarder object.
+        $formattedForwarder = [
+            'id' => $forwarder->id,
+            'name' => $forwarderName,
+        ];
+
+        return $formattedForwarder;
     }
 
 

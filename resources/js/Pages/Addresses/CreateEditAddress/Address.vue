@@ -284,7 +284,7 @@
 
                 <!-- COUNTRY -->
                 <el-form-item
-                    prop="country_name"
+                    prop="country"
                 >
 
                     <div class="flex flex-col grow">
@@ -295,9 +295,8 @@
                             class="ml-1"
                         >Country</span>
 
-                        <!-- This el-select works with a whole object. Syncs a whole object. -->
                         <el-select
-                            v-model="data.address.country_name"
+                            v-model="data.address.country"
                             clearable
                             filterable
                             value-key="id"
@@ -308,11 +307,12 @@
                                 v-for="(item, index) in props.countries"
                                 :key="index"
                                 :label="item.country_name"
-                                :value="item.country_name"
+                                :value="item"
                             ></el-option>
+
                         </el-select>
 
-                        <BackendValidationErrorDisplay :errorMessage="props.errors.country_id"/>
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.country"/>
 
                     </div>
                     
@@ -420,7 +420,6 @@
 
                 <!-- CUSTOMER -->
                 <el-form-item
-                    prop="customer_name"
                     width="100px"
                     v-if="props.showCustomer"
                 >
@@ -433,24 +432,24 @@
                         >Customer name</span>
 
                         <el-select
-                            v-model="data.address.customer_name"
+                            v-model="data.address.customer"
                             clearable
                             filterable
+                            value-key="id"
                             @change="update()"
                         >
                             <el-option
                                 v-for="(item, index) in props.customers"
                                 :key="index"
                                 :label="item.name"
-                                :value="item.name"
+                                :value="item"
                             ></el-option>
                         </el-select>
 
-                        <BackendValidationErrorDisplay :errorMessage="props.errors.customer_name"/>
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.customer"/>
                     </div>
 
                 </el-form-item>
-
 
                 <!-- FORWARDER -->
                 <el-form-item
@@ -459,14 +458,14 @@
                 >
                     <div class="flex flex-col grow">
 
-                        <!-- LABEL -->
                         <span
                             v-if="data.showLabel"
                             class="ml-1"
                         >Forwarder name</span>
 
                         <el-select
-                            v-model="data.address.forwarder_name"
+                            v-model="data.address.forwarder"
+                            value-key="id"
                             clearable
                             filterable
                             @change="update()"
@@ -475,11 +474,11 @@
                                 v-for="(item, index) in props.forwarders"
                                 :key="index"
                                 :label="item.name"
-                                :value="item.name"
+                                :value="item"
                             ></el-option>
                         </el-select>
 
-                        <BackendValidationErrorDisplay :errorMessage="props.errors.forwarder_name"/>
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.forwarder"/>
 
                     </div>
 

@@ -65,6 +65,18 @@ class TmsAddressRequest extends FormRequest
             'is_delivery' => ['required', 'boolean'],
             'is_billing' => ['required', 'boolean'],
             'is_headquarter' => ['required', 'boolean'],
+
+            //We attach this country with the appends trick in the TmsAddress
+            'country.id' => ['required', 'integer', 'exists:tms_countries,id'],
+            'country.country_name' => ['required'],
+
+            //We attach this customer with the appends trick in the TmsAddress
+            'customer.id' => ['required', 'integer', 'exists:tms_customers,id'],
+            'customer.name' => ['required'],
+
+            //We attach this forwarder with the appends trick in the TmsAddress
+            'forwarder.id' => ['required', 'integer', 'exists:tms_forwarders,id'],
+            'forwarder.name' => ['required'],
         ];
     }
 }

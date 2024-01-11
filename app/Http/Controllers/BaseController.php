@@ -123,7 +123,7 @@ abstract class BaseController extends Controller
          * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
          * TmsNeededGearuest.
          */
-        $request = app($this->getRequestClass());//Here I am getting this error: Method Illuminate\Validation\Validator::validateUnsigned does not exist.
+        $request = app($this->getRequestClass());
         
         /**
          * The validated method is used to get the validated data from the request.
