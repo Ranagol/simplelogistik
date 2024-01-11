@@ -70,29 +70,29 @@ class TmsAddressController extends BaseController
                  * TmsAddress() model. This is needed for the CreateEditBase.vue component, because
                  * it needs a record to work with. 
                  */
-                // 'record' => new TmsAddress(),//this is what we need to send to the FE Address create
-                'record' => TmsAddress::select(
-                    // 'id',
-                    'customer_id',
-                    'forwarder_id',
-                    'country_id',
-                    'partner_id',
-                    'company_name',
-                    'first_name',
-                    'last_name',
-                    'street',
-                    'house_number',
-                    'zip_code',
-                    'city',
-                    'state',
-                    'address_additional_information',
-                    'phone',
-                    'email',
-                    'is_pickup',
-                    'is_delivery',
-                    'is_billing',
-                    'is_headquarter',
-                )->find(1),
+                'record' => new TmsAddress(),//this is what we need to send to the FE Address create
+                // 'record' => TmsAddress::select(
+                //     // 'id',
+                //     'customer_id',
+                //     'forwarder_id',
+                //     'country_id',
+                //     'partner_id',
+                //     'company_name',
+                //     'first_name',
+                //     'last_name',
+                //     'street',
+                //     'house_number',
+                //     'zip_code',
+                //     'city',
+                //     'state',
+                //     'address_additional_information',
+                //     'phone',
+                //     'email',
+                //     'is_pickup',
+                //     'is_delivery',
+                //     'is_billing',
+                //     'is_headquarter',
+                // )->find(1),
 
                 'mode' => 'create',
                 // 'addressTypes' => TmsAddress::ADDRESS_TYPES,
@@ -107,6 +107,13 @@ class TmsAddressController extends BaseController
                     return [
                         'id' => $forwarder->id,
                         'name' => $forwarder->company_name,
+                    ];
+                }),
+                //we send countries to the FE, so that the user can select them in el-select
+                'countries' => TmsCountry::all()->map(function ($country) {
+                    return [
+                        'id' => $country->id,
+                        'country_name' => $country->country_name,
                     ];
                 }),
 
@@ -154,6 +161,9 @@ class TmsAddressController extends BaseController
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
+        $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
+        $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
+        $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
 
         /**
          * 1. Find the relevant record and...

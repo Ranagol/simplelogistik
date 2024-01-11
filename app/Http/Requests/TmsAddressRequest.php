@@ -44,9 +44,9 @@ class TmsAddressRequest extends FormRequest
              * Do not use | pipes, use array in validation rules!
              */
             'id' => ['nullable', 'integer', 'exists:tms_addresses,id'],
-            'customer_id' => ['required', 'integer', 'exists:tms_customers,id'],
-            'forwarder_id' => ['integer', 'exists:tms_forwarders,id'],
-            'country_id' => ['required', 'integer', 'exists:tms_countries,id'], 
+            'customer_id' => ['nullable', 'integer', 'exists:tms_customers,id'],
+            'forwarder_id' => ['nullable', 'integer', 'exists:tms_forwarders,id'],
+            'country_id' => ['nullable', 'integer', 'exists:tms_countries,id'], 
             'partner_id' => [ 'nullable', 'integer', 'exists:tms_partners,id'],
 
             'company_name' => ['required', 'string', 'max:255'],
