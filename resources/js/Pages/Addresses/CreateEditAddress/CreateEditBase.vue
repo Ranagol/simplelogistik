@@ -9,18 +9,30 @@
     <!-- EDIT ADDRESS -->
     <Card>
 
-        <!-- OLD ADDRESS FORM -->
-        <Form
-            v-model:address="data.addressData"
-            :errors="props.errors"
-            :mode="props.mode"
-            :addressTypes="props.addressTypes"
-            :customers="props.customers"
-            :forwarders="props.forwarders"
-            :countries="props.countries"
-            @submit="submit"
-            @destroy="destroy"
-        />
+        <div class="flex justify-end">
+            <!-- SUBMIT BUTTON -->
+            <el-form-item>
+                <el-button
+                    @click="submit(elFormRef)"
+                    type="primary"
+                    name="button"
+                >Submit</el-button>
+            </el-form-item>
+
+
+            <!-- DELETE BUTTON -->
+            <el-form-item
+                v-if="props.mode === 'edit'"
+                class="ml-4"
+            >
+                <el-button
+                    @click="destroy"
+                    type="danger"
+                    name="button"
+                >Delete</el-button>
+            </el-form-item>
+        </div>
+
 
         <!-- NEW ADDRESS FORM -->
         <Address

@@ -6,6 +6,7 @@
         >
             <!-- SUBTITLE -->
             <div 
+                v-if="props.title"
                 class="mb-4 font-bold"
             >{{ props.title }} address</div>
 
@@ -441,7 +442,7 @@
                                 v-for="(item, index) in props.customers"
                                 :key="index"
                                 :label="item.name"
-                                :value="item.id"
+                                :value="item.name"
                             ></el-option>
                         </el-select>
 
@@ -474,7 +475,7 @@
                                 v-for="(item, index) in props.forwarders"
                                 :key="index"
                                 :label="item.name"
-                                :value="item.id"
+                                :value="item.name"
                             ></el-option>
                         </el-select>
 
@@ -677,7 +678,7 @@ const emit = defineEmits(['update:address', 'update:comment', 'update:avis_phone
  * Works with address object
  */
 const update = () => {
-    // console.log('update() triggered in Address.vue', data.address);
+    console.log('update() triggered in Address.vue', data.address);
     emit('update:address', data.address);
 }
 
