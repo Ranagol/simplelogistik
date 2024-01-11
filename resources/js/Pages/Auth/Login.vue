@@ -1,7 +1,7 @@
 <template>
     <Head title="Login" />
     <form @submit.prevent="submit" class="flex w-full">
-        <div class="flex flex-1 w-3/6 bg-slate-900 h-screen bg-auth backdrop-blur-2xl shadow-lg shadow-slate-800"></div>
+        <div class="flex flex-1 w-3/6 bg-slate-900 h-screen bg-auth2 bg-center bg-cover backdrop-blur-2xl shadow-lg shadow-slate-800"></div>
         <div class="grid w-3/6 place-items-center h-screen">
             <div class="p-6 w-full md:w-3/5">
                 <div class="p-8 w-full flex justify-center">
