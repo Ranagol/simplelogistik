@@ -62,7 +62,6 @@ class TmsAddressController extends BaseController
 
     public function create(): Response
     {
-        // dd('create');
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
@@ -71,9 +70,9 @@ class TmsAddressController extends BaseController
                  * TmsAddress() model. This is needed for the CreateEditBase.vue component, because
                  * it needs a record to work with. 
                  */
-                // 'record' => new TmsAddress(),
+                // 'record' => new TmsAddress(),//this is what we need to send to the FE Address create
                 'record' => TmsAddress::select(
-                    'id',
+                    // 'id',
                     'customer_id',
                     'forwarder_id',
                     'country_id',
@@ -150,9 +149,6 @@ class TmsAddressController extends BaseController
          * TmsNeededGearuest.
          */
         $request = app($this->getRequestClass());//
-
-
-        
         
         /**
          * The validated method is used to get the validated data from the request.

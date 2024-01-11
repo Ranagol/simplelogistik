@@ -134,7 +134,7 @@ let getData = () => {
  * This function is triggered when the user clicks on the create new address button.
  */
 const handleCreate = () => {
-    router.get('create');
+    router.get('addresses/create');
 };
 
 </script>
