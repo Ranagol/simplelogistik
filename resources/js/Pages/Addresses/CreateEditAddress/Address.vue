@@ -488,7 +488,41 @@
             </div>
         </div>
 
-        
+        <!-- isPickup, isDelivery, isBilling, isHeadquarter -->
+        <div class="flex justify-between">
+
+            <!-- isPickup -->
+            <el-form-item>
+                <el-checkbox
+                    v-model="data.address.is_pickup"
+                    @change="update()"
+                >Pickup</el-checkbox>
+            </el-form-item>
+
+            <!-- isDelivery -->
+            <el-form-item>
+                <el-checkbox
+                    v-model="data.address.is_delivery"
+                    @change="update()"
+                >Delivery</el-checkbox>
+            </el-form-item>
+
+            <!-- isBilling -->
+            <el-form-item>
+                <el-checkbox
+                    v-model="data.address.is_billing"
+                    @change="update()"
+                >Billing</el-checkbox>
+            </el-form-item>
+
+            <!-- isHeadquarter -->
+            <el-form-item>
+                <el-checkbox
+                    v-model="data.address.is_headquarter"
+                    @change="update()"
+                >Headquarter</el-checkbox>
+            </el-form-item>
+        </div>
 
         <!-- AVIS PHONE, 1 FULL ROW. BELONGS TO ORDER OBJECT NOT THE ADDRESS OBJECT -->
         <!-- //TODO the avis phone might need to belong to addresses, not orders? Because

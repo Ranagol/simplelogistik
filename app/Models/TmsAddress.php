@@ -54,7 +54,7 @@ class TmsAddress extends Model
      *
      * @return object
      */
-    public function getCountryAttribute(): object
+    public function getCountryAttribute()
     {
         //$this->country_id is the country_id of the current Address model.
         return TmsCountry::select('id', 'country_name')->find($this->country_id);
@@ -64,7 +64,7 @@ class TmsAddress extends Model
     {
         //$this->customer_id is the customer_id of the current Address model.
         $customer = TmsCustomer::select('id', 'company_name', 'first_name', 'last_name')->find($this->customer_id);
-        if($customer->company_name != null){
+        if($customer && !$customer->company_name){//Attempt to read property "company_name" on null
             //If the customer has a company_name, let the company_name be the customer_name.
             $customerName = $customer ? $customer->company_name : 'TmsAddress appends error.';
         }else{
@@ -74,8 +74,8 @@ class TmsAddress extends Model
 
         //We need only the id and the name of the customer. So we format the customer object.
         $formattedCustomer = [
-            'id' => $customer->id,
-            'name' => $customerName,
+            'id' => $customer ? $customer->id : null,
+            'name' => $customer ? $customerName : null
         ];
 
         return $formattedCustomer;
@@ -86,7 +86,7 @@ class TmsAddress extends Model
         //$this->forwarder_id is the forwarder_id of the current Address model.
         $forwarder = TmsForwarder::select('id', 'company_name', 'name')->find($this->forwarder_id);
         
-        if($forwarder->company_name != null){
+        if($forwarder && !$forwarder->company_name){
             //If the forwarder has a company_name, let the company_name be the customer_name.
             $forwarderName = $forwarder ? $forwarder->company_name : 'TmsAddress appends error.';
         }else{
@@ -96,8 +96,8 @@ class TmsAddress extends Model
 
         //We need only the id and the name of the forwarder. So we format the forwarder object.
         $formattedForwarder = [
-            'id' => $forwarder->id,
-            'name' => $forwarderName,
+            'id' => $forwarder ? $forwarder->id : null,
+            'name' => $forwarder ? $forwarderName : null
         ];
 
         return $formattedForwarder;

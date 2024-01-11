@@ -73,10 +73,7 @@ const props = defineProps({
      */
     record: {
         type: Object,
-        /**
-         * The default value is a function that returns an empty address object.
-         */
-        default: () => (addressDummy),
+        required: true
     },
 
     /**

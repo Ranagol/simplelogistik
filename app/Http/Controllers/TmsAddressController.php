@@ -62,10 +62,39 @@ class TmsAddressController extends BaseController
 
     public function create(): Response
     {
+        // dd('create');
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                // 'record' => $record,
+                /**
+                 * This is a cool trick. When we create a new record, we send a new and empty 
+                 * TmsAddress() model. This is needed for the CreateEditBase.vue component, because
+                 * it needs a record to work with. 
+                 */
+                // 'record' => new TmsAddress(),
+                'record' => TmsAddress::select(
+                    'id',
+                    'customer_id',
+                    'forwarder_id',
+                    'country_id',
+                    'partner_id',
+                    'company_name',
+                    'first_name',
+                    'last_name',
+                    'street',
+                    'house_number',
+                    'zip_code',
+                    'city',
+                    'state',
+                    'address_additional_information',
+                    'phone',
+                    'email',
+                    'is_pickup',
+                    'is_delivery',
+                    'is_billing',
+                    'is_headquarter',
+                )->find(1),
+
                 'mode' => 'create',
                 // 'addressTypes' => TmsAddress::ADDRESS_TYPES,
                 // we send all customers and forwarders to the FE, so that the user can select them
