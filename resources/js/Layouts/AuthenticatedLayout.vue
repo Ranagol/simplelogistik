@@ -7,7 +7,7 @@ import Footer from './../Shared/Footer.vue';
 <template>
   <div class="flex flex-col">
     <section class="flex flex-col relative">
-      <aside class="flex flex-row bg-red-50 h-screen fixed top-0" :class="{'menu-open' : menuOpen, 'menu-closed': !menuOpen}">
+      <aside class="flex flex-row bg-gray-50 h-screen fixed top-0" :class="{'menu-open' : menuOpen, 'menu-closed': !menuOpen}">
         <LeftNavbar class="shadow-lg shadow-gray-300" :menuExpanded="menuOpen" />
         <button class="absolute grid place-items-center left-full top-1/2 translate-x-[-50%] translate-y-[-50%] h-9 w-9 rounded-full bg-blue-500 text-white" @click="toggleMenuState">
           <el-icon>
