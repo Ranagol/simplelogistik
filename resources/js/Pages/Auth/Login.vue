@@ -1,52 +1,52 @@
 <template>
     <Head title="Login" />
-
-    <div class="flex flex-1 w-3/6 bg-slate-900 h-screen bg-auth backdrop-blur-2xl shadow-lg shadow-slate-800"></div>
-    <div class="grid w-3/6 place-items-center h-screen">
-        <div class="p-6 w-full md:w-3/5">
-            <div class="p-8 w-full flex justify-center">
-                <img src="/images/logo.png" alt="logo" class="h-12 object-contain ">
-            </div>
-            <div class="pb-6 relative">
-                <InputLabel :for="form.email">{{ $t('mail') }}</InputLabel>
-                <TextInput
-                    class="p-3 text-gray-700 rounded-lg w-full"
-                    type="email"
-                    v-model="form.email"
-                    :error="form.errors.email"
-                    required
-                    autofill="None" />
-                <InputError class="absolute text-right w-full" :message="form.errors.email" />
-            </div>
-            <div class="pb-6 relative">
-                <InputLabel :for="form.password">{{ $t('password') }}</InputLabel>
-                <TextInput
-                    class="p-3 text-gray-700 rounded-lg w-full"
-                    type="password"
-                    v-model="form.password"
-                    :error="form.errors.password"
-                    required
-                    autofill="None" />
-                <InputError class="absolute text-right w-full" :message="form.errors.email" />
-            </div>
-            <div class="pb-6 relative">
-                <InputLabel :for="form.remember">
-                    <Checkbox 
-                        name="remember"
-                        v-model:checked="form.remember"
-                    />
-                    <span class="pl-3">{{ $t('remember.login') }}</span>
-                </InputLabel>
-                <InputError class="absolute text-right w-full" :message="form.errors.email" />
-            </div>
-            <div class="grid grid-flow-col place-items-between">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="hover:underline">{{ $t('password.forgot') }}</Link>
-                <PrimaryButton class="place-self-end" @click="submit">
-                    {{ $t('login') }}</PrimaryButton>
+    <form @submit.prevent="submit" class="flex w-full">
+        <div class="flex flex-1 w-3/6 bg-slate-900 h-screen bg-auth backdrop-blur-2xl shadow-lg shadow-slate-800"></div>
+        <div class="grid w-3/6 place-items-center h-screen">
+            <div class="p-6 w-full md:w-3/5">
+                <div class="p-8 w-full flex justify-center">
+                    <img src="/images/logo.png" alt="logo" class="h-12 object-contain ">
+                </div>
+                <div class="pb-6 relative">
+                    <InputLabel :for="form.email">{{ $t('mail') }}</InputLabel>
+                    <TextInput
+                        class="p-3 text-gray-700 rounded-lg w-full"
+                        type="email"
+                        v-model="form.email"
+                        :error="form.errors.email"
+                        required
+                        autofill="None" />
+                    <InputError class="absolute text-right w-full" :message="form.errors.email" />
+                </div>
+                <div class="pb-6 relative">
+                    <InputLabel :for="form.password">{{ $t('password') }}</InputLabel>
+                    <TextInput
+                        class="p-3 text-gray-700 rounded-lg w-full"
+                        type="password"
+                        v-model="form.password"
+                        :error="form.errors.password"
+                        required
+                        autofill="None" />
+                    <InputError class="absolute text-right w-full" :message="form.errors.email" />
+                </div>
+                <div class="pb-8 relative">
+                    <InputLabel :for="form.remember">
+                        <Checkbox 
+                            name="remember"
+                            v-model:checked="form.remember"
+                        />
+                        <span class="pl-3">{{ $t('remember.login') }}</span>
+                    </InputLabel>
+                    <InputError class="absolute text-right w-full" :message="form.errors.email" />
+                </div>
+                <div class="grid grid-flow-col place-items-between">
+                    <Link v-if="canResetPassword" :href="route('password.request')" class="hover:underline">{{ $t('password.forgot') }}</Link>
+                    <PrimaryButton class="place-self-end" @click="submit">
+                        {{ $t('login') }}</PrimaryButton>
+                </div>
             </div>
         </div>
-    </div>
-    
+    </form>
 </template>
 
 <script setup lang="ts">
