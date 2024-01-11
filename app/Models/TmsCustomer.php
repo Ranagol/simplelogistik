@@ -70,30 +70,16 @@ class TmsCustomer extends Model
 
     /**
      * Relationship for the headquarter address.
-     *
-     * @return HasOne
+     * I use hasMany relationship, because it may happen that the customer has both headquarter and
+     * billing address.
      */
     public function headquarter()
     {
-        return $this->hasOne(TmsAddress::class, 'customer_id')
-                    ->where('address_type', 1);
-                    // ->orWhere('address_type', 2)
-                    // ->orderBy('address_type', 'asc')
-                    // ->take(1);
-    }
-
-    /**
-     * This is needed for the customers, for the edit and the list view. We have to display (if exist)
-     * the headquarter address of the customer. If that does not exist, we have to display the
-     * billing address. 
-     * To achive this, we have to order the addresses by address_type, and take the first one.
-     *
-     * @return HasMany
-     */
-    public function contactAddresses(): HasMany
-    {
         return $this->hasMany(TmsAddress::class, 'customer_id')
-                    ->orderBy('address_type', 'asc');
+                    ->select('id', 'customer_id', 'street', 'house_number', 'zip_code', 'city')
+                    ->where('is_headquarter', true)
+                    ->orWhere('is_billing', true)
+                    ;
     }
 
     public function orders(): HasMany
@@ -153,7 +139,10 @@ class TmsCustomer extends Model
     public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
     {
         return $query->where('company_name', 'like', "%{$searchTerm}%")
-            ->orWhere('email', 'like', "%{$searchTerm}%");
+            ->orWhere('email', 'like', "%{$searchTerm}%")
+            ->orWhere('first_name', 'like', "%{$searchTerm}%")
+            ->orWhere('last_name', 'like', "%{$searchTerm}%")
+            ;
     }
 
     //*************MUTATORS AND ACCESSORS*************************************** */

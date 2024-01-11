@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\TmsCustomer;
-use App\Http\Requests\TmsNeededGearuest;
+use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class TmsCustomerController extends BaseController
      */
     protected function getRequestClass(): string
     {
-        return TmsNeededGearuest::class;
+        return TmsCustomerRequest::class;
     }
 
     /**
@@ -88,10 +88,10 @@ class TmsCustomerController extends BaseController
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsCustomerRequest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
-         * TmsNeededGearuest.
+         * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
+         * TmsCustomerRequest.
          */
         $request = app($this->getRequestClass());//
         
@@ -220,7 +220,7 @@ class TmsCustomerController extends BaseController
                 return $query->orderBy('id', 'desc');
             })
 
-            ->with('contactAddresses')
+            ->with('headquarter')
             
             /**
              * PAGINATION
