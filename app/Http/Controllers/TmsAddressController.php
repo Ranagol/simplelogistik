@@ -72,7 +72,7 @@ class TmsAddressController extends BaseController
                  * it needs a record to work with. 
                  */
                 'record' => new TmsAddress(),//this is what we need to send to the FE Address create
-                // 'record' => TmsAddress::select(
+                // 'record' => TmsAddress::select(//this is needed for testing
                 //     // 'id',
                 //     'customer_id',
                 //     'forwarder_id',
@@ -115,6 +115,12 @@ class TmsAddressController extends BaseController
                     return [
                         'id' => $country->id,
                         'country_name' => $country->country_name,
+                    ];
+                }),
+                'partners' => TmsPartner::all()->map(function ($partner) {
+                    return [
+                        'id' => $partner->id,
+                        'name' => $partner->company_name,
                     ];
                 }),
 
