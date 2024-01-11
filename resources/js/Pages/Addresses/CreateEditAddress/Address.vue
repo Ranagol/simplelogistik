@@ -388,7 +388,6 @@
         <el-form-item
             prop="address_additional_information"
         >
-
             <div class="flex flex-col grow">
 
                 <!-- LABEL -->
@@ -413,6 +412,83 @@
             </div>
 
         </el-form-item>
+
+        <!-- CUSTOMER AND FORWARDER -->
+        <div class="grid grid-rows">
+            <div class="grid grid-cols-2 gap-1">
+
+                <!-- CUSTOMER -->
+                <el-form-item
+                    prop="customer_name"
+                    width="100px"
+                    v-if="props.showCustomer"
+                >
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Customer name</span>
+
+                        <el-select
+                            v-model="data.address.customer_name"
+                            clearable
+                            filterable
+                            @change="update()"
+                        >
+                            <el-option
+                                v-for="(item, index) in props.customers"
+                                :key="index"
+                                :label="item.name"
+                                :value="item.id"
+                            ></el-option>
+                        </el-select>
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.customer_name"/>
+                    </div>
+
+                </el-form-item>
+
+
+                <!-- FORWARDER -->
+                <el-form-item
+                    prop="forwarder_name"
+                    v-if="props.showForwarder"
+                >
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Forwarder name</span>
+
+                        <el-select
+                            v-model="data.address.forwarder_name"
+                            clearable
+                            filterable
+                            @change="update()"
+                        >
+                            <el-option
+                                v-for="(item, index) in props.forwarders"
+                                :key="index"
+                                :label="item.name"
+                                :value="item.id"
+                            ></el-option>
+                        </el-select>
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.forwarder_name"/>
+
+                    </div>
+
+                </el-form-item>
+
+                
+            </div>
+        </div>
+
+        
 
         <!-- AVIS PHONE, 1 FULL ROW. BELONGS TO ORDER OBJECT NOT THE ADDRESS OBJECT -->
         <!-- //TODO the avis phone might need to belong to addresses, not orders? Because
@@ -530,6 +606,16 @@ const props = defineProps({
         required: true,
     },
 
+    customers: {
+        type: Array,
+        required: true
+    },
+
+    forwarders: {
+        type: Array,
+        required: true
+    },
+
     /**
      * The avis phone is a burner phone number, that will be used only once, for the given order.
      * IT DOES NOT BELONG TO THE ADDRESS, IT BELONGS TO THE ORDER OBJECT! It is displayed in the
@@ -549,6 +635,27 @@ const props = defineProps({
         type: String,
         required: false,
     },
+
+    showAvisPhone: {
+        type: Boolean,
+        default: false
+    },
+
+    showComment: {
+        type: Boolean,
+        default: false
+    },
+
+    showCustomer: {
+        type: Boolean,
+        default: false
+    },
+
+    showForwarder: {
+        type: Boolean,
+        default: false
+    },
+
 
 });
 

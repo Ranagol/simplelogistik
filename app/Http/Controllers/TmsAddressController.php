@@ -159,7 +159,6 @@ class TmsAddressController extends BaseController
             [
                 'record' => $record,
                 'mode' => 'edit',
-                // 'addressTypes' => TmsAddress::ADDRESS_TYPES,
                 
                 /**
                  * We send all customers and forwarders to the FE, so that the user can select them

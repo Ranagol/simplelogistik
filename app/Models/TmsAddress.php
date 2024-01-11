@@ -43,13 +43,42 @@ class TmsAddress extends Model
      *
      * @var array
      */
-    protected $appends = ['country_name'];
+    protected $appends = [
+        'country_name',
+        'customer_name',
+        'forwarder_name',
+    ];
+    
     public function getCountryNameAttribute(): string
     {
         $country = TmsCountry::find($this->country_id);//$this->country_id is the country_id of the current Address model.
         $countryName = $country ? $country->country_name : 'TmsAddress appends error.';
         return $countryName;
     }
+
+    public function getCustomerNameAttribute(): string
+    {
+        $customer = TmsCustomer::find($this->customer_id);//$this->customer_id is the customer_id of the current Address model.
+        if($customer->company_name != null){
+            //If the customer has a company_name, let the company_name be the customer_name.
+            $customerName = $customer ? $customer->company_name : 'TmsAddress appends error.';
+        }else{
+            //If the customer has no company_name, let the first_name and last_name be the customer_name.
+            $customerName = $customer ? $customer->first_name.' '.$customer->last_name : 'TmsAddress appends error.';
+        }
+        
+        return $customerName;
+    }
+
+    public function getForwarderNameAttribute(): string
+    {
+        $forwarder = TmsForwarder::find($this->forwarder_id);//$this->forwarder_id is the forwarder_id of the current Address model.
+        $forwarderName = $forwarder ? $forwarder->company_name : 'TmsAddress appends error.';
+        return $forwarderName;
+    }
+
+
+    //***********************RELATIONSHIPS********************************** */
 
     public function customer(): BelongsTo
     {

@@ -15,4 +15,6 @@ export default  {
     address_additional_information: 'Random text',
     customer_id: 1,
     forwarder_id: 1,
+    customer_name: 'Random text',
+    forwarder_name: 'Random text',
 }

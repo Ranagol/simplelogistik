@@ -35,7 +35,6 @@
             :showComment="false"
             :showCustomer="true"
             :showForwarder="true"
-            title="Address"
             class="grow"
         />
 
