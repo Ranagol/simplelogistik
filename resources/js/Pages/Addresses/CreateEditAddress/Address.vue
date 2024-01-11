@@ -283,7 +283,7 @@
 
                 <!-- COUNTRY -->
                 <el-form-item
-                    prop="country"
+                    prop="country_name"
                 >
 
                     <div class="flex flex-col grow">
@@ -296,7 +296,7 @@
 
                         <!-- This el-select works with a whole object. Syncs a whole object. -->
                         <el-select
-                            v-model="data.address.country_id"
+                            v-model="data.address.country_name"
                             clearable
                             filterable
                             value-key="id"
