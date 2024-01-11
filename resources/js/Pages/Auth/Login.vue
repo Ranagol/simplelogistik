@@ -37,7 +37,6 @@
                         />
                         <span class="pl-3">{{ $t('remember.login') }}</span>
                     </InputLabel>
-                    <InputError class="absolute text-right w-full" :message="form.errors.email" />
                 </div>
                 <div class="grid grid-flow-col place-items-between">
                     <Link v-if="canResetPassword" :href="route('password.request')" class="hover:underline">{{ $t('password.forgot') }}</Link>
