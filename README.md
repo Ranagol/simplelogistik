@@ -40,6 +40,9 @@ sail yarn
 # run vite development bridge
 sail yarn dev
 
+# Generate App Key
+sail artisan key:generate
+
 # Run migrations 
 sail artisan migrate
 

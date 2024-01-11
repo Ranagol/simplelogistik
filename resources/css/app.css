@@ -46,6 +46,10 @@
     --el-menu-border-color: red;
 }
 
+body * {
+    box-sizing: border-box;
+}
+
 /* CLASSES */
 
 .component_background {
