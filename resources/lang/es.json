@@ -7,5 +7,13 @@
         "es": "Español",
         "it": "Italiano",
         "fr": "France"
+    },
+    "menu": {
+        "dashboard": "Dashboard",
+        "addresses": "Direcciones",
+        "orders": "Pedidios",
+        "customers": "Clientes",
+        "integrations": "Más",
+        "pamyra": "Pamyra"
     }
 }

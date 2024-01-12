@@ -7,5 +7,13 @@
         "es": "Español",
         "it": "Italiano",
         "fr": "France"
+    },
+    "menu": {
+        "dashboard": "Pannello di controllo",
+        "addresses": "Indirizzi",
+        "orders": "Ordini",
+        "customers": "Clienti",
+        "integrations": "Di piú",
+        "pamyra": "Pamyra"
     }
 }
