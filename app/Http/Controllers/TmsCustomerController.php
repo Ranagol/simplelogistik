@@ -63,19 +63,20 @@ class TmsCustomerController extends BaseController
             $this->vueCreateEditPath, 
             [
                 'record' => new TmsCustomer(),
-                'record' => TmsCustomer::select(//needed for edit validation testing
-                    // 'id',
-                    'forwarder_id',
-                    'company_name',
-                    'internal_id',
-                    'first_name',
-                    'last_name',
-                    'email',
-                    'phone',
-                    'tax_number',
-                    'rating',
-                    'comments',
-                    'payment_time',
+
+                // 'record' => TmsCustomer::select(//needed for edit validation testing
+                //     // 'id',
+                //     'forwarder_id',
+                //     'company_name',
+                //     'internal_id',
+                //     'first_name',
+                //     'last_name',
+                //     'email',
+                //     'phone',
+                //     'tax_number',
+                //     'rating',
+                //     'comments',
+                //     'payment_time',
                 //     'auto_book_as_private',
                 //     'dangerous_goods',
                 //     'bussiness_customer',
@@ -90,11 +91,12 @@ class TmsCustomerController extends BaseController
                 //     'sofort',
                 //     'amazon',
                 //     'vorkasse',
-                    'customer_type',
-                    'invoice_dispatch',
-                    'invoice_shipping_method',
-                    'payment_method'
-                )->find(1),
+                //     'customer_type',
+                //     'invoice_dispatch',
+                //     'invoice_shipping_method',
+                //     'payment_method'
+                // )->find(1),
+
                 'mode' => 'create',
                 //These are the possibly selectable options for the el-select in customer create or edit form.
                 'selectOptions' => [

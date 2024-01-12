@@ -48,20 +48,25 @@ class DatabaseSeeder extends Seeder
         User::factory(config('constants.numberOfDbRecords'))->create();
 
         /**
-         * jedan@gmail.com is my test user. If there is no user with that email, create it.
-         * The test user is used for logging in to the application.
+         * We need a test user for logging in to the application.
+         * The test user credentials are stored in the .env file.
+         * If there is no user with this given email, create it.
          */
-        $jedan = User::where('name', '=', 'jedan@gmail.com')->get();
-        if($jedan->isEmpty()){
+        $testUsername = config('app.testUsername');
+        $testPassword = config('app.testPassword');
+        $testUser = User::where('name', '=', $testUsername)->get();
+        
+        if($testUser->isEmpty()){
             User::factory()->create([
-                'name' => 'jedan@gmail.com',
-                'email' => 'jedan@gmail.com',
+                'name' => $testUsername,
+                'email' => $testUsername,
                 'email_verified_at' => now(),
-                'password' => Hash::make('jedan@gmail.com'),
+                'password' => Hash::make($testPassword),
                 'remember_token' => Str::random(10),
             ]);
         }
 
+        //Here starts the seeding process.
         $this->call([
             TmsCountrySeeder::class,
             TmsDispatcherSeeder::class,
@@ -86,44 +91,6 @@ class DatabaseSeeder extends Seeder
             TmsNativeOrderSeeder::class,
             TmsOrderAddressSeeder::class,
         ]);
-
-        // $dispatchers = TmsDispatcher::factory(5)->create();
-        // echo "dispatchers created\n";
-        // $customers = TmsCustomer::factory(20)->create();
-        // echo "customers created\n";
-        // $forwarders = TmsForwarder::factory(20)->create();
-        // echo "forwarders created\n";
-        // $requirements = TmsGear::factory(20)->create();
-        // echo "requirements created\n";
-
-        // $addressesCustomers = TmsAddress::factory()->count(4)->for($customers, 'address')->create();
-        // echo "addressesCustomers created\n";
-        // $addressesForwarders = TmsAddress::factory()->count(4)->for($forwarders, 'forwarder')->create();
-        // echo "addressesForwarders created\n";
-
-        // $contactsCustomers = TmsContact::factory()->count(2)->for($customers)->create();
-        // echo "contactsCustomers created\n";
-        // $contactsForwarders = TmsContact::factory()->count(2)->for($forwarders)->create();
-        // echo "contactsForwarders created\n";
-
-        // $vehicles = TmsVehicle::factory()->count(3)->for($forwarders)->create();//
-        // echo "vehicles created\n";
-
-        // $ordersCustomers = TmsOrder::factory()->count(2)->for($customers)->create();
-        // echo "ordersCustomers created\n";
-        // $ordersForwarders = TmsOrder::factory()->count(2)->for($forwarders)->create();
-        // echo "ordersForwarders created\n";
-
-        // $invoiceCustomers = TmsInvoice::factory()->count(1)->for($ordersCustomers)->create();
-        // echo "invoiceCustomers created\n";
-        // $invoiceForwarders = TmsInvoice::factory()->count(1)->for($ordersForwarders)->create();
-        // echo "invoiceForwarders created\n";
-
-        // $parcelsCustomerOrder = TmsParcel::factory()->count(2)->for($ordersCustomers)->create();
-        // echo "parcelsCustomerOrder created\n";
-        // $parcelsForwarderOrder = TmsParcel::factory()->count(2)->for($ordersForwarders)->create();
-        // echo "parcelsForwarderOrder created\n";
-
     }
 }
 

@@ -164,7 +164,7 @@ const sort = ( { prop, order }) => {
  */
 const formatDate = (dateString) => {
     const dateObject = moment(dateString);
-    return dateObject.format('DD-MM-YYYY');
+    return dateObject.format('DD.MM.YYYY');
 };
 
 </script>

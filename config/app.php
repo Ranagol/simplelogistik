@@ -5,6 +5,12 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    /**
+     * Test user credentials.
+     */
+    'testUsername' => env('TEST_USERNAME'),
+    'testPassword' => env('TEST_PASSWORD'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
