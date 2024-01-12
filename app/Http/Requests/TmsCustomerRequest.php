@@ -37,21 +37,28 @@ class TmsCustomerRequest extends FormRequest
             'forwarder' => ['nullable', 'array'],
             'forwarder_id' => 'nullable|integer|exists:tms_forwarders,id',
 
-            // Special individual settings for a customer
-            'auto_book_as_private' => 'boolean',
-            'dangerous_goods' => 'boolean',
-            'bussiness_customer' => 'boolean',
-            'debt_collection' => 'boolean',
-            'direct_debit' => 'boolean',
-            'manual_collective_invoicing' => 'boolean',
-            'paypal' => 'boolean',
-            'sofort' => 'boolean',
-            'amazon' => 'boolean',
-            'vorkasse' => 'boolean',
-            'private_customer' => 'boolean',
-            'invoice_customer' => 'boolean',
-            'poor_payment_morale' => 'boolean',
-            'can_login' => 'boolean',
+            /**
+             * Individual customer data - special settings
+             * When creating a new customer, all unchecked checkboxes will be in Vue simply null,
+             * untill they are at least once checked or unchecked. After that, they are either true 
+             * or false. To avoid issues with unchcked checkboxes, we set them all to false
+             * (some of them true) by default, in the migration. Together with this, in the
+             * customer validation we allow null values for these checkboxes.
+             */
+            'auto_book_as_private' => 'nullable|boolean',
+            'dangerous_goods' => 'nullable|boolean',
+            'bussiness_customer' => 'nullable|boolean',
+            'debt_collection' => 'nullable|boolean',
+            'direct_debit' => 'nullable|boolean',
+            'manual_collective_invoicing' => 'nullable|boolean',
+            'paypal' => 'nullable|boolean',
+            'sofort' => 'nullable|boolean',
+            'amazon' => 'nullable|boolean',
+            'vorkasse' => 'nullable|boolean',
+            'private_customer' => 'nullable|boolean',
+            'invoice_customer' => 'nullable|boolean',
+            'poor_payment_morale' => 'nullable|boolean',
+            'can_login' => 'nullable|boolean',
             
             /**
              * These will work with mutators defined in model
