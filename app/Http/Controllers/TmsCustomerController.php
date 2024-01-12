@@ -63,7 +63,7 @@ class TmsCustomerController extends BaseController
             $this->vueCreateEditPath, 
             [
                 // 'record' => new TmsCustomer(),
-                'record' => TmsCustomer::select(
+                'record' => TmsCustomer::select(//needed for edit validation testing
                     'id',
                     'forwarder_id',
                     'company_name',
@@ -90,10 +90,10 @@ class TmsCustomerController extends BaseController
                     'sofort',
                     'amazon',
                     'vorkasse',
-                    'customer_type',
-                    'invoice_dispatch',
-                    'invoice_shipping_method',
-                    'payment_method'
+                    // 'customer_type',
+                    // 'invoice_dispatch',
+                    // 'invoice_shipping_method',
+                    // 'payment_method'
 
                 )->find(1),
                 'mode' => 'create',
@@ -103,6 +103,12 @@ class TmsCustomerController extends BaseController
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
                     'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
+                        return [
+                            'id' => $forwarder->id,
+                            'name' => $forwarder->company_name, 
+                        ];
+                    }),
                 ]
             ]
         );
