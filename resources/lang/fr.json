@@ -14,6 +14,8 @@
         "orders": "Ordres",
         "customers": "Clients",
         "integrations": "Plus",
+        "profile": "Profil",
+        "preferences": "Préférences",
         "pamyra": "Pamyra"
     }
 }
