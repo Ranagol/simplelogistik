@@ -1,8 +1,3 @@
-<script setup>
-import {  } from "@element-plus/icons-vue";
-
-</script>
-
 <template>
   <img class="cursor-pointer mr-3" @click="toggleLanguageSwitch" :src="`/images/flags/${$i18n.locale}.svg`" :alt="key" width="30" height="20" />
   <div @focusout="toggleLanguageSwitch" class="bg-white p-3 fixed top-12 h-0 overflow-y-hidden -translate-x-2/3 min-w-[150px] rounded-md shadow-md"
@@ -22,7 +17,8 @@ export default {
   data() {
     return {
       locales: ["de", "en", "es", "it", "fr"],
-      switchState: false
+      switchState: false,
+      key: null,
     };
   },
   methods: {
