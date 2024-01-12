@@ -1,5 +1,5 @@
 <template>
-    <nav data-role="main-navigation" role="navigation" class="hidden md:flex md:flex-row align-middle justify-between bg-white p-4">
+    <nav data-role="main-navigation" role="navigation" class="flex flex-row align-middle justify-between bg-white p-4">
         <div data-role="navigation-brand">
             <Link href="/">
                 <img src="/images/logo.png" alt="Logo" class="h-8">
