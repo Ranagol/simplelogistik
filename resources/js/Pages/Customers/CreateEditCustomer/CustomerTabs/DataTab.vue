@@ -1,6 +1,6 @@
 <template>
 
-    <!-- <pre>{{ JSON.stringify(data.customer, null, 2) }}</pre> -->
+    <pre>{{ JSON.stringify(data.customer, null, 2) }}</pre>
 
     <!-- :rules="rules" -->
     <el-form

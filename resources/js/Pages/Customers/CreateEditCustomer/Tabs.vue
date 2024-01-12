@@ -4,7 +4,6 @@
         type="border-card"
         stretch
     >
-        <!-- CUSTOMER GENERAL DATA -->
         <el-tab-pane
             label="General customer data"
         >
@@ -19,7 +18,6 @@
             </DataTab>
         </el-tab-pane>
 
-        <!-- INDIVIDUAL SETTINGS -->
         <el-tab-pane
             label="Individual settings"
         >
@@ -34,7 +32,6 @@
             </IndividualTab>
         </el-tab-pane>
 
-        <!-- COMMENTS -->
         <el-tab-pane
             label="Comments"
         >
@@ -50,8 +47,7 @@
             label="Addresses"
         >
             <AddressesTab
-                v-model="data.customer"
-                :errors="props.errors"
+                :addresses="data.customer.addresses"
             >
             </AddressesTab>
         </el-tab-pane>

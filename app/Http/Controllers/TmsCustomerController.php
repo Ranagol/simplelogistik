@@ -124,7 +124,7 @@ class TmsCustomerController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::with('headquarter')->find($id);
+        $record = $this->model::with(['addresses'])->find($id);
 
         return Inertia::render(
             $this->vueCreateEditPath, 

@@ -36,7 +36,6 @@ class TmsCustomerRequest extends FormRequest
             //We attach this forwarder with the appends trick in the TmsAddress
             'forwarder' => ['required', 'array'],
 
-
             // Special individual settings for a customer
             'auto_book_as_private' => 'boolean',
             'dangerous_goods' => 'boolean',

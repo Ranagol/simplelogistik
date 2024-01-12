@@ -52,7 +52,7 @@
             label="Address type"
             prop="address_type"
             sortable="custom"
-            :width="200"
+            :width="300"
         >
             <template #default="scope">
                 <span v-if="scope.row.is_pickup">Pickup</span>
@@ -66,7 +66,7 @@
             label="Street"
             prop="street"
             sortable="custom"
-            width="100px"
+            width="200px"
         />
 
         <el-table-column
@@ -90,19 +90,19 @@
             width="150px"
         />
 
-        <el-table-column
+        <!-- <el-table-column
             label="Country"
             prop="country_name"
             sortable="custom"
             width="250px"
-        />
+        /> -->
 
-        <el-table-column
+        <!-- <el-table-column
             label="State"
             prop="state"
             sortable="custom"
             width="150px"
-        />
+        /> -->
 
         <!-- <el-table-column
             label="Comment"
