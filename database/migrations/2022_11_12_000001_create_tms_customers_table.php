@@ -18,11 +18,11 @@ return new class extends Migration
 
             $table->unsignedBigInteger('forwarder_id')->nullable();
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
-            
+
+            $table->string('company_name',200)->nullable();
             $table->string('internal_id', 20);                   
             $table->string('first_name', 100);
             $table->string('last_name', 100);
-            $table->string('company_name',200)->nullable();
             $table->string('email', 200)->nullable();
             $table->string('tax_number',200)->nullable();
             $table->integer('rating')->unsigned()->nullable();

@@ -23,14 +23,13 @@ class TmsCustomerRequest extends FormRequest
     {
         return [
             'company_name' => 'required|string|min:2|max:100',
-            // 'company_name' => 'boolean',//just for testing validation
-
             'first_name' => 'required|string|min:2|max:200',
             'last_name' => 'required|string|min:2|max:200',
             'email' => 'required|email|max:100',
             'rating' => 'required|integer|between:1,5',
             'tax_number' => 'required|string|min:2|max:50',
-            'internal_id' => 'required|string|min:2|max:100',//****************** */
+            'internal_id' => 'required|string|min:2|max:100',
+            'payment_time' => 'required|integer',
 
             'auto_book_as_private' => 'nullable|boolean',
             'dangerous_goods' => 'nullable|boolean',
@@ -56,7 +55,6 @@ class TmsCustomerRequest extends FormRequest
             'invoice_dispatch' => 'required|string|min:2|max:100',
             'invoice_shipping_method' => 'required|string|min:2|max:100',
             'payment_method' => 'required|string|min:2|max:100',
-            // 'payment_method' => 'required|boolean',//this here is to trigger validation error
 
         ];
     }

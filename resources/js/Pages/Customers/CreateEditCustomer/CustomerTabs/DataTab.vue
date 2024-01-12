@@ -39,6 +39,7 @@
             </div>
         </div>
 
+        <!-- INPUT FIELDS -->
         <div>
             <el-form-item
                 label="Company name"
@@ -58,6 +59,26 @@
                 />
 
                 <BackendValidationErrorDisplay :errorMessage="props.errors.company_name"/>
+
+            </el-form-item>
+
+            <el-form-item
+                label="Internal ID"
+                prop="internal_id"
+            >
+                <el-input
+                    v-model="data.customer.internal_id"
+                    placeholder="Customer number"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.internal_id"/>
 
             </el-form-item>
 
@@ -122,26 +143,6 @@
             </el-form-item>
 
             <el-form-item
-                label="Rating"
-                prop="rating"
-            >
-                <el-input
-                    v-model="data.customer.rating"
-                    placeholder="Rating"
-                    type="text"
-                    show-word-limit
-                    :maxlength="255"
-                    clearable
-                    @input="update()"
-                    @clear="update()"
-                    @change="update()"
-                />
-
-                <BackendValidationErrorDisplay :errorMessage="props.errors.rating"/>
-                
-            </el-form-item>
-
-            <el-form-item
                 label="Tax number"
                 prop="tax_number"
             >
@@ -162,12 +163,12 @@
             </el-form-item>
 
             <el-form-item
-                label="Internal ID"
-                prop="internal_id"
+                label="Rating"
+                prop="rating"
             >
                 <el-input
-                    v-model="data.customer.internal_id"
-                    placeholder="Customer number"
+                    v-model="data.customer.rating"
+                    placeholder="Rating"
                     type="text"
                     show-word-limit
                     :maxlength="255"
@@ -177,9 +178,55 @@
                     @change="update()"
                 />
 
-                <BackendValidationErrorDisplay :errorMessage="props.errors.internal_id"/>
+                <BackendValidationErrorDisplay :errorMessage="props.errors.rating"/>
+                
+            </el-form-item>
+
+            <el-form-item
+                label="Payment time (days)"
+                prop="payment_time"
+            >
+                <el-input
+                    v-model="data.customer.payment_time"
+                    placeholder="Payment time (days)"
+                    clearable
+                    show-word-limit
+                    :maxlength="255"
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.payment_time"/>
+                
+            </el-form-item>
+
+            <el-form-item
+                prop="forwarder_name"
+                label="Forwarder"
+            >
+
+                <el-select
+                    v-model="data.customer.forwarder"
+                    value-key="id"
+                    clearable
+                    filterable
+                    style="width: 100%"
+                    @change="update()"
+                >
+                    <el-option
+                        v-for="(item, index) in props.forwarders"
+                        :key="index"
+                        :label="item.name"
+                        :value="item"
+                    ></el-option>
+
+                </el-select>
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.forwarder"/>
 
             </el-form-item>
+            
         </div>
     </el-form>
 </template>
