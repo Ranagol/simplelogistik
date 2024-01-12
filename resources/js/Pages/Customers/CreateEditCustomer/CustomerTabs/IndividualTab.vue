@@ -1,6 +1,5 @@
 <template>
     
-    <!-- :rules="rules" -->
     <el-form
         ref="ruleFormRef"
         :model="data.customer"
@@ -44,6 +43,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.auto_book_as_private"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -54,6 +54,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.dangerous_goods"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -64,6 +65,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.bussiness_customer"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -74,6 +76,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.debt_collection"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -84,6 +87,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.direct_debit"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -94,6 +98,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.manual_collective_invoicing"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -104,6 +109,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.paypal"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -114,6 +120,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.sofort"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -124,6 +131,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.amazon"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -134,6 +142,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.vorkasse"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -144,6 +153,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.private_customer"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -154,6 +164,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.invoice_customer"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -164,6 +175,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.poor_payment_morale"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -174,6 +186,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.can_login"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -356,20 +369,6 @@ let data = reactive({
     labelWidth: '260px',
 });
 
-/**
- * Generates header text for the Header component.
- */
- const headerText = computed(() => {
-
-// _.get() returns undefined if the path doesn't exist. Which is faulty.
-if (props.mode === 'edit' && _.get(data.customer, 'id')) {
-    //Edit mode title
-    return _.capitalize(props.mode) + ' customer';
-} else {
-    //Create mode title
-    return _.capitalize(props.mode) + ' new customer';
-}
-});
 
 /**
  * This does the customer data synchronization with the parent CreateEditBase component. With
