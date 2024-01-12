@@ -1,8 +1,5 @@
 <template>
 
-    <pre>{{ JSON.stringify(data.customer, null, 2) }}</pre>
-
-    <!-- :rules="rules" -->
     <el-form
         ref="ruleFormRef"
         :model="data.customer"
@@ -248,6 +245,9 @@
             
         </div>
     </el-form>
+
+    <pre>{{ JSON.stringify(data.customer, null, 2) }}</pre>
+
 </template>
 
 <script setup>

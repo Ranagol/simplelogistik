@@ -72,7 +72,7 @@ class TmsAddressController extends BaseController
                  * it needs a record to work with. 
                  */
                 'record' => new TmsAddress(),//this is what we need to send to the FE Address create
-                // 'record' => TmsAddress::select(//this is needed for testing
+                // 'record' => TmsAddress::select(//this is needed for testing, do not delete
                 //     // 'id',
                 //     'customer_id',
                 //     'forwarder_id',

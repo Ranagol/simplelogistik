@@ -62,7 +62,40 @@ class TmsCustomerController extends BaseController
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                // 'record' => $record,
+                // 'record' => new TmsCustomer(),
+                'record' => TmsCustomer::select(
+                    'id',
+                    'forwarder_id',
+                    'company_name',
+                    'internal_id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'phone',
+                    'tax_number',
+                    'rating',
+                    'comments',
+                    'payment_time',
+                    'auto_book_as_private',
+                    'dangerous_goods',
+                    'bussiness_customer',
+                    'debt_collection',
+                    'direct_debit',
+                    'manual_collective_invoicing',
+                    'private_customer',
+                    'invoice_customer',
+                    'poor_payment_morale',
+                    'can_login',
+                    'paypal',
+                    'sofort',
+                    'amazon',
+                    'vorkasse',
+                    'customer_type',
+                    'invoice_dispatch',
+                    'invoice_shipping_method',
+                    'payment_method'
+
+                )->find(1),
                 'mode' => 'create',
                 //These are the possibly selectable options for the el-select in customer create or edit form.
                 'selectOptions' => [
@@ -101,10 +134,10 @@ class TmsCustomerController extends BaseController
          */
         $newRecord = $request->validated();//do validation
 
+        $newRecord = $this->handleForwarderId($newRecord);
+
         /**
-         * 1. Find the relevant record and...
-         * 2. ...update it.
-         * 3. Get the newly created record, and return it to the FE.
+         * 1. Find the relevant record and...2. ...update it.
          */
         $newlyCreatedRecord = $this->model->create($newRecord);
 
@@ -146,6 +179,54 @@ class TmsCustomerController extends BaseController
                 ]
             ]
         );
+    }
+
+    /**
+     * Updates records. Inertia automatically sends succes or error feedback to the frontend.
+     *
+     * @param string $id
+     * @return void
+     */
+    public function update(string $id): void
+    {
+        /**
+         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
+         * calling this method?
+         */
+        $request = app($this->getRequestClass());
+        
+        /**
+         * The validated method is used to get the validated data from the request.
+         */
+        $newRecord = $request->validated();//do validation
+        
+        $newRecord = $this->handleForwarderId($newRecord);
+
+        /**
+         * 1. Find the relevant record and...
+         * 2. ...update it.
+         */
+        $this->model->find($id)->update($newRecord);
+    }
+
+    /**
+     * Here we handle the forwarder_id. Not every customer belong to a forwarder. So, the forwarder_id
+     * can be null. So, here we handle two situations: when we have a forwarder object, and when we
+     * do not have a forwarder object.
+     * 
+     * If there is a selected forwarder object, then we set the forwarder_id to the id of the 
+     * selected forwarder.
+     * If there is no selected forwarder object, then we set the forwarder_id to null.
+     */
+    private function handleForwarderId(array $customer): array
+    {
+        if (isset($customer['forwarder'])) {
+            $customer['forwarder_id'] = $customer['forwarder']['id'];//Here we set the forwarder id
+        } else {
+            $customer['forwarder_id'] = null;
+        }
+
+        return $customer;
     }
 
     public function addComment(Request $request, TmsCustomer $customer)

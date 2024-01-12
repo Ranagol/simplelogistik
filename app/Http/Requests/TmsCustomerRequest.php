@@ -34,7 +34,8 @@ class TmsCustomerRequest extends FormRequest
             'payment_time' => 'required|integer',
 
             //We attach this forwarder with the appends trick in the TmsAddress
-            'forwarder' => ['required', 'array'],
+            'forwarder' => ['nullable', 'array'],
+            'forwarder_id' => 'nullable|integer|exists:tms_forwarders,id',
 
             // Special individual settings for a customer
             'auto_book_as_private' => 'boolean',
