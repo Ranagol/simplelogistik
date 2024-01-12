@@ -1,6 +1,8 @@
 <template>
     <Head title="Dashboard" />
-    {{ $t("titles.dashboard") }}
+    <Card>
+        <Title :title="$t('titles.dashboard')" />
+    </Card>
 </template>
 
 <script setup>

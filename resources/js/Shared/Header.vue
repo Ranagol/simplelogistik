@@ -1,21 +1,16 @@
 <template>
-    <nav data-role="main-navigation" role="navigation" class="hidden md:flex md:flex-row align-middle justify-between bg-white p-4">
+    <nav data-role="main-navigation" role="navigation" class="flex flex-row align-middle justify-between bg-white p-4">
         <div data-role="navigation-brand">
             <Link href="/">
                 <img src="/images/logo.png" alt="Logo" class="h-8">
             </Link>
         </div>
-        <div data-role="navigation-shortcuts" class="flex flex-row">
-            <Link href="#">
-                <el-icon size="20">
-                    <Bell />
-                </el-icon>
-            </Link>
-
-            <form>
-                <LanguageSwitch />
-            </form>
-            <el-dropdown>
+        <div data-role="navigation-shortcuts" class="grid place-items-center grid-flow-col">
+            <LanguageSwitch />
+            <el-icon class="mx-3" size="20">
+                <Bell />
+            </el-icon>
+            <el-dropdown class="mx-2">
                 <span class="el-dropdown-link">
                     <el-icon size="20" class="el-icon--right">
                         <setting />
@@ -23,8 +18,8 @@
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item><Link href="/profile">Profil</Link></el-dropdown-item>
-                        <el-dropdown-item><Link href="/preferences">Einstellungen</Link></el-dropdown-item>
+                        <el-dropdown-item><Link href="/profile">{{ $t('menu.profile')}}</Link></el-dropdown-item>
+                        <el-dropdown-item><Link href="/preferences">{{ $t('menu.preferences')}}</Link></el-dropdown-item>
                         <el-dropdown-item divided><Link href="/logout" as="button" method="post" class="text-red-700">Logout</Link></el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
