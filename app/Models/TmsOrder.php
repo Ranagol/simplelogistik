@@ -52,7 +52,7 @@ class TmsOrder extends Model
         6 => 'Vorkasse'
     ];
 
-    
+    //*************RELATIONSHIPS*************************************** */    
 
     public function customer(): BelongsTo
     {
@@ -62,16 +62,6 @@ class TmsOrder extends Model
     public function contact(): BelongsTo
     {
         return $this->belongsTo(TmsContact::class, 'contact_id');
-    }
-
-    public function pickupAddress(): BelongsTo
-    {
-        return $this->belongsTo(TmsAddress::class, 'pickup_address_id');
-    }
-
-    public function deliveryAddress(): BelongsTo
-    {
-        return $this->belongsTo(TmsAddress::class, 'delivery_address_id');
     }
 
     public function cargoHistory(): HasMany
@@ -107,7 +97,8 @@ class TmsOrder extends Model
     /**
      * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder. It is either
      * a PamyraOrder or a NativeOrder, never both. That is why we use this funny method here.
-     * It will return the suborder, either a PamyraOrder or a NativeOrder.
+     * It will return the suborder, either a PamyraOrder or a NativeOrder. That is OK, because
+     * both tables have exactly the same structure.
      *
      * @return HasOne
      */

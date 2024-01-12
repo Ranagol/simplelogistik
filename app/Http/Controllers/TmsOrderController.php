@@ -252,8 +252,7 @@ class TmsOrderController extends BaseController
 
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
-                'pickupAddress:id,city,zip_code', 
-                'deliveryAddress:id,city,zip_code',
+                'subOrder',
                 'parcels'
             ])
             
