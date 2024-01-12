@@ -50,7 +50,6 @@ const emit = defineEmits(['getData', 'update:searchTerm']);
 
 //We request data from the parent component. 
 const getData = (value) => {
-    console.log('value:', value)
     emit('update:searchTerm', value);
     emit('getData');
 }
