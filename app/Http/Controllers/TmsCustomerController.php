@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\TmsCustomer;
+use App\Models\TmsForwarder;
+use Illuminate\Http\Request;
 use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Inertia\Response;
-use Illuminate\Http\Request;
 
 class TmsCustomerController extends BaseController
 {
@@ -136,6 +137,12 @@ class TmsCustomerController extends BaseController
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
                     'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
+                        return [
+                            'id' => $forwarder->id,
+                            'name' => $forwarder->company_name, 
+                        ];
+                    }),
                 ]
             ]
         );

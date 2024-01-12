@@ -222,10 +222,9 @@
             </el-form-item>
 
             <el-form-item
-                prop="forwarder_name"
+                prop="forwarder"
                 label="Forwarder"
             >
-
                 <el-select
                     v-model="data.customer.forwarder"
                     value-key="id"
@@ -280,6 +279,14 @@ let props = defineProps({
         type: String,
         required: true
     },
+
+    /**
+     * The forwarders that are selectable in the el-select.
+     */
+    forwarders: {
+        type: Array,
+        required: true
+    }
 });
 
 let data = reactive({

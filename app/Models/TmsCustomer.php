@@ -56,6 +56,39 @@ class TmsCustomer extends Model
         'comments' => 'array',
     ];
 
+    /**
+     * APPENDING (attaching a new column to the model, that is originally not in the model's table)
+     * Here we want to add country_name to the Address model.
+     * Under the country_name key in the response, we will get the country_name of the given address.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'forwarder',
+    ];
+
+    public function getForwarderAttribute()
+    {
+        //$this->forwarder_id is the forwarder_id of the current Address model.
+        $forwarder = TmsForwarder::select('id', 'company_name', 'name')->find($this->forwarder_id);
+        
+        if($forwarder && $forwarder->company_name){
+            //If the forwarder has a company_name, let the company_name be the customer_name.
+            $forwarderName = $forwarder ? $forwarder->company_name : 'TmsAddress appends error.';
+        }else{
+            //If the forwarder has no company_name, let the first_name and last_name be the customer_name.
+            $forwarderName = $forwarder ? $forwarder->name : 'TmsAddress appends error.';
+        }
+
+        //We need only the id and the name of the forwarder. So we format the forwarder object.
+        $formattedForwarder = [
+            'id' => $forwarder ? $forwarder->id : null,
+            'name' => $forwarder ? $forwarderName : null
+        ];
+
+        return $formattedForwarder;
+    }
+
     //*************RELATIONSHIPS*************************************** */
 
     /**

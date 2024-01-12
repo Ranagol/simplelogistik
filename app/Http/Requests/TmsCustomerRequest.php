@@ -33,6 +33,10 @@ class TmsCustomerRequest extends FormRequest
             'internal_id' => 'required|string|min:2|max:100',
             'payment_time' => 'required|integer',
 
+            //We attach this forwarder with the appends trick in the TmsAddress
+            'forwarder' => ['required', 'array'],
+
+
             // Special individual settings for a customer
             'auto_book_as_private' => 'boolean',
             'dangerous_goods' => 'boolean',

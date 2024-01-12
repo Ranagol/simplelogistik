@@ -65,7 +65,7 @@ class TmsAddress extends Model
     {
         //$this->customer_id is the customer_id of the current Address model.
         $customer = TmsCustomer::select('id', 'company_name', 'first_name', 'last_name')->find($this->customer_id);
-        if($customer && !$customer->company_name){//Attempt to read property "company_name" on null
+        if($customer && $customer->company_name){//Attempt to read property "company_name" on null
             //If the customer has a company_name, let the company_name be the customer_name.
             $customerName = $customer ? $customer->company_name : 'TmsAddress appends error.';
         }else{
@@ -87,7 +87,7 @@ class TmsAddress extends Model
         //$this->forwarder_id is the forwarder_id of the current Address model.
         $forwarder = TmsForwarder::select('id', 'company_name', 'name')->find($this->forwarder_id);
         
-        if($forwarder && !$forwarder->company_name){
+        if($forwarder && $forwarder->company_name){
             //If the forwarder has a company_name, let the company_name be the customer_name.
             $forwarderName = $forwarder ? $forwarder->company_name : 'TmsAddress appends error.';
         }else{
@@ -109,7 +109,7 @@ class TmsAddress extends Model
         //$this->partner_id is the partner_id of the current Address model.
         $partner = TmsPartner::select('id', 'company_name', 'name')->find($this->partner_id);
         
-        if($partner && !$partner->company_name){
+        if($partner && $partner->company_name){
             //If the partner has a company_name, let the company_name be the partner name.
             $partnerName = $partner ? $partner->company_name : 'TmsAddress appends error.';
         }else{

@@ -11,6 +11,7 @@
             <DataTab
                 v-model="data.customer"
                 :errors="props.errors"
+                :forwarders="props.selectOptions.forwarders"
                 :mode="props.mode"
                 @submit="submit"
                 @destroy="destroy"
