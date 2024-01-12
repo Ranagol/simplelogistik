@@ -1,6 +1,6 @@
 <template>
     <nav data-role="main-navigation" role="navigation" class="flex flex-row align-middle justify-between bg-white p-4">
-        <div data-role="navigation-brand">
+        <div data-role="navigation-brand" class="ml-14">
             <Link href="/">
                 <img src="/images/logo.png" alt="Logo" class="h-8">
             </Link>
