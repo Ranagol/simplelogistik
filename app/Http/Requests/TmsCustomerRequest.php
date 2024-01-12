@@ -22,29 +22,32 @@ class TmsCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // General customer data
             'company_name' => 'required|string|min:2|max:100',
             'first_name' => 'required|string|min:2|max:200',
             'last_name' => 'required|string|min:2|max:200',
             'email' => 'required|email|max:100',
+            'phone' => 'required|string|min:2|max:100',
             'rating' => 'required|integer|between:1,5',
             'tax_number' => 'required|string|min:2|max:50',
             'internal_id' => 'required|string|min:2|max:100',
             'payment_time' => 'required|integer',
 
-            'auto_book_as_private' => 'nullable|boolean',
-            'dangerous_goods' => 'nullable|boolean',
-            'bussiness_customer' => 'nullable|boolean',
-            'debt_collection' => 'nullable|boolean',
-            'direct_debit' => 'nullable|boolean',
-            'manual_collective_invoicing' => 'nullable|boolean',
-            'paypal' => 'nullable|boolean',
-            'sofort' => 'nullable|boolean',
-            'amazon' => 'nullable|boolean',
-            'vorkasse' => 'nullable|boolean',
-            'private_customer' => 'nullable|boolean',
-            'invoice_customer' => 'nullable|boolean',
-            'poor_payment_morale' => 'nullable|boolean',
-            'can_login' => 'nullable|boolean',
+            // Special individual settings for a customer
+            'auto_book_as_private' => 'boolean',
+            'dangerous_goods' => 'boolean',
+            'bussiness_customer' => 'boolean',
+            'debt_collection' => 'boolean',
+            'direct_debit' => 'boolean',
+            'manual_collective_invoicing' => 'boolean',
+            'paypal' => 'boolean',
+            'sofort' => 'boolean',
+            'amazon' => 'boolean',
+            'vorkasse' => 'boolean',
+            'private_customer' => 'boolean',
+            'invoice_customer' => 'boolean',
+            'poor_payment_morale' => 'boolean',
+            'can_login' => 'boolean',
             
             /**
              * These will work with mutators defined in model

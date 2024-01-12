@@ -123,6 +123,26 @@
             </el-form-item>
 
             <el-form-item
+                label="Phone"
+                prop="phone"
+            >
+                <el-input
+                    v-model="data.customer.phone"
+                    placeholder="Phone"
+                    type="text"
+                    show-word-limit
+                    :maxlength="255"
+                    clearable
+                    @input="update()"
+                    @clear="update()"
+                    @change="update()"
+                />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.phone"/>
+
+            </el-form-item>
+
+            <el-form-item
                 label="Email"
                 prop="email"
             >
