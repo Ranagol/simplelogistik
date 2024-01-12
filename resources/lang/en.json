@@ -7,5 +7,15 @@
         "es": "Español",
         "it": "Italiano",
         "fr": "France"
+    },
+    "menu": {
+        "dashboard": "Dashboard",
+        "addresses": "Addresses",
+        "orders": "Orders",
+        "customers": "Customers",
+        "integrations": "More",
+        "profile": "Profile",
+        "preferences": "Preferences",
+        "pamyra": "Pamyra"
     }
 }
