@@ -6,9 +6,17 @@ use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
+use App\Models\TmsPartner;
 use App\Models\TmsCustomer;
+use App\Models\TmsOfferPrice;
+use App\Models\TmsNativeOrder;
+use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
+use App\Models\TmsOrderAttribute;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -16,7 +24,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 
 class TmsOrder extends Model
 {
@@ -100,29 +107,20 @@ class TmsOrder extends Model
      * It will return the suborder, either a PamyraOrder or a NativeOrder. That is OK, because
      * both tables have exactly the same structure.
      *
-     * @return HasOne
      */
-    public function subOrder(): HasOne
+    public function subOrder()
     {
-        //->exists() checks if there is a relationship existing in the db
-        if ($this->pamyraOrder()->exists()) {
-            return $this->pamyraOrder();
-        }
-        //->exists() checks if there is a relationship existing in the db
-        if ($this->nativeOrder()->exists()) {
+        if ($this->nativeOrder()) {//this if condition is the problem
             return $this->nativeOrder();
         }
-    }
 
-    /**
-     * An order could belong to a partner. This is optional, does not happen always. Example:
-     * an order that we received from Pamyra belongs (amongst other belongings) to Pamyra partner.
-     *
-     * @return BelongsTo
-     */
-    public function partner(): BelongsTo
-    {
-        return $this->belongsTo(TmsPartner::class);
+        if ($this->pamyraOrder()) {//this if condition is the problem
+            return $this->pamyraOrder();
+        }
+
+        $users = User::withWhereHas('posts', function ($query) {
+            $query->where('featured', true);
+        })->get();
     }
 
     /**
@@ -145,6 +143,17 @@ class TmsOrder extends Model
         return $this->hasOne(TmsNativeOrder::class, 'order_id');
     }
 
+    /**
+     * An order could belong to a partner. This is optional, does not happen always. Example:
+     * an order that we received from Pamyra belongs (amongst other belongings) to Pamyra partner.
+     *
+     * @return BelongsTo
+     */
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(TmsPartner::class);
+    }
+
     public function orderAddresses(): HasMany
     {
         return $this->hasMany(TmsOrderAddress::class, 'order_id');
@@ -165,7 +174,7 @@ class TmsOrder extends Model
     public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
     {
         return $query->where('type_of_transport', 'like', "%{$searchTerm}%")
-            ->orWhere('p_order_number', 'like', "%{$searchTerm}%")
+            ->orWhere('customer_reference', 'like', "%{$searchTerm}%")
             ->orWhere('status', 'like', "%{$searchTerm}%")
             ;
     }

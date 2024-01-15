@@ -246,14 +246,16 @@ class TmsOrderController extends BaseController
                 $query->orderBy($sortColumn, $sortOrder);
             }, function ($query) {
 
-                //... but if sort is not specified, please return sort by id and ascending.
+                //... but if sort is not specified, please return sort by id and descending.
                 return $query->orderBy('id', 'desc');
             })
 
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
-                'subOrder',
-                'parcels'
+                // 'subOrder',//either pamyraOrder or nativeOrder
+                'parcels',
+                'nativeOrder',
+                'pamyraOrder',
             ])
             
             /**
@@ -267,6 +269,8 @@ class TmsOrderController extends BaseController
              * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
              */
             ->withQueryString();
+
+            
 
         return $records;
     }

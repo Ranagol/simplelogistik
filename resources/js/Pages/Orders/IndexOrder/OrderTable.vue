@@ -33,7 +33,7 @@
                 <Link
                     class="hover:underline text-blue-500"
                     :href="`/orders/${scope.row.id}/edit`"
-                >{{ scope.row.sub_order.order_number }}</Link>
+                >{{ (scope.row.sub_order || {}).order_number }}</Link>
 
             </template>
 
@@ -71,8 +71,8 @@
             label="Pickup date period"
         >
             <template #default="scope">
-                {{ useDateTimeFormatter(scope.row.sub_order.pickup_date_from) }} 
-                - {{ useDateTimeFormatter(scope.row.sub_order.pickup_date_to) }}
+                {{ useDateTimeFormatter((scope.row.sub_order || {}).pickup_date_from) }} 
+                - {{ useDateTimeFormatter((scope.row.sub_order || {}).pickup_date_to) }}
             </template>
         </el-table-column>
 
@@ -81,8 +81,8 @@
             label="Delivery date period"
         >
             <template #default="scope">
-                {{ useDateTimeFormatter(scope.row.sub_order.delivery_date_from) }} 
-                - {{ useDateTimeFormatter(scope.row.sub_order.delivery_date_to) }}
+                {{ useDateTimeFormatter((scope.row.sub_order || {}).delivery_date_from) }} 
+                - {{ useDateTimeFormatter((scope.row.sub_order || {}).delivery_date_to) }}
             </template>
         </el-table-column> -->
 
@@ -181,32 +181,6 @@ const props = defineProps({
     sortOrder: String,
 });
 
-const data = reactive({
-    columns: [
-        'id',
-        'p_order_number',
-        'customer_id',
-        'contact_id',
-        'pickup_address_id',
-        'delivery_address_id',
-        'description',
-        'shipping_price',
-        'shipping_price_netto',
-        'pickup_date',
-        'delivery_date',
-    ],
-});
-
-/**
- * columnTextShortener() is used to shorten the text in the table
- */
-const columnTextShortener = (text) =>{
-    return text;
-};
-
-
-
-
 /**
  * SORTING
  * sort() is activated by the main table header sort arrows. 
@@ -229,9 +203,7 @@ const sort = ( { prop, order }) => {
     emit('getData');
 };
 
-
-
 </script>
 
 <style scoped>
-</style>@/Use/useDateFormatter.js
+</style>
