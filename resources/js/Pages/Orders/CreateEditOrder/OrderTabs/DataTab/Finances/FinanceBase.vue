@@ -32,7 +32,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_transport_price_net"
+                        v-model="data.order.transport_price_net"
                         placeholder="Transport price net"
                         clearable
                         @input="updateParent"
@@ -41,7 +41,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_transport_price_net"
+                    :errorMessage="props.errors.transport_price_net"
                 />
 
             </el-form-item>
@@ -59,7 +59,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_transport_price_vat"
+                        v-model="data.order.transport_price_vat"
                         placeholder="Transport price vat"
                         clearable
                         @input="updateParent"
@@ -68,7 +68,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_transport_price_vat"
+                    :errorMessage="props.errors.transport_price_vat"
                 />
 
             </el-form-item>
@@ -167,7 +167,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_calculated_transport_price"
+                        v-model="data.order.calculated_transport_price"
                         placeholder="Calculated transport price"
                         clearable
                         @input="updateParent"
@@ -176,7 +176,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_calculated_transport_price"
+                    :errorMessage="props.errors.calculated_transport_price"
                 />
 
             </el-form-item>
@@ -194,7 +194,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_transport_price_gross"
+                        v-model="data.order.transport_price_gross"
                         placeholder="Transport price gross"
                         clearable
                         @input="updateParent"
@@ -203,7 +203,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_transport_price_gross"
+                    :errorMessage="props.errors.transport_price_gross"
                 />
 
             </el-form-item>
@@ -221,7 +221,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_customized_price_change"
+                        v-model="data.order.customized_price_change"
                         placeholder="Customized price change"
                         clearable
                         @input="updateParent"
@@ -230,7 +230,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_customized_price_change"
+                    :errorMessage="props.errors.customized_price_change"
                 />
 
             </el-form-item>
@@ -248,7 +248,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_customized_price_mode"
+                        v-model="data.order.customized_price_mode"
                         placeholder="Customized price mode"
                         clearable
                         @input="updateParent"
@@ -257,7 +257,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_customized_price_mode"
+                    :errorMessage="props.errors.customized_price_mode"
                 />
 
             </el-form-item>
@@ -275,7 +275,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_discount"
+                        v-model="data.order.discount"
                         placeholder="Discount"
                         clearable
                         @input="updateParent"
@@ -284,7 +284,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_discount"
+                    :errorMessage="props.errors.discount"
                 />
 
             </el-form-item>
@@ -302,7 +302,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_price_gross"
+                        v-model="data.order.price_gross"
                         placeholder="Price gross"
                         clearable
                         @input="updateParent"
@@ -311,7 +311,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_price_gross"
+                    :errorMessage="props.errors.price_gross"
                 />
 
             </el-form-item>
@@ -329,7 +329,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_price_vat"
+                        v-model="data.order.price_vat"
                         placeholder="Price vat"
                         clearable
                         @input="updateParent"
@@ -338,7 +338,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_price_vat"
+                    :errorMessage="props.errors.price_vat"
                 />
 
             </el-form-item>
@@ -356,7 +356,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_price_net"
+                        v-model="data.order.price_net"
                         placeholder="Price net"
                         clearable
                         @input="updateParent"
@@ -365,7 +365,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_price_net"
+                    :errorMessage="props.errors.price_net"
                 />
 
             </el-form-item>
@@ -383,7 +383,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_price_fuel_surcharge"
+                        v-model="data.order.price_fuel_surcharge"
                         placeholder="Price fuel surcharge"
                         clearable
                         @input="updateParent"
@@ -392,7 +392,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_price_fuel_surcharge"
+                    :errorMessage="props.errors.price_fuel_surcharge"
                 />
 
             </el-form-item>
@@ -410,7 +410,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_vat_rate"
+                        v-model="data.order.vat_rate"
                         placeholder="Vat rate"
                         clearable
                         @input="updateParent"
@@ -419,7 +419,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_vat_rate"
+                    :errorMessage="props.errors.vat_rate"
                 />
 
             </el-form-item>
@@ -437,7 +437,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_value_insured"
+                        v-model="data.order.value_insured"
                         placeholder="Value insured"
                         clearable
                         @input="updateParent"
@@ -446,7 +446,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_value_insured"
+                    :errorMessage="props.errors.value_insured"
                 />
 
             </el-form-item>
@@ -464,7 +464,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_value_of_goods"
+                        v-model="data.order.value_of_goods"
                         placeholder="Value of goods"
                         clearable
                         @input="updateParent"
@@ -473,7 +473,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_value_of_goods"
+                    :errorMessage="props.errors.value_of_goods"
                 />
 
             </el-form-item>
@@ -505,7 +505,7 @@ const props = defineProps({
 
 const data = reactive({
     order: props.order,
-    showFinances: false,
+    showFinances: true,
     showLabel: true,
 });
 

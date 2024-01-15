@@ -84,7 +84,7 @@
 
             </el-form-item>
 
-            <!-- STATUS *************************************************************-->
+            <!-- STATUS -->
             <el-form-item
                 prop="status"
             >   
@@ -95,14 +95,6 @@
                         v-if="data.showLabel"
                         class="ml-1"
                     >Status</span>
-                    
-                    <!-- INPUT -->
-                    <!-- <el-input
-                        v-model="data.order.status"
-                        placeholder="Status"
-                        clearable
-                        @input="updateParent"
-                    /> -->
 
                     <el-select
                         v-model="data.order.status"
