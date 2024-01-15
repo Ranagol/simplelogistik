@@ -2,23 +2,23 @@
 
 namespace Database\Seeders;
 
+use App\Models\TmsGear;
 use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
+use App\Models\TmsNeededGear;
 use App\Models\TmsVehicleReq;
-use App\Models\TmsCustomerReq;
-use App\Models\TmsForwarderReq;
+use App\Models\TmsOfferedGear;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 /**
- * This class will be used to seed pivot tables. Pivot tables that belong to the 'requierements'
- * story.
+ * This class will be used to seed pivot tables. 
  * 
  * We actually do not fake any new db data here.
  * We simply just connect the already existing models.
- * Example: TmsCustomers and TmsCustomerReqs are already seeded. We just need to connect them in
- * their customer_customer_req_pivot table. We do that by getting all the customers and all the
+ * Example: TmsCustomers and TmsGears are already seeded. We just need to connect them in
+ * their gear_customer pivot table. We do that by getting all the customers and all the
  * requirements, and then we get random ids from both of them. Then we attach them to each other.
  * we do that with the attach() method.
  */
@@ -29,97 +29,104 @@ class PivotTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->seed_customer_customer_reqs_pivot_table();
-        $this->seed_vehicle_vehicle_reqs_pivot_table();
-        $this->seed_forwarder_forwarder_reqs_pivot_table();
+        $this->seed_gear_customer();
+        $this->seed_gear_vehicle();
+        $this->seed_gear_forwarder();
     }
 
     /**
-     * Connects TmsCustomers and TmsCustomerReqs, aka populates the ... pivot 
-     * table with random ids.
+     * Connects TmsCustomers and TmsGears, aka populates the gear_customer pivot 
+     * table with random customer and random gear ids.
+     * Every customer will get one gear.
+     * Every gear will get one customer.
+     * So, there will be 40 gear customer connections.
      *
      * @return void
      */
-    private function seed_customer_customer_reqs_pivot_table(): void
+    private function seed_gear_customer(): void
     {
         //Get all customers
         $customers = TmsCustomer::all();
         //Get all customer ids
         $customerIds = $customers->pluck('id')->toArray();
         //Get all requirements
-        $requirements = TmsCustomerReq::all();
+        $gears = TmsGear::all();
         //Get all requirement ids
-        $requirementsIds = $requirements->pluck('id')->toArray();
+        $gearIds = $gears->pluck('id')->toArray();
 
         foreach ($customers as $customer) {
 
             //We get 1 random requirement id for each customer...
-            $randomArraykey = array_rand($requirementsIds);
-            $randomReqId = $requirementsIds[$randomArraykey];
+            $randomArraykey = array_rand($gearIds);
+            $randomGearId = $gearIds[$randomArraykey];
             //...and we attach the requirement id to the customer.
-            $customer->customerReqs()->attach($randomReqId); 
+            $customer->gears()->attach($randomGearId); 
         }
 
-        foreach ($requirements as $requirement) {
+        foreach ($gears as $gear) {
 
             //We get one random customer
             $randomArraykey = array_rand($customerIds);
             //We get the id of the random customer...
             $randomCustomerId = $customerIds[$randomArraykey];
-            //...and we attach them to the requirement.
-            $requirement->customers()->attach($randomCustomerId); 
+            //...and we attach them to the gear.
+            $gear->customers()->attach($randomCustomerId); 
         }
     }
 
-    private function seed_vehicle_vehicle_reqs_pivot_table(): void
+    /**
+     *
+     * @return void
+     */
+    private function seed_gear_vehicle(): void
     {
         $vehicles = TmsVehicle::all();
         $vehicleIds = $vehicles->pluck('id')->toArray();
-        $requirements = TmsVehicleReq::all();
-        $requirementsIds = $requirements->pluck('id')->toArray();
+        $gears = TmsGear::all();
+        $gearIds = $gears->pluck('id')->toArray();
 
         foreach ($vehicles as $vehicle) {
 
-            //We get 1 random requirements for each vehicle...
-            $randomArraykey = array_rand($requirementsIds);
-            $randomReqId = $requirementsIds[$randomArraykey];
+            //We get 1 random gears for each vehicle...
+            $randomArraykey = array_rand($gearIds);
+            $gearId = $gearIds[$randomArraykey];
             //...and we attach them to the vehicle.
-            $vehicle->vehicleReqs()->attach($randomReqId); 
+            $vehicle->gears()->attach($gearId); 
         }
 
-        foreach ($requirements as $requirement) {
+        foreach ($gears as $gear) {
 
-            //We get 2 random vehicles for each requirement...
+            //We get 2 random vehicles for each gear...
             $randomArraykey = array_rand($vehicleIds);
             $randomVehicleId = $vehicleIds[$randomArraykey];
-            //...and we attach them to the requirement.
-            $requirement->vehicles()->attach($randomVehicleId); 
+            //...and we attach them to the gear.
+            $gear->vehicles()->attach($randomVehicleId); 
         }
     }
 
-    private function seed_forwarder_forwarder_reqs_pivot_table():void
+    private function seed_gear_forwarder():void
     {
         $forwarders = TmsForwarder::all();
         $forwarderIds = $forwarders->pluck('id')->toArray();
-        $requirements = TmsForwarderReq::all();
-        $requirementsIds = $requirements->pluck('id')->toArray();
+        $gears = TmsGear::all();
+        $gearIds = $gears->pluck('id')->toArray();
 
         foreach ($forwarders as $forwarder) {
 
-            //We get 1 random requirements for each forwarder...
-            $randomArraykey = array_rand($requirementsIds);
-            $randomReqId = $requirementsIds[$randomArraykey];
+            //We get 1 random gears for each forwarder...
+            $randomArraykey = array_rand($gearIds);
+            $randomGearId = $gearIds[$randomArraykey];
             //...and we attach them to the forwarder.
-            $forwarder->forwarderReqs()->attach($randomReqId); 
+            $forwarder->gears()->attach($randomGearId); 
         }
 
-        foreach ($requirements as $requirement) {
+        foreach ($gears as $gear) {
 
-            //We get 2 random forwarders for each requirement...
+            //We get 2 random forwarders for each gear...
             $randomArraykey = array_rand($forwarderIds);
             $randomForwarderId = $forwarderIds[$randomArraykey];
-            //...and we attach them to the requirement.
-            $requirement->forwarders()->attach($randomForwarderId); 
+            //...and we attach them to the gear.
+            $gear->forwarders()->attach($randomForwarderId); 
         }
     }
 }

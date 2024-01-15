@@ -35,7 +35,7 @@ const props = defineProps({
     record: {
         type: Object,
         default: () => ({
-            internal_cid: "C000",
+            internal_id: "C000",
             first_name: "John",
             last_name: "Doe",
             company_name: "Belladonna",
@@ -115,7 +115,7 @@ watch(
 );
 
 const emptyCustomer = {
-    internal_cid: "C000",
+    internal_id: "C000",
     first_name: "John",
     last_name: "Doe",
     company_name: "Belladonna",

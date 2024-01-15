@@ -3,12 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Pivot;
 use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\TmsContact;
-use App\Models\TmsCountry;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
@@ -16,8 +14,7 @@ use Illuminate\Support\Str;
 use App\Models\TmsForwarder;
 use App\Models\TmsOrder;
 use App\Models\TmsDispatcher;
-use App\Models\TmsOfferPrice;
-use App\Models\TmsRequirement;
+use App\Models\TmsGear;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TmsParcelSeeder;
@@ -32,14 +29,12 @@ use Database\Seeders\TmsForwarderSeeder;
 use Database\Seeders\TmsOrderSeeder;
 use Database\Seeders\TmsDispatcherSeeder;
 use Database\Seeders\TmsOfferPriceSeeder;
-use Database\Seeders\TmsVehicleReqSeeder;
-use Database\Seeders\TmsCustomerReqSeeder;
-use Database\Seeders\TmsRequirementSeeder;
+// use Database\Seeders\TmsVehicleReqSeeder;
+use Database\Seeders\TmsGearSeeder;
 use Database\Seeders\TmsOrderHistorySeeder;
 use Database\Seeders\TmsOrderAttributeSeeder;
 use Database\Seeders\TmsTransportLicenseSeeder;
 use Database\Seeders\TmsForwardingContractSeeder;
-use Database\Seeders\TmsForwarderReqSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -70,9 +65,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TmsCountrySeeder::class,
             TmsDispatcherSeeder::class,
-            TmsCustomerSeeder::class,
             TmsForwarderSeeder::class,
-            TmsRequirementSeeder::class,
+            TmsCustomerSeeder::class,
+            TmsPartnerSeeder::class,
+            TmsGearSeeder::class,
             TmsAddressSeeder::class,
             TmsContactSeeder::class,
             TmsVehicleSeeder::class,
@@ -81,13 +77,14 @@ class DatabaseSeeder extends Seeder
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
             TmsOrderHistorySeeder::class,
-            TmsForwarderReqSeeder::class,
-            TmsVehicleReqSeeder::class,
-            TmsCustomerReqSeeder::class,
             TmsTransportLicenseSeeder::class,
-            PivotTableSeeder::class,
+            PivotTableSeeder::class,//all pivot table connections are created here.
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
+            TmsProvisionSeeder::class,
+            TmsPamyraOrderSeeder::class,
+            TmsNativeOrderSeeder::class,
+            TmsOrderAddressSeeder::class,
         ]);
 
         // $dispatchers = TmsDispatcher::factory(5)->create();
@@ -96,7 +93,7 @@ class DatabaseSeeder extends Seeder
         // echo "customers created\n";
         // $forwarders = TmsForwarder::factory(20)->create();
         // echo "forwarders created\n";
-        // $requirements = TmsRequirement::factory(20)->create();
+        // $requirements = TmsGear::factory(20)->create();
         // echo "requirements created\n";
 
         // $addressesCustomers = TmsAddress::factory()->count(4)->for($customers, 'address')->create();

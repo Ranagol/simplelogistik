@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_requirements', function (Blueprint $table) {
+        Schema::create('tms_gears', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('remarks')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_requirements');
+        Schema::dropIfExists('tms_gears');
     }
 };

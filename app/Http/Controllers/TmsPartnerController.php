@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TmsInvoiceShippingMethodController extends Controller
+class TmsPartnerController extends Controller
 {
     //
 }

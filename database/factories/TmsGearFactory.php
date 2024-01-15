@@ -2,20 +2,20 @@
 
 namespace Database\Factories;
 
-use App\Models\TmsRequirement;
+use App\Models\TmsGear;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_needsandoption>
  */
-class TmsRequirementFactory extends Factory
+class TmsGearFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = TmsRequirement::class;
+    protected $model = TmsGear::class;
 
     /**
      * Define the model's default state.
@@ -26,7 +26,7 @@ class TmsRequirementFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'remarks' => $this->faker->sentence,
+            'description' => $this->faker->sentence,
         ];
     }
 }

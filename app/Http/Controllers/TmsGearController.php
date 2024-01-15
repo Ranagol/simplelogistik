@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\TmsRequirement;
+use App\Models\TmsGear;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Http\Requests\TmsRequirementRequest;
+use App\Http\Requests\TmsGearRequest;
 
-class TmsRequirementController extends Controller
+class TmsGearController extends Controller
 {
      /**
      * Returns requirements.
@@ -39,7 +39,7 @@ class TmsRequirementController extends Controller
 
     public function show(string $id): void
     {
-        $vehicle = TmsRequirement::find($id);
+        $vehicle = TmsGear::find($id);
     }
 
     /**
@@ -50,24 +50,24 @@ class TmsRequirementController extends Controller
      * to the user, and then the FE component calls the $this->index() method, which returns the requirements.
      * So, the user gets his feedback, and the vehicle list is refreshed.
      *
-     * @param TmsRequirementRequest $request
+     * @param TmsGearRequest $request
      * @return void
      */
-    public function store(TmsRequirementRequest $request): void
+    public function store(TmsGearRequest $request): void
     {
-        TmsRequirement::create($request->all());
+        TmsGear::create($request->all());
     }
 
     /**
      * Updates requirements. Inertia automatically sends succes or error feedback to the frontend.
      *
-     * @param TmsRequirementRequest $request
+     * @param TmsGearRequest $request
      * @param [type] $id
      * @return void
      */
-    public function update(TmsRequirementRequest $request, string $id): void
+    public function update(TmsGearRequest $request, string $id): void
     {
-        TmsRequirement::find($id)->update($request->all());
+        TmsGear::find($id)->update($request->all());
     }
 
     /**
@@ -80,7 +80,7 @@ class TmsRequirementController extends Controller
      */
     public function destroy(Request $request, string $id): void
     {
-        TmsRequirement::destroy($id);
+        TmsGear::destroy($id);
     }
 
     /**
@@ -100,7 +100,7 @@ class TmsRequirementController extends Controller
     public function batchDelete(Request $request): void
     {
         $ids = $request->ids;
-        TmsRequirement::destroy($ids);
+        TmsGear::destroy($ids);
     }
 
     /**
@@ -119,7 +119,7 @@ class TmsRequirementController extends Controller
         int $newItemsPerPage = null,
     ): LengthAwarePaginator
     {
-        $requirements = TmsRequirement::query()
+        $requirements = TmsGear::query()
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {

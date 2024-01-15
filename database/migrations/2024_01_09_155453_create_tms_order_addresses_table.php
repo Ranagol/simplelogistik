@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_addresses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('tms_order_addresses', function (Blueprint $table) {
+            $table->id();
 
             //FOREIGN KEYS
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->foreign('order_id')->references('id')->on('tms_orders');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id')->nullable();
@@ -25,6 +27,7 @@ return new class extends Migration
             $table->foreign('partner_id')->references('id')->on('tms_partners');
 
             $table->string('company_name', 255)->nullable();
+            $table->string('address_type')->comment('Example: headquarter, billing address, pickup address, delivery address,')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('street', 200);
@@ -36,11 +39,6 @@ return new class extends Migration
             $table->string('phone',100)->nullable();
             $table->string('email',100)->nullable();
 
-            $table->boolean('is_pickup')->nullable();
-            $table->boolean('is_delivery')->nullable();
-            $table->boolean('is_billing')->nullable();
-            $table->boolean('is_headquarter')->nullable();
-            
             $table->timestamps();
         });
     }
@@ -50,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_addresses');
+        Schema::dropIfExists('tms_order_addresses');
     }
 };

@@ -265,10 +265,10 @@
 
             <el-form-item
                 label="Customer number"
-                prop="internal_cid"
+                prop="internal_id"
             >
                 <el-input
-                    v-model="data.customer.internal_cid"
+                    v-model="data.customer.internal_id"
                     placeholder="Customer number"
                     type="text"
                     show-word-limit
@@ -280,8 +280,8 @@
                 />
                 <!-- BACKEND VALIDATION ERROR DISPLAY -->
                 <div
-                    v-if="props.errors.internal_cid"
-                    v-text="props.errors.internal_cid"
+                    v-if="props.errors.internal_id"
+                    v-text="props.errors.internal_id"
                     class="text-red-500 text-xs mt-1"
                 ></div>
             </el-form-item>

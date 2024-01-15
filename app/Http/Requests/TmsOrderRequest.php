@@ -25,7 +25,7 @@ class TmsOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        $parcelRequest = new TmsParcelRequest();
+        $addressRequest = new TmsAddressRequest();
 
         return [
 
@@ -103,25 +103,38 @@ class TmsOrderRequest extends FormRequest
             //CUSTOMER VALIDATION
             'customer.id' => 'nullable|integer',
             'customer.company_name' => 'required|string|max:255',
-            'customer.headquarter' => 'array',
 
-            //HEADQUARTER VALIDATION (HEADQUARTER IS A PROPERTY OF CUSTOMER)
-            'customer.headquarter.id' => 'nullable|integer',
-            'customer.headquarter.company_name' => 'required|string|max:255',
-            'customer.headquarter.first_name' => 'required|string|max:255',
-            'customer.headquarter.last_name' => 'required|string|max:255',
-            'customer.headquarter.address_type' => 'required|string|max:255',
-            'customer.headquarter.street' => 'required|string|max:255',
-            'customer.headquarter.house_number' => 'required|string|max:255',
-            'customer.headquarter.zip_code' => 'required|string|max:255',
-            'customer.headquarter.city' => 'required|string|max:255',
-            'customer.headquarter.state' => 'required|string|max:255',
-            'customer.headquarter.phone' => 'required|string|max:255',
-            'customer.headquarter.email' => 'required|string|max:255',
-            'customer.headquarter.address_additional_information' => 'nullable|string|max:255',
-            'customer.headquarter.country_id' => 'required|exists:tms_countries,id',
-            'customer.headquarter.customer_id' => 'required|exists:tms_customers,id',
-            'customer.headquarter.forwarder_id' => 'required|exists:tms_forwarders,id',
+            
+            /**
+             * HEADQUARTER ADDRESS VALIDATION (HEADQUARTER IS A PROPERTY OF CUSTOMER)
+             * For any nested stuff under pickup_address, use the * to symbolize it, and the 
+             * addressRules() function to check it. So, the * is essential here!
+             * 
+             * $addressRequest->addressRules() is reused TmsAddressRequest.
+             */
+            'customer.headquarter' => 'array',
+            'customer.headquarter.*' => $addressRequest->addressRules(),
+            
+            /**
+             * PICKUP ADDRESS VALIDATION
+             * For any nested stuff under pickup_address, use the * to symbolize it, and the 
+             * addressRules() function to check it. So, the * is essential here!
+             * 
+             * $addressRequest->addressRules() is reused TmsAddressRequest.
+             */
+            'pickup_address' => 'array',
+            'pickup_address.*' => $addressRequest->addressRules(),
+            
+            /**
+             * DELIVERY ADDRESS VALIDATION
+             * For any nested stuff under pickup_address, use the * to symbolize it, and the 
+             * addressRules() function to check it. So, the * is essential here!
+             * 
+             * $addressRequest->addressRules() is reused TmsAddressRequest.
+             */
+            'delivery_address' => 'array',
+            'delivery_address.*' => $addressRequest->addressRules(),
+
         ];
     }
 
@@ -142,6 +155,7 @@ class TmsOrderRequest extends FormRequest
     public function messages()
     {
         return [
+            // Parcel custom validation error messages
             'parcels.*.tms_cargo_order_id.required' => 'The cargo order ID field is required.',
             'parcels.*.tms_cargo_order_id.integer' => 'The cargo order ID must be an integer.',
             'parcels.*.tms_cargo_order_id.exists' => 'The cargo order ID must exist in the tms_orders table.',
@@ -168,6 +182,144 @@ class TmsOrderRequest extends FormRequest
             'parcels.*.p_weight.required' => 'The weight field is required.',
             'parcels.*.p_weight.numeric' => 'The weight must be a number.',
             'parcels.*.p_weight.between' => 'The weight must be between 0 and 9999999999.99.',
+
+            // Customer custom validation error messages
+            'customer.company_name.required' => 'The company name field is required.',
+            'customer.company_name.string' => 'The company name must be a string.',
+            'customer.company_name.max' => 'The company name may not be greater than 255 characters.',
+            'customer.headquarter.company_name.required' => 'The company name field is required.',
+            'customer.headquarter.company_name.string' => 'The company name must be a string.',
+            'customer.headquarter.company_name.max' => 'The company name may not be greater than 255 characters.',
+            'customer.headquarter.first_name.required' => 'The first name field is required.',
+            'customer.headquarter.first_name.string' => 'The first name must be a string.',
+            'customer.headquarter.first_name.max' => 'The first name may not be greater than 255 characters.',
+            'customer.headquarter.last_name.required' => 'The last name field is required.',
+            'customer.headquarter.last_name.string' => 'The last name must be a string.',
+            'customer.headquarter.last_name.max' => 'The last name may not be greater than 255 characters.',
+            'customer.headquarter.address_type.required' => 'The address type field is required.',
+            'customer.headquarter.address_type.string' => 'The address type must be a string.',
+            'customer.headquarter.address_type.max' => 'The address type may not be greater than 255 characters.',
+            'customer.headquarter.street.required' => 'The street field is required.',
+            'customer.headquarter.street.string' => 'The street must be a string.',
+            'customer.headquarter.street.max' => 'The street may not be greater than 255 characters.',
+            'customer.headquarter.house_number.required' => 'The house number field is required.',
+            'customer.headquarter.house_number.string' => 'The house number must be a string.',
+            'customer.headquarter.house_number.max' => 'The house number may not be greater than 255 characters.',
+            'customer.headquarter.zip_code.required' => 'The zip code field is required.',
+            'customer.headquarter.zip_code.string' => 'The zip code must be a string.',
+            'customer.headquarter.zip_code.max' => 'The zip code may not be greater than 255 characters.',
+            'customer.headquarter.city.required' => 'The city field is required.',
+            'customer.headquarter.city.string' => 'The city must be a string.',
+            'customer.headquarter.city.max' => 'The city may not be greater than 255 characters.',
+            'customer.headquarter.state.required' => 'The state field is required.',
+            'customer.headquarter.state.string' => 'The state must be a string.',
+            'customer.headquarter.state.max' => 'The state may not be greater than 255 characters.',
+            'customer.headquarter.phone.required' => 'The phone field is required.',
+            'customer.headquarter.phone.string' => 'The phone must be a string.',
+            'customer.headquarter.phone.max' => 'The phone may not be greater than 255 characters.',
+            'customer.headquarter.email.required' => 'The email field is required.',
+            'customer.headquarter.email.string' => 'The email must be a string.',
+            'customer.headquarter.email.max' => 'The email may not be greater than 255 characters.',
+            'customer.headquarter.address_additional_information.string' => 'The address additional information must be a string.',
+            'customer.headquarter.address_additional_information.max' => 'The address additional information may not be greater than 255 characters.',
+            'customer.headquarter.country_id.required' => 'The country ID field is required.',
+            'customer.headquarter.customer_id.required' => 'The customer ID field is required.',
+            'customer.headquarter.customer_id.exists' => 'The customer ID must exist in the tms_customers table.',
+            'customer.headquarter.forwarder_id.required' => 'The forwarder ID field is required.',
+            'customer.headquarter.forwarder_id.exists' => 'The forwarder ID must exist in the tms_forwarders table.',
+
+            // Pickup address custom validation error messages
+            'pickup_address.company_name.required' => 'The company name field is required.',
+            'pickup_address.company_name.required' => 'The company name field is required.',
+            'pickup_address.company_name.string' => 'The company name must be a string.',
+            'pickup_address.company_name.max' => 'The company name may not be greater than 255 characters.',
+            'pickup_address.company_name.required' => 'The company name field is required.',
+            'pickup_address.company_name.string' => 'The company name must be a string.',
+            'pickup_address.company_name.max' => 'The company name may not be greater than 255 characters.',
+            'pickup_address.first_name.required' => 'The first name field is required.',
+            'pickup_address.first_name.string' => 'The first name must be a string.',
+            'pickup_address.first_name.max' => 'The first name may not be greater than 255 characters.',
+            'pickup_address.last_name.required' => 'The last name field is required.',
+            'pickup_address.last_name.string' => 'The last name must be a string.',
+            'pickup_address.last_name.max' => 'The last name may not be greater than 255 characters.',
+            'pickup_address.address_type.required' => 'The address type field is required.',
+            'pickup_address.address_type.string' => 'The address type must be a string.',
+            'pickup_address.address_type.max' => 'The address type may not be greater than 255 characters.',
+            'pickup_address.street.required' => 'The street field is required.',
+            'pickup_address.street.string' => 'The street must be a string.',
+            'pickup_address.street.max' => 'The street may not be greater than 255 characters.',
+            'pickup_address.house_number.required' => 'The house number field is required.',
+            'pickup_address.house_number.string' => 'The house number must be a string.',
+            'pickup_address.house_number.max' => 'The house number may not be greater than 255 characters.',
+            'pickup_address.zip_code.required' => 'The zip code field is required.',
+            'pickup_address.zip_code.string' => 'The zip code must be a string.',
+            'pickup_address.zip_code.max' => 'The zip code may not be greater than 255 characters.',
+            'pickup_address.city.required' => 'The city field is required.',
+            'pickup_address.city.string' => 'The city must be a string.',
+            'pickup_address.city.max' => 'The city may not be greater than 255 characters.',
+            'pickup_address.state.required' => 'The state field is required.',
+            'pickup_address.state.string' => 'The state must be a string.',
+            'pickup_address.state.max' => 'The state may not be greater than 255 characters.',
+            'pickup_address.phone.required' => 'The phone field is required.',
+            'pickup_address.phone.string' => 'The phone must be a string.',
+            'pickup_address.phone.max' => 'The phone may not be greater than 255 characters.',
+            'pickup_address.email.required' => 'The email field is required.',
+            'pickup_address.email.string' => 'The email must be a string.',
+            'pickup_address.email.max' => 'The email may not be greater than 255 characters.',
+            'pickup_address.address_additional_information.string' => 'The address additional information must be a string.',
+            'pickup_address.address_additional_information.max' => 'The address additional information may not be greater than 255 characters.',
+            'pickup_address.country_id.required' => 'The country ID field is required.',
+            'pickup_address.customer_id.required' => 'The customer ID field is required.',
+            'pickup_address.customer_id.exists' => 'The customer ID must exist in the tms_customers table.',
+            'pickup_address.forwarder_id.required' => 'The forwarder ID field is required.',
+            'pickup_address.forwarder_id.exists' => 'The forwarder ID must exist in the tms_forwarders table.',
+
+            // Delivery address custom validation error messages
+            'delivery_address.company_name.required' => 'The company name field is required.',
+            'delivery_address.company_name.required' => 'The company name field is required.',
+            'delivery_address.company_name.string' => 'The company name must be a string.',
+            'delivery_address.company_name.max' => 'The company name may not be greater than 255 characters.',
+            'delivery_address.company_name.required' => 'The company name field is required.',
+            'delivery_address.company_name.string' => 'The company name must be a string.',
+            'delivery_address.company_name.max' => 'The company name may not be greater than 255 characters.',
+            'delivery_address.first_name.required' => 'The first name field is required.',
+            'delivery_address.first_name.string' => 'The first name must be a string.',
+            'delivery_address.first_name.max' => 'The first name may not be greater than 255 characters.',
+            'delivery_address.last_name.required' => 'The last name field is required.',
+            'delivery_address.last_name.string' => 'The last name must be a string.',
+            'delivery_address.last_name.max' => 'The last name may not be greater than 255 characters.',
+            'delivery_address.address_type.required' => 'The address type field is required.',
+            'delivery_address.address_type.string' => 'The address type must be a string.',
+            'delivery_address.address_type.max' => 'The address type may not be greater than 255 characters.',
+            'delivery_address.street.required' => 'The street field is required.',
+            'delivery_address.street.string' => 'The street must be a string.',
+            'delivery_address.street.max' => 'The street may not be greater than 255 characters.',
+            'delivery_address.house_number.required' => 'The house number field is required.',
+            'delivery_address.house_number.string' => 'The house number must be a string.',
+            'delivery_address.house_number.max' => 'The house number may not be greater than 255 characters.',
+            'delivery_address.zip_code.required' => 'The zip code field is required.',
+            'delivery_address.zip_code.string' => 'The zip code must be a string.',
+            'delivery_address.zip_code.max' => 'The zip code may not be greater than 255 characters.',
+            'delivery_address.city.required' => 'The city field is required.',
+            'delivery_address.city.string' => 'The city must be a string.',
+            'delivery_address.city.max' => 'The city may not be greater than 255 characters.',
+            'delivery_address.state.required' => 'The state field is required.',
+            'delivery_address.state.string' => 'The state must be a string.',
+            'delivery_address.state.max' => 'The state may not be greater than 255 characters.',
+            'delivery_address.phone.required' => 'The phone field is required.',
+            'delivery_address.phone.string' => 'The phone must be a string.',
+            'delivery_address.phone.max' => 'The phone may not be greater than 255 characters.',
+            'delivery_address.email.required' => 'The email field is required.',
+            'delivery_address.email.string' => 'The email must be a string.',
+            'delivery_address.email.max' => 'The email may not be greater than 255 characters.',
+            'delivery_address.address_additional_information.string' => 'The address additional information must be a string.',
+            'delivery_address.address_additional_information.max' => 'The address additional information may not be greater than 255 characters.',
+            'delivery_address.country_id.required' => 'The country ID field is required.',
+            'delivery_address.customer_id.required' => 'The customer ID field is required.',
+            'delivery_address.customer_id.exists' => 'The customer ID must exist in the tms_customers table.',
+            'delivery_address.forwarder_id.required' => 'The forwarder ID field is required.',
+            'delivery_address.forwarder_id.exists' => 'The forwarder ID must exist in the tms_forwarders table.',
         ];
     }
 }
+

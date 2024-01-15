@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicle_vehicle_req_pivot', function (Blueprint $table) {
-            $table->foreignId('tms_vehicle_id')->constrained('tms_vehicles');
-            $table->foreignId('tms_vehicle_req_id')->constrained('tms_vehicle_reqs');
+        Schema::create('gear_customer', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->foreignId('customer_id')->constrained('tms_customers');
+            $table->foreignId('gear_id')->constrained('tms_gears');
+            $table->timestamps();
         });
     }
 
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehicle_vehicle_req_pivot');
+        Schema::dropIfExists('gear_customer');
     }
 };

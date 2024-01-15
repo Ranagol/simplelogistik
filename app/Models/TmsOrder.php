@@ -7,9 +7,11 @@ use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsCustomer;
+use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,28 +26,33 @@ class TmsOrder extends Model
     protected $table = "tms_orders";
 
     const TYPES_OF_TRANSPORT = [
-        'General cargo',
-        'LTL/FTL',
-        'Direct transport',
-        'Parcell up to 31.5 kg',
-        'Special order'
+        1 => 'General cargo',
+        2 => 'LTL/FTL',
+        3 => 'Direct transport',
+        4 => 'Parcell up to 31.5 kg',
+        5 => 'Special order'
     ];
 
+    /**
+     * This is the source, the origin of the order.
+     */
     const ORIGINS = [
-        'Pamyra',
-        'Sales',
-        'Google Ads',
-        'Shipping calc.'
+        1 => 'Pamyra',
+        2 => 'Sales',
+        3 => 'Google Ads',
+        4 => 'Shipping calc.'
     ];
 
     const PAYMENT_METHODS = [
-        'Credit Card', 
-        'Paypal', 
-        'Bank Transfer',
-        'Amazon',
-        'Sofort',
-        'Vorkasse'
+        1 => 'Credit Card', 
+        2 => 'Paypal', 
+        3 => 'Bank Transfer',
+        4 => 'Amazon',
+        5 => 'Sofort',
+        6 => 'Vorkasse'
     ];
+
+    
 
     public function customer(): BelongsTo
     {
@@ -57,12 +64,12 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
-    public function startAddress(): BelongsTo
+    public function pickupAddress(): BelongsTo
     {
         return $this->belongsTo(TmsAddress::class, 'pickup_address_id');
     }
 
-    public function targetAddress(): BelongsTo
+    public function deliveryAddress(): BelongsTo
     {
         return $this->belongsTo(TmsAddress::class, 'delivery_address_id');
     }
@@ -97,6 +104,63 @@ class TmsOrder extends Model
         return $this->hasOne(TmsForwardingContract::class, 'order_id');
     }
 
+    /**
+     * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder. It is either
+     * a PamyraOrder or a NativeOrder, never both. That is why we use this funny method here.
+     * It will return the suborder, either a PamyraOrder or a NativeOrder.
+     *
+     * @return HasOne
+     */
+    public function subOrder(): HasOne
+    {
+        //->exists() checks if there is a relationship existing in the db
+        if ($this->pamyraOrder()->exists()) {
+            return $this->pamyraOrder();
+        }
+        //->exists() checks if there is a relationship existing in the db
+        if ($this->nativeOrder()->exists()) {
+            return $this->nativeOrder();
+        }
+    }
+
+    /**
+     * An order could belong to a partner. This is optional, does not happen always. Example:
+     * an order that we received from Pamyra belongs (amongst other belongings) to Pamyra partner.
+     *
+     * @return BelongsTo
+     */
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(TmsPartner::class);
+    }
+
+    /**
+     * See the comment above the subOrder() method.
+     *
+     * @return HasOne
+     */
+    public function pamyraOrder(): HasOne
+    {
+        return $this->hasOne(TmsPamyraOrder::class, 'order_id');
+    }
+
+    /**
+     * See the comment above the subOrder() method.
+     *
+     * @return HasOne
+     */
+    public function nativeOrder(): HasOne
+    {
+        return $this->hasOne(TmsNativeOrder::class, 'order_id');
+    }
+
+    public function orderAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id');
+    }
+
+
+    //*************SCOPES*************************************** */
 
 
     /**
@@ -111,6 +175,54 @@ class TmsOrder extends Model
     {
         return $query->where('type_of_transport', 'like', "%{$searchTerm}%")
             ->orWhere('p_order_number', 'like', "%{$searchTerm}%")
+            ->orWhere('status', 'like', "%{$searchTerm}%")
             ;
     }
+
+    //*************MUTATORS AND ACCESSORS*************************************** */
+    
+    /**
+     * These are the possible order statuses.
+     * Waring: if we display the keys too (like 1 => 'Order created'), then we Laravel return an
+     * object. If we display only the values (like 'Order created'), then Laravel returns an array.
+     */
+    const STATUSES = [
+        1 => 'Order created',
+        2 => 'Waiting for forwarder',
+        3 =>'Forwarder found',
+        4 => 'Picked up',
+        5 => 'Delivered',
+        6 => 'Canceled',
+        7 => 'Invoice sent to customer',
+        8 => 'Invoice paid',
+    ];
+
+    /**
+     * This here is a Laravel accessor, for getting the status name.
+     * https://laravel.com/docs/10.x/eloquent-mutators#defining-an-accessor
+     *
+     * @return Attribute
+     */
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+
+            /**
+             * Accessor.
+             * Gets 1 from db, transforms it to 'Order created'.
+             */
+            get: function (string $value) {
+                return self::STATUSES[$value] ?? 'Missing data TmsOrder.';
+            },
+
+            /**
+             * Mutator.
+             * Gets 'Order created' from the form, transforms it to 1.
+             */
+            set: function (string $value) {
+                return array_flip(self::STATUSES)[$value] ?? 'Missing data TmsOrder.';
+            }
+        );
+    }
+
 }

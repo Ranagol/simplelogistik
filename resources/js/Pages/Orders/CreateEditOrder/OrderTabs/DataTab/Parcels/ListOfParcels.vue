@@ -11,7 +11,7 @@
                 <span class="w-1/12 pl-2">Width cm</span>
                 <span class="w-1/12 pl-2">Height cm</span>
                 <span class="w-1/12 pl-2">Weight kg</span>
-                <span class="w-60 pl-2">Actions</span>
+                <span class="w-60 pl-2">Quantity</span>
             </div>
         </template>
 

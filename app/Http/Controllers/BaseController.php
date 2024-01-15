@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Requests\TmsCustomerRequest;
+use App\Http\Requests\TmsNeededGearuest;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -75,10 +75,10 @@ abstract class BaseController extends Controller
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsCustomerRequest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
-         * TmsCustomerRequest.
+         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
+         * TmsNeededGearuest.
          */
         $request = app($this->getRequestClass());//
         
@@ -118,10 +118,10 @@ abstract class BaseController extends Controller
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsCustomerRequest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
-         * TmsCustomerRequest.
+         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
+         * TmsNeededGearuest.
          */
         $request = app($this->getRequestClass());//Here I am getting this error: Method Illuminate\Validation\Validator::validateUnsigned does not exist.
         

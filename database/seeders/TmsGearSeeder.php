@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\TmsCustomerReq;
+use App\Models\TmsGear;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
-class TmsCustomerReqSeeder extends Seeder
+class TmsGearSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        TmsCustomerReq::factory(config('constants.numberOfDbRecords'))->create();
+        TmsGear::factory()->count(config('constants.numberOfDbRecords'))->create();
     }
 }

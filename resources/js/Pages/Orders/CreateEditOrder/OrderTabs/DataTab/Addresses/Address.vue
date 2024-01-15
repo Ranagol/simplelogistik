@@ -13,7 +13,7 @@
             <el-button
                 v-if="props.title === 'Delivery' || props.title === 'Pickup'"
                 type="success"
-                size="mini"
+                size="small"
             >+</el-button>
 
         </div>
@@ -34,11 +34,14 @@
                     v-model="data.address.company_name"
                     placeholder="Company name"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="update()"
                     @clear="update()"
                     @change="update()"
                 />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.company_name"/>
                 
             </div>
 
@@ -67,11 +70,14 @@
                             placeholder="First name"
                             type="text"
                             :maxlength="255"
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
                             class="mr-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.first_name"/>
 
                     </div>
 
@@ -94,12 +100,15 @@
                             v-model="data.address.last_name"
                             placeholder="Last name"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
                             @change="update()"
                             class="ml-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.last_name"/>
 
                     </div>
 
@@ -126,13 +135,15 @@
                             v-model="data.address.street"
                             placeholder="Street"
                             type="text"
-                            
+                            clearable
                             :maxlength="255"                        
                             @input="update()"
                             @clear="update()"
                             @change="update()"
                             class="mr-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.street"/>
 
                     </div>
 
@@ -156,11 +167,14 @@
                             placeholder="House number"
                             type="text"
                             :maxlength="255"
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
                             class="ml-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.house_number"/>
 
                     </div>
 
@@ -187,12 +201,15 @@
                             v-model="data.address.zip_code"
                             placeholder="Zip code"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
                             @change="update()"
                             class="mr-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.zip_code"/>
 
                     </div>
 
@@ -215,14 +232,15 @@
                             v-model="data.address.city"
                             placeholder="City"
                             type="text"
-                            
                             :maxlength="255"
-                            
+                            clearable
                             @input="update()"
                             @clear="update()"
                             @change="update()"
                             class="ml-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.city"/>
 
                     </div>
 
@@ -249,6 +267,7 @@
                             v-model="data.address.state"
                             placeholder="State"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
@@ -256,11 +275,13 @@
                             class="mr-1"
                         />
 
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.state"/>
+
                     </div>
 
                 </el-form-item>
 
-                <!-- COUNTRY ******************************************-->
+                <!-- COUNTRY -->
                 <el-form-item
                     prop="country"
                 >
@@ -275,7 +296,7 @@
 
                         <!-- This el-select works with a whole object. Syncs a whole object. -->
                         <el-select
-                            v-model="data.address.country.country_name"
+                            v-model="data.address.country_id"
                             clearable
                             filterable
                             value-key="id"
@@ -286,9 +307,11 @@
                                 v-for="(item, index) in props.countries"
                                 :key="index"
                                 :label="item.country_name"
-                                :value="item"
+                                :value="item.country_name"
                             ></el-option>
                         </el-select>
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.country_id"/>
 
                     </div>
                     
@@ -314,12 +337,15 @@
                             v-model="data.address.email"
                             placeholder="Email"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
                             @change="update()"
                             class="mr-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.email"/>
 
                     </div>
 
@@ -342,12 +368,15 @@
                             v-model="data.address.phone"
                             placeholder="Phone"
                             type="text"
+                            clearable
                             :maxlength="255"
                             @input="update()"
                             @clear="update()"
                             @change="update()"
                             class="ml-1"
                         />
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.phone"/>
 
                     </div>
 
@@ -372,11 +401,14 @@
                     v-model="data.address.address_additional_information"
                     placeholder="Additional information"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="update()"
                     @clear="update()"
                     @change="update()"
                 />
+
+                <BackendValidationErrorDisplay :errorMessage="props.errors.address_additional_information"/>
 
             </div>
 
@@ -408,11 +440,13 @@
                     @change="handleAvisPhone"
                 />
 
+                <!-- //TODO Andor this here is unfinished, validation error message display not working -->
+                <!-- <BackendValidationErrorDisplay :errorMessage="props.orderErrors.avis_phone"/> -->
+
             </div>
 
         </el-form-item>
 
-        <!--  -->
         <el-form-item>
 
             <div class="flex flex-col grow">
@@ -427,11 +461,14 @@
                     :model-value="props.comment"
                     placeholder="Comment"
                     type="text"
+                    clearable
                     :maxlength="255"
                     @input="handleComment"
                     @clear="handleComment"
                     @change="handleComment"
                 />
+                <!-- //TODO Andor this here is unfinished, validation error message display not working -->
+                <!-- <BackendValidationErrorDisplay :errorMessage="props.orderErrors.comment"/> -->
 
             </div>
 
@@ -443,6 +480,7 @@
 import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import addressDummy from '@/Pages/Addresses/CreateEditAddress/addressDummy';//use this in props to have already filled address form for creating new address
 import addressEmpty from '@/Pages/Addresses/CreateEditAddress/addressEmpty';//use this in props to have empty address form for creating new address
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 const props = defineProps({
 
@@ -457,8 +495,16 @@ const props = defineProps({
 
     /**
      * The errors object that is sent from the backend, and contains the validation errors.
+     * But, this is only for the given Address.vue component errors.
      */
     errors: Object,
+
+    /**
+     * This is the order + address + parcel (so the whole, complete error object) error object.
+     * This is needed for the order.avis_phone and for the order.comment validation error message
+     * display.
+     */ 
+    orderErrors: Object,
 
     /**
      * The mode of the form.
@@ -520,7 +566,8 @@ const emit = defineEmits(['update:address', 'update:comment', 'update:avis_phone
  * Works with address object
  */
 const update = () => {
-    emit('update:address', data.addressData);
+    // console.log('update() triggered in Address.vue', data.address);
+    emit('update:address', data.address);
 }
 
 /**
