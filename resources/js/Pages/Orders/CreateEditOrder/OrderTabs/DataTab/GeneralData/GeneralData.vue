@@ -84,7 +84,7 @@
 
             </el-form-item>
 
-            <!-- STATUS -->
+            <!-- STATUS *************************************************************-->
             <el-form-item
                 prop="status"
             >   
@@ -97,12 +97,28 @@
                     >Status</span>
                     
                     <!-- INPUT -->
-                    <el-input
+                    <!-- <el-input
                         v-model="data.order.status"
-                        placeholder="Status - IN PROGRESS"
+                        placeholder="Status"
                         clearable
                         @input="updateParent"
-                    />
+                    /> -->
+
+                    <el-select
+                        v-model="data.order.status"
+                        placeholder="Status"
+                        clearable
+                        filterable
+                        style="width: 100%"
+                        @change="updateParent"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.statuses"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
 
                 </div>
                 

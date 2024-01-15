@@ -188,10 +188,10 @@ class TmsOrderController extends BaseController
          * The validated method is used to get the validated order data from the orderRequest.
          */
         $orderFromRequest = $orderRequest->validated();//do validation
+        // dd($orderFromRequest);
 
         //Get the order from db
         $orderFromDb = TmsOrder::find($id);
-        // dd($orderFromDb);
 
         //Handle native order
         $this->orderService->handleNativeOrder($orderFromRequest);
