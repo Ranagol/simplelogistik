@@ -12,6 +12,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+        $this->commands([
+            \Modules\Easybill\app\Console\InvoicesCommand::class,
+        ]);
     }
 
     /**
