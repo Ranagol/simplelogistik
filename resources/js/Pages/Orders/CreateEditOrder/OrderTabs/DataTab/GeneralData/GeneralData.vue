@@ -179,9 +179,7 @@
 
             </el-form-item>
 
-            <!-- PAYMENT METHOD *****************************************************************-->
-            <!-- :prop="[subOrderType].payment_method" -->
-            <!-- v-if="subOrderType === 'pamyra_order' || subOrderType === 'native_order'" -->
+            <!-- PAYMENT METHOD -->
             <el-form-item
                 :prop="[subOrderType].payment_method"
             >   
@@ -209,8 +207,11 @@
 
                 </div>
                 
+                <!-- :errorMessage="props.errors[subOrderType].payment_method" -->
+                <!-- v-if="subOrderType === 'pamyra_order' || subOrderType === 'native_order'" -->
                 <!-- <BackendValidationErrorDisplay
-                    :errorMessage="props.errors[subOrderType].payment_method"
+                    
+                    :errorMessage="props.errors['native_order'] || ['pamyra_order'].payment_method"
                 /> -->
 
             </el-form-item>

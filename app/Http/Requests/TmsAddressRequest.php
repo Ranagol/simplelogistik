@@ -39,10 +39,7 @@ class TmsAddressRequest extends FormRequest
     public function addressRules()
     {
         return [
-            /**
-             * The id must be nullable, because of create. But must be validated, because of edit.
-             * Do not use | pipes, use array in validation rules!
-             */
+            
             'id' => ['nullable', 'integer', 'exists:tms_addresses,id'],
             'customer_id' => ['nullable', 'integer', 'exists:tms_customers,id'],
             'forwarder_id' => ['nullable', 'integer', 'exists:tms_forwarders,id'],
