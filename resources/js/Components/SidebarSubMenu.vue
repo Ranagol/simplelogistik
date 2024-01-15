@@ -45,9 +45,9 @@ export default {
     .flyover-menu {
         position: absolute;
         top: 0;
-        right: -100px;
+        right: -60px;
         background: white;
-        border-radius: 12px;
+        border-radius: 6px;
         padding: 12px;
         z-index: 100;
     }
