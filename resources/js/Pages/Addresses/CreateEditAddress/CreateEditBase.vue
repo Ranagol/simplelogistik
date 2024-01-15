@@ -91,7 +91,7 @@ const props = defineProps({
      */
     addressTypes: {
         type: Object,
-        required: true
+        required: false
     },
 
     /**
