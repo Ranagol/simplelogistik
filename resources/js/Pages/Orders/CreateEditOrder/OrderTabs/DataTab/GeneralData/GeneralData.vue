@@ -179,22 +179,22 @@
 
             </el-form-item>
 
-            <!-- PAYMENT METHOD -->
+            <!-- PAYMENT METHOD *****************************************************************-->
+            <!-- :prop="[subOrderType].payment_method" -->
+            <!-- v-if="subOrderType === 'pamyra_order' || subOrderType === 'native_order'" -->
             <el-form-item
-                prop="p_payment_method"
+                :prop="[subOrderType].payment_method"
             >   
                 <div class="flex flex-col">
 
-                    <!-- LABEL -->
                     <span
                         v-if="data.showLabel"
                         class="ml-1"
                     >Payment method</span>
                     
-                    <!-- INPUT -->
                     <el-select
-                        v-model="data.order.p_payment_method"
-                        placeholder="Type of transport"
+                        v-model="data.order[subOrderType].payment_method"
+                        placeholder="Payment method"
                         clearable
                         filterable
                         @change="updateParent"
@@ -209,15 +209,15 @@
 
                 </div>
                 
-                <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_payment_method"
-                />
+                <!-- <BackendValidationErrorDisplay
+                    :errorMessage="props.errors[subOrderType].payment_method"
+                /> -->
 
             </el-form-item>
 
             <!-- DATE OF SALE -->
             <el-form-item
-                prop="p_date_of_sale"
+                prop="date_of_sale"
             >   
                 <div class="flex flex-col">
 
@@ -228,7 +228,7 @@
                     >Date of sale</span>
 
                     <el-date-picker
-                        v-model="data.order.p_date_of_sale"
+                        v-model="data.order.date_of_sale"
                         type="date"
                         format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
@@ -241,14 +241,14 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_date_of_sale"
+                    :errorMessage="props.errors.date_of_sale"
                 />
 
             </el-form-item>
 
             <!-- DATE OF CANCELLATION -->
             <el-form-item
-                prop="p_date_of_cancellation"
+                prop="date_of_cancellation"
             >   
                 <div class="flex flex-col">
 
@@ -259,7 +259,7 @@
                     >Date of cancellation</span>
 
                     <el-date-picker
-                        v-model="data.order.p_date_of_cancellation"
+                        v-model="data.order.date_of_cancellation"
                         type="date"
                         format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
@@ -272,14 +272,14 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_date_of_cancellation"
+                    :errorMessage="props.errors.date_of_cancellation"
                 />
 
             </el-form-item>
 
             <!-- DISTANCE -->
             <el-form-item
-                prop="p_distance_km"
+                prop="distance_km"
             >   
                 <div class="flex flex-col">
 
@@ -291,7 +291,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.order.p_distance_km"
+                        v-model="props.order.distance_km"
                         placeholder="Distance (km)"
                         clearable
                         @input="updateParent"
@@ -300,14 +300,14 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_distance_km"
+                    :errorMessage="props.errors.distance_km"
                 />
 
             </el-form-item>
 
             <!-- DURATION -->
             <el-form-item
-                prop="p_duration_minutes"
+                prop="duration_minutes"
             >   
                 <div class="flex flex-col">
 
@@ -319,7 +319,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.order.p_duration_minutes"
+                        v-model="props.order.duration_minutes"
                         placeholder="Duration (min)"
                         clearable
                         @input="updateParent"
@@ -328,7 +328,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_duration_minutes"
+                    :errorMessage="props.errors.duration_minutes"
                 />
 
             </el-form-item>
@@ -361,7 +361,7 @@
             </el-form-item>
 
             <el-form-item
-                prop="p_calculation_model_name"
+                prop="calculation_model_name"
             >   
                 <div class="flex flex-col">
 
@@ -373,7 +373,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_calculation_model_name"
+                        v-model="data.order.calculation_model_name"
                         placeholder="Calculation model name"
                         clearable
                         @input="updateParent"
@@ -382,14 +382,14 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_calculation_model_name"
+                    :errorMessage="props.errors.calculation_model_name"
                 />
 
             </el-form-item>
 
             <!-- **********************THE FOLLOWING ITEMS ARE UNTESTED AND UNFINISHED. Input fields probalby work, but dateTime stuff should be DatePicker intstead of input fields.******************** -->
             <el-form-item
-                prop="p_pickup_date_from"
+                prop="pickup_date_from"
             >   
                 <div class="flex flex-col">
 
@@ -402,7 +402,7 @@
                     <!-- INPUT -->
 
                     <el-date-picker
-                        v-model="data.order.p_pickup_date_from"
+                        v-model="data.order.pickup_date_from"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -415,13 +415,13 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_pickup_date_from"
+                    :errorMessage="props.errors.pickup_date_from"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_pickup_date_to"
+                prop="pickup_date_to"
             >   
                 <div class="flex flex-col">
 
@@ -432,7 +432,7 @@
                     >Pickup date to</span>
 
                     <el-date-picker
-                        v-model="data.order.p_pickup_date_to"
+                        v-model="data.order.pickup_date_to"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -445,13 +445,13 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_pickup_date_to"
+                    :errorMessage="props.errors.pickup_date_to"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_delivery_date_from"
+                prop="delivery_date_from"
             >   
                 <div class="flex flex-col">
 
@@ -462,7 +462,7 @@
                     >Delivery date from</span>
 
                     <el-date-picker
-                        v-model="data.order.p_delivery_date_from"
+                        v-model="data.order.delivery_date_from"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -475,13 +475,13 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_delivery_date_from"
+                    :errorMessage="props.errors.delivery_date_from"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_delivery_date_to"
+                prop="delivery_date_to"
             >   
                 <div class="flex flex-col">
 
@@ -492,7 +492,7 @@
                     >Delivery date to</span>
 
                     <el-date-picker
-                        v-model="data.order.p_delivery_date_to"
+                        v-model="data.order.delivery_date_to"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -505,13 +505,13 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_delivery_date_to"
+                    :errorMessage="props.errors.delivery_date_to"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_description_of_transport"
+                prop="description_of_transport"
             >   
                 <div class="flex flex-col">
 
@@ -523,7 +523,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_description_of_transport"
+                        v-model="data.order.description_of_transport"
                         placeholder="Description of transport"
                         clearable
                         @input="updateParent"
@@ -532,13 +532,13 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_description_of_transport"
+                    :errorMessage="props.errors.description_of_transport"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_particularities"
+                prop="particularities"
             >   
                 <div class="flex flex-col">
 
@@ -550,7 +550,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_particularities"
+                        v-model="data.order.particularities"
                         placeholder="Particularities"
                         clearable
                         @input="updateParent"
@@ -559,7 +559,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_particularities"
+                    :errorMessage="props.errors.particularities"
                 />
 
             </el-form-item>
@@ -568,7 +568,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
+import { reactive, computed, watch, onMounted, onBeforeMount, ref, onUpdated, nextTick } from 'vue';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 import { useDateFormatter } from '@/Use/useDateFormatter';
 import Title from '@/Shared/Title.vue';
@@ -592,8 +592,28 @@ const props = defineProps({
 let data = reactive({
     order: props.order,
     showLabel: true,
-    showGeneralData: false,
+    showGeneralData: true,
 });
+
+/**
+ * The order can have either a pamyra_order or a native_order property. Either, or. We have a lot
+ * of data, that we must render from this property. Since we don't know which property is set in
+ * the order, we must display this key dynamically. This dynamic key rendering is done in this
+ * computed property.
+ * Now, in order to use dynamic keyes in an object, we must use the [] notation. Not dot notation.
+ * This happens in the hmtl part of this component.
+ */
+const subOrderType = computed(
+    () => {
+        if (props.order.pamyra_order !== null) {
+            return 'pamyra_order';
+        }
+        if (props.order.native_order !== null) {
+            return 'native_order';
+            
+        }
+    }
+);
 
 const emit = defineEmits(['update:order']);
 
@@ -604,8 +624,5 @@ const emit = defineEmits(['update:order']);
 const updateParent = () => {
     emit('update:order', props.order);
 }
-
-
-
 
 </script>

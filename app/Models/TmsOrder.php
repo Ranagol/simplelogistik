@@ -102,29 +102,7 @@ class TmsOrder extends Model
     }
 
     /**
-     * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder. It is either
-     * a PamyraOrder or a NativeOrder, never both. That is why we use this funny method here.
-     * It will return the suborder, either a PamyraOrder or a NativeOrder. That is OK, because
-     * both tables have exactly the same structure.
-     *
-     */
-    public function subOrder()
-    {
-        if ($this->nativeOrder()) {//this if condition is the problem
-            return $this->nativeOrder();
-        }
-
-        if ($this->pamyraOrder()) {//this if condition is the problem
-            return $this->pamyraOrder();
-        }
-
-        $users = User::withWhereHas('posts', function ($query) {
-            $query->where('featured', true);
-        })->get();
-    }
-
-    /**
-     * See the comment above the subOrder() method.
+     * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
      *
      * @return HasOne
      */
@@ -134,7 +112,7 @@ class TmsOrder extends Model
     }
 
     /**
-     * See the comment above the subOrder() method.
+     * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
      *
      * @return HasOne
      */

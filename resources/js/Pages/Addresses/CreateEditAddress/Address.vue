@@ -636,7 +636,7 @@ const props = defineProps({
         /**
          * Returns an empty address object, if the order does not has one.
          */
-        default: () => addressDummy,
+        // default: () => addressDummy,
     },
 
     /**
@@ -674,17 +674,17 @@ const props = defineProps({
 
     customers: {
         type: Array,
-        required: true
+        required: false
     },
 
     forwarders: {
         type: Array,
-        required: true
+        required: false
     },
 
     partners: {
         type: Array,
-        required: true
+        required: false
     },
 
     /**

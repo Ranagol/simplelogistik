@@ -25,6 +25,8 @@ class TmsAddressSeeder extends Seeder
                  * All other columns will be defined by the  factory faker.
                  */
                 'customer_id' => $i,
+                'forwarder_id' => $i,
+                // partner_id is defined in the factory
             ]);
         }
     }

@@ -137,9 +137,10 @@ class TmsOrderController extends BaseController
         //Gets the relevant data for us from db.
         $record = TmsOrder::with(
             [
-                'parcels', 
-                'pickupAddress',
-                'deliveryAddress',
+                'parcels',
+                'nativeOrder',
+                'pamyraOrder',
+                'orderAddresses',
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
                 'customer' => function ($query) {
@@ -252,7 +253,6 @@ class TmsOrderController extends BaseController
 
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
-                // 'subOrder',//either pamyraOrder or nativeOrder
                 'parcels',
                 'nativeOrder',
                 'pamyraOrder',

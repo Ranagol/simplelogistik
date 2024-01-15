@@ -101,7 +101,7 @@ const props = defineProps({
 
 const data = reactive({
     order: props.order,
-    showAddresses: true,
+    showAddresses: false,
     errorsHeadquarter: {},
     errorsPickupAddress: {},
     errorsDeliveryAddress: {},
