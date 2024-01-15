@@ -209,16 +209,21 @@
                 
                 <!-- :errorMessage="props.errors[subOrderType].payment_method" -->
                 <!-- v-if="subOrderType === 'pamyra_order' || subOrderType === 'native_order'" -->
-                <!-- <BackendValidationErrorDisplay
+                <!-- :errorMessage="props.errors['native_order'] || ['pamyra_order'].payment_method" -->
+                <!-- :errorMessage="props.errors[subOrderType]?.payment_method" -->
+                <!-- //TODO LOSI itt kellene segitseg -->
+                <!-- pamyra_order.payment_method:"The pamyra_order.payment_method field is required." -->
+                <!-- errorsMessage:undefined -->
+                <BackendValidationErrorDisplay
                     
-                    :errorMessage="props.errors['native_order'] || ['pamyra_order'].payment_method"
-                /> -->
+                    :errorsMessage="data.errorsFromWatcher[subOrderType]?.payment_method"
+                />
 
             </el-form-item>
 
             <!-- DATE OF SALE -->
             <el-form-item
-                prop="date_of_sale"
+                :prop="[subOrderType].date_of_sale"
             >   
                 <div class="flex flex-col">
 
@@ -229,7 +234,7 @@
                     >Date of sale</span>
 
                     <el-date-picker
-                        v-model="data.order.date_of_sale"
+                        v-model="data.order[subOrderType].date_of_sale"
                         type="date"
                         format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
@@ -249,7 +254,7 @@
 
             <!-- DATE OF CANCELLATION -->
             <el-form-item
-                prop="date_of_cancellation"
+                :prop="[subOrderType].date_of_cancellation"
             >   
                 <div class="flex flex-col">
 
@@ -260,7 +265,7 @@
                     >Date of cancellation</span>
 
                     <el-date-picker
-                        v-model="data.order.date_of_cancellation"
+                        v-model="data.order[subOrderType].date_of_cancellation"
                         type="date"
                         format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
@@ -280,7 +285,7 @@
 
             <!-- DISTANCE -->
             <el-form-item
-                prop="distance_km"
+                :prop="[subOrderType].distance_km"
             >   
                 <div class="flex flex-col">
 
@@ -292,7 +297,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.order.distance_km"
+                        v-model="data.order[subOrderType].distance_km"
                         placeholder="Distance (km)"
                         clearable
                         @input="updateParent"
@@ -308,7 +313,7 @@
 
             <!-- DURATION -->
             <el-form-item
-                prop="duration_minutes"
+                :prop="[subOrderType].duration_minutes"
             >   
                 <div class="flex flex-col">
 
@@ -320,7 +325,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.order.duration_minutes"
+                        v-model="props.order[subOrderType].duration_minutes"
                         placeholder="Duration (min)"
                         clearable
                         @input="updateParent"
@@ -362,7 +367,7 @@
             </el-form-item>
 
             <el-form-item
-                prop="calculation_model_name"
+                :prop="[subOrderType].calculation_model_name"
             >   
                 <div class="flex flex-col">
 
@@ -374,7 +379,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.calculation_model_name"
+                        v-model="data.order[subOrderType].calculation_model_name"
                         placeholder="Calculation model name"
                         clearable
                         @input="updateParent"
@@ -390,7 +395,7 @@
 
             <!-- **********************THE FOLLOWING ITEMS ARE UNTESTED AND UNFINISHED. Input fields probalby work, but dateTime stuff should be DatePicker intstead of input fields.******************** -->
             <el-form-item
-                prop="pickup_date_from"
+                :prop="[subOrderType].pickup_date_from"
             >   
                 <div class="flex flex-col">
 
@@ -403,7 +408,7 @@
                     <!-- INPUT -->
 
                     <el-date-picker
-                        v-model="data.order.pickup_date_from"
+                        v-model="data.order[subOrderType].pickup_date_from"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -422,7 +427,7 @@
             </el-form-item>
 
             <el-form-item
-                prop="pickup_date_to"
+                :prop="[subOrderType].pickup_date_to"
             >   
                 <div class="flex flex-col">
 
@@ -433,7 +438,7 @@
                     >Pickup date to</span>
 
                     <el-date-picker
-                        v-model="data.order.pickup_date_to"
+                        v-model="data.order[subOrderType].pickup_date_to"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -452,7 +457,7 @@
             </el-form-item>
 
             <el-form-item
-                prop="delivery_date_from"
+                :prop="[subOrderType].delivery_date_from"
             >   
                 <div class="flex flex-col">
 
@@ -463,7 +468,7 @@
                     >Delivery date from</span>
 
                     <el-date-picker
-                        v-model="data.order.delivery_date_from"
+                        v-model="data.order[subOrderType].delivery_date_from"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -482,7 +487,7 @@
             </el-form-item>
 
             <el-form-item
-                prop="delivery_date_to"
+                :prop="[subOrderType].delivery_date_to"
             >   
                 <div class="flex flex-col">
 
@@ -493,7 +498,7 @@
                     >Delivery date to</span>
 
                     <el-date-picker
-                        v-model="data.order.delivery_date_to"
+                        v-model="data.order[subOrderType].delivery_date_to"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -512,7 +517,7 @@
             </el-form-item>
 
             <el-form-item
-                prop="description_of_transport"
+                :prop="[subOrderType].description_of_transport"
             >   
                 <div class="flex flex-col">
 
@@ -524,7 +529,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.description_of_transport"
+                        v-model="data.order[subOrderType].description_of_transport"
                         placeholder="Description of transport"
                         clearable
                         @input="updateParent"
@@ -539,7 +544,7 @@
             </el-form-item>
 
             <el-form-item
-                prop="particularities"
+                :prop="[subOrderType].particularities"
             >   
                 <div class="flex flex-col">
 
@@ -551,7 +556,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.particularities"
+                        v-model="data.order[subOrderType].particularities"
                         placeholder="Particularities"
                         clearable
                         @input="updateParent"
@@ -594,7 +599,19 @@ let data = reactive({
     order: props.order,
     showLabel: true,
     showGeneralData: true,
+    errorsFromWatcher: props.errors,
 });
+
+watch(
+    () => props.errors, 
+    (newValue, oldValue) => {
+        console.log('oldValue:', oldValue)
+        console.log('newValue:', newValue)
+        data.errorsFromWatcher = newValue;
+    },
+    { deep: true }
+);
+
 
 /**
  * The order can have either a pamyra_order or a native_order property. Either, or. We have a lot
