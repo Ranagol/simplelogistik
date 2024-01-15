@@ -91,10 +91,10 @@ class TmsOrderController extends BaseController
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
-         * TmsNeededGearuest.
+         * So basically, here we trigger TmsGearRequest. The $request is an instance of
+         * TmsGearRequest.
          */
         $request = app($this->getRequestClass());
         
@@ -137,9 +137,10 @@ class TmsOrderController extends BaseController
         //Gets the relevant data for us from db.
         $record = TmsOrder::with(
             [
-                'parcels', 
-                'pickupAddress',
-                'deliveryAddress',
+                'parcels',
+                'nativeOrder',
+                'pamyraOrder',
+                'orderAddresses',
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
                 'customer' => function ($query) {
@@ -181,6 +182,7 @@ class TmsOrderController extends BaseController
          * into this function. Which would be much cleaner.
          */
         $orderRequest = app(TmsOrderRequest::class);
+        // dd($orderRequest);
 
         /**
          * The validated method is used to get the validated order data from the orderRequest.
@@ -189,18 +191,25 @@ class TmsOrderController extends BaseController
 
         //Get the order from db
         $orderFromDb = TmsOrder::find($id);
+        // dd($orderFromDb);
+
+        //Handle native order
+        $this->orderService->handleNativeOrder($orderFromRequest);
+
+        //Handle pamyra order
+        $this->orderService->handlePamyraOrder($orderFromRequest);
         
         //Handle parcels
-        $this->orderService->handleParcel($orderFromRequest);
+        // $this->orderService->handleParcel($orderFromRequest);
 
         //Handle headquarter address
-        $this->orderService->handleHeadquarter($orderFromRequest);
+        // $this->orderService->handleHeadquarter($orderFromRequest);
 
         //Handle pickup address
-        $this->orderService->handlePickupAddress($orderFromRequest);
+        // $this->orderService->handlePickupAddress($orderFromRequest);
 
         //Handle delivery address
-        $this->orderService->handleDeliveryAddress($orderFromRequest);
+        // $this->orderService->handleDeliveryAddress($orderFromRequest);
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
@@ -246,15 +255,15 @@ class TmsOrderController extends BaseController
                 $query->orderBy($sortColumn, $sortOrder);
             }, function ($query) {
 
-                //... but if sort is not specified, please return sort by id and ascending.
+                //... but if sort is not specified, please return sort by id and descending.
                 return $query->orderBy('id', 'desc');
             })
 
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
-                'pickupAddress:id,city,zip_code', 
-                'deliveryAddress:id,city,zip_code',
-                'parcels'
+                'parcels',
+                'nativeOrder',
+                'pamyraOrder',
             ])
             
             /**
@@ -268,6 +277,8 @@ class TmsOrderController extends BaseController
              * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
              */
             ->withQueryString();
+
+            
 
         return $records;
     }

@@ -39,33 +39,41 @@ class TmsAddressRequest extends FormRequest
     public function addressRules()
     {
         return [
-            /**
-             * The id must be nullable, because of create. But must be validated, because of edit.
-             */
+            
             'id' => ['nullable', 'integer', 'exists:tms_addresses,id'],
+            'customer_id' => ['nullable', 'integer', 'exists:tms_customers,id'],
+            'forwarder_id' => ['nullable', 'integer', 'exists:tms_forwarders,id'],
+            'country_id' => ['nullable', 'integer', 'exists:tms_countries,id'], 
+            'partner_id' => [ 'nullable', 'integer', 'exists:tms_partners,id'],
+
             'company_name' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'address_type' => ['required', 'string', 'max:255'], //this is a mutator. TmsAddress::setAddressTypeAttribute() will be called.
             'street' => ['required', 'string', 'max:200'],
             'house_number' => ['required', 'string', 'max:200'],
             'zip_code' => ['required', 'string', 'max:20'],
             'city' => ['required', 'string', 'max:100'],
-            'country_id' => ['required', 'string'], //this is a mutator. TmsAddress::setCountryIdAttribute() will be called.
             'state' => ['required', 'string', 'max:100'],
+            'address_additional_information' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'max:100'],
-            'address_additional_information' => ['required', 'string', 'max:255'],
-            'customer_id' => ['required', 'integer', 'exists:tms_customers,id'],
-            'forwarder_id' => ['required', 'integer', 'exists:tms_forwarders,id'],
 
-            //TODO ANDOR
-            // I stopped here, with these issues:
-            // "customer.headquarter.country": "The customer.headquarter.country field is required.",
-            // "pickup_address.company_name": "The company name field is required.",
-            // "pickup_address.country": "The pickup_address.country field is required.",
-            // "delivery_address.country": "The delivery_address.country field is required."
-            // SOMETHING DOES NOT WORK IN WITH COUNTRY VALIDATION. I NEED TO FIX THIS.
+            'is_pickup' => ['required', 'boolean'],
+            'is_delivery' => ['required', 'boolean'],
+            'is_billing' => ['required', 'boolean'],
+            'is_headquarter' => ['required', 'boolean'],
+
+            //We attach this country with the appends trick in the TmsAddress
+            'country' => ['required', 'array'],
+
+            //We attach this customer with the appends trick in the TmsAddress
+            'customer' => ['required', 'array'],
+
+            //We attach this forwarder with the appends trick in the TmsAddress
+            'forwarder' => ['required', 'array'],
+
+            //We attach this partner with the appends trick in the TmsAddress
+            'partner' => ['required', 'array'],
         ];
     }
 }

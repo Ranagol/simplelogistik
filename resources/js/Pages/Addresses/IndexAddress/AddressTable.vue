@@ -52,13 +52,13 @@
             label="Address type"
             prop="address_type"
             sortable="custom"
-            :width="200"
+            :width="300"
         >
             <template #default="scope">
-                <Link
-                    class="hover:underline text-blue-500"
-                    :href="`/addresses/${scope.row.id}/edit`"
-                >{{ scope.row.address_type }}</Link>
+                <span v-if="scope.row.is_pickup">Pickup</span>
+                <span v-if="scope.row.is_delivery"> Delivery</span>
+                <span v-if="scope.row.is_billing"> Billing</span>
+                <span v-if="scope.row.is_headquarter"> Headquarter</span>
             </template>
         </el-table-column>
 
@@ -66,7 +66,7 @@
             label="Street"
             prop="street"
             sortable="custom"
-            width="100px"
+            width="200px"
         />
 
         <el-table-column
@@ -90,19 +90,19 @@
             width="150px"
         />
 
-        <el-table-column
+        <!-- <el-table-column
             label="Country"
-            prop="country.country_name"
+            prop="country_name"
             sortable="custom"
             width="250px"
-        />
+        /> -->
 
-        <el-table-column
+        <!-- <el-table-column
             label="State"
             prop="state"
             sortable="custom"
             width="150px"
-        />
+        /> -->
 
         <!-- <el-table-column
             label="Comment"

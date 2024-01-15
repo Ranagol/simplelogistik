@@ -4,13 +4,13 @@
         type="border-card"
         stretch
     >
-        <!-- CUSTOMER GENERAL DATA -->
         <el-tab-pane
             label="General customer data"
         >
             <DataTab
                 v-model="data.customer"
                 :errors="props.errors"
+                :forwarders="props.selectOptions.forwarders"
                 :mode="props.mode"
                 @submit="submit"
                 @destroy="destroy"
@@ -18,7 +18,6 @@
             </DataTab>
         </el-tab-pane>
 
-        <!-- INDIVIDUAL SETTINGS -->
         <el-tab-pane
             label="Individual settings"
         >
@@ -33,7 +32,6 @@
             </IndividualTab>
         </el-tab-pane>
 
-        <!-- COMMENTS -->
         <el-tab-pane
             label="Comments"
         >
@@ -49,8 +47,7 @@
             label="Addresses"
         >
             <AddressesTab
-                v-model="data.customer"
-                :errors="props.errors"
+                :addresses="data.customer.addresses"
             >
             </AddressesTab>
         </el-tab-pane>
@@ -88,6 +85,17 @@
             </OffersTab>    
         </el-tab-pane>
 
+        <!-- INVOICES -->
+        <el-tab-pane
+            label="Invoices"
+        >
+            <InvoicesTab
+                v-model="data.customer"
+                :errors="props.errors"
+            >    
+            </InvoicesTab>
+        </el-tab-pane>
+
         
 
     </el-tabs>
@@ -103,6 +111,7 @@ import OrdersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OrdersT
 import OffersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OffersTab.vue';
 import IndividualTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/IndividualTab.vue';
 import CommentsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/CommentsTab.vue';
+import InvoicesTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/InvoicesTab.vue';
 import _ from 'lodash';
 
 const props = defineProps({

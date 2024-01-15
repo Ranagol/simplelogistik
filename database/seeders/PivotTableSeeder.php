@@ -6,9 +6,6 @@ use App\Models\TmsGear;
 use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
-use App\Models\TmsNeededGear;
-use App\Models\TmsVehicleReq;
-use App\Models\TmsOfferedGear;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 

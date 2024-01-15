@@ -6,6 +6,7 @@
         >
             <!-- SUBTITLE -->
             <div 
+                v-if="props.title"
                 class="mb-4 font-bold"
             >{{ props.title }} address</div>
 
@@ -294,9 +295,8 @@
                             class="ml-1"
                         >Country</span>
 
-                        <!-- This el-select works with a whole object. Syncs a whole object. -->
                         <el-select
-                            v-model="data.address.country_id"
+                            v-model="data.address.country"
                             clearable
                             filterable
                             value-key="id"
@@ -307,11 +307,12 @@
                                 v-for="(item, index) in props.countries"
                                 :key="index"
                                 :label="item.country_name"
-                                :value="item.country_name"
+                                :value="item"
                             ></el-option>
+
                         </el-select>
 
-                        <BackendValidationErrorDisplay :errorMessage="props.errors.country_id"/>
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.country"/>
 
                     </div>
                     
@@ -388,7 +389,6 @@
         <el-form-item
             prop="address_additional_information"
         >
-
             <div class="flex flex-col grow">
 
                 <!-- LABEL -->
@@ -414,12 +414,156 @@
 
         </el-form-item>
 
+        <!-- CUSTOMER AND FORWARDER AND PARTNER-->
+        <div class="grid grid-rows">
+            <div class="grid grid-cols-3 gap-1">
+
+                <!-- CUSTOMER -->
+                <el-form-item
+                    width="100px"
+                    v-if="props.showCustomer"
+                >
+                    <div class="flex flex-col grow">
+
+                        <!-- LABEL -->
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Customer name</span>
+
+                        <el-select
+                            v-model="data.address.customer"
+                            clearable
+                            filterable
+                            value-key="id"
+                            @change="update()"
+                        >
+                            <el-option
+                                v-for="(item, index) in props.customers"
+                                :key="index"
+                                :label="item.name"
+                                :value="item"
+                            ></el-option>
+                        </el-select>
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.customer"/>
+                    </div>
+
+                </el-form-item>
+
+                <!-- FORWARDER -->
+                <el-form-item
+                    prop="forwarder_name"
+                    v-if="props.showForwarder"
+                >
+                    <div class="flex flex-col grow">
+
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Forwarder name</span>
+
+                        <el-select
+                            v-model="data.address.forwarder"
+                            value-key="id"
+                            clearable
+                            filterable
+                            @change="update()"
+                        >
+                            <el-option
+                                v-for="(item, index) in props.forwarders"
+                                :key="index"
+                                :label="item.name"
+                                :value="item"
+                            ></el-option>
+                        </el-select>
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.forwarder"/>
+
+                    </div>
+
+                </el-form-item>
+
+                <!-- PARTNER -->
+                <el-form-item
+                    prop="partner_name"
+                    v-if="props.showPartner"
+                >
+                    <div class="flex flex-col grow">
+
+                        <span
+                            v-if="data.showLabel"
+                            class="ml-1"
+                        >Partner name</span>
+
+                        <el-select
+                            v-model="data.address.partner"
+                            value-key="id"
+                            clearable
+                            filterable
+                            @change="update()"
+                        >
+                            <el-option
+                                v-for="(item, index) in props.partners"
+                                :key="index"
+                                :label="item.name"
+                                :value="item"
+                            ></el-option>
+                        </el-select>
+
+                        <BackendValidationErrorDisplay :errorMessage="props.errors.partner"/>
+
+                    </div>
+                </el-form-item>
+
+                
+            </div>
+        </div>
+
+        <!-- isPickup, isDelivery, isBilling, isHeadquarter -->
+        <div class="flex justify-between">
+
+            <!-- isPickup -->
+            <el-form-item>
+                <el-checkbox
+                    v-model="data.address.is_pickup"
+                    @change="update()"
+                >Pickup</el-checkbox>
+            </el-form-item>
+
+            <!-- isDelivery -->
+            <el-form-item>
+                <el-checkbox
+                    v-model="data.address.is_delivery"
+                    @change="update()"
+                >Delivery</el-checkbox>
+            </el-form-item>
+
+            <!-- isBilling -->
+            <el-form-item>
+                <el-checkbox
+                    v-model="data.address.is_billing"
+                    @change="update()"
+                >Billing</el-checkbox>
+            </el-form-item>
+
+            <!-- isHeadquarter -->
+            <el-form-item>
+                <el-checkbox
+                    v-model="data.address.is_headquarter"
+                    @change="update()"
+                >Headquarter</el-checkbox>
+            </el-form-item>
+        </div>
+
         <!-- AVIS PHONE, 1 FULL ROW. BELONGS TO ORDER OBJECT NOT THE ADDRESS OBJECT -->
         <!-- //TODO the avis phone might need to belong to addresses, not orders? Because
         one order might have multiple pickup and multiple delivery addresses with avis phones?
         Another solution: avis phone as new object belongst to address? Ask C. For now I will just
         display this here. This topic must be decided when it comes to order editing.-->
-        <el-form-item>
+        <el-form-item 
+            v-if="props.showAvisPhone"
+        >
 
             <div class="flex flex-col grow">
 
@@ -447,7 +591,9 @@
 
         </el-form-item>
 
-        <el-form-item>
+        <el-form-item
+            v-if="props.showComment"
+        >
 
             <div class="flex flex-col grow">
 
@@ -490,7 +636,7 @@ const props = defineProps({
         /**
          * Returns an empty address object, if the order does not has one.
          */
-        default: () => addressDummy,
+        // default: () => addressDummy,
     },
 
     /**
@@ -526,6 +672,21 @@ const props = defineProps({
         required: true,
     },
 
+    customers: {
+        type: Array,
+        required: false
+    },
+
+    forwarders: {
+        type: Array,
+        required: false
+    },
+
+    partners: {
+        type: Array,
+        required: false
+    },
+
     /**
      * The avis phone is a burner phone number, that will be used only once, for the given order.
      * IT DOES NOT BELONG TO THE ADDRESS, IT BELONGS TO THE ORDER OBJECT! It is displayed in the
@@ -545,6 +706,32 @@ const props = defineProps({
         type: String,
         required: false,
     },
+
+    showAvisPhone: {
+        type: Boolean,
+        default: false
+    },
+
+    showComment: {
+        type: Boolean,
+        default: false
+    },
+
+    showCustomer: {
+        type: Boolean,
+        default: false
+    },
+
+    showForwarder: {
+        type: Boolean,
+        default: false
+    },
+
+    showPartner: {
+        type: Boolean,
+        default: false
+    },
+
 
 });
 
@@ -566,7 +753,7 @@ const emit = defineEmits(['update:address', 'update:comment', 'update:avis_phone
  * Works with address object
  */
 const update = () => {
-    // console.log('update() triggered in Address.vue', data.address);
+    console.log('update() triggered in Address.vue', data.address);
     emit('update:address', data.address);
 }
 

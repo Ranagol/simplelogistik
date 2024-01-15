@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use App\Models\TmsCustomer;
-use App\Http\Requests\TmsNeededGearuest;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Inertia\Response;
+use App\Models\TmsCustomer;
+use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
+use App\Http\Requests\TmsCustomerRequest;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsCustomerController extends BaseController
 {
@@ -25,7 +26,7 @@ class TmsCustomerController extends BaseController
      */
     protected function getRequestClass(): string
     {
-        return TmsNeededGearuest::class;
+        return TmsCustomerRequest::class;
     }
 
     /**
@@ -61,7 +62,41 @@ class TmsCustomerController extends BaseController
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                // 'record' => $record,
+                'record' => new TmsCustomer(),
+
+                // 'record' => TmsCustomer::select(//needed for edit validation testing
+                //     // 'id',
+                //     'forwarder_id',
+                //     'company_name',
+                //     'internal_id',
+                //     'first_name',
+                //     'last_name',
+                //     'email',
+                //     'phone',
+                //     'tax_number',
+                //     'rating',
+                //     'comments',
+                //     'payment_time',
+                //     'auto_book_as_private',
+                //     'dangerous_goods',
+                //     'bussiness_customer',
+                //     'debt_collection',
+                //     'direct_debit',
+                //     'manual_collective_invoicing',
+                //     'private_customer',
+                //     'invoice_customer',
+                //     'poor_payment_morale',
+                //     'can_login',
+                //     'paypal',
+                //     'sofort',
+                //     'amazon',
+                //     'vorkasse',
+                //     'customer_type',
+                //     'invoice_dispatch',
+                //     'invoice_shipping_method',
+                //     'payment_method'
+                // )->find(1),
+
                 'mode' => 'create',
                 //These are the possibly selectable options for the el-select in customer create or edit form.
                 'selectOptions' => [
@@ -69,6 +104,12 @@ class TmsCustomerController extends BaseController
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
                     'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
+                        return [
+                            'id' => $forwarder->id,
+                            'name' => $forwarder->company_name, 
+                        ];
+                    }),
                 ]
             ]
         );
@@ -88,10 +129,10 @@ class TmsCustomerController extends BaseController
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsCustomerRequest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
-         * TmsNeededGearuest.
+         * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
+         * TmsCustomerRequest.
          */
         $request = app($this->getRequestClass());//
         
@@ -100,10 +141,10 @@ class TmsCustomerController extends BaseController
          */
         $newRecord = $request->validated();//do validation
 
+        $newRecord = $this->handleForwarderId($newRecord);
+
         /**
-         * 1. Find the relevant record and...
-         * 2. ...update it.
-         * 3. Get the newly created record, and return it to the FE.
+         * 1. Find the relevant record and...2. ...update it.
          */
         $newlyCreatedRecord = $this->model->create($newRecord);
 
@@ -123,7 +164,7 @@ class TmsCustomerController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::with('contactAddresses')->find($id);
+        $record = $this->model::with(['addresses'])->find($id);
 
         return Inertia::render(
             $this->vueCreateEditPath, 
@@ -136,9 +177,63 @@ class TmsCustomerController extends BaseController
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
                     'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
+                        return [
+                            'id' => $forwarder->id,
+                            'name' => $forwarder->company_name, 
+                        ];
+                    }),
                 ]
             ]
         );
+    }
+
+    /**
+     * Updates records. Inertia automatically sends succes or error feedback to the frontend.
+     *
+     * @param string $id
+     * @return void
+     */
+    public function update(string $id): void
+    {
+        /**
+         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
+         * calling this method?
+         */
+        $request = app($this->getRequestClass());
+        
+        /**
+         * The validated method is used to get the validated data from the request.
+         */
+        $newRecord = $request->validated();//do validation
+        
+        $newRecord = $this->handleForwarderId($newRecord);
+
+        /**
+         * 1. Find the relevant record and...
+         * 2. ...update it.
+         */
+        $this->model->find($id)->update($newRecord);
+    }
+
+    /**
+     * Here we handle the forwarder_id. Not every customer belong to a forwarder. So, the forwarder_id
+     * can be null. So, here we handle two situations: when we have a forwarder object, and when we
+     * do not have a forwarder object.
+     * 
+     * If there is a selected forwarder object, then we set the forwarder_id to the id of the 
+     * selected forwarder.
+     * If there is no selected forwarder object, then we set the forwarder_id to null.
+     */
+    private function handleForwarderId(array $customer): array
+    {
+        if (isset($customer['forwarder'])) {
+            $customer['forwarder_id'] = $customer['forwarder']['id'];//Here we set the forwarder id
+        } else {
+            $customer['forwarder_id'] = null;
+        }
+
+        return $customer;
     }
 
     public function addComment(Request $request, TmsCustomer $customer)
@@ -220,7 +315,7 @@ class TmsCustomerController extends BaseController
                 return $query->orderBy('id', 'desc');
             })
 
-            ->with('contactAddresses')
+            ->with('headquarter')
             
             /**
              * PAGINATION

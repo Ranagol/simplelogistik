@@ -23,6 +23,7 @@ class TmsCountrySeeder extends Seeder
          */
         foreach (TmsCountry::COUNTRIES as $country) {
             DB::table('tms_countries')->insert([
+                'id' => (int)$country[3], // numeric_code is the id, because it is unique****
                 'country_name' => $country[0],
                 'alpha2_code' => $country[1],
                 'alpha3_code' => $country[2],

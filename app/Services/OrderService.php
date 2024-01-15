@@ -5,12 +5,61 @@ namespace App\Services;
 use App\Models\TmsOrder;
 use App\Models\TmsParcel;
 use App\Models\TmsAddress;
+use App\Models\TmsNativeOrder;
+use App\Models\TmsPamyraOrder;
 
 /**
  * This class contains helper methods for the TmsOrderController.
  */
 class OrderService
 {
+    //TODO: ANDOR REFACTOR - these function have to be refactored
+    public function handleNativeOrder(array $orderFromRequest): void
+    {
+            
+        /**
+        * If the order has a native order... Do create or update for the native order,
+        * depending if the native order already exists in the db or not. This will be 
+        * recognised by the id column.
+        * We can use updateOrCreate() here and not upsert(), because we have only one native order.
+        */
+        if (!empty($orderFromRequest['native_order'])) {
+
+            $nativeOrder = $orderFromRequest['native_order'];
+            // dd($nativeOrder);
+
+            TmsNativeOrder::updateOrCreate(
+                // Check if we have this id on the db
+                ['id' => $nativeOrder['id']],
+                //if no, create new. If yes, update. For this use the values from $nativeOrder.
+                $nativeOrder
+            );
+        }
+    }
+
+    public function handlePamyraOrder(array $orderFromRequest): void
+    {
+            
+        /**
+        * If the order has a pamyra order... Do create or update for the pamyra order,
+        * depending if the pamyra order already exists in the db or not. This will be 
+        * recognised by the id column.
+        * We can use updateOrCreate() here and not upsert(), because we have only one pamyra order.
+        */
+        if (!empty($orderFromRequest['pamyra_order'])) {
+
+            $pamyraOrder = $orderFromRequest['pamyra_order'];
+            // dd($pamyraOrder);
+
+            TmsPamyraOrder::updateOrCreate(
+                // Check if we have this id on the db
+                ['id' => $pamyraOrder['id']],
+                //if no, create new. If yes, update. For this use the values from $pamyraOrder.
+                $pamyraOrder
+            );
+        }
+    }
+
     public function handleDeliveryAddress(array $orderFromRequest): void
     {
 

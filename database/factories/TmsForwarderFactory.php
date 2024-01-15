@@ -26,7 +26,7 @@ class TmsForwarderFactory extends Factory
     public function definition(): array
     {
         return [
-            'internal_id' => $this->faker->regexify('[A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4} [A-Z0-9]{4}'),
+            'internal_id' => $this->faker->regexify('[A-Z0-9]{4} [A-Z0-9]{4}'),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'company_name' => $this->faker->company,

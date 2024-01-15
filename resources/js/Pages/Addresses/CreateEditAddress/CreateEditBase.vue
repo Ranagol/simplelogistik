@@ -9,17 +9,47 @@
     <!-- EDIT ADDRESS -->
     <Card>
 
-        <!-- ADDRESS FORM -->
-        <Form
+        <div class="flex justify-end">
+            <!-- SUBMIT BUTTON -->
+            <el-form-item>
+                <el-button
+                    @click="submit(elFormRef)"
+                    type="primary"
+                    name="button"
+                >Submit</el-button>
+            </el-form-item>
+
+
+            <!-- DELETE BUTTON -->
+            <el-form-item
+                v-if="props.mode === 'edit'"
+                class="ml-4"
+            >
+                <el-button
+                    @click="destroy"
+                    type="danger"
+                    name="button"
+                >Delete</el-button>
+            </el-form-item>
+        </div>
+
+
+        <!-- NEW ADDRESS FORM -->
+        <Address
             v-model:address="data.addressData"
             :errors="props.errors"
             :mode="props.mode"
             :addressTypes="props.addressTypes"
             :customers="props.customers"
             :forwarders="props.forwarders"
+            :partners="props.partners"
             :countries="props.countries"
-            @submit="submit"
-            @destroy="destroy"
+            :showAvisPhone="false"
+            :showComment="false"
+            :showCustomer="true"
+            :showForwarder="true"
+            :showPartner="true"
+            class="grow"
         />
 
     </Card>
@@ -29,7 +59,7 @@
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
 import Card from '@/Shared/Card.vue';
 import { router } from '@inertiajs/vue3';
-import Form from './Form.vue';
+import Address from './Address.vue';
 import { useEdit } from '@/Use/useEdit';
 import { useCreate } from '@/Use/useCreate';
 import { useDestroy } from '@/Use/useDestroy';
@@ -44,10 +74,7 @@ const props = defineProps({
      */
     record: {
         type: Object,
-        /**
-         * The default value is a function that returns an empty address object.
-         */
-        default: () => (addressDummy),
+        required: true
     },
 
     /**
@@ -64,7 +91,7 @@ const props = defineProps({
      */
     addressTypes: {
         type: Object,
-        required: true
+        required: false
     },
 
     /**
@@ -83,6 +110,11 @@ const props = defineProps({
     },
 
     countries: {
+        type: Array,
+        required: true
+    },
+
+    partners: {
         type: Array,
         required: true
     },

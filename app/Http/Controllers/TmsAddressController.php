@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsAddress;
+use App\Models\TmsCountry;
+use App\Models\TmsPartner;
 use App\Models\TmsCustomer;
+use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsAddressRequest;
-use App\Models\TmsCountry;
-use App\Models\TmsForwarder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsAddressController extends BaseController
@@ -65,9 +66,36 @@ class TmsAddressController extends BaseController
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                // 'record' => $record,
+                /**
+                 * This is a cool trick. When we create a new record, we send a new and empty 
+                 * TmsAddress() model. This is needed for the CreateEditBase.vue component, because
+                 * it needs a record to work with. 
+                 */
+                'record' => new TmsAddress(),//this is what we need to send to the FE Address create
+                // 'record' => TmsAddress::select(//this is needed for testing, do not delete
+                //     // 'id',
+                //     'customer_id',
+                //     'forwarder_id',
+                //     'country_id',
+                //     'partner_id',
+                //     'company_name',
+                //     'first_name',
+                //     'last_name',
+                //     'street',
+                //     'house_number',
+                //     'zip_code',
+                //     'city',
+                //     'state',
+                //     'address_additional_information',
+                //     'phone',
+                //     'email',
+                //     'is_pickup',
+                //     'is_delivery',
+                //     'is_billing',
+                //     'is_headquarter',
+                // )->find(1),
+
                 'mode' => 'create',
-                'addressTypes' => TmsAddress::ADDRESS_TYPES,
                 // we send all customers and forwarders to the FE, so that the user can select them
                 'customers' => TmsCustomer::all()->map(function ($customer) {
                     return [
@@ -79,6 +107,19 @@ class TmsAddressController extends BaseController
                     return [
                         'id' => $forwarder->id,
                         'name' => $forwarder->company_name,
+                    ];
+                }),
+                //we send countries to the FE, so that the user can select them in el-select
+                'countries' => TmsCountry::all()->map(function ($country) {
+                    return [
+                        'id' => $country->id,
+                        'country_name' => $country->country_name,
+                    ];
+                }),
+                'partners' => TmsPartner::all()->map(function ($partner) {
+                    return [
+                        'id' => $partner->id,
+                        'name' => $partner->company_name,
                     ];
                 }),
 
@@ -115,20 +156,22 @@ class TmsAddressController extends BaseController
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
-         * TmsNeededGearuest.
+         * So basically, here we trigger TmsGearRequest. The $request is an instance of
+         * TmsGearRequest.
          */
         $request = app($this->getRequestClass());//
-
-
-        
         
         /**
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
+        $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
+        $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
+        $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
+        $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
+
 
         /**
          * 1. Find the relevant record and...
@@ -152,14 +195,13 @@ class TmsAddressController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::with('country:id,country_name')->find($id);
+        $record = $this->model::find($id);
 
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
                 'record' => $record,
                 'mode' => 'edit',
-                // 'addressTypes' => TmsAddress::ADDRESS_TYPES,
                 
                 /**
                  * We send all customers and forwarders to the FE, so that the user can select them
@@ -184,8 +226,43 @@ class TmsAddressController extends BaseController
                         'country_name' => $country->country_name,
                     ];
                 }),
+                'partners' => TmsPartner::all()->map(function ($partner) {
+                    return [
+                        'id' => $partner->id,
+                        'name' => $partner->company_name,
+                    ];
+                }),
             ]
         );
+    }
+
+    public function update(string $id): void
+    {
+        /**
+         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
+         * calling this method?
+         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
+         * when called from TmsCustomerController.
+         */
+        $request = app($this->getRequestClass());
+        
+        /**
+         * The validated method is used to get the validated data from the request.
+         */
+        $newRecord = $request->validated();//do validation
+        $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
+        $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
+        $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
+        $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
+
+        // dd($newRecord);
+
+        /**
+         * 
+         * 1. Find the relevant record and...
+         * 2. ...update it.
+         */
+        $this->model->find($id)->update($newRecord);
     }
 
     /**

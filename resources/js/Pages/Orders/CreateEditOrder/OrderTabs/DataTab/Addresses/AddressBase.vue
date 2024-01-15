@@ -59,6 +59,11 @@
                 v-model:comment="data.order.p_delivery_comments"
                 title="Delivery"
                 class="grow"
+
+                :showAvisPhone="true"
+                :showComment="true"
+                :showCustomer="true"
+                :showForwarder="true"
             />
     
         </div>
@@ -68,7 +73,7 @@
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
 import _ from 'lodash';
-import Address from './Address.vue';
+import Address from '@/Pages/Addresses/CreateEditAddress/Address.vue';
 import Title from '@/Shared/Title.vue';
 
 const props = defineProps({
@@ -96,7 +101,7 @@ const props = defineProps({
 
 const data = reactive({
     order: props.order,
-    showAddresses: true,
+    showAddresses: false,
     errorsHeadquarter: {},
     errorsPickupAddress: {},
     errorsDeliveryAddress: {},

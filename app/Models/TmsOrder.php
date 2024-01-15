@@ -6,9 +6,17 @@ use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
+use App\Models\TmsPartner;
 use App\Models\TmsCustomer;
+use App\Models\TmsOfferPrice;
+use App\Models\TmsNativeOrder;
+use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
+use App\Models\TmsOrderAttribute;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -16,7 +24,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 
 class TmsOrder extends Model
 {
@@ -52,7 +59,7 @@ class TmsOrder extends Model
         6 => 'Vorkasse'
     ];
 
-    
+    //*************RELATIONSHIPS*************************************** */    
 
     public function customer(): BelongsTo
     {
@@ -62,16 +69,6 @@ class TmsOrder extends Model
     public function contact(): BelongsTo
     {
         return $this->belongsTo(TmsContact::class, 'contact_id');
-    }
-
-    public function pickupAddress(): BelongsTo
-    {
-        return $this->belongsTo(TmsAddress::class, 'pickup_address_id');
-    }
-
-    public function deliveryAddress(): BelongsTo
-    {
-        return $this->belongsTo(TmsAddress::class, 'delivery_address_id');
     }
 
     public function cargoHistory(): HasMany
@@ -105,22 +102,23 @@ class TmsOrder extends Model
     }
 
     /**
-     * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder. It is either
-     * a PamyraOrder or a NativeOrder, never both. That is why we use this funny method here.
-     * It will return the suborder, either a PamyraOrder or a NativeOrder.
+     * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
      *
      * @return HasOne
      */
-    public function subOrder(): HasOne
+    public function pamyraOrder(): HasOne
     {
-        //->exists() checks if there is a relationship existing in the db
-        if ($this->pamyraOrder()->exists()) {
-            return $this->pamyraOrder();
-        }
-        //->exists() checks if there is a relationship existing in the db
-        if ($this->nativeOrder()->exists()) {
-            return $this->nativeOrder();
-        }
+        return $this->hasOne(TmsPamyraOrder::class, 'order_id');
+    }
+
+    /**
+     * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
+     *
+     * @return HasOne
+     */
+    public function nativeOrder(): HasOne
+    {
+        return $this->hasOne(TmsNativeOrder::class, 'order_id');
     }
 
     /**
@@ -132,26 +130,6 @@ class TmsOrder extends Model
     public function partner(): BelongsTo
     {
         return $this->belongsTo(TmsPartner::class);
-    }
-
-    /**
-     * See the comment above the subOrder() method.
-     *
-     * @return HasOne
-     */
-    public function pamyraOrder(): HasOne
-    {
-        return $this->hasOne(TmsPamyraOrder::class, 'order_id');
-    }
-
-    /**
-     * See the comment above the subOrder() method.
-     *
-     * @return HasOne
-     */
-    public function nativeOrder(): HasOne
-    {
-        return $this->hasOne(TmsNativeOrder::class, 'order_id');
     }
 
     public function orderAddresses(): HasMany
@@ -174,7 +152,7 @@ class TmsOrder extends Model
     public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
     {
         return $query->where('type_of_transport', 'like', "%{$searchTerm}%")
-            ->orWhere('p_order_number', 'like', "%{$searchTerm}%")
+            ->orWhere('customer_reference', 'like', "%{$searchTerm}%")
             ->orWhere('status', 'like', "%{$searchTerm}%")
             ;
     }

@@ -34,31 +34,7 @@ const props = defineProps({
      */
     record: {
         type: Object,
-        default: () => ({
-            internal_id: "C000",
-            first_name: "John",
-            last_name: "Doe",
-            company_name: "Belladonna",
-            email: 'thisEmailMustBeUniqAddANumber@gmail.com',
-            tax_number: 'random text',
-            rating: 5,
-            auto_book_as_private: true,
-            dangerous_goods: true,
-            bussiness_customer: true,
-            debt_collection: true,
-            direct_debit: true,
-            manual_collective_invoicing: true,
-            only_paypal_sofort_amazon_vorkasse: true,
-            private_customer: true,
-            invoice_customer: true,
-            poor_payment_morale: true,
-            can_login: true,
-
-            customer_type: "Bussiness customer",
-            invoice_dispatch: "Direct",
-            invoice_shipping_method: "Email",
-            payment_method: "PayPal"
-        })
+        required: true
     },
 
     /**

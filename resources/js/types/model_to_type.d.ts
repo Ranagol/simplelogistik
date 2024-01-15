@@ -112,11 +112,11 @@ export interface TmsCustomer {
   vehicle?: TmsVehicle
   cargo_histories?: TmsCargoHistories
   invoices?: TmsInvoices
-  customer_reqs?: TmsNeededGears
+  customer_reqs?: TmsGears
 }
 export type TmsCustomers = TmsCustomer[]
 
-export interface TmsNeededGear {
+export interface TmsGear {
   // columns
   id: number
   requirement_id: number
@@ -127,7 +127,7 @@ export interface TmsNeededGear {
   requirement?: TmsGear
   customers?: TmsCustomers
 }
-export type TmsNeededGears = TmsNeededGear[]
+export type TmsGears = TmsGear[]
 
 export interface TmsDispatcher {
   // columns
@@ -234,7 +234,7 @@ export interface TmsGear {
   created_at?: string|null
   updated_at?: string|null
   // relations
-  customer_reqs?: TmsNeededGears
+  customer_reqs?: TmsGears
   vehicle_reqs?: TmsVehicleReqs
 }
 export type TmsGears = TmsGear[]

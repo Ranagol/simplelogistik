@@ -34,7 +34,9 @@ return new class extends Migration
              * the hasColumn method to check if the column exists.
              */
             if (Schema::hasColumn('tms_orders', 'status')) {
-                $table->dropColumn('status');
+                Schema::table('tms_orders', function (Blueprint $table) {
+                    $table->dropColumn('status');
+                });
             }
         });
     }

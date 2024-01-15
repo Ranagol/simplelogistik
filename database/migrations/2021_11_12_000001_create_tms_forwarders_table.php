@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('tms_forwarders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('internal_id', 200);                                            // e.g.  F000 0007 1093 0276 0123 4567 89AB CDEF
+            $table->string('company_name',200)->nullable();
+            $table->string('internal_id', 100);
             $table->string('name', 100);
             $table->string('email', 200);
-            $table->string('company_name',200)->nullable();
             $table->string('tax_number',200)->nullable();
             $table->integer('rating')->unsigned()->nullable();
             $table->integer('forwarder_type')->unsigned()->nullable();
