@@ -30,10 +30,12 @@
             <template 
                 #default="scope"
             >
+                <!-- Data for this column is either in pamyra_order or native_order key, deepending
+                if the order can from Pamyra or it is a native, in house order. -->
                 <Link
                     class="hover:underline text-blue-500"
                     :href="`/orders/${scope.row.id}/edit`"
-                >{{ (scope.row.sub_order || {}).order_number }}</Link>
+                >{{ (scope.row.pamyra_order || scope.row.native_order || {}).order_number }}</Link>
 
             </template>
 
@@ -92,14 +94,34 @@
             label="Description"
             sortable="custom"
             prop="sub_order.description_of_transport"
-        ></el-table-column>
+        >
+            <!-- Data for this column is either in pamyra_order or native_order key, deepending
+            if the order can from Pamyra or it is a native, in house order. -->
+
+            <template 
+                #default="scope"
+            >
+                {{ (scope.row.pamyra_order || scope.row.native_order || {}).description_of_transport }}
+            </template>
+        
+        </el-table-column>
         
         <el-table-column
             width="150"
             label="Price gross"
             sortable="custom"
             prop="sub_order.calculated_transport_price"
-        ></el-table-column>
+        >
+            <!-- Data for this column is either in pamyra_order or native_order key, deepending
+            if the order can from Pamyra or it is a native, in house order. -->
+
+            <template 
+                #default="scope"
+            >
+                {{ (scope.row.pamyra_order || scope.row.native_order || {}).calculated_transport_price }}
+            </template>
+    
+        </el-table-column>
 
         <!-- <el-table-column
             width="400"
@@ -129,7 +151,17 @@
             label="Value of goods"
             sortable="custom"
             prop="sub_order.value_of_goods"
-        ></el-table-column>
+        >
+            <!-- Data for this column is either in pamyra_order or native_order key, deepending
+            if the order can from Pamyra or it is a native, in house order. -->
+
+            <template 
+                #default="scope"
+            >
+                {{ (scope.row.pamyra_order || scope.row.native_order || {}).calculated_transport_price }}
+            </template>
+        
+        </el-table-column>
 
         <!-- <el-table-column
             width="300"
