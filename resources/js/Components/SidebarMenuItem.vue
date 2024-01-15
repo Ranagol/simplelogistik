@@ -6,8 +6,8 @@
                 <slot name="icon"></slot>
             </el-icon>
         </div>
-        <div class="content transition-all duration-[300ms] overflow-hidden" :class="{'w-0': !menuOpen, 'w-[250px]': menuOpen, flyout: flyout}">
-            <span class="text-xl font-semibold pl-4"><slot name="title" /></span>
+        <div class="content transition-all duration-[300ms] overflow-hidden" :class="{'w-0': !menuOpen, 'w-[180px]': menuOpen, flyout: flyout}">
+            <span class="text-[16px] pl-3"><slot name="title" /></span>
             <span><slot name="subtitle" /></span>
         </div>
     </Link>

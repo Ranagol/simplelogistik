@@ -1,30 +1,30 @@
 <template>
-  <div class="h-full transition-all duration-[300ms] custom-scroll" :class="{'max-w-[70px]': !menuOpen, 'max-w-[250px]': menuOpen}">
+  <div class="h-full transition-all duration-[300ms] custom-scroll" :class="{'max-w-[70px]': !menuOpen, 'max-w-[180px]': menuOpen}">
     <!-- Menu Item -->
-    <SidebarMenuItem iconSize="40" :menuOpen="menuOpen" toolTipText="menu.dashboard" link="/dashboard">
+    <SidebarMenuItem iconSize="26" :menuOpen="menuOpen" toolTipText="menu.dashboard" link="/dashboard">
       <template #icon><Histogram /></template>
       <template #title>{{ $t('menu.dashboard') }}</template>
     </SidebarMenuItem>
     <!-- Menu Item End -->
 
     <!-- Menu Item -->
-    <SidebarMenuItem iconSize="40" :menuOpen="menuOpen" toolTipText="menu.customers" link="/customers">
-      <template #icon><Memo /></template>
+    <SidebarMenuItem iconSize="26" :menuOpen="menuOpen" toolTipText="menu.orders" link="/orders">
+      <template #icon><Folder /></template>
+      <template #title>{{ $t('menu.orders') }}</template>
+    </SidebarMenuItem>
+    <!-- Menu Item End -->
+
+    <!-- Menu Item -->
+    <SidebarMenuItem iconSize="26" :menuOpen="menuOpen" toolTipText="menu.customers" link="/customers">
+      <template #icon><UserFilled /></template>
       <template #title>{{ $t('menu.customers') }}</template>
     </SidebarMenuItem>
     <!-- Menu Item End -->
-
+ 
     <!-- Menu Item -->
-    <SidebarMenuItem iconSize="40" :menuOpen="menuOpen" toolTipText="menu.addresses" link="/addresses">
-      <template #icon><Folder /></template>
+    <SidebarMenuItem iconSize="26" :menuOpen="menuOpen" toolTipText="menu.addresses" link="/addresses">
+      <template #icon><Memo /></template>
       <template #title>{{ $t('menu.addresses') }}</template>
-    </SidebarMenuItem>
-    <!-- Menu Item End -->
-
-    <!-- Menu Item -->
-    <SidebarMenuItem iconSize="40" :menuOpen="menuOpen" toolTipText="menu.orders" link="/orders">
-      <template #icon><UserFilled /></template>
-      <template #title>{{ $t('menu.orders') }}</template>
     </SidebarMenuItem>
     <!-- Menu Item End -->
 
@@ -32,7 +32,7 @@
     <SidebarSubMenu :menuOpen="menuOpen">
       <template #header>
         <!-- Submenu displayed "Title" -->
-        <SidebarMenuItem :menuOpen="menuOpen" iconSize="40" link="#">
+        <SidebarMenuItem :menuOpen="menuOpen" iconSize="26" link="#">
           <template #icon><IconMenu /></template>
           <template #title>{{ $t('menu.integrations') }}</template>
         </SidebarMenuItem>
@@ -40,7 +40,7 @@
       <!-- Submenu title End -->
       <!-- Submenu Items -->
       <template #items>
-        <SidebarMenuItem iconSize="40" :menuOpen="menuOpen" toolTipText="menu.pamyra" link="/pamyra">
+        <SidebarMenuItem iconSize="26" :menuOpen="menuOpen" toolTipText="menu.pamyra" link="/pamyra">
           <template #icon><Location /></template>
           <template #title>{{ $t('menu.pamyra') }}</template>
         </SidebarMenuItem>
