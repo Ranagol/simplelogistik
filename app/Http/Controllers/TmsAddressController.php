@@ -156,10 +156,10 @@ class TmsAddressController extends BaseController
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
-         * TmsNeededGearuest.
+         * So basically, here we trigger TmsGearRequest. The $request is an instance of
+         * TmsGearRequest.
          */
         $request = app($this->getRequestClass());//
         
@@ -241,7 +241,7 @@ class TmsAddressController extends BaseController
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
          * when called from TmsCustomerController.
          */
         $request = app($this->getRequestClass());

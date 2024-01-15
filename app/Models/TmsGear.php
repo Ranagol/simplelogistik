@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\TmsNeededGear;
+use App\Models\TmsGear;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

@@ -7,7 +7,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
-use App\Models\TmsNeededGear;
+use App\Models\TmsGear;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
 use App\Models\TmsForwardingContract;

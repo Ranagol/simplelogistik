@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Requests\TmsNeededGearuest;
+use App\Http\Requests\TmsGearRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -75,10 +75,10 @@ abstract class BaseController extends Controller
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
-         * TmsNeededGearuest.
+         * So basically, here we trigger TmsGearRequest. The $request is an instance of
+         * TmsGearRequest.
          */
         $request = app($this->getRequestClass());//
         
@@ -118,10 +118,10 @@ abstract class BaseController extends Controller
         /**
          * This is a bit tricky. How to use here dynamic validation, depending which controller is 
          * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsNeededGearuest 
+         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
          * when called from TmsCustomerController.
-         * So basically, here we trigger TmsNeededGearuest. The $request is an instance of
-         * TmsNeededGearuest.
+         * So basically, here we trigger TmsGearRequest. The $request is an instance of
+         * TmsGearRequest.
          */
         $request = app($this->getRequestClass());
         
