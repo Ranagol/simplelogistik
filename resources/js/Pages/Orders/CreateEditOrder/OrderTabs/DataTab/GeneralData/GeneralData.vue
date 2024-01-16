@@ -215,16 +215,10 @@
 
                 </div>
                 
-                <!-- :errorMessage="props.errors[subOrderType].payment_method" -->
-                <!-- v-if="subOrderType === 'pamyra_order' || subOrderType === 'native_order'" -->
-                <!-- :errorMessage="props.errors['native_order'] || ['pamyra_order'].payment_method" -->
-                <!-- :errorMessage="props.errors[subOrderType]?.payment_method" -->
-                <!-- //TODO LOSI itt kellene segitseg -->
-                <!-- pamyra_order.payment_method:"The pamyra_order.payment_method field is required." -->
-                <!-- errorsMessage:undefined -->
+                <!-- //TODO Andor itt a megoldas a backend problemahoz -->
                 <BackendValidationErrorDisplay
                     
-                    :errorsMessage="data.errorsFromWatcher[subOrderType]?.payment_method"
+                    :errorMessage="data.errorsFromWatcher[subOrderType + '.payment_method']"
                 />
 
             </el-form-item>
@@ -611,15 +605,15 @@ let data = reactive({
 });
 
 //Just an experiment, a possible solution for the BE validation error display problem.
-// watch(
-//     () => props.errors, 
-//     (newValue, oldValue) => {
-//         console.log('oldValue:', oldValue)
-//         console.log('newValue:', newValue)
-//         data.errorsFromWatcher = newValue;
-//     },
-//     { deep: true }
-// );
+watch(
+    () => props.errors, 
+    (newValue, oldValue) => {
+        console.log('oldValue:', oldValue)
+        console.log('newValue:', newValue)
+        data.errorsFromWatcher = newValue;
+    },
+    { deep: true }
+);
 
 
 /**
