@@ -4,7 +4,7 @@
 
 <div style="color: #991228">
 <strong>
-Windows Users may experience some issues with file permissions. Therefore it's highly recommendet to store the files in the WSL2 Distro File-System.
+Windows Users may experience some issues with file permissions. Therefore it's highly recommended to store the files in the WSL2 Distro File-System.
 </strong>
 </div>
 <br />
@@ -46,6 +46,13 @@ sail artisan key:generate
 # Run migrations 
 sail artisan migrate
 
-# (development only!!) to populate system with fake data
+# (development only!!) to populate system with fake data. Before seeding create test user (see next chapter for more info)
 sail artisan db:seed
 ```
+
+### The test user
+You must create a test user, in order to be able to log in and use the app. This test user defining
+is happening in the .env. Just specify your email and your password like in this example:
+TEST_USERNAME=user@gmail.com
+TEST_PASSWORD=12345
+After you defined your test user credentials, then you can seed the db.

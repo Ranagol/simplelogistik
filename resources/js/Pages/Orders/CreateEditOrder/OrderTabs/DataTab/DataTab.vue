@@ -22,12 +22,12 @@
         /> -->
 
         <!-- PARCELLS -->
-        <!-- <ParcelBase
+        <ParcelBase
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
             :selectOptions="props.selectOptions"
-        /> -->
+        />
 
         <!-- FINANCES -->
         <FinanceBase
@@ -37,11 +37,11 @@
         />
 
         <!-- VEHICLE REQUIREMENTS -->
-        <!-- <VehicleReqBase
+        <VehicleReqBase
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
-        /> -->
+        />
         
 
         <pre>{{ JSON.stringify(props.order, null, 2) }}</pre>

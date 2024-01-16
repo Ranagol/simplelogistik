@@ -610,15 +610,16 @@ let data = reactive({
     errorsFromWatcher: props.errors,
 });
 
-watch(
-    () => props.errors, 
-    (newValue, oldValue) => {
-        console.log('oldValue:', oldValue)
-        console.log('newValue:', newValue)
-        data.errorsFromWatcher = newValue;
-    },
-    { deep: true }
-);
+//Just an experiment, a possible solution for the BE validation error display problem.
+// watch(
+//     () => props.errors, 
+//     (newValue, oldValue) => {
+//         console.log('oldValue:', oldValue)
+//         console.log('newValue:', newValue)
+//         data.errorsFromWatcher = newValue;
+//     },
+//     { deep: true }
+// );
 
 
 /**

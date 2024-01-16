@@ -9,6 +9,7 @@ use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Redirect;
 
 class TmsCustomerController extends BaseController
 {
@@ -62,40 +63,40 @@ class TmsCustomerController extends BaseController
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                'record' => new TmsCustomer(),
+                // 'record' => new TmsCustomer(),
 
-                // 'record' => TmsCustomer::select(//needed for edit validation testing
-                //     // 'id',
-                //     'forwarder_id',
-                //     'company_name',
-                //     'internal_id',
-                //     'first_name',
-                //     'last_name',
-                //     'email',
-                //     'phone',
-                //     'tax_number',
-                //     'rating',
-                //     'comments',
-                //     'payment_time',
-                //     'auto_book_as_private',
-                //     'dangerous_goods',
-                //     'bussiness_customer',
-                //     'debt_collection',
-                //     'direct_debit',
-                //     'manual_collective_invoicing',
-                //     'private_customer',
-                //     'invoice_customer',
-                //     'poor_payment_morale',
-                //     'can_login',
-                //     'paypal',
-                //     'sofort',
-                //     'amazon',
-                //     'vorkasse',
-                //     'customer_type',
-                //     'invoice_dispatch',
-                //     'invoice_shipping_method',
-                //     'payment_method'
-                // )->find(1),
+                'record' => TmsCustomer::select(//needed for edit validation testing
+                    // 'id',
+                    'forwarder_id',
+                    'company_name',
+                    'internal_id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'phone',
+                    'tax_number',
+                    'rating',
+                    'comments',
+                    'payment_time',
+                    'auto_book_as_private',
+                    'dangerous_goods',
+                    'bussiness_customer',
+                    'debt_collection',
+                    'direct_debit',
+                    'manual_collective_invoicing',
+                    'private_customer',
+                    'invoice_customer',
+                    'poor_payment_morale',
+                    'can_login',
+                    'paypal',
+                    'sofort',
+                    'amazon',
+                    'vorkasse',
+                    'customer_type',
+                    'invoice_dispatch',
+                    'invoice_shipping_method',
+                    'payment_method'
+                )->find(1),
 
                 'mode' => 'create',
                 //These are the possibly selectable options for the el-select in customer create or edit form.
@@ -143,9 +144,6 @@ class TmsCustomerController extends BaseController
 
         $newRecord = $this->handleForwarderId($newRecord);
 
-        /**
-         * 1. Find the relevant record and...2. ...update it.
-         */
         $newlyCreatedRecord = $this->model->create($newRecord);
 
         /**
