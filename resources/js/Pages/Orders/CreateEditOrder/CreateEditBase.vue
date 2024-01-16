@@ -10,7 +10,7 @@
 
             <!-- SIMPLE PAGE TITLE: THE ORDER NUMBER -->
             <Title 
-                :title="title"
+                :title="data.title"
             />
 
             <div class="flex flex-row ">
@@ -110,11 +110,38 @@ const data = reactive({
      * The order object.
      */
     orderData: props.record,
+    title: 'Order',
 });
 
-let title = computed(
-    () => `Order ${data.orderData.p_order_number}`
+const subOrderType = computed(
+    () => {
+        if (props.record.pamyra_order !== null) {
+            return 'pamyra_order';
+        }
+        if (props.record.native_order !== null) {
+            return 'native_order';
+        }
+    }
 );
+
+watch(
+    () => data.orderData, 
+    (newValue) => {
+        // console.log('newValue from watcher:', newValue);
+        // console.log('pamyra_order', newValue.pamyra_order);//this has value
+        // console.log('native_order', newValue.native_order);//this is null
+        // console.log('pamyra_order.distance_km', newValue.pamyra_order?.distance_km);//this has value
+        // console.log('native_order.distance_km', newValue.native_order?.distance_km);//this is undefined, cool, because native_order is null
+        // console.log('pamyra_order.distance_km', newValue[subOrderType]?.distance_km);//TODO LOSI why is this undefined?
+
+    },
+    {   
+        deep: true,
+        immediate: true
+    }
+);
+
+
 
 /**
  * The submit button and the order form are in two separate components. When we click on the submit
