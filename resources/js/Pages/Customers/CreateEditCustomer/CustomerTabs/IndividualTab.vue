@@ -326,6 +326,107 @@
                     <BackendValidationErrorDisplay :errorMessage="props.errors.payment_method"/>
                 </div>
             </el-form-item>
+
+            <!-- **************************************************************************** -->
+            <el-form-item
+                label="Email for invoice"
+                prop="email_for_invoice"
+                width="100px"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <el-input
+                        v-model="data.customer.email_for_invoice"
+                        placeholder="Email for invoice"
+                        type="text"
+                        show-word-limit
+                        :maxlength="255"
+                        clearable
+                        @input="handleChange()"
+                        @clear="handleChange()"
+                        @change="handleChange()"
+                    />
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.email_for_invoice"/>
+
+                </div>
+            </el-form-item>
+
+            <el-form-item
+                label="Email for label"
+                prop="email_for_label"
+                width="100px"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <el-input
+                        v-model="data.customer.email_for_label"
+                        placeholder="Email for label"
+                        type="text"
+                        show-word-limit
+                        :maxlength="255"
+                        clearable
+                        @input="handleChange()"
+                        @clear="handleChange()"
+                        @change="handleChange()"
+                    />
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.email_for_label"/>
+
+                </div>
+            </el-form-item>
+
+            <el-form-item
+                label="Email for POD"
+                prop="email_for_pod"
+                width="100px"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <el-input
+                        v-model="data.customer.email_for_pod"
+                        placeholder="Email for POD"
+                        type="text"
+                        show-word-limit
+                        :maxlength="255"
+                        clearable
+                        @input="handleChange()"
+                        @clear="handleChange()"
+                        @change="handleChange()"
+                    />
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.email_for_pod"/>
+
+                </div>
+            </el-form-item>
+
+            <el-form-item
+                label="Customer reference"
+                prop="customer_reference"
+                width="100px"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <el-input
+                        v-model="data.customer.customer_reference"
+                        placeholder="Customer reference"
+                        type="text"
+                        show-word-limit
+                        :maxlength="255"
+                        clearable
+                        @input="handleChange()"
+                        @clear="handleChange()"
+                        @change="handleChange()"
+                    />
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.customer_reference"/>
+
+                </div>
+            </el-form-item>
         </div>
 
     </el-form>

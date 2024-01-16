@@ -60,6 +60,8 @@ return new class extends Migration
             $table->integer('invoice_shipping_method')->unsigned()->nullable();
             $table->integer('payment_method')->unsigned()->nullable();
 
+            
+
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

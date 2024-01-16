@@ -63,6 +63,11 @@ class TmsCustomerFactory extends Factory
             'invoice_dispatch' => Arr::random(TmsCustomer::INVOICE_DISPATCHES),
             'invoice_shipping_method' => Arr::random(TmsCustomer::INVOICE_SHIPPING_METHODS),
             'payment_method' => Arr::random(TmsCustomer::PAYMENT_METHODS),
+
+            'email_for_invoice' => $this->faker->unique()->safeEmail,
+            'email_for_label' => $this->faker->unique()->safeEmail,
+            'email_for_pod' => $this->faker->unique()->safeEmail,
+            'customer_reference' => $this->faker->unique()->word,
         ];
     }
 }

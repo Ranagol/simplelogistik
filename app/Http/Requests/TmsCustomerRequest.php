@@ -70,6 +70,10 @@ class TmsCustomerRequest extends FormRequest
             'invoice_shipping_method' => 'required|string|min:2|max:100',
             'payment_method' => 'required|string|min:2|max:100',
 
+            'email_for_invoice' => ['required', 'string', 'email', 'max:255'],
+            'email_for_label' => ['required', 'string', 'email', 'max:255'],
+            'email_for_pod' => ['required', 'string', 'email', 'max:255'],
+            'customer_reference' => ['required', 'string', 'max:255'],
         ];
     }
 }
