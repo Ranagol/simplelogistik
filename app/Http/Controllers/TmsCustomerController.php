@@ -69,6 +69,22 @@ class TmsCustomerController extends BaseController
         $newCustomer->invoice_shipping_method = 'Email';
         $newCustomer->payment_method = 'Invoice';
 
+        //Get all forwarders, needed to for el-select options.
+        $forwarders = TmsForwarder::all()->map(function ($forwarder) {
+            return [
+                'id' => $forwarder->id,
+                'name' => $forwarder->company_name, 
+            ];
+        });
+
+        //Add a completely empy option to the forwarders array. Needed to Christoph.
+        $emptyForwarder = [
+            'id' => null,
+            'name' => null, 
+        ];
+
+        $forwarders->push($emptyForwarder);
+
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
@@ -113,12 +129,7 @@ class TmsCustomerController extends BaseController
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
                     'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
-                    'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
-                        return [
-                            'id' => $forwarder->id,
-                            'name' => $forwarder->company_name, 
-                        ];
-                    }),
+                    'forwarders' => $forwarders,
                 ]
             ]
         );
