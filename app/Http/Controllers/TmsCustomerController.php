@@ -9,7 +9,7 @@ use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class TmsCustomerController extends BaseController
 {
@@ -63,40 +63,39 @@ class TmsCustomerController extends BaseController
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                // 'record' => new TmsCustomer(),
-
-                'record' => TmsCustomer::select(//needed for edit validation testing
-                    // 'id',
-                    'forwarder_id',
-                    'company_name',
-                    'internal_id',
-                    'first_name',
-                    'last_name',
-                    'email',
-                    'phone',
-                    'tax_number',
-                    'rating',
-                    'comments',
-                    'payment_time',
-                    'auto_book_as_private',
-                    'dangerous_goods',
-                    'bussiness_customer',
-                    'debt_collection',
-                    'direct_debit',
-                    'manual_collective_invoicing',
-                    'private_customer',
-                    'invoice_customer',
-                    'poor_payment_morale',
-                    'can_login',
-                    'paypal',
-                    'sofort',
-                    'amazon',
-                    'vorkasse',
-                    'customer_type',
-                    'invoice_dispatch',
-                    'invoice_shipping_method',
-                    'payment_method'
-                )->find(1),
+                'record' => new TmsCustomer(),
+                // 'record' => TmsCustomer::select(//needed for edit validation testing
+                //     // 'id',
+                //     'forwarder_id',
+                //     'company_name',
+                //     'internal_id',
+                //     'first_name',
+                //     'last_name',
+                //     'email',
+                //     'phone',
+                //     'tax_number',
+                //     'rating',
+                //     'comments',
+                //     'payment_time',
+                //     'auto_book_as_private',
+                //     'dangerous_goods',
+                //     'bussiness_customer',
+                //     'debt_collection',
+                //     'direct_debit',
+                //     'manual_collective_invoicing',
+                //     'private_customer',
+                //     'invoice_customer',
+                //     'poor_payment_morale',
+                //     'can_login',
+                //     'paypal',
+                //     'sofort',
+                //     'amazon',
+                //     'vorkasse',
+                //     'customer_type',
+                //     'invoice_dispatch',
+                //     'invoice_shipping_method',
+                //     'payment_method'
+                // )->find(1),
 
                 'mode' => 'create',
                 //These are the possibly selectable options for the el-select in customer create or edit form.
@@ -147,6 +146,14 @@ class TmsCustomerController extends BaseController
         $newlyCreatedRecord = $this->model->create($newRecord);
 
         /**
+         * Since a new address is created, we send a success message to the FE. First step of this
+         * is to put the message into the session. After redirecting to the edit page, we will send
+         * this message to the FE, and then we will delete it from the session. So, the edit page
+         * will know that a new record was created, and it will display the success message.
+         */
+        Session::put('customerCreate', 'Customer created successfully!');
+
+        /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
          * page.
          */
@@ -164,11 +171,25 @@ class TmsCustomerController extends BaseController
     {
         $record = $this->model::with(['addresses'])->find($id);
 
+        /**
+         * Here we check if there is a session variable called 'customerCreate'. If yes, we send it
+         * to the FE. And then we delete it from the session, with Session::forget.
+         */
+        $successMessage = Session::get('customerCreate');
+        Session::forget('customerCreate');
+
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
                 'record' => $record,
                 'mode' => 'edit',
+
+                /**
+                 * This is only needed, when a new customer was created, and then the user is redirected
+                 * to the edit page. In this case we send the success message to the FE.
+                 */
+                'successMessage' => $successMessage,
+
                 //These are the possibly selectable options for the el-select in customer create or edit form.
                 'selectOptions' => [
                     'customerTypes' => TmsCustomer::CUSTOMER_TYPES,

@@ -72,29 +72,29 @@ class TmsAddressController extends BaseController
                  * TmsAddress() model. This is needed for the CreateEditBase.vue component, because
                  * it needs a record to work with. 
                  */
-                // 'record' => new TmsAddress(),//this is what we need to send to the FE Address create
-                'record' => TmsAddress::select(//this is needed for testing, do not delete
-                    // 'id',
-                    'customer_id',
-                    'forwarder_id',
-                    'country_id',
-                    'partner_id',
-                    'company_name',
-                    'first_name',
-                    'last_name',
-                    'street',
-                    'house_number',
-                    'zip_code',
-                    'city',
-                    'state',
-                    'address_additional_information',
-                    'phone',
-                    'email',
-                    'is_pickup',
-                    'is_delivery',
-                    'is_billing',
-                    'is_headquarter',
-                )->find(1),
+                'record' => new TmsAddress(),//this is what we need to send to the FE Address create
+                // 'record' => TmsAddress::select(//this is needed for testing, do not delete
+                //     // 'id',
+                //     'customer_id',
+                //     'forwarder_id',
+                //     'country_id',
+                //     'partner_id',
+                //     'company_name',
+                //     'first_name',
+                //     'last_name',
+                //     'street',
+                //     'house_number',
+                //     'zip_code',
+                //     'city',
+                //     'state',
+                //     'address_additional_information',
+                //     'phone',
+                //     'email',
+                //     'is_pickup',
+                //     'is_delivery',
+                //     'is_billing',
+                //     'is_headquarter',
+                // )->find(1),
 
                 'mode' => 'create',
                 // we send all customers and forwarders to the FE, so that the user can select them
