@@ -31,12 +31,12 @@
                     >Transport price net</span>
                     
                     <!-- INPUT -->
-                    <!-- <el-input
+                    <el-input
                         v-model="data.order[subOrderType].transport_price_net"
                         placeholder="Transport price net"
                         clearable
                         @input="update"
-                    /> -->
+                    />
 
                 </div>
 

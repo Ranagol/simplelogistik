@@ -200,7 +200,7 @@ class TmsOrderController extends BaseController
         $this->orderService->handlePamyraOrder($orderFromRequest);
         
         //Handle parcels
-        // $this->orderService->handleParcel($orderFromRequest);
+        $this->orderService->handleParcel($orderFromRequest);
 
         //Handle headquarter address
         // $this->orderService->handleHeadquarter($orderFromRequest);
