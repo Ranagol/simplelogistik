@@ -60,10 +60,19 @@ class TmsCustomerController extends BaseController
 
     public function create(): Response
     {
+        //Create a new customer object, as a template that will be sent to the FE.
+        $newCustomer = new TmsCustomer();
+
+        //Set default values for some customer properties, for customer create
+        $newCustomer->customer_type = 'Bussiness customer';
+        $newCustomer->invoice_dispatch = 'Direct';
+        $newCustomer->invoice_shipping_method = 'Email';
+        $newCustomer->payment_method = 'Invoice';
+
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                'record' => new TmsCustomer(),
+                'record' => $newCustomer,
                 // 'record' => TmsCustomer::select(//needed for edit validation testing
                 //     // 'id',
                 //     'forwarder_id',
