@@ -41,7 +41,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.transport_price_net"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_net']"
                 />
 
             </el-form-item>
@@ -68,7 +68,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.transport_price_vat"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_vat']"
                 />
 
             </el-form-item>
@@ -176,7 +176,8 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.calculated_transport_price"
+                    :errorMessage="props.errors[subOrderType + '.calculated_transport_price']"
+
                 />
 
             </el-form-item>
@@ -203,7 +204,8 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.transport_price_gross"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_gross']"
+
                 />
 
             </el-form-item>
@@ -230,7 +232,8 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.customized_price_change"
+                    :errorMessage="props.errors[subOrderType + '.customized_price_change']"
+
                 />
 
             </el-form-item>
@@ -257,7 +260,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.customized_price_mode"
+                    :errorMessage="props.errors[subOrderType + '.customized_price_mode']"
                 />
 
             </el-form-item>
@@ -284,7 +287,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.discount"
+                    :errorMessage="props.errors[subOrderType + '.discount']"
                 />
 
             </el-form-item>
@@ -311,7 +314,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.price_gross"
+                    :errorMessage="props.errors[subOrderType + '.price_gross']"
                 />
 
             </el-form-item>
@@ -338,7 +341,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.price_vat"
+                    :errorMessage="props.errors[subOrderType + '.price_vat']"
                 />
 
             </el-form-item>
@@ -365,7 +368,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.price_net"
+                    :errorMessage="props.errors[subOrderType + '.price_net']"
                 />
 
             </el-form-item>
@@ -392,7 +395,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.price_fuel_surcharge"
+                    :errorMessage="props.errors[subOrderType + '.price_fuel_surcharge']"
                 />
 
             </el-form-item>
@@ -419,7 +422,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.vat_rate"
+                    :errorMessage="props.errors[subOrderType + '.vat_rate']"
                 />
 
             </el-form-item>
@@ -446,7 +449,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.value_insured"
+                    :errorMessage="props.errors[subOrderType + '.value_insured']"
                 />
 
             </el-form-item>
@@ -473,7 +476,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.value_of_goods"
+                    :errorMessage="props.errors[subOrderType + '.value_of_goods']"
                 />
 
             </el-form-item>
