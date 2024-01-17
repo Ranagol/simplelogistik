@@ -15,7 +15,7 @@ return new class extends Migration
             //Newly added columns
             $table->string('email_for_invoice')->nullable();
             $table->string('email_for_label')->nullable();
-            $table->string('email_for_pod')->nullable();
+            $table->string('email_for_pod')->comment('email for proof of delivery')->nullable();
             $table->string('customer_reference')->nullable();
         });
     }
