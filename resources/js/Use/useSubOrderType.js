@@ -1,6 +1,13 @@
-import { computed, props } from 'vue';
+import { computed } from 'vue';
 
-export function useSubOrderType() {
+/**
+ * We use this composition only for the orders edit page, but in multiple components like
+ * GeneralData.vue, FinanceBase.vue.
+ * 
+ * @param {*} order 
+ * @returns 
+ */
+export default function useSubOrderType(order) {
 
     /**
      * The order can have either a pamyra_order or a native_order property. Either, or. We have a lot
@@ -12,10 +19,10 @@ export function useSubOrderType() {
      */
     const subOrderType = computed(
         () => {
-            if (props.order.pamyra_order !== null) {
+            if (order.pamyra_order !== null) {
                 return 'pamyra_order';
             }
-            if (props.order.native_order !== null) {
+            if (order.native_order !== null) {
                 return 'native_order';
             }
         }

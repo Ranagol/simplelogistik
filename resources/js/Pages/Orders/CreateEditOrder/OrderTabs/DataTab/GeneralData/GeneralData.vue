@@ -579,6 +579,8 @@ import { reactive, computed, watch, onMounted, onBeforeMount, ref, onUpdated, ne
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 import { useDateFormatter } from '@/Use/useDateFormatter';
 import Title from '@/Shared/Title.vue';
+import useSubOrderType from '@/Use/useSubOrderType';
+
 
 const props = defineProps({
     order: {
@@ -599,30 +601,14 @@ const props = defineProps({
 let data = reactive({
     order: props.order,
     showLabel: true,
-    showGeneralData: false,
+    showGeneralData: true,
 });
 
-
-
 /**
- * The order can have either a pamyra_order or a native_order property. Either, or. We have a lot
- * of data, that we must render from this property. Since we don't know which property is set in
- * the order, we must display this key dynamically. This dynamic key rendering is done in this
- * computed property.
- * Now, in order to use dynamic keyes in an object, we must use the [] notation. Not dot notation.
- * This happens in the hmtl part of this component.
- * 
+ * See the useSubOrderType composable for more information.
+ * This must be positioned after the props!
  */
-const subOrderType = computed(
-    () => {
-        if (props.order.pamyra_order !== null) {
-            return 'pamyra_order';
-        }
-        if (props.order.native_order !== null) {
-            return 'native_order';
-        }
-    }
-);
+const { subOrderType } = useSubOrderType(props.order);
 
 const emit = defineEmits(['update:order']);
 
