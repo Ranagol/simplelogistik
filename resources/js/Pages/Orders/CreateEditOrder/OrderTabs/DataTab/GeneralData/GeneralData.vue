@@ -218,7 +218,7 @@
                 <!-- //TODO Andor itt a megoldas a backend problemahoz -->
                 <BackendValidationErrorDisplay
                     
-                    :errorMessage="data.errorsFromWatcher[subOrderType + '.payment_method']"
+                    :errorMessage="props.errors[subOrderType + '.payment_method']"
                 />
 
             </el-form-item>
@@ -249,7 +249,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.date_of_sale"
+                    :errorMessage="props.errors[subOrderType + '.date_of_sale']"
                 />
 
             </el-form-item>
@@ -280,7 +280,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.date_of_cancellation"
+                    :errorMessage="props.errors[subOrderType + '.date_of_cancellation']"
                 />
 
             </el-form-item>
@@ -308,7 +308,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.distance_km"
+                    :errorMessage="props.errors[subOrderType + '.distance_km']"
                 />
 
             </el-form-item>
@@ -336,7 +336,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.duration_minutes"
+                    :errorMessage="props.errors[subOrderType + '.duration_minutes']"
                 />
 
             </el-form-item>
@@ -390,12 +390,11 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.calculation_model_name"
+                    :errorMessage="props.errors[subOrderType + '.calculation_model_name']"
                 />
 
             </el-form-item>
 
-            <!-- **********************THE FOLLOWING ITEMS ARE UNTESTED AND UNFINISHED. Input fields probalby work, but dateTime stuff should be DatePicker intstead of input fields.******************** -->
             <el-form-item
                 :prop="[subOrderType].pickup_date_from"
             >   
@@ -423,7 +422,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.pickup_date_from"
+                    :errorMessage="props.errors[subOrderType + '.pickup_date_from']"
                 />
 
             </el-form-item>
@@ -453,7 +452,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.pickup_date_to"
+                    :errorMessage="props.errors[subOrderType + '.pickup_date_to']"
                 />
 
             </el-form-item>
@@ -483,7 +482,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.delivery_date_from"
+                    :errorMessage="props.errors[subOrderType + '.delivery_date_from']"
                 />
 
             </el-form-item>
@@ -513,7 +512,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.delivery_date_to"
+                    :errorMessage="props.errors[subOrderType + '.delivery_date_to']"
                 />
 
             </el-form-item>
@@ -540,7 +539,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.description_of_transport"
+                    :errorMessage="props.errors[subOrderType + '.description_of_transport']"
                 />
 
             </el-form-item>
@@ -567,7 +566,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.particularities"
+                    :errorMessage="props.errors[subOrderType + '.particularities']"
                 />
 
             </el-form-item>
@@ -601,19 +600,8 @@ let data = reactive({
     order: props.order,
     showLabel: true,
     showGeneralData: true,
-    errorsFromWatcher: props.errors,
 });
 
-//Just an experiment, a possible solution for the BE validation error display problem.
-watch(
-    () => props.errors, 
-    (newValue, oldValue) => {
-        console.log('oldValue:', oldValue)
-        console.log('newValue:', newValue)
-        data.errorsFromWatcher = newValue;
-    },
-    { deep: true }
-);
 
 
 /**
@@ -623,6 +611,7 @@ watch(
  * computed property.
  * Now, in order to use dynamic keyes in an object, we must use the [] notation. Not dot notation.
  * This happens in the hmtl part of this component.
+ * 
  */
 const subOrderType = computed(
     () => {
@@ -631,7 +620,6 @@ const subOrderType = computed(
         }
         if (props.order.native_order !== null) {
             return 'native_order';
-            
         }
     }
 );
