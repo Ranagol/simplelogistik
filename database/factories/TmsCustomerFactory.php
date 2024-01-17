@@ -50,11 +50,6 @@ class TmsCustomerFactory extends Factory
             'poor_payment_morale' => $this->faker->boolean,
             'can_login' => $this->faker->boolean,
 
-            'paypal' => $this->faker->boolean,
-            'sofort' => $this->faker->boolean,
-            'amazon' => $this->faker->boolean,
-            'vorkasse' => $this->faker->boolean,
-
             /**
              * Here we select a random value from the CUSTOMER_TYPES array, which is defined in the 
              * TmsCustomer model. This is important, seeding will not work without this.
@@ -62,7 +57,12 @@ class TmsCustomerFactory extends Factory
             'customer_type' => Arr::random(TmsCustomer::CUSTOMER_TYPES),
             'invoice_dispatch' => Arr::random(TmsCustomer::INVOICE_DISPATCHES),
             'invoice_shipping_method' => Arr::random(TmsCustomer::INVOICE_SHIPPING_METHODS),
-            'payment_method' => Arr::random(TmsCustomer::PAYMENT_METHODS),
+            
+            // 'payment_method_options_to_offer' => json_encode([
+            //     1 => "Invoice", 
+            //     2 => "Vorkasse"
+            // ]),
+            'payment_method' => 'Vorkasse',
 
             'email_for_invoice' => $this->faker->unique()->safeEmail,
             'email_for_label' => $this->faker->unique()->safeEmail,

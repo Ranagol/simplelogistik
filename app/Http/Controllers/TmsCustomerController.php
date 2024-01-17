@@ -215,7 +215,7 @@ class TmsCustomerController extends BaseController
                     'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
-                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,//all payment methods
                     'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
                         return [
                             'id' => $forwarder->id,
@@ -245,6 +245,7 @@ class TmsCustomerController extends BaseController
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
+        // dd($newRecord);
         
         $newRecord = $this->handleForwarderId($newRecord);
 
@@ -275,6 +276,14 @@ class TmsCustomerController extends BaseController
         return $customer;
     }
 
+
+    /**
+     * Comments about the customer writes into the db.
+     *
+     * @param Request $request
+     * @param TmsCustomer $customer
+     * @return void
+     */
     public function addComment(Request $request, TmsCustomer $customer)
     {
         //comment validation
@@ -288,7 +297,7 @@ class TmsCustomerController extends BaseController
         //Get the current date in this format 2023-12-04 14:01:26
         $date = date('Y-m-d H:i:s');
 
-        //Getting the currently existing comments
+        //Getting the currently existing comments (all of them)
         $comments = $customer->comments;
 
         //Formating the new comment that we want to add to the existing comments

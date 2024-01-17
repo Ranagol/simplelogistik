@@ -4,7 +4,7 @@
         type="border-card"
         stretch
     >
-        <el-tab-pane
+        <!-- <el-tab-pane
             label="General customer data"
         >
             <DataTab
@@ -16,7 +16,7 @@
                 @destroy="destroy"
             >
             </DataTab>
-        </el-tab-pane>
+        </el-tab-pane> -->
 
         <el-tab-pane
             label="Individual settings"

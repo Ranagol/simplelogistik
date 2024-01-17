@@ -51,10 +51,6 @@ class TmsCustomerRequest extends FormRequest
             'debt_collection' => 'nullable|boolean',
             'direct_debit' => 'nullable|boolean',
             'manual_collective_invoicing' => 'nullable|boolean',
-            'paypal' => 'nullable|boolean',
-            'sofort' => 'nullable|boolean',
-            'amazon' => 'nullable|boolean',
-            'vorkasse' => 'nullable|boolean',
             'private_customer' => 'nullable|boolean',
             'invoice_customer' => 'nullable|boolean',
             'poor_payment_morale' => 'nullable|boolean',
@@ -68,7 +64,9 @@ class TmsCustomerRequest extends FormRequest
             'customer_type' => 'required|string|min:2|max:100',
             'invoice_dispatch' => 'required|string|min:2|max:100',
             'invoice_shipping_method' => 'required|string|min:2|max:100',
+
             'payment_method' => 'required|string|min:2|max:100',
+            'payment_method_options_to_offer' => 'array',
 
             'email_for_invoice' => ['required', 'string', 'email', 'max:255'],
             'email_for_label' => ['required', 'string', 'email', 'max:255'],

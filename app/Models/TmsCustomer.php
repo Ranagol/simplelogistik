@@ -36,6 +36,7 @@ class TmsCustomer extends Model
      * @var array
      */
     protected $casts = [
+        
         //boolean casting
         'auto_book_as_private' => 'boolean',
         'dangerous_goods' => 'boolean',
@@ -48,12 +49,10 @@ class TmsCustomer extends Model
         'invoice_customer' => 'boolean',
         'poor_payment_morale' => 'boolean',
         'can_login' => 'boolean',
-        'paypal' => 'boolean',
-        'sofort' => 'boolean',
-        'amazon' => 'boolean',
-        'vorkasse' => 'boolean',
+        
         //json data casting
         'comments' => 'array',
+        'payment_method_options_to_offer' => 'array',
     ];
 
     /**

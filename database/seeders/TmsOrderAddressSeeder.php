@@ -35,7 +35,8 @@ class TmsOrderAddressSeeder extends Seeder
              * ...CREATE 2 pickup and two delivery order_addresses
              */
             foreach ($this->addressTypes as $key => $addressType) {
-                dump($addressType);
+                // dump($addressType);
+                //TODO ANDOR something is not working here as it should. Check, correct.
                 TmsOrderAddress::factory()->create([
 
                     /**

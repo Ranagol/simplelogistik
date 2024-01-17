@@ -103,50 +103,6 @@
             </el-form-item>
 
             <el-form-item
-                label="Paypal"
-                prop="paypal"
-                :label-width="data.labelWidth"
-            >   
-                <el-checkbox
-                    v-model="data.customer.paypal"
-                    @change="handleChange"
-                />
-            </el-form-item>
-
-            <el-form-item
-                label="Sofort"
-                prop="sofort"
-                :label-width="data.labelWidth"
-            >   
-                <el-checkbox
-                    v-model="data.customer.sofort"
-                    @change="handleChange"
-                />
-            </el-form-item>
-
-            <el-form-item
-                label="Amazon"
-                prop="amazon"
-                :label-width="data.labelWidth"
-            >   
-                <el-checkbox
-                    v-model="data.customer.amazon"
-                    @change="handleChange"
-                />
-            </el-form-item>
-
-            <el-form-item
-                label="Vorkasse"
-                prop="vorkasse"
-                :label-width="data.labelWidth"
-            >   
-                <el-checkbox
-                    v-model="data.customer.vorkasse"
-                    @change="handleChange"
-                />
-            </el-form-item>
-
-            <el-form-item
                 label="Private customer"
                 prop="private_customer"
                 :label-width="data.labelWidth"
@@ -294,6 +250,7 @@
                 </div>
             </el-form-item>
 
+            <!-- ****************************************************************************** -->
             <!-- PROBLEM: the options window is not closing automatically, when an options is
             selected. Solution: use ref for el-select, then on change close the 
             options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
@@ -301,6 +258,45 @@
             So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
             the data update sync process with the parent component.
             -->
+            <!-- 1: OPTIONS THAT CAN BE OFFERED TO THIS CUSTOMER -->
+            <el-form-item
+                label="Payment method options to offer"
+                prop="payment_method_options_to_offer"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <!-- MULTIPLE -->
+                    <!-- It offers all existing payment_options from TmsCustomer::PAYMENT_METHODS -->
+                    <!-- Selected offers go to the json column -->
+                    <el-select
+                        ref="paymentMethodRef"
+                        v-model="data.customer.payment_method_options_to_offer"
+                        clearable
+                        multiple
+                        @change="$refs.paymentMethodRef.blur()"
+                        @blur="handleChange"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.paymentMethods"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.payment_method_options_to_offer"/>
+                </div>
+            </el-form-item>
+
+            <!-- PROBLEM: the options window is not closing automatically, when an options is
+            selected. Solution: use ref for el-select, then on change close the 
+            options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
+            https://github.com/ElemeFE/element/issues/11048 
+            So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
+            the data update sync process with the parent component.
+            -->
+            <!-- 2: SELECTED PAYMENT OPTION -->
             <el-form-item
                 label="Payment method"
                 prop="payment_method"
@@ -316,7 +312,7 @@
                         @blur="handleChange"
                     >
                         <el-option
-                            v-for="(item, index) in props.selectOptions.paymentMethods"
+                            v-for="(item, index) in data.customer.payment_method_options_to_offer"
                             :key="index"
                             :label="item"
                             :value="item"
