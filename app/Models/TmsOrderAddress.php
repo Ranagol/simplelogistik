@@ -74,6 +74,11 @@ class TmsOrderAddress extends Model
         4 => 'Delivery address',
     ];
 
+    public static function getAddressTypes(): array
+    {
+        return self::ADDRESS_TYPES;
+    }
+
     protected function addressType(): Attribute
     {
         return Attribute::make(

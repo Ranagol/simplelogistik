@@ -2,40 +2,37 @@
 
 namespace Modules\Easybill\app\Console;
 
-use App\Models\TmsCountry;
+use App\Models\TmsAddress;
 use App\Models\TmsCustomer;
-use App\Models\TmsOrderAddress;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
 use Nwidart\Modules\Facades\Module;
-use App\Models\TmsOrder;
 use App\Models\TmsApiAccess;
+use App\Models\TmsCountry;
+use App\Models\TmsOrder;
 use Modules\Easybill\app\Helper\DataMapping;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class InvoicesCommand extends Command
+class CustomersCommand extends Command
 {
-
     protected $apiName = '';
     protected $apiAccess = [];
 
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'send-invoices {orderid?} {setting=none : (setting=enable) Enables the module; (setting=disable) Disables the module} {-h|--help?}';
+    protected $signature = 'sendcustomers {customerid?} {setting=none : (setting=enable) Enables the module; (setting=disable) Disables the module} {-h|--help?}';
 
     /**
      * The console command description.
      */
-    protected $description = 'Send invoice(s) to easybill.';
+    protected $description = 'Send customer to easybill.';
 
     /**
      * Create a new command instance.
      */
     public function __construct()
-    {                
+    {
         parent::__construct();
     }
 
@@ -48,43 +45,37 @@ class InvoicesCommand extends Command
 
         $this->info('Arguments: ' . json_encode($this->arguments()));
         $this->handleStatus();
-        $this->info($this->description);       
-
+        $this->info($this->description);     
+        
         $this->apiName = config('api.billingApi');                
         $this->apiAccess = TmsApiAccess::where('api_name', $this->apiName)->first();
-        $this->info('ApiAccess: ' . json_encode($this->apiAccess));
-        
-        $this->info('OrderId: ' . $this->argument('orderid'));
+        $this->apiAccess['api_url'] .= 'customers';
+        //$this->info('ApiAccess: ' . json_encode($this->apiAccess));    
+
+        $this->info('OrderId: ' . $this->argument('customerid'));
 
         try {
-            $order = TmsOrder::where('id', $this->argument('orderid'))->first();
-            $customer = TmsCustomer::where('id', $order->customer_id)->first();
-            $addressTypes = $this->changeKeyValue(TmsOrderAddress::getAddressTypes());
-            $this->info('AddressTypes: ' . json_encode($addressTypes));
-            $addresses['is_pickup'] = TmsOrderAddress::where('order_id',$this->argument('orderid'))
-                                                          ->where('address_type', $addressTypes['Pickup address'])
-                                                          ->first();
-            $addresses['is_delivery'] = TmsOrderAddress::where('order_id',$this->argument('orderid'))
-                                                          ->where('address_type', $addressTypes['Delivery address'])
-                                                          ->first();
-            $addresses['is_billing'] = TmsOrderAddress::where('order_id',$this->argument('orderid'))
-                                                          ->where('address_type', $addressTypes['Billing address'])
-                                                          ->first();            
-            $this->info('Addresses: ' . json_encode($addresses));
+            $customer = TmsCustomer::where('id', $this->argument('customerid'))->first();
+            //$this->info(json_encode($customer));
         } catch (\Throwable $th) {
             $this->info('Error: ' . $th->getMessage());
             die();
         }
 
-        //create or update customer in easybill
-        $result = json_decode($this->callAPI('GET', $this->apiAccess['api_url'] . 'customers?number=' . $customer->internal_id, []));
-        //$this->info('Result: ' . json_encode($result));   
+        $addresses = TmsAddress::where('customer_id', $customer->id)->get();
+        $addresses = $this->makeAssocAddresses($addresses);
+        //$this->info('Addresses: ' . json_encode($addresses));    
         
         $countries = TmsCountry::all();
         $countries = $countries->keyBy('id');
-        $mappedData = $dataMapping->mapCustomer($customer, $addresses, $countries);
+        //$this->info('Countries: ' . json_encode($countries));
 
-        $mappedData = [];
+        $mappedData = $dataMapping->mapCustomer($customer, $addresses, $countries);
+        //$this->info('MappedData: ' . json_encode($mappedData));
+
+        $result = json_decode($this->callAPI('GET', $this->apiAccess['api_url'] . '?number=' . $customer->internal_id, []));
+        //$this->info('Result: ' . json_encode($result) . $customer->internal_id);
+        
         if ($result->total == 0) {
             $this->info('Customer not found. Creating new customer.');
             $this->info(json_encode($this->callAPI('POST', $this->apiAccess['api_url'], json_encode($mappedData))));
@@ -93,29 +84,28 @@ class InvoicesCommand extends Command
             //$this->info(json_encode($result->items[0]->id));
             $this->info(json_encode($this->callAPI('PUT', $this->apiAccess['api_url'] . '/' . $result->items[0]->id, json_encode($mappedData))));
         }
-
-        //$this->info(json_encode($order));
-        //$this->info(json_encode($customer));
-
-        //$this->mapOrder($order, $customer);
-        //$this->info(json_encode($this->callAPI('GET', $this->apiAccess['api_url'], [])));
     }
 
-    /**
-     * Change Key Value of an array.
-     */
-    private function changeKeyValue($array) {
-        $newArray = [];
-        foreach ($array as $key => $value) {
-            $newArray[$value] = $key;
+    private function makeAssocAddresses($addresses) {
+        $assoc = [];
+        foreach ($addresses as $address) {
+            if ($address->is_billing) {
+                $assoc['is_billing'] = $address;
+            }
+            if ($address->is_delivery) {
+                $assoc['is_delivery'] = $address;
+            }
+            if ($address->is_headquarter) {
+                $assoc['is_headquarter'] = $address;
+            }
+            if ($address->is_pickup) {
+                $assoc['is_pickup'] = $address;
+            }
         }
-        return $newArray;
+        return $assoc;
     }
 
-    /**
-     * Handle the status of the module.
-     * @return $module
-     */
+
     private function handleStatus() 
     {
         $module = Module::find('Easybill');
@@ -144,12 +134,9 @@ class InvoicesCommand extends Command
 
         return $module;
     }
-    
+
     
 
-    // Method: POST, PUT, GET etc
-    // Data: array("param" => "value") ==> index.php?param=value
-    
     public function callAPI($method, $url, $data = false)
     {
         $curl = curl_init();

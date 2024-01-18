@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsCustomer;
@@ -147,7 +148,7 @@ class TmsCustomerController extends BaseController
          * 1. Find the relevant record and...2. ...update it.
          */
         $newlyCreatedRecord = $this->model->create($newRecord);
-
+        
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
          * page.
@@ -165,6 +166,8 @@ class TmsCustomerController extends BaseController
     public function edit(string $id): Response
     {
         $record = $this->model::with(['addresses'])->find($id);
+
+
 
         return Inertia::render(
             $this->vueCreateEditPath, 

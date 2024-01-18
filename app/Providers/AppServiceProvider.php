@@ -14,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
         //
         $this->commands([
             \Modules\Easybill\app\Console\InvoicesCommand::class,
+            \Modules\Easybill\app\Console\CustomersCommand::class,
         ]);
     }
 
