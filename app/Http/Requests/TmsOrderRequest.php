@@ -56,6 +56,8 @@ class TmsOrderRequest extends FormRequest
             'avis_sender_phone' => 'nullable|string|max:200',
             'avis_receiver_phone' => 'nullable|string|max:200',
 
+            'payment_method' => 'required|string|min:2|max:100',
+
             //NATIVE ORDER VALIDATION (from native_orders table)
             'native_order' => 'nullable|array',
             'native_order.*' => $nativeOrderRequest->nativeOrderRules(),

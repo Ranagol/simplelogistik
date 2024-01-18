@@ -45,6 +45,9 @@ class TmsOrderFactory extends Factory
             'avis_customer_phone' => $this->faker->phoneNumber,
             'avis_sender_phone' => $this->faker->phoneNumber,
             'avis_receiver_phone' => $this->faker->phoneNumber,
+
+            'payment_method' => 'Vorkasse',
+
         ];
     }
 }

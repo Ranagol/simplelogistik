@@ -246,6 +246,11 @@ class TmsCustomer extends Model
         );
     }
 
+    /**
+     * This constant can be used by other models too. TmsOrders uses it for example. However, it is
+     * important to have one one single source of truth/info. And that is here. If you want to add
+     * a new payment method, do it here.
+     */
     const PAYMENT_METHODS = [
         1 => 'PayPal',
         2 => 'Sofort',
@@ -257,9 +262,9 @@ class TmsCustomer extends Model
     protected function paymentMethod(): Attribute
     {
         return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Bussiness customer'.
+            //gets from db, transforms it. 1 will become 'Paypal'.
             get: fn (string $value) => self::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Bussiness customer' will become 1.
+            //gets from request, transforms it. 'Paypal' will become 1.
             set: fn (string $value) => array_flip(self::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
         );
     }

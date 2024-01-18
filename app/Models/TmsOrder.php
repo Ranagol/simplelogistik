@@ -50,15 +50,6 @@ class TmsOrder extends Model
         4 => 'Shipping calc.'
     ];
 
-    const PAYMENT_METHODS = [
-        1 => 'Credit Card', 
-        2 => 'Paypal', 
-        3 => 'Bank Transfer',
-        4 => 'Amazon',
-        5 => 'Sofort',
-        6 => 'Vorkasse'
-    ];
-
     //*************RELATIONSHIPS*************************************** */    
 
     public function customer(): BelongsTo
@@ -200,6 +191,24 @@ class TmsOrder extends Model
             set: function (string $value) {
                 return array_flip(self::STATUSES)[$value] ?? 'Missing data TmsOrder.';
             }
+        );
+    }
+
+    /**
+     * This mutator is used for the payment_method column in the tms_orders table. Do not mix it with
+     * the similar mutator from TmsCustomer model.
+     * If you want to change or add a new payment method, do it in the TmsCustomer model. The payment
+     * methods are defined there.
+     *
+     * @return Attribute
+     */
+    protected function paymentMethod(): Attribute
+    {
+        return Attribute::make(
+            //gets from db, transforms it. 1 will become 'Paypal'.
+            get: fn (string $value) => TmsCustomer::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
+            //gets from request, transforms it. 'Paypal' will become 1.
+            set: fn (string $value) => array_flip(TmsCustomer::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
         );
     }
 

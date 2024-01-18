@@ -57,11 +57,7 @@ class TmsCustomerFactory extends Factory
             'customer_type' => Arr::random(TmsCustomer::CUSTOMER_TYPES),
             'invoice_dispatch' => Arr::random(TmsCustomer::INVOICE_DISPATCHES),
             'invoice_shipping_method' => Arr::random(TmsCustomer::INVOICE_SHIPPING_METHODS),
-            
-            // 'payment_method_options_to_offer' => json_encode([
-            //     1 => "Invoice", 
-            //     2 => "Vorkasse"
-            // ]),
+
             'payment_method' => 'Vorkasse',
 
             'email_for_invoice' => $this->faker->unique()->safeEmail,

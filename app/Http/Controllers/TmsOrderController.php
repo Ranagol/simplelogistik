@@ -8,6 +8,7 @@ use App\Models\TmsOrder;
 use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 use App\Models\TmsCountry;
+use App\Models\TmsCustomer;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
 use App\Http\Requests\TmsOrderRequest;
@@ -160,7 +161,7 @@ class TmsOrderController extends BaseController
                     'countries' => TmsCountry::select('id', 'country_name')->get(),
                     'typesOfTransport' => TmsOrder::TYPES_OF_TRANSPORT,
                     'origins' => TmsOrder::ORIGINS,//Example: Pamyra, sales...
-                    'paymentMethods' => TmsOrder::PAYMENT_METHODS,
+                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
                     'parcelTypes' => TmsParcel::PARCEL_TYPE,
                     'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
                 ]
