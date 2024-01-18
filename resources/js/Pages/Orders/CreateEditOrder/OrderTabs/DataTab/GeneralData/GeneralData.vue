@@ -570,6 +570,43 @@
                 />
 
             </el-form-item>
+
+            <!-- PROBLEM: the options window is not closing automatically, when an options is
+            selected. Solution: use ref for el-select, then on change close the 
+            options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
+            https://github.com/ElemeFE/element/issues/11048 
+            So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
+            the data update sync process with the parent component.
+            -->
+            <el-form-item
+                prop="payment_method"
+                no-data-text="There are no selectable payment methods, please add one first in for the customer who owns this order."
+            >
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Payment method</span>
+
+                    <el-select
+                        v-model="data.order.payment_method"
+                        clearable
+                    >
+                        <el-option
+                            v-for="(item, index) in data.order.customer.payment_method_options_to_offer"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.payment_method"/>
+                </div>
+            </el-form-item>
+
+
         </div>
     </div>
 </template>

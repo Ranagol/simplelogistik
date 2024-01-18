@@ -145,7 +145,7 @@ class TmsOrderController extends BaseController
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
                 'customer' => function ($query) {
-                    $query->select('id', 'company_name')->with(['headquarter']);
+                    $query->select('id', 'company_name', 'payment_method_options_to_offer')->with(['headquarter']);
                 }
             ]
         )->find($id);
