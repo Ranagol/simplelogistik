@@ -638,7 +638,7 @@ const props = defineProps({
 let data = reactive({
     order: props.order,
     showLabel: true,
-    showGeneralData: true,
+    showGeneralData: false,
 });
 
 /**

@@ -102,16 +102,12 @@ class TmsCustomer extends Model
 
     /**
      * Relationship for the headquarter address.
-     * I use hasMany relationship, because it may happen that the customer has both headquarter and
-     * billing address.
      */
     public function headquarter()
     {
-        return $this->hasMany(TmsAddress::class, 'customer_id')
-                    ->select('id', 'customer_id', 'street', 'house_number', 'zip_code', 'city')
-                    ->where('is_headquarter', true)
-                    ->orWhere('is_billing', true)
-                    ;
+        return $this->hasOne(TmsAddress::class, 'customer_id')
+                    // ->select('id', 'customer_id', 'street', 'house_number', 'zip_code', 'city')
+                    ->where('is_headquarter', true);
     }
 
     public function orders(): HasMany

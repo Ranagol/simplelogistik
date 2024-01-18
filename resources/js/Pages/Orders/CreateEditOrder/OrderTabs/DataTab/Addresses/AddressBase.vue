@@ -16,55 +16,60 @@
         <!-- MAIN CONTENT: ADDRESSES -->
         <div 
             v-if="data.showAddresses"
-            class="flex flex-row"
         >
-            
-            <!-- HEADQUARTER -->
-            <!-- There is no comment for the headquarter. -->
-            <Address
-                v-model:address="data.order.customer.headquarter"
-                :errors="data.errorsHeadquarter"
-                :countries="props.countries"
-                :mode="props.mode"
-                v-model:avis_phone="data.order.avis_customer_phone"
-                title="Customer"
-                class="grow"
-            />
-    
-            <!-- This is just an empty divider between columns -->
-            <div class="w-4"></div>
-    
-            <!-- PICKUP ADDRESS -->
-            <Address
-                v-model:address="data.order.pickup_address"
-                :errors="data.errorsPickupAddress"
-                :countries="props.countries"
-                :mode="props.mode"
-                v-model:avis_phone="data.order.avis_sender_phone"
-                v-model:comment="data.order.p_pickup_comments"
-                title="Pickup"
-                class="grow"
-            />
-    
-            <!-- This is just an empty divider between columns -->
-            <div class="w-4"></div>
-    
-            <!-- DELIVERY ADDRESS -->
-            <Address
-                v-model:address="data.order.delivery_address"
-                :errors="data.errorsDeliveryAddress"
-                :countries="props.countries"
-                :mode="props.mode"
-                v-model:avis_phone="data.order.avis_receiver_phone"
-                v-model:comment="data.order.p_delivery_comments"
-                title="Delivery"
-                class="grow"
+            <div class="grid grid-cols-3 gap-2">
+                <!-- HEADQUARTER -->
+                <Address
+                    v-model:address="data.order.customer.headquarter"
+                    :errors="data.errorsHeadquarter"
+                    :countries="props.countries"
+                    :mode="props.mode"
+                    v-model:avis_phone="data.order.avis_customer_phone"
+                    title="Headquarter"
+                    class="grow"
+                />
 
-                :showAvisPhone="true"
-                :showComment="true"
-                :showCustomer="true"
-                :showForwarder="true"
-            />
+
+                <!-- PICKUP ADDRESS -->
+                <Address
+                    v-for="(address, index) in data.order.pickup_addresses"
+                    v-model:address="data.order.pickup_addresses[index]"
+                    :errors="data.errorsPickupAddress"
+                    :countries="props.countries"
+                    :mode="props.mode"
+                    v-model:avis_phone="data.order.avis_sender_phone"
+                    v-model:comment="data.order.pickup_comments"
+                    title="Pickup"
+                    class="grow"
+
+                    :showAvisPhone="true"
+                    :showComment="true"
+                    :showCustomer="false"
+                    :showForwarder="false"
+                />
+
+
+                <!-- DELIVERY ADDRESS -->
+                <Address
+                    v-for="(address, index) in data.order.delivery_addresses"
+                    v-model:address="data.order.delivery_addresses[index]"
+                    :errors="data.errorsDeliveryAddress"
+                    :countries="props.countries"
+                    :mode="props.mode"
+                    v-model:avis_phone="data.order.avis_receiver_phone"
+                    v-model:comment="data.order.p_delivery_comments"
+                    title="Delivery"
+                    class="grow"
+
+                    :showAvisPhone="true"
+                    :showComment="true"
+                    :showCustomer="false"
+                    :showForwarder="false"
+                />
+
+            </div>
+            
+            
     
         </div>
     </div>
@@ -101,7 +106,7 @@ const props = defineProps({
 
 const data = reactive({
     order: props.order,
-    showAddresses: false,
+    showAddresses: true,
     errorsHeadquarter: {},
     errorsPickupAddress: {},
     errorsDeliveryAddress: {},

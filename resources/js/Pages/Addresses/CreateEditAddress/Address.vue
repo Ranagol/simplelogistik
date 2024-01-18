@@ -737,12 +737,7 @@ const props = defineProps({
 
 const data = reactive({
 
-    /**
-     * The address object comes from props. Usually. But it migh happend that the order does not
-     * have a headquarter address, or that the address is missing. In that case we should use the
-     * addressEmpty object. For development and testing purposes we can use the addressDummy object.
-     */
-    address: props.address || addressDummy,
+    address: props.address,
     showLabel: true,
 });
 
