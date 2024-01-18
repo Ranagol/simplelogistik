@@ -11,14 +11,14 @@ class TmsOrderAddressSeeder extends Seeder
     /**
      * We want every order to have 4 addresses. 2 pickup and 2 delivery addresses. We achive this
      * with this hard coded array.
+     * 'Pickup address' is 3.
+     * 'Delivery address' is 4.
+     * We must use these numbers in seeding, because TmsOrderAddress::address_type mutator.
      *
      * @var array
      */
     protected array $addressTypes = [
-        'Pickup address',
-        'Pickup address',
-        'Delivery address',
-        'Delivery address',
+        3, 3, 4, 4
     ];
 
     /**
@@ -36,14 +36,15 @@ class TmsOrderAddressSeeder extends Seeder
              */
             foreach ($this->addressTypes as $key => $addressType) {
                 // dump($addressType);
-                //TODO ANDOR something is not working here as it should. Check, correct.
                 TmsOrderAddress::factory()->create([
 
                     /**
                      * Here we explicitly define the value of the address_type and the customer_id.
                      * All other columns will be defined by the  factory faker.
                      */
+                    //TODO LOSI ezt a columnt akarom overwriteolni, a seederben, itt. A factory helyett.
                     'address_type' => $addressType,
+
                     'order_id' => $i,
                     'customer_id' => $i,
                     'forwarder_id' => $i,

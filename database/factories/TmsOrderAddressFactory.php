@@ -53,8 +53,8 @@ class TmsOrderAddressFactory extends Factory
             ]),
 
             'company_name' => $this->faker->company,
-            'address_type' => Arr::random(TmsOrderAddress::ADDRESS_TYPES),//works with mutator
-            // 'address_type' => 'Pickup address',//works with m
+
+            'address_type' => Arr::random(['Pickup address', 'Delivery address']),//works with mutator
 
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
@@ -66,7 +66,6 @@ class TmsOrderAddressFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
-
         ];
     }
 }
