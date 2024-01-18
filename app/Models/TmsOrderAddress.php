@@ -28,12 +28,19 @@ class TmsOrderAddress extends Model
      *
      * @var array
      */
-    protected $appends = ['country_name'];
-    public function getCountryNameAttribute(): string
+    protected $appends = [
+        'country'
+    ];
+
+    /**
+     * Attaches a the belonging country object to the Address model.
+     *
+     * @return object
+     */
+    public function getCountryAttribute()
     {
-        $country = TmsCountry::find($this->country_id);//$this->country_id is the country_id of the current Address model.
-        $countryName = $country ? $country->country_name : 'TmsAddress appends error.';
-        return $countryName;
+        //$this->country_id is the country_id of the current OrderAddress model.
+        return TmsCountry::select('id', 'country_name')->find($this->country_id);
     }
 
     //*************************RELATIONSHIPS************************** */

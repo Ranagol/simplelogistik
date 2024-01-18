@@ -50,7 +50,7 @@
 
 
                 <!-- DELIVERY ADDRESS -->
-                <Address
+                <!-- <Address
                     v-for="(address, index) in data.order.delivery_addresses"
                     v-model:address="data.order.delivery_addresses[index]"
                     :errors="data.errorsDeliveryAddress"
@@ -65,7 +65,7 @@
                     :showComment="true"
                     :showCustomer="false"
                     :showForwarder="false"
-                />
+                /> -->
 
             </div>
             
