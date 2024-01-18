@@ -123,9 +123,36 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsPartner::class);
     }
 
+    /**
+     * Returns ALL order addresses, pickup and delivery together.
+     *
+     * @return HasMany
+     */
     public function orderAddresses(): HasMany
     {
         return $this->hasMany(TmsOrderAddress::class, 'order_id');
+    }
+
+    /**
+     * Returns only the pickup addresses.
+     *
+     * @return HasMany
+     */
+    public function pickupAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id')
+            ->where('address_type', 3);
+    }
+
+    /**
+     * Returns only the delivery addresses.
+     *
+     * @return HasMany
+     */
+    public function deliveryAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id')
+            ->where('address_type', 4);
     }
 
 

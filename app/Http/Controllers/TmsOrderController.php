@@ -141,7 +141,8 @@ class TmsOrderController extends BaseController
                 'parcels',
                 'nativeOrder',
                 'pamyraOrder',
-                'orderAddresses',
+                'pickupAddresses',
+                'deliveryAddresses',
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
                 'customer' => function ($query) {
