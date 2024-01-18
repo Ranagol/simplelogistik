@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsAddressRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Session;
 
 class TmsAddressController extends BaseController
 {
@@ -172,13 +173,15 @@ class TmsAddressController extends BaseController
         $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
         $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
 
+        $newlyCreatedRecord = $this->model->create($newRecord);
 
         /**
-         * 1. Find the relevant record and...
-         * 2. ...update it.
-         * 3. Get the newly created record, and return it to the FE.
+         * Since a new address is created, we send a success message to the FE. First step of this
+         * is to put the message into the session. After redirecting to the edit page, we will send
+         * this message to the FE, and then we will delete it from the session. So, the edit page
+         * will know that a new record was created, and it will display the success message.
          */
-        $newlyCreatedRecord = $this->model->create($newRecord);
+        Session::put('addressCreate', 'Address created successfully!');
 
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
@@ -188,7 +191,6 @@ class TmsAddressController extends BaseController
     }
 
     /**
-     * Undocumented function
      *
      * @param string $id
      * @return Response
@@ -197,11 +199,24 @@ class TmsAddressController extends BaseController
     {
         $record = $this->model::find($id);
 
+        /**
+         * Here we check if there is a session variable called 'addressCreate'. If yes, we send it
+         * to the FE. And then we delete it from the session, with Session::forget('addressCreate').
+         */
+        $successMessage = Session::get('addressCreate');
+        Session::forget('addressCreate');
+
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
                 'record' => $record,
                 'mode' => 'edit',
+
+                /**
+                 * This is only needed, when a new address was created, and then the user is redirected
+                 * to the edit page. In this case we send the success message to the FE.
+                 */
+                'successMessage' => $successMessage,
                 
                 /**
                  * We send all customers and forwarders to the FE, so that the user can select them

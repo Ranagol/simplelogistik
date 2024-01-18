@@ -252,6 +252,7 @@ class TmsCustomer extends Model
         2 => 'Sofort',
         3 => 'Amazon',
         4 => 'Vorkasse',
+        5 => 'Invoice'
     ];
 
     protected function paymentMethod(): Attribute

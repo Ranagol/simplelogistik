@@ -43,6 +43,7 @@ class TmsOrderRequest extends FormRequest
             //ORDER VALIDATION (from orders table)
             'type_of_transport' => 'required|string|max:200',
             'origin' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
             'customer_reference' => 'required|string|max:255',
             'provision' => 'nullable|numeric|between:0,99.99',
             'order_edited_events' => 'nullable|json',

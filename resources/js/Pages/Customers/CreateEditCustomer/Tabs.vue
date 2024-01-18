@@ -37,7 +37,6 @@
         >
             <CommentsTab
                 :customer="data.customer"
-                :errors="props.errors"
             />
             
         </el-tab-pane>
@@ -58,7 +57,6 @@
         >
             <ContactsTab
                 v-model="data.customer"
-                :errors="props.errors"
             >   
             </ContactsTab>
         </el-tab-pane>
@@ -69,7 +67,6 @@
         >
             <OrdersTab
                 v-model="data.customer"
-                :errors="props.errors"
             >
             </OrdersTab>
         </el-tab-pane>
@@ -80,7 +77,6 @@
         >
             <OffersTab
                 v-model="data.customer"
-                :errors="props.errors"
             >    
             </OffersTab>    
         </el-tab-pane>
@@ -91,7 +87,6 @@
         >
             <InvoicesTab
                 v-model="data.customer"
-                :errors="props.errors"
             >    
             </InvoicesTab>
         </el-tab-pane>

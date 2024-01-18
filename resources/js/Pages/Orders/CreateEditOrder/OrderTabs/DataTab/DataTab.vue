@@ -13,13 +13,6 @@
             :selectOptions="props.selectOptions"
         />
 
-        <!-- ALL OTHER ORDER DETAILS - TEMPORARY -->
-        <!-- <Details2
-            v-model:order="data.order"
-            :errors="props.errors"
-            :mode="props.mode"
-        /> -->
-
         <!-- ADDRESSES -->
         <!-- <AddressBase
             v-model:order="data.order"
@@ -29,26 +22,26 @@
         /> -->
 
         <!-- PARCELLS -->
-        <!-- <ParcelBase
+        <ParcelBase
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
             :selectOptions="props.selectOptions"
-        /> -->
+        />
 
         <!-- FINANCES -->
-        <!-- <FinanceBase
+        <FinanceBase
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
-        /> -->
+        />
 
         <!-- VEHICLE REQUIREMENTS -->
-        <!-- <VehicleReqBase
+        <VehicleReqBase
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
-        /> -->
+        />
         
 
         <pre>{{ JSON.stringify(props.order, null, 2) }}</pre>
@@ -64,7 +57,6 @@ import _ from 'lodash';
 import GeneralData from './GeneralData/GeneralData.vue';
 import AddressBase from './Addresses/AddressBase.vue';
 import ParcelBase from './Parcels/ParcelBase.vue';
-import Details2 from './Details2.vue';
 import { useOrderStore } from '@/Stores/orderStore';
 import FinanceBase from './Finances/FinanceBase.vue';
 import VehicleReqBase from './VehicleRequirements/VehicleReqBase.vue';

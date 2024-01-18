@@ -60,11 +60,35 @@ class TmsCustomerController extends BaseController
 
     public function create(): Response
     {
+        //Create a new customer object, as a template that will be sent to the FE.
+        $newCustomer = new TmsCustomer();
+
+        //Set default values for some customer properties, for customer create
+        $newCustomer->customer_type = 'Bussiness customer';
+        $newCustomer->invoice_dispatch = 'Direct';
+        $newCustomer->invoice_shipping_method = 'Email';
+        $newCustomer->payment_method = 'Invoice';
+
+        //Get all forwarders, needed to for el-select options.
+        $forwarders = TmsForwarder::all()->map(function ($forwarder) {
+            return [
+                'id' => $forwarder->id,
+                'name' => $forwarder->company_name, 
+            ];
+        });
+
+        //Add a completely empy option to the forwarders array. Needed to Christoph.
+        $emptyForwarder = [
+            'id' => null,
+            'name' => null, 
+        ];
+
+        $forwarders->push($emptyForwarder);
+
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                'record' => new TmsCustomer(),
-
+                'record' => $newCustomer,
                 // 'record' => TmsCustomer::select(//needed for edit validation testing
                 //     // 'id',
                 //     'forwarder_id',
@@ -105,12 +129,7 @@ class TmsCustomerController extends BaseController
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
                     'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
-                    'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
-                        return [
-                            'id' => $forwarder->id,
-                            'name' => $forwarder->company_name, 
-                        ];
-                    }),
+                    'forwarders' => $forwarders,
                 ]
             ]
         );
@@ -144,11 +163,16 @@ class TmsCustomerController extends BaseController
 
         $newRecord = $this->handleForwarderId($newRecord);
 
-        /**
-         * 1. Find the relevant record and...2. ...update it.
-         */
         $newlyCreatedRecord = $this->model->create($newRecord);
         
+        /**
+         * Since a new address is created, we send a success message to the FE. First step of this
+         * is to put the message into the session. After redirecting to the edit page, we will send
+         * this message to the FE, and then we will delete it from the session. So, the edit page
+         * will know that a new record was created, and it will display the success message.
+         */
+        Session::put('customerCreate', 'Customer created successfully!');
+
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
          * page.
@@ -167,13 +191,25 @@ class TmsCustomerController extends BaseController
     {
         $record = $this->model::with(['addresses'])->find($id);
 
-
+        /**
+         * Here we check if there is a session variable called 'customerCreate'. If yes, we send it
+         * to the FE. And then we delete it from the session, with Session::forget.
+         */
+        $successMessage = Session::get('customerCreate');
+        Session::forget('customerCreate');
 
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
                 'record' => $record,
                 'mode' => 'edit',
+
+                /**
+                 * This is only needed, when a new customer was created, and then the user is redirected
+                 * to the edit page. In this case we send the success message to the FE.
+                 */
+                'successMessage' => $successMessage,
+
                 //These are the possibly selectable options for the el-select in customer create or edit form.
                 'selectOptions' => [
                     'customerTypes' => TmsCustomer::CUSTOMER_TYPES,

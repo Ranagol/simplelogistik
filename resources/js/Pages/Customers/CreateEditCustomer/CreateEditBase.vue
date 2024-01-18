@@ -56,6 +56,19 @@ const props = defineProps({
      * The errors object that is sent from the backend, and contains the validation errors.
      */
     errors: Object,
+
+    /**
+     * Since a new address is created, we send a success message to the FE. First step of this
+     * is to put the message into the session. After redirecting to the edit page, we will send
+     * this message to the FE, and then we will delete it from the session. So, the edit page
+     * will know that a new record was created, and it will display the success message.
+     * However, for this we can't use the props.successMessage, because it is we can't set it to
+     * null, after the success info display. So, we must use data.successMessage, and watch it.
+     */
+     successMessage: {
+        type: String,
+        required: false
+    },
 });
 
 /**
@@ -71,8 +84,33 @@ const data = reactive({
     /**
      * The customer object.
      */
-    customerData: props.record
+    customerData: props.record,
+    successMessage: props.successMessage,
 });
+
+//See props.successMessage docblock for more info
+//TODO ANDOR code repeates in Address and Customer CreateEditBase.vue. Refactor it. Put it into a mixin
+watch(
+    () => data.successMessage, 
+    (newValue) => {
+        console.log('watcher triggered');
+        if (newValue != undefined) {
+            console.log('newValue:', newValue);
+
+            ElMessage({
+                message: data.successMessage,
+                type: 'success',
+            });
+
+            //reset the message state
+            data.successMessage = undefined;
+        }
+    },
+    { 
+        deep: true,
+        immediate: true, 
+    }
+);
 
 /**
  * This watcher is needed for comment creating. When a comment is created, the backend sends back

@@ -167,7 +167,7 @@ class TmsOrder extends Model
     const STATUSES = [
         1 => 'Order created',
         2 => 'Waiting for forwarder',
-        3 =>'Forwarder found',
+        3 => 'Forwarder found',
         4 => 'Picked up',
         5 => 'Delivered',
         6 => 'Canceled',

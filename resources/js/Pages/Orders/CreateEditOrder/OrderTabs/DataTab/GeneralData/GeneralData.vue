@@ -95,14 +95,22 @@
                         v-if="data.showLabel"
                         class="ml-1"
                     >Status</span>
-                    
-                    <!-- INPUT -->
-                    <el-input
+
+                    <el-select
                         v-model="data.order.status"
-                        placeholder="Status - IN PROGRESS"
+                        placeholder="Status"
                         clearable
-                        @input="updateParent"
-                    />
+                        filterable
+                        style="width: 100%"
+                        @change="updateParent"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.statuses"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
 
                 </div>
                 
@@ -602,15 +610,16 @@ let data = reactive({
     errorsFromWatcher: props.errors,
 });
 
-watch(
-    () => props.errors, 
-    (newValue, oldValue) => {
-        console.log('oldValue:', oldValue)
-        console.log('newValue:', newValue)
-        data.errorsFromWatcher = newValue;
-    },
-    { deep: true }
-);
+//Just an experiment, a possible solution for the BE validation error display problem.
+// watch(
+//     () => props.errors, 
+//     (newValue, oldValue) => {
+//         console.log('oldValue:', oldValue)
+//         console.log('newValue:', newValue)
+//         data.errorsFromWatcher = newValue;
+//     },
+//     { deep: true }
+// );
 
 
 /**
