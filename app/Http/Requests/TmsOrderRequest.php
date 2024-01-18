@@ -78,9 +78,6 @@ class TmsOrderRequest extends FormRequest
             'parcels.*.p_number' => 'required|string|max:255',//This is a property of Pamyra orders. Number is an index of transport objects.
             'parcels.*.p_stackable' => 'boolean',
             'parcels.*.p_weight' => 'required|numeric|between:0,9999999999.99',
-
-            
-
             
             /**
              * HEADQUARTER ADDRESS VALIDATION (HEADQUARTER IS A PROPERTY OF CUSTOMER)
@@ -204,6 +201,8 @@ class TmsOrderRequest extends FormRequest
             'customer.headquarter.customer_id.exists' => 'The customer ID must exist in the tms_customers table.',
             'customer.headquarter.forwarder_id.required' => 'The forwarder ID field is required.',
             'customer.headquarter.forwarder_id.exists' => 'The forwarder ID must exist in the tms_forwarders table.',
+            // 'customer.headquarter.partner_id.required' => 'THIS IS THE ISSUE HERE.',
+
 
             // Pickup address custom validation error messages
             'pickup_address.company_name.required' => 'The company name field is required.',

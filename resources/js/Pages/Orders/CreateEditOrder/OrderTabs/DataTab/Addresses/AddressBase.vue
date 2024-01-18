@@ -27,6 +27,13 @@
                     v-model:avis_phone="data.order.avis_customer_phone"
                     title="Headquarter"
                     class="grow"
+
+                    :showAvisPhone="false"
+                    :showComment="false"
+                    :showCustomer="false"
+                    :showForwarder="false"
+                    :showPartner="false"
+                    
                 />
 
 
@@ -42,10 +49,12 @@
                     title="Pickup"
                     class="grow"
 
+
                     :showAvisPhone="true"
                     :showComment="true"
                     :showCustomer="false"
                     :showForwarder="false"
+                    :showPartner="false"
                 />
 
 
@@ -65,6 +74,8 @@
                     :showComment="true"
                     :showCustomer="false"
                     :showForwarder="false"
+                    :showPartner="false"
+
                 /> -->
 
             </div>

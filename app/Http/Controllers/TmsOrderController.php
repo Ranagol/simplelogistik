@@ -178,13 +178,14 @@ class TmsOrderController extends BaseController
      */
     public function update(string $id): void
     {
+        // dd('controller triggered');
         /**
          * We get the $request on this awkward way, so this function is compatible with the parent
          * update() function. Otherwise, we could just simply inject the TmsOrderRequest
          * into this function. Which would be much cleaner.
          */
         $orderRequest = app(TmsOrderRequest::class);
-        // dd($orderRequest);
+        dd($orderRequest);
 
         /**
          * The validated method is used to get the validated order data from the orderRequest.
@@ -195,10 +196,10 @@ class TmsOrderController extends BaseController
         //Get the order from db
         $orderFromDb = TmsOrder::find($id);
 
-        //Handle native order
+        //Handle native order (if there is one, of course)
         $this->orderService->handleNativeOrder($orderFromRequest);
 
-        //Handle pamyra order
+        //Handle pamyra order (if there is one, of course)
         $this->orderService->handlePamyraOrder($orderFromRequest);
         
         //Handle parcels

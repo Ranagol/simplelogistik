@@ -633,10 +633,6 @@ const props = defineProps({
     address: {
         type: Object,
         required: true,
-        /**
-         * Returns an empty address object, if the order does not has one.
-         */
-        // default: () => addressDummy,
     },
 
     /**
@@ -731,12 +727,9 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-
-
 });
 
 const data = reactive({
-
     address: props.address,
     showLabel: true,
 });
