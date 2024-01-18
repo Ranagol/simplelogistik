@@ -269,12 +269,13 @@
                     <!-- MULTIPLE -->
                     <!-- It offers all existing payment_options from TmsCustomer::PAYMENT_METHODS -->
                     <!-- Selected offers go to the json column -->
+                    <!-- @change="$refs.paymentMethodRef.blur()" -->
                     <el-select
                         ref="paymentMethodRef"
                         v-model="data.customer.payment_method_options_to_offer"
                         clearable
                         multiple
-                        @change="$refs.paymentMethodRef.blur()"
+                        @change="handleChange"
                         @blur="handleChange"
                     >
                         <el-option
