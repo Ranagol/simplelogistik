@@ -16,9 +16,9 @@ use App\Http\Requests\TmsForwarderRequest;
 class TmsForwarderController extends Controller
 {
     //These are paths to the Vue components
-    private string $listPath = 'Forwarders/IndexForwarder/List';
-    private string $editPath = 'Forwarders/CreateEditForwarder/CreateEditBase';
-    private string $detailsPath = 'Forwarders/ForwarderDetails/ForwarderDetails';
+    private string $listPath = 'Forwarders/List/List';
+    private string $createEditPath = 'Forwarders/CreateEdit/CreateEditBase';
+    private string $detailsPath = 'Forwarders/Details/Details';
 
     /**
      * Contains helper methods for the TmsForwarderController.
@@ -78,7 +78,7 @@ class TmsForwarderController extends Controller
     public function create(): Response
     {
         return Inertia::render(
-            $this->editPath, 
+            $this->createEditPath, 
             [
                 'record' => new TmsForwarder(),//just an empty record
                 'mode' => 'create',
@@ -113,7 +113,7 @@ class TmsForwarderController extends Controller
         )->findOrFail($id);
 
         return Inertia::render(
-            $this->editPath, 
+            $this->createEditPath, 
             [
                 'record' => $record,
                 'mode' => 'edit',
@@ -146,7 +146,6 @@ class TmsForwarderController extends Controller
     {
         TmsForwarder::destroy($id);
     }
-
 }
 
 
