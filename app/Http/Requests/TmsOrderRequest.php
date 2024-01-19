@@ -87,7 +87,9 @@ class TmsOrderRequest extends FormRequest
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
             'customer.headquarter' => 'array',
-            'customer.headquarters.*' => $addressRequest->addressRules(),
+            //TODO LOSI
+            // 'customer.headquarter.company_name' => 'required|string|max:255',//this works
+            'customer.headquarter' => $addressRequest->addressRules(),//this doesn't work
             
             /**
              * PICKUP ADDRESS VALIDATION
@@ -96,8 +98,8 @@ class TmsOrderRequest extends FormRequest
              * 
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
-            'pickup_address' => 'array',
-            'pickup_address.*' => $addressRequest->addressRules(),
+            'pickup_addresses' => 'array',
+            'pickup_addresses.*' => $addressRequest->addressRules(),
             
             /**
              * DELIVERY ADDRESS VALIDATION

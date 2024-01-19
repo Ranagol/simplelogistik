@@ -208,7 +208,7 @@ class TmsOrderController extends BaseController
         $this->orderService->handleHeadquarter($orderFromRequest);
 
         //Handle pickup address
-        // $this->orderService->handlePickupAddress($orderFromRequest);
+        $this->orderService->handlePickupAddresses($orderFromRequest);
 
         //Handle delivery address
         // $this->orderService->handleDeliveryAddress($orderFromRequest);

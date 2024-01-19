@@ -44,7 +44,7 @@ class TmsAddressRequest extends FormRequest
             'customer_id' => ['nullable', 'integer', 'exists:tms_customers,id'],
             'forwarder_id' => ['nullable', 'integer', 'exists:tms_forwarders,id'],
             'country_id' => ['nullable', 'integer', 'exists:tms_countries,id'], 
-            'partner_id' => [ 'nullable', 'integer', 'exists:tms_partners,id'],// is this is causing the problem?????????
+            'partner_id' => [ 'nullable', 'integer', 'exists:tms_partners,id'],
 
             'company_name' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
