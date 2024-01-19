@@ -72,6 +72,8 @@ class TmsCustomerRequest extends FormRequest
             'email_for_label' => ['required', 'string', 'email', 'max:255'],
             'email_for_pod' => ['required', 'string', 'email', 'max:255'],
             'customer_reference' => ['required', 'string', 'max:255'],
+
+            'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
         ];
     }
 }

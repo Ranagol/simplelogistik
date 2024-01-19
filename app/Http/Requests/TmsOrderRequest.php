@@ -55,6 +55,7 @@ class TmsOrderRequest extends FormRequest
             'avis_receiver_phone' => 'nullable|string|max:200',
 
             'payment_method' => 'required|string|min:2|max:100',
+            'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
 
             //NATIVE ORDER VALIDATION (from native_orders table)
             'native_order' => 'nullable|array',
