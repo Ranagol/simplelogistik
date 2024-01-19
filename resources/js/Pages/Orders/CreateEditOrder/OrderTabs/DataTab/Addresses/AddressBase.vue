@@ -33,9 +33,7 @@
                     :showCustomer="false"
                     :showForwarder="false"
                     :showPartner="false"
-                    
                 />
-
 
                 <!-- PICKUP ADDRESS -->
                 <Address
@@ -48,7 +46,6 @@
                     v-model:comment="data.order.pickup_comments"
                     title="Pickup"
                     class="grow"
-
 
                     :showAvisPhone="true"
                     :showComment="true"
@@ -99,7 +96,7 @@ const props = defineProps({
     },
 
     /**
-     * Thisis the errors object for the full order+address+parcel nested object.
+     * This is the errors object for the full order+address+parcel nested object.
      */ 
     errors: {
         type: Object,

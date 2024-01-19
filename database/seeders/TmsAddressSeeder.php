@@ -9,25 +9,42 @@ use Illuminate\Database\Seeder;
 class TmsAddressSeeder extends Seeder
 {
     /**
+     * TmsAddress has also address types, just like TmsOrderAddress. But the address types are different.
+     * TmsAddress has 4 boolean address types columns in db.
+     * TmsOrderAddress has addressType as one string column, with mutator
+     *
+     * @var array
+     */
+    protected array $booleanAddressTypes = [
+        'is_pickup',
+        'is_delivery',
+        'is_billing',
+        'is_headquarter',
+    ];
+
+    /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        /**
-         * constants.numberOfDbRecords is a constant. It should be 20. It means that in a general case
-         * we want 20 customers created, 20 orders created... so on, in the db. In general case.
-         * But in this specific case, we want 40 addresses. Therefore we multiply the constant by 2.
-         */
-        for ($i=1; $i <= config('constants.numberOfDbRecords') * 2; $i++) { 
-            TmsAddress::factory()->create([
-                /**
-                 * Here we explicitly define the value of the the customer_id.
-                 * All other columns will be defined by the  factory faker.
-                 */
-                'customer_id' => $i,
-                'forwarder_id' => $i,
-                // partner_id is defined in the factory
-            ]);
+        
+        foreach ($this->booleanAddressTypes as $key => $booleanAddressType) {
+
+            /**
+             * Usually we have 20 customers created by the seeder. 
+             */
+            for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
+                TmsAddress::factory()->create([
+                    /**
+                     * Here we explicitly define the value of the the customer_id.
+                     * All other columns will be defined by the  factory faker.
+                     */
+                    $booleanAddressType => true,
+                    'customer_id' => $i,
+                    'forwarder_id' => $i,
+                    // partner_id is defined in the factory
+                ]);
+            }
         }
     }
 }

@@ -11,14 +11,14 @@ class TmsOrderAddressSeeder extends Seeder
     /**
      * We want every order to have 4 addresses. 2 pickup and 2 delivery addresses. We achive this
      * with this hard coded array.
-     * 'Pickup address' is 3.
-     * 'Delivery address' is 4.
-     * We must use these numbers in seeding, because TmsOrderAddress::address_type mutator.
      *
      * @var array
      */
     protected array $addressTypes = [
-        3, 3, 4, 4
+        'Pickup address',
+        'Pickup address',
+        'Delivery address',
+        'Delivery address',
     ];
 
     /**
