@@ -148,7 +148,7 @@ class TmsOrderController extends BaseController
                     $query->select('id', 'company_name', 'payment_method_options_to_offer')->with(['headquarter']);
                 }
             ]
-        )->find($id);
+        )->findOrFail($id);
         
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
