@@ -185,7 +185,6 @@ class TmsOrderController extends BaseController
          * into this function. Which would be much cleaner.
          */
         $orderRequest = app(TmsOrderRequest::class);
-        dd($orderRequest);
 
         /**
          * The validated method is used to get the validated order data from the orderRequest.
@@ -206,7 +205,7 @@ class TmsOrderController extends BaseController
         $this->orderService->handleParcel($orderFromRequest);
 
         //Handle headquarter address
-        // $this->orderService->handleHeadquarter($orderFromRequest);
+        $this->orderService->handleHeadquarter($orderFromRequest);
 
         //Handle pickup address
         // $this->orderService->handlePickupAddress($orderFromRequest);

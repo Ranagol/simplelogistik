@@ -21,6 +21,7 @@
                 <!-- HEADQUARTER -->
                 <Address
                     v-model:address="data.order.customer.headquarter"
+                    v-if="data.order.customer.headquarter"
                     :errors="data.errorsHeadquarter"
                     :countries="props.countries"
                     :mode="props.mode"
@@ -33,7 +34,7 @@
                     :showCustomer="false"
                     :showForwarder="false"
                     :showPartner="false"
-                    :showBooleanAddressType="true"
+                    :showBooleanAddressType="false"
                 />
 
                 <!-- PICKUP ADDRESS -->

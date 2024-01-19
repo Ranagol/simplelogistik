@@ -115,7 +115,19 @@ class OrderService
          */
         if (!empty($orderFromRequest['customer']['headquarter'])) {
 
+            //Get headquarter data from the request
             $headquarter = $orderFromRequest['customer']['headquarter'];
+
+            /**
+             * Handle the headquarter country_id. The headquarter country_id is not very
+             * useful in the FE (though it is in the BE). We send an country object from the BE,
+             * that contains again the country_id and the country_name. Which makes this object
+             * very useful, because we can use it in the el-select. However, once the edit 
+             * request is sent, and we are on the backend, we need to have the country_id
+             * in order to save the headquarter. So, we need to get the country_id from the
+             * country object, and save it in the headquarter array.
+             */
+            $headquarter['country_id'] = $headquarter['country']['id'];
 
             TmsAddress::updateOrCreate(
                 // Check if we have this id on the db
