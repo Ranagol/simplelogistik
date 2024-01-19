@@ -33,6 +33,7 @@
                     :showCustomer="false"
                     :showForwarder="false"
                     :showPartner="false"
+                    :showBooleanAddressType="true"
                 />
 
                 <!-- PICKUP ADDRESS -->
@@ -52,6 +53,7 @@
                     :showCustomer="false"
                     :showForwarder="false"
                     :showPartner="false"
+                    :showBooleanAddressType="false"
                 />
 
 
@@ -72,6 +74,7 @@
                     :showCustomer="false"
                     :showForwarder="false"
                     :showPartner="false"
+                    :showBooleanAddressType="false"
 
                 /> -->
 

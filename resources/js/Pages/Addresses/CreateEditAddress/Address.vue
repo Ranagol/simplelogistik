@@ -521,7 +521,10 @@
         </div>
 
         <!-- isPickup, isDelivery, isBilling, isHeadquarter -->
-        <div class="flex justify-between">
+        <div 
+            v-if="props.showBooleanAddressType"
+            class="flex justify-between"
+        >
 
             <!-- isPickup -->
             <el-form-item>
@@ -724,6 +727,14 @@ const props = defineProps({
     },
 
     showPartner: {
+        type: Boolean,
+        default: false
+    },
+
+    /**
+     * Only the headquarter must show this. All other address types must not show this.
+     */
+    showBooleanAddressType: {
         type: Boolean,
         default: false
     },
