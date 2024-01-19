@@ -6,19 +6,53 @@ use App\Models\TmsCountry;
 use App\Models\TmsOrderAddress;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Collection;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TmsOrderAddress>
  */
 class TmsOrderAddressFactory extends Factory
 {
-
+    protected $model = TmsOrderAddress::class;
     protected array $countryIds;
 
-    public function __construct()
+    
+    /**
+     * If we override the constructor, we must call the parent constructor. And we must use the
+     * exact arguments as the parent constructor. So we must pass the arguments from the constructor
+     * to the parent constructor. How to find this arguments? We can find them in the parent class.
+     * In this case the parent class is Illuminate\Database\Eloquent\Factories\Factory. 
+     *
+     * @param [type] $count
+     * @param Collection|null $states
+     * @param Collection|null $has
+     * @param Collection|null $for
+     * @param Collection|null $afterMaking
+     * @param Collection|null $afterCreating
+     * @param [type] $connection
+     * @param Collection|null $recycle
+     */
+    public function __construct(
+        $count = null,
+        ?Collection $states = null,
+        ?Collection $has = null,
+        ?Collection $for = null,
+        ?Collection $afterMaking = null,
+        ?Collection $afterCreating = null,
+        $connection = null,
+        ?Collection $recycle = null
+    )
     {
-        parent::__construct();
+        parent::__construct(
+            $count,
+            $states,
+            $has,
+            $for,
+            $afterMaking,
+            $afterCreating,
+            $connection,
+            $recycle,
+        );
 
         /**
          * pluck() gives us all country names from the db. toArray() converts the collection to an 
@@ -49,12 +83,13 @@ class TmsOrderAddressFactory extends Factory
              * partner. When it belongs to a partner, then it is partner_id = 1. 
              */
             'partner_id' => Arr::random([
+                //TODO LOSI 2
                 null, null, null, null, null, null, null, null, null, null, null, null, null, null, 1,
             ]),
 
             'company_name' => $this->faker->company,
 
-            'address_type' => Arr::random(['Pickup address', 'Delivery address']),//works with mutator
+            'address_type' => Arr::random(['Pickup address', 'Delivery address']),//works with mutator/**************************** */
 
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
@@ -67,5 +102,16 @@ class TmsOrderAddressFactory extends Factory
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
         ];
+    }
+
+    public function foo(): static
+    {
+        return $this->state(
+            [
+                'order_id' => 1,
+                'customer_id' => 1,
+                'forwarder_id' => 1,
+            ]
+        );
     }
 }

@@ -26,6 +26,7 @@ class TmsOrderAddressSeeder extends Seeder
      */
     public function run(): void
     {
+
         /**
          * FOR EACH ORDER...
          */
@@ -42,9 +43,7 @@ class TmsOrderAddressSeeder extends Seeder
                      * Here we explicitly define the value of the address_type and the customer_id.
                      * All other columns will be defined by the  factory faker.
                      */
-                    //TODO LOSI ezt a columnt akarom overwriteolni, a seederben, itt. A factory helyett.
                     'address_type' => $addressType,
-
                     'order_id' => $i,
                     'customer_id' => $i,
                     'forwarder_id' => $i,

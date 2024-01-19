@@ -87,7 +87,7 @@ class TmsOrderRequest extends FormRequest
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
             'customer.headquarter' => 'array',
-            'customer.headquarter.*' => $addressRequest->addressRules(),
+            'customer.headquarters.*' => $addressRequest->addressRules(),
             
             /**
              * PICKUP ADDRESS VALIDATION
