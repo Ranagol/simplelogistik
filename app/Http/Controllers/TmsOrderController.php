@@ -83,9 +83,6 @@ class TmsOrderController extends BaseController
      * 
      * A little explanation: here we only save the record into db.
      * This simply triggers onSuccess event in FE component, which then displays the success message
-     * to the user, and then the FE component calls the $this->index() method, which returns the records.
-     * So, the user gets his feedback, and the record list is refreshed.
-     *
      */
     public function store()
     {
@@ -278,8 +275,6 @@ class TmsOrderController extends BaseController
              * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
              */
             ->withQueryString();
-
-            
 
         return $records;
     }
