@@ -277,6 +277,20 @@ class TmsCustomerController extends BaseController
         return $customer;
     }
 
+    /**
+     * Deletes records. This triggers the onSuccess event in FE component, which then displays
+     * the success message to the user, and then the FE component calls the $this->index() method,
+     * which returns the records. So, the user gets his feedback, and the record list is refreshed.
+     * 
+     * @param [type] $id
+     * @return void
+     */
+    public function destroy(Request $request, string $id): void
+    {
+        
+        TmsCustomer::destroy($id);
+    }
+
 
     /**
      * Comments about the customer writes into the db.
