@@ -17,5 +17,19 @@
         "profile": "Profil",
         "preferences": "Einstellungen",
         "pamyra": "Pamyra"
+    },
+    "labels": {
+        "customer-id":  "Kundennummer",
+        "first-name": "Vorname",
+        "last-name": "Nachname",
+        "company-name": "Firmenname",
+        "business-customer": "Geschäftskunde",
+        "select-fields": "Felder auswählen"
+    },
+    "address-types": {
+        "main": "Abholadresse",
+        "billing": "Rechnungsadresse",
+        "pickup": "Abholadresse",
+        "delivery": "Lieferadresse"
     }
 }
