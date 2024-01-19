@@ -28,7 +28,6 @@
                     v-model:avis_phone="data.order.avis_customer_phone"
                     title="Headquarter"
                     class="grow"
-
                     :showAvisPhone="false"
                     :showComment="false"
                     :showCustomer="false"
@@ -48,7 +47,6 @@
                     v-model:comment="data.order.pickup_comments"
                     title="Pickup"
                     class="grow"
-
                     :showAvisPhone="true"
                     :showComment="true"
                     :showCustomer="false"
@@ -57,9 +55,8 @@
                     :showBooleanAddressType="false"
                 />
 
-
                 <!-- DELIVERY ADDRESS -->
-                <!-- <Address
+                <Address
                     v-for="(address, index) in data.order.delivery_addresses"
                     v-model:address="data.order.delivery_addresses[index]"
                     :errors="data.errorsDeliveryAddress"
@@ -69,20 +66,15 @@
                     v-model:comment="data.order.p_delivery_comments"
                     title="Delivery"
                     class="grow"
-
                     :showAvisPhone="true"
                     :showComment="true"
                     :showCustomer="false"
                     :showForwarder="false"
                     :showPartner="false"
                     :showBooleanAddressType="false"
-
-                /> -->
+                />
 
             </div>
-            
-            
-    
         </div>
     </div>
 </template>

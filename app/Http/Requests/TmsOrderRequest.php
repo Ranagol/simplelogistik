@@ -108,8 +108,8 @@ class TmsOrderRequest extends FormRequest
              * 
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
-            'delivery_address' => 'array',
-            'delivery_address.*' => $addressRequest->addressRules(),
+            'delivery_addresses' => 'array',
+            'delivery_addresses.*' => $addressRequest->addressRules(),
 
         ];
     }
