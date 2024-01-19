@@ -49,6 +49,7 @@
             :showCustomer="true"
             :showForwarder="true"
             :showPartner="true"
+            :showBooleanAddressType="true"
             class="grow"
         />
 

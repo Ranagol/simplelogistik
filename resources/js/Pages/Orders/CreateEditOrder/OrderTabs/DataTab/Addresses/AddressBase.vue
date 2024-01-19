@@ -18,6 +18,7 @@
             v-if="data.showAddresses"
         >
             <div class="grid grid-cols-3 gap-2">
+
                 <!-- HEADQUARTER -->
                 <Address
                     v-model:address="data.order.customer.headquarter"
@@ -45,7 +46,7 @@
                     :mode="props.mode"
                     v-model:avis_phone="data.order.avis_sender_phone"
                     v-model:comment="data.order.pickup_comments"
-                    title="Pickup"
+                    title="Pickup address"
                     class="grow"
                     :showAvisPhone="true"
                     :showComment="true"
@@ -63,8 +64,8 @@
                     :countries="props.countries"
                     :mode="props.mode"
                     v-model:avis_phone="data.order.avis_receiver_phone"
-                    v-model:comment="data.order.p_delivery_comments"
-                    title="Delivery"
+                    v-model:comment="data.order.delivery_comments"
+                    title="Delivery address"
                     class="grow"
                     :showAvisPhone="true"
                     :showComment="true"

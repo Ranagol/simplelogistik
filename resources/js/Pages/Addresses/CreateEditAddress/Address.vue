@@ -8,14 +8,14 @@
             <div 
                 v-if="props.title"
                 class="mb-4 font-bold"
-            >{{ props.title }} address</div>
+            >{{ props.title }}</div>
 
             <!-- BUTTON FOR ADDING MORE, ADDITIONAL ADDRESSES -->
-            <el-button
+            <!-- <el-button
                 v-if="props.title === 'Delivery' || props.title === 'Pickup'"
                 type="success"
                 size="small"
-            >+</el-button>
+            >+</el-button> -->
 
         </div>
 
