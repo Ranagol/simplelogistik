@@ -1,28 +1,29 @@
-import './bootstrap';
+import 'flowbite';
 import '../css/app.css';
+import './bootstrap';
 
-import { createApp, h, DefineComponent } from 'vue';
-import { createInertiaApp, Link, Head } from '@inertiajs/vue3';
+import { Head, Link, createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
-import Layout from './Shared/Layout.vue';
 import { createPinia } from 'pinia';
+import Layout from './Shared/Layout.vue';
 
 //Element UI
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 // Language Setup
-import { createI18n } from 'vue-i18n'
+import { createI18n } from 'vue-i18n';
 
 import de from "../lang/de.json";
 import en from "../lang/en.json";
 import es from "../lang/es.json";
-import it from "../lang/it.json";
 import fr from "../lang/fr.json";
+import it from "../lang/it.json";
 
 const messages = {de, en, es, it, fr};
 const config = {
@@ -54,7 +55,7 @@ createInertiaApp({
             `./Pages/${pageName}.vue`,
             import.meta.glob("./Pages/**/*.vue")
         );
-        
+
 
         /**
          * ADDING THE LAYOUT.VUE
@@ -67,7 +68,7 @@ createInertiaApp({
             module.default.layout = module.default.layout || Layout;
         });
 
-        
+
         /**
          * Finally, the resolved page (which is a promise) is returned. This allows the caller to wait
          * for the Vue.js component to be imported before rendering the page.
