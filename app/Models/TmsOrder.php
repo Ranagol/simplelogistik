@@ -137,7 +137,22 @@ class TmsOrder extends Model
     {
         return $this->hasOne(TmsForwardingContract::class, 'order_id');
     }
-    
+
+    /**
+     * We must return the order detail, either a PamyraOrder or a NativeOrder. In orders table, we
+     * have the origin column. If this is Pamyra, then we return the PamyraOrder relationship. If 
+     * this is anything else thany 'Pamyra', then we return the NativeOrder relationship.
+     * @return HasOne
+     */
+    public function orderDetail():HasOne
+    {
+        $origin = $this->origin;
+        if ($origin === 'Pamyra') {
+            return $this->hasOne(TmsPamyraOrder::class, 'order_id');
+        } 
+
+        return $this->hasOne(TmsNativeOrder::class, 'order_id');
+    }
 
     /**
      * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
