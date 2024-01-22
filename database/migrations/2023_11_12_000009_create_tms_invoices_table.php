@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('invoice_date');
             $table->date('invoice_received_date')->nullable();
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
-            $table->decimal('invoice_sum', 10,2);
+            $table->decimal('invoice_sum', 10,2)->nullable();
             $table->decimal('tax',10,2);
             $table->timestamps();
         });
