@@ -7,6 +7,7 @@ use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 use App\Models\TmsNativeOrder;
 use App\Models\TmsPamyraOrder;
+use App\Models\TmsOrderAddress;
 
 /**
  * This class contains helper methods for the TmsOrderController.
@@ -60,50 +61,87 @@ class OrderService
         }
     }
 
-    public function handleDeliveryAddress(array $orderFromRequest): void
+    public function handleDeliveryAddresses(array $orderFromRequest): void
     {
 
         /**
          * If the order has a delivery address... Do create or update for the delivery address,
          * depending if the delivery address already exists in the db or not. This will be 
          * recognised by the id column.
-         * We can use updateOrCreate() here and not upsert(), because we have only one delivery address.
          */
-        if (!empty($orderFromRequest['delivery_address'])) {
+        if (!empty($orderFromRequest['delivery_addresses'])) {
 
-            $deliveryAddress = $orderFromRequest['delivery_address'];
+            $deliveryAddresses = $orderFromRequest['delivery_addresses'];
 
-            TmsAddress::updateOrCreate(
-                // Check if we have this id on the db
-                ['id' => $deliveryAddress['id']],
-                //if no, create new. If yes, update. For this use the values from $deliveryAddress.
-                $deliveryAddress
-            );
+            foreach ($deliveryAddresses as $deliveryAddress) {
+
+                /**
+                 * Handle the deliveryAddress country_id. The deliveryAddress country_id is not very
+                 * useful in the FE (though it is in the BE). We send an country object from the BE,
+                 * that contains again the country_id and the country_name. Which makes this object
+                 * very useful, because we can use it in the el-select. However, once the edit 
+                 * request is sent, and we are on the backend, we need to have the country_id
+                 * in order to save the deliveryAddress. So, we need to get the country_id from the
+                 * country object, and save it in the deliveryAddress array.
+                 */
+                $deliveryAddress['country_id'] = $deliveryAddress['country']['id'];
+
+                /**
+                 * Warning! Headquarter id TmsAddress. Pickup and delivery addresses are TmsOrderAddress.
+                 */
+                TmsOrderAddress::updateOrCreate(
+                    // Check if we have this id on the db
+                    ['id' => $deliveryAddress['id']],
+                    //if no, create new. If yes, update. For this use the values from $deliveryAddress.
+                    $deliveryAddress
+                );
+            }
         }
     }
 
-    public function handlePickupAddress(array $orderFromRequest): void
+    public function handlePickupAddresses(array $orderFromRequest): void
     {
-
         /**
          * If the order has a pickup address... Do create or update for the pickup address,
          * depending if the pickup address already exists in the db or not. This will be 
          * recognised by the id column.
-         * We can use updateOrCreate() here and not upsert(), because we have only one pickup address.
          */
-        if (!empty($orderFromRequest['pickup_address'])) {
+        if (!empty($orderFromRequest['pickup_addresses'])) {
 
-            $pickupAddress = $orderFromRequest['pickup_address'];
+            $pickupAddresses = $orderFromRequest['pickup_addresses'];
 
-            TmsAddress::updateOrCreate(
-                // Check if we have this id on the db
-                ['id' => $pickupAddress['id']],
-                //if no, create new. If yes, update. For this use the values from $pickupAddress.
-                $pickupAddress
-            );
+            foreach ($pickupAddresses as $pickupAddress) {
+
+                /**
+                 * Handle the pickupAddress country_id. The pickupAddress country_id is not very
+                 * useful in the FE (though it is in the BE). We send an country object from the BE,
+                 * that contains again the country_id and the country_name. Which makes this object
+                 * very useful, because we can use it in the el-select. However, once the edit 
+                 * request is sent, and we are on the backend, we need to have the country_id
+                 * in order to save the pickupAddress. So, we need to get the country_id from the
+                 * country object, and save it in the pickupAddress array.
+                 */
+                $pickupAddress['country_id'] = $pickupAddress['country']['id'];
+
+                /**
+                 * Warning! Headquarter id TmsAddress. Pickup and delivery addresses are TmsOrderAddress.
+                 */
+                TmsOrderAddress::updateOrCreate(
+                    // Check if we have this id on the db
+                    ['id' => $pickupAddress['id']],
+                    //if no, create new. If yes, update. For this use the values from $pickupAddress.
+                    $pickupAddress
+                );
+            }
         }
     }
 
+    /**
+     * Handles the headquarter address update or create, inside the order update or create.
+     *
+     * @param array $orderFromRequest
+     * @return void
+     */
     public function handleHeadquarter(array $orderFromRequest): void
     {
 
@@ -115,8 +153,23 @@ class OrderService
          */
         if (!empty($orderFromRequest['customer']['headquarter'])) {
 
+            //Get headquarter data from the request
             $headquarter = $orderFromRequest['customer']['headquarter'];
 
+            /**
+             * Handle the headquarter country_id. The headquarter country_id is not very
+             * useful in the FE (though it is in the BE). We send an country object from the BE,
+             * that contains again the country_id and the country_name. Which makes this object
+             * very useful, because we can use it in the el-select. However, once the edit 
+             * request is sent, and we are on the backend, we need to have the country_id
+             * in order to save the headquarter. So, we need to get the country_id from the
+             * country object, and save it in the headquarter array.
+             */
+            $headquarter['country_id'] = $headquarter['country']['id'];
+
+            /**
+             * Warning! Headquarter id TmsAddress. Pickup and delivery addresses are TmsOrderAddress.
+             */
             TmsAddress::updateOrCreate(
                 // Check if we have this id on the db
                 ['id' => $headquarter['id']],

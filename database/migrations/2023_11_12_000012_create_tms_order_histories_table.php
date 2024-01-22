@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('order_status');
             $table->decimal('additional_cost', 10, 2)->comment('These are the unplanned additinal cost of a cargo order.')->nullable();
 
-            $table->unsignedBigInteger('cargo_order_id');
-            $table->foreign('cargo_order_id')->references('id')->on('tms_orders');
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('tms_orders');
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->unsignedBigInteger('customer_id');

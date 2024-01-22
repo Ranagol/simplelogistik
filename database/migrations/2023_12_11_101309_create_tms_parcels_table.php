@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tms_parcels', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tms_cargo_order_id');
-            $table->foreign('tms_cargo_order_id')->references('id')->on('tms_orders');
+            $table->unsignedBigInteger('tms_order_id');
+            $table->foreign('tms_order_id')->references('id')->on('tms_orders');
             $table->boolean('is_hazardous')->default(false)->comment('Is the parcel hazardous?');
             $table->string('information', 255)->nullable()->comment('Additional information about the parcel');
 

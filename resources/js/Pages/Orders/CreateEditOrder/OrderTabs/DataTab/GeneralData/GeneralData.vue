@@ -215,16 +215,10 @@
 
                 </div>
                 
-                <!-- :errorMessage="props.errors[subOrderType].payment_method" -->
-                <!-- v-if="subOrderType === 'pamyra_order' || subOrderType === 'native_order'" -->
-                <!-- :errorMessage="props.errors['native_order'] || ['pamyra_order'].payment_method" -->
-                <!-- :errorMessage="props.errors[subOrderType]?.payment_method" -->
-                <!-- //TODO LOSI itt kellene segitseg -->
-                <!-- pamyra_order.payment_method:"The pamyra_order.payment_method field is required." -->
-                <!-- errorsMessage:undefined -->
+                <!-- //TODO Andor itt a megoldas a backend problemahoz -->
                 <BackendValidationErrorDisplay
                     
-                    :errorsMessage="data.errorsFromWatcher[subOrderType]?.payment_method"
+                    :errorMessage="props.errors[subOrderType + '.payment_method']"
                 />
 
             </el-form-item>
@@ -255,7 +249,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.date_of_sale"
+                    :errorMessage="props.errors[subOrderType + '.date_of_sale']"
                 />
 
             </el-form-item>
@@ -286,7 +280,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.date_of_cancellation"
+                    :errorMessage="props.errors[subOrderType + '.date_of_cancellation']"
                 />
 
             </el-form-item>
@@ -314,7 +308,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.distance_km"
+                    :errorMessage="props.errors[subOrderType + '.distance_km']"
                 />
 
             </el-form-item>
@@ -342,7 +336,7 @@
                 </div>
                 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.duration_minutes"
+                    :errorMessage="props.errors[subOrderType + '.duration_minutes']"
                 />
 
             </el-form-item>
@@ -396,12 +390,11 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.calculation_model_name"
+                    :errorMessage="props.errors[subOrderType + '.calculation_model_name']"
                 />
 
             </el-form-item>
 
-            <!-- **********************THE FOLLOWING ITEMS ARE UNTESTED AND UNFINISHED. Input fields probalby work, but dateTime stuff should be DatePicker intstead of input fields.******************** -->
             <el-form-item
                 :prop="[subOrderType].pickup_date_from"
             >   
@@ -429,7 +422,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.pickup_date_from"
+                    :errorMessage="props.errors[subOrderType + '.pickup_date_from']"
                 />
 
             </el-form-item>
@@ -459,7 +452,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.pickup_date_to"
+                    :errorMessage="props.errors[subOrderType + '.pickup_date_to']"
                 />
 
             </el-form-item>
@@ -489,7 +482,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.delivery_date_from"
+                    :errorMessage="props.errors[subOrderType + '.delivery_date_from']"
                 />
 
             </el-form-item>
@@ -519,7 +512,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.delivery_date_to"
+                    :errorMessage="props.errors[subOrderType + '.delivery_date_to']"
                 />
 
             </el-form-item>
@@ -546,7 +539,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.description_of_transport"
+                    :errorMessage="props.errors[subOrderType + '.description_of_transport']"
                 />
 
             </el-form-item>
@@ -573,10 +566,47 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.particularities"
+                    :errorMessage="props.errors[subOrderType + '.particularities']"
                 />
 
             </el-form-item>
+
+            <!-- PROBLEM: the options window is not closing automatically, when an options is
+            selected. Solution: use ref for el-select, then on change close the 
+            options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
+            https://github.com/ElemeFE/element/issues/11048 
+            So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
+            the data update sync process with the parent component.
+            -->
+            <el-form-item
+                prop="payment_method"
+                no-data-text="There are no selectable payment methods, please add one first in for the customer who owns this order."
+            >
+                <div class="flex flex-col">
+
+                    <!-- LABEL -->
+                    <span
+                        v-if="data.showLabel"
+                        class="ml-1"
+                    >Payment method</span>
+
+                    <el-select
+                        v-model="data.order.payment_method"
+                        clearable
+                    >
+                        <el-option
+                            v-for="(item, index) in data.order.customer.payment_method_options_to_offer"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.payment_method"/>
+                </div>
+            </el-form-item>
+
+
         </div>
     </div>
 </template>
@@ -586,6 +616,8 @@ import { reactive, computed, watch, onMounted, onBeforeMount, ref, onUpdated, ne
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 import { useDateFormatter } from '@/Use/useDateFormatter';
 import Title from '@/Shared/Title.vue';
+import useSubOrderType from '@/Use/useSubOrderType';
+
 
 const props = defineProps({
     order: {
@@ -606,41 +638,14 @@ const props = defineProps({
 let data = reactive({
     order: props.order,
     showLabel: true,
-    showGeneralData: true,
-    errorsFromWatcher: props.errors,
+    showGeneralData: false,
 });
 
-//Just an experiment, a possible solution for the BE validation error display problem.
-// watch(
-//     () => props.errors, 
-//     (newValue, oldValue) => {
-//         console.log('oldValue:', oldValue)
-//         console.log('newValue:', newValue)
-//         data.errorsFromWatcher = newValue;
-//     },
-//     { deep: true }
-// );
-
-
 /**
- * The order can have either a pamyra_order or a native_order property. Either, or. We have a lot
- * of data, that we must render from this property. Since we don't know which property is set in
- * the order, we must display this key dynamically. This dynamic key rendering is done in this
- * computed property.
- * Now, in order to use dynamic keyes in an object, we must use the [] notation. Not dot notation.
- * This happens in the hmtl part of this component.
+ * See the useSubOrderType composable for more information.
+ * This must be positioned after the props!
  */
-const subOrderType = computed(
-    () => {
-        if (props.order.pamyra_order !== null) {
-            return 'pamyra_order';
-        }
-        if (props.order.native_order !== null) {
-            return 'native_order';
-            
-        }
-    }
-);
+const { subOrderType } = useSubOrderType(props.order);
 
 const emit = defineEmits(['update:order']);
 

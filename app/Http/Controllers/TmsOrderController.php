@@ -9,6 +9,7 @@ use App\Models\TmsOrder;
 use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 use App\Models\TmsCountry;
+use App\Models\TmsCustomer;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
 use App\Http\Requests\TmsOrderRequest;
@@ -85,9 +86,6 @@ class TmsOrderController extends BaseController
      * 
      * A little explanation: here we only save the record into db.
      * This simply triggers onSuccess event in FE component, which then displays the success message
-     * to the user, and then the FE component calls the $this->index() method, which returns the records.
-     * So, the user gets his feedback, and the record list is refreshed.
-     *
      */
     public function store()
     {
@@ -160,13 +158,15 @@ class TmsOrderController extends BaseController
                 'nativeOrder',
                 'pamyraOrder',
                 'orderAddresses',
+                'forwarder',
+                'orderHistoryLatest',
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
                 'customer' => function ($query) {
-                    $query->select('id', 'company_name')->with(['headquarter']);
+                    $query->select('id', 'company_name', 'payment_method_options_to_offer')->with(['headquarter']);
                 }
             ]
-        )->find($id);
+        )->findOrFail($id);
         
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
@@ -179,7 +179,7 @@ class TmsOrderController extends BaseController
                     'countries' => TmsCountry::select('id', 'country_name')->get(),
                     'typesOfTransport' => TmsOrder::TYPES_OF_TRANSPORT,
                     'origins' => TmsOrder::ORIGINS,//Example: Pamyra, sales...
-                    'paymentMethods' => TmsOrder::PAYMENT_METHODS,
+                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
                     'parcelTypes' => TmsParcel::PARCEL_TYPE,
                     'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
                 ]
@@ -195,13 +195,13 @@ class TmsOrderController extends BaseController
      */
     public function update(string $id): void
     {
+        // dd('controller triggered');
         /**
          * We get the $request on this awkward way, so this function is compatible with the parent
          * update() function. Otherwise, we could just simply inject the TmsOrderRequest
          * into this function. Which would be much cleaner.
          */
         $orderRequest = app(TmsOrderRequest::class);
-        // dd($orderRequest);
 
         /**
          * The validated method is used to get the validated order data from the orderRequest.
@@ -212,23 +212,23 @@ class TmsOrderController extends BaseController
         //Get the order from db
         $orderFromDb = TmsOrder::find($id);
 
-        //Handle native order
+        //Handle native order (if there is one, of course)
         $this->orderService->handleNativeOrder($orderFromRequest);
 
-        //Handle pamyra order
+        //Handle pamyra order (if there is one, of course)
         $this->orderService->handlePamyraOrder($orderFromRequest);
         
         //Handle parcels
         $this->orderService->handleParcel($orderFromRequest);
 
         //Handle headquarter address
-        // $this->orderService->handleHeadquarter($orderFromRequest);
+        $this->orderService->handleHeadquarter($orderFromRequest);
 
         //Handle pickup address
-        // $this->orderService->handlePickupAddress($orderFromRequest);
+        $this->orderService->handlePickupAddresses($orderFromRequest);
 
         //Handle delivery address
-        // $this->orderService->handleDeliveryAddress($orderFromRequest);
+        $this->orderService->handleDeliveryAddresses($orderFromRequest);
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
@@ -299,6 +299,9 @@ class TmsOrderController extends BaseController
                 'parcels',
                 'nativeOrder',
                 'pamyraOrder',
+                'orderAddresses',
+                'forwarder',
+                'orderHistoryLatest'
             ])
             
             /**
@@ -312,8 +315,6 @@ class TmsOrderController extends BaseController
              * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
              */
             ->withQueryString();
-
-            
 
         return $records;
     }

@@ -20,13 +20,17 @@ class TmsInvoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'cargo_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'invoice_number' => $this->faker->bothify('INV-####'),
+            'invoice_type' => $this->faker->numberBetween(1, 2),
+            'invoice_link' => $this->faker->url(),
+            'payment_date' => $this->faker->dateTime(),
             'invoice_date' => $this->faker->dateTime(),
             'invoice_received_date' => $this->faker->dateTime(),
-            'invoice_sum' => $this->faker->randomFloat(2, 0, 10000),
+            'invoice_sum_without_tax' => $this->faker->randomFloat(2, 0, 10000),
+            'invoice_sum_with_tax' => $this->faker->randomFloat(2, 0, 10000),
             'tax' => $this->faker->randomFloat(2, 0, 1000),
         ];
     }

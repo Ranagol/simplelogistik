@@ -92,7 +92,6 @@
         <el-table-column
             width="350"
             label="Description"
-            sortable="custom"
             prop="sub_order.description_of_transport"
         >
             <!-- Data for this column is either in pamyra_order or native_order key, deepending
@@ -109,7 +108,6 @@
         <el-table-column
             width="150"
             label="Price gross"
-            sortable="custom"
             prop="sub_order.calculated_transport_price"
         >
             <!-- Data for this column is either in pamyra_order or native_order key, deepending
@@ -149,7 +147,6 @@
         <el-table-column
             width="200"
             label="Value of goods"
-            sortable="custom"
             prop="sub_order.value_of_goods"
         >
             <!-- Data for this column is either in pamyra_order or native_order key, deepending
@@ -189,7 +186,6 @@
         <el-table-column
             width="200"
             label="Customer reference"
-            sortable="custom"
             prop="customer_reference"
         ></el-table-column>
         

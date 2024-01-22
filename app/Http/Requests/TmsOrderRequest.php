@@ -11,8 +11,6 @@ use App\Http\Requests\ValidationRules\ParcelValidationRule;
 
 class TmsOrderRequest extends FormRequest
 {
-    
-    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -56,6 +54,9 @@ class TmsOrderRequest extends FormRequest
             'avis_sender_phone' => 'nullable|string|max:200',
             'avis_receiver_phone' => 'nullable|string|max:200',
 
+            'payment_method' => 'required|string|min:2|max:100',
+            'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
+
             //NATIVE ORDER VALIDATION (from native_orders table)
             'native_order' => 'nullable|array',
             'native_order.*' => $nativeOrderRequest->nativeOrderRules(),
@@ -66,7 +67,7 @@ class TmsOrderRequest extends FormRequest
 
             //PARCEL VALIDATION (parcels is an array of objects, hence the * to symbolize the parcel object in parcels array)
             'parcels.*.id' => 'nullable|integer',
-            'parcels.*.tms_cargo_order_id' => 'required|integer|exists:tms_orders,id',
+            'parcels.*.tms_order_id' => 'required|integer|exists:tms_orders,id',
             'parcels.*.is_hazardous' => 'boolean',
             'parcels.*.information' => 'required|string|max:255',
             'parcels.*.p_name' => 'required|string|max:255',
@@ -76,9 +77,6 @@ class TmsOrderRequest extends FormRequest
             'parcels.*.p_number' => 'required|string|max:255',//This is a property of Pamyra orders. Number is an index of transport objects.
             'parcels.*.p_stackable' => 'boolean',
             'parcels.*.p_weight' => 'required|numeric|between:0,9999999999.99',
-
-            
-
             
             /**
              * HEADQUARTER ADDRESS VALIDATION (HEADQUARTER IS A PROPERTY OF CUSTOMER)
@@ -88,7 +86,9 @@ class TmsOrderRequest extends FormRequest
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
             'customer.headquarter' => 'array',
-            'customer.headquarter.*' => $addressRequest->addressRules(),
+            //TODO LOSI: order edit validacio nem dolgozik, mert a headquarter.company_name nem validalodik.
+            // 'customer.headquarter.company_name' => 'required|string|max:255',//this works
+            'customer.headquarter' => $addressRequest->addressRules(),//this doesn't work
             
             /**
              * PICKUP ADDRESS VALIDATION
@@ -97,8 +97,8 @@ class TmsOrderRequest extends FormRequest
              * 
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
-            'pickup_address' => 'array',
-            'pickup_address.*' => $addressRequest->addressRules(),
+            'pickup_addresses' => 'array',
+            'pickup_addresses.*' => $addressRequest->addressRules(),
             
             /**
              * DELIVERY ADDRESS VALIDATION
@@ -107,8 +107,8 @@ class TmsOrderRequest extends FormRequest
              * 
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
-            'delivery_address' => 'array',
-            'delivery_address.*' => $addressRequest->addressRules(),
+            'delivery_addresses' => 'array',
+            'delivery_addresses.*' => $addressRequest->addressRules(),
 
         ];
     }
@@ -131,9 +131,9 @@ class TmsOrderRequest extends FormRequest
     {
         return [
             // Parcel custom validation error messages
-            'parcels.*.tms_cargo_order_id.required' => 'The cargo order ID field is required.',
-            'parcels.*.tms_cargo_order_id.integer' => 'The cargo order ID must be an integer.',
-            'parcels.*.tms_cargo_order_id.exists' => 'The cargo order ID must exist in the tms_orders table.',
+            'parcels.*.tms_order_id.required' => 'The cargo order ID field is required.',
+            'parcels.*.tms_order_id.integer' => 'The cargo order ID must be an integer.',
+            'parcels.*.tms_order_id.exists' => 'The cargo order ID must exist in the tms_orders table.',
             'parcels.*.is_hazardous.boolean' => 'The is_hazardous field must be true or false.',
             'parcels.*.information.required' => 'The information field is required.',
             'parcels.*.information.string' => 'The information must be a string.',
@@ -202,6 +202,8 @@ class TmsOrderRequest extends FormRequest
             'customer.headquarter.customer_id.exists' => 'The customer ID must exist in the tms_customers table.',
             'customer.headquarter.forwarder_id.required' => 'The forwarder ID field is required.',
             'customer.headquarter.forwarder_id.exists' => 'The forwarder ID must exist in the tms_forwarders table.',
+            // 'customer.headquarter.partner_id.required' => 'THIS IS THE ISSUE HERE.',
+
 
             // Pickup address custom validation error messages
             'pickup_address.company_name.required' => 'The company name field is required.',

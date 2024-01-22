@@ -7,6 +7,8 @@ use App\Models\TmsCountry;
 use Illuminate\Support\Arr;
 use App\Models\TmsForwarder;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tms_address>
@@ -23,9 +25,42 @@ class TmsAddressFactory extends Factory
      */
     protected array $countryIds;
 
-    public function __construct()
+    /**
+     * If we override the constructor, we must call the parent constructor. And we must use the
+     * exact arguments as the parent constructor. So we must pass the arguments from the constructor
+     * to the parent constructor. How to find this arguments? We can find them in the parent class.
+     * In this case the parent class is Illuminate\Database\Eloquent\Factories\Factory. 
+     *
+     * @param [type] $count
+     * @param Collection|null $states
+     * @param Collection|null $has
+     * @param Collection|null $for
+     * @param Collection|null $afterMaking
+     * @param Collection|null $afterCreating
+     * @param [type] $connection
+     * @param Collection|null $recycle
+     */
+    public function __construct(
+        $count = null,
+        ?Collection $states = null,
+        ?Collection $has = null,
+        ?Collection $for = null,
+        ?Collection $afterMaking = null,
+        ?Collection $afterCreating = null,
+        $connection = null,
+        ?Collection $recycle = null
+    )
     {
-        parent::__construct();
+        parent::__construct(
+            $count,
+            $states,
+            $has,
+            $for,
+            $afterMaking,
+            $afterCreating,
+            $connection,
+            $recycle,
+        );
 
         /**
          * pluck() gives us all country names from the db. toArray() converts the collection to an 
@@ -71,11 +106,17 @@ class TmsAddressFactory extends Factory
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
 
+            /**
+             * This here is bit tricky. There can be only one headquarter. But all the other
+             * address types can be multiple types at the same time. Example: an address can be
+             * both pickup and delivery address. So we must assure that there is only one headquarter
+             * address. We do this by setting the is_headquarter to true only once. That is happening
+             * in the TmsAddressSeeder. So here we can set is_headquarter to false.
+             */
             'is_pickup' => $this->faker->boolean,
             'is_delivery' => $this->faker->boolean,
             'is_billing' => $this->faker->boolean,
-            'is_headquarter' => $this->faker->boolean,
-            
+            'is_headquarter' => false,
         ];
     }
 }

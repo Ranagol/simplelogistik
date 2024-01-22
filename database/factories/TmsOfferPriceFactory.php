@@ -25,7 +25,7 @@ class TmsOfferPriceFactory extends Factory
             'offer_from' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
             'offer_to' => $this->faker->dateTimeBetween('+1 month', '+2 months'),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
-            'cargo_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'offered_price' => $this->faker->randomFloat(2, 0, 10000),
             'offered_price_net' => $this->faker->randomFloat(2, 0, 10000),
         ];

@@ -50,15 +50,6 @@ class TmsOrder extends Model
         4 => 'Shipping calc.'
     ];
 
-    const PAYMENT_METHODS = [
-        1 => 'Credit Card', 
-        2 => 'Paypal', 
-        3 => 'Bank Transfer',
-        4 => 'Amazon',
-        5 => 'Sofort',
-        6 => 'Vorkasse'
-    ];
-
     //*************RELATIONSHIPS*************************************** */    
 
     public function customer(): BelongsTo
@@ -71,35 +62,47 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
-    public function cargoHistory(): HasMany
+    public function orderHistory(): HasMany
     {
-        return $this->hasMany(TmsOrderHistory::class, 'cargo_order_id');
+        return $this->hasMany(TmsOrderHistory::class, 'order_id');
+    }
+
+    /**
+     * Returns the latest order history record. Only one.
+     *
+     * @return HasOne
+     */
+    public function orderHistoryLatest(): HasOne
+    {
+        return $this->hasOne(TmsOrderHistory::class, 'order_id')
+            ->latest();
     }
 
     public function invoice(): HasOne
     {
-        return $this->hasOne(TmsInvoice::class, 'cargo_order_id');
+        return $this->hasOne(TmsInvoice::class, 'order_id');
     }
 
     public function offerPrices(): HasMany
     {
-        return $this->hasMany(TmsOfferPrice::class, 'cargo_order_id');
+        return $this->hasMany(TmsOfferPrice::class, 'order_id');
     }
 
     public function parcels(): HasMany
     {
-        return $this->hasMany(TmsParcel::class, 'tms_cargo_order_id');
+        return $this->hasMany(TmsParcel::class, 'tms_order_id');
     }
 
     public function orderAttributes(): HasMany
     {
-        return $this->hasMany(TmsOrderAttribute::class, 'tms_cargo_order_id');
+        return $this->hasMany(TmsOrderAttribute::class, 'tms_order_id');
     }
 
     public function forwardingContract(): HasOne
     {
         return $this->hasOne(TmsForwardingContract::class, 'order_id');
     }
+    
 
     /**
      * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
@@ -132,9 +135,41 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsPartner::class);
     }
 
+    /**
+     * Returns ALL order addresses, pickup and delivery together.
+     *
+     * @return HasMany
+     */
     public function orderAddresses(): HasMany
     {
         return $this->hasMany(TmsOrderAddress::class, 'order_id');
+    }
+
+    /**
+     * Returns only the pickup addresses.
+     *
+     * @return HasMany
+     */
+    public function pickupAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id')
+            ->where('address_type', 3);
+    }
+
+    /**
+     * Returns only the delivery addresses.
+     *
+     * @return HasMany
+     */
+    public function deliveryAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id')
+            ->where('address_type', 4);
+    }
+
+    public function forwarder(): BelongsTo
+    {
+        return $this->belongsTo(TmsForwarder::class, 'forwarder_id');
     }
 
 
@@ -200,6 +235,24 @@ class TmsOrder extends Model
             set: function (string $value) {
                 return array_flip(self::STATUSES)[$value] ?? 'Missing data TmsOrder.';
             }
+        );
+    }
+
+    /**
+     * This mutator is used for the payment_method column in the tms_orders table. Do not mix it with
+     * the similar mutator from TmsCustomer model.
+     * If you want to change or add a new payment method, do it in the TmsCustomer model. The payment
+     * methods are defined there.
+     *
+     * @return Attribute
+     */
+    protected function paymentMethod(): Attribute
+    {
+        return Attribute::make(
+            //gets from db, transforms it. 1 will become 'Paypal'.
+            get: fn (string $value) => TmsCustomer::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
+            //gets from request, transforms it. 'Paypal' will become 1.
+            set: fn (string $value) => array_flip(TmsCustomer::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
         );
     }
 

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tms_invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('cargo_order_id');
-            $table->foreign('cargo_order_id')->references('id')->on('tms_orders');
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('tms_orders');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('invoice_date');
             $table->date('invoice_received_date')->nullable();
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
-            $table->decimal('invoice_sum', 10,2);
+            $table->decimal('invoice_sum', 10,2)->nullable();
             $table->decimal('tax',10,2);
             $table->timestamps();
         });

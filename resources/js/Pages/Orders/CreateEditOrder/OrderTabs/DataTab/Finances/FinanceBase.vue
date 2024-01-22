@@ -41,7 +41,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.transport_price_net"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_net']"
                 />
 
             </el-form-item>
@@ -68,7 +68,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.transport_price_vat"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_vat']"
                 />
 
             </el-form-item>
@@ -176,7 +176,8 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.calculated_transport_price"
+                    :errorMessage="props.errors[subOrderType + '.calculated_transport_price']"
+
                 />
 
             </el-form-item>
@@ -203,7 +204,8 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.transport_price_gross"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_gross']"
+
                 />
 
             </el-form-item>
@@ -230,7 +232,8 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.customized_price_change"
+                    :errorMessage="props.errors[subOrderType + '.customized_price_change']"
+
                 />
 
             </el-form-item>
@@ -257,7 +260,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.customized_price_mode"
+                    :errorMessage="props.errors[subOrderType + '.customized_price_mode']"
                 />
 
             </el-form-item>
@@ -284,7 +287,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.discount"
+                    :errorMessage="props.errors[subOrderType + '.discount']"
                 />
 
             </el-form-item>
@@ -311,7 +314,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.price_gross"
+                    :errorMessage="props.errors[subOrderType + '.price_gross']"
                 />
 
             </el-form-item>
@@ -338,7 +341,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.price_vat"
+                    :errorMessage="props.errors[subOrderType + '.price_vat']"
                 />
 
             </el-form-item>
@@ -365,7 +368,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.price_net"
+                    :errorMessage="props.errors[subOrderType + '.price_net']"
                 />
 
             </el-form-item>
@@ -392,7 +395,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.price_fuel_surcharge"
+                    :errorMessage="props.errors[subOrderType + '.price_fuel_surcharge']"
                 />
 
             </el-form-item>
@@ -419,7 +422,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.vat_rate"
+                    :errorMessage="props.errors[subOrderType + '.vat_rate']"
                 />
 
             </el-form-item>
@@ -446,7 +449,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.value_insured"
+                    :errorMessage="props.errors[subOrderType + '.value_insured']"
                 />
 
             </el-form-item>
@@ -473,7 +476,7 @@
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.value_of_goods"
+                    :errorMessage="props.errors[subOrderType + '.value_of_goods']"
                 />
 
             </el-form-item>
@@ -487,6 +490,7 @@
 import { defineProps, reactive, computed } from 'vue';
 import Title from '@/Shared/Title.vue';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
+import useSubOrderType from '@/Use/useSubOrderType';
 
 const props = defineProps({
     order: {
@@ -503,31 +507,17 @@ const props = defineProps({
     },
 });
 
+/**
+ * See the useSubOrderType composable for more information.
+ * This must be positioned after the props!
+ */
+const { subOrderType } = useSubOrderType(props.order);
+
 const data = reactive({
     order: props.order,
     showFinances: true,
     showLabel: true,
 });
-
-/**
- * The order can have either a pamyra_order or a native_order property. Either, or. We have a lot
- * of data, that we must render from this property. Since we don't know which property is set in
- * the order, we must display this key dynamically. This dynamic key rendering is done in this
- * computed property.
- * Now, in order to use dynamic keyes in an object, we must use the [] notation. Not dot notation.
- * This happens in the hmtl part of this component.
- */
- const subOrderType = computed(
-    () => {
-        if (props.order.pamyra_order !== null) {
-            return 'pamyra_order';
-        }
-        if (props.order.native_order !== null) {
-            return 'native_order';
-            
-        }
-    }
-);
 
 const update = () => {
     // props.$emit('update:order', data.order);

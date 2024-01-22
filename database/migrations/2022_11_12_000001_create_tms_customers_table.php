@@ -58,7 +58,7 @@ return new class extends Migration
             $table->integer('customer_type')->unsigned()->nullable();
             $table->integer('invoice_dispatch')->unsigned()->nullable();
             $table->integer('invoice_shipping_method')->unsigned()->nullable();
-            $table->integer('payment_method')->unsigned()->nullable();
+            $table->integer('payment_method')->unsigned()->nullable();//uses mutator!
 
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();

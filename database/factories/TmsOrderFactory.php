@@ -24,6 +24,7 @@ class TmsOrderFactory extends Factory
         return [
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'contact_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
 
             /**
              * This is a simple way to assure that about 90% of the orders will NOT belong to a 
@@ -45,6 +46,9 @@ class TmsOrderFactory extends Factory
             'avis_customer_phone' => $this->faker->phoneNumber,
             'avis_sender_phone' => $this->faker->phoneNumber,
             'avis_receiver_phone' => $this->faker->phoneNumber,
+
+            'payment_method' => 'Vorkasse',
+
         ];
     }
 }

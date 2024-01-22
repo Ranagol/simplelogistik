@@ -17,7 +17,7 @@ class TmsOrderAttributeFactory extends Factory
     public function definition(): array
     {
         return [
-            'tms_cargo_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'tms_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'type' => $this->faker->randomElement(['sms notification', 'extra packaging', 'priority delivery']),
             'price' => $this->faker->numberBetween(100, 1000),
             'description' => $this->faker->sentence,

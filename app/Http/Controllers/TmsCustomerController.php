@@ -112,15 +112,16 @@ class TmsCustomerController extends BaseController
                 //     'invoice_customer',
                 //     'poor_payment_morale',
                 //     'can_login',
-                //     'paypal',
-                //     'sofort',
-                //     'amazon',
-                //     'vorkasse',
                 //     'customer_type',
                 //     'invoice_dispatch',
                 //     'invoice_shipping_method',
-                //     'payment_method'
-                // )->find(1),
+                //     'payment_method',
+                //     'payment_method_options_to_offer',
+                //     'email_for_invoice',
+                //     'email_for_label',
+                //     'email_for_pod',
+                //     'customer_reference',
+                // )->find(2),
 
                 'mode' => 'create',
                 //These are the possibly selectable options for the el-select in customer create or edit form.
@@ -215,7 +216,7 @@ class TmsCustomerController extends BaseController
                     'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
-                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,//all payment methods
                     'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
                         return [
                             'id' => $forwarder->id,
@@ -245,6 +246,7 @@ class TmsCustomerController extends BaseController
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
+        // dd($newRecord);
         
         $newRecord = $this->handleForwarderId($newRecord);
 
@@ -275,6 +277,28 @@ class TmsCustomerController extends BaseController
         return $customer;
     }
 
+    /**
+     * Deletes records. This triggers the onSuccess event in FE component, which then displays
+     * the success message to the user, and then the FE component calls the $this->index() method,
+     * which returns the records. So, the user gets his feedback, and the record list is refreshed.
+     * 
+     * @param [type] $id
+     * @return void
+     */
+    public function destroy(Request $request, string $id): void
+    {
+        
+        TmsCustomer::destroy($id);
+    }
+
+
+    /**
+     * Comments about the customer writes into the db.
+     *
+     * @param Request $request
+     * @param TmsCustomer $customer
+     * @return void
+     */
     public function addComment(Request $request, TmsCustomer $customer)
     {
         //comment validation
@@ -288,7 +312,7 @@ class TmsCustomerController extends BaseController
         //Get the current date in this format 2023-12-04 14:01:26
         $date = date('Y-m-d H:i:s');
 
-        //Getting the currently existing comments
+        //Getting the currently existing comments (all of them)
         $comments = $customer->comments;
 
         //Formating the new comment that we want to add to the existing comments

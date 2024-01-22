@@ -36,6 +36,7 @@ class TmsCustomer extends Model
      * @var array
      */
     protected $casts = [
+        
         //boolean casting
         'auto_book_as_private' => 'boolean',
         'dangerous_goods' => 'boolean',
@@ -48,12 +49,10 @@ class TmsCustomer extends Model
         'invoice_customer' => 'boolean',
         'poor_payment_morale' => 'boolean',
         'can_login' => 'boolean',
-        'paypal' => 'boolean',
-        'sofort' => 'boolean',
-        'amazon' => 'boolean',
-        'vorkasse' => 'boolean',
+        
         //json data casting
         'comments' => 'array',
+        'payment_method_options_to_offer' => 'array',
     ];
 
     /**
@@ -103,16 +102,12 @@ class TmsCustomer extends Model
 
     /**
      * Relationship for the headquarter address.
-     * I use hasMany relationship, because it may happen that the customer has both headquarter and
-     * billing address.
      */
     public function headquarter()
     {
-        return $this->hasMany(TmsAddress::class, 'customer_id')
-                    ->select('id', 'customer_id', 'street', 'house_number', 'zip_code', 'city')
-                    ->where('is_headquarter', true)
-                    ->orWhere('is_billing', true)
-                    ;
+        return $this->hasOne(TmsAddress::class, 'customer_id')
+                    // ->select('id', 'customer_id', 'street', 'house_number', 'zip_code', 'city')
+                    ->where('is_headquarter', true);
     }
 
     public function orders(): HasMany
@@ -247,6 +242,11 @@ class TmsCustomer extends Model
         );
     }
 
+    /**
+     * This constant can be used by other models too. TmsOrders uses it for example. However, it is
+     * important to have one one single source of truth/info. And that is here. If you want to add
+     * a new payment method, do it here.
+     */
     const PAYMENT_METHODS = [
         1 => 'PayPal',
         2 => 'Sofort',
@@ -258,9 +258,9 @@ class TmsCustomer extends Model
     protected function paymentMethod(): Attribute
     {
         return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Bussiness customer'.
+            //gets from db, transforms it. 1 will become 'Paypal'.
             get: fn (string $value) => self::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Bussiness customer' will become 1.
+            //gets from request, transforms it. 'Paypal' will become 1.
             set: fn (string $value) => array_flip(self::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
         );
     }

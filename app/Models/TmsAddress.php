@@ -38,8 +38,9 @@ class TmsAddress extends Model
 
     /**
      * APPENDING (attaching a new column to the model, that is originally not in the model's table)
-     * Here we want to add country_name to the Address model.
-     * Under the country_name key in the response, we will get the country_name of the given address.
+     * Here we want to add country object to the Address model.
+     * Under the country object key in the response, we will get the country object of the given address.
+     * getCountryAttribute() gets the country for this.
      *
      * @var array
      */

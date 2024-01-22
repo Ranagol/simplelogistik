@@ -1,5 +1,5 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,10 +8,26 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
+        './node_modules/flowbite/**/*.js'
     ],
 
     theme: {
         extend: {
+            backgroundColor: {
+                primary: {
+                    '50': '#effafc',
+                    '100': '#d6f0f7',
+                    '200': '#b1e2f0',
+                    '300': '#7ccce4',
+                    '400': '#3facd1',
+                    '500': '#2596be',
+                    '600': '#20749a',
+                    '700': '#215e7d',
+                    '800': '#234f67',
+                    '900': '#214358',
+                    '950': '#112a3b',
+                },
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
@@ -24,5 +40,5 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, require('flowbite/plugin')],
 };

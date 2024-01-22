@@ -8,14 +8,14 @@
             <div 
                 v-if="props.title"
                 class="mb-4 font-bold"
-            >{{ props.title }} address</div>
+            >{{ props.title }}</div>
 
             <!-- BUTTON FOR ADDING MORE, ADDITIONAL ADDRESSES -->
-            <el-button
+            <!-- <el-button
                 v-if="props.title === 'Delivery' || props.title === 'Pickup'"
                 type="success"
                 size="small"
-            >+</el-button>
+            >+</el-button> -->
 
         </div>
 
@@ -521,7 +521,10 @@
         </div>
 
         <!-- isPickup, isDelivery, isBilling, isHeadquarter -->
-        <div class="flex justify-between">
+        <div 
+            v-if="props.showBooleanAddressType"
+            class="flex justify-between"
+        >
 
             <!-- isPickup -->
             <el-form-item>
@@ -633,10 +636,6 @@ const props = defineProps({
     address: {
         type: Object,
         required: true,
-        /**
-         * Returns an empty address object, if the order does not has one.
-         */
-        // default: () => addressDummy,
     },
 
     /**
@@ -732,17 +731,17 @@ const props = defineProps({
         default: false
     },
 
-
+    /**
+     * Only the headquarter must show this. All other address types must not show this.
+     */
+    showBooleanAddressType: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const data = reactive({
-
-    /**
-     * The address object comes from props. Usually. But it migh happend that the order does not
-     * have a headquarter address, or that the address is missing. In that case we should use the
-     * addressEmpty object. For development and testing purposes we can use the addressDummy object.
-     */
-    address: props.address || addressDummy,
+    address: props.address,
     showLabel: true,
 });
 
@@ -753,7 +752,6 @@ const emit = defineEmits(['update:address', 'update:comment', 'update:avis_phone
  * Works with address object
  */
 const update = () => {
-    console.log('update() triggered in Address.vue', data.address);
     emit('update:address', data.address);
 }
 

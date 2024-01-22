@@ -1,12 +1,21 @@
 <template>
-    <Head title="Customers" />
+    <Head
+        :title="$t('labels.customers')"
+    />
 
+    <TableWithActions
+        :actions="['edit', 'show']"
+        v-model:paginationData="data.paginationData"
+        @getData="getData"
+        :title="$t('labels.customers')"
+        :data="data.customers"
+        :headers="headers"
+    />
+    <!--
     <Card>
-        <Title 
-            title="Customers" 
-        />
 
-        <!-- SEARCH FIELD -->
+
+
         <div class="flex flex-row justify-between">
             <SearchField
                 v-model:searchTerm="data.searchTerm"
@@ -22,7 +31,7 @@
 
         </div>
 
-        <!-- CUSTOMERS TABLE -->
+
         <CustomerTable
             v-model:sortColumn="data.sortColumn"
             v-model:sortOrder="data.sortOrder"
@@ -30,12 +39,15 @@
             @getData="getData"
         />
 
-        <!-- PAGINATION -->
+        {{  data.customers }}
+
+
         <Pagination
             v-model:paginationData="data.paginationData"
             @getData="getData"
         />
     </Card>
+    -->
 
 </template>
 
@@ -51,13 +63,45 @@ import CustomerTable from './CustomerTable.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import Title from '@/Shared/Title.vue';
 
+import TableWithActions from '@/Components/Tables/TableWithActions.vue';
+
+const headers = [
+    {
+        key: "internal_cid",
+        text: 'labels.customer-id',
+        searchable: true,
+    },
+    {
+        key: "first_name",
+        text: 'labels.first-name',
+        searchable: true,
+        orderable: true
+    },
+    {
+        key: "last_name",
+        text: 'labels.last-name',
+        searchable: true,
+        orderable: true
+    },
+    {
+        key: "company_name",
+        text: 'labels.company-name',
+        searchable: true,
+    },
+    {
+        key: "private_customer",
+        text: 'labels.business-customer',
+        searchable: true,
+        orderable: true
+    }
+]
 
 let customerStore = useCustomerStore();
 
 // PROPS
-let props = defineProps( 
+let props = defineProps(
     {
-        errors: Object, 
+        errors: Object,
         dataFromController: Object,
 
         /**
@@ -83,12 +127,12 @@ let data = reactive({
     sortOrder: props.sortOrderProp,
 
     /**
-     * All pagination related data is stored here. 
+     * All pagination related data is stored here.
      * Unfortunatelly,customers are coming in from backend mixed with pagination data.
      * That is what we have here in the dataFromController. We need
      * seaparated customers and separated pagination data. This will happen in computed properties.
      * Here. So, this is the pagination related data. And a small reminder:
-     * 
+     *
      * el-pagination        Laravel ->paginate()
      * current-page	        paginationData.current_page         Where the user is currently
      * page-size	        paginationData.per_page             Number of items / page
@@ -99,15 +143,15 @@ let data = reactive({
 
 
 /**
- * getData() is triggered by: 
- * 
- * the search button, 
- * the sorting clicks, 
+ * getData() is triggered by:
+ *
+ * the search button,
+ * the sorting clicks,
  * the pagination clicks.
  * Also on input field clear/reset.
  * If enter is hit by the user.
- * 
- * It sends a request to the backend to get the customers. The backend will return the customers 
+ *
+ * It sends a request to the backend to get the customers. The backend will return the customers
  * sorted and the pagination data. getData() does not have arguments, because it uses the
  * data from data(). Because every search/sort/paginate change is in the data().
  * Now customers from this function arrive to props. There is a watcher for props, that sends customers
@@ -177,7 +221,7 @@ const handleDelete = (index, object) => {
             type: 'info',
             message: 'Delete canceled',
         })
-    })    
+    })
 };
 
 </script>
