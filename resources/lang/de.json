@@ -19,12 +19,23 @@
         "pamyra": "Pamyra"
     },
     "labels": {
-        "customer-id":  "Kundennummer",
+        "customer-id": "Kundennummer",
         "first-name": "Vorname",
         "last-name": "Nachname",
         "company-name": "Firmenname",
         "business-customer": "Geschäftskunde",
-        "select-fields": "Felder auswählen"
+        "select-fields": "Felder auswählen",
+        "create-order": "Auftrag erfassen",
+        "search": "Suchen",
+        "orders": "Aufträge",
+        "limit-search": "Suche einschränken",
+        "arrange-columns": "Ansicht anpassen",
+        "order-id": "Auftragsnummer",
+        "way-of-transport": "Versandweg",
+        "customer-reference": "Kundenreferenz",
+        "edit-by": "Letzter Bearbeiter",
+        "update-at": "Zuletzt geändert",
+        "order-date": "Auftragsdatum"
     },
     "address-types": {
         "main": "Abholadresse",

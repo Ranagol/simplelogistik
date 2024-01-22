@@ -2,72 +2,29 @@
     <Head
         :title="$t('labels.customers')"
     />
-
-    <TableWithActions
-        :actions="['edit', 'show']"
+    
+    <CustomerTableWithActions
+        :actions="['show', 'edit']"
         v-model:paginationData="data.paginationData"
         @getData="getData"
         :title="$t('labels.customers')"
         :data="data.customers"
         :headers="headers"
     />
-    <!--
-    <Card>
-
-
-
-        <div class="flex flex-row justify-between">
-            <SearchField
-                v-model:searchTerm="data.searchTerm"
-                placeholder="Search customers..."
-                @getData="getData"
-            />
-
-            <el-button
-                type="success"
-                class="mt-1"
-                @click="handleCreate"
-            >Create</el-button>
-
-        </div>
-
-
-        <CustomerTable
-            v-model:sortColumn="data.sortColumn"
-            v-model:sortOrder="data.sortOrder"
-            :customers="data.customers"
-            @getData="getData"
-        />
-
-        {{  data.customers }}
-
-
-        <Pagination
-            v-model:paginationData="data.paginationData"
-            @getData="getData"
-        />
-    </Card>
-    -->
-
 </template>
 
 <script setup>
-import Card from '@/Shared/Card.vue';
-import _ from 'lodash';
+import _ from "lodash"
 import { router } from '@inertiajs/vue3'
-import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
-import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
+import { reactive } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
-import SearchField from '@/Shared/SearchField.vue';
-import CustomerTable from './CustomerTable.vue';
-import Pagination from '@/Shared/Pagination.vue';
-import Title from '@/Shared/Title.vue';
 
-import TableWithActions from '@/Components/Tables/TableWithActions.vue';
+import CustomerTableWithActions from '@/Components/Tables/CustomerTableWithActions.vue';
 
 const headers = [
     {
-        key: "internal_cid",
+        key: "id",
         text: 'labels.customer-id',
         searchable: true,
     },
