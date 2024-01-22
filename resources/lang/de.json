@@ -12,7 +12,7 @@
         "dashboard": "Dashboard",
         "addresses": "Adressen",
         "orders": "Aufträge",
-        "customers": "Klienten",
+        "customers": "Kunden",
         "integrations": "Mehr",
         "profile": "Profil",
         "preferences": "Einstellungen",
@@ -24,7 +24,18 @@
         "last-name": "Nachname",
         "company-name": "Firmenname",
         "business-customer": "Geschäftskunde",
-        "select-fields": "Felder auswählen"
+        "select-fields": "Felder auswählen",
+        "create-order": "Auftrag erfassen",
+        "search": "Suchen",
+        "orders": "Aufträge",
+        "limit-search": "Suche einschränken",
+        "arrange-columns": "Ansicht anpassen",
+        "order-id": "Auftragsnummer",
+        "way-of-transport": "Versandweg",
+        "customer-reference": "Kundenreferenz",
+        "edit-by": "Letzter Bearbeiter",
+        "update-at": "Zuletzt geändert",
+        "order-date": "Auftragsdatum"
     },
     "address-types": {
         "main": "Abholadresse",

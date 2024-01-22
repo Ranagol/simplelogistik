@@ -118,7 +118,9 @@
                                 class="transition border-b cursor-pointer dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <td v-for="head in headers" class="px-4 py-3">
-                                    {{ entry[head.key] }}
+                                    <span v-if="head.key == 'private_customer' && entry['private_customer'] == true" class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $t('labels.customer-private') }}</span>
+                                    <span v-else-if="head.key == 'private_customer' && entry['private_customer'] == false" class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">{{ $t('labels.customer-business') }}</span>
+                                    <span v-else>{{ entry[head.key] }}</span>
                                 </td>
                                 <td v-if="actions !== undefined && actions !== ''"
                                     class="flex items-center justify-end px-4 py-3">
@@ -137,12 +139,12 @@
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                             :aria-labelledby="'actions-dropdown-button-' + entry.id">
                                             <li v-for=" action  in  actions ">
-                                                <button @click="handleShow(entry.id)" v-if="action === 'show'" href="#"
+                                                <a :href="route(`customers.show`, entry.id )" v-if="action === 'show'" href="#"
                                                     class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
-                                                        $t('labels.show') }}</button>
-                                                <button @click="handleEdit(entry.id)" v-else-if="action === 'edit'" href="#"
+                                                        $t('labels.show') }}</a>
+                                                <a :href="route(`customers.edit`, entry.id )" v-else-if="action === 'edit'" href="#"
                                                     class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
-                                                        $t('labels.edit') }}</button>
+                                                        $t('labels.edit') }}</a>
                                                 <button @click="handleDelete(entry.id)" v-if="action === 'delete'" href="#"
                                                     class="block w-full px-4 py-2 text-left text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-700">{{
                                                         $t('labels.delete') }}</button>

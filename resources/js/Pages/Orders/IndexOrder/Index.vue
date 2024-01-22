@@ -26,11 +26,11 @@
 
     const headers = [
         {key: "id", title: "labels.order-id", sortable: true, filterable: true, display_order: 1},
-        {key: "type_of_transport", title: "Transportweg", sortable: true, filterable: true, display_order: 2},
+        {key: "type_of_transport", title: "labels.way-of-transport", sortable: true, filterable: true, display_order: 2},
         {key: "order_date", title: "labels.order-date", sortable: true, filterable: true, display_order: 2},
-        {key: "customer_reference", title: "labels.customer_reference", sortable: true, filterable: true, display_order: 2},
-        {key: "last_editor", title: "labels.edit_by", sortable: true, filterable: true, display_order: 2},
-        {key: "last_update", title: "labels.update_at", sortable: true, filterable: true, display_order: 2},
+        {key: "customer_reference", title: "labels.customer-reference", sortable: true, filterable: true, display_order: 2},
+        {key: "last_editor", title: "labels.edit-by", sortable: true, filterable: true, display_order: 2},
+        {key: "last_update", title: "labels.update-at", sortable: true, filterable: true, display_order: 2},
     ]
 
 

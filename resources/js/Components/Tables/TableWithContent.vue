@@ -111,7 +111,7 @@
                                 </th>
                                 
                                 <th draggable="true" v-for="(item, index) in _headers" :key="index" scope="col" @dragstart="handleDragStart(item)" @dragover="handleDragEnter(item)" @dragend="handleDrop(item)" class="px-4 py-3">
-                                    {{ item.title }}
+                                    {{ $t(item.title) }}
                                     <svg v-if="item.sortable" class="inline-block w-4 h-4 ml-1" fill="currentColor" viewbox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path clip-rule="evenodd" fill-rule="evenodd"

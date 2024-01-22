@@ -15,7 +15,7 @@
         </td>
         <td v-for="header, index in headers" :key="index" scope="row" 
             class="items-center px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {{ data[header.key] }}
+            {{ data[header.key] ?? "Kommt noch" }}
         </td>
         <td v-if="actions !== undefined && actions !== ''"
                                     class="flex items-center justify-end px-4 py-3">
@@ -34,15 +34,12 @@
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                     :aria-labelledby="'actions-dropdown-button-' + dataIndex">
                     <li v-for="action in actions">
-                        <button @click="handleShow(dataIndex)" v-if="action === 'show'" href="#"
+                        <a :href="route('orders.show', data.id)" v-if="action === 'show'"
                             class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
-                                $t('labels.show') }}</button>
-                        <button @click="handleEdit(dataIndex)" v-else-if="action === 'edit'" href="#"
+                                $t('labels.show') }}</a>
+                        <a :href="route('orders.edit', data.id)" v-else-if="action === 'edit'"
                             class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
-                                $t('labels.edit') }}</button>
-                        <button @click="handleDelete(dataIndex)" v-if="action === 'delete'" href="#"
-                            class="block w-full px-4 py-2 text-left text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-700">{{
-                                $t('labels.delete') }}</button>
+                                $t('labels.edit') }}</a>                        
                     </li>
                 </ul>
             </div>
@@ -51,7 +48,36 @@
     <tr  class="flex-1 hidden w-full overflow-x-auto" :id="'table-column-body-' + dataIndex"
         :aria-labelledby="'table-column-header-' + dataIndex">
         <td class="p-4 border-b dark:border-gray-700" colspan="9">
+
             <div class="grid grid-cols-4 gap-4 mb-4">
+                <!-- TODO: Auftraggeber einbinden -->
+                <!-- <div
+                    class="relative grid p-2 py-6 bg-gray-100 rounded-lg place-items-center sm:w-full dark:bg-gray-700">
+                    <p class="absolute top-0 right-0 pb-2 m-3">
+                        <span v-if="address.address_type === 'Pickup address'" class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ address.address_type }}</span>
+                        <span v-else class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ address.address_type }}</span>
+                    </p>
+                    <p class="w-full px-3 pt-5">
+                        <span v-if="address.company_name">{{ address.company_name }}</span>
+                        
+                    </p>
+                    <p class="w-full px-3">
+                        <span>{{ address.first_name }} {{ address.last_name }}</span>
+                    </p>
+                    <p class="w-full px-3">
+                        <span>{{ address.street }} {{ address.house_number }}</span>
+                    </p>
+                    <p class="w-full px-3">
+                        <span>{{ address.zip_code }} {{ address.city }}</span>
+                    </p>
+                    <p class="w-full px-3 pt-2">
+                        <span>{{ address.state }} {{ address.country.country_name }}</span>
+                    </p>
+                    <p class="w-full px-3">
+                        <span>{{ address.country.country_name }}</span>
+                    </p>
+                </div>
+                -->
                 <div v-for="address, key in data?.order_addresses" :key="key"
                     class="relative grid p-2 py-6 bg-gray-100 rounded-lg place-items-center sm:w-full dark:bg-gray-700">
                     <p class="absolute top-0 right-0 pb-2 m-3">
@@ -72,7 +98,7 @@
                         <span>{{ address.zip_code }} {{ address.city }}</span>
                     </p>
                     <p class="w-full px-3 pt-2">
-                        <span>{{ address.state }}</span>
+                        <span>{{ address.state }} {{ address.country.country_name }}</span>
                     </p>
                     <p class="w-full px-3">
                         <span>{{ address.country.country_name }}</span>
@@ -98,8 +124,9 @@
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.forwarder')}}</h6>
                     <div
-                        class="bg-primary-100 text-primary-800 text-xs font-medium px-2.5 py-0.5 rounded-md dark:bg-primary-200 dark:text-primary-800 flex items-center">
-                        {{ data.forwarder?.name ?? "Forwarder (missing)" }}
+                        class="bg-blue-100 text-primary-800 text-xs font-medium px-2.5 py-0.5 rounded-md dark:bg-blue-200 dark:text-blue-800 flex items-center">
+                        <el-icon size="18"><Van /></el-icon>
+                        <span class="text-[12px] pl-2">{{ data.forwarder?.name ?? "Forwarder (missing)" }}</span>
                     </div>
                 </div>
                 <div
@@ -108,7 +135,7 @@
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.order_number')}}</h6>
                     <div class="flex items-center text-gray-500 dark:text-gray-400">
-                        {{ data.order_number}}
+                        {{ data.id}}
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -135,45 +162,69 @@
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance_duration')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.duration_minutes}}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.pamyra_order.duration_minutes ?? data.native_order.duration_minutes }} min</div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.distance_km}} km
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.pamyra_order.distance_km ?? data.native_order.distance_km }} km
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.selling_price')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.price_gross }} {{ data.currency }}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.pamyra_order.price_gross ?? data.native_order.price_gross }} {{ data.currency }}</div>
                 </div>
             </div>
-            <div class="flex items-center mt-4 space-x-3">
+            <div class="flex items-center justify-between mt-4 space-x-3">
                 <div class="grid grid-flow-col gap-2 align-middle place-items-center">
                     <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                        <el-icon>
+                        <el-icon size="18">
                             <Edit />
                         </el-icon>
                     <span class="pl-2">Bearbeiten</span>
                     </button>
                     <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                        <el-icon>
+                        <el-icon size="18">
                             <View />
                         </el-icon> 
                     <span class="pl-2">Details</span>
                     </button>
                     <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                    <el-icon>
-                        <Close />
-                    </el-icon> 
-                    <span v-if="data.canceled">Storniert</span>
-                    <span v-else class="pl-2">Stornieren</span>
+                        <el-icon size="18">
+                            <Close />
+                        </el-icon> 
+                        <span v-if="data.canceled">Storniert</span>
+                        <span v-else class="pl-2">Stornieren</span>
+                    </button>
+                </div>
+                <div class="grid grid-flow-col">
+                    <button type="button"
+                    class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-800 rounded-lg hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900">
+                        <el-icon size="18" v-if="data.shipping_label_pdf">
+                            <Download />
+                        </el-icon>
+                        <el-icon size="18" v-else>
+                            <DocumentRemove />
+                        </el-icon> 
+                        <span class="pl-2" v-if="data.shipping_label_pdf">Versandschein</span>
+                        <span class="pl-2" v-else>Kein Versandlabel</span>
+                    </button>
+                    <button type="button"
+                    class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-800 rounded-lg hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900">
+                        <el-icon size="18" v-if="data.shipping_label_pdf">
+                            <Download />
+                        </el-icon>
+                        <el-icon size="18" v-else>
+                            <DocumentRemove />
+                        </el-icon> 
+                        <span class="pl-2" v-if="data.shipping_label_pdf">Versandschein</span>
+                        <span class="pl-2" v-else>Transportauftrag (multilingual Select)</span>
                     </button>
                 </div>
             </div>
@@ -182,7 +233,7 @@
 </template>
 
 <script setup>
-import { ArrowDown, Close, CloseBold, DocumentRemove, Download, View, Edit } from '@element-plus/icons-vue';
+import { ArrowDown, Close, CloseBold, DocumentRemove, Download, View, Edit, Van } from '@element-plus/icons-vue';
 import Tooltip from '../Tooltips/Tooltip.vue';
 
 const props = defineProps({
