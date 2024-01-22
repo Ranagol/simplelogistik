@@ -19,8 +19,8 @@
         </td>
         <td v-if="actions !== undefined && actions !== ''"
                                     class="flex items-center justify-end px-4 py-3">
-            <button :id="'actions-dropdown-button-' + entry.id"
-                :data-dropdown-toggle="'actions-dropdown-' + entry.id"
+            <button :id="'actions-dropdown-button-' + dataIndex"
+                :data-dropdown-toggle="'actions-dropdown-' + dataIndex"
                 class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                 type="button">
                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
@@ -29,18 +29,18 @@
                         d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                 </svg>
             </button>
-            <div :id="'actions-dropdown-' + entry.id"
+            <div :id="'actions-dropdown-' + dataIndex"
                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                    :aria-labelledby="'actions-dropdown-button-' + entry.id">
-                    <li v-for=" action  in  actions ">
-                        <button @click="handleShow(entry.id)" v-if="action === 'show'" href="#"
+                    :aria-labelledby="'actions-dropdown-button-' + dataIndex">
+                    <li v-for="action in actions">
+                        <button @click="handleShow(dataIndex)" v-if="action === 'show'" href="#"
                             class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
                                 $t('labels.show') }}</button>
-                        <button @click="handleEdit(entry.id)" v-else-if="action === 'edit'" href="#"
+                        <button @click="handleEdit(dataIndex)" v-else-if="action === 'edit'" href="#"
                             class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
                                 $t('labels.edit') }}</button>
-                        <button @click="handleDelete(entry.id)" v-if="action === 'delete'" href="#"
+                        <button @click="handleDelete(dataIndex)" v-if="action === 'delete'" href="#"
                             class="block w-full px-4 py-2 text-left text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-700">{{
                                 $t('labels.delete') }}</button>
                     </li>
@@ -52,9 +52,31 @@
         :aria-labelledby="'table-column-header-' + dataIndex">
         <td class="p-4 border-b dark:border-gray-700" colspan="9">
             <div class="grid grid-cols-4 gap-4 mb-4">
-                <div v-for="address, key in data?.addresses" :key="key"
-                    class="relative flex items-center justify-center h-32 p-2 bg-gray-100 rounded-lg sm:w-full sm:h-36 dark:bg-gray-700">
-                    
+                <div v-for="address, key in data?.order_addresses" :key="key"
+                    class="relative grid p-2 py-6 bg-gray-100 rounded-lg place-items-center sm:w-full dark:bg-gray-700">
+                    <p class="absolute top-0 right-0 pb-2 m-3">
+                        <span v-if="address.address_type === 'Pickup address'" class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ address.address_type }}</span>
+                        <span v-else class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ address.address_type }}</span>
+                    </p>
+                    <p class="w-full px-3 pt-5">
+                        <span v-if="address.company_name">{{ address.company_name }}</span>
+                        
+                    </p>
+                    <p class="w-full px-3">
+                        <span>{{ address.first_name }} {{ address.last_name }}</span>
+                    </p>
+                    <p class="w-full px-3">
+                        <span>{{ address.street }} {{ address.house_number }}</span>
+                    </p>
+                    <p class="w-full px-3">
+                        <span>{{ address.zip_code }} {{ address.city }}</span>
+                    </p>
+                    <p class="w-full px-3 pt-2">
+                        <span>{{ address.state }}</span>
+                    </p>
+                    <p class="w-full px-3">
+                        <span>{{ address.country.country_name }}</span>
+                    </p>
                 </div>
             </div>
             <div>
