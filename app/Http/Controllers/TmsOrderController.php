@@ -140,7 +140,7 @@ class TmsOrderController extends BaseController
                 'pamyraOrder',
                 'orderAddresses',
                 'forwarder',
-                'orderHistoryLatest',
+                'orderHistories',
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
                 'customer' => function ($query) {
