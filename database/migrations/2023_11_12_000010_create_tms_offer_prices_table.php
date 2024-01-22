@@ -19,8 +19,8 @@ return new class extends Migration
             $table->dateTime('offer_to')->nullable();
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
-            $table->unsignedBigInteger('cargo_order_id')->nullable();
-            $table->foreign('cargo_order_id')->references('id')->on('tms_orders');
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->foreign('order_id')->references('id')->on('tms_orders');
             $table->decimal('offered_price',10,2);
             $table->decimal('offered_price_net',10,2)->nullable();
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');

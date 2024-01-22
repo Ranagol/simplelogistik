@@ -14,6 +14,11 @@ class TmsInvoice extends Model
     protected $guarded = ['id'];
     protected $table = "tms_invoices";
 
+    public const INVOICE_TYPES = [
+        1 => 'Invoice',
+        2 => 'Credit',
+    ];
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(TmsOrder::class);

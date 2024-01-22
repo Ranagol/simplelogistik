@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tms_invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('cargo_order_id');
-            $table->foreign('cargo_order_id')->references('id')->on('tms_orders');
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('tms_orders');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarder_id');
