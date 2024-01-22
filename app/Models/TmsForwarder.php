@@ -73,6 +73,11 @@ class TmsForwarder extends Model
         return $this->hasMany(TmsOrderAddress::class, 'order_id');
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(TmsOrder::class, 'forwarder_id');
+    }
+
     //*************SCOPES*************************************** */
 
 

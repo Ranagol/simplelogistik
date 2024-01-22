@@ -23,6 +23,7 @@ class TmsOrderSeeder extends Seeder
             TmsOrder::factory()->create([
                 'customer_id' => $i,
                 'contact_id' => $i,
+                'forwarder_id' => $i,
             ]);
         }
     }

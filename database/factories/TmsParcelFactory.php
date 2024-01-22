@@ -18,7 +18,7 @@ class TmsParcelFactory extends Factory
     public function definition(): array
     {
         return [
-            'tms_cargo_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'tms_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'is_hazardous' => $this->faker->boolean,
             'information' => $this->faker->sentence,
             //Reminder: p_ means that this column comes from Pamyra

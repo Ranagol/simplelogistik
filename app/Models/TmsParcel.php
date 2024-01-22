@@ -23,6 +23,6 @@ class TmsParcel extends Model
 
     public function order(): BelongsTo
     {
-        return $this->belongsTo(TmsOrder::class, 'tms_cargo_order_id');
+        return $this->belongsTo(TmsOrder::class, 'tms_order_id');
     }
 }

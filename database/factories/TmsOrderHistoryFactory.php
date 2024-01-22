@@ -26,7 +26,7 @@ class TmsOrderHistoryFactory extends Factory
             'additional_cost' => $this->faker->randomFloat(2, 0, 1000), // 2 decimal places, min 0, max 1000
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
-            'cargo_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarding_contract_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
         ];
     }
