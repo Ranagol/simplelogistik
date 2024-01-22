@@ -263,6 +263,8 @@ class TmsOrderController extends BaseController
                 'parcels',
                 'nativeOrder',
                 'pamyraOrder',
+                'orderAddresses',
+                'forwarder',
             ])
             
             /**
