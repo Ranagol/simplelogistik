@@ -155,6 +155,11 @@ class TmsOrder extends Model
             ->where('address_type', 4);
     }
 
+    public function forwarder(): BelongsTo
+    {
+        return $this->belongsTo(TmsForwarder::class, 'forwarder_id');
+    }
+
 
     //*************SCOPES*************************************** */
 
