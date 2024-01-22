@@ -25,4 +25,9 @@ class TmsDispatcher extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function orderHistories(): HasMany
+    {
+        return $this->hasMany(TmsOrderHistory::class, 'dispatcher_id');
+    }
 }

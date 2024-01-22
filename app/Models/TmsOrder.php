@@ -62,6 +62,11 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
+    /**
+     * Returns all order histories.
+     *
+     * @return HasMany
+     */
     public function orderHistories(): HasMany
     {
         return $this->hasMany(TmsOrderHistory::class, 'order_id');
@@ -76,6 +81,36 @@ class TmsOrder extends Model
     {
         return $this->hasOne(TmsOrderHistory::class, 'order_id')
             ->latest();
+    }
+
+    /**
+     * Returns the latest order history update record date.
+     *
+     * @return HasOne
+     */
+    public function lastUpdate(): HasOne
+    {
+        return $this->hasOne(TmsOrderHistory::class, 'order_id')
+            ->select('updated_at')
+            ->latest();
+    }
+
+    /**
+     * Return the dispatcher name who last edited the order.
+     *
+     * @return HasOne
+     */
+    public function lastEditor(): HasOne
+    {
+        return $this->hasOne(TmsOrderHistory::class, 'order_id')
+            ->latest()
+            ->with(
+                [
+                    'dispatcher' => function ($query) {
+                        $query->select('id', 'name');
+                    }
+                ]
+            );
     }
 
     public function invoice(): HasOne
