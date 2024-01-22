@@ -15,7 +15,6 @@ class TmsOrderAddressFactory extends Factory
 {
     protected $model = TmsOrderAddress::class;
     protected array $countryIds;
-
     
     /**
      * If we override the constructor, we must call the parent constructor. And we must use the
@@ -72,6 +71,7 @@ class TmsOrderAddressFactory extends Factory
     public function definition(): array
     {
         return [
+            'order' => $this->faker->numberBetween(1, 10),
             'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
