@@ -55,6 +55,6 @@ export default {
         parcelEmpty,
         parcelEmpty,
     ],
-    start_address: addressEmpty,
-    target_address: addressEmpty,
+    pickup_address: addressEmpty,
+    delivery_address: addressEmpty,
 }

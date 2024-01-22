@@ -9,30 +9,40 @@ use Illuminate\Database\Seeder;
 class TmsAddressSeeder extends Seeder
 {
     /**
+     * TmsAddress has also address types, just like TmsOrderAddress. But the address types are different.
+     * TmsAddress has 4 boolean address types columns in db.
+     * TmsOrderAddress has addressType as one string column, with mutator
+     *
+     * @var array
+     */
+    protected array $booleanAddressTypes = [
+        'is_pickup',
+        'is_delivery',
+        'is_billing',
+        'is_headquarter',
+    ];
+
+    /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        /**
-         * constants.numberOfDbRecords is a constant. It should be 20. It means that in a general case
-         * we want 20 customers created, 20 orders created... so on, in the db. In general case.
-         * We want 4 addresses for every customer. The address type should be 1,2,3,4 once for every
-         * customer. So, we want 20 customers, and for every customer we want 4 addresses. That is
-         * 20*4 = 80 addresses. We want 80 addresses in the database. This is what we do here.
-         */
-        for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
+        
+        foreach ($this->booleanAddressTypes as $key => $booleanAddressType) {
+
             /**
-             * Currently, there are 4 address types in the database. For every address type, we want to
-             * create 20 addresses.
+             * Usually we have 20 customers created by the seeder. 
              */
-            foreach (TmsAddress::ADDRESS_TYPES as $addressType) {
+            for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
                 TmsAddress::factory()->create([
                     /**
-                     * Here we explicitly define the value of the address_type and the customer_id.
+                     * Here we explicitly define the value of the the customer_id.
                      * All other columns will be defined by the  factory faker.
                      */
-                    'address_type' => $addressType,
+                    $booleanAddressType => true,
                     'customer_id' => $i,
+                    'forwarder_id' => $i,
+                    // partner_id is defined in the factory
                 ]);
             }
         }

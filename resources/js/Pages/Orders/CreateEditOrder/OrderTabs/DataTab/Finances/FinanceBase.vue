@@ -20,7 +20,7 @@
         >
 
             <el-form-item
-                prop="p_transport_price_net"
+                prop="transport_price_net"
             >   
                 <div class="flex flex-col">
 
@@ -32,22 +32,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_transport_price_net"
+                        v-model="data.order[subOrderType].transport_price_net"
                         placeholder="Transport price net"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_transport_price_net"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_net']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_transport_price_vat"
+                prop="transport_price_vat"
             >   
                 <div class="flex flex-col">
 
@@ -59,16 +59,16 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_transport_price_vat"
+                        v-model="data.order[subOrderType].transport_price_vat"
                         placeholder="Transport price vat"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_transport_price_vat"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_vat']"
                 />
 
             </el-form-item>
@@ -89,7 +89,7 @@
                         v-model="data.order.purchase_price"
                         placeholder="Purchase price"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
@@ -116,7 +116,7 @@
                         v-model="data.order.provision"
                         placeholder="Provision"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
@@ -143,7 +143,7 @@
                         v-model="data.order.currency"
                         placeholder="Currency"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
@@ -155,7 +155,7 @@
             </el-form-item>
 
             <el-form-item
-                prop="p_calculated_transport_price"
+                prop="calculated_transport_price"
             >   
                 <div class="flex flex-col">
 
@@ -167,22 +167,23 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_calculated_transport_price"
+                        v-model="data.order[subOrderType].calculated_transport_price"
                         placeholder="Calculated transport price"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_calculated_transport_price"
+                    :errorMessage="props.errors[subOrderType + '.calculated_transport_price']"
+
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_transport_price_gross"
+                prop="transport_price_gross"
             >   
                 <div class="flex flex-col">
 
@@ -194,22 +195,23 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_transport_price_gross"
+                        v-model="data.order[subOrderType].transport_price_gross"
                         placeholder="Transport price gross"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_transport_price_gross"
+                    :errorMessage="props.errors[subOrderType + '.transport_price_gross']"
+
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_customized_price_change"
+                prop="customized_price_change"
             >   
                 <div class="flex flex-col">
 
@@ -221,22 +223,23 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_customized_price_change"
+                        v-model="data.order[subOrderType].customized_price_change"
                         placeholder="Customized price change"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_customized_price_change"
+                    :errorMessage="props.errors[subOrderType + '.customized_price_change']"
+
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_customized_price_mode"
+                prop="customized_price_mode"
             >   
                 <div class="flex flex-col">
 
@@ -248,22 +251,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_customized_price_mode"
+                        v-model="data.order[subOrderType].customized_price_mode"
                         placeholder="Customized price mode"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_customized_price_mode"
+                    :errorMessage="props.errors[subOrderType + '.customized_price_mode']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_discount"
+                prop="discount"
             >   
                 <div class="flex flex-col">
 
@@ -275,22 +278,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_discount"
+                        v-model="data.order[subOrderType].discount"
                         placeholder="Discount"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_discount"
+                    :errorMessage="props.errors[subOrderType + '.discount']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_price_gross"
+                prop="price_gross"
             >   
                 <div class="flex flex-col">
 
@@ -302,22 +305,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_price_gross"
+                        v-model="data.order[subOrderType].price_gross"
                         placeholder="Price gross"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_price_gross"
+                    :errorMessage="props.errors[subOrderType + '.price_gross']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_price_vat"
+                prop="price_vat"
             >   
                 <div class="flex flex-col">
 
@@ -329,22 +332,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_price_vat"
+                        v-model="data.order[subOrderType].price_vat"
                         placeholder="Price vat"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_price_vat"
+                    :errorMessage="props.errors[subOrderType + '.price_vat']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_price_net"
+                prop="price_net"
             >   
                 <div class="flex flex-col">
 
@@ -356,22 +359,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_price_net"
+                        v-model="data.order[subOrderType].price_net"
                         placeholder="Price net"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_price_net"
+                    :errorMessage="props.errors[subOrderType + '.price_net']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_price_fuel_surcharge"
+                prop="price_fuel_surcharge"
             >   
                 <div class="flex flex-col">
 
@@ -383,22 +386,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_price_fuel_surcharge"
+                        v-model="data.order[subOrderType].price_fuel_surcharge"
                         placeholder="Price fuel surcharge"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_price_fuel_surcharge"
+                    :errorMessage="props.errors[subOrderType + '.price_fuel_surcharge']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_vat_rate"
+                prop="vat_rate"
             >   
                 <div class="flex flex-col">
 
@@ -410,22 +413,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_vat_rate"
+                        v-model="data.order[subOrderType].vat_rate"
                         placeholder="Vat rate"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_vat_rate"
+                    :errorMessage="props.errors[subOrderType + '.vat_rate']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_value_insured"
+                prop="value_insured"
             >   
                 <div class="flex flex-col">
 
@@ -437,22 +440,22 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_value_insured"
+                        v-model="data.order[subOrderType].value_insured"
                         placeholder="Value insured"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_value_insured"
+                    :errorMessage="props.errors[subOrderType + '.value_insured']"
                 />
 
             </el-form-item>
 
             <el-form-item
-                prop="p_value_of_goods"
+                prop="value_of_goods"
             >   
                 <div class="flex flex-col">
 
@@ -464,16 +467,16 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order.p_value_of_goods"
+                        v-model="data.order[subOrderType].value_of_goods"
                         placeholder="Value of goods"
                         clearable
-                        @input="updateParent"
+                        @input="update"
                     />
 
                 </div>
 
                 <BackendValidationErrorDisplay
-                    :errorMessage="props.errors.p_value_of_goods"
+                    :errorMessage="props.errors[subOrderType + '.value_of_goods']"
                 />
 
             </el-form-item>
@@ -484,9 +487,10 @@
 </template>
 
 <script setup>
-import { defineProps, reactive } from 'vue';
+import { defineProps, reactive, computed } from 'vue';
 import Title from '@/Shared/Title.vue';
 import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
+import useSubOrderType from '@/Use/useSubOrderType';
 
 const props = defineProps({
     order: {
@@ -503,10 +507,20 @@ const props = defineProps({
     },
 });
 
+/**
+ * See the useSubOrderType composable for more information.
+ * This must be positioned after the props!
+ */
+const { subOrderType } = useSubOrderType(props.order);
+
 const data = reactive({
     order: props.order,
-    showFinances: false,
+    showFinances: true,
     showLabel: true,
 });
+
+const update = () => {
+    // props.$emit('update:order', data.order);
+};
 
 </script>

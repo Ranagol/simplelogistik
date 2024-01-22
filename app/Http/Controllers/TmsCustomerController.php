@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\TmsCustomer;
+use App\Models\TmsForwarder;
+use Illuminate\Http\Request;
 use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Inertia\Response;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TmsCustomerController extends BaseController
 {
@@ -58,10 +60,69 @@ class TmsCustomerController extends BaseController
 
     public function create(): Response
     {
+        //Create a new customer object, as a template that will be sent to the FE.
+        $newCustomer = new TmsCustomer();
+
+        //Set default values for some customer properties, for customer create
+        $newCustomer->customer_type = 'Bussiness customer';
+        $newCustomer->invoice_dispatch = 'Direct';
+        $newCustomer->invoice_shipping_method = 'Email';
+        $newCustomer->payment_method = 'Invoice';
+
+        //Get all forwarders, needed to for el-select options.
+        $forwarders = TmsForwarder::all()->map(function ($forwarder) {
+            return [
+                'id' => $forwarder->id,
+                'name' => $forwarder->company_name, 
+            ];
+        });
+
+        //Add a completely empy option to the forwarders array. Needed to Christoph.
+        $emptyForwarder = [
+            'id' => null,
+            'name' => null, 
+        ];
+
+        $forwarders->push($emptyForwarder);
+
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
-                // 'record' => $record,
+                'record' => $newCustomer,
+                // 'record' => TmsCustomer::select(//needed for edit validation testing
+                //     // 'id',
+                //     'forwarder_id',
+                //     'company_name',
+                //     'internal_id',
+                //     'first_name',
+                //     'last_name',
+                //     'email',
+                //     'phone',
+                //     'tax_number',
+                //     'rating',
+                //     'comments',
+                //     'payment_time',
+                //     'auto_book_as_private',
+                //     'dangerous_goods',
+                //     'bussiness_customer',
+                //     'debt_collection',
+                //     'direct_debit',
+                //     'manual_collective_invoicing',
+                //     'private_customer',
+                //     'invoice_customer',
+                //     'poor_payment_morale',
+                //     'can_login',
+                //     'customer_type',
+                //     'invoice_dispatch',
+                //     'invoice_shipping_method',
+                //     'payment_method',
+                //     'payment_method_options_to_offer',
+                //     'email_for_invoice',
+                //     'email_for_label',
+                //     'email_for_pod',
+                //     'customer_reference',
+                // )->find(2),
+
                 'mode' => 'create',
                 //These are the possibly selectable options for the el-select in customer create or edit form.
                 'selectOptions' => [
@@ -69,6 +130,7 @@ class TmsCustomerController extends BaseController
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
                     'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'forwarders' => $forwarders,
                 ]
             ]
         );
@@ -100,12 +162,17 @@ class TmsCustomerController extends BaseController
          */
         $newRecord = $request->validated();//do validation
 
-        /**
-         * 1. Find the relevant record and...
-         * 2. ...update it.
-         * 3. Get the newly created record, and return it to the FE.
-         */
+        $newRecord = $this->handleForwarderId($newRecord);
+
         $newlyCreatedRecord = $this->model->create($newRecord);
+
+        /**
+         * Since a new address is created, we send a success message to the FE. First step of this
+         * is to put the message into the session. After redirecting to the edit page, we will send
+         * this message to the FE, and then we will delete it from the session. So, the edit page
+         * will know that a new record was created, and it will display the success message.
+         */
+        Session::put('customerCreate', 'Customer created successfully!');
 
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
@@ -123,24 +190,115 @@ class TmsCustomerController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::with('contactAddresses')->find($id);
+        $record = $this->model::with(['addresses'])->find($id);
+
+        /**
+         * Here we check if there is a session variable called 'customerCreate'. If yes, we send it
+         * to the FE. And then we delete it from the session, with Session::forget.
+         */
+        $successMessage = Session::get('customerCreate');
+        Session::forget('customerCreate');
 
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
                 'record' => $record,
                 'mode' => 'edit',
+
+                /**
+                 * This is only needed, when a new customer was created, and then the user is redirected
+                 * to the edit page. In this case we send the success message to the FE.
+                 */
+                'successMessage' => $successMessage,
+
                 //These are the possibly selectable options for the el-select in customer create or edit form.
                 'selectOptions' => [
                     'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
-                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,//all payment methods
+                    'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
+                        return [
+                            'id' => $forwarder->id,
+                            'name' => $forwarder->company_name, 
+                        ];
+                    }),
                 ]
             ]
         );
     }
 
+    /**
+     * Updates records. Inertia automatically sends succes or error feedback to the frontend.
+     *
+     * @param string $id
+     * @return void
+     */
+    public function update(string $id): void
+    {
+        /**
+         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
+         * calling this method?
+         */
+        $request = app($this->getRequestClass());
+        
+        /**
+         * The validated method is used to get the validated data from the request.
+         */
+        $newRecord = $request->validated();//do validation
+        // dd($newRecord);
+        
+        $newRecord = $this->handleForwarderId($newRecord);
+
+        /**
+         * 1. Find the relevant record and...
+         * 2. ...update it.
+         */
+        $this->model->find($id)->update($newRecord);
+    }
+
+    /**
+     * Here we handle the forwarder_id. Not every customer belong to a forwarder. So, the forwarder_id
+     * can be null. So, here we handle two situations: when we have a forwarder object, and when we
+     * do not have a forwarder object.
+     * 
+     * If there is a selected forwarder object, then we set the forwarder_id to the id of the 
+     * selected forwarder.
+     * If there is no selected forwarder object, then we set the forwarder_id to null.
+     */
+    private function handleForwarderId(array $customer): array
+    {
+        if (isset($customer['forwarder'])) {
+            $customer['forwarder_id'] = $customer['forwarder']['id'];//Here we set the forwarder id
+        } else {
+            $customer['forwarder_id'] = null;
+        }
+
+        return $customer;
+    }
+
+    /**
+     * Deletes records. This triggers the onSuccess event in FE component, which then displays
+     * the success message to the user, and then the FE component calls the $this->index() method,
+     * which returns the records. So, the user gets his feedback, and the record list is refreshed.
+     * 
+     * @param [type] $id
+     * @return void
+     */
+    public function destroy(Request $request, string $id): void
+    {
+        
+        TmsCustomer::destroy($id);
+    }
+
+
+    /**
+     * Comments about the customer writes into the db.
+     *
+     * @param Request $request
+     * @param TmsCustomer $customer
+     * @return void
+     */
     public function addComment(Request $request, TmsCustomer $customer)
     {
         //comment validation
@@ -154,7 +312,7 @@ class TmsCustomerController extends BaseController
         //Get the current date in this format 2023-12-04 14:01:26
         $date = date('Y-m-d H:i:s');
 
-        //Getting the currently existing comments
+        //Getting the currently existing comments (all of them)
         $comments = $customer->comments;
 
         //Formating the new comment that we want to add to the existing comments
@@ -220,7 +378,7 @@ class TmsCustomerController extends BaseController
                 return $query->orderBy('id', 'desc');
             })
 
-            ->with('contactAddresses')
+            ->with('headquarter')
             
             /**
              * PAGINATION

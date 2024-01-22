@@ -55,6 +55,6 @@ export default {
         parcelDummy,
         parcelDummy,
     ],
-    start_address: addressDummy,
-    target_address: addressDummy,
+    pickup_address: addressDummy,
+    delivery_address: addressDummy,
 }

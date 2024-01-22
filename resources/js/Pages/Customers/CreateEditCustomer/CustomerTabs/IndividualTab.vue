@@ -1,6 +1,5 @@
 <template>
     
-    <!-- :rules="rules" -->
     <el-form
         ref="ruleFormRef"
         :model="data.customer"
@@ -44,6 +43,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.auto_book_as_private"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -54,6 +54,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.dangerous_goods"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -64,6 +65,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.bussiness_customer"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -74,6 +76,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.debt_collection"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -84,6 +87,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.direct_debit"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -94,46 +98,7 @@
             >   
                 <el-checkbox
                     v-model="data.customer.manual_collective_invoicing"
-                />
-            </el-form-item>
-
-            <el-form-item
-                label="Paypal"
-                prop="paypal"
-                :label-width="data.labelWidth"
-            >   
-                <el-checkbox
-                    v-model="data.customer.paypal"
-                />
-            </el-form-item>
-
-            <el-form-item
-                label="Sofort"
-                prop="sofort"
-                :label-width="data.labelWidth"
-            >   
-                <el-checkbox
-                    v-model="data.customer.sofort"
-                />
-            </el-form-item>
-
-            <el-form-item
-                label="Amazon"
-                prop="amazon"
-                :label-width="data.labelWidth"
-            >   
-                <el-checkbox
-                    v-model="data.customer.amazon"
-                />
-            </el-form-item>
-
-            <el-form-item
-                label="Vorkasse"
-                prop="vorkasse"
-                :label-width="data.labelWidth"
-            >   
-                <el-checkbox
-                    v-model="data.customer.vorkasse"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -144,6 +109,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.private_customer"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -154,6 +120,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.invoice_customer"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -164,6 +131,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.poor_payment_morale"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -174,6 +142,7 @@
             >
                 <el-checkbox
                     v-model="data.customer.can_login"
+                    @change="handleChange"
                 />
             </el-form-item>
 
@@ -181,123 +150,279 @@
             <!-- PROBLEM: the options window is not closing automatically, when an options is
             selected. Solution: use ref for el-select, then on change close the 
             options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
-            https://github.com/ElemeFE/element/issues/11048 -->
+            https://github.com/ElemeFE/element/issues/11048 
+            So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
+            the data update sync process with the parent component.
+            -->
             <el-form-item
                 label="Customer type"
                 prop="customer_type"
                 :label-width="data.labelWidth"
             >
-                <el-select
-                    ref="customerTypeRef"
-                    v-model="data.customer.customer_type"
-                    clearable
-                    @change="$refs.customerTypeRef.blur()"
-                >
-                    <el-option
-                        v-for="(item, index) in props.selectOptions.customerTypes"
-                        :key="index"
-                        :label="item"
-                        :value="item"
-                    ></el-option>
-                </el-select>
-                    
-                <div
-                    v-if="props.errors.customer_type"
-                    v-text="props.errors.customer_type"
-                    class="text-red-500 text-xs mt-1"
-                ></div>
+                <div class="flex flex-col">
+                    <el-select
+                        ref="customerTypeRef"
+                        v-model="data.customer.customer_type"
+                        clearable
+                        @change="$refs.customerTypeRef.blur()"
+                        @blur="handleChange"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.customerTypes"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.customer_type"/>
+
+                </div>
+                
 
             </el-form-item>
 
             <!-- PROBLEM: the options window is not closing automatically, when an options is
             selected. Solution: use ref for el-select, then on change close the 
             options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
-            https://github.com/ElemeFE/element/issues/11048 -->
+            https://github.com/ElemeFE/element/issues/11048 
+            So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
+            the data update sync process with the parent component.
+            -->
             <el-form-item
                 label="Invoice dispatch"
                 prop="invoice_dispatch"
                 :label-width="data.labelWidth"
             >
-                <el-select
-                    ref="invoiceDispatchRef"
-                    v-model="data.customer.invoice_dispatch"
-                    clearable
-                    @change="$refs.invoiceDispatchRef.blur()"
-                >
-                    <el-option
-                        v-for="(item, index) in props.selectOptions.invoiceDispatches"
-                        :key="index"
-                        :label="item"
-                        :value="item"
-                    ></el-option>
-                </el-select>
+                <div class="flex flex-col">
+
+                    <el-select
+                        ref="invoiceDispatchRef"
+                        v-model="data.customer.invoice_dispatch"
+                        clearable
+                        @change="$refs.invoiceDispatchRef.blur()"
+                        @blur="handleChange"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.invoiceDispatches"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+
+                    </el-select>
                     
-                    <div
-                        v-if="props.errors.invoice_dispatch"
-                        v-text="props.errors.invoice_dispatch"
-                        class="text-red-500 text-xs mt-1"
-                    ></div>
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.invoice_dispatch"/>
+                </div>
+
             </el-form-item>
 
             <!-- PROBLEM: the options window is not closing automatically, when an options is
             selected. Solution: use ref for el-select, then on change close the 
             options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
-            https://github.com/ElemeFE/element/issues/11048 -->
+            https://github.com/ElemeFE/element/issues/11048 
+            So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
+            the data update sync process with the parent component.
+            -->
             <el-form-item
                 label="Invoice shipping method"
                 prop="invoice_shipping_method"
                 :label-width="data.labelWidth"
             >
-                <el-select
-                    ref="invoiceShippingMethodRef"
-                    v-model="data.customer.invoice_shipping_method"
-                    clearable
-                    @change="$refs.invoiceShippingMethodRef.blur()"
-                >
-                    <el-option
-                        v-for="(item, index) in props.selectOptions.invoiceShippingMethods"
-                        :key="index"
-                        :label="item"
-                        :value="item"
-                    ></el-option>
-                </el-select>
-                    
-                    <div
-                        v-if="props.errors.invoice_shipping_method"
-                        v-text="props.errors.invoice_shipping_method"
-                        class="text-red-500 text-xs mt-1"
-                    ></div>
+                <div class="flex flex-col">
+
+                    <el-select
+                        ref="invoiceShippingMethodRef"
+                        v-model="data.customer.invoice_shipping_method"
+                        clearable
+                        @change="$refs.invoiceShippingMethodRef.blur()"
+                        @blur="handleChange"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.invoiceShippingMethods"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.invoice_shipping_method"/>
+                </div>
+            </el-form-item>
+
+            <!-- ****************************************************************************** -->
+            <!-- PROBLEM: the options window is not closing automatically, when an options is
+            selected. Solution: use ref for el-select, then on change close the 
+            options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
+            https://github.com/ElemeFE/element/issues/11048 
+            So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
+            the data update sync process with the parent component.
+            -->
+            <!-- 1: OPTIONS THAT CAN BE OFFERED TO THIS CUSTOMER -->
+            <el-form-item
+                label="Payment method options to offer"
+                prop="payment_method_options_to_offer"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <!-- MULTIPLE -->
+                    <!-- It offers all existing payment_options from TmsCustomer::PAYMENT_METHODS -->
+                    <!-- Selected offers go to the json column -->
+                    <!-- @change="$refs.paymentMethodRef.blur()" -->
+                    <el-select
+                        ref="paymentMethodRef"
+                        v-model="data.customer.payment_method_options_to_offer"
+                        clearable
+                        multiple
+                        @change="handleChange"
+                        @blur="handleChange"
+                    >
+                        <el-option
+                            v-for="(item, index) in props.selectOptions.paymentMethods"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.payment_method_options_to_offer"/>
+                </div>
             </el-form-item>
 
             <!-- PROBLEM: the options window is not closing automatically, when an options is
             selected. Solution: use ref for el-select, then on change close the 
             options with the  @change=$refs.paymentMethodRef.blur()" trick. Source:
-            https://github.com/ElemeFE/element/issues/11048 -->
+            https://github.com/ElemeFE/element/issues/11048 
+            So, @change closes the popup, by triggering the @blur. The @blur is actully triggering
+            the data update sync process with the parent component.
+            -->
+            <!-- 2: SELECTED PAYMENT OPTION -->
             <el-form-item
                 label="Payment method"
                 prop="payment_method"
                 :label-width="data.labelWidth"
             >
-                <el-select
-                    ref="paymentMethodRef"
-                    v-model="data.customer.payment_method"
-                    clearable
-                    @change="$refs.paymentMethodRef.blur()"
-                >
-                    <el-option
-                        v-for="(item, index) in props.selectOptions.paymentMethods"
-                        :key="index"
-                        :label="item"
-                        :value="item"
-                    ></el-option>
-                </el-select>
-                    
-                <div
-                    v-if="props.errors.payment_method"
-                    v-text="props.errors.payment_method"
-                    class="text-red-500 text-xs mt-1"
-                ></div>
-                
+                <div class="flex flex-col">
+
+                    <el-select
+                        ref="paymentMethodRef"
+                        v-model="data.customer.payment_method"
+                        clearable
+                        @change="$refs.paymentMethodRef.blur()"
+                        @blur="handleChange"
+                    >
+                        <el-option
+                            v-for="(item, index) in data.customer.payment_method_options_to_offer"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        ></el-option>
+                    </el-select>
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.payment_method"/>
+                </div>
+            </el-form-item>
+
+            <!-- **************************************************************************** -->
+            <el-form-item
+                label="Email for invoice"
+                prop="email_for_invoice"
+                width="100px"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <el-input
+                        v-model="data.customer.email_for_invoice"
+                        placeholder="Email for invoice"
+                        type="text"
+                        show-word-limit
+                        :maxlength="255"
+                        clearable
+                        @input="handleChange()"
+                        @clear="handleChange()"
+                        @change="handleChange()"
+                    />
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.email_for_invoice"/>
+
+                </div>
+            </el-form-item>
+
+            <el-form-item
+                label="Email for label"
+                prop="email_for_label"
+                width="100px"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <el-input
+                        v-model="data.customer.email_for_label"
+                        placeholder="Email for label"
+                        type="text"
+                        show-word-limit
+                        :maxlength="255"
+                        clearable
+                        @input="handleChange()"
+                        @clear="handleChange()"
+                        @change="handleChange()"
+                    />
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.email_for_label"/>
+
+                </div>
+            </el-form-item>
+
+            <el-form-item
+                label="Email for POD"
+                prop="email_for_pod"
+                width="100px"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <el-input
+                        v-model="data.customer.email_for_pod"
+                        placeholder="Email for POD"
+                        type="text"
+                        show-word-limit
+                        :maxlength="255"
+                        clearable
+                        @input="handleChange()"
+                        @clear="handleChange()"
+                        @change="handleChange()"
+                    />
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.email_for_pod"/>
+
+                </div>
+            </el-form-item>
+
+            <el-form-item
+                label="Customer reference"
+                prop="customer_reference"
+                width="100px"
+                :label-width="data.labelWidth"
+            >
+                <div class="flex flex-col">
+
+                    <el-input
+                        v-model="data.customer.customer_reference"
+                        placeholder="Customer reference"
+                        type="text"
+                        show-word-limit
+                        :maxlength="255"
+                        clearable
+                        @input="handleChange()"
+                        @clear="handleChange()"
+                        @change="handleChange()"
+                    />
+
+                    <BackendValidationErrorDisplay :errorMessage="props.errors.customer_reference"/>
+
+                </div>
             </el-form-item>
         </div>
 
@@ -307,7 +432,7 @@
 <script setup>
 import { reactive, computed } from 'vue';
 import _ from 'lodash';
-
+import BackendValidationErrorDisplay from '@/Shared/Validation/BackendValidationErrorDisplay.vue';
 
 let props = defineProps({
 
@@ -342,20 +467,6 @@ let data = reactive({
     labelWidth: '260px',
 });
 
-/**
- * Generates header text for the Header component.
- */
- const headerText = computed(() => {
-
-// _.get() returns undefined if the path doesn't exist. Which is faulty.
-if (props.mode === 'edit' && _.get(data.customer, 'id')) {
-    //Edit mode title
-    return _.capitalize(props.mode) + ' customer';
-} else {
-    //Create mode title
-    return _.capitalize(props.mode) + ' new customer';
-}
-});
 
 /**
  * This does the customer data synchronization with the parent CreateEditBase component. With

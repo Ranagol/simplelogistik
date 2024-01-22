@@ -20,6 +20,21 @@
         />
 
         <el-table-column
+            label="General description"
+            width="400px"
+        >
+            <template #default="scope">
+                <Link
+                    class="hover:underline text-blue-500"
+                    :href="`/addresses/${scope.row.id}/edit`"
+                >
+                    {{ scope.row.street }} {{ scope.row.house_number }}, 
+                    {{ scope.row.city }} {{ scope.row.zip_code }}
+                </Link>
+            </template>
+        </el-table-column>
+
+        <el-table-column
             label="First name"
             prop="first_name"
             sortable="custom"
@@ -37,14 +52,13 @@
             label="Address type"
             prop="address_type"
             sortable="custom"
-            :width="setWidth(addressType)"
-            ref="addressType"
+            :width="300"
         >
             <template #default="scope">
-                <Link
-                    class="hover:underline text-blue-500"
-                    :href="`/addresses/${scope.row.id}/edit`"
-                >{{ scope.row.address_type }}</Link>
+                <span v-if="scope.row.is_pickup">Pickup</span>
+                <span v-if="scope.row.is_delivery"> Delivery</span>
+                <span v-if="scope.row.is_billing"> Billing</span>
+                <span v-if="scope.row.is_headquarter"> Headquarter</span>
             </template>
         </el-table-column>
 
@@ -52,7 +66,7 @@
             label="Street"
             prop="street"
             sortable="custom"
-            width="100px"
+            width="200px"
         />
 
         <el-table-column
@@ -76,40 +90,40 @@
             width="150px"
         />
 
-        <el-table-column
+        <!-- <el-table-column
             label="Country"
-            prop="country.country_name"
+            prop="country_name"
             sortable="custom"
             width="250px"
-        />
+        /> -->
 
-        <el-table-column
+        <!-- <el-table-column
             label="State"
             prop="state"
             sortable="custom"
             width="150px"
-        />
+        /> -->
 
-        <el-table-column
+        <!-- <el-table-column
             label="Comment"
             prop="comment"
             sortable="custom" 
             width="300px"
-        />
+        /> -->
 
-        <el-table-column
+        <!-- <el-table-column
             label="Cust. id"
             prop="customer_id"
             sortable="custom"
             width="150px"
-        />
+        /> -->
 
-        <el-table-column
+        <!-- <el-table-column
             label="Forwarder id"
             prop="forwarder_id"
             sortable="custom"
             width="150px"
-        />
+        /> -->
     </el-table> 
 </template>
 
@@ -126,15 +140,6 @@ const props = defineProps({
     sortColumn: String,
     sortOrder: String,
 });
-
-
-const addressType = ref(null);//STOPPED HERE. THE IDEA IS: CATCH A COLUMN WITH A REF. IT MAY CONTAIN THE LABEL WIDTH, AND ALL THE ROWS IN IT? THEN SET THE WIDTH OF THE COLUMN TO THE WIDEST ROW IN IT.
-
-const setWidth = (ref) => {
-    // console.log('ref', ref);
-    return '200px';
-};
-
 
 /**
  * SORTING

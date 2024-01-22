@@ -4,13 +4,13 @@
         type="border-card"
         stretch
     >
-        <!-- CUSTOMER GENERAL DATA -->
         <el-tab-pane
             label="General customer data"
         >
             <DataTab
                 v-model="data.customer"
                 :errors="props.errors"
+                :forwarders="props.selectOptions.forwarders"
                 :mode="props.mode"
                 @submit="submit"
                 @destroy="destroy"
@@ -18,7 +18,6 @@
             </DataTab>
         </el-tab-pane>
 
-        <!-- INDIVIDUAL SETTINGS -->
         <el-tab-pane
             label="Individual settings"
         >
@@ -33,13 +32,11 @@
             </IndividualTab>
         </el-tab-pane>
 
-        <!-- COMMENTS -->
         <el-tab-pane
             label="Comments"
         >
             <CommentsTab
                 :customer="data.customer"
-                :errors="props.errors"
             />
             
         </el-tab-pane>
@@ -49,8 +46,7 @@
             label="Addresses"
         >
             <AddressesTab
-                v-model="data.customer"
-                :errors="props.errors"
+                :addresses="data.customer.addresses"
             >
             </AddressesTab>
         </el-tab-pane>
@@ -61,7 +57,6 @@
         >
             <ContactsTab
                 v-model="data.customer"
-                :errors="props.errors"
             >   
             </ContactsTab>
         </el-tab-pane>
@@ -72,7 +67,6 @@
         >
             <OrdersTab
                 v-model="data.customer"
-                :errors="props.errors"
             >
             </OrdersTab>
         </el-tab-pane>
@@ -83,9 +77,18 @@
         >
             <OffersTab
                 v-model="data.customer"
-                :errors="props.errors"
             >    
             </OffersTab>    
+        </el-tab-pane>
+
+        <!-- INVOICES -->
+        <el-tab-pane
+            label="Invoices"
+        >
+            <InvoicesTab
+                v-model="data.customer"
+            >    
+            </InvoicesTab>
         </el-tab-pane>
 
         
@@ -103,6 +106,7 @@ import OrdersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OrdersT
 import OffersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OffersTab.vue';
 import IndividualTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/IndividualTab.vue';
 import CommentsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/CommentsTab.vue';
+import InvoicesTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/InvoicesTab.vue';
 import _ from 'lodash';
 
 const props = defineProps({

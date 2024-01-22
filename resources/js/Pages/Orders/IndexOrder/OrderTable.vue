@@ -23,28 +23,30 @@
 
         <el-table-column
             width="150"
-            prop="p_order_number"
+            prop="sub_order.order_number"
             label="Order number"
             sortable="custom"
         >
             <template 
                 #default="scope"
             >
-                <!-- This is the link, that leads to the edit page -->
+                <!-- Data for this column is either in pamyra_order or native_order key, deepending
+                if the order can from Pamyra or it is a native, in house order. -->
                 <Link
                     class="hover:underline text-blue-500"
                     :href="`/orders/${scope.row.id}/edit`"
-                >{{ scope.row.p_order_number }}</Link>
+                >{{ (scope.row.pamyra_order || scope.row.native_order || {}).order_number }}</Link>
 
             </template>
 
         </el-table-column>
 
-        <el-table-column
+         <el-table-column
             width="250"
-            prop="p_order_status"
+            prop="status"
             label="Order status"
-        >Pull from orderHistories
+            sortable="custom"
+        >
         </el-table-column>
 
         <el-table-column
@@ -54,7 +56,6 @@
             sortable="custom"  
         ></el-table-column>
 
-        <!-- *********************** -->
         <el-table-column
             width="150"
             prop="created_at"
@@ -72,8 +73,8 @@
             label="Pickup date period"
         >
             <template #default="scope">
-                {{ useDateTimeFormatter(scope.row.p_pickup_date_from) }} 
-                - {{ useDateTimeFormatter(scope.row.p_pickup_date_to) }}
+                {{ useDateTimeFormatter((scope.row.sub_order || {}).pickup_date_from) }} 
+                - {{ useDateTimeFormatter((scope.row.sub_order || {}).pickup_date_to) }}
             </template>
         </el-table-column>
 
@@ -82,42 +83,43 @@
             label="Delivery date period"
         >
             <template #default="scope">
-                {{ useDateTimeFormatter(scope.row.p_delivery_date_from) }} 
-                - {{ useDateTimeFormatter(scope.row.p_delivery_date_to) }}
+                {{ useDateTimeFormatter((scope.row.sub_order || {}).delivery_date_from) }} 
+                - {{ useDateTimeFormatter((scope.row.sub_order || {}).delivery_date_to) }}
             </template>
-        </el-table-column>
+        </el-table-column> -->
 
-        <el-table-column
-            width="250"
-            label="Pickup address"
-        >
-            <template #default="scope">
-                code**  {{ scope.row.start_address.city }}
-            </template>
-        </el-table-column>
-
-        <el-table-column
-            width="250"
-            label="Delivery address"
-        >
-            <template #default="scope">
-                code**  {{ scope.row.target_address.city }}
-            </template>
-        </el-table-column>
         
         <el-table-column
             width="350"
             label="Description"
-            sortable="custom"
-            prop="p_description_of_transport"
-        ></el-table-column>
+            prop="sub_order.description_of_transport"
+        >
+            <!-- Data for this column is either in pamyra_order or native_order key, deepending
+            if the order can from Pamyra or it is a native, in house order. -->
+
+            <template 
+                #default="scope"
+            >
+                {{ (scope.row.pamyra_order || scope.row.native_order || {}).description_of_transport }}
+            </template>
+        
+        </el-table-column>
         
         <el-table-column
             width="150"
             label="Price gross"
-            sortable="custom"
-            prop="p_calculated_transport_price"
-        ></el-table-column>
+            prop="sub_order.calculated_transport_price"
+        >
+            <!-- Data for this column is either in pamyra_order or native_order key, deepending
+            if the order can from Pamyra or it is a native, in house order. -->
+
+            <template 
+                #default="scope"
+            >
+                {{ (scope.row.pamyra_order || scope.row.native_order || {}).calculated_transport_price }}
+            </template>
+    
+        </el-table-column>
 
         <!-- <el-table-column
             width="400"
@@ -130,10 +132,10 @@
                     :key="index"
                 >   
                     Parcell {{ index + 1 }}:
-                    {{parcel.p_height}}
-                    x{{ parcel.p_width }}
-                    x{{ parcel.p_length }}
-                    cm - {{ parcel.p_weight }} kg
+                    {{parcel.height}}
+                    x{{ parcel.width }}
+                    x{{ parcel.length }}
+                    cm - {{ parcel.weight }} kg
                 
                 </div>
                 <div
@@ -142,40 +144,48 @@
             </template>
         </el-table-column> -->
 
-        <!-- <el-table-column
+        <el-table-column
             width="200"
             label="Value of goods"
-            sortable="custom"
-            prop="p_value_of_goods"
-        ></el-table-column>-->
+            prop="sub_order.value_of_goods"
+        >
+            <!-- Data for this column is either in pamyra_order or native_order key, deepending
+            if the order can from Pamyra or it is a native, in house order. -->
 
-        <el-table-column
+            <template 
+                #default="scope"
+            >
+                {{ (scope.row.pamyra_order || scope.row.native_order || {}).calculated_transport_price }}
+            </template>
+        
+        </el-table-column>
+
+        <!-- <el-table-column
             width="300"
             label="Pickup contact"
         >
             <template #default="scope">
-                {{ scope.row.start_address.first_name }} 
-                {{ scope.row.start_address.last_name }}
+                {{ scope.row.pickup_address.first_name }} 
+                {{ scope.row.pickup_address.last_name }}
                 {{ scope.row.avis_receiver_phone }}
 
             </template>
-        </el-table-column> 
+        </el-table-column>  -->
 
-        <el-table-column
+        <!-- <el-table-column
             width="250"
             label="Delivery contact"
         >
             <template #default="scope">
-                {{ scope.row.target_address.first_name }} 
-                {{ scope.row.target_address.last_name }}
+                {{ scope.row.delivery_address.first_name }} 
+                {{ scope.row.delivery_address.last_name }}
                 {{ scope.row.avis_receiver_phone }}
             </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column
-            width="350"
+            width="200"
             label="Customer reference"
-            sortable="custom"
             prop="customer_reference"
         ></el-table-column>
         
@@ -199,32 +209,6 @@ const props = defineProps({
     sortOrder: String,
 });
 
-const data = reactive({
-    columns: [
-        'id',
-        'p_order_number',
-        'customer_id',
-        'contact_id',
-        'pickup_address_id',
-        'delivery_address_id',
-        'description',
-        'shipping_price',
-        'shipping_price_netto',
-        'pickup_date',
-        'delivery_date',
-    ],
-});
-
-/**
- * columnTextShortener() is used to shorten the text in the table
- */
-const columnTextShortener = (text) =>{
-    return text;
-};
-
-
-
-
 /**
  * SORTING
  * sort() is activated by the main table header sort arrows. 
@@ -247,9 +231,7 @@ const sort = ( { prop, order }) => {
     emit('getData');
 };
 
-
-
 </script>
 
 <style scoped>
-</style>@/Use/useDateFormatter.js
+</style>
