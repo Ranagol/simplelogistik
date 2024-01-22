@@ -28,8 +28,12 @@ class TmsVehicle extends Model
         return $this->belongsTo(TmsForwarder::class);
     }
 
-    public function vehicleReqs(): BelongsToMany
+    public function gears(): BelongsToMany
     {
-        return $this->belongsToMany(TmsVehicleReq::class, 'vehicle_vehicle_req_pivot');
+        /**
+         * gear_vehicle is a pivot table between gear and vehicle
+         * vehicle_id and gear_id are the custom column names in the gear_vehicle pivot table
+         */
+        return $this->belongsToMany(TmsGear::class, 'gear_vehicle', 'vehicle_id', 'gear_id');
     }
 }

@@ -22,26 +22,35 @@ class TmsCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // General customer data
             'company_name' => 'required|string|min:2|max:100',
-            // 'company_name' => 'boolean',//just for testing validation
-
             'first_name' => 'required|string|min:2|max:200',
             'last_name' => 'required|string|min:2|max:200',
             'email' => 'required|email|max:100',
+            'phone' => 'required|string|min:2|max:100',
             'rating' => 'required|integer|between:1,5',
             'tax_number' => 'required|string|min:2|max:50',
-            'internal_cid' => 'required|string|min:2|max:100',//****************** */
+            'internal_id' => 'required|string|min:2|max:100',
+            'payment_time' => 'required|integer',
 
+            //We attach this forwarder with the appends trick in the TmsAddress
+            'forwarder' => ['nullable', 'array'],
+            'forwarder_id' => 'nullable|integer|exists:tms_forwarders,id',
+
+            /**
+             * Individual customer data - special settings
+             * When creating a new customer, all unchecked checkboxes will be in Vue simply null,
+             * untill they are at least once checked or unchecked. After that, they are either true 
+             * or false. To avoid issues with unchcked checkboxes, we set them all to false
+             * (some of them true) by default, in the migration. Together with this, in the
+             * customer validation we allow null values for these checkboxes.
+             */
             'auto_book_as_private' => 'nullable|boolean',
             'dangerous_goods' => 'nullable|boolean',
             'bussiness_customer' => 'nullable|boolean',
             'debt_collection' => 'nullable|boolean',
             'direct_debit' => 'nullable|boolean',
             'manual_collective_invoicing' => 'nullable|boolean',
-            'paypal' => 'nullable|boolean',
-            'sofort' => 'nullable|boolean',
-            'amazon' => 'nullable|boolean',
-            'vorkasse' => 'nullable|boolean',
             'private_customer' => 'nullable|boolean',
             'invoice_customer' => 'nullable|boolean',
             'poor_payment_morale' => 'nullable|boolean',
@@ -55,9 +64,16 @@ class TmsCustomerRequest extends FormRequest
             'customer_type' => 'required|string|min:2|max:100',
             'invoice_dispatch' => 'required|string|min:2|max:100',
             'invoice_shipping_method' => 'required|string|min:2|max:100',
-            'payment_method' => 'required|string|min:2|max:100',
-            // 'payment_method' => 'required|boolean',//this here is to trigger validation error
 
+            'payment_method' => 'required|string|min:2|max:100',
+            'payment_method_options_to_offer' => 'array',
+
+            'email_for_invoice' => ['required', 'string', 'email', 'max:255'],
+            'email_for_label' => ['required', 'string', 'email', 'max:255'],
+            'email_for_pod' => ['required', 'string', 'email', 'max:255'],
+            'customer_reference' => ['required', 'string', 'max:255'],
+
+            'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
         ];
     }
 }

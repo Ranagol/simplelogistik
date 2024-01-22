@@ -1,15 +1,16 @@
 <template>
     <Head
-            :title="$t('labels.customers')"
-        />
+        :title="$t('labels.customers')"
+    />
 
-    <TableWithActions 
-        :actions="['edit', 'show']" 
-        v-model:paginationData="data.paginationData" 
-        @getData="getData" 
-        :title="$t('labels.customers')" 
-        :data="data.customers" 
-        :headers="headers"/>
+    <TableWithActions
+        :actions="['edit', 'show']"
+        v-model:paginationData="data.paginationData"
+        @getData="getData"
+        :title="$t('labels.customers')"
+        :data="data.customers"
+        :headers="headers"
+    />
     <!--
     <Card>
 

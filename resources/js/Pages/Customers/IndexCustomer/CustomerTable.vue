@@ -23,7 +23,7 @@
 
         <el-table-column
             label='C. number'
-            prop='internal_cid'
+            prop='internal_id'
             sortable='custom'
             width="150px"
         >
@@ -31,7 +31,7 @@
                 <Link
                     class="hover:underline text-blue-500"
                     :href="`/customers/${scope.row.id}/edit`"
-                >{{ scope.row.internal_cid }}</Link>
+                >{{ scope.row.internal_id }}</Link>
             </template>
         </el-table-column>
 
@@ -69,8 +69,8 @@
             width="250px"
         >
             <template #default="scope">
-                {{ scope.row.contact_addresses[0]?.street }} 
-                {{ scope.row.contact_addresses[0]?.house_number }}
+                {{ scope.row.headquarter[0]?.street }} 
+                {{ scope.row.headquarter[0]?.house_number }}
             </template>
         </el-table-column>
 
@@ -80,7 +80,7 @@
             width="150px"
         >
             <template #default="scope">
-                {{ scope.row.contact_addresses[0]?.zip_code }}
+                {{ scope.row.headquarter[0]?.zip_code }}
             </template>
         </el-table-column>
 
@@ -90,7 +90,7 @@
             width="150px"
         >
             <template #default="scope">
-                {{ scope.row.contact_addresses[0]?.city }}
+                {{ scope.row.headquarter[0]?.city }}
             </template>
         </el-table-column>
 
@@ -164,7 +164,7 @@ const sort = ( { prop, order }) => {
  */
 const formatDate = (dateString) => {
     const dateObject = moment(dateString);
-    return dateObject.format('DD-MM-YYYY');
+    return dateObject.format('DD.MM.YYYY');
 };
 
 </script>

@@ -2,22 +2,23 @@
 
 namespace App\Models;
 
+use App\Models\TmsOrder;
 use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
-use App\Models\TmsOrder;
+use App\Models\TmsGear;
+use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TmsCustomerReq;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 
 class TmsCustomer extends Model
 {
@@ -35,7 +36,8 @@ class TmsCustomer extends Model
      * @var array
      */
     protected $casts = [
-        //booleans
+        
+        //boolean casting
         'auto_book_as_private' => 'boolean',
         'dangerous_goods' => 'boolean',
         'bussiness_customer' => 'boolean',
@@ -47,13 +49,44 @@ class TmsCustomer extends Model
         'invoice_customer' => 'boolean',
         'poor_payment_morale' => 'boolean',
         'can_login' => 'boolean',
-        'paypal' => 'boolean',
-        'sofort' => 'boolean',
-        'amazon' => 'boolean',
-        'vorkasse' => 'boolean',
-        //json data
+        
+        //json data casting
         'comments' => 'array',
+        'payment_method_options_to_offer' => 'array',
     ];
+
+    /**
+     * APPENDING (attaching a new column to the model, that is originally not in the model's table)
+     * Here we want to add country_name to the Address model.
+     * Under the country_name key in the response, we will get the country_name of the given address.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'forwarder',
+    ];
+
+    public function getForwarderAttribute()
+    {
+        //$this->forwarder_id is the forwarder_id of the current Address model.
+        $forwarder = TmsForwarder::select('id', 'company_name', 'name')->find($this->forwarder_id);
+        
+        if($forwarder && $forwarder->company_name){
+            //If the forwarder has a company_name, let the company_name be the customer_name.
+            $forwarderName = $forwarder ? $forwarder->company_name : 'TmsAddress appends error.';
+        }else{
+            //If the forwarder has no company_name, let the first_name and last_name be the customer_name.
+            $forwarderName = $forwarder ? $forwarder->name : 'TmsAddress appends error.';
+        }
+
+        //We need only the id and the name of the forwarder. So we format the forwarder object.
+        $formattedForwarder = [
+            'id' => $forwarder ? $forwarder->id : null,
+            'name' => $forwarder ? $forwarderName : null
+        ];
+
+        return $formattedForwarder;
+    }
 
     //*************RELATIONSHIPS*************************************** */
 
@@ -69,30 +102,12 @@ class TmsCustomer extends Model
 
     /**
      * Relationship for the headquarter address.
-     *
-     * @return HasOne
      */
     public function headquarter()
     {
         return $this->hasOne(TmsAddress::class, 'customer_id')
-                    ->where('address_type', 1);
-                    // ->orWhere('address_type', 2)
-                    // ->orderBy('address_type', 'asc')
-                    // ->take(1);
-    }
-
-    /**
-     * This is needed for the customers, for the edit and the list view. We have to display (if exist)
-     * the headquarter address of the customer. If that does not exist, we have to display the
-     * billing address. 
-     * To achive this, we have to order the addresses by address_type, and take the first one.
-     *
-     * @return HasMany
-     */
-    public function contactAddresses(): HasMany
-    {
-        return $this->hasMany(TmsAddress::class, 'customer_id')
-                    ->orderBy('address_type', 'asc');
+                    // ->select('id', 'customer_id', 'street', 'house_number', 'zip_code', 'city')
+                    ->where('is_headquarter', true);
     }
 
     public function orders(): HasMany
@@ -125,10 +140,18 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsInvoice::class, 'customer_id');
     }
 
-    public function customerReqs(): BelongsToMany
+    public function gears(): BelongsToMany
     {
-        //customer_customer_req_pivot is the pivot table name between customers and customer_reqs
-        return $this->belongsToMany(TmsCustomerReq::class, 'customer_customer_req_pivot');
+        /**
+         * gear_customer is a pivot table between gear and customer
+         * customer_id and gear_id are the custom column names in the gear_customer pivot table
+         */
+        return $this->belongsToMany(TmsGear::class, 'gear_customer', 'customer_id', 'gear_id');
+    }
+
+    public function orderAddresses(): HasMany
+    {
+        return $this->hasMany(TmsOrderAddress::class, 'order_id');
     }
 
     //*************SCOPES*************************************** */
@@ -144,7 +167,10 @@ class TmsCustomer extends Model
     public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
     {
         return $query->where('company_name', 'like', "%{$searchTerm}%")
-            ->orWhere('email', 'like', "%{$searchTerm}%");
+            ->orWhere('email', 'like', "%{$searchTerm}%")
+            ->orWhere('first_name', 'like', "%{$searchTerm}%")
+            ->orWhere('last_name', 'like', "%{$searchTerm}%")
+            ;
     }
 
     //*************MUTATORS AND ACCESSORS*************************************** */
@@ -156,7 +182,6 @@ class TmsCustomer extends Model
     const CUSTOMER_TYPES = [
         1 => 'Bussiness customer',
         2 => 'Private customer',
-        3 => 'Forwarder',
     ];
     
     protected function customerType(): Attribute
@@ -217,19 +242,25 @@ class TmsCustomer extends Model
         );
     }
 
+    /**
+     * This constant can be used by other models too. TmsOrders uses it for example. However, it is
+     * important to have one one single source of truth/info. And that is here. If you want to add
+     * a new payment method, do it here.
+     */
     const PAYMENT_METHODS = [
         1 => 'PayPal',
         2 => 'Sofort',
         3 => 'Amazon',
         4 => 'Vorkasse',
+        5 => 'Invoice'
     ];
 
     protected function paymentMethod(): Attribute
     {
         return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Bussiness customer'.
+            //gets from db, transforms it. 1 will become 'Paypal'.
             get: fn (string $value) => self::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Bussiness customer' will become 1.
+            //gets from request, transforms it. 'Paypal' will become 1.
             set: fn (string $value) => array_flip(self::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
         );
     }

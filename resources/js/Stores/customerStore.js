@@ -16,7 +16,7 @@ export const useCustomerStore = defineStore(
             email: '',
             rating: '',
             tax_number: '',
-            internal_cid: '',
+            internal_id: '',
         },
     }),
 
