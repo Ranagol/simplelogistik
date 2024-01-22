@@ -74,13 +74,19 @@ class CustomersCommand extends Command
         $mappedData = $dataMapping->mapCustomer($customer, $addresses, $countries);
 
         $result = json_decode($easyBillConnector->callAPI('GET', $this->apiAccess['api_url'] . '?number=' . $customer->internal_id, $this->apiAccess, []));
+        //$this->info('Result: ' . json_encode($result)); die();
 
-        if ($result->total == 0) {
-            $this->info('Customer not found. Creating new customer.');
-            $this->info(json_encode($easyBillConnector->callAPI('POST', $this->apiAccess['api_url'], $this->apiAccess, json_encode($mappedData))));
+        if (isset($result->total )) {
+            if ($result->total == 0) {
+                $this->info('Customer not found. Creating new customer.');
+                $this->info(json_encode($easyBillConnector->callAPI('POST', $this->apiAccess['api_url'], $this->apiAccess, json_encode($mappedData))));
+            } else {
+                $this->info('Customer found. Updating customer.');
+                $this->info(json_encode($easyBillConnector->callAPI('PUT', $this->apiAccess['api_url'] . '/' . $result->items[0]->id, $this->apiAccess, json_encode($mappedData))));
+            }
         } else {
-            $this->info('Customer found. Updating customer.');
-            $this->info(json_encode($easyBillConnector->callAPI('PUT', $this->apiAccess['api_url'] . '/' . $result->items[0]->id, $this->apiAccess, json_encode($mappedData))));
+            $this->info('Error: ' . json_encode($result));
+            die();
         }
     }
 

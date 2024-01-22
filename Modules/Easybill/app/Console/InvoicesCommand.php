@@ -67,17 +67,17 @@ class InvoicesCommand extends Command
             $this->info('AddressTypes: ' . json_encode($addressTypes));
             $addresses = TmsOrderAddress::where('order_id',$this->argument('orderid'))->get();
 
-            foreach($addresses as $address) {
-                if ($address->address_type == 'Pickup address') {
-                    $addresses['is_pickup'] = $address;
-                }
-                if ($address->address_type == 'Delivery address') {
-                    $addresses['is_delivery'] = $address;
-                }
-                if ($address->address_type == 'Billing address') {
-                    $addresses['is_billing'] = $address;
-                }
-            }            
+            // foreach($addresses as $address) {
+            //     if ($address->address_type == 'Pickup address') {
+            //         $addresses['is_pickup'] = $address;
+            //     }
+            //     if ($address->address_type == 'Delivery address') {
+            //         $addresses['is_delivery'] = $address;
+            //     }
+            //     if ($address->address_type == 'Billing address') {
+            //         $addresses['is_billing'] = $address;
+            //     }
+            // }            
          
             $this->info('Addresses: ' . json_encode($addresses)); 
         } catch (\Throwable $th) {
@@ -102,7 +102,7 @@ class InvoicesCommand extends Command
         }
 
         //create or update order in easybill
-        $invoice = TmsInvoice::where('cargo_order_id', $order->id)->first();
+        $invoice = TmsInvoice::where('order_id', $order->id)->first();
         $mappedData = $dataMapping->mapOrder(json_decode($easybillData)->id,$order, $invoice, $customer, $addresses);
         $result = json_decode($easyBillConnector->callAPI('GET', $this->apiAccess['api_url'] . 'documents/' . $customer->internal_id, $this->apiAccess, []));  // Todo: change internal_id to Easybill's order_id
         if ($result->code === 404) {

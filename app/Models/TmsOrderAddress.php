@@ -126,4 +126,13 @@ class TmsOrderAddress extends Model
         3 => 'Pickup address',
         4 => 'Delivery address',
     ];
+
+    /**
+     * Returns the address types.
+     * @return array
+     */
+    public static function getAddressTypes(): array
+    {
+        return self::ADDRESS_TYPES;
+    }
 }
