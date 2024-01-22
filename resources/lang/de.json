@@ -19,7 +19,7 @@
         "pamyra": "Pamyra"
     },
     "labels": {
-        "customer-id":  "Kundennummer",
+        "customer-id": "Kundennummer",
         "first-name": "Vorname",
         "last-name": "Nachname",
         "company-name": "Firmenname",

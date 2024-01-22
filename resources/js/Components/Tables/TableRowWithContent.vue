@@ -17,15 +17,35 @@
             class="items-center px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {{ data[header.key] }}
         </td>
-        <td>
-            <button data-tooltip-placement="bottom" :data-tooltip-target="'tooltip-item-' + dataIndex" type="button" v-if="data.shipping_label_url">
-                <el-icon size="26"><Download /></el-icon>
+        <td v-if="actions !== undefined && actions !== ''"
+                                    class="flex items-center justify-end px-4 py-3">
+            <button :id="'actions-dropdown-button-' + entry.id"
+                :data-dropdown-toggle="'actions-dropdown-' + entry.id"
+                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
+                type="button">
+                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                </svg>
             </button>
-            <button data-tooltip-placement="bottom" :data-tooltip-target="'tooltip-item-' + dataIndex" type="button" v-else>
-                <el-icon size="26"><Close /></el-icon>
-            </button>
-            <Tooltip v-if="data.shipping_label_url" :tooltipText="$t('labels.download-shipping-label')" :id="dataIndex" />
-            <Tooltip v-else :tooltipText="$t('labels.no-shipping-label')" :id="dataIndex" />
+            <div :id="'actions-dropdown-' + entry.id"
+                class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                    :aria-labelledby="'actions-dropdown-button-' + entry.id">
+                    <li v-for=" action  in  actions ">
+                        <button @click="handleShow(entry.id)" v-if="action === 'show'" href="#"
+                            class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
+                                $t('labels.show') }}</button>
+                        <button @click="handleEdit(entry.id)" v-else-if="action === 'edit'" href="#"
+                            class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
+                                $t('labels.edit') }}</button>
+                        <button @click="handleDelete(entry.id)" v-if="action === 'delete'" href="#"
+                            class="block w-full px-4 py-2 text-left text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-700">{{
+                                $t('labels.delete') }}</button>
+                    </li>
+                </ul>
+            </div>
         </td>
     </tr>
     <tr  class="flex-1 hidden w-full overflow-x-auto" :id="'table-column-body-' + dataIndex"
@@ -42,10 +62,10 @@
                     {{ $t('labels.parcel-details') }}</h6>
                 <div class="max-w-screen-md text-base text-gray-500 dark:text-gray-400">
                     <p>
-                        <strong class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">{{ $t('labels.delivery_info') }}</strong> {{ data.p_delivery_comments }}
+                        <strong class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">{{ $t('labels.delivery_info') }}</strong> {{ data.delivery_comments }}
                     </p>    
                     <p>    
-                        <strong class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">{{ $t('labels.description_of_transport') }}</strong> {{ data.p_description_of_transport }}
+                        <strong class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">{{ $t('labels.description_of_transport') }}</strong> {{ data.description_of_transport }}
                     </p>    
                 </div>
             </div>
@@ -66,7 +86,7 @@
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.order_number')}}</h6>
                     <div class="flex items-center text-gray-500 dark:text-gray-400">
-                        {{ data.p_order_number}}
+                        {{ data.order_number}}
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -74,7 +94,7 @@
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.payment_method')}}</h6>
                     <div class="flex items-center space-x-2">
-                        {{ data.p_payment_method }}
+                        {{ data.payment_method }}
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -86,55 +106,61 @@
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
-                        {{ $t('labels.customer_reference')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.customer_reference}}</div>
+                        {{ $t('labels.customer_id')}}</h6>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.customer_id}}</div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance_duration')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.p_duration_minutes}}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.duration_minutes}}</div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.p_distance_km}} km
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.distance_km}} km
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.selling_price')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.p_price_gross }} {{ data.currency }}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.price_gross }} {{ data.currency }}</div>
                 </div>
             </div>
             <div class="flex items-center mt-4 space-x-3">
-                <button type="button"
+                <div class="grid grid-flow-col gap-2 align-middle place-items-center">
+                    <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    <el-icon>
-                        <Edit />
-                    </el-icon>
-                    Bearbeiten
-                </button>
-                <button type="button"
+                        <el-icon>
+                            <Edit />
+                        </el-icon>
+                    <span class="pl-2">Bearbeiten</span>
+                    </button>
+                    <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                    <el-icon>
-                        <View />
-                    </el-icon> 
-                    Details
-                </button>
-                <button type="button"
+                        <el-icon>
+                            <View />
+                        </el-icon> 
+                    <span class="pl-2">Details</span>
+                    </button>
+                    <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                    Stornieren
-                </button>
+                    <el-icon>
+                        <Close />
+                    </el-icon> 
+                    <span v-if="data.canceled">Storniert</span>
+                    <span v-else class="pl-2">Stornieren</span>
+                    </button>
+                </div>
             </div>
         </td>
     </tr>
 </template>
 
 <script setup>
-import { ArrowDown, Close, CloseBold, DocumentRemove, Download } from '@element-plus/icons-vue';
+import { ArrowDown, Close, CloseBold, DocumentRemove, Download, View, Edit } from '@element-plus/icons-vue';
 import Tooltip from '../Tooltips/Tooltip.vue';
 
 const props = defineProps({
@@ -142,6 +168,10 @@ const props = defineProps({
         type: Number,
         required: true
     },
+    actions: {
+        type: Array,
+        required: false
+    }, 
     data: {
         type: Object,
         required: true
@@ -149,7 +179,16 @@ const props = defineProps({
     headers: {
         type: Array,
         required: true
-    }
+    },
+    handleShow: {
+        type: Function
+    },
+    handleEdit: {
+        type: Function
+    },
+    handleDelete: {
+        type: Function
+    },
 })
 
 </script>
