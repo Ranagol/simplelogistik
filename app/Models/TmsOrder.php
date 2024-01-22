@@ -62,7 +62,7 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
-    public function orderHistory(): HasMany
+    public function orderHistories(): HasMany
     {
         return $this->hasMany(TmsOrderHistory::class, 'order_id');
     }
