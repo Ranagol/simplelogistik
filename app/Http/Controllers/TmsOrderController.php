@@ -139,6 +139,8 @@ class TmsOrderController extends BaseController
                 'nativeOrder',
                 'pamyraOrder',
                 'orderAddresses',
+                'forwarder',
+                'orderHistoryLatest',
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
                 'customer' => function ($query) {
@@ -262,6 +264,9 @@ class TmsOrderController extends BaseController
                 'parcels',
                 'nativeOrder',
                 'pamyraOrder',
+                'orderAddresses',
+                'forwarder',
+                'orderHistoryLatest'
             ])
             
             /**

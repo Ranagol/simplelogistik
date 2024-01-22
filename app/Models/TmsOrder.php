@@ -62,35 +62,47 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
-    public function cargoHistory(): HasMany
+    public function orderHistory(): HasMany
     {
-        return $this->hasMany(TmsOrderHistory::class, 'cargo_order_id');
+        return $this->hasMany(TmsOrderHistory::class, 'order_id');
+    }
+
+    /**
+     * Returns the latest order history record. Only one.
+     *
+     * @return HasOne
+     */
+    public function orderHistoryLatest(): HasOne
+    {
+        return $this->hasOne(TmsOrderHistory::class, 'order_id')
+            ->latest();
     }
 
     public function invoice(): HasOne
     {
-        return $this->hasOne(TmsInvoice::class, 'cargo_order_id');
+        return $this->hasOne(TmsInvoice::class, 'order_id');
     }
 
     public function offerPrices(): HasMany
     {
-        return $this->hasMany(TmsOfferPrice::class, 'cargo_order_id');
+        return $this->hasMany(TmsOfferPrice::class, 'order_id');
     }
 
     public function parcels(): HasMany
     {
-        return $this->hasMany(TmsParcel::class, 'tms_cargo_order_id');
+        return $this->hasMany(TmsParcel::class, 'tms_order_id');
     }
 
     public function orderAttributes(): HasMany
     {
-        return $this->hasMany(TmsOrderAttribute::class, 'tms_cargo_order_id');
+        return $this->hasMany(TmsOrderAttribute::class, 'tms_order_id');
     }
 
     public function forwardingContract(): HasOne
     {
         return $this->hasOne(TmsForwardingContract::class, 'order_id');
     }
+    
 
     /**
      * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
@@ -153,6 +165,11 @@ class TmsOrder extends Model
     {
         return $this->hasMany(TmsOrderAddress::class, 'order_id')
             ->where('address_type', 4);
+    }
+
+    public function forwarder(): BelongsTo
+    {
+        return $this->belongsTo(TmsForwarder::class, 'forwarder_id');
     }
 
 
