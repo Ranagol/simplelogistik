@@ -17,7 +17,7 @@ import 'element-plus/dist/index.css';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 // Language Setup
-import { createI18n } from 'vue-i18n';
+import { createI18n, useI18n } from 'vue-i18n';
 
 import de from "../lang/de.json";
 import en from "../lang/en.json";
@@ -34,6 +34,16 @@ const config = {
 
 const translations = createI18n(config);
 // Language Setup End
+
+const getLanguages = () => {
+    return [
+        {code: "de", label: 'lang.de'},
+        {code: "en", label: 'lang.en'},
+        {code: "it", label: 'lang.it'},
+        {code: "es", label: 'lang.es'},
+        {code: "fr", label: 'lang.fr'},
+    ]
+}
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -85,6 +95,11 @@ createInertiaApp({
             .use(ElementPlus)
             .use(createPinia())
             .use(translations)
+            .mixin({ 
+                methods: { 
+                    getLanguages: getLanguages, 
+                 } 
+            })
             .mount(el);
     },
 

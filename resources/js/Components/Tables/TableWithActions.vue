@@ -1,17 +1,16 @@
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
-        <div class="mx-auto max-w-screen-2xl">
             <!-- Start coding here -->
-            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                 <div
-                    class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 border-b dark:border-gray-700">
-                    <div class="w-full flex items-center space-x-3">
-                        <h5 class="dark:text-white font-semibold">{{ title }}</h5>
-                        <div v-if="totalResults" class="text-gray-400 font-medium">{{ totalResults }} {{ $t('labels.total-results') }}</div>
+                    class="flex flex-col items-center justify-between p-4 space-y-3 border-b md:flex-row md:space-y-0 md:space-x-4 dark:border-gray-700">
+                    <div class="flex items-center w-full space-x-3">
+                        <h5 class="font-semibold dark:text-white">{{ title }}</h5>
+                        <div v-if="totalResults" class="font-medium text-gray-400">{{ totalResults }} {{ $t('labels.total-results') }}</div>
                     </div>
-                    <div class="w-full flex flex-row items-center justify-end space-x-3">
+                    <div class="flex flex-row items-center justify-end w-full space-x-3">
                         <button type="button"
-                            class="w-full md:w-auto flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                            class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-white rounded-lg md:w-auto bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
 
                             <el-icon class="me-2">
                                 <Plus />
@@ -21,25 +20,25 @@
 
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between md:space-x-4 p-4 border-b dark:border-gray-700">
+                <div class="flex flex-col items-start justify-between p-4 border-b md:flex-row md:items-center md:space-x-4 dark:border-gray-700">
 
                     <div class="flex flex-row flex-1">
-                        <form class="w-full md:max-w-sm flex-1 md:mr-4">
+                        <form class="flex-1 w-full md:max-w-sm md:mr-4">
                             <label for="default-search"
                                 class="text-sm font-medium text-gray-900 sr-only dark:text-white">{{ $t('labels.search') }}</label>
                             <div class="relative">
                                 <input type="search" id="default-search"
-                                    class="block w-full min-w-40 p-2 pr-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    class="block w-full p-2 pl-5 pr-4 text-sm text-gray-900 border border-gray-300 rounded-lg min-w-40 bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     :placeholder="$t('labels.search')">
                                 <button type="submit"
-                                    class="text-white absolute right-0 bottom-0 top-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-r-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ $t('labels.search') }}</button>
+                                    class="absolute top-0 bottom-0 right-0 px-4 py-2 text-sm font-medium text-white rounded-r-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ $t('labels.search') }}</button>
                             </div>
                         </form>
 
                         <button id="limitSearchFilterDropdownButton" data-dropdown-toggle="limitSearchFilterDropdown"
-                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         type="button">
-                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-2 text-gray-400"
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-4 mr-2 text-gray-400"
                                 viewbox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
                                     d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
@@ -72,7 +71,7 @@
                     </div>
 
                     <button id="showTableColumnsButton" data-dropdown-toggle="showTableColumns"
-                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         type="button">
                         {{ $t('labels.arrange-columns') }}
                         <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
@@ -102,7 +101,7 @@
                             <tr>
 
                                 <th v-for="header in headers" scope="col" class="px-4 py-3">{{ $t(header.text) }}
-                                    <svg v-if="header.orderable == true" class="h-4 w-4 ml-1 inline-block"
+                                    <svg v-if="header.orderable == true" class="inline-block w-4 h-4 ml-1"
                                         fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
                                         aria-hidden="true">
                                         <path clip-rule="evenodd" fill-rule="evenodd"
@@ -116,13 +115,13 @@
                         </thead>
                         <tbody>
                             <tr v-for="entry in data " :key="entry.id"
-                                class="border-b dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer transition">
+                                class="transition border-b cursor-pointer dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <td v-for="head in headers" class="px-4 py-3">
                                     {{ entry[head.key] }}
                                 </td>
                                 <td v-if="actions !== undefined && actions !== ''"
-                                    class="px-4 py-3 flex items-center justify-end">
+                                    class="flex items-center justify-end px-4 py-3">
                                     <button :id="'actions-dropdown-button-' + entry.id"
                                         :data-dropdown-toggle="'actions-dropdown-' + entry.id"
                                         class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
@@ -134,18 +133,18 @@
                                         </svg>
                                     </button>
                                     <div :id="'actions-dropdown-' + entry.id"
-                                        class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                             :aria-labelledby="'actions-dropdown-button-' + entry.id">
                                             <li v-for=" action  in  actions ">
                                                 <button @click="handleShow(entry.id)" v-if="action === 'show'" href="#"
-                                                    class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
+                                                    class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
                                                         $t('labels.show') }}</button>
                                                 <button @click="handleEdit(entry.id)" v-else-if="action === 'edit'" href="#"
-                                                    class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
+                                                    class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
                                                         $t('labels.edit') }}</button>
                                                 <button @click="handleDelete(entry.id)" v-if="action === 'delete'" href="#"
-                                                    class="block w-full text-left py-2 px-4 hover:bg-gray-100 text-red-700 dark:hover:bg-gray-600 dark:hover:text-red-700">{{
+                                                    class="block w-full px-4 py-2 text-left text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-700">{{
                                                         $t('labels.delete') }}</button>
                                             </li>
                                         </ul>
@@ -210,7 +209,6 @@
                     </ul>
                 </nav>
             </div>
-        </div>
     </section>
 </template>
 
