@@ -62,9 +62,20 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsContact::class, 'contact_id');
     }
 
-    public function cargoHistory(): HasMany
+    public function orderHistory(): HasMany
     {
         return $this->hasMany(TmsOrderHistory::class, 'order_id');
+    }
+
+    /**
+     * Returns the latest order history record. Only one.
+     *
+     * @return HasOne
+     */
+    public function orderHistoryLatest(): HasOne
+    {
+        return $this->hasOne(TmsOrderHistory::class, 'order_id')
+            ->latest();
     }
 
     public function invoice(): HasOne
@@ -91,6 +102,7 @@ class TmsOrder extends Model
     {
         return $this->hasOne(TmsForwardingContract::class, 'order_id');
     }
+    
 
     /**
      * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.

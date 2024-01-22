@@ -8,8 +8,8 @@ return [
     /**
      * Test user credentials.
      */
-    'testUsername' => env('TEST_USERNAME', 'test@gmail.com'),
-    'testPassword' => env('TEST_PASSWORD', 'test@gmail.com'),
+    'testUsername' => env('TEST_USERNAME'),
+    'testPassword' => env('TEST_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
