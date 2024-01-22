@@ -1,8 +1,8 @@
 <template>
     <aside
-        class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-200 pt-14 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidenav" id="drawer-navigation">
-        <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
+        <div class="h-full px-3 py-5 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2">
                 <li>
                     <a :href="route('dashboard')"
@@ -17,7 +17,7 @@
                     <a :href="route('customers.index')"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
-                            <Histogram></Histogram>
+                            <Avatar/>
                         </el-icon>
                         <span class="ml-3">{{ $t("menu.customers") }}</span>
                     </a>
@@ -26,7 +26,7 @@
                     <a :href="route('orders.index')"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
-                            <Histogram></Histogram>
+                            <Folder></Folder>
                         </el-icon>
                         <span class="ml-3">{{ $t("menu.orders") }}</span>
                     </a>
@@ -35,7 +35,7 @@
                     <a :href="route('addresses.index')"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
-                            <Histogram></Histogram>
+                            <TakeawayBox />
                         </el-icon>
                         <span class="ml-3">{{ $t("menu.addresses") }}</span>
                     </a>
@@ -43,23 +43,18 @@
 
                 <li>
                     <button type="button"
-                        class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-authentication" data-collapse-toggle="dropdown-authentication">
                         <el-icon>
                             <More />
                         </el-icon>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ $t('menu.more') }}</span>
-                        <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                        <el-icon class="submenu-icon"><ArrowDown /></el-icon>
                     </button>
                     <ul id="dropdown-authentication" class="hidden py-2 space-y-2">
                         <li>
                             <a href="#"
-                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Pamyra</a>
+                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Pamyra</a>
                         </li>
                     </ul>
                 </li>
@@ -67,7 +62,7 @@
             <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                        class="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                         <svg aria-hidden="true"
                             class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +76,7 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                        class="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                         <svg aria-hidden="true"
                             class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -94,7 +89,7 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                        class="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                         <svg aria-hidden="true"
                             class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -108,7 +103,7 @@
             </ul>
         </div>
         <div
-            class="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white dark:bg-gray-800 z-20">
+            class="absolute bottom-0 left-0 z-20 justify-center hidden w-full p-4 space-x-4 bg-white lg:flex dark:bg-gray-800">
             <a href="#"
                 class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                 <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
@@ -128,7 +123,7 @@
                 </svg>
             </a>
             <div id="tooltip-settings" role="tooltip"
-                class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip">
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
                 Settings page
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
@@ -138,10 +133,22 @@
 </template>
 
 <script setup>
-import { Histogram, More } from '@element-plus/icons-vue';
+import { ArrowDown, Avatar, Folder, Histogram, List, More, TakeawayBox, User } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
 import { onMounted } from 'vue';
 onMounted(() => {
     initFlowbite();
 });
 </script>
+<style scoped>
+    button[data-collapse-toggle="dropdown-authentication"][aria-expanded="true"] .submenu-icon{
+        background: transparent !important;
+        transform: rotate(-180deg);
+        transition: transform 200ms ease
+    }
+    button[data-collapse-toggle="dropdown-authentication"][aria-expanded="false"] .submenu-icon{
+        background: transparent !important;
+        transform: rotate(0deg);
+        transition: transform 200ms ease
+    }
+</style>
