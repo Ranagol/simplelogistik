@@ -64,27 +64,27 @@ class TmsOrder extends Model
 
     public function cargoHistory(): HasMany
     {
-        return $this->hasMany(TmsOrderHistory::class, 'cargo_order_id');
+        return $this->hasMany(TmsOrderHistory::class, 'order_id');
     }
 
     public function invoice(): HasOne
     {
-        return $this->hasOne(TmsInvoice::class, 'cargo_order_id');
+        return $this->hasOne(TmsInvoice::class, 'order_id');
     }
 
     public function offerPrices(): HasMany
     {
-        return $this->hasMany(TmsOfferPrice::class, 'cargo_order_id');
+        return $this->hasMany(TmsOfferPrice::class, 'order_id');
     }
 
     public function parcels(): HasMany
     {
-        return $this->hasMany(TmsParcel::class, 'tms_cargo_order_id');
+        return $this->hasMany(TmsParcel::class, 'tms_order_id');
     }
 
     public function orderAttributes(): HasMany
     {
-        return $this->hasMany(TmsOrderAttribute::class, 'tms_cargo_order_id');
+        return $this->hasMany(TmsOrderAttribute::class, 'tms_order_id');
     }
 
     public function forwardingContract(): HasOne

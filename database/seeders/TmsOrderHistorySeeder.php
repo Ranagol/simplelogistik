@@ -17,19 +17,19 @@ class TmsOrderHistorySeeder extends Seeder
         // TmsOrderHistoryFactory::new()->count(config('constants.numberOfDbRecords'))->create();
         for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
             TmsOrderHistory::factory()->create([
-                'cargo_order_id' => $i,
+                'order_id' => $i,
                 'forwarder_id' => $i,
                 'customer_id' => $i,
                 'forwarding_contract_id' => $i,
             ]);
             TmsOrderHistory::factory()->create([
-                'cargo_order_id' => $i,
+                'order_id' => $i,
                 'forwarder_id' => $i,
                 'customer_id' => $i,
                 'forwarding_contract_id' => $i,
             ]);
             TmsOrderHistory::factory()->create([
-                'cargo_order_id' => $i,
+                'order_id' => $i,
                 'forwarder_id' => $i,
                 'customer_id' => $i,
                 'forwarding_contract_id' => $i,

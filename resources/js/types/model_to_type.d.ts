@@ -34,7 +34,7 @@ export interface TmsOrderHistory {
   comment: string
   forwarder_id: number
   customer_id: number
-  cargo_order_id: number
+  order_id: number
   forwarding_contract_id: number
   created_at?: string|null
   updated_at?: string|null
@@ -191,7 +191,7 @@ export type TmsForwardingContracts = TmsForwardingContract[]
 export interface TmsInvoice {
   // columns
   id: number
-  cargo_order_id: number
+  order_id: number
   customer_id: number
   forwarder_id: number
   invoice_number: string
@@ -215,7 +215,7 @@ export interface TmsOfferPrice {
   offer_from?: string|null
   offer_to?: string|null
   forwarder_id: number
-  cargo_order_id?: number|null
+  order_id?: number|null
   offered_price: number
   offered_price_net?: number|null
   created_at?: string|null

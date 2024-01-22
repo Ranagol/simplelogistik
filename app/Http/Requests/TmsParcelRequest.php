@@ -22,7 +22,7 @@ class TmsParcelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tms_cargo_order_id' => 'required|integer|exists:tms_orders,id',
+            'tms_order_id' => 'required|integer|exists:tms_orders,id',
             'is_hazardous' => 'boolean',
             'information' => 'required|string|max:255',
             'p_name' => 'required|string|max:255',

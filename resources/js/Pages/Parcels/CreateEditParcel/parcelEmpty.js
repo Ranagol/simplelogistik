@@ -1,5 +1,5 @@
 export default {
-    "tms_cargo_order_id": "",
+    "tms_order_id": "",
     "is_hazardous": false,
     "information": null,
     "p_name": "",
