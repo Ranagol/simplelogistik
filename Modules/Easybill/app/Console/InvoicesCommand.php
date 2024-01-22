@@ -4,27 +4,30 @@ namespace Modules\Easybill\app\Console;
 
 use App\Models\TmsCountry;
 use App\Models\TmsCustomer;
+use App\Models\TmsInvoice;
 use App\Models\TmsOrderAddress;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
 use Nwidart\Modules\Facades\Module;
 use App\Models\TmsOrder;
 use App\Models\TmsApiAccess;
-use Modules\Easybill\app\Helper\DataMapping;
+use Modules\Easybill\app\Helper\EasyBillDataMapping;
+use Modules\Easybill\app\Helper\EasyBillApiConnector;
+use stdClass;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 class InvoicesCommand extends Command
 {
-
+    /** string $apiName */
     protected $apiName = '';
+
+    /** array $apiAccess */
     protected $apiAccess = [];
 
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'send-invoices {orderid?} {setting=none : (setting=enable) Enables the module; (setting=disable) Disables the module} {-h|--help?}';
+    protected $signature = 'sendinvoices {orderid?} {setting=none : (setting=enable) Enables the module; (setting=disable) Disables the module} {-h|--help?}';
 
     /**
      * The console command description.
@@ -44,7 +47,8 @@ class InvoicesCommand extends Command
      */
     public function handle()
     {
-        $dataMapping = new DataMapping();
+        $dataMapping = new EasyBillDataMapping();
+        $easyBillConnector = new EasyBillApiConnector();
 
         $this->info('Arguments: ' . json_encode($this->arguments()));
         $this->handleStatus();
@@ -59,52 +63,64 @@ class InvoicesCommand extends Command
         try {
             $order = TmsOrder::where('id', $this->argument('orderid'))->first();
             $customer = TmsCustomer::where('id', $order->customer_id)->first();
-            $addressTypes = $this->changeKeyValue(TmsOrderAddress::getAddressTypes());
+            $addressTypes = $this->changeKeyValue(TmsOrderAddress::getAddressTypes());            
             $this->info('AddressTypes: ' . json_encode($addressTypes));
-            $addresses['is_pickup'] = TmsOrderAddress::where('order_id',$this->argument('orderid'))
-                                                          ->where('address_type', $addressTypes['Pickup address'])
-                                                          ->first();
-            $addresses['is_delivery'] = TmsOrderAddress::where('order_id',$this->argument('orderid'))
-                                                          ->where('address_type', $addressTypes['Delivery address'])
-                                                          ->first();
-            $addresses['is_billing'] = TmsOrderAddress::where('order_id',$this->argument('orderid'))
-                                                          ->where('address_type', $addressTypes['Billing address'])
-                                                          ->first();            
-            $this->info('Addresses: ' . json_encode($addresses));
+            $addresses = TmsOrderAddress::where('order_id',$this->argument('orderid'))->get();
+
+            foreach($addresses as $address) {
+                if ($address->address_type == 'Pickup address') {
+                    $addresses['is_pickup'] = $address;
+                }
+                if ($address->address_type == 'Delivery address') {
+                    $addresses['is_delivery'] = $address;
+                }
+                if ($address->address_type == 'Billing address') {
+                    $addresses['is_billing'] = $address;
+                }
+            }            
+         
+            $this->info('Addresses: ' . json_encode($addresses)); 
         } catch (\Throwable $th) {
             $this->info('Error: ' . $th->getMessage());
             die();
-        }
+        }        
+        
+        $countries  = TmsCountry::all();
+        $countries  = $countries->keyBy('id');
+        $mappedData = $dataMapping->mapCustomer($customer, $addresses, $countries, $order);
 
         //create or update customer in easybill
-        $result = json_decode($this->callAPI('GET', $this->apiAccess['api_url'] . 'customers?number=' . $customer->internal_id, []));
-        //$this->info('Result: ' . json_encode($result));   
-        
-        $countries = TmsCountry::all();
-        $countries = $countries->keyBy('id');
-        $mappedData = $dataMapping->mapCustomer($customer, $addresses, $countries);
+        $result = json_decode($easyBillConnector->callAPI('GET', $this->apiAccess['api_url'] . 'customers?number=' . $customer->internal_id, $this->apiAccess, []));
 
-        $mappedData = [];
         if ($result->total == 0) {
             $this->info('Customer not found. Creating new customer.');
-            $this->info(json_encode($this->callAPI('POST', $this->apiAccess['api_url'], json_encode($mappedData))));
+            $easybillData = $easyBillConnector->callAPI('POST', $this->apiAccess['api_url'] . 'customers', $this->apiAccess, json_encode($mappedData));
         } else {
             $this->info('Customer found. Updating customer.');
-            //$this->info(json_encode($result->items[0]->id));
-            $this->info(json_encode($this->callAPI('PUT', $this->apiAccess['api_url'] . '/' . $result->items[0]->id, json_encode($mappedData))));
+            $easybillData = $easyBillConnector->callAPI('PUT', $this->apiAccess['api_url'] . 'customers/' . $result->items[0]->id, $this->apiAccess, json_encode($mappedData));
+            $this->info(json_encode($easybillData));
         }
 
-        //$this->info(json_encode($order));
-        //$this->info(json_encode($customer));
-
-        //$this->mapOrder($order, $customer);
-        //$this->info(json_encode($this->callAPI('GET', $this->apiAccess['api_url'], [])));
+        //create or update order in easybill
+        $invoice = TmsInvoice::where('cargo_order_id', $order->id)->first();
+        $mappedData = $dataMapping->mapOrder(json_decode($easybillData)->id,$order, $invoice, $customer, $addresses);
+        $result = json_decode($easyBillConnector->callAPI('GET', $this->apiAccess['api_url'] . 'documents/' . $customer->internal_id, $this->apiAccess, []));  // Todo: change internal_id to Easybill's order_id
+        if ($result->code === 404) {
+            $this->info('Order not found. Creating new order.');
+            $this->info(json_encode($easyBillConnector->callAPI('POST', $this->apiAccess['api_url'] . 'documents', $this->apiAccess, json_encode($mappedData))));
+        } else {
+            $this->info('Order found. Updating order.');
+            $this->info(json_encode($easyBillConnector->callAPI('PUT', $this->apiAccess['api_url'] . 'documents/' . $result->items[0]->id, $this->apiAccess, json_encode($mappedData))));
+        }
     }
 
     /**
      * Change Key Value of an array.
+     * @param array $array
+     * @return array
      */
-    private function changeKeyValue($array) {
+    private function changeKeyValue(array $array):array
+    {
         $newArray = [];
         foreach ($array as $key => $value) {
             $newArray[$value] = $key;
@@ -116,7 +132,7 @@ class InvoicesCommand extends Command
      * Handle the status of the module.
      * @return $module
      */
-    private function handleStatus() 
+    private function handleStatus()
     {
         $module = Module::find('Easybill');
         $setting = $this->argument('setting');
@@ -143,46 +159,5 @@ class InvoicesCommand extends Command
         }
 
         return $module;
-    }
-    
-    
-
-    // Method: POST, PUT, GET etc
-    // Data: array("param" => "value") ==> index.php?param=value
-    
-    public function callAPI($method, $url, $data = false)
-    {
-        $curl = curl_init();
-    
-        switch ($method)
-        {
-            case "POST":
-                curl_setopt($curl, CURLOPT_POST, 1);
-    
-                if ($data)
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-                break;
-            case "PUT":
-                curl_setopt($curl, CURLOPT_PUT, 1);
-                break;
-            default:
-                if ($data)
-                    $url = sprintf("%s?%s", $url, http_build_query($data));
-        }
-    
-        // Optional Authentication:
-        $authorization = "Authorization: " . $this->apiAccess['api_token_type'] . " " . $this->apiAccess['api_token'];
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization ));
-        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-    
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    
-        $result = curl_exec($curl);
-    
-        curl_close($curl);
-    
-        return $result;
-    }
+    }    
 }

@@ -3,11 +3,14 @@
 namespace Modules\Easybill\app\Helper;
 
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Constraint\IsEmpty;
 
-class DataMapping
+class EasyBillDataMapping
 {
     
-    public function mapCustomer($customer, $addresses, $countries) {
+    public function mapCustomer($customer, $addresses, $countries, $order = []) {
+
+        
         $customerData = [
             'acquire_options'               =>  null,
             'additional_groups_ids'         =>  [],
@@ -24,12 +27,12 @@ class DataMapping
             'cash_allowance_days'           =>  $customer->payment_time,
             'cash_discount'                 =>  null,
             'cash_discount_type'            =>  null,
-            'city'                          =>  $addresses['is_billing']->city,
-            'company_name'                  =>  $customer->company_name,
+            'city'                          =>  (isset($customer->city)) ? ($customer->city) : ($addresses['is_billing']->city ?? ''),
+            'company_name'                  =>  ($customer->company_name === '') ? ($addresses['is_billing']->company_name) : ($customer->company_name),
             'country'                       =>  $countries[$addresses['is_billing']->country_id ?? 276]->alpha_2_code ?? 'DE',
-            'court'                         =>  'Amtsgericht Köln',
-            'court_registry_number'         =>  'HRB 96845',
-            'created_at'                    =>  $customer->created_at->format('d.m.Y'),
+            'court'                         =>  '',
+            'court_registry_number'         =>  '',
+            'created_at'                    =>  (isset($order->created_at)) ? ($order->created_at->format('d.m.Y')) : $addresses['is_billing']->created_at->format('d.m.Y'),
             'delivery_city'                 =>  $addresses['is_delivery']->city ?? '',
             'delivery_company_name'         =>  $addresses['is_delivery']->company_name ?? '',
             'delivery_country'              =>  $countries[$addresses['is_delivery']->country_id ?? 276]->alpha_2_code ?? 'DE',
@@ -43,9 +46,9 @@ class DataMapping
             'delivery_suffix_2'             =>  null,
             'delivery_title'                =>  '',
             'delivery_zip_code'             =>  $addresses['is_delivery']->zip_code ?? '',
-            'display_name'                  =>  $customer->company_name,
+            'display_name'                  =>  $addresses['is_delivery']->company_name ?? '',
             'document_pdf_type'             =>  'default',
-            'due_in_days'                   =>  null,
+            'due_in_days'                   =>  $customer->payment_time,
             'emails' =>  [
                 'buchhaltung@simplelogistik.de'
             ],
@@ -56,7 +59,7 @@ class DataMapping
             'group_id'                      =>  null,
             'info_1'                        =>  null,
             'info_2'                        =>  null,
-            'internet'                      =>  'https://www.simplelogistik.de',
+            'internet'                      =>  '',
             'last_name'                     =>  $addresses['is_billing']->last_name ?? $customer->last_name,
             'login_id'                      =>  $customer->internal_id,
             'mobile'                        =>  null,
@@ -91,41 +94,42 @@ class DataMapping
         return $customerData;
     }
 
-    public function mapOrder($order, $customer, $addresses) {
+    public function mapOrder($cid, $order, $invoice, $customer, $addresses) {
         $orderData = [
             'bank_debit_form'       => null,
             'calc_vat_from'         => 0,
             'cash_allowance'        => null,
-            'cash_allowance_days'   => 7,
+            'cash_allowance_days'   => $customer->payment_time,
             'cash_allowance_text'   => null,
             'contact_id'            => null,
             'contact_label'         => '',
             'contact_text'          => '',
             'currency'              => 'EUR',
-            'customer_id'           => 2035981467,
+            'customer_id'           => $cid,
             'discount'              => null,
             'discount_type'         => null,
-            'document_date'         => '2024-01-12',
+            'document_date'         => $invoice->invoice_date,                     //->format('Y-m-d'),
             'external_id'           => null,
             'replica_url'           => null,
             'grace_period'          => null,
-            'due_in_days'           => null,
+            'due_in_days'           => $customer->payment_time,
             'is_acceptable_on_public_domain' => false,
             'is_archive'            => false,
             'is_replica'            => false,
             'is_oss'                => false,
-            'items' => [
-                'number'                => 'Palette',
-                'description'           => 'Transport Hannover-München',
-                'document_note'         => 'Transportkosten Auftr. 345',
-                'quantity'              => 3,
-                'quantity_str'          => 3,
-                'unit'                  => null,
+            'items' => array(
+            [
+                'number'                => $invoice->type_of_transport,
+                'description'           => 'Desc. '.(isset($addresses['is_pickup'], $addresses['is_delivery'])) ? ('Transport ' . ($addresses['is_pickup']->city ?? '') . ' nach ' . ($addresses['is_delivery']->city ?? '')) : (''),
+                'document_note'         => 'note '.'Transportkosten Auftr. ' . $invoice->internal_id,
+                'quantity'              => 1,
+                'quantity_str'          => "1",
+                'unit'                  => '',                            // Stk. | Packet | Palette
                 'type'                  => 'POSITION',
-                'position'              => null,
-                'single_price_net'      => 23500,
-                'single_price_gross'    => null,
-                'vat_percent'           => 19,
+                'position'              => 1,
+                'single_price_net'      => (int)str_replace(['.',','], '',$invoice->invoice_sum),
+                'single_price_gross'    => 0,
+                'vat_percent'           => 19,                                                            // have to be dynamic when countries are added
                 'discount'              => null,
                 'discount_type'         => null,
                 'position_id'           => 1,
@@ -134,12 +138,12 @@ class DataMapping
                 'export_cost_2'         => null,
                 'cost_price_net'        => null,
                 'itemType'              => 'UNDEFINED'
-            ],
+            ]),
             'login_id'          => null,
-            'number'            => 86604,
-            'order_number'      => '202401_00010',
-            'buyer_reference'   => '',
-            'pdf_template'      => '316947',
+            'number'            => $invoice->internal_id,
+            'order_number'      => $order->internal_id,                           // use numbers that are starting with 300 and having 4 more digits
+            'buyer_reference'   => ($order->customer_reference !== '') ? ($order->customer_reference) : (isset($customer->customer_reference) ?? ''),
+            'pdf_template'      => 'DE',                         //'316947'   // have to be dynamic when languages are added                                      // have to be dynamic when languages are added              
             'project_id'        => null,
             'recurring_options' => [
                 'next_date'                 => '',
@@ -147,7 +151,7 @@ class DataMapping
                 'frequency_special'         => null,
                 'interval'                  => 1,
                 'end_date_or_count'         => null,
-                'status'                    => 'WAITING',
+                'status'                    => 'BILLED',
                 'as_draft'                  => false,
                 'is_notify'                 => false,
                 'send_as'                   => null,
@@ -159,31 +163,32 @@ class DataMapping
                 'sepa_sequence_type'        => null,
                 'sepa_reference'            => null,
                 'sepa_remittance_information' => null,
-                'target_type'               => '316947'
+                'target_type'               => 'DE'                         //'316947'   // have to be dynamic when languages are added     
             ],
             'ref_id'        => null,
             'service_date'  => [
                 'type'          => 'DEFAULT',
-                'date'          => '2024-01-11',
+                'date'          => $order->order_date,                      //->format('Y-m-d'),
                 'date_from'     => null,
                 'date_to'       => null,
                 'text'          => null
             ],
             'shipping_country'      => null,
             'status'                => null,
-            'text'                  => 'Vielen Dank für Ihren Auftrag!\n\nBitte begleichen Sie den offenen Betrag bis zum %DOKUMENT.DATUM-FAELLIG%.\n\nMit freundlichen Grüßen\n\n%FIRMA.FIRMA%\n',
-            'text_prefix'           => '%KUNDE.ANREDE%,\nnachfolgend berechnen wir Ihnen wie vorab besprochen =>\n',
+            'text'                  => 'Vielen Dank für Ihren Auftrag!\r\n\nBitte begleichen Sie den offenen Betrag bis zum %DOKUMENT.DATUM-FAELLIG%.\n\nMit freundlichen Grüßen\n\n%FIRMA.FIRMA%\\n',
+            'text_prefix'           => '%KUNDE.ANREDE%,\nnachfolgend berechnen wir Ihnen wie vorab besprochen.\n',
             'text_tax'              => null,
-            'title'                 => 'Invoice for Order #010',
+            'title'                 => 'Invoice for Order ' . $order->internal_id,
             'type'                  => 'INVOICE',
             'use_shipping_address'  => false,
             'vat_country'           => null,
             'fulfillment_country'   => null,
             'vat_option'            => null,
-            'file_format_config' => [
+            'file_format_config' => array([
                 'type' => 'default'
-            ]
+            ]),
         ];
+        //dd(json_encode($orderData));
         return $orderData;
     }
 }

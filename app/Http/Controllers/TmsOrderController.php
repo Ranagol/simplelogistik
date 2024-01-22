@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Artisan;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsOrder;
@@ -15,6 +16,8 @@ use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Component\Process\Process;
+use App\Http\Controllers\ShellCommandFailedException;
 
 class TmsOrderController extends BaseController
 {
@@ -109,6 +112,22 @@ class TmsOrderController extends BaseController
          * 3. Get the newly created record, and return it to the FE.
          */
         $newlyCreatedRecord = $this->model->create($newRecord);
+
+        /**
+         * Call the Esaybill API to create a new invoice.
+         */
+        $id = $newlyCreatedRecord->id;
+        $result = Artisan::command('Easybill.sendinvoices', function($id) {
+            echo $id;   
+        });
+        file_put_contents('test.txt', Artisan::output());
+        /**
+         * Todo: 
+         * - check if the API call was successful.
+         * - store result in session.
+         * - display result in FE.
+         */
+
 
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
@@ -213,6 +232,22 @@ class TmsOrderController extends BaseController
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
+
+        /**
+         * Call the Esaybill API to create a new invoice.
+         */
+        $id = $orderFromDb->id;
+        // $result = Artisan::command('Easybill.sendinvoices ', function($id) {
+        //     echo $id;   
+        // });
+        $result = $this->execute('cd ..; php artisan sendinvoices ' . $id . ';');
+        file_put_contents('test.txt', $result);
+        /**
+         * Todo: 
+         * - check if the API call was successful.
+         * - store result in session.
+         * - display result in FE.
+         */
     }
 
     /**
@@ -282,5 +317,29 @@ class TmsOrderController extends BaseController
 
         return $records;
     }
+
+    public static function execute($cmd): string
+    {
+        $process = Process::fromShellCommandline($cmd);
+
+        $processOutput = '';
+
+        $captureOutput = function ($type, $line) use (&$processOutput) {
+            $processOutput .= $line;
+        };
+
+        $process->setTimeout(null)
+            ->run($captureOutput);
+
+        if ($process->getExitCode()) {
+            $exception = new \Exception($cmd . " - " . $processOutput);
+            report($exception);
+
+            throw $exception;
+        }
+
+        return $processOutput;
+    }
+
 }
 
