@@ -90,27 +90,57 @@ class InvoicesCommand extends Command
         $mappedData = $dataMapping->mapCustomer($customer, $addresses, $countries, $order);
 
         //create or update customer in easybill
-        $result = json_decode($easyBillConnector->callAPI('GET', $this->apiAccess['api_url'] . 'customers?number=' . $customer->internal_id, $this->apiAccess, []));
+        $result = json_decode($easyBillConnector->callAPI(
+            'GET', 
+            $this->apiAccess,
+            'customers?number=' . $customer->internal_id, 
+            []
+        ));
 
         if ($result->total == 0) {
             $this->info('Customer not found. Creating new customer.');
-            $easybillData = $easyBillConnector->callAPI('POST', $this->apiAccess['api_url'] . 'customers', $this->apiAccess, json_encode($mappedData));
+            $easybillData = $easyBillConnector->callAPI(
+                'POST', 
+                $this->apiAccess,
+                'customers',  
+                $mappedData
+            );
         } else {
             $this->info('Customer found. Updating customer.');
-            $easybillData = $easyBillConnector->callAPI('PUT', $this->apiAccess['api_url'] . 'customers/' . $result->items[0]->id, $this->apiAccess, json_encode($mappedData));
+            $easybillData = $easyBillConnector->callAPI(
+                'PUT', 
+                $this->apiAccess,
+                'customers/' . $result->items[0]->id, 
+                $mappedData
+            );
             $this->info(json_encode($easybillData));
         }
 
         //create or update order in easybill
         $invoice = TmsInvoice::where('order_id', $order->id)->first();
         $mappedData = $dataMapping->mapOrder(json_decode($easybillData)->id,$order, $invoice, $customer, $addresses);
-        $result = json_decode($easyBillConnector->callAPI('GET', $this->apiAccess['api_url'] . 'documents/' . $customer->internal_id, $this->apiAccess, []));  // Todo: change internal_id to Easybill's order_id
+        $result = json_decode($easyBillConnector->callAPI(
+            'GET', 
+            $this->apiAccess,
+            'documents/' . $customer->internal_id, // Todo: change internal_id to Easybill's order_id
+            [])
+        );  
         if ($result->code === 404) {
             $this->info('Order not found. Creating new order.');
-            $this->info(json_encode($easyBillConnector->callAPI('POST', $this->apiAccess['api_url'] . 'documents', $this->apiAccess, json_encode($mappedData))));
+            $this->info(json_encode($easyBillConnector->callAPI(
+                'POST', 
+                $this->apiAccess,
+                'documents',  
+                $mappedData))
+            );
         } else {
             $this->info('Order found. Updating order.');
-            $this->info(json_encode($easyBillConnector->callAPI('PUT', $this->apiAccess['api_url'] . 'documents/' . $result->items[0]->id, $this->apiAccess, json_encode($mappedData))));
+            $this->info(json_encode($easyBillConnector->callAPI(
+                'PUT', 
+                $this->apiAccess,
+                'documents/' . $result->items[0]->id,  
+                $mappedData))
+            );
         }
     }
 

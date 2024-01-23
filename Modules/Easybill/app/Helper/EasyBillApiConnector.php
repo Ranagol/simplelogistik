@@ -13,13 +13,15 @@ class EasyBillApiConnector
      * Method: POST, PUT, GET etc
      * Data: array("param" => "value") ==> index.php?param=value
      * @param string $method
+     * @param array|false $data        
      * @param string $url
-     * @param array|false $data        (optional)
+     * @param array $data              (optional)
      * @return string                  (json)
      */    
-    public function callAPI($method, $url, $apiAccess, $data = false):string
+    public function callAPI($method, $apiAccess, $url, $data = false):string
     {
         $curl = curl_init();
+        $url = $apiAccess['api_url'] . $url;
     
         switch ($method)
         {
@@ -27,14 +29,14 @@ class EasyBillApiConnector
                 curl_setopt($curl, CURLOPT_POST, 1);
     
                 if ($data)
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
                 break;
             case "PUT":
                 curl_setopt($curl, CURLOPT_PUT, 1);
                 break;
             default:
                 if ($data)
-                    $url = sprintf("%s?%s", $url, http_build_query($data));
+                    $url = sprintf("%s?%s", ($apiAccess['api_url'] . $url), http_build_query($data));
         }
     
         // Optional Authentication:

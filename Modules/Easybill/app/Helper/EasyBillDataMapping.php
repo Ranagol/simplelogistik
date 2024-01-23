@@ -12,10 +12,6 @@ class EasyBillDataMapping
 
     public function mapCustomer($customer, $addresses, $countries, $order = []) {
 
-        $addressTypes = TmsOrderAddress::getAddressTypes();
-
-        //dd($addresses, $addressTypes);
-        
         $customerData = [
             'acquire_options'               =>  null,
             'additional_groups_ids'         =>  [],
@@ -37,7 +33,7 @@ class EasyBillDataMapping
             'country'                       =>  $countries[$addresses['Billing address']->country_id ?? 276]->alpha_2_code ?? 'DE',
             'court'                         =>  '',
             'court_registry_number'         =>  '',
-            'created_at'                    =>  (isset($order->created_at)) ? ($order->created_at->format('d.m.Y')) : $addresses['Billing address']->created_at->format('d.m.Y'),
+            'created_at'                    =>  (isset($order->created_at)) ? ($order->created_at->format('d.m.Y')) : ((isset($addresses['Billing address'])) ? $addresses['Billing address']->created_at->format('d.m.Y') : ''),
             'delivery_city'                 =>  $addresses['Delivery address']->city ?? '',
             'delivery_company_name'         =>  $addresses['Delivery address']->company_name ?? '',
             'delivery_country'              =>  $countries[$addresses['Delivery address']->country_id ?? 276]->alpha_2_code ?? 'DE',
@@ -100,8 +96,6 @@ class EasyBillDataMapping
     }
 
     public function mapOrder($cid, $order, $invoice, $customer, $addresses) {
-
-        $addressTypes = TmsOrderAddress::getAddressTypes();
 
         $orderData = [
             'bank_debit_form'       => null,
@@ -183,7 +177,7 @@ class EasyBillDataMapping
             ],
             'shipping_country'      => null,
             'status'                => null,
-            'text'                  => 'Vielen Dank für Ihren Auftrag!\r\n\nBitte begleichen Sie den offenen Betrag bis zum %DOKUMENT.DATUM-FAELLIG%.\n\nMit freundlichen Grüßen\n\n%FIRMA.FIRMA%\\n',
+            'text'                  => 'Vielen Dank für Ihren Auftrag!!!\r\n\nBitte begleichen Sie den offenen Betrag bis zum %DOKUMENT.DATUM-FAELLIG%.\n\nMit freundlichen Grüßen\n\n%FIRMA.FIRMA%\\n',
             'text_prefix'           => '%KUNDE.ANREDE%,\nnachfolgend berechnen wir Ihnen wie vorab besprochen.\n',
             'text_tax'              => null,
             'title'                 => 'Invoice for Order ' . (isset($order->internal_id)) ? $order->internal_id : '',
