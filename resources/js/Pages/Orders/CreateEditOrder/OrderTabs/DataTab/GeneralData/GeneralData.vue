@@ -189,7 +189,7 @@
 
             <!-- PAYMENT METHOD -->
             <el-form-item
-                :prop="[subOrderType].payment_method"
+                :prop="payment_method"
             >   
                 <div class="flex flex-col">
 
@@ -199,7 +199,7 @@
                     >Payment method</span>
                     
                     <el-select
-                        v-model="data.order[subOrderType].payment_method"
+                        v-model="data.order.payment_method"
                         placeholder="Payment method"
                         clearable
                         filterable
@@ -216,16 +216,16 @@
                 </div>
                 
                 <!-- //TODO Andor itt a megoldas a backend problemahoz -->
-                <BackendValidationErrorDisplay
+                <!-- <BackendValidationErrorDisplay
                     
                     :errorMessage="props.errors[subOrderType + '.payment_method']"
-                />
+                /> -->
 
             </el-form-item>
 
             <!-- DATE OF SALE -->
             <el-form-item
-                :prop="[subOrderType].date_of_sale"
+                :prop="date_of_sale"
             >   
                 <div class="flex flex-col">
 
@@ -236,7 +236,7 @@
                     >Date of sale</span>
 
                     <el-date-picker
-                        v-model="data.order[subOrderType].date_of_sale"
+                        v-model="data.order.details.date_of_sale"
                         type="date"
                         format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
@@ -248,15 +248,15 @@
 
                 </div>
                 
-                <BackendValidationErrorDisplay
+                <!-- <BackendValidationErrorDisplay
                     :errorMessage="props.errors[subOrderType + '.date_of_sale']"
-                />
+                /> -->
 
             </el-form-item>
 
             <!-- DATE OF CANCELLATION -->
             <el-form-item
-                :prop="[subOrderType].date_of_cancellation"
+                :prop="date_of_cancellation"
             >   
                 <div class="flex flex-col">
 
@@ -267,7 +267,7 @@
                     >Date of cancellation</span>
 
                     <el-date-picker
-                        v-model="data.order[subOrderType].date_of_cancellation"
+                        v-model="data.order.details.date_of_cancellation"
                         type="date"
                         format="DD-MM-YYYY"
                         value-format="YYYY-MM-DD"
@@ -287,7 +287,7 @@
 
             <!-- DISTANCE -->
             <el-form-item
-                :prop="[subOrderType].distance_km"
+                :prop="distance_km"
             >   
                 <div class="flex flex-col">
 
@@ -299,7 +299,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].distance_km"
+                        v-model="data.order.details.distance_km"
                         placeholder="Distance (km)"
                         clearable
                         @input="updateParent"
@@ -315,7 +315,7 @@
 
             <!-- DURATION -->
             <el-form-item
-                :prop="[subOrderType].duration_minutes"
+                :prop="duration_minutes"
             >   
                 <div class="flex flex-col">
 
@@ -327,7 +327,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="props.order[subOrderType].duration_minutes"
+                        v-model="props.order.details.duration_minutes"
                         placeholder="Duration (min)"
                         clearable
                         @input="updateParent"
@@ -369,7 +369,7 @@
             </el-form-item>
 
             <el-form-item
-                :prop="[subOrderType].calculation_model_name"
+                :prop="calculation_model_name"
             >   
                 <div class="flex flex-col">
 
@@ -381,7 +381,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].calculation_model_name"
+                        v-model="data.order.details.calculation_model_name"
                         placeholder="Calculation model name"
                         clearable
                         @input="updateParent"
@@ -396,7 +396,7 @@
             </el-form-item>
 
             <el-form-item
-                :prop="[subOrderType].pickup_date_from"
+                :prop="pickup_date_from"
             >   
                 <div class="flex flex-col">
 
@@ -428,7 +428,7 @@
             </el-form-item>
 
             <el-form-item
-                :prop="[subOrderType].pickup_date_to"
+                :prop="pickup_date_to"
             >   
                 <div class="flex flex-col">
 
@@ -458,7 +458,7 @@
             </el-form-item>
 
             <el-form-item
-                :prop="[subOrderType].delivery_date_from"
+                :prop="delivery_date_from"
             >   
                 <div class="flex flex-col">
 
@@ -488,7 +488,7 @@
             </el-form-item>
 
             <el-form-item
-                :prop="[subOrderType].delivery_date_to"
+                :prop="delivery_date_to"
             >   
                 <div class="flex flex-col">
 
@@ -518,7 +518,7 @@
             </el-form-item>
 
             <el-form-item
-                :prop="[subOrderType].description_of_transport"
+                :prop="description_of_transport"
             >   
                 <div class="flex flex-col">
 
@@ -545,7 +545,7 @@
             </el-form-item>
 
             <el-form-item
-                :prop="[subOrderType].particularities"
+                :prop="particularities"
             >   
                 <div class="flex flex-col">
 
@@ -638,7 +638,7 @@ const props = defineProps({
 let data = reactive({
     order: props.order,
     showLabel: true,
-    showGeneralData: false,
+    showGeneralData: true,
 });
 
 /**
