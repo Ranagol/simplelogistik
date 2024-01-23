@@ -89,7 +89,6 @@ const data = reactive({
 });
 
 //See props.successMessage docblock for more info
-//TODO ANDOR code repeates in Address and Customer CreateEditBase.vue. Refactor it. Put it into a mixin
 watch(
     () => data.successMessage, 
     (newValue) => {

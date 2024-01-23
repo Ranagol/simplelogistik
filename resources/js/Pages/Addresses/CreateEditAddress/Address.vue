@@ -560,10 +560,6 @@
         </div>
 
         <!-- AVIS PHONE, 1 FULL ROW. BELONGS TO ORDER OBJECT NOT THE ADDRESS OBJECT -->
-        <!-- //TODO the avis phone might need to belong to addresses, not orders? Because
-        one order might have multiple pickup and multiple delivery addresses with avis phones?
-        Another solution: avis phone as new object belongst to address? Ask C. For now I will just
-        display this here. This topic must be decided when it comes to order editing.-->
         <el-form-item 
             v-if="props.showAvisPhone"
         >

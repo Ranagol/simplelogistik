@@ -124,25 +124,6 @@ const subOrderType = computed(
     }
 );
 
-watch(
-    () => data.orderData, 
-    (newValue) => {
-        // console.log('newValue from watcher:', newValue);
-        // console.log('pamyra_order', newValue.pamyra_order);//this has value
-        // console.log('native_order', newValue.native_order);//this is null
-        // console.log('pamyra_order.distance_km', newValue.pamyra_order?.distance_km);//this has value
-        // console.log('native_order.distance_km', newValue.native_order?.distance_km);//this is undefined, cool, because native_order is null
-        // console.log('pamyra_order.distance_km', newValue[subOrderType]?.distance_km);//TODO LOSI why is this undefined?
-
-    },
-    {   
-        deep: true,
-        immediate: true
-    }
-);
-
-
-
 /**
  * The submit button and the order form are in two separate components. When we click on the submit
  * button in this component, we want to trigger the submitting process in DataTab component which
