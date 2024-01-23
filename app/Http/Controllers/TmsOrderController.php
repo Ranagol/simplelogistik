@@ -14,9 +14,11 @@ use App\Services\OrderService;
 use App\Http\Requests\TmsOrderRequest;
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\TmsOrderCollection;
 use App\Http\Resources\TmsOrderResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TmsOrderController extends BaseController
 {
@@ -234,14 +236,14 @@ class TmsOrderController extends BaseController
      * @param string|null $sortColumn
      * @param string|null $sortOrder
      * @param integer|null $newItemsPerPage
-     * @return LengthAwarePaginator
+     * @return AnonymousResourceCollection
      */
     private function getRecords(
         string $searchTerm = null, 
         string $sortColumn = null, 
         string $sortOrder = null, 
         int $newItemsPerPage = null,
-    ): LengthAwarePaginator
+    ): AnonymousResourceCollection
     {
         $records = $this->model::query()
 
@@ -275,7 +277,8 @@ class TmsOrderController extends BaseController
                 'pamyraOrder',
                 'orderAddresses',
                 'forwarder',
-                'orderHistoryLatest'
+                'orderHistoryLatest',
+                'customer'
             ])
             
             /**
@@ -289,6 +292,8 @@ class TmsOrderController extends BaseController
              * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
              */
             ->withQueryString();
+
+        $records = TmsOrderResource::collection($records);
 
         return $records;
     }
