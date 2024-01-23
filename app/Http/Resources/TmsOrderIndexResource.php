@@ -5,10 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TmsOrderResource extends JsonResource
+class TmsOrderIndexResource extends JsonResource
 {
-    public static $wrap = 'order';
-
     /**
      * Transform the resource into an array.
      *
@@ -16,7 +14,6 @@ class TmsOrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        
         return [
             'id' => $this->id,
             'type_of_transport' => $this->type_of_transport,
@@ -40,15 +37,16 @@ class TmsOrderResource extends JsonResource
             'easy_bill_customer_id' => $this->easy_bill_customer_id,
             
             //relationships are loaded in the controller, so here we can just return them
-            'parcels' => $this->parcels,
-            'addresses' => $this->orderAddresses,
-            'forwarder' => $this->forwarder,
-            'history' => $this->orderHistories,
-            'customer' => $this->customer,
-            'partner' => $this->partner,
-            'contact' => $this->contact,
+            // 'parcels' => $this->parcels,
+            // 'addresses' => $this->orderAddresses,
+            // 'forwarder' => $this->forwarder,
+            // 'history' => $this->orderHistories,
+            // 'customer' => $this->customer,
+            // 'partner' => $this->partner,
+            // 'contact' => $this->contact,
+
+            // 'details' => $this->setDetails(),
+            // 'details' => 'random text',
         ];
     }
 }
-
-

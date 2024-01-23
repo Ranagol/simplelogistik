@@ -14,9 +14,11 @@ use App\Services\OrderService;
 use App\Http\Requests\TmsOrderRequest;
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
-use App\Http\Resources\TmsOrderCollection;
-use App\Http\Resources\TmsOrderResource;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\TmsOrderCollection;
+use App\Http\Resources\TmsOrderEditResource;
+use App\Http\Resources\TmsOrderIndexResource;
+use App\Http\Resources\TmsOrderIndexCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -135,7 +137,7 @@ class TmsOrderController extends BaseController
      */
     public function edit(string $id): Response
     {
-        ////Gets the relevant data for us from db.
+        //Gets the relevant data for us from db.
         $record = TmsOrder::with(
             [
                 'parcels',
@@ -144,21 +146,24 @@ class TmsOrderController extends BaseController
                 'orderHistories',
                 'partner',
                 'contact',
-
-                //Give me the belonging customer, with only id and company_name and with customers headquarter.
-                'customer:headquarter'
+                'customer.headquarter'
             ]
 
         //this is a local scope defined in order model, it loads either native or pamyra orders
         )
         ->nativeOrPamyra($id)
         ->findOrFail($id);
+
+        // dd($record);//this works
+        
         
         //Formats the order object according to FE requests.
         // $record = $this->orderService->formatNativeOrPamyraOrders($record);
 
-        $record = new TmsOrderResource($record);
+        $record = new TmsOrderEditResource($record);//why is this not changing the data structure?
         
+        // dd($record->toArray(request()));//this is the only way how we can check the new data structure from resource
+
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
             $this->vueCreateEditPath, 
@@ -236,14 +241,14 @@ class TmsOrderController extends BaseController
      * @param string|null $sortColumn
      * @param string|null $sortOrder
      * @param integer|null $newItemsPerPage
-     * @return AnonymousResourceCollection
      */
+    //@return AnonymousResourceCollection
     private function getRecords(
         string $searchTerm = null, 
         string $sortColumn = null, 
         string $sortOrder = null, 
         int $newItemsPerPage = null,
-    ): AnonymousResourceCollection
+    )/*: AnonymousResourceCollection*/
     {
         $records = $this->model::query()
 
@@ -293,8 +298,11 @@ class TmsOrderController extends BaseController
              */
             ->withQueryString();
 
-        $records = TmsOrderResource::collection($records);
+        $records = new TmsOrderIndexCollection($records);
+        // dd($records);//this is the only way how we can check the new data structure from resource
 
+        // dd($records->toArray(request()));//this is the only way how we can check the new data structure from resource
+        
         return $records;
     }
 }
