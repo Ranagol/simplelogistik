@@ -36,4 +36,9 @@ class TmsOrderHistory extends Model
     {
         return $this->belongsTo(TmsForwardingContract::class);
     }
+
+    public function dispatcher(): BelongsTo
+    {
+        return $this->belongsTo(TmsDispatcher::class, 'dispatcher_id');
+    }
 }

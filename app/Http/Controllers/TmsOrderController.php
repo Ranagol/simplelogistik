@@ -136,18 +136,23 @@ class TmsOrderController extends BaseController
         $record = TmsOrder::with(
             [
                 'parcels',
-                'nativeOrder',
-                'pamyraOrder',
                 'orderAddresses',
                 'forwarder',
-                'orderHistoryLatest',
+                'orderHistories',
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
                 'customer' => function ($query) {
                     $query->select('id', 'company_name', 'payment_method_options_to_offer')->with(['headquarter']);
                 }
             ]
-        )->findOrFail($id);
+
+        //this is a local scope defined in order model, it loads either native or pamyra orders
+        )
+        ->nativeOrPamyra($id)
+        ->findOrFail($id);
+        
+        //Formats the order object according to FE requests.
+        $record = $this->orderService->formatNativeOrPamyraOrders($record);
         
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
@@ -284,4 +289,3 @@ class TmsOrderController extends BaseController
         return $records;
     }
 }
-

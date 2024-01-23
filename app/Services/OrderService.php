@@ -13,7 +13,37 @@ use App\Models\TmsOrderAddress;
  * This class contains helper methods for the TmsOrderController.
  */
 class OrderService
-{
+{   
+    /**
+     * 
+     *
+     * @param TmsOrder $record
+     * @return void
+     */
+    public function formatNativeOrPamyraOrders(TmsOrder $record)
+    {   
+        //Transform the order object to assoc. array so we can freely manipulate it.
+        $record = $record->toArray();
+
+        //If therer is a native order key, extract it into a variable.
+        $nativeOrder = $record['native_order'] ?? null;
+
+        //If therer is a pamyra order key, extract it into a variable.
+        $pamyraOrder = $record['pamyra_order'] ?? null;
+
+        /**
+         * One order can have either native or pamyra order. Never both. Whichever
+         * exists, we copy that under a new key, and then we delete the old native_order and 
+         * pamyra_order keys.
+         */
+        $nativeOrPamyra = $nativeOrder ? $nativeOrder : $pamyraOrder;
+        $record['details'] = $nativeOrPamyra;
+        unset($record['native_order']);
+        unset($record['pamyra_order']);
+
+        return $record;
+    }
+
     //TODO: ANDOR REFACTOR - these function have to be refactored
     public function handleNativeOrder(array $orderFromRequest): void
     {

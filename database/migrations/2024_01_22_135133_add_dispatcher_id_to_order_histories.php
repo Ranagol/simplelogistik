@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tms_orders', function (Blueprint $table) {
-            //
+        Schema::table('tms_order_histories', function (Blueprint $table) {
+            $table->unsignedBigInteger('dispatcher_id')->nullable();
+            $table->foreign('dispatcher_id')->references('id')->on('tms_dispatchers');
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tms_orders', function (Blueprint $table) {
-            //
+        Schema::table('tms_order_histories', function (Blueprint $table) {
+            $table->dropForeign(['dispatcher_id']);
         });
     }
 };
