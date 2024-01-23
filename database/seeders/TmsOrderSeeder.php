@@ -27,9 +27,9 @@ class TmsOrderSeeder extends Seeder
              */
             $origin = '';
             if ( $i < 11) {
-                $origin = 'Sales';
+                $origin = 'native_sales';
             } else {
-                $origin = 'Pamyra';
+                $origin = 'pamyra';
             }
 
             TmsOrder::factory()->create([

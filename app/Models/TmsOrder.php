@@ -44,10 +44,10 @@ class TmsOrder extends Model
      * This is the source, the origin of the order.
      */
     const ORIGINS = [
-        1 => 'Pamyra',
-        2 => 'Sales',
-        3 => 'Google Ads',
-        4 => 'Shipping calc.'
+        1 => 'pamyra',
+        2 => 'native_sales',
+        3 => 'native_google-ads',
+        4 => 'shipping_calc.'
     ];
 
     //*************RELATIONSHIPS*************************************** */    
@@ -269,14 +269,15 @@ class TmsOrder extends Model
         $origin = $order->origin;
         // dd($origin);
 
-        if ($origin === 'Pamyra') {
+        if ($origin === 'pamyra') {
             return $query->with('pamyraOrder');
         }
 
-        if ($origin === 'Sales' || $origin === 'Google Ads' || $origin === 'Shipping calc.') {
+        if ($origin === 'native_sales' || $origin === 'native_google-ads' || $origin === 'shipping_calc') {
             return $query->with('nativeOrder');
         }
     }
+
 
     //*************MUTATORS AND ACCESSORS*************************************** */
     

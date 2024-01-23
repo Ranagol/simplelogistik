@@ -37,7 +37,7 @@ class OrderService
          * pamyra_order keys.
          */
         $nativeOrPamyra = $nativeOrder ? $nativeOrder : $pamyraOrder;
-        $record['order_details'] = $nativeOrPamyra;
+        $record['details'] = $nativeOrPamyra;
         unset($record['native_order']);
         unset($record['pamyra_order']);
 
