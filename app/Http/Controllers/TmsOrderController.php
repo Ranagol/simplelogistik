@@ -14,6 +14,7 @@ use App\Services\OrderService;
 use App\Http\Requests\TmsOrderRequest;
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\TmsOrderResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -132,18 +133,18 @@ class TmsOrderController extends BaseController
      */
     public function edit(string $id): Response
     {
-        //Gets the relevant data for us from db.
+        ////Gets the relevant data for us from db.
         $record = TmsOrder::with(
             [
                 'parcels',
                 'orderAddresses',
                 'forwarder',
                 'orderHistories',
+                'partner',
+                'contact',
 
                 //Give me the belonging customer, with only id and company_name and with customers headquarter.
-                'customer' => function ($query) {
-                    $query->select('id', 'company_name', 'payment_method_options_to_offer')->with(['headquarter']);
-                }
+                'customer:headquarter'
             ]
 
         //this is a local scope defined in order model, it loads either native or pamyra orders
@@ -152,13 +153,16 @@ class TmsOrderController extends BaseController
         ->findOrFail($id);
         
         //Formats the order object according to FE requests.
-        $record = $this->orderService->formatNativeOrPamyraOrders($record);
+        // $record = $this->orderService->formatNativeOrPamyraOrders($record);
+
+        $record = new TmsOrderResource($record);
         
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
                 'record' => $record,
+                //$record,
                 'mode' => 'edit',
                 //This is data for the select/options fields in the form, so the user can choose.
                 'selectOptions' => [
