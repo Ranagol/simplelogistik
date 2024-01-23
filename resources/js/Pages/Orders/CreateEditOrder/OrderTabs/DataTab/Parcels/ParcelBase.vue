@@ -69,7 +69,7 @@ const props = defineProps({
 
 const data = reactive({
     order: props.order,
-    showParcelData: false,
+    showParcelData: true,
 });
 
 

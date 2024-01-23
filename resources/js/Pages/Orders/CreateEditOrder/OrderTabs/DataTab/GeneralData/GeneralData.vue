@@ -409,7 +409,7 @@
                     <!-- INPUT -->
 
                     <el-date-picker
-                        v-model="data.order[subOrderType].pickup_date_from"
+                        v-model="data.order.details.pickup_date_from"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -439,7 +439,7 @@
                     >Pickup date to</span>
 
                     <el-date-picker
-                        v-model="data.order[subOrderType].pickup_date_to"
+                        v-model="data.order.details.pickup_date_to"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -469,7 +469,7 @@
                     >Delivery date from</span>
 
                     <el-date-picker
-                        v-model="data.order[subOrderType].delivery_date_from"
+                        v-model="data.order.details.delivery_date_from"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -499,7 +499,7 @@
                     >Delivery date to</span>
 
                     <el-date-picker
-                        v-model="data.order[subOrderType].delivery_date_to"
+                        v-model="data.order.details.delivery_date_to"
                         type="datetime"
                         format="DD-MM-YYYY HH:mm"
                         value-format="YYYY-MM-DD HH:mm:ss"
@@ -530,7 +530,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].description_of_transport"
+                        v-model="data.order.details.description_of_transport"
                         placeholder="Description of transport"
                         clearable
                         @input="updateParent"
@@ -557,7 +557,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].particularities"
+                        v-model="data.order.details.particularities"
                         placeholder="Particularities"
                         clearable
                         @input="updateParent"
