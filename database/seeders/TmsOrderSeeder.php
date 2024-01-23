@@ -20,10 +20,23 @@ class TmsOrderSeeder extends Seeder
          * Which we have.
          */
         for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
+
+            /**
+             * From the 20 orders that will be created, orders 1 - 10 should be 'Sales' origin,
+             * orders 11 - 20 should be 'Pamyra'.
+             */
+            $origin = '';
+            if ( $i < 11) {
+                $origin = 'Sales';
+            } else {
+                $origin = 'Pamyra';
+            }
+
             TmsOrder::factory()->create([
                 'customer_id' => $i,
                 'contact_id' => $i,
                 'forwarder_id' => $i,
+                'origin' => $origin,
             ]);
         }
     }

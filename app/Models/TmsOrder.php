@@ -142,17 +142,26 @@ class TmsOrder extends Model
      * We must return the order detail, either a PamyraOrder or a NativeOrder. In orders table, we
      * have the origin column. If this is Pamyra, then we return the PamyraOrder relationship. If 
      * this is anything else thany 'Pamyra', then we return the NativeOrder relationship.
+     * 
+     * const ORIGINS = [
+    *    1 => 'Pamyra',
+    *    2 => 'Sales',
+    *    3 => 'Google Ads',
+    *    4 => 'Shipping calc.'
+    *
      * @return HasOne
      */
-    public function orderDetail():HasOne
-    {
-        $origin = $this->origin;
-        if ($origin === 'Pamyra') {
-            return $this->hasOne(TmsPamyraOrder::class, 'order_id');
-        } 
+    // public function orderDetail():HasOne
+    // {
+    //     $origin = $this->origin;//why is this null? And how to access $this->origin?
+    //     // dd($origin);
 
-        return $this->hasOne(TmsNativeOrder::class, 'order_id');
-    }
+    //     if ($origin === 'Pamyra') {
+    //         return $this->hasOne(TmsPamyraOrder::class, 'order_id');
+    //     } 
+
+    //     return $this->hasOne(TmsNativeOrder::class, 'order_id');
+    // }
 
     /**
      * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
@@ -222,6 +231,8 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsForwarder::class, 'forwarder_id');
     }
 
+    
+
 
     //*************SCOPES*************************************** */
 
@@ -240,6 +251,31 @@ class TmsOrder extends Model
             ->orWhere('customer_reference', 'like', "%{$searchTerm}%")
             ->orWhere('status', 'like', "%{$searchTerm}%")
             ;
+    }
+
+    /**
+     * With the main order, we always have to send to the FE the native or the pamyra order.
+     * There is an origin column in the orders table. If this is Pamyra, then we return the
+     * PamyraOrder relationship. If this is anything else than 'Pamyra', then we return the
+     * NativeOrder relationship. (Native orders are: Sales, Google Ads, Shipping calc.)
+     *
+     * @param Builder $query
+     * @param string $id
+     * @return Builder
+     */
+    public function scopeNativeOrPamyra(Builder $query, string $id): Builder
+    {
+        $order = TmsOrder::find($id);
+        $origin = $order->origin;
+        // dd($origin);
+
+        if ($origin === 'Pamyra') {
+            return $query->with('pamyraOrder');
+        }
+
+        if ($origin === 'Sales' || $origin === 'Google Ads' || $origin === 'Shipping calc.') {
+            return $query->with('nativeOrder');
+        }
     }
 
     //*************MUTATORS AND ACCESSORS*************************************** */
