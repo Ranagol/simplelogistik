@@ -105,18 +105,49 @@
                     </p>
                 </div>
             </div>
-            <div>
-                <h6 class="mb-2 text-base font-bold leading-none text-gray-900 dark:text-white">
-                    {{ $t('labels.parcel-details') }}</h6>
-                <div class="max-w-screen-md text-base text-gray-500 dark:text-gray-400">
-                    <p>
-                        <strong class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">{{ $t('labels.delivery_info') }}</strong> {{ data.delivery_comments }}
-                    </p>    
-                    <p>    
-                        <strong class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">{{ $t('labels.description_of_transport') }}</strong> {{ data.description_of_transport }}
-                    </p>    
+            
+            <hr class="my-4"/>
+            <div class="grid grid-cols-1 mt-4">
+                <div
+                    class="relative flex flex-col items-start justify-between p-3 pt-0">
+                    <span
+                        class="mb-4 text-lg font-medium leading-none text-gray-600 dark:text-white">
+                        {{ $t('labels.package-information')}}</span>
+                    <div class="grid grid-flow-row gap-3">
+                        <div
+                            class="">
+                            <p class="text-[16px]">{{ $t('labels.package-count-total') }} <span class="bg-primary-100 text-corporate-800 text-[1rem] font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-primary-900 dark:text-corporate-300">{{ data.parcels?.length ?? 0 }}</span></p>
+                        </div>
+                        <div
+                            class="">
+                            <p class="text-[16px]">{{ $t('labels.type-of-packaging') }} <span class="bg-primary-100 text-corporate-800 text-[1rem] font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-primary-900 dark:text-corporate-300">{{ data.parcels[0].p_name }}</span></p>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="grid grid-cols-4 gap-4 mt-4">
+                <div v-for="parcel, index in data.parcels"
+                    class="relative grid grid-flow-row p-3 rounded-lg shadow-md dark:transparent">
+                    <span
+                        class="mb-2 text-base font-medium leading-none text-gray-500 dark:text-white">
+                        <!-- Dynamic String with replacement -->
+                        {{ $t('labels.package-with-index', {index: (index + 1)})}}</span>
+                    
+                    <div class="grid grid-flow-col place-items-center">
+                        <div class="">
+                            <el-icon size="40" class="text-corporate-500">
+                                <Box class="text-corporate-500" />
+                            </el-icon>
+                        </div>
+                        <div
+                        class="grid grid-flow-row gap-2 text-xs font-medium">
+                            <p class="text-[12px] rounded-md"><span class="block w-full">{{ $t('labels.sizes') }}</span> {{ parcel.p_length }}cm * {{ parcel.p_width }}cm * {{ parcel.p_height }}cm </p>
+                            <p class="text-[12px]"><span class="block w-full">{{ $t('labels.weight') }}</span> {{ parcel.p_weight }}kg </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4"/>
             <div class="grid grid-cols-4 gap-4 mt-4">
                 <div
                     class="relative flex flex-col items-start justify-between p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -185,22 +216,22 @@
                         <el-icon size="18">
                             <Edit />
                         </el-icon>
-                    <span class="pl-2">Bearbeiten</span>
+                    <span class="pl-2">{{ $t('labels.edit') }}</span>
                     </button>
                     <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                         <el-icon size="18">
                             <View />
                         </el-icon> 
-                    <span class="pl-2">Details</span>
+                    <span class="pl-2">{{ $t('labels.details') }}</span>
                     </button>
                     <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                         <el-icon size="18">
                             <Close />
                         </el-icon> 
-                        <span v-if="data.canceled">Storniert</span>
-                        <span v-else class="pl-2">Stornieren</span>
+                        <span v-if="data.canceled">{{ $t('labels.cancelled') }}</span>
+                        <span v-else class="pl-2">{{ $t('labels.void') }}</span>
                     </button>
                 </div>
                 <div class="grid grid-flow-col">
@@ -212,20 +243,20 @@
                         <el-icon size="18" v-else>
                             <DocumentRemove />
                         </el-icon> 
-                        <span class="pl-2" v-if="data.shipping_label_pdf">Versandschein</span>
-                        <span class="pl-2" v-else>Kein Versandlabel</span>
+                        <span class="pl-2" v-if="data.shipping_label_pdf">{{ $t('labels.download-shipping-label') }}</span>
+                        <span class="pl-2" v-else>{{ $t('labels.no-shipping-label') }}</span>
                     </button>
-                    <button type="button"
+                    <button type="button" :id="'multilingualDownloadModalButton-' + data.order_id" :data-modal-target="'multilingualDownloadModal-' + data.order_id" :data-modal-toggle="'multilingualDownloadModal-' + data.order_id" 
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-800 rounded-lg hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900">
-                        <el-icon size="18" v-if="data.shipping_label_pdf">
-                            <Download />
+                        <el-icon size="18" v-if="data.pamyra_order.order_pdf || data.native_order.order_pdf ">
+                            <Message />
                         </el-icon>
                         <el-icon size="18" v-else>
                             <DocumentRemove />
                         </el-icon> 
-                        <span class="pl-2" v-if="data.shipping_label_pdf">Versandschein</span>
-                        <span class="pl-2" v-else>Transportauftrag (multilingual Select)</span>
+                        <span class="pl-2" >{{ $t('labels.send-order') }}</span>
                     </button>
+                    <MultilingualDownloadModal :fileId="data.order_id"/>
                 </div>
             </div>
         </td>
@@ -233,8 +264,15 @@
 </template>
 
 <script setup>
-import { ArrowDown, Close, CloseBold, DocumentRemove, Download, View, Edit, Van } from '@element-plus/icons-vue';
+import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Box, Message } from '@element-plus/icons-vue';
 import Tooltip from '../Tooltips/Tooltip.vue';
+import MultilingualDownloadModal from '@Components/Modal/MultilingualDownloadModal.vue';
+import { onMounted } from 'vue';
+import { initFlowbite } from 'flowbite';
+
+onMounted(()=> {
+    initFlowbite()
+})
 
 const props = defineProps({
     dataIndex: {
