@@ -14,25 +14,30 @@ class TmsOrderHistorySeeder extends Seeder
      */
     public function run(): void
     {
-        // TmsOrderHistoryFactory::new()->count(config('constants.numberOfDbRecords'))->create();
+        /**
+         * We have 20 orders. For every order make 3 order histories, with these fixed ids.
+         */
         for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
             TmsOrderHistory::factory()->create([
                 'order_id' => $i,
                 'forwarder_id' => $i,
                 'customer_id' => $i,
                 'forwarding_contract_id' => $i,
+                'user_id' => $i,
             ]);
             TmsOrderHistory::factory()->create([
                 'order_id' => $i,
                 'forwarder_id' => $i,
                 'customer_id' => $i,
                 'forwarding_contract_id' => $i,
+                'user_id' => $i,
             ]);
             TmsOrderHistory::factory()->create([
                 'order_id' => $i,
                 'forwarder_id' => $i,
                 'customer_id' => $i,
                 'forwarding_contract_id' => $i,
+                'user_id' => $i,
             ]);
         }
 
