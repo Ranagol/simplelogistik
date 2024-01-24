@@ -14,7 +14,7 @@ class TmsOrderIndexCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        dd($this);
+        // dd($this);
         return [
             'data' => $this->collection,
 

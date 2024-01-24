@@ -278,8 +278,6 @@ class TmsOrderController extends BaseController
             //we need these relationships. Not all columns, only the selected ones.
             ->with([
                 'parcels',
-                'nativeOrder',
-                'pamyraOrder',
                 'orderAddresses',
                 'forwarder',
                 'orderHistoryLatest',
@@ -301,7 +299,7 @@ class TmsOrderController extends BaseController
         $records = new TmsOrderIndexCollection($records);
         // dd($records);//this is the only way how we can check the new data structure from resource
 
-        // dd($records->toArray(request()));//this is the only way how we can check the new data structure from resource
+        // dd($records->toArray(request()));//in this case, something is wrong here...
         
         return $records;
     }

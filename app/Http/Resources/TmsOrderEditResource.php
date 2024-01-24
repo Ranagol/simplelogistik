@@ -54,7 +54,6 @@ class TmsOrderEditResource extends JsonResource
         ];
     }
 
-
     private function setDetails()
     {
         // dd('setDetails');
