@@ -79,7 +79,11 @@ class TmsOrder extends Model
      */
     public function orderHistoryLatest(): HasOne
     {
-        return $this->hasOne(TmsOrderHistory::class, 'order_id')
+        return $this
+            ->hasOne(TmsOrderHistory::class, 'order_id')
+            ->with('user', function($query){
+                $query->select('id', 'name');
+            })
             ->latest();
     }
 

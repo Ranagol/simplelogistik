@@ -276,13 +276,15 @@ class TmsOrderController extends BaseController
             })
 
             //we need these relationships. Not all columns, only the selected ones.
-            ->with([
-                'parcels',
-                'orderAddresses',
-                'forwarder',
-                'orderHistoryLatest',
-                'customer'
-            ])
+            ->with(
+                [
+                    'parcels',
+                    'orderAddresses',
+                    'forwarder',
+                    'customer',
+                    'orderHistoryLatest',
+                ]
+            )
             
             /**
              * PAGINATION

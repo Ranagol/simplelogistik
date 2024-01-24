@@ -39,6 +39,6 @@ class TmsOrderHistory extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(TmsDispatcher::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

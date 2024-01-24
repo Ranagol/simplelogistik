@@ -36,10 +36,8 @@ class TmsOrderIndexResource extends JsonResource
             'payment_method' => $this->payment_method,
             'easy_bill_customer_id' => $this->easy_bill_customer_id,
 
-            // 'last_update' => 'testing',
             'last_update' => $this->orderHistoryLatest->updated_at->format('Y-m-d H:i:s'),
-
-            'last_editor' => 'testing',
+            'last_editor' => $this->orderHistoryLatest->user->name,
             
             //relationships are loaded in the controller, so here we can just return them
             // 'parcels' => $this->parcels,
