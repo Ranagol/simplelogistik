@@ -268,32 +268,6 @@ class TmsOrder extends Model
             ;
     }
 
-    /**
-     * With the main order, we always have to send to the FE the native or the pamyra order.
-     * There is an origin column in the orders table. If this is Pamyra, then we return the
-     * PamyraOrder relationship. If this is anything else than 'Pamyra', then we return the
-     * NativeOrder relationship. (Native orders are: Sales, Google Ads, Shipping calc.)
-     *
-     * @param Builder $query
-     * @param string $id
-     * @return Builder
-     */
-    public function scopeNativeOrPamyra(Builder $query, string $id): Builder
-    {
-        $order = TmsOrder::find($id);
-        $origin = $order->origin;
-        // dd($origin);
-
-        if ($origin === 'pamyra') {
-            return $query->with('pamyraOrder');
-        }
-
-        if ($origin === 'native_sales' || $origin === 'native_google-ads' || $origin === 'shipping_calc') {
-            return $query->with('nativeOrder');
-        }
-    }
-
-
     //*************MUTATORS AND ACCESSORS*************************************** */
     
     /**
