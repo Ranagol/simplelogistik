@@ -1,5 +1,5 @@
 <template>
-    <!-- <TableWithContent 
+    <TableWithContent 
         :actions="['edit', 'show']" 
         @getData="getData" 
         :title="$t('labels.orders')" 
@@ -7,9 +7,9 @@
         :headers="headers"
         :paginationData="props.dataFromController"
         @changeTableLayout="changeTableLayout"
-    ></TableWithContent> -->
+    ></TableWithContent>
 
-    <pre>{{ props.dataFromController }}</pre>
+    <!-- <pre>{{ props.dataFromController }}</pre> -->
 </template>
 <script setup>
     import TableWithContent from '@/Components/Tables/TableWithContent.vue';
