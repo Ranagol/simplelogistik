@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         $testUser = User::where('name', '=', $testUsername)->get();
         
         if($testUser->isEmpty()){
-            User::factory()->create([
+            $testUser = User::factory()->create([
                 'name' => $testUsername,
                 'email' => $testUsername,
                 'email_verified_at' => now(),
@@ -53,9 +53,12 @@ class DatabaseSeeder extends Seeder
                 'remember_token' => Str::random(10),
             ]);
         }
+        // Assign role to the test user
+        $testUser->assignRole('admin');
 
         //Here starts the seeding process.
         $this->call([
+            TmsRolesAndPermissionsSeeder::class,
             TmsCountrySeeder::class,
             TmsForwarderSeeder::class,
             TmsCustomerSeeder::class,
@@ -70,7 +73,8 @@ class DatabaseSeeder extends Seeder
             TmsForwardingContractSeeder::class,
             TmsOrderHistorySeeder::class,
             TmsTransportLicenseSeeder::class,
-            PivotTableSeeder::class,//all pivot table connections are created here.
+            //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
+            PivotTableSeeder::class,
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
             TmsProvisionSeeder::class,
