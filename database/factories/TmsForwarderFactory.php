@@ -34,6 +34,7 @@ class TmsForwarderFactory extends Factory
             'rating' => $this->faker->numberBetween(1, 5),
             'forwarder_type' => Arr::random(TmsForwarder::FORWARDER_TYPES),
             'comments' => $this->faker->sentence,
+            'url_logo' => $this->faker->imageUrl(),
         ];
     }
 }
