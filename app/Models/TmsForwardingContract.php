@@ -33,9 +33,9 @@ class TmsForwardingContract extends Model
         return $this->belongsTo(TmsVehicle::class, 'vehicle_id');
     }
 
-    public function dispatcher(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(TmsDispatcher::class);
+        return $this->belongsTo(User::class);
     }
 
     public function orderHistories(): HasMany

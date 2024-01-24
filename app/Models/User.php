@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\TmsDispatcher;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -46,13 +45,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function dispatcher(): HasOne
-    {
-        return $this->hasOne(TmsDispatcher::class);
-    }
-
     public function orderHistories(): HasMany
     {
         return $this->hasMany(TmsOrderHistory::class, 'user_id');
+    }
+
+    public function forwardingContracts(): HasMany
+    {
+        return $this->hasMany(TmsForwardingContract::class, 'user_id');
     }
 }

@@ -24,8 +24,8 @@ return new class extends Migration
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->foreign('vehicle_id')->references('id')->on('tms_vehicles');
-            $table->unsignedBigInteger('dispatcher_id');
-            $table->foreign('dispatcher_id')->references('id')->on('tms_dispatchers');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('comments', 255)->nullable();
             $table->timestamps();
         });

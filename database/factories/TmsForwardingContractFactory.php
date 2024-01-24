@@ -25,7 +25,7 @@ class TmsForwardingContractFactory extends Factory
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'vehicle_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
-            'dispatcher_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'user_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'comments' => $this->faker->sentence(),
         ];
     }
