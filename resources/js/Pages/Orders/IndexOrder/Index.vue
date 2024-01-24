@@ -8,6 +8,8 @@
         :paginationData="props.dataFromController"
         @changeTableLayout="changeTableLayout"
     ></TableWithContent>
+
+    <!-- <pre>{{ props.dataFromController }}</pre> -->
 </template>
 <script setup>
     import TableWithContent from '@/Components/Tables/TableWithContent.vue';

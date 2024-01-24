@@ -28,6 +28,7 @@ class TmsOrderHistoryFactory extends Factory
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarding_contract_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'user_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
         ];
     }
 }

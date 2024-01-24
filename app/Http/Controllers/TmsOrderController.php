@@ -16,9 +16,12 @@ use App\Http\Requests\TmsOrderRequest;
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\TmsOrderCollection;
+use App\Http\Resources\TmsOrderEditResource;
+use App\Http\Resources\TmsOrderIndexResource;
+use App\Http\Resources\TmsOrderIndexCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Symfony\Component\Process\Process;
-use App\Http\Controllers\ShellCommandFailedException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TmsOrderController extends BaseController
 {
@@ -157,27 +160,33 @@ class TmsOrderController extends BaseController
                 'parcels',
                 'orderAddresses',
                 'forwarder',
-                'orderHistories',
-
-                //Give me the belonging customer, with only id and company_name and with customers headquarter.
-                'customer' => function ($query) {
-                    $query->select('id', 'company_name', 'payment_method_options_to_offer')->with(['headquarter']);
-                }
+                'orderHistories.user',
+                'partner',
+                'contact',
+                'customer.headquarter'
             ]
 
         //this is a local scope defined in order model, it loads either native or pamyra orders
         )
         ->nativeOrPamyra($id)
         ->findOrFail($id);
+
+        // dd($record);//this works
+        
         
         //Formats the order object according to FE requests.
-        $record = $this->orderService->formatNativeOrPamyraOrders($record);
+        // $record = $this->orderService->formatNativeOrPamyraOrders($record);
+
+        $record = new TmsOrderEditResource($record);//why is this not changing the data structure?
         
+        // dd($record->toArray(request()));//this is the only way how we can check the new data structure from resource
+
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
             $this->vueCreateEditPath, 
             [
                 'record' => $record,
+                //$record,
                 'mode' => 'edit',
                 //This is data for the select/options fields in the form, so the user can choose.
                 'selectOptions' => [
@@ -265,14 +274,14 @@ class TmsOrderController extends BaseController
      * @param string|null $sortColumn
      * @param string|null $sortOrder
      * @param integer|null $newItemsPerPage
-     * @return LengthAwarePaginator
      */
+    //@return AnonymousResourceCollection
     private function getRecords(
         string $searchTerm = null, 
         string $sortColumn = null, 
         string $sortOrder = null, 
         int $newItemsPerPage = null,
-    ): LengthAwarePaginator
+    )/*: AnonymousResourceCollection*/
     {
         $records = $this->model::query()
 
@@ -300,14 +309,15 @@ class TmsOrderController extends BaseController
             })
 
             //we need these relationships. Not all columns, only the selected ones.
-            ->with([
-                'parcels',
-                'nativeOrder',
-                'pamyraOrder',
-                'orderAddresses',
-                'forwarder',
-                'orderHistoryLatest'
-            ])
+            ->with(
+                [
+                    'parcels',
+                    'orderAddresses',
+                    'forwarder',
+                    'customer',
+                    'orderHistoryLatest',
+                ]
+            )
             
             /**
              * PAGINATION
@@ -321,6 +331,11 @@ class TmsOrderController extends BaseController
              */
             ->withQueryString();
 
+        $records = new TmsOrderIndexCollection($records);
+        // dd($records);//this is the only way how we can check the new data structure from resource
+
+        // dd($records->toArray(request()));//in this case, something is wrong here...
+        
         return $records;
     }
 
