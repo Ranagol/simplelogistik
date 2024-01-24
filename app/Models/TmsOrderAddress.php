@@ -121,9 +121,11 @@ class TmsOrderAddress extends Model
      * seeding too. So, when you want to add a new address type, this is the place to do it.
      */
     const ADDRESS_TYPES = [
-        1 => 'Headquarter',
-        2 => 'Billing address',
-        3 => 'Pickup address',
-        4 => 'Delivery address',
+        1 => 'labels.address-headquarter',//'Headquarter',
+        2 => 'labels.address-billing',//'Billing address',
+        3 => 'labels.address-pickup',//'Pickup address',
+        4 => 'labels.address-delivery',//'Delivery address',
     ];
+
+    
 }
