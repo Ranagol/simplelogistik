@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tms_order_histories', function (Blueprint $table) {
-            $table->dropForeign(['dispatcher_id']);//how to drop foreign key
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->dropForeign(['dispatcher_id']);
+            $table->unsignedBigInteger('user_id')->nullable();//TODO ANDOR something is wrong here, this column is not behaving as a foreign key in the database, when you oper order_histories
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

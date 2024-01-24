@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\TmsAddress;
+use App\Models\TmsCustomer;
 use App\Models\TmsOrder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,7 +25,8 @@ class TmsOrderSeeder extends Seeder
 
             /**
              * From the 20 orders that will be created, orders 1 - 10 should be 'Sales' origin,
-             * orders 11 - 20 should be 'Pamyra'.
+             * orders 11 - 20 should be 'Pamyra'. (For simplicity, I used only these options,
+             * though there are more options for origin)
              */
             $origin = '';
             if ( $i < 11) {
@@ -37,6 +40,8 @@ class TmsOrderSeeder extends Seeder
                 'contact_id' => $i,
                 'forwarder_id' => $i,
                 'origin' => $origin,
+                //Give me an address, for customer $i, where is_billing true. Give me the id of this address.
+                'billing_address_id' => TmsAddress::where('customer_id', $i)->where('is_billing', true)->first()->id,
             ]);
         }
     }
