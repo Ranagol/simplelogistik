@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(TmsOrderHistory::class, 'user_id');
     }
 
+    public function invoiceHistories(): HasMany
+    {
+        return $this->hasMany(TmsInvoiceHistory::class, 'user_id');
+    }
+
     public function forwardingContracts(): HasMany
     {
         return $this->hasMany(TmsForwardingContract::class, 'user_id');

@@ -12,6 +12,7 @@ use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Services\ForwarderService;
 use App\Http\Requests\TmsForwarderRequest;
+use Illuminate\Http\RedirectResponse;
 
 class TmsForwarderController extends Controller
 {
@@ -32,6 +33,12 @@ class TmsForwarderController extends Controller
         $this->forwarderService = $forwarderService;
     }
 
+    /**
+     * Returns the records for the list page.
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function index(Request $request): Response
     {
         $searchTerm = $request->searchTerm;
@@ -59,6 +66,12 @@ class TmsForwarderController extends Controller
         );
     }
 
+    /**
+     * Returns the record for the details page.
+     *
+     * @param string $id
+     * @return Response
+     */
     public function show(string $id): Response
     {
         $record = TmsForwarder::with(
@@ -75,6 +88,11 @@ class TmsForwarderController extends Controller
         );
     }
 
+    /**
+     * Returns the record for the create page.
+     *
+     * @return Response
+     */
     public function create(): Response
     {
         return Inertia::render(
@@ -90,8 +108,11 @@ class TmsForwarderController extends Controller
      * Stores records. Inertia automatically sends succes or error feedback to the frontend.
      * A little explanation: here we only save the record into db.
      * This simply triggers onSuccess event in FE component, which then displays the success message
+     *
+     * @param TmsForwarderRequest $request
+     * @return RedirectResponse
      */
-    public function store(TmsForwarderRequest $request)
+    public function store(TmsForwarderRequest $request): RedirectResponse
     {
         $newRecord = $request->validated();//do validation
         $newlyCreatedRecord = TmsForwarder::create($newRecord);
@@ -103,6 +124,12 @@ class TmsForwarderController extends Controller
         return Inertia::location("{$newlyCreatedRecord->id}/edit");
     }
 
+    /**
+     * Returns the record for the edit page.
+     *
+     * @param string $id
+     * @return Response
+     */
     public function edit(string $id): Response
     {
         //Gets the relevant data for us from db.
@@ -125,7 +152,14 @@ class TmsForwarderController extends Controller
         );
     }
 
-    public function update(TmsForwarderRequest $request, string $id)
+    /**
+     * Updates forwarder.
+     *
+     * @param TmsForwarderRequest $request
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function update(TmsForwarderRequest $request, string $id): RedirectResponse
     {
         $newRecord = $request->validated();//do validation
         $record = TmsForwarder::findOrFail($id);//find the relevant record
