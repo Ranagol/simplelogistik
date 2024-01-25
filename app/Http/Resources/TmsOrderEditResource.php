@@ -5,9 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Formats one order model for order edit page.
+ */
 class TmsOrderEditResource extends JsonResource
 {
-    // public static $wrap = 'order';
 
     /**
      * Transform the resource into an array.
@@ -78,5 +80,4 @@ class TmsOrderEditResource extends JsonResource
         }
     }
 }
-
 

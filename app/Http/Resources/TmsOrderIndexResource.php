@@ -5,6 +5,12 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Formats the data structure of all order model object in a collection, that is sent to the
+ * order index page. All order will have this structure. If we don't create this class, then all
+ * orders will have the structure defined in TmsOrderEditResource.php. This is the way how we can
+ * have different data structures for different pages for the same model.
+ */
 class TmsOrderIndexResource extends JsonResource
 {
     /**
@@ -39,7 +45,8 @@ class TmsOrderIndexResource extends JsonResource
             'last_update' => $this->orderHistoryLatest->updated_at->format('Y-m-d H:i:s'),
             'last_editor' => $this->orderHistoryLatest->user->name,
             
-            //relationships are loaded in the controller, so here we can just return them
+            //relationships are loaded in the controller, so here we can just return them.
+            //this is not deleted, because I expect that we will need it in the future.
             // 'parcels' => $this->parcels,
             // 'addresses' => $this->orderAddresses,
             // 'forwarder' => $this->forwarder,
@@ -48,8 +55,6 @@ class TmsOrderIndexResource extends JsonResource
             // 'partner' => $this->partner,
             // 'contact' => $this->contact,
             // 'details' => $this->setDetails(),
-            
-
         ];
     }
 }
