@@ -3,18 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\TmsParcel;
-use App\Models\TmsAddress;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\TmsContact;
-use App\Models\TmsInvoice;
-use App\Models\TmsVehicle;
-use App\Models\TmsCustomer;
 use Illuminate\Support\Str;
-use App\Models\TmsForwarder;
-use App\Models\TmsOrder;
-use App\Models\TmsDispatcher;
-use App\Models\TmsGear;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TmsParcelSeeder;
@@ -27,9 +17,7 @@ use Database\Seeders\TmsVehicleSeeder;
 use Database\Seeders\TmsCustomerSeeder;
 use Database\Seeders\TmsForwarderSeeder;
 use Database\Seeders\TmsOrderSeeder;
-use Database\Seeders\TmsDispatcherSeeder;
 use Database\Seeders\TmsOfferPriceSeeder;
-// use Database\Seeders\TmsVehicleReqSeeder;
 use Database\Seeders\TmsGearSeeder;
 use Database\Seeders\TmsOrderHistorySeeder;
 use Database\Seeders\TmsOrderAttributeSeeder;
@@ -69,7 +57,6 @@ class DatabaseSeeder extends Seeder
         //Here starts the seeding process.
         $this->call([
             TmsCountrySeeder::class,
-            TmsDispatcherSeeder::class,
             TmsForwarderSeeder::class,
             TmsCustomerSeeder::class,
             TmsPartnerSeeder::class,
