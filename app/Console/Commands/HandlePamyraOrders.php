@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\PamyraDataHandlerService;
 use Illuminate\Console\Command;
 
 class HandlePamyraOrders extends Command
@@ -24,8 +25,8 @@ class HandlePamyraOrders extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(PamyraDataHandlerService $pamyraDataHandlerService): void
     {
-        echo 'Handle Pamyra Orders!' . '\n';
+        $pamyraDataHandlerService->handle();
     }
 }
