@@ -73,7 +73,8 @@ class TmsOrder extends Model
     }
 
     /**
-     * Returns the latest order history record. Only one.
+     * Returns the latest order history record. Only one. This is needed in order index page.
+     * And not in order edit page.
      *
      * @return HasOne
      */
