@@ -143,7 +143,7 @@ class TmsOrderController extends BaseController
                 'parcels',
                 'orderAddresses',
                 'forwarder',
-                'orderHistories.user',
+                'orderHistories.user.roles:id,name',
                 'partner',
                 'contact',
                 'customer.headquarter',
