@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\PamyraDataHandlerService;
+use App\Services\PamyraServices\PamyraDataHandlerService;
 use Illuminate\Console\Command;
 
 class HandlePamyraOrders extends Command
