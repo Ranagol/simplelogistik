@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_order_histories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('tms_invoice_histories', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
             $table->string('comment');
-            $table->string('order_status');
-            $table->decimal('additional_cost', 10, 2)->comment('These are the unplanned additinal cost of an order.')->nullable();
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('tms_orders');
+            $table->string('invoice_status');
+            $table->decimal('additional_cost', 10, 2)->comment('These are the unplanned additinal cost of an invoice.')->nullable();
+            $table->unsignedBigInteger('invoice_id');
+            $table->foreign('invoice_id')->references('id')->on('tms_invoices');
             $table->unsignedBigInteger('forwarder_id');
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->unsignedBigInteger('customer_id');
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_order_histories');
+        Schema::dropIfExists('tms_invoice_histories');
     }
 };
