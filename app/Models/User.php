@@ -7,6 +7,7 @@ use App\Models\TmsDispatcher;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -48,5 +49,10 @@ class User extends Authenticatable
     public function dispatcher(): HasOne
     {
         return $this->hasOne(TmsDispatcher::class);
+    }
+
+    public function orderHistories(): HasMany
+    {
+        return $this->hasMany(TmsOrderHistory::class, 'user_id');
     }
 }

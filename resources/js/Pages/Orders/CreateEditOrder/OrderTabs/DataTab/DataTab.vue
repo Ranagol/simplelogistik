@@ -6,12 +6,12 @@
     >   
 
         <!-- GENERAL DATA: reference, date, origin, status-->
-        <!-- <GeneralData
+        <GeneralData
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
             :selectOptions="props.selectOptions"
-        /> -->
+        />
 
         <!-- ADDRESSES -->
         <AddressBase
@@ -22,26 +22,26 @@
         />
 
         <!-- PARCELLS -->
-        <!-- <ParcelBase
+        <ParcelBase
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
             :selectOptions="props.selectOptions"
-        /> -->
+        />
 
         <!-- FINANCES -->
-        <!-- <FinanceBase
+        <FinanceBase
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
-        /> -->
+        />
 
         <!-- VEHICLE REQUIREMENTS -->
-        <!-- <VehicleReqBase
+        <VehicleReqBase
             v-model:order="data.order"
             :errors="props.errors"
             :mode="props.mode"
-        /> -->
+        />
         
 
         <pre>{{ JSON.stringify(props.order, null, 2) }}</pre>

@@ -32,7 +32,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].transport_price_net"
+                        v-model="data.order.details.transport_price_net"
                         placeholder="Transport price net"
                         clearable
                         @input="update"
@@ -59,7 +59,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].transport_price_vat"
+                        v-model="data.order.details.transport_price_vat"
                         placeholder="Transport price vat"
                         clearable
                         @input="update"
@@ -167,7 +167,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].calculated_transport_price"
+                        v-model="data.order.details.calculated_transport_price"
                         placeholder="Calculated transport price"
                         clearable
                         @input="update"
@@ -195,7 +195,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].transport_price_gross"
+                        v-model="data.order.details.transport_price_gross"
                         placeholder="Transport price gross"
                         clearable
                         @input="update"
@@ -223,7 +223,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].customized_price_change"
+                        v-model="data.order.details.customized_price_change"
                         placeholder="Customized price change"
                         clearable
                         @input="update"
@@ -251,7 +251,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].customized_price_mode"
+                        v-model="data.order.details.customized_price_mode"
                         placeholder="Customized price mode"
                         clearable
                         @input="update"
@@ -278,7 +278,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].discount"
+                        v-model="data.order.details.discount"
                         placeholder="Discount"
                         clearable
                         @input="update"
@@ -305,7 +305,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].price_gross"
+                        v-model="data.order.details.price_gross"
                         placeholder="Price gross"
                         clearable
                         @input="update"
@@ -332,7 +332,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].price_vat"
+                        v-model="data.order.details.price_vat"
                         placeholder="Price vat"
                         clearable
                         @input="update"
@@ -359,7 +359,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].price_net"
+                        v-model="data.order.details.price_net"
                         placeholder="Price net"
                         clearable
                         @input="update"
@@ -386,7 +386,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].price_fuel_surcharge"
+                        v-model="data.order.details.price_fuel_surcharge"
                         placeholder="Price fuel surcharge"
                         clearable
                         @input="update"
@@ -413,7 +413,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].vat_rate"
+                        v-model="data.order.details.vat_rate"
                         placeholder="Vat rate"
                         clearable
                         @input="update"
@@ -440,7 +440,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].value_insured"
+                        v-model="data.order.details.value_insured"
                         placeholder="Value insured"
                         clearable
                         @input="update"
@@ -467,7 +467,7 @@
                     
                     <!-- INPUT -->
                     <el-input
-                        v-model="data.order[subOrderType].value_of_goods"
+                        v-model="data.order.details.value_of_goods"
                         placeholder="Value of goods"
                         clearable
                         @input="update"

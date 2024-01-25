@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -149,6 +150,12 @@ class TmsAddress extends Model
     {
         return $this->belongsTo(TmsPartner::class);
     }
+
+    public function order(): HasOne
+    {
+        return $this->hasOne(TmsOrder::class, 'billing_address_id');
+    }
+    
 
     //*************SCOPES*************************************** */
 

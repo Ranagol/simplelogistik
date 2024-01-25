@@ -27,13 +27,17 @@ class TmsAddressSeeder extends Seeder
      */
     public function run(): void
     {
-        
+        /**
+         * For every address type...
+         */
         foreach ($this->booleanAddressTypes as $key => $booleanAddressType) {
 
             /**
+             * For every customer...
              * Usually we have 20 customers created by the seeder. 
              */
             for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
+                
                 TmsAddress::factory()->create([
                     /**
                      * Here we explicitly define the value of the the customer_id.

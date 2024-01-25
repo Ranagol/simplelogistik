@@ -79,7 +79,11 @@ class TmsOrder extends Model
      */
     public function orderHistoryLatest(): HasOne
     {
-        return $this->hasOne(TmsOrderHistory::class, 'order_id')
+        return $this
+            ->hasOne(TmsOrderHistory::class, 'order_id')
+            ->with('user', function($query){
+                $query->select('id', 'name');
+            })
             ->latest();
     }
 
@@ -224,6 +228,17 @@ class TmsOrder extends Model
     {
         return $this->hasMany(TmsOrderAddress::class, 'order_id')
             ->where('address_type', 4);
+    }
+
+    /**
+     * Returns only the billing address.
+     *
+     * @return HasOne
+     */
+    public function billingAddress(): BelongsTo
+    {
+        return $this->belongsTo(TmsAddress::class, 'billing_address_id')
+            ->where('is_billing', true);
     }
 
     public function forwarder(): BelongsTo

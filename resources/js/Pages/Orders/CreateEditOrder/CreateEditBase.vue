@@ -113,16 +113,6 @@ const data = reactive({
     title: 'Order',
 });
 
-const subOrderType = computed(
-    () => {
-        if (props.record.pamyra_order !== null) {
-            return 'pamyra_order';
-        }
-        if (props.record.native_order !== null) {
-            return 'native_order';
-        }
-    }
-);
 
 /**
  * The submit button and the order form are in two separate components. When we click on the submit
