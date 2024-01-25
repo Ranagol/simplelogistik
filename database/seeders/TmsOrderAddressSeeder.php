@@ -10,15 +10,15 @@ class TmsOrderAddressSeeder extends Seeder
 {
     /**
      * We want every order to have 4 addresses. 2 pickup and 2 delivery addresses. We achive this
-     * with this hard coded array.
+     * with looping through this hard coded array, in run().
      *
      * @var array
      */
     protected array $addressTypes = [
-        'Pickup address',
-        'Pickup address',
-        'Delivery address',
-        'Delivery address',
+        'labels.address-pickup',
+        'labels.address-pickup',
+        'labels.address-delivery',
+        'labels.address-delivery',
     ];
 
     /**

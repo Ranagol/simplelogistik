@@ -135,6 +135,11 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsOrderHistory::class, 'customer_id');
     }
 
+    public function invoiceHistories(): HasMany
+    {
+        return $this->hasMany(TmsInvoiceHistory::class, 'customer_id');
+    }
+
     public function invoices(): HasMany
     {
         return $this->hasMany(TmsInvoice::class, 'customer_id');

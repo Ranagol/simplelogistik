@@ -5,9 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Formats one order model for order edit page.
+ */
 class TmsOrderEditResource extends JsonResource
 {
-    // public static $wrap = 'order';
 
     /**
      * Transform the resource into an array.
@@ -54,6 +56,14 @@ class TmsOrderEditResource extends JsonResource
         ];
     }
 
+    /**
+     * Every order has pamyra order or native order. Either one or the other. Not both. In the 
+     * controller we call pamyraOrder() and nativeOrder() relationships. One of them will be null.
+     * The other one will have data. We place the found data under the key 'details' in the
+     * response.
+     *
+     * @return void
+     */
     private function setDetails()
     {
         // dd('setDetails');
@@ -70,5 +80,4 @@ class TmsOrderEditResource extends JsonResource
         }
     }
 }
-
 
