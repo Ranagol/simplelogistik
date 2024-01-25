@@ -25,6 +25,8 @@ return new class extends Migration
             $table->foreign('customer_id')->references('id')->on('tms_customers');
             $table->unsignedBigInteger('forwarding_contract_id');
             $table->foreign('forwarding_contract_id')->references('id')->on('tms_forwarding_contracts');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
