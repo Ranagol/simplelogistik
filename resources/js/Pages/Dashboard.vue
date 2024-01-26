@@ -1,7 +1,6 @@
 <template>
     <Head title="Dashboard" />
     <Tabs :content="content"/>
-    <TableWithContent />
 </template>
 
 <script setup>

@@ -193,20 +193,20 @@
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance_duration')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.pamyra_order.duration_minutes ?? data.native_order.duration_minutes }} min</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.duration_minutes ?? '' }} min</div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.pamyra_order.distance_km ?? data.native_order.distance_km }} km
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.distance_km ?? '' }} km
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.selling_price')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.pamyra_order.price_gross ?? data.native_order.price_gross }} {{ data.currency }}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.price_gross ?? '' }} {{ data.currency }}</div>
                 </div>
             </div>
             <div class="flex items-center justify-between mt-4 space-x-3">
@@ -274,6 +274,8 @@ onMounted(()=> {
     initFlowbite()
 })
 
+
+
 const props = defineProps({
     dataIndex: {
         type: Number,
@@ -301,6 +303,7 @@ const props = defineProps({
         type: Function
     },
 })
+
 
 </script>
 
