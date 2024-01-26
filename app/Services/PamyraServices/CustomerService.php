@@ -3,6 +3,8 @@
 namespace App\Services\PamyraServices;
 
 use App\Models\TmsCustomer;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerService {
 
@@ -10,32 +12,71 @@ class CustomerService {
     {
         $duplicateCustomer = $this->checkForDuplicate($customerPamyra);
 
-        if( $duplicateCustomer === null) {
-
-            //If there is no duplicate in db, create a new customer and return his id
-            $customerId = $this->createCustomer($customerPamyra);
-            return $customerId;
-
+        //If there is a duplicate in db
+        if( $duplicateCustomer !== null) {
+            return $duplicateCustomer->id;
         } 
 
-        //If there is a duplicate in db already... return the duplicate customer id
-        return $duplicateCustomer->id;
+        //If there is no duplicate in db
+        $this->validate($customerPamyra);
+        $customerId = $this->insertCustomer($customerPamyra);
+        return $customerId;
     }
 
     private function checkForDuplicate($customerPamyra)
     {
         //So far we hardcode that this is not a duplicate. So we simply return null.
-        return null;
+        // return null;
+
+        $first_name = $customerPamyra['firstName'];
+        $last_name = $customerPamyra['name'];
+        $phone = $customerPamyra['phone'];
+
+        $customer = DB::table('tms_customers')->where(
+            [
+                ['first_name', '=', $first_name],
+                ['last_name', '=', $last_name],
+                ['phone', '=', $phone],
+            ]
+        )->first();
+
+        return $customer;
     }
 
-    private function createCustomer($customerPamyra)
+    private function validate(array $customerPamyra): void
     {
-       $customerDb = new TmsCustomer();
-       $customerDb->company_name = $customerPamyra['company'];
-       $customerDb->email = $customerPamyra['mail'];
-       $customerDb->first_name = $customerPamyra['firstName'];
-       $customerDb->last_name = $customerPamyra['name'];
-       $customerDb->tax_number = $customerPamyra['vatId'];
-       $customerDb->phone = $customerPamyra['phone'];
+        // Define the validation rules
+        $rules = [
+            'company' => 'nullable|string',
+            'mail' => 'nullable|email',
+            'firstName' => 'required|string',
+            'name' => 'required|string',
+            'vatId' => 'nullable|string',
+            'phone' => 'required|string',
+            // 'internal_id' => 'required|string
+        ];
+
+        // Validate the data
+        $validator = Validator::make($customerPamyra, $rules);
+
+        // If the validation fails, throw an exception
+        if ($validator->fails()) {
+            throw new \Exception($validator->errors()->first());
+        }
+    }
+
+    private function insertCustomer($customerPamyra)
+    {
+        $customerId = DB::table('tms_customers')->insertGetId([
+            'company_name' => $customerPamyra['company'],
+            'email' => $customerPamyra['mail'],
+            'first_name' => $customerPamyra['firstName'],
+            'last_name' => $customerPamyra['name'],
+            'tax_number' => $customerPamyra['vatId'],
+            'phone' => $customerPamyra['phone'],
+            'internal_id' => 'temporary testing',//TODO ANDOR: correct this temporary solution
+        ]);
+
+        return $customerId;
     }
 }
