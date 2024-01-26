@@ -13,6 +13,7 @@ class OrderHandler {
     private int $receiverId;
     private TmsAddress $headquarter;
     private TmsAddress $billingAddress;
+    private TmsAddress $headquarterAndBillingAddress;
     
     private CustomerService $customerService;
     private AddressService $addressService;
@@ -23,27 +24,18 @@ class OrderHandler {
         $this->addressService = new AddressService();
     }
 
-    public function handle(array $pamyraOrder)
+    /**
+     * This is the main function in this class, that triggers all other functions.
+     *
+     * @param array $pamyraOrder
+     * @return void
+     */
+    public function handle(array $pamyraOrder): void
     {
-        /**
-         * Customer creating.
-         */
-        $this->customerId = $this->customerService->handle($pamyraOrder['customer']);
-        $this->senderId = $this->customerService->handle($pamyraOrder['sender']);
-        $this->receiverId = $this->customerService->handle($pamyraOrder['receiver']);
+        $this->handleCustomer($pamyraOrder);
+        $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
         
-        /**
-         * addresses (billing and headquarter)
-         * We need both the customer and the customer.address here. From this, we create headquarter
-         * and billing addresses.
-         */
-        $this->headquarter = $this->addressService->handle(
-            $pamyraOrder['customer'], 
-            true,//isHeadquarter
-            false,//isBilling
-            $this->customerId
-        );
-        $this->billingAddress = $this->addressService->handle($pamyraOrder['customer'], 'billing', $this->customerId);
+        
 
         //contacts
 
@@ -55,5 +47,43 @@ class OrderHandler {
         //parcels
         //pamyra_order
         //order_addresses (pickup and delivery)
+    }
+
+    private function handleCustomer(array $pamyraOrder): void
+    {
+        $this->customerId = $this->customerService->handle($pamyraOrder['customer']);
+        $this->senderId = $this->customerService->handle($pamyraOrder['sender']);
+        $this->receiverId = $this->customerService->handle($pamyraOrder['receiver']);
+    }
+
+    /**
+     * addresses (billing and headquarter)
+     * We need both the customer and the customer.address here. From this, we create headquarter
+     * and billing addresses. Here we have 3 cases:
+     * 1. The customer has a headquarter and a billing address. Then we create both addresses.
+     * 2. The customer has only a headquarter address. Then we create only the headquarter
+     * address.
+     * 3. The customer has only a billing address. Then we create only the billing address.
+     * 
+     * @param array $pamyraOrder
+     * @return void
+     */
+    private function handleAddresses(array $pamyraOrder): void
+    {
+        
+        $this->headquarter = $this->addressService->handle(
+            $pamyraOrder['customer'], 
+            true,//isHeadquarter
+            false,//isBilling
+            $this->customerId
+        );
+
+        $this->billingAddress = $this->addressService->handle(
+            $pamyraOrder['customer'], 
+            false,//isHeadquarter
+            true,//isBilling
+            $this->customerId
+        );
+
     }
 }

@@ -36,9 +36,15 @@ class AddressService {
             return $duplicateAddress;
         } 
 
-        //If there is no duplicate in db
+        //If there is no duplicate in db, then...
         $this->validate($customerPamyra['address']);
-        $address = $this->createAddress($customerPamyra);
+
+        $address = $this->createAddress(
+            $customerPamyra, 
+            $isHeadquarter, 
+            $isBilling, 
+            $customerId
+        );
         return $address;
     }
 
@@ -115,10 +121,6 @@ class AddressService {
                                 ->where('country_id', $this->countryId)
                                 ->where('partner_id', $this->partnerId)
                                 ->where('customer_id', $customerId)
-                                ->when($isHeadquarter && $isBilling, function ($query) {
-                                    return $query->where('is_headquarter', true)
-                                                ->where('is_billing', true);
-                                })
                                 ->when($isHeadquarter, function ($query) {
                                     return $query->where('is_headquarter', true);
                                 })
@@ -150,14 +152,29 @@ class AddressService {
         }
     }
 
-    private function createAddress(array $customerPamyra): TmsAddress
+    private function createAddress(
+        array $customerPamyra,
+        bool $isHeadquarter,
+        bool $isBilling,
+        int $customerId
+    ): TmsAddress
     {
         $address = new TmsAddress();
-        $address->street = $this->street;
-        $address->house_number = $this->houseNumber;
+        $address->customer_id = $customerId;
         $address->country_id = $this->countryId;
         $address->partner_id = $this->partnerId;
-        $address->customer_id = $this->customerId;
+        $address->company_name = $customerPamyra['company'];
+        $address->first_name = $customerPamyra['firstName'];
+        $address->last_name = $customerPamyra['name'];
+        $address->street = $this->street;
+        $address->house_number = $this->houseNumber;
+        $address->zip_code = $customerPamyra['address']['postalCode'];
+        $address->city = $customerPamyra['address']['city'];
+        $address->address_additional_information = $customerPamyra['address']['addressAdditionalInformation'];
+        $address->phone = $customerPamyra['phone'];
+        $address->email = $customerPamyra['mail'];
+        $address->is_pickup = false;
+        $address->is_delivery = false;
         $address->is_headquarter = $isHeadquarter;
         $address->is_billing = $isBilling;
         $address->save();
