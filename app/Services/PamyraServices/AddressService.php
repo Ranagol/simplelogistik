@@ -11,11 +11,13 @@ class AddressService {
 
     private string $houseNumber;
     private string $street;
+    private int $countryId;
     
     public function handle(array $customerPamyra, string $addressType, int $customerId): int
     {
         $this->separateStreetAndHouseNumber($customerPamyra);
-        
+        $this->setCountryId($customerPamyra);
+
         $duplicateAddress = $this->checkForDuplicate($customerPamyra);
 
         //If there is a duplicate in db
@@ -27,6 +29,12 @@ class AddressService {
         $this->validate($customerPamyra);
         $addressId = $this->insertAddress($customerPamyra);
         return $addressId;
+    }
+
+    private function setCountryId($customerPamyra): void
+    {
+        $countryCode = $customerPamyra['address']['countryCode'];
+        $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
     }
 
     /**
@@ -42,9 +50,8 @@ class AddressService {
     {
         $streetAndNumber = $customerPamyra['address']['street'];//Example:"street": "Am Hochhaus 70".
         preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match);
-        $this->street = $match[1];
-        $this->houseNumber = $match[2];
-        dd($this->street, $this->houseNumber);
+        $this->street = $match[1];//Example:"Am Hochhaus".
+        $this->houseNumber = $match[2];//Example:"70".
     }
 
     private function checkForDuplicate($customerPamyra)
