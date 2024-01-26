@@ -2,15 +2,17 @@
 
 namespace App\Services\PamyraServices;
 
+use App\Models\TmsAddress;
 use App\Services\PamyraServices\CustomerService;
 use App\Services\PamyraServices\AddressService;
 
 class OrderHandler {
 
-    private array $pamyraOrder;
     private int $customerId;
     private int $senderId;
     private int $receiverId;
+    private TmsAddress $headquarter;
+    private TmsAddress $billingAddress;
     
     private CustomerService $customerService;
     private AddressService $addressService;
@@ -23,8 +25,6 @@ class OrderHandler {
 
     public function handle(array $pamyraOrder)
     {
-        $this->pamyraOrder = $pamyraOrder;
-
         /**
          * Customer creating.
          */
@@ -37,8 +37,8 @@ class OrderHandler {
          * We need both the customer and the customer.address here. From this, we create headquarter
          * and billing addresses.
          */
-        $this->addressService->handle($pamyraOrder['customer'], 'headquarter', $this->customerId);
-        $this->addressService->handle($pamyraOrder['customer'], 'billing', $this->customerId);
+        $this->headquarter = $this->addressService->handle($pamyraOrder['customer'], 'headquarter', $this->customerId);
+        $this->billingAddress = $this->addressService->handle($pamyraOrder['customer'], 'billing', $this->customerId);
 
         //contacts
 
