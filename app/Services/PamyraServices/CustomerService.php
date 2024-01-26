@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomerService {
 
+    /**
+     * Validation rules from TmsCustomerRequest.
+     *
+     * @var array
+     */
     private array $validationRules;
 
     public function __construct()
@@ -22,6 +27,13 @@ class CustomerService {
         $this->validationRules = $tmsCustomerRequest->customerRules();
     }
 
+    /**
+     * Handle the customer data from Pamyra. This is the main function that triggers all the other functions.
+     *
+     * @param array $customerPamyra
+     * @return int
+     * @throws \Exception
+     */
     public function handle(array $customerPamyra): int
     {
         $duplicateCustomer = $this->checkForDuplicate($customerPamyra);
@@ -32,16 +44,18 @@ class CustomerService {
         } 
 
         //If there is no duplicate in db
-        // $this->validate($customerPamyra);
         $customer = $this->createCustomer($customerPamyra);
         return $customer->id;
     }
 
-    private function checkForDuplicate($customerPamyra)
+    /**
+     * Check if the customer already exists in the database.
+     *
+     * @param array $customerPamyra
+     * @return TmsCustomer|null
+     */
+    private function checkForDuplicate($customerPamyra): TmsCustomer|null
     {
-        //So far we hardcode that this is not a duplicate. So we simply return null.
-        // return null;
-
         $first_name = $customerPamyra['firstName'];
         $last_name = $customerPamyra['name'];
         $phone = $customerPamyra['phone'];
@@ -54,9 +68,14 @@ class CustomerService {
         return $customer;
     }
 
-    
-
-    private function createCustomer($customerPamyra): TmsCustomer
+    /**
+     * Create a new customer in the database.
+     *
+     * @param array $customerPamyra
+     * @return TmsCustomer
+     * @throws \Exception
+     */
+    private function createCustomer(array $customerPamyra): TmsCustomer
     {
         $customer = new TmsCustomer();
         $customer->company_name = $customerPamyra['company'];
@@ -74,6 +93,12 @@ class CustomerService {
         return $customer;//this will have the id
     }
 
+    /**
+     * Validate the customer data.
+     *
+     * @param TmsCustomer $customer
+     * @throws \Exception
+     */
     private function validate(TmsCustomer $customer): void
     {
         $customerArray = $customer->getAttributes();

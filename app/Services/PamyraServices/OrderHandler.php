@@ -37,7 +37,7 @@ class OrderHandler {
     public function handle(array $pamyraOrder): void
     {
         $this->handleCustomer($pamyraOrder);
-        // $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
+        $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
         // $this->handleOrder($pamyraOrder);
 
         //order

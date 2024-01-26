@@ -4,6 +4,7 @@ namespace App\Services\PamyraServices;
 
 use App\Models\TmsAddress;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\TmsAddressRequest;
 use Illuminate\Support\Facades\Validator;
 
 class AddressService {
@@ -13,15 +14,25 @@ class AddressService {
     private int $countryId;
     private int $partnerId;
 
-    // Define the validation rules
-    private array $rules = [
-        'city' => ['required', 'string'],
-        'countryCode' => ['required', 'string'],
-        'postalCode' => ['required', 'string'],
-        'street' => ['required', 'string'],
-        'addressAdditionalInformation' => ['nullable', 'string'],
-    ];
-    
+    /**
+     * Validation rules from TmsAddressRequest.
+     *
+     * @var array
+     */
+    private array $validationRules;
+
+    public function __construct()
+    {
+        /**
+         * We copy here the validation rules from the TmsAddressRequest. Because we want to use them
+         * in this class. And we can't use them directly from the TmsAddressRequest, because it is
+         * a FormRequest. And we can't use a FormRequest in a class. So, we copy the rules here.
+         */
+        $tmsAddressRequest = new TmsAddressRequest();
+        $this->validationRules = $tmsAddressRequest->addressRules();
+    }
+
+
     /**
      * This is the main function in this class, that triggers all other functions.
      *
@@ -42,7 +53,6 @@ class AddressService {
         $this->setCountryId($customerPamyra);
         $this->setPartnerId();
         $duplicateAddress = $this->checkForDuplicate(
-            $customerPamyra,
             $isHeadquarter,
             $isBilling,
             $customerId
@@ -53,15 +63,13 @@ class AddressService {
             return $duplicateAddress;
         } 
 
-        //If there is no duplicate in db, then...
-        $this->validate($customerPamyra['address']);
-
         $address = $this->createAddress(
             $customerPamyra, 
             $isHeadquarter, 
             $isBilling, 
             $customerId
         );
+
         return $address;
     }
 
@@ -127,7 +135,6 @@ class AddressService {
      * @return void
      */
     private function checkForDuplicate(
-        array $customerPamyra,
         bool $isHeadquarter,
         bool $isBilling,
         int $customerId
@@ -147,23 +154,6 @@ class AddressService {
                                 ->first();
 
         return $duplicateAddress;
-    }
-
-    /**
-     * Validates the address data from Pamyra.
-     *
-     * @param array $addressPamyra
-     * @return void
-     */
-    private function validate(array $addressPamyra): void
-    {
-        // Validate the data
-        $validator = Validator::make($addressPamyra, $this->rules);
-
-        // Throw an exception if validation fails
-        if ($validator->fails()) {
-            throw new \Exception($validator->errors()->first());
-        }
     }
 
     /**
@@ -200,7 +190,28 @@ class AddressService {
         $address->is_delivery = false;
         $address->is_headquarter = $isHeadquarter;
         $address->is_billing = $isBilling;
-        $address->save();
+
+        $this->validate($address->toArray());
+
+        $address->save();//this will have the id
+
         return $address;
+    }
+
+    /**
+     * Validates the address data from Pamyra.
+     *
+     * @param array $addressPamyra
+     * @return void
+     */
+    private function validate(array $addressPamyra): void
+    {
+        // Validate the data
+        $validator = Validator::make($addressPamyra, $this->validationRules);
+
+        // Throw an exception if validation fails
+        if ($validator->fails()) {
+            throw new \Exception($validator->errors()->first());
+        }
     }
 }

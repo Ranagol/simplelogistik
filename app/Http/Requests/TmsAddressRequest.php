@@ -54,8 +54,8 @@ class TmsAddressRequest extends FormRequest
             'house_number' => ['required', 'string', 'max:200'],
             'zip_code' => ['required', 'string', 'max:20'],
             'city' => ['required', 'string', 'max:100'],
-            'state' => ['required', 'string', 'max:100'],
-            'address_additional_information' => ['required', 'string', 'max:255'],
+            'state' => ['nullable', 'string', 'max:100'],
+            'address_additional_information' => ['nullable', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'max:100'],
 
