@@ -3,7 +3,6 @@
 namespace App\Services\PamyraServices;
 
 use App\Models\TmsAddress;
-use App\Models\TmsCustomer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +12,25 @@ class AddressService {
     private string $street;
     private int $countryId;
     private int $partnerId;
+
+    // Define the validation rules
+    private array $rules = [
+        'city' => ['required', 'string'],
+        'countryCode' => ['required', 'string'],
+        'postalCode' => ['required', 'string'],
+        'street' => ['required', 'string'],
+        'addressAdditionalInformation' => ['nullable', 'string'],
+    ];
     
+    /**
+     * This is the main function in this class, that triggers all other functions.
+     *
+     * @param array $customerPamyra
+     * @param boolean $isHeadquarter
+     * @param boolean $isBilling
+     * @param integer $customerId
+     * @return TmsAddress|null
+     */
     public function handle(
         array $customerPamyra,
         bool $isHeadquarter,
@@ -49,33 +66,6 @@ class AddressService {
     }
 
     /**
-     * Sets the partner id from the partner name. Since we are handling here Pamyra orders, the 
-     * partner name is always Pamyra. And Pamyra id should be always 1.
-     *
-     * @return void
-     */
-    private function setPartnerId(): void
-    {
-        $this->partnerId = DB::table('tms_partners')
-                            ->where('company_name', 'Pamyra')
-                            ->where('id', 1)
-                            ->first()
-                            ->id;
-    }
-    
-    /**
-     * Sets the country id from the country code.
-     *
-     * @param array $customerPamyra
-     * @return void
-     */
-    private function setCountryId(array $customerPamyra): void
-    {
-        $countryCode = $customerPamyra['address']['countryCode'];
-        $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
-    }
-
-    /**
      * the addresses from orders from Pamyra have the street name and the house number together.  
      * Example:"street": "Am Hochhaus 70".
      * This must be separated into street and house number.
@@ -92,6 +82,33 @@ class AddressService {
         }
         $this->street = $match[1];//Example:"Am Hochhaus".
         $this->houseNumber = $match[2];//Example:"70".
+    }
+
+    /**
+     * Sets the country id from the country code.
+     *
+     * @param array $customerPamyra
+     * @return void
+     */
+    private function setCountryId(array $customerPamyra): void
+    {
+        $countryCode = $customerPamyra['address']['countryCode'];
+        $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
+    }
+
+    /**
+     * Sets the partner id from the partner name. Since we are handling here Pamyra orders, the 
+     * partner name is always Pamyra. And Pamyra id should be always 1.
+     *
+     * @return void
+     */
+    private function setPartnerId(): void
+    {
+        $this->partnerId = DB::table('tms_partners')
+                            ->where('company_name', 'Pamyra')
+                            ->where('id', 1)
+                            ->first()
+                            ->id;
     }
 
     /**
@@ -132,19 +149,16 @@ class AddressService {
         return $duplicateAddress;
     }
 
+    /**
+     * Validates the address data from Pamyra.
+     *
+     * @param array $addressPamyra
+     * @return void
+     */
     private function validate(array $addressPamyra): void
     {
-        // Define the validation rules
-        $rules = [
-            'city' => ['required', 'string'],
-            'countryCode' => ['required', 'string'],
-            'postalCode' => ['required', 'string'],
-            'street' => ['required', 'string'],
-            'addressAdditionalInformation' => ['nullable', 'string'],
-        ];
-
         // Validate the data
-        $validator = Validator::make($addressPamyra, $rules);
+        $validator = Validator::make($addressPamyra, $this->rules);
 
         // Throw an exception if validation fails
         if ($validator->fails()) {
@@ -152,6 +166,15 @@ class AddressService {
         }
     }
 
+    /**
+     * Creates an address in the database.
+     *
+     * @param array $customerPamyra
+     * @param boolean $isHeadquarter
+     * @param boolean $isBilling
+     * @param integer $customerId
+     * @return TmsAddress
+     */
     private function createAddress(
         array $customerPamyra,
         bool $isHeadquarter,

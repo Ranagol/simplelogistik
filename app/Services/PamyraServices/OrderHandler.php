@@ -3,6 +3,7 @@
 namespace App\Services\PamyraServices;
 
 use App\Models\TmsAddress;
+use App\Models\TmsOrder;
 use App\Services\PamyraServices\CustomerService;
 use App\Services\PamyraServices\AddressService;
 
@@ -14,14 +15,17 @@ class OrderHandler {
     private TmsAddress $headquarter;
     private TmsAddress $billingAddress;
     private TmsAddress $headquarterAndBillingAddress;
+    private TmsOrder $order;
     
     private CustomerService $customerService;
     private AddressService $addressService;
+    private OrderService $orderService;
 
     public function __construct()
     {
         $this->customerService = new CustomerService();
         $this->addressService = new AddressService();
+        // $this->orderService = new OrderService();
     }
 
     /**
@@ -33,11 +37,8 @@ class OrderHandler {
     public function handle(array $pamyraOrder): void
     {
         $this->handleCustomer($pamyraOrder);
-        $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
-        
-        
-
-        //contacts
+        // $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
+        // $this->handleOrder($pamyraOrder);
 
         //order
         //in the moment that I am looking on the pamyra json I see there is a field with oderPdf. The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
@@ -84,6 +85,14 @@ class OrderHandler {
             true,//isBilling
             $this->customerId
         );
+    }
 
+    private function handleOrder(array $pamyraOrder): void
+    {
+        $this->order = $this->orderService->handle(
+            $pamyraOrder, 
+            $this->customerId, 
+            $this->billingAddress->id
+        );
     }
 }

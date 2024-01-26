@@ -2,11 +2,25 @@
 
 namespace App\Services\PamyraServices;
 
+use App\Http\Requests\TmsCustomerRequest;
 use App\Models\TmsCustomer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerService {
+
+    private array $validationRules;
+
+    public function __construct()
+    {
+        /**
+         * We copy here the validation rules from the TmsCustomerRequest. Because we want to use them
+         * in this class. And we can't use them directly from the TmsCustomerRequest, because it is
+         * a FormRequest. And we can't use a FormRequest in a class. So, we copy the rules here.
+         */
+        $tmsCustomerRequest = new TmsCustomerRequest();
+        $this->validationRules = $tmsCustomerRequest->customerRules();
+    }
 
     public function handle(array $customerPamyra): int
     {
@@ -18,9 +32,9 @@ class CustomerService {
         } 
 
         //If there is no duplicate in db
-        $this->validate($customerPamyra);
-        $customerId = $this->insertCustomer($customerPamyra);
-        return $customerId;
+        // $this->validate($customerPamyra);
+        $customer = $this->createCustomer($customerPamyra);
+        return $customer->id;
     }
 
     private function checkForDuplicate($customerPamyra)
@@ -32,51 +46,43 @@ class CustomerService {
         $last_name = $customerPamyra['name'];
         $phone = $customerPamyra['phone'];
 
-        $customer = DB::table('tms_customers')->where(
-            [
-                ['first_name', '=', $first_name],
-                ['last_name', '=', $last_name],
-                ['phone', '=', $phone],
-            ]
-        )->first();
+        $customer = TmsCustomer::where('first_name', $first_name)
+                                ->where('last_name', $last_name)
+                                ->where('phone', $phone)
+                                ->first();
 
         return $customer;
     }
 
-    private function validate(array $customerPamyra): void
-    {
-        // Define the validation rules
-        $rules = [
-            'company' => 'nullable|string',
-            'mail' => 'nullable|email',
-            'firstName' => 'required|string',
-            'name' => 'required|string',
-            'vatId' => 'nullable|string',
-            'phone' => 'required|string',
-            // 'internal_id' => 'required|string
-        ];
+    
 
+    private function createCustomer($customerPamyra): TmsCustomer
+    {
+        $customer = new TmsCustomer();
+        $customer->company_name = $customerPamyra['company'];
+        $customer->email = $customerPamyra['mail'];
+        $customer->first_name = $customerPamyra['firstName'];
+        $customer->last_name = $customerPamyra['name'];
+        $customer->tax_number = $customerPamyra['vatId'];
+        $customer->phone = $customerPamyra['phone'];
+        $customer->internal_id = 'temporary testing';//TODO ANDOR: correct this temporary solution when Francesco decides how to handle this
+        
+        $this->validate($customer);
+        
+        $customer->save(); 
+
+        return $customer;//this will have the id
+    }
+
+    private function validate(TmsCustomer $customer): void
+    {
+        $customerArray = $customer->getAttributes();
         // Validate the data
-        $validator = Validator::make($customerPamyra, $rules);
+        $validator = Validator::make($customerArray, $this->validationRules);
 
         // If the validation fails, throw an exception
         if ($validator->fails()) {
             throw new \Exception($validator->errors()->first());
         }
-    }
-
-    private function insertCustomer($customerPamyra)
-    {
-        $customerId = DB::table('tms_customers')->insertGetId([
-            'company_name' => $customerPamyra['company'],
-            'email' => $customerPamyra['mail'],
-            'first_name' => $customerPamyra['firstName'],
-            'last_name' => $customerPamyra['name'],
-            'tax_number' => $customerPamyra['vatId'],
-            'phone' => $customerPamyra['phone'],
-            'internal_id' => 'temporary testing',//TODO ANDOR: correct this temporary solution
-        ]);
-
-        return $customerId;
     }
 }

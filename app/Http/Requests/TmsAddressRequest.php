@@ -38,7 +38,6 @@ class TmsAddressRequest extends FormRequest
      */
     public function addressRules()
     {
-        // dd('addressRules validation triggered.');
 
         return [
             
@@ -66,16 +65,16 @@ class TmsAddressRequest extends FormRequest
             'is_headquarter' => ['required', 'boolean'],
 
             //We attach this country with the appends trick in the TmsAddress
-            'country' => ['required', 'array'],
+            'country' => ['nullable', 'array'],
 
             //We attach this customer with the appends trick in the TmsAddress
-            'customer' => ['required', 'array'],
+            'customer' => ['nullable', 'array'],
 
             //We attach this forwarder with the appends trick in the TmsAddress
-            'forwarder' => ['required', 'array'],
+            'forwarder' => ['nullable', 'array'],
 
             //We attach this partner with the appends trick in the TmsAddress
-            'partner' => ['required', 'array'],
+            'partner' => ['nullable', 'array'],
         ];
     }
 }
