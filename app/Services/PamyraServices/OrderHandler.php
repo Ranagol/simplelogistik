@@ -25,7 +25,7 @@ class OrderHandler {
     {
         $this->customerService = new CustomerService();
         $this->addressService = new AddressService();
-        // $this->orderService = new OrderService();
+        $this->orderService = new OrderService();
     }
 
     /**
@@ -38,10 +38,9 @@ class OrderHandler {
     {
         $this->handleCustomer($pamyraOrder);
         $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
-        // $this->handleOrder($pamyraOrder);
+        $this->handleOrder($pamyraOrder);
 
-        //order
-        //in the moment that I am looking on the pamyra json I see there is a field with oderPdf. The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
+        
         
         
         //order_attributes

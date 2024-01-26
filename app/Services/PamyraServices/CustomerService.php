@@ -4,7 +4,6 @@ namespace App\Services\PamyraServices;
 
 use App\Http\Requests\TmsCustomerRequest;
 use App\Models\TmsCustomer;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerService {
@@ -86,7 +85,7 @@ class CustomerService {
         $customer->phone = $customerPamyra['phone'];
         $customer->internal_id = 'temporary testing';//TODO ANDOR: correct this temporary solution when Francesco decides how to handle this
         
-        $this->validate($customer);
+        $this->validate($customer->toArray());//for validation we must transform model to array
         
         $customer->save(); 
 
@@ -96,12 +95,11 @@ class CustomerService {
     /**
      * Validate the customer data.
      *
-     * @param TmsCustomer $customer
+     * @param array $customer
      * @throws \Exception
      */
-    private function validate(TmsCustomer $customer): void
+    private function validate(array $customerArray): void
     {
-        $customerArray = $customer->getAttributes();
         // Validate the data
         $validator = Validator::make($customerArray, $this->validationRules);
 
