@@ -55,6 +55,7 @@ class TmsOrderIndexResource extends JsonResource
             // 'partner' => $this->partner,
             // 'contact' => $this->contact,
             // 'details' => $this->setDetails(),
+            'details' => [],
         ];
     }
 }
