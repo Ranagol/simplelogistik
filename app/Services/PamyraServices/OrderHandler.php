@@ -37,7 +37,12 @@ class OrderHandler {
          * We need both the customer and the customer.address here. From this, we create headquarter
          * and billing addresses.
          */
-        $this->headquarter = $this->addressService->handle($pamyraOrder['customer'], 'headquarter', $this->customerId);
+        $this->headquarter = $this->addressService->handle(
+            $pamyraOrder['customer'], 
+            true,//isHeadquarter
+            false,//isBilling
+            $this->customerId
+        );
         $this->billingAddress = $this->addressService->handle($pamyraOrder['customer'], 'billing', $this->customerId);
 
         //contacts
