@@ -25,16 +25,27 @@ class OrderHandler {
     {
         $this->pamyraOrder = $pamyraOrder;
 
-        //customer handling
+        /**
+         * Customer creating.
+         */
         $this->customerId = $this->customerService->handle($pamyraOrder['customer']);
         $this->senderId = $this->customerService->handle($pamyraOrder['sender']);
         $this->receiverId = $this->customerService->handle($pamyraOrder['receiver']);
-
-        //addresses (billing and headquarter)
-
+        
+        /**
+         * addresses (billing and headquarter)
+         * We need both the customer and the customer.address here. From this, we create headquarter
+         * and billing addresses.
+         */
+        $this->addressService->handle($pamyraOrder['customer'], 'headquarter', $this->customerId);
+        $this->addressService->handle($pamyraOrder['customer'], 'billing', $this->customerId);
 
         //contacts
+
         //order
+        //in the moment that I am looking on the pamyra json I see there is a field with oderPdf. The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
+        
+        
         //order_attributes
         //parcels
         //pamyra_order
