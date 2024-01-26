@@ -16,6 +16,7 @@ class OrderHandler {
     private TmsAddress $billingAddress;
     private TmsAddress $headquarterAndBillingAddress;
     private TmsOrder $order;
+    private int $partnerId = 1;//Pamyra partner should have id = 1 always
     
     private CustomerService $customerService;
     private AddressService $addressService;
@@ -91,7 +92,8 @@ class OrderHandler {
         $this->order = $this->orderService->handle(
             $pamyraOrder, 
             $this->customerId, 
-            $this->billingAddress->id
+            $this->billingAddress->id,
+            $this->partnerId
         );
     }
 }

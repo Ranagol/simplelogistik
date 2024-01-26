@@ -18,7 +18,7 @@ return new class extends Migration
             //Foreign keys
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
-            $table->unsignedBigInteger('contact_id');
+            $table->unsignedBigInteger('contact_id')->nullable();
             $table->foreign('contact_id')->references('id')->on('tms_contacts')->comment('This is the contact person that is especially important, because this person has given us the official order. This is the reason why we keep this contact in the orders table.');
             $table->unsignedBigInteger('partner_id')->nullable();
             $table->foreign('partner_id')->references('id')->on('tms_partners');

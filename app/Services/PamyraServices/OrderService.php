@@ -4,7 +4,9 @@ namespace App\Services\PamyraServices;
 
 use App\Models\TmsOrder;
 use App\Http\Requests\TmsOrderRequest;
+use App\Models\TmsCustomer;
 use Illuminate\Support\Facades\Validator;
+use DateTime;
 
 class OrderService {
 
@@ -17,8 +19,7 @@ class OrderService {
      * @var array
      */
     private array $validationRules = [
-        'customer.id' => ['nullable', 'integer'],
-        'customer.company_name' => ['required', 'string', 'max:255'],
+        'company_name' => ['required', 'string', 'max:255'],
         'contact_id' => ['nullable', 'integer'],
         'partner_id' => ['nullable', 'integer'],
         
@@ -43,19 +44,42 @@ class OrderService {
     ];
 
 
-    public function handle(array $pamyraOrder, int $customerId, int $billingAddressId): TmsOrder
+    public function handle(
+        array $pamyraOrder, 
+        int $customerId, 
+        int $billingAddressId,
+        int $partnerId
+    ): TmsOrder
     {
         //TODO ANDOR: in the moment that I am looking on the pamyra json I see there is a field with oderPdf. The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
-        $this->checkForDuplicate($pamyraOrder, $customerId, $billingAddressId);
-        $order = $this->createOrder($pamyraOrder);
+        $this->checkForDuplicate(
+            $pamyraOrder, 
+            $customerId, 
+            $billingAddressId
+        );
+
+        $order = $this->createOrder(
+            $pamyraOrder, 
+            $customerId, 
+            $billingAddressId,
+            $partnerId
+        );
+
         return $order;
     }
 
     private function checkForDuplicate(array $pamyraOrder, int $customerId, int $billingAddressId)
     {
         $duplicateOrder = TmsOrder::where('customer_id', $customerId)
-                            ->where('order_number', $pamyraOrder['orderNumber'])
+                            // ->where('order_number', $pamyraOrder['orderNumber'])
                             ->where('billing_address_id', $billingAddressId)
+                            ->with(
+                                    [
+                                        'pamyraOrder' => function($query) use ($pamyraOrder) {
+                                            $query->where('order_number', $pamyraOrder['orderNumber']);
+                                        }
+                                    ]
+                            )
                             ->first();
 
         if($duplicateOrder) {
@@ -64,26 +88,42 @@ class OrderService {
         }
     }
 
-    private function createOrder(array $pamyraOrder): TmsOrder
+    private function createOrder(
+        array $pamyraOrder,
+        int $customerId,
+        int $billingAddressId,
+        int $partnerId
+    ): TmsOrder
     {
         $order = TmsOrder::create([
-            'order_number' => $pamyraOrder['order_number'],
-            'customer_id' => $pamyraOrder['customer_id'],
-            'sender_id' => $pamyraOrder['sender_id'],
-            'receiver_id' => $pamyraOrder['receiver_id'],
-            'order_date' => $pamyraOrder['order_date'],
-            'order_type' => $pamyraOrder['order_type'],
-            'order_origin' => $pamyraOrder['order_origin'],
-            'order_pdf' => $pamyraOrder['order_pdf'],
-            'order_attributes' => $pamyraOrder['order_attributes'],
-            'parcels' => $pamyraOrder['parcels'],
-            'pamyra_order' => $pamyraOrder['pamyra_order'],
-            'order_addresses' => $pamyraOrder['order_addresses'],
+            'customer_id' => $customerId,
+            'partner_id' => $partnerId,
+            'origin' => TmsOrder::ORIGINS[1],//this is: pamyra
+            'status' => TmsOrder::STATUSES[1],//this is 'Order created. //TODO ANDOR ask C., should we use our order statuses or status.status from pamyra?
+            'provision' => 6,
+            'currency' => 'EUR',
+            'order_date' => $this->formatOrderDate($pamyraOrder['dateOfSale']),
+            'purchase_price' => $pamyraOrder['priceGross'],//TODO ANDOR ask C, if this is good
+            //TODO ANDOR ask C., where should I write avis phones. Into order or, orderAddresses?
+            // 'payment_method' => TmsCustomer::PAYMENT_METHODS[5],//this is invoice //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods?
+            'payment_method' => 5,//this is invoice //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods?
+            
+            'billing_address_id' => $billingAddressId,
         ]);
 
         $this->validate($order->toArray());//for validation we must transform model to array
 
         return $order;
+    }
+
+    private function formatOrderDate(string $orderDate): string
+    {
+        //Create a DateTime object from string
+        $date = DateTime::createFromFormat('d.m.Y H:i', $orderDate);
+
+        //Add the missing seconds to the formatting, because mysql needs this
+        $formattedDate = $date->format('Y-m-d H:i:s');
+        return $formattedDate;
     }
 
     private function validate(array $orderArray): void
