@@ -12,11 +12,13 @@ class AddressService {
     private string $houseNumber;
     private string $street;
     private int $countryId;
+    private int $partnerId;
     
     public function handle(array $customerPamyra, string $addressType, int $customerId): int
     {
         $this->separateStreetAndHouseNumber($customerPamyra);
         $this->setCountryId($customerPamyra);
+        $this->setPartnerId($customerPamyra);
 
         $duplicateAddress = $this->checkForDuplicate($customerPamyra);
 
@@ -29,6 +31,15 @@ class AddressService {
         $this->validate($customerPamyra);
         $addressId = $this->insertAddress($customerPamyra);
         return $addressId;
+    }
+
+    private function setPartnerId($customerPamyra): void
+    {
+        $this->partnerId = DB::table('tms_partners')
+                            ->where('company_name', 'Pamyra')
+                            ->where('id', 1)
+                            ->first()
+                            ->id;
     }
 
     private function setCountryId($customerPamyra): void
