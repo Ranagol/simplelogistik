@@ -57,4 +57,10 @@ class TmsOrderIndexResource extends JsonResource
             'details' => $this->setDetails(),
         ];
     }
+
+    private function setDetails(): array
+    {
+        $details = $this->pamyraOrder->toArray() ?? $this->nativeOrder->toArray();
+        return $details;
+    }
 }

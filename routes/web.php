@@ -12,6 +12,7 @@ use App\Http\Controllers\TmsOrderController;
 use App\Http\Controllers\TmsAddressController;
 use App\Http\Controllers\TmsCustomerController;
 use App\Http\Controllers\TmsForwarderController;
+use App\Http\Controllers\System\SystemSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', TmsOrderController::class);
     Route::resource('addresses', TmsAddressController::class);
     Route::resource('forwarders', TmsForwarderController::class);
+    Route::middleware([])->group(function(){
+        Route::get("system/translations", [SystemSettingsController::class, 'listLanguages']);
+        Route::get("system/translations/{language}", [SystemSettingsController::class, 'listTranslations']);
+        Route::post("system/translations", [SystemSettingsController::class, "storeTranslations"]);
+    });
 
 
 

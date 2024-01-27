@@ -9,7 +9,7 @@
         @changeTableLayout="changeTableLayout"
     ></TableWithContent>
 
-    <!-- <pre>{{ props.dataFromController }}</pre> -->
+     <pre>{{ props.dataFromController.data.data }}</pre> 
 </template>
 <script setup>
     import TableWithContent from '@/Components/Tables/TableWithContent.vue';
