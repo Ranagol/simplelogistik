@@ -276,6 +276,8 @@ class TmsOrderController extends BaseController
                     'orderAddresses',
                     'forwarder',
                     'customer',
+                    'pamyraOrder',
+                    'nativeOrder',
                     'orderHistoryLatest',
                 ]
             )

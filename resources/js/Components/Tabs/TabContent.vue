@@ -1,5 +1,5 @@
 <template>
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" :id="target" role="tabpanel" :aria-labelledby="'tab-' + target" >
+    <div class="hidden rounded-lg" :id="target" role="tabpanel" :aria-labelledby="'tab-' + target" >
         <slot name="content">
             <component :is="content" />
         </slot>

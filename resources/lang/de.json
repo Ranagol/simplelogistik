@@ -36,8 +36,9 @@
         "edit-by": "Letzter Bearbeiter",
         "update-at": "Zuletzt geändert",
         "order-date": "Auftragsdatum",
-        "package-with-index": "Packstück {index} wird gelöscht",
+        "package-with-index": "Packstück {index}",
         "sizes": "Maße",
+        "sizes-unit": "Maße LxBxH (cm)",
         "weight": "Gewicht",
         "package-information": "Sendungsinformationen",
         "package-count": "Anzahl der Packstücke:",
@@ -47,7 +48,7 @@
         "payment_method": "Zahlungsart",
         "purchase_price": "Einkaufspreis",
         "customer_id": "Kundennummer",
-        "distance_duration": "Wegzeit",
+        "distance_duration": "Laufzeit",
         "distance": "Entfernung",
         "selling_price": "Verkaufspreis",
         "send-order": "Transportauftrag",
@@ -60,7 +61,14 @@
         "void": "Stornieren",
         "show": "Anzeigen",
         "details": "Details",
-        "type-of-packaging": "Art der Sendung:"
+        "type-of-packaging": "Art der Sendung:",
+        "tabs": {
+            "order-base": "Auftragsdaten",
+            "shipping-info": "Sendungsinformationen",
+            "management": "Auftragsverwaltung (Infotool)",
+            "tracking": "Sendungsverfolgung",
+            "history": "Verlauf"
+        }
     },
     "address-types": {
         "main": "Abholadresse",

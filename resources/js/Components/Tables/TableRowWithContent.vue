@@ -78,7 +78,7 @@
                     </p>
                 </div>
                 -->
-                <div v-for="address, key in data?.order_addresses" :key="key"
+                <div v-for="address, key in data?.addresses" :key="key"
                     class="relative grid p-2 py-6 bg-gray-100 rounded-lg place-items-center sm:w-full dark:bg-gray-700">
                     <p class="absolute top-0 right-0 pb-2 m-3">
                         <span v-if="address.address_type === 'Pickup address'" class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ address.address_type }}</span>
@@ -120,7 +120,7 @@
                         </div>
                         <div
                             class="">
-                            <p class="text-[16px]">{{ $t('labels.type-of-packaging') }} <span class="bg-primary-100 text-corporate-800 text-[1rem] font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-primary-900 dark:text-corporate-300">{{ data.parcels[0].p_name }}</span></p>
+                            <p class="text-[16px]">{{ $t('labels.type-of-packaging') }} <span class="bg-primary-100 text-corporate-800 text-[1rem] font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-primary-900 dark:text-corporate-300">{{ data.parcels[0].name }}</span></p>
                         </div>
                     </div>
                 </div>
@@ -132,17 +132,15 @@
                         class="mb-2 text-base font-medium leading-none text-gray-500 dark:text-white">
                         <!-- Dynamic String with replacement -->
                         {{ $t('labels.package-with-index', {index: (index + 1)})}}</span>
-                    
-                    <div class="grid grid-flow-col place-items-center">
-                        <div class="">
-                            <el-icon size="40" class="text-corporate-500">
-                                <Box class="text-corporate-500" />
-                            </el-icon>
-                        </div>
                         <div
-                        class="grid grid-flow-row gap-2 text-xs font-medium">
-                            <p class="text-[12px] rounded-md"><span class="block w-full">{{ $t('labels.sizes') }}</span> {{ parcel.p_length }}cm * {{ parcel.p_width }}cm * {{ parcel.p_height }}cm </p>
-                            <p class="text-[12px]"><span class="block w-full">{{ $t('labels.weight') }}</span> {{ parcel.p_weight }}kg </p>
+                        class="absolute top-0 right-0 mt-3 mr-2 bg-blue-100 text-primary-800 text-xs font-medium px-2.5 py-0.5 rounded-md dark:bg-blue-200 dark:text-blue-800 flex items-center">
+                        <span class="text-[12px]">{{ parcel.name }}</span>
+                    </div>
+                    <div class="grid grid-flow-col">
+                        <div
+                        class="grid grid-flow-row gap-2 mt-2 text-xs font-medium">
+                            <p class="text-[12px] rounded-md"><span class="block w-full font-bold">{{ $t('labels.sizes-unit') }}</span> {{ parcel.length }} x {{ parcel.width }} x {{ parcel.height }} </p>
+                            <p class="text-[12px]"><span class="block w-full">{{ $t('labels.weight') }}</span> {{ parcel.weight }}kg </p>
                         </div>
                     </div>
                 </div>
@@ -187,7 +185,7 @@
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.customer_id')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.customer_id}}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data?.customer?.id ?? "Kein Kunde"}}</div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
@@ -246,9 +244,9 @@
                         <span class="pl-2" v-if="data.shipping_label_pdf">{{ $t('labels.download-shipping-label') }}</span>
                         <span class="pl-2" v-else>{{ $t('labels.no-shipping-label') }}</span>
                     </button>
-                    <button type="button" :id="'multilingualDownloadModalButton-' + data.order_id" :data-modal-target="'multilingualDownloadModal-' + data.order_id" :data-modal-toggle="'multilingualDownloadModal-' + data.order_id" 
+                    <button type="button" :id="'multilingualDownloadDropdownButton-' + data.id" :data-dropdown-toggle="'multilingualDownloadDropdown-' + data.id" 
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-800 rounded-lg hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900">
-                        <el-icon size="18" v-if="data.pamyra_order.order_pdf || data.native_order.order_pdf ">
+                        <el-icon size="18" v-if="data.details?.order_pdf ?? '' ">
                             <Message />
                         </el-icon>
                         <el-icon size="18" v-else>
@@ -256,7 +254,29 @@
                         </el-icon> 
                         <span class="pl-2" >{{ $t('labels.send-order') }}</span>
                     </button>
-                    <MultilingualDownloadModal :fileId="data.order_id"/>
+                    <div :id="'multilingualDownloadDropdown-' + data.id" class="z-10 hidden divide-y rounded-lg shadow-lg bg-primary-800 divide-primary-100 w-44 dark:bg-primary-400">
+                        <ul class="py-2 text-sm dark:text-corporate-700 text-corporate-200" :aria-labelledby="'multilingualDownloadDropdownButton' + data.id">
+                            
+                            <li>
+                                <span class="p-3 font-semibold text-corporate-100">Herunterladen in:</span>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/de.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Deutsch</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/en.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Englisch</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/bg.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Bulgarisch</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/pl.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Polnisch</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/ro.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Rumänisch</span></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </td>
@@ -265,7 +285,6 @@
 
 <script setup>
 import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Box, Message } from '@element-plus/icons-vue';
-import Tooltip from '../Tooltips/Tooltip.vue';
 import MultilingualDownloadModal from '@Components/Modal/MultilingualDownloadModal.vue';
 import { onMounted } from 'vue';
 import { initFlowbite } from 'flowbite';

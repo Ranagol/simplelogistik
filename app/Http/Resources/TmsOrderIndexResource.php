@@ -47,15 +47,21 @@ class TmsOrderIndexResource extends JsonResource
             
             //relationships are loaded in the controller, so here we can just return them.
             //this is not deleted, because I expect that we will need it in the future.
-            // 'parcels' => $this->parcels,
-            // 'addresses' => $this->orderAddresses,
-            // 'forwarder' => $this->forwarder,
+            'parcels' => $this->parcels,
+            'addresses' => $this->orderAddresses,
+            'forwarder' => $this->forwarder,
             // 'history' => $this->orderHistories,
-            // 'customer' => $this->customer,
+            'customer' => $this->customer,
             // 'partner' => $this->partner,
             // 'contact' => $this->contact,
             // 'details' => $this->setDetails(),
-            'details' => [],
+            'details' => $this->setDetails(),
         ];
+    }
+
+    private function setDetails(): array
+    {
+        $details = $this->pamyraOrder->toArray() ?? $this->nativeOrder->toArray();
+        return $details;
     }
 }
