@@ -50,11 +50,10 @@ class TmsOrderIndexResource extends JsonResource
             'parcels' => $this->parcels,
             'addresses' => $this->orderAddresses,
             'forwarder' => $this->forwarder,
-            // 'history' => $this->orderHistories,
+            'history' => $this->orderHistories,
             'customer' => $this->customer,
-            // 'partner' => $this->partner,
-            // 'contact' => $this->contact,
-            // 'details' => $this->setDetails(),
+            'partner' => $this->partner,
+            'contact' => $this->contact,
             'details' => $this->setDetails(),
         ];
     }

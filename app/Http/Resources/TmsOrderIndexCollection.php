@@ -30,7 +30,7 @@ class TmsOrderIndexCollection extends ResourceCollection
              * This is the way how to add some properties additionally, on the level of the whole
              * collection. This is not the same as adding properties to each order model object.
              */
-            'paginationIfPatrickNeedsThis' => [
+            'pagination' => [
                 'total' => $this->total(),
                 'count' => $this->count(),
                 'per_page' => $this->perPage(),

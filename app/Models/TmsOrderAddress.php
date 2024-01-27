@@ -137,7 +137,7 @@ class TmsOrderAddress extends Model
              * directly looks up the address type in the ADDRESS_TYPES constant using the provided
              * value. If the value is not found in the constant, it defaults to 'Missing data.'.
              */
-            get: fn (string $value) => self::ADDRESS_TYPES[$value] ?? 'Missing data TmsAddress model.',
+            get: fn (string $value) => self::ADDRESS_TYPES[$value] ?? (env('APP_DEBUG') ? 'Missing data TmsAddress model.' : 'labels.address-default'),
 
             /**
              * Mutator
@@ -153,7 +153,7 @@ class TmsOrderAddress extends Model
             // set: fn (string $value) => array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.',
             set: function (string $value) {//the old way
                 // dd($value);
-                return array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.';
+                return array_flip(self::ADDRESS_TYPES)[$value] ?? (env('APP_DEBUG') ? 'Missing data TmsAddress model.' : 'labels.address-default');
             }
 
         );
