@@ -68,7 +68,12 @@
             "management": "Auftragsverwaltung (Infotool)",
             "tracking": "Sendungsverfolgung",
             "history": "Verlauf"
-        }
+        },
+        "section-general": "Allgemeine Informationen",
+        "section-address": "Adressen",
+        "section-parcels": "Packstücke",
+        "section-finances": "Finanzen",
+        "section-vehicles": "Fahrzeug Anforderungen"
     },
     "address-types": {
         "main": "Abholadresse",

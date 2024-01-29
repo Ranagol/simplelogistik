@@ -22,33 +22,51 @@
         initFlowbite();
     })
 
+
+    const props = defineProps({
+        record: {
+            type: Object,
+            required: true
+        }
+    })
+
     const tabContent = [
     {
         title: 'labels.tabs.order-base',
         target: "order-base",
         content: OrderDetailsTab,
+        _data: props.record,
         icon: Histogram,
         active: true
     },{
         title: 'labels.tabs.shipping-info',
         target: "shipping-info",
         content: ShippingInfoTab,
+        _data: props.record,
         icon: Histogram
     },{
         title: 'labels.tabs.management',
         target: "management",
         content: OrderManagementTab,
+        _data: props.record,
         icon: Histogram
     },{
         title: 'labels.tabs.tracking',
         target: "tracking",
         content: OrderTrackingTab,
+        _data: props.record,
         icon: Histogram
     },{
         title: 'labels.tabs.history',
         target: "history",
         content: OrderHistoryTab,
+        _data: props.record,
         icon: Histogram
     }
 ]    
+
+</script>
+
+<script>
+
 </script>

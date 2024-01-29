@@ -6,41 +6,39 @@
                 :onToggleSection="toggleSection"
                 :section="sections.general" 
                 :sectionActive="sections.general.state"
-                :data="data ?? {}"
+                :tabData="tabData ?? {}"
             />
             <AddressSection 
                 :title="$t('labels.section-address')"
                 :onToggleSection="toggleSection"
                 :section="sections.address" 
                 :sectionActive="sections.address.state"
-                :data="data?.addresses ?? [{}]"
+                :tabData="tabData?.addresses ?? [{}]"
             />
             <ParcelsSection 
                 :title="$t('labels.section-parcels')"
                 :onToggleSection="toggleSection"
                 :section="sections.parcels" 
                 :sectionActive="sections.parcels.state"
-                :data="data?.parcels ?? [{}]"
+                :data="tabData?.parcels ?? [{}]"
             />
             <FinancesSection 
                 :title="$t('labels.section-finances')"
                 :onToggleSection="toggleSection"
                 :section="sections.finances" 
                 :sectionActive="sections.finances.state"
-                :data="data?.finances ?? {}"
+                :data="tabData?.finances ?? {}"
             />
             <VehicleSection 
                 :title="$t('labels.section-vehicles')"
                 :onToggleSection="toggleSection"
                 :section="sections.vehicles" 
                 :sectionActive="sections.vehicles.state"
-                :data="data?.vehicles ?? {}"
+                :data="tabData?.vehicles ?? {}"
             />
             
         </div>
     </section>
-
-    
 </template>
 
 <script setup>
@@ -76,9 +74,16 @@ if(storedSettings !== undefined && storedSettings !== null) {
         vehicles: {
             key: 'vehicles', 
             state: false
-        }
+        },
     }
 }
+
+const props = defineProps({
+    tabData: {
+        type: Object,
+        required: true
+    }
+});
 const sections = reactive( settings );
 
 const toggleSection = (section) => {

@@ -86,11 +86,11 @@
                         <ul class="space-y-2 text-sm" aria-labelledby="showTableColumnsButton">
                             <li v-for="head in _headers" class="flex items-center">
 
-                                <input v-if="head.searchable == true" :id="'search-label-' + head.key" type="checkbox"
-                                    :value="head.key"
-                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label v-if="head.searchable == true" :for="'search-label-' + head.key"
-                                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $t(head.text) }}</label>
+                                <input v-if="head.searchable === true" :id="'search-label-' + head.key" type="checkbox"
+                                       :value="head.key"
+                                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label v-if="head.searchable === true" :for="'search-label-' + head.key"
+                                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $t(head.text) }}</label>
                             </li>
                         </ul>
                     </div>
@@ -109,7 +109,7 @@
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Expand/Collapse Row</span>
                                 </th>
-                                
+
                                 <th draggable="true" v-for="(item, index) in _headers" :key="index" scope="col" @dragstart="handleDragStart(item)" @dragover="handleDragEnter(item)" @dragend="handleDrop(item)" class="px-4 py-3">
                                     {{ $t(item.title) }}
                                     <svg v-if="item.sortable" class="inline-block w-4 h-4 ml-1" fill="currentColor" viewbox="0 0 20 20"
@@ -119,7 +119,7 @@
                                     </svg>
                                 </th>
                                 <th scope="col" class="px-4 py-3">
-                                    
+
                                 </th>
                             </tr>
                         </thead>
@@ -139,7 +139,7 @@ import Pagination from '@/Components/Pagination/Pagination.vue';
 import { ArrowDown, Check, Edit, Plus, Select, View } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
 import { onMounted } from 'vue';
-import TableRowWithContent from './TableRowWithContent.vue';
+import TableRowWithContent from './OrderTableRowWithContent.vue';
 import { ref } from 'vue';
 
 onMounted(() => {
