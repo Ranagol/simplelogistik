@@ -98,23 +98,28 @@ class OrderService {
         int $partnerId
     ): TmsOrder
     {
-        $order = TmsOrder::create([
+        //TODO ANDOR ask C., where should I write avis phones. Into order or, orderAddresses?
+        //TODO ANDOR ask C., should we use our order statuses or status.status from pamyra?
+        // 'purchase_price' => $pamyraOrder['priceGross'],//TODO ANDOR ask C, if this is good. What price should I use?
+        // 'payment_method' => TmsCustomer::PAYMENT_METHODS[5],//this is invoice //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods?
+        //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods?
+
+        $orderArray = [
             'customer_id' => $customerId,
             'partner_id' => $partnerId,
-            'origin' => TmsOrder::ORIGINS[1],//this is: pamyra
-            'status' => TmsOrder::STATUSES[1],//this is 'Order created. //TODO ANDOR ask C., should we use our order statuses or status.status from pamyra?
+            'origin' => TmsOrder::ORIGINS[1], //this is: pamyra
+            'status' => TmsOrder::STATUSES[1], //this is 'Order created. 
             'provision' => 6,
             'currency' => 'EUR',
             'order_date' => $this->formatOrderDate($pamyraOrder['dateOfSale']),
-            'purchase_price' => $pamyraOrder['priceGross'],//TODO ANDOR ask C, if this is good
-            //TODO ANDOR ask C., where should I write avis phones. Into order or, orderAddresses?
-            // 'payment_method' => TmsCustomer::PAYMENT_METHODS[5],//this is invoice //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods?
-            'payment_method' => 5,//this is invoice //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods?
-            
+            'purchase_price' => $pamyraOrder['priceGross'],
+            'payment_method' => 5, //this is invoice payment method
             'billing_address_id' => $billingAddressId,
-        ]);
+        ];
 
-        $this->validate($order->toArray());//for validation we must transform model to array
+        $this->validate($orderArray);
+
+        $order = TmsOrder::create($orderArray);
 
         return $order;
     }
