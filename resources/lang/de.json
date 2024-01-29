@@ -16,7 +16,8 @@
         "integrations": "Mehr",
         "profile": "Profil",
         "preferences": "Einstellungen",
-        "pamyra": "Pamyra"
+        "pamyra": "Pamyra",
+        "more": "Mehr"
     },
     "labels": {
         "customer-id": "Kundennummer",
@@ -62,18 +63,49 @@
         "show": "Anzeigen",
         "details": "Details",
         "type-of-packaging": "Art der Sendung:",
+        "type-of-transport": "Versandweg",
+        "customer_reference": "Kundenreferenz",
+        "status": "Status",
+        "order_date": "Auftragsdatum",
+        "origin": "Herkunft",
+        "date_of_sale": "Verkaufsdatum",
+        "date_of_cancellation": "Stornierungsdatum",
+        "distance_km": "Entfernung (km)",
+        "duration_min": "Laufzeit (min)",
+        "month_and_year": "Monat und Jahr",
+        "calculation_model_name": "Berechnungsmodell",
+        "pickup_date_from": "Abholdatum von",
+        "pickup_date_to": "Abholdatum bis",
+        "delivery_date_from": "Lieferdatum von",
+        "delivery_date_to": "Lieferdatum bis",
+        "particularities": "Besonderheiten",
+        "address-pickup": "Abholadresse",
+        "address-delivery": "Lieferadresse",
         "tabs": {
             "order-base": "Auftragsdaten",
             "shipping-info": "Sendungsinformationen",
-            "management": "Auftragsverwaltung (Infotool)",
+            "management": "Info Tool",
             "tracking": "Sendungsverfolgung",
-            "history": "Verlauf"
+            "history": "Änderungsverlauf",
+            "documents": "Rechnungen / Dokumente"
         },
         "section-general": "Allgemeine Informationen",
         "section-address": "Adressen",
         "section-parcels": "Packstücke",
         "section-finances": "Finanzen",
-        "section-vehicles": "Fahrzeug Anforderungen"
+        "section-vehicles": "Fahrzeug Anforderungen",
+        "transport-types": {
+            "package": "Paket",
+            "sea-freight": "Seefracht",
+            "air-freight": "Luftfracht",
+            "bulky-goods": "Sperrgut",
+            "pal": "Palette",
+            "e-pal": "Europalette",
+            "ltl-ftl": "LTL/FTL",
+            "courier": "Kurier",
+            "other": "Sonstiges"
+        },
+        "description_of_transport": "Transportbeschreibung"
     },
     "address-types": {
         "main": "Abholadresse",
