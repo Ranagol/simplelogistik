@@ -178,6 +178,9 @@ class OrderService {
 
     /**
      * Validates the order data.
+     * 
+     * @Christoph said, that temporarily we just need to throw a simple basic exception if the 
+     * validation fails. Later we will handle this with monitoring.
      *
      * @param array $orderArray
      * @return void
@@ -190,11 +193,6 @@ class OrderService {
         // If the validation fails, throw an exception
         if ($validator->fails()) {
             throw new \Exception($validator->errors()->first());
-            //TODO ANDOR ask C., should we throw an exception or just echo the error? How to handle errors? 
-            //YES, for now. Later we will handle this with monitoring
-            /**
-             * So, just write to every validation function this decision, for every service class.
-             */
         }
     }
 }

@@ -182,7 +182,10 @@ class OrderAddressService {
     }
 
     /**
-     * Validates the address data from Pamyra.
+     * Validates the data from Pamyra.
+     * 
+     * @Christoph said, that temporarily we just need to throw a simple basic exception if the 
+     * validation fails. Later we will handle this with monitoring.
      *
      * @param array $addressPamyra
      * @return void

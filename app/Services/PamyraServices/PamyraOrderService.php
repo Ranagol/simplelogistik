@@ -115,6 +115,13 @@ class PamyraOrderService {
         $pamyraOrder = TmsPamyraOrder::create($pamyraOrderArray);
     }
 
+    /**
+     * @Christoph said, that temporarily we just need to throw a simple basic exception if the 
+     * validation fails. Later we will handle this with monitoring.
+     *
+     * @param array $pamyraOrderArray
+     * @return void
+     */
     private function validate(array $pamyraOrderArray): void
     {
         $validator = Validator::make($pamyraOrderArray, $this->validationRules);

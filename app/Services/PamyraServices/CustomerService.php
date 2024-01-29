@@ -95,6 +95,9 @@ class CustomerService {
 
     /**
      * Validate the customer data.
+     * 
+     * @Christoph said, that temporarily we just need to throw a simple basic exception if the 
+     * validation fails. Later we will handle this with monitoring.
      *
      * @param array $customer
      * @throws \Exception

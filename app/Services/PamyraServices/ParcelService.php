@@ -82,6 +82,9 @@ class ParcelService {
 
     /**
      * Validate the parcel array.
+     * 
+     * @Christoph said, that temporarily we just need to throw a simple basic exception if the 
+     * validation fails. Later we will handle this with monitoring.
      *
      * @param array $parcelArray
      * @return void
