@@ -6,7 +6,7 @@
             "status": "PROVIDED_NOT_YET_ACCEPTED",
             "reasonForStatus": null
         },
-        "orderNumber": "PAM220826-1323140813",
+        "orderNumber": "PAM220825-1323140813",
         "orderPdf": "This is a really long string here",
         "paymentMethod": "bill",
         "dateOfSale": "26.08.2022 13:23",
@@ -228,7 +228,7 @@
             "status": "PROVIDED_NOT_YET_ACCEPTED",
             "reasonForStatus": null
         },
-        "orderNumber": "PAM220826-1323140813",
+        "orderNumber": "PAM220824-1323140813",
         "orderPdf": "This is a really long string here",
         "paymentMethod": "bill",
         "dateOfSale": "26.08.2022 13:23",

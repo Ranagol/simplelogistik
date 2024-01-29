@@ -51,6 +51,7 @@ class AddressService {
         $this->separateStreetAndHouseNumber($customerPamyra);
         $this->setCountryId($customerPamyra);
         $this->setPartnerId();
+        
         $duplicateAddress = $this->checkForDuplicate(
             $isHeadquarter,
             $isBilling,

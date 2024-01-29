@@ -4,33 +4,49 @@ namespace App\Services\PamyraServices;
 
 use App\Models\TmsAddress;
 use App\Models\TmsOrder;
+use App\Models\TmsPartner;
 use App\Services\PamyraServices\CustomerService;
 use App\Services\PamyraServices\AddressService;
 use App\Services\PamyraServices\OrderService;
 use App\Services\PamyraServices\ParcelService;
+use App\Services\PamyraServices\PamyraOrderService;
 
+/**
+ * When writing data from Pamyra json files to our database, we have an array on Pamyra order
+ * object. We loop through this array and for each pamyra oder we call this class to handle it.
+ * This class handles everything regarindg pamyra order writing to db
+ */
 class OrderHandler {
+
+    /**
+     * Pamyra partner should have id = 1 always. But, just in case, in the __construct() we
+     * searh for the partner id by name 'Pamyra'. And we store it in this variable.
+     *
+     * @var integer
+     */
+    private int $partnerId;
 
     private int $customerId;
     private int $senderId;
     private int $receiverId;
     private TmsAddress $headquarter;
     private TmsAddress $billingAddress;
-    private TmsAddress $headquarterAndBillingAddress;
     private TmsOrder $order;
-    private int $partnerId = 1;//Pamyra partner should have id = 1 always
     
     private CustomerService $customerService;
     private AddressService $addressService;
     private OrderService $orderService;
     private ParcelService $parcelService;
+    private PamyraOrderService $pamyraOrderService;
 
     public function __construct()
     {
+        $this->partnerId = TmsPartner::where('company_name', 'Pamyra')->first()->id;
         $this->customerService = new CustomerService();
         $this->addressService = new AddressService();
         $this->orderService = new OrderService();
         $this->parcelService = new ParcelService();
+        $this->pamyraOrderService = new PamyraOrderService();
     }
 
     /**
@@ -45,11 +61,10 @@ class OrderHandler {
         $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
         $this->handleOrder($pamyraOrder);
         $this->handleParcels($pamyraOrder);
-
+        $this->handlePamyraOrder($pamyraOrder);
         
         
         //order_attributes//TODO ANDOR ask C. Do we need to unify, uniformize, normalize the order_attributes? Currently pamyra has order attributes. We have none defined so far. 
-        //pamyra_order
         //order_addresses (pickup and delivery)
     }
 
@@ -103,5 +118,10 @@ class OrderHandler {
     private function handleParcels(array $pamyraOrder): void
     {
         $this->parcelService->handle($pamyraOrder, $this->order->id);
+    }
+
+    private function handlePamyraOrder(array $pamyraOrder): void
+    {
+        $this->pamyraOrderService->handle($pamyraOrder, $this->order->id);
     }
 }
