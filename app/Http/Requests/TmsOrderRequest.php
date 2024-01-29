@@ -86,7 +86,6 @@ class TmsOrderRequest extends FormRequest
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
             'customer.headquarter' => 'array',
-            //TODO LOSI: order edit validacio nem dolgozik, mert a headquarter.company_name nem validalodik.
             // 'customer.headquarter.company_name' => 'required|string|max:255',//this works
             'customer.headquarter' => $addressRequest->addressRules(),//this doesn't work
             

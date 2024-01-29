@@ -60,7 +60,11 @@ class OrderService {
         int $partnerId
     ): TmsOrder
     {
-        //TODO ANDOR: talk to Christoph about this. in the moment that I am looking on the pamyra json I see there is a field with oderPdf. The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
+        //TODO ANDOR: talk to Christoph about this. 
+        //STOP WITH THIS TASK, THIS CAN BE ONLY DONE WE CHRISTOPH PUSHES HIS CHANGES
+        //in the moment that I am looking on the pamyra json I see there is a field with oderPdf. 
+        //The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
+
         $this->checkForDuplicate(
             $pamyraOrder, 
             $customerId, 
@@ -116,10 +120,25 @@ class OrderService {
     ): TmsOrder
     {
         //TODO ANDOR ask C., where should I write avis phones. Into order or, orderAddresses?
+        //delete all 3 avis phone columns from orders
+        //Add avis_phone column to OrderAddresses + faker. Change all related fakers, validators, etc.
+
         //TODO ANDOR ask C., should we use our order statuses or status.status from pamyra?
-        // 'purchase_price' => $pamyraOrder['priceGross'],//TODO ANDOR ask C, if this is good. What price should I use?
-        // 'payment_method' => TmsCustomer::PAYMENT_METHODS[5],//this is invoice //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods?
-        //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods?
+        //create order_statuses table. Check in Pamyra docs for statueses (how many, which type).Talk to C.
+        //[PROVIDED_NOT_YET_ACCEPTED, CANCELED_BY_CUSTOMER, CANCELED_BY_AGENCY] ---- these three statuses we know. Are there more??
+
+
+        //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods? 
+        //See notebook written ansers.
+        /**
+         * Make a table for this. Remove payment method mutator from TmsCustomer. Use this table.
+         * The table should have something like Pamyra term - our term. For example:
+         * bill = rechung
+         * direct debit = sofort
+         * preCashTransfer = Paypal
+         * cashOnDelivery = leave our term empty here, write nothing
+         * credit card = vorkasse
+         */
 
         $orderArray = [
             'customer_id' => $customerId,
@@ -129,7 +148,7 @@ class OrderService {
             'provision' => 6,
             'currency' => 'EUR',
             'order_date' => $this->formatOrderDate($pamyraOrder['dateOfSale']),
-            'purchase_price' => $pamyraOrder['priceGross'],
+            'purchase_price' => $pamyraOrder['priceNet'],
             'payment_method' => 5, //this is invoice payment method
             'billing_address_id' => $billingAddressId,
         ];
@@ -172,6 +191,10 @@ class OrderService {
         if ($validator->fails()) {
             throw new \Exception($validator->errors()->first());
             //TODO ANDOR ask C., should we throw an exception or just echo the error? How to handle errors? 
+            //YES, for now. Later we will handle this with monitoring
+            /**
+             * So, just write to every validation function this decision, for every service class.
+             */
         }
     }
 }

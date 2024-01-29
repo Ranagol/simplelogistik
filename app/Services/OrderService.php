@@ -14,8 +14,6 @@ use App\Models\TmsOrderAddress;
  */
 class OrderService
 {   
-
-    //TODO: ANDOR REFACTOR - these function have to be refactored
     public function handleNativeOrder(array $orderFromRequest): void
     {
             

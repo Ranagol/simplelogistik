@@ -2,12 +2,12 @@
 
 namespace App\Services\PamyraServices;
 
-use App\Models\TmsAddress;
+use App\Models\TmsOrderAddress;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\TmsAddressRequest;
 use Illuminate\Support\Facades\Validator;
 
-class AddressService {
+class OrderAddressService {
 
     private string $houseNumber;
     private string $street;
@@ -26,42 +26,35 @@ class AddressService {
          * We copy here the validation rules from the TmsAddressRequest. Because we want to use them
          * in this class. And we can't use them directly from the TmsAddressRequest, because it is
          * a FormRequest. And we can't use a FormRequest in a class. So, we copy the rules here.
+         * 
+         * Note: we use TmsAddressRequest for validation. Both use the same rules.
          */
         $tmsAddressRequest = new TmsAddressRequest();
         $this->validationRules = $tmsAddressRequest->addressRules();
     }
 
-    /**
-     * This is the main function in this class, that triggers all other functions.
-     *
-     * @param array $customerPamyra
-     * @param boolean $isHeadquarter
-     * @param boolean $isBilling
-     * @param integer $customerId
-     * @return TmsAddress|null
-     */
     public function handle(
         array $customerPamyra,
-        bool $isHeadquarter,
-        bool $isBilling,
+        int $orderId,
         int $customerId,
-        int $partnerId
-    ): TmsAddress | null
+        int $partnerId,
+        int $addressType//The address_type for pickup is 3 and for delivery is 4.
+    ): TmsOrderAddress | null
     {
         $this->separateStreetAndHouseNumber($customerPamyra);
         $this->setCountryId($customerPamyra);
         
-        $duplicateAddress = $this->checkForDuplicate(
-            $isHeadquarter,
-            $isBilling,
-            $customerId,
-            $partnerId
-        );
+        // $duplicateAddress = $this->checkForDuplicate(
+        //     $isHeadquarter,
+        //     $isBilling,
+        //     $customerId,
+        //     $partnerId
+        // );
 
         //If there is a duplicate in db
-        if( $duplicateAddress !== null) {
-            return $duplicateAddress;
-        } 
+        // if( $duplicateAddress !== null) {
+        //     return $duplicateAddress;
+        // } 
 
         $address = $this->createAddress(
             $customerPamyra, 
@@ -125,9 +118,9 @@ class AddressService {
         bool $isBilling,
         int $customerId,
         int $partnerId
-    ): TmsAddress | null
+    ): TmsOrderAddress | null
     {
-        $duplicateAddress = TmsAddress::where('street', $this->street)
+        $duplicateAddress = TmsOrderAddress::where('street', $this->street)
                                 ->where('house_number', $this->houseNumber)
                                 ->where('country_id', $this->countryId)
                                 ->where('partner_id', $partnerId)
@@ -150,7 +143,7 @@ class AddressService {
      * @param boolean $isHeadquarter
      * @param boolean $isBilling
      * @param integer $customerId
-     * @return TmsAddress
+     * @return TmsOrderAddress
      */
     private function createAddress(
         array $customerPamyra,
@@ -158,7 +151,7 @@ class AddressService {
         bool $isBilling,
         int $customerId,
         int $partnerId
-    ): TmsAddress
+    ): TmsOrderAddress
     {
 
         $addressArray = [
@@ -183,7 +176,7 @@ class AddressService {
 
         $this->validate($addressArray);
 
-        $address = TmsAddress::create($addressArray);
+        $address = TmsOrderAddress::create($addressArray);
 
         return $address;
     }

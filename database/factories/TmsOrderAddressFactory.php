@@ -83,14 +83,10 @@ class TmsOrderAddressFactory extends Factory
              * partner. When it belongs to a partner, then it is partner_id = 1. 
              */
             'partner_id' => Arr::random([
-                //TODO LOSI 2
                 null, null, null, null, null, null, null, null, null, null, null, null, null, null, 1,
             ]),
-
             'company_name' => $this->faker->company,
-
             'address_type' => Arr::random(['Pickup address', 'Delivery address']),//works with mutator/**************************** */
-
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'street' => $this->faker->streetName,

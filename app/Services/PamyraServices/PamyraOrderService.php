@@ -49,7 +49,9 @@ class PamyraOrderService {
         $pamyraOrder = TmsPamyraOrder::where('order_id', $orderId)->first();
         if ($pamyraOrder) {
             throw new \Exception("Pamyra order with order_id = $orderId already exists in the database.");
-            //TODO ANDOR ask C. How to handle if there is a pamyra order duplicate already in db?
+            //TODO ANDOR ask C. How to handle if there is a pamyra order duplicate already in db? 
+            //Write info into logs. Send an email to admin. Later solve with monitoring.
+            //Write all this down into dockblock.
         }
     }
 
@@ -68,9 +70,14 @@ class PamyraOrderService {
             'date_of_cancellation' => $pamyraOrder['dateOfCancellation'],
 
             /**
-             * //TODO ANDOR ask C. should pickup and delivery details belong to the pamyra_orders 
+             * //TODO ANDOR ask C. should pickup and delivery details belong to the pamyra_orders SEE WRITINGS ANDOR
              * like now, or should they belong to addresses? When this is decided, then handle these
              * commented lines, and put them where they will belong.
+             * pickup and delivery details should now belong to orderAddresses. Remove these
+             * column from orders table. And add them to orderAddresses table. Because this is only
+             * for pickup and delivery addresses!!!!
+             * Because of this, orderAddresses must use his own rules from now on. Because the
+             * table structure has become different from tms_addresses.
              */
             // 'pickup_date_from' => $pamyraOrder['pickupDate']['dateFrom'] . ' ' . $pamyraOrder['pickupDate']['timeFromFrom'],
             // 'pickup_date_to' => $pamyraOrder['pickupDate']['dateTo'] . ' ' . $pamyraOrder['pickupDate']['timeFromTo'],

@@ -10,6 +10,7 @@ use App\Services\PamyraServices\AddressService;
 use App\Services\PamyraServices\OrderService;
 use App\Services\PamyraServices\ParcelService;
 use App\Services\PamyraServices\PamyraOrderService;
+use App\Services\PamyraServices\OrderAddressService;
 
 /**
  * When writing data from Pamyra json files to our database, we have an array on Pamyra order
@@ -25,10 +26,7 @@ class OrderHandler {
      * @var integer
      */
     private int $partnerId;
-
     private int $customerId;
-    private int $senderId;
-    private int $receiverId;
     private TmsAddress $headquarter;
     private TmsAddress $billingAddress;
     private TmsOrder $order;
@@ -38,15 +36,18 @@ class OrderHandler {
     private OrderService $orderService;
     private ParcelService $parcelService;
     private PamyraOrderService $pamyraOrderService;
+    private OrderAddressService $orderAddressService;
 
     public function __construct()
     {
-        $this->partnerId = TmsPartner::where('company_name', 'Pamyra')->first()->id;
+        $this->partnerId = TmsPartner::where('company_name', 'Pamyra')->where('id', 1)->first()->id;
+
         $this->customerService = new CustomerService();
-        $this->addressService = new AddressService();
+        $this->addressService = new AddressService();//only billing and headquarter from TmsAddress
         $this->orderService = new OrderService();
         $this->parcelService = new ParcelService();
         $this->pamyraOrderService = new PamyraOrderService();
+        $this->orderAddressService = new OrderAddressService();
     }
 
     /**
@@ -62,46 +63,56 @@ class OrderHandler {
         $this->handleOrder($pamyraOrder);
         $this->handleParcels($pamyraOrder);
         $this->handlePamyraOrder($pamyraOrder);
+        $this->handleOrderAddresses($pamyraOrder);//pickup and delivery from TmsOrderAddress
         
         
-        //order_attributes//TODO ANDOR ask C. Do we need to unify, uniformize, normalize the order_attributes? Currently pamyra has order attributes. We have none defined so far. 
-        //order_addresses (pickup and delivery)
+        //order_attributes//TODO ANDOR ask C. Do we need to unify, uniformize, normalize the order_attributes? 
+        //Currently pamyra has order attributes. We have none defined so far. 
+        //Andor, use pamyra order attributes to fill out th tms_orrder_attributes.
+        //Solve this in seeder too, so when seeding this table is seeded.
     }
-
+    
+    /**
+     * Here we create a customer.
+     * Important: we do not handle here addresses, so the pickup and delivery addresses are not
+     * created here. They are created in the handleOrdersAddresses() function. Also, the billing
+     * and headquarter addresses are not created here. They are created in the handleAddresses()
+     * function.
+     * 
+     * @param array $pamyraOrder
+     * @return void
+     */
     private function handleCustomer(array $pamyraOrder): void
     {
         $this->customerId = $this->customerService->handle($pamyraOrder['customer']);
-        $this->senderId = $this->customerService->handle($pamyraOrder['sender']);
-        $this->receiverId = $this->customerService->handle($pamyraOrder['receiver']);
+        // $this->customerService->handle($pamyraOrder['sender']);
+        // $this->customerService->handle($pamyraOrder['receiver']);
     }
 
     /**
      * addresses (billing and headquarter)
      * We need both the customer and the customer.address here. From this, we create headquarter
      * and billing addresses. Here we have 3 cases:
-     * 1. The customer has a headquarter and a billing address. Then we create both addresses.
-     * 2. The customer has only a headquarter address. Then we create only the headquarter
-     * address.
-     * 3. The customer has only a billing address. Then we create only the billing address.
      * 
      * @param array $pamyraOrder
      * @return void
      */
     private function handleAddresses(array $pamyraOrder): void
     {
-        
         $this->headquarter = $this->addressService->handle(
             $pamyraOrder['customer'], 
             true,//isHeadquarter
             false,//isBilling
-            $this->customerId
+            $this->customerId,
+            $this->partnerId
         );
 
         $this->billingAddress = $this->addressService->handle(
             $pamyraOrder['customer'], 
             false,//isHeadquarter
             true,//isBilling
-            $this->customerId
+            $this->customerId,
+            $this->partnerId
         );
     }
 
@@ -123,5 +134,31 @@ class OrderHandler {
     private function handlePamyraOrder(array $pamyraOrder): void
     {
         $this->pamyraOrderService->handle($pamyraOrder, $this->order->id);
+    }
+
+    /**
+     * Here we create the pickup and delivery addresses.
+     * The address_type for pickup is 3 and for delivery is 4.
+     *
+     * @param array $pamyraOrder
+     * @return void
+     */
+    private function handleOrderAddresses(array $pamyraOrder): void
+    {
+        $this->orderAddressService->handle(
+            $pamyraOrder['sender'],
+            $this->order->id, 
+            $this->customerId,
+            $this->partnerId, 
+            3,//pickup
+        );
+
+        $this->orderAddressService->handle(
+            $pamyraOrder['receiver'],
+            $this->order->id, 
+            $this->customerId,
+            $this->partnerId, 
+            4,//delivery
+        );
     }
 }
