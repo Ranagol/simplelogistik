@@ -43,9 +43,8 @@ class OrderHandler {
 
         
         
-        
-        //order_attributes
         //parcels
+        //order_attributes//TODO ANDOR ask C. Do we need to unify, uniformize, normalize the order_attributes? Currently pamyra has order attributes. We have none defined so far. 
         //pamyra_order
         //order_addresses (pickup and delivery)
     }
