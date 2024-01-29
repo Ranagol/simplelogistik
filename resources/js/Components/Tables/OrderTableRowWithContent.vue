@@ -17,13 +17,7 @@
                     <ArrowDown />
                 </el-icon>
         </td>
-        <td v-for="header, index in headers" :key="index" scope="row" 
-            class="items-center px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <!-- TODO: Replace Fake avatar with real Forwarder Logo -->
-            <span v-if="header.key === 'forwarder'"><img :src="'https://i.pravatar.cc/80?img=' + data[header.key].id" class="object-cover w-16 h-6" /></span>
-            <!-- Display rest of content -->
-            <span v-else>{{ data[header.key] ?? "Kommt noch" }}</span>
-        </td>
+        <ConditionalBodyColumn v-for="header in headers" :key="header.key" :data="header" :cellData="data[header.key]" />
         <td v-if="actions !== undefined && actions !== ''"
                                     class="flex items-center justify-end px-4 py-3">
             <button :id="'actions-dropdown-button-' + dataIndex"
@@ -54,7 +48,7 @@
     </tr>
     <tr  class="flex-1 hidden w-full overflow-x-auto" :id="'table-column-body-' + dataIndex"
         :aria-labelledby="'table-column-header-' + dataIndex">
-        <td class="p-4 border-b dark:border-gray-700" colspan="9">
+        <td class="p-4 border-b dark:border-gray-700" :colspan="headers.length + 3">
             <div class="grid grid-cols-4 gap-4 mb-4">
                 <!-- TODO: (Andor) Require Customer Address as Address Object  -->
                 <div
@@ -288,12 +282,11 @@ import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Box, Messa
 import MultilingualDownloadModal from '@Components/Modal/MultilingualDownloadModal.vue';
 import { onMounted } from 'vue';
 import { initFlowbite } from 'flowbite';
+import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
 
 onMounted(()=> {
     initFlowbite()
 })
-
-
 
 const props = defineProps({
     dataIndex: {
