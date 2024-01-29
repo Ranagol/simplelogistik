@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Requests\TmsAddressRequest;
-use App\Http\Requests\NativeOrderRequest;
-use App\Http\Requests\PamyraOrderRequest;
+use App\Http\Requests\TmsNativeOrderRequest;
+use App\Http\Requests\TmsPamyraOrderRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\ValidationRules\ParcelValidationRule;
 
@@ -27,8 +27,8 @@ class TmsOrderRequest extends FormRequest
     public function rules(): array
     {
         $addressRequest = new TmsAddressRequest();
-        $nativeOrderRequest = new NativeOrderRequest();
-        $pamyraOrderRequest = new PamyraOrderRequest();
+        $TmsNativeOrderRequest = new TmsNativeOrderRequest();
+        $TmsPamyraOrderRequest = new TmsPamyraOrderRequest();
 
         return [
 
@@ -59,11 +59,11 @@ class TmsOrderRequest extends FormRequest
 
             //NATIVE ORDER VALIDATION (from native_orders table)
             'native_order' => 'nullable|array',
-            'native_order.*' => $nativeOrderRequest->nativeOrderRules(),
+            'native_order.*' => $TmsNativeOrderRequest->nativeOrderRules(),
 
             //PAMYRA ORDER VALIDATION (from pamyra_orders table)
             'pamyra_order' => 'nullable|array',
-            'pamyra_order.*' => $pamyraOrderRequest->pamyraOrderRules(),
+            'pamyra_order.*' => $TmsPamyraOrderRequest->pamyraOrderRules(),
 
             //PARCEL VALIDATION (parcels is an array of objects, hence the * to symbolize the parcel object in parcels array)
             'parcels.*.id' => 'nullable|integer',
