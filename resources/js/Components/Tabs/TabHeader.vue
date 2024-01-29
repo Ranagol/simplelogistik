@@ -11,7 +11,7 @@
             <el-icon class="pr-2" v-if="icon" size="26">
                 <component :is="icon" />
             </el-icon>
-            {{ title ?? "TAB"}}
+            {{ $t(title) ?? "TAB"}}
             </div>
         </li>
 </template>

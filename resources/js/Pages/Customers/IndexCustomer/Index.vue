@@ -2,7 +2,6 @@
     <Head
         :title="$t('labels.customers')"
     />
-    
     <CustomerTableWithActions
         :actions="['show', 'edit']"
         v-model:paginationData="data.paginationData"

@@ -124,7 +124,7 @@
                             </tr>
                         </thead>
                         <tbody data-accordion="table-column">
-                            <TableRowWithContent :actions='["show", "edit", "delete"]' v-for="item, index in data" :data="item" :dataIndex="index" :headers="_headers"></TableRowWithContent>
+                            <TableRowWithContent :actions='["show", "edit", "delete"]' v-for="item, index in data.data" :data="item" :dataIndex="index" :headers="_headers"></TableRowWithContent>
                         </tbody>
                     </table>
                 </div>
