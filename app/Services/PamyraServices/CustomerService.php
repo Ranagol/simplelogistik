@@ -76,15 +76,6 @@ class CustomerService {
      */
     private function createCustomer(array $customerPamyra): TmsCustomer
     {
-        // $customer = new TmsCustomer();
-        // $customer->company_name = $customerPamyra['company'];
-        // $customer->email = $customerPamyra['mail'];
-        // $customer->first_name = $customerPamyra['firstName'];
-        // $customer->last_name = $customerPamyra['name'];
-        // $customer->tax_number = $customerPamyra['vatId'];
-        // $customer->phone = $customerPamyra['phone'];
-        // $customer->internal_id = 'temporary testing';
-        
         $customerArray = [
             'company_name' => $customerPamyra['company'],
             'email' => $customerPamyra['mail'],

@@ -172,28 +172,30 @@ class AddressService {
         int $customerId
     ): TmsAddress
     {
-        $address = new TmsAddress();
-        $address->customer_id = $customerId;
-        $address->country_id = $this->countryId;
-        $address->partner_id = $this->partnerId;
-        $address->company_name = $customerPamyra['company'];
-        $address->first_name = $customerPamyra['firstName'];
-        $address->last_name = $customerPamyra['name'];
-        $address->street = $this->street;
-        $address->house_number = $this->houseNumber;
-        $address->zip_code = $customerPamyra['address']['postalCode'];
-        $address->city = $customerPamyra['address']['city'];
-        $address->address_additional_information = $customerPamyra['address']['addressAdditionalInformation'];
-        $address->phone = $customerPamyra['phone'];
-        $address->email = $customerPamyra['mail'];
-        $address->is_pickup = false;
-        $address->is_delivery = false;
-        $address->is_headquarter = $isHeadquarter;
-        $address->is_billing = $isBilling;
 
-        $this->validate($address->toArray());
+        $addressArray = [
+            'customer_id' => $customerId,
+            'country_id' => $this->countryId,
+            'partner_id' => $this->partnerId,
+            'company_name' => $customerPamyra['company'],
+            'first_name' => $customerPamyra['firstName'],
+            'last_name' => $customerPamyra['name'],
+            'street' => $this->street,
+            'house_number' => $this->houseNumber,
+            'zip_code' => $customerPamyra['address']['postalCode'],
+            'city' => $customerPamyra['address']['city'],
+            'address_additional_information' => $customerPamyra['address']['addressAdditionalInformation'],
+            'phone' => $customerPamyra['phone'],
+            'email' => $customerPamyra['mail'],
+            'is_pickup' => false,
+            'is_delivery' => false,
+            'is_headquarter' => $isHeadquarter,
+            'is_billing' => $isBilling,
+        ];
 
-        $address->save();//this will have the id
+        $this->validate($addressArray);
+
+        $address = TmsAddress::create($addressArray);
 
         return $address;
     }
