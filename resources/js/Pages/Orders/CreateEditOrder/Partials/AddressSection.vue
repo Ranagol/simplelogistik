@@ -4,10 +4,10 @@
         <div class="grid grid-cols-4 gap-4" :class="{'hidden': !sectionActive}">
             <div class="relative p-4 pt-8 bg-gray-200 rounded" v-for="address in (tabData.sort((a,b) => a.order > b.order))">
                 <span v-if="address.address_type === 'labels.address-delivery'" class="absolute block px-2 text-[12px] text-white rounded-sm top-2 right-2 bg-primary-600">
-                    {{ address.address_type }}
+                    {{ $t(address.address_type) }}
                 </span>
                 <span v-else="address.address_type === 'labels.address-delivery'" class="absolute block px-2 text-[12px] text-orange-900 bg-orange-300 rounded-sm top-2 right-2">
-                    {{ address.address_type }}
+                    {{ $t(address.address_type) }}
                 </span>
                 <div class="text-1">
                     <p v-if="address.company_name"><span :class="{'font-bold': address.company_name}">{{ address.company_name }}</span></p>

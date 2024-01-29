@@ -1,5 +1,5 @@
 <template>
-    INFO TOOL
+    <div>TEST</div>
 </template>
 
 

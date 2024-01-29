@@ -56,7 +56,7 @@ import { onMounted } from 'vue';
 
 const props = defineProps({
     data: {
-        type: Array,
+        type: Object,
         required: true
     },
     onToggleSection: {
