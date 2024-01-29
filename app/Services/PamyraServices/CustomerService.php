@@ -76,18 +76,28 @@ class CustomerService {
      */
     private function createCustomer(array $customerPamyra): TmsCustomer
     {
-        $customer = new TmsCustomer();
-        $customer->company_name = $customerPamyra['company'];
-        $customer->email = $customerPamyra['mail'];
-        $customer->first_name = $customerPamyra['firstName'];
-        $customer->last_name = $customerPamyra['name'];
-        $customer->tax_number = $customerPamyra['vatId'];
-        $customer->phone = $customerPamyra['phone'];
-        $customer->internal_id = 'temporary testing';//TODO ANDOR: correct this temporary solution when Francesco decides how to handle this
+        // $customer = new TmsCustomer();
+        // $customer->company_name = $customerPamyra['company'];
+        // $customer->email = $customerPamyra['mail'];
+        // $customer->first_name = $customerPamyra['firstName'];
+        // $customer->last_name = $customerPamyra['name'];
+        // $customer->tax_number = $customerPamyra['vatId'];
+        // $customer->phone = $customerPamyra['phone'];
+        // $customer->internal_id = 'temporary testing';
         
-        $this->validate($customer->toArray());//for validation we must transform model to array
+        $customerArray = [
+            'company_name' => $customerPamyra['company'],
+            'email' => $customerPamyra['mail'],
+            'first_name' => $customerPamyra['firstName'],
+            'last_name' => $customerPamyra['name'],
+            'tax_number' => $customerPamyra['vatId'],
+            'phone' => $customerPamyra['phone'],
+            'internal_id' => 'temporary testing',
+        ];
+
+        $this->validate($customerArray);//for validation we must transform model to array
         
-        $customer->save(); 
+        $customer = TmsCustomer::create($customerArray);
 
         return $customer;//this will have the id
     }
