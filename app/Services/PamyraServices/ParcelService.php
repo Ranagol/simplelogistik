@@ -70,7 +70,7 @@ class ParcelService {
             'width' => $parcel['width'],
             'number' => $parcel['number'],
             'stackable' => $parcel['stackable'],
-            'parcel_weight' => $parcel['weight'],
+            'weight' => $parcel['weight'],
         ];
 
         $this->validate($parcelArray);
