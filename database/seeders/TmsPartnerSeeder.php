@@ -23,7 +23,5 @@ class TmsPartnerSeeder extends Seeder
             ]
         );
         TmsPartner::factory(2)->create();
-
-        
     }
 }

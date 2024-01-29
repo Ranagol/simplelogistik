@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TmsPartner;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TmsPartnerFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     */
+    protected $model = TmsPartner::class;
+
     /**
      * Define the model's default state.
      *

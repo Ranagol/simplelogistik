@@ -6,6 +6,8 @@ use App\Models\TmsAddress;
 use App\Models\TmsOrder;
 use App\Services\PamyraServices\CustomerService;
 use App\Services\PamyraServices\AddressService;
+use App\Services\PamyraServices\OrderService;
+use App\Services\PamyraServices\ParcelService;
 
 class OrderHandler {
 
@@ -21,12 +23,14 @@ class OrderHandler {
     private CustomerService $customerService;
     private AddressService $addressService;
     private OrderService $orderService;
+    private ParcelService $parcelService;
 
     public function __construct()
     {
         $this->customerService = new CustomerService();
         $this->addressService = new AddressService();
         $this->orderService = new OrderService();
+        $this->parcelService = new ParcelService();
     }
 
     /**
@@ -40,6 +44,7 @@ class OrderHandler {
         $this->handleCustomer($pamyraOrder);
         $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
         $this->handleOrder($pamyraOrder);
+        $this->handleParcels($pamyraOrder);
 
         
         
@@ -94,5 +99,10 @@ class OrderHandler {
             $this->billingAddress->id,
             $this->partnerId
         );
+    }
+
+    private function handleParcels(array $pamyraOrder): void
+    {
+        $this->parcelService->handle($pamyraOrder, $this->order->id);
     }
 }

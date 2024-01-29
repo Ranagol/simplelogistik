@@ -32,7 +32,6 @@ class AddressService {
         $this->validationRules = $tmsAddressRequest->addressRules();
     }
 
-
     /**
      * This is the main function in this class, that triggers all other functions.
      *
@@ -112,6 +111,7 @@ class AddressService {
      */
     private function setPartnerId(): void
     {
+        //TODO ANDOR ask C.: what is the best way to dynamically get the Pamyra id?
         $this->partnerId = DB::table('tms_partners')
                             ->where('company_name', 'Pamyra')
                             ->where('id', 1)

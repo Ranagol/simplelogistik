@@ -44,7 +44,15 @@ class OrderService {
         'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
     ];
 
-
+    /**
+     * This is the main function in this class, that triggers all other functions.
+     *
+     * @param array $pamyraOrder
+     * @param integer $customerId
+     * @param integer $billingAddressId
+     * @param integer $partnerId
+     * @return TmsOrder
+     */
     public function handle(
         array $pamyraOrder, 
         int $customerId, 
@@ -52,7 +60,7 @@ class OrderService {
         int $partnerId
     ): TmsOrder
     {
-        //TODO ANDOR: in the moment that I am looking on the pamyra json I see there is a field with oderPdf. The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
+        //TODO ANDOR: talk to Christoph about this. in the moment that I am looking on the pamyra json I see there is a field with oderPdf. The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
         $this->checkForDuplicate(
             $pamyraOrder, 
             $customerId, 
@@ -91,6 +99,15 @@ class OrderService {
         }
     }
 
+    /**
+     * Creates an order in the tms_orders table.
+     *
+     * @param array $pamyraOrder
+     * @param integer $customerId
+     * @param integer $billingAddressId
+     * @param integer $partnerId
+     * @return TmsOrder
+     */
     private function createOrder(
         array $pamyraOrder,
         int $customerId,
@@ -124,6 +141,12 @@ class OrderService {
         return $order;
     }
 
+    /**
+     * Formats the order date from d.m.Y H:i to Y-m-d H:i:s
+     *
+     * @param string $orderDate
+     * @return string
+     */
     private function formatOrderDate(string $orderDate): string
     {
         //Create a DateTime object from string
@@ -134,6 +157,12 @@ class OrderService {
         return $formattedDate;
     }
 
+    /**
+     * Validates the order data.
+     *
+     * @param array $orderArray
+     * @return void
+     */
     private function validate(array $orderArray): void
     {
         // Validate the data
