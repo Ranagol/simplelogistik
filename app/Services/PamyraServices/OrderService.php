@@ -5,6 +5,7 @@ namespace App\Services\PamyraServices;
 use App\Models\TmsOrder;
 use App\Http\Requests\TmsOrderRequest;
 use App\Models\TmsCustomer;
+use App\Models\TmsPamyraOrder;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
 
@@ -19,27 +20,27 @@ class OrderService {
      * @var array
      */
     private array $validationRules = [
-        'company_name' => ['required', 'string', 'max:255'],
+        'company_name' => ['nullable', 'string', 'max:255'],
         'contact_id' => ['nullable', 'integer'],
         'partner_id' => ['nullable', 'integer'],
         
         //ORDER VALIDATION (from orders table)
-        'type_of_transport' => ['required', 'string', 'max:200'],
+        'type_of_transport' => ['nullable', 'string', 'max:200'],
         'origin' => ['required', 'string', 'max:255'],
         'status' => ['required', 'string', 'max:255'],
-        'customer_reference' => ['required', 'string', 'max:255'],
+        'customer_reference' => ['nullable', 'string', 'max:255'],
         'provision' => ['nullable', 'numeric', 'between:0,99.99'],
         'order_edited_events' => ['nullable', 'json'],
         'currency' => ['nullable', 'string', 'max:50'],
         'order_date' => ['required', 'date'],
-        'purchase_price' => ['nullable', 'string', 'max:200'],
+        'purchase_price' => ['nullable', 'numeric'],
         'month_and_year' => ['nullable', 'string', 'max:255'],
         
         'avis_customer_phone' => ['nullable', 'string', 'max:200'],
         'avis_sender_phone' => ['nullable', 'string', 'max:200'],
         'avis_receiver_phone' => ['nullable', 'string', 'max:200'],
         
-        'payment_method' => ['required', 'string', 'min:2', 'max:100'],
+        'payment_method' => ['required', 'numeric'],
         'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
     ];
 
@@ -68,19 +69,21 @@ class OrderService {
         return $order;
     }
 
+    /**
+     * The only way to check for duplicate is to check if the order number already exists in the
+     * tms_pamyra_orders table. (Not in tms_orders table!)
+     * 
+     * To test for duplicate, use this order number: PAM220826-1323140813
+     *
+     * @param array $pamyraOrder
+     * @param integer $customerId
+     * @param integer $billingAddressId
+     * @return void
+     */
     private function checkForDuplicate(array $pamyraOrder, int $customerId, int $billingAddressId)
     {
-        $duplicateOrder = TmsOrder::where('customer_id', $customerId)
-                            // ->where('order_number', $pamyraOrder['orderNumber'])
-                            ->where('billing_address_id', $billingAddressId)
-                            ->with(
-                                    [
-                                        'pamyraOrder' => function($query) use ($pamyraOrder) {
-                                            $query->where('order_number', $pamyraOrder['orderNumber']);
-                                        }
-                                    ]
-                            )
-                            ->first();
+
+        $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['orderNumber'])->first();
 
         if($duplicateOrder) {
             echo 'Order with order number ' . $pamyraOrder['orderNumber'] . ' already exists.' . PHP_EOL;
@@ -134,6 +137,7 @@ class OrderService {
         // If the validation fails, throw an exception
         if ($validator->fails()) {
             throw new \Exception($validator->errors()->first());
+            //TODO ANDOR ask C., should we throw an exception or just echo the error? How to handle errors? 
         }
     }
 }
