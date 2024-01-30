@@ -38,15 +38,12 @@ class TmsAddressRequest extends FormRequest
      */
     public function addressRules()
     {
-
         return [
-            
             'id' => ['nullable', 'integer', 'exists:tms_addresses,id'],
             'customer_id' => ['nullable', 'integer', 'exists:tms_customers,id'],
             'forwarder_id' => ['nullable', 'integer', 'exists:tms_forwarders,id'],
             'country_id' => ['nullable', 'integer', 'exists:tms_countries,id'], 
             'partner_id' => [ 'nullable', 'integer', 'exists:tms_partners,id'],
-
             'company_name' => ['nullable', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
@@ -58,7 +55,6 @@ class TmsAddressRequest extends FormRequest
             'address_additional_information' => ['nullable', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:100'],
             'email' => ['nullable', 'string', 'max:100'],
-
             'is_pickup' => ['nullable', 'boolean'],
             'is_delivery' => ['nullable', 'boolean'],
             'is_billing' => ['nullable', 'boolean'],

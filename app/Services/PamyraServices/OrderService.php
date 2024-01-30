@@ -13,35 +13,21 @@ class OrderService {
 
     /**
      * Validation rules.
-     * This is just a temporary solution. We are supposed to use the OrderRequest class validation 
-     * here. However, that is something that will be soon changed, because of the changes in the FE.
      * 
      * @var array
      */
-    private array $validationRules = [
-        'company_name' => ['nullable', 'string', 'max:255'],
-        'contact_id' => ['nullable', 'integer'],
-        'partner_id' => ['nullable', 'integer'],
-        
-        //ORDER VALIDATION (from orders table)
-        'type_of_transport' => ['nullable', 'string', 'max:200'],
-        'origin' => ['required', 'string', 'max:255'],
-        'status' => ['required', 'string', 'max:255'],
-        'customer_reference' => ['nullable', 'string', 'max:255'],
-        'provision' => ['nullable', 'numeric', 'between:0,99.99'],
-        'order_edited_events' => ['nullable', 'json'],
-        'currency' => ['nullable', 'string', 'max:50'],
-        'order_date' => ['required', 'date'],
-        'purchase_price' => ['nullable', 'numeric'],
-        'month_and_year' => ['nullable', 'string', 'max:255'],
-        
-        'avis_customer_phone' => ['nullable', 'string', 'max:200'],
-        'avis_sender_phone' => ['nullable', 'string', 'max:200'],
-        'avis_receiver_phone' => ['nullable', 'string', 'max:200'],
-        
-        'payment_method' => ['required', 'numeric'],
-        'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
-    ];
+    private array $validationRules;
+
+    public function __construct()
+    {
+        /**
+         * We copy here the validation rules from the TmsOrderRequest. Because we want to use them
+         * in this class. And we can't use them directly from the TmsOrderRequest, because it is
+         * a FormRequest. And we can't use a FormRequest in a class. So, we copy the rules here.
+         */
+        $tmsOrderRequest = new TmsOrderRequest();
+        $this->validationRules = $tmsOrderRequest->orderRules();
+    }
 
     /**
      * This is the main function in this class, that triggers all other functions.
