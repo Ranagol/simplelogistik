@@ -10,13 +10,14 @@
             </div>
         </td>
         <td class="w-4 p-3">
-                <el-icon :id="'table-column-header-' + dataIndex" :data-accordion-target="'#table-column-body-' + dataIndex"
-        aria-expanded="false" :aria-controls="'table-column-body-' + dataIndex"><ArrowDown /></el-icon>
+                <el-icon :id="'table-column-header-' + dataIndex" 
+                    :data-accordion-target="'#table-column-body-' + dataIndex" 
+                    aria-expanded="false" 
+                    :aria-controls="'table-column-body-' + dataIndex">
+                    <ArrowDown />
+                </el-icon>
         </td>
-        <td v-for="header, index in headers" :key="index" scope="row" 
-            class="items-center px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {{ data[header.key] ?? "Kommt noch" }}
-        </td>
+        <ConditionalBodyColumn v-for="header in headers" :key="header.key" :data="header" :cellData="data[header.key]" />
         <td v-if="actions !== undefined && actions !== ''"
                                     class="flex items-center justify-end px-4 py-3">
             <button :id="'actions-dropdown-button-' + dataIndex"
@@ -47,37 +48,27 @@
     </tr>
     <tr  class="flex-1 hidden w-full overflow-x-auto" :id="'table-column-body-' + dataIndex"
         :aria-labelledby="'table-column-header-' + dataIndex">
-        <td class="p-4 border-b dark:border-gray-700" colspan="9">
-
+        <td class="p-4 border-b dark:border-gray-700" :colspan="headers.length + 3">
             <div class="grid grid-cols-4 gap-4 mb-4">
-                <!-- TODO: Auftraggeber einbinden -->
-                <!-- <div
+                <!-- TODO: (Andor) Require Customer Address as Address Object  -->
+                <div
                     class="relative grid p-2 py-6 bg-gray-100 rounded-lg place-items-center sm:w-full dark:bg-gray-700">
-                    <p class="absolute top-0 right-0 pb-2 m-3">
-                        <span v-if="address.address_type === 'Pickup address'" class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ address.address_type }}</span>
-                        <span v-else class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ address.address_type }}</span>
-                    </p>
                     <p class="w-full px-3 pt-5">
-                        <span v-if="address.company_name">{{ address.company_name }}</span>
-                        
+                        <span v-if="data.customer.company_name">{{ data.customer.company_name }}</span>
                     </p>
                     <p class="w-full px-3">
-                        <span>{{ address.first_name }} {{ address.last_name }}</span>
+                        <span>{{ data.customer.first_name }} {{ data.customer.last_name }}</span>
                     </p>
                     <p class="w-full px-3">
-                        <span>{{ address.street }} {{ address.house_number }}</span>
+                        <span>{{ data.customer.street }} {{ data.customer.house_number }}</span>
                     </p>
                     <p class="w-full px-3">
-                        <span>{{ address.zip_code }} {{ address.city }}</span>
+                        <span>{{ data.customer.zip_code }} {{ data.customer.city }}</span>
                     </p>
                     <p class="w-full px-3 pt-2">
-                        <span>{{ address.state }} {{ address.country.country_name }}</span>
-                    </p>
-                    <p class="w-full px-3">
-                        <span>{{ address.country.country_name }}</span>
+                        <span>{{ data.customer.state }} {{ data.customer.country }}</span>
                     </p>
                 </div>
-                -->
                 <div v-for="address, key in data?.addresses" :key="key"
                     class="relative grid p-2 py-6 bg-gray-100 rounded-lg place-items-center sm:w-full dark:bg-gray-700">
                     <p class="absolute top-0 right-0 pb-2 m-3">
@@ -120,7 +111,10 @@
                         </div>
                         <div
                             class="">
-                            <p class="text-[16px]">{{ $t('labels.type-of-packaging') }} <span class="bg-primary-100 text-corporate-800 text-[1rem] font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-primary-900 dark:text-corporate-300">{{ data.parcels[0].name }}</span></p>
+                            <!-- TODO: Replace Fake avatar with real Forwarder Logo -->
+                            <p class="grid grid-flow-col text-[16px] place-items-center justify-start">{{ $t('labels.forwarder') }} 
+                                <img :src="'https://i.pravatar.cc/80?img=' + data.forwarder.id" class="object-cover w-16 h-8 ml-2" />
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -288,12 +282,11 @@ import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Box, Messa
 import MultilingualDownloadModal from '@Components/Modal/MultilingualDownloadModal.vue';
 import { onMounted } from 'vue';
 import { initFlowbite } from 'flowbite';
+import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
 
 onMounted(()=> {
     initFlowbite()
 })
-
-
 
 const props = defineProps({
     dataIndex: {

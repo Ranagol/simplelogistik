@@ -6,7 +6,7 @@
         </ul>
     </div>
     <div id="default-tab-content">
-        <TabContent v-for="tab in content" :target="tab.target" :content="tab.content" />
+        <TabContent v-for="tab in content" :target="tab.target" :content="tab.content" :tabData="tab._data" />
     </div>
 
 </template>
@@ -31,7 +31,7 @@ onMounted(() => {
             },
             id: {
                 type: String,
-                required: true
+                required: false
             }
         }
     }

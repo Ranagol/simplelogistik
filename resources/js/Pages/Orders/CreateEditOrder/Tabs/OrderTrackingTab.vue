@@ -1,7 +1,7 @@
 <template>
     <div class="w-full p-4 border border-gray-200 bg-gray-50 rounded-t-xl">
         <div class="grid grid-cols-3">
-            <h3 class="col-span-2 font-semibold text-gray-900 text-md dark:text-white">Order History</h3>
+            <h3 class="col-span-2 font-semibold text-gray-900 text-md dark:text-white">Sendungsverfolgung</h3>
         </div>
     </div>
     <div class="px-3 py-4 border border-gray-200 rounded-b-xl">
@@ -54,3 +54,12 @@
     </div>
 
 </template>
+
+<script setup>
+const props = defineProps({
+    tabData: {
+        type: Object,
+        required: false
+    }
+})
+</script>

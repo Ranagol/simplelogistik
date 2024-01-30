@@ -1,20 +1,20 @@
 <template>
     <div class="overflow-hidden bg-white rounded-lg shadow">
         <div class="px-4 py-5 sm:p-6">
-            <Tabs :content="tabContent" />
+            <OrderDetailsTabs :content="tabContent" />
         </div>
     </div>
 </template>
 
 <script setup>
-    import Tabs from '@/Components/Tabs/Tabs.vue';
+    import OrderDetailsTabs from '@/Components/Tabs/OrderDetailsTabs.vue';
     import OrderDetailsTab from './Tabs/OrderDetailsTab.vue';
-    import ShippingInfoTab from './Tabs/ShippingInfoTab.vue';
+    import DocumentsTab from './Tabs/DocumentsTab.vue';
     import OrderManagementTab from './Tabs/OrderManagementTab.vue';
     import OrderTrackingTab from './Tabs/OrderTrackingTab.vue';
     import OrderHistoryTab from './Tabs/OrderHistoryTab.vue';
 
-    import { Histogram } from "@element-plus/icons-vue";
+    import { Bell, FolderOpened, Histogram, List, LocationInformation, Sort } from "@element-plus/icons-vue";
     import { initFlowbite } from 'flowbite';
     import { onMounted } from 'vue';
 
@@ -22,33 +22,55 @@
         initFlowbite();
     })
 
+
+    const props = defineProps({
+        record: {
+            type: Object,
+            required: true
+        }
+    })
+
     const tabContent = [
     {
         title: 'labels.tabs.order-base',
         target: "order-base",
         content: OrderDetailsTab,
-        icon: Histogram,
+        _data: props.record,
+        icon: List,
         active: true
-    },{
-        title: 'labels.tabs.shipping-info',
-        target: "shipping-info",
-        content: ShippingInfoTab,
-        icon: Histogram
-    },{
+    },
+    {
         title: 'labels.tabs.management',
         target: "management",
         content: OrderManagementTab,
-        icon: Histogram
-    },{
+        _data: props.record,
+        icon: Bell
+    },
+    {
         title: 'labels.tabs.tracking',
         target: "tracking",
         content: OrderTrackingTab,
-        icon: Histogram
-    },{
+        _data: props.record,
+        icon: LocationInformation
+    },
+    {
+        title: 'labels.tabs.documents',
+        target: "shipping-info",
+        content: DocumentsTab,
+        _data: props.record,
+        icon: FolderOpened
+    },
+    {
         title: 'labels.tabs.history',
         target: "history",
         content: OrderHistoryTab,
-        icon: Histogram
+        _data: props.record,
+        icon: Sort
     }
 ]    
+
+</script>
+
+<script>
+
 </script>
