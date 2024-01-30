@@ -67,7 +67,7 @@
         "customer_reference": "Kundenreferenz",
         "status": "Status",
         "order_date": "Auftragsdatum",
-        "origin": "Herkunft",
+        "origin-of-order": "Auftragsquelle",
         "date_of_sale": "Verkaufsdatum",
         "date_of_cancellation": "Stornierungsdatum",
         "distance_km": "Entfernung (km)",
@@ -87,7 +87,8 @@
             "management": "Info Tool",
             "tracking": "Sendungsverfolgung",
             "history": "Änderungsverlauf",
-            "documents": "Rechnungen / Dokumente"
+            "documents": "Rechnungen / Dokumente",
+            "customer-notes": "Kundennotizen"
         },
         "section-general": "Allgemeine Informationen",
         "section-address": "Adressen",
