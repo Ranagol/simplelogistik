@@ -4,7 +4,9 @@ namespace Modules\Easybill\app\Console;
 
 use App\Models\TmsAddress;
 use App\Models\TmsCustomer;
+use App\Models\TmsOrderAddress;
 use Illuminate\Console\Command;
+use Modules\Easybill\app\Helper\CustomerHandling;
 use Nwidart\Modules\Facades\Module;
 use App\Models\TmsApiAccess;
 use App\Models\TmsCountry;
@@ -25,7 +27,8 @@ class CustomersCommand extends Command
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'sendcustomers {customerid?} {setting=none : (setting=enable) Enables the module; (setting=disable) Disables the module} {-h|--help?}';
+    protected $signature = 'sendcustomers {behave : (behave=setting/customerId)} {detail : (detail=enable/disable) Enables or disables the module. Have to be used with command=setting. (detail=17) CustomerId.}
+                                          {-h|--help?}';
 
     /**
      * The console command description.
@@ -55,51 +58,31 @@ class CustomersCommand extends Command
         $this->apiName = config('api.billingApi');                
         $this->apiAccess = TmsApiAccess::where('api_name', $this->apiName)->first();
 
-        $this->info('CustomerId: ' . $this->argument('customerid'));
+        $countries  = TmsCountry::all();
+        $countries  = $countries->keyBy('id');
 
-        try {
-            $customer = TmsCustomer::where('id', $this->argument('customerid'))->first();
-        } catch (\Throwable $th) {
-            $this->info('Error: ' . $th->getMessage());
-            die();
-        }
-
-        $addresses = TmsAddress::where('customer_id', $customer->id)->get();
-        $addresses = $this->makeAssocAddresses($addresses);
+        if ($this->argument('behave') == 'customerId') {    
+            $this->info('OrderId: ' . $this->argument('detail'));
+            $customer                     = TmsCustomer::where('id', $this->argument('detail'))->first();    
+            $addresses[0]['is_billing']   = TmsAddress::where('id', $this->argument('detail'))->first();  
+            $mappedData                   = $dataMapping->mapCustomer($customer, $addresses, $countries);
+        }       
+      
+        $customerHandler = new CustomerHandling();
+        $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);       
         
-        $countries = TmsCountry::all();
-        $countries = $countries->keyBy('id');
+        $easybillData = $result['easybillData'];
+        $this->info($result['message']);
 
-        $mappedData = $dataMapping->mapCustomer($customer, $addresses, $countries);
-
-        $result = json_decode($easyBillConnector->callAPI(
-            'GET', 
-            $this->apiAccess,
-            'customers?number=' . $customer->internal_id,  
-            []));
-        //$this->info('Result: ' . json_encode($result)); die();
-
-        if (isset($result->total )) {
-            if ($result->total == 0) {
-                $this->info('Customer not found. Creating new customer.');
-                $this->info(json_encode($easyBillConnector->callAPI(
-                    'POST', 
-                    $this->apiAccess,
-                    'customers',  
-                    $mappedData))
-                );
-            } else {
-                $this->info('Customer found. Updating customer.');
-                $this->info(json_encode($easyBillConnector->callAPI(
-                    'PUT', 
-                    $this->apiAccess,
-                    'customers/' . $result->items[0]->id,  
-                    $mappedData))
-                );
-            }
-        } else {
-            $this->info('Error: ' . json_encode($result));
-            die();
+      
+        if (isset($easybillData->id)) {
+            TmsCustomer::where('id', $customer->id)->update(['easy_bill_customer_id' => $easybillData->id]);
+        }
+        
+        if (isset($easybillData->code) && $easybillData->code !== 200) {
+            $this->info('Error: ' . $easybillData->message);
+        } else {            
+            $this->info('Customer successfully sent to easybill.');
         }
     }
 
@@ -128,26 +111,24 @@ class CustomersCommand extends Command
         return $assoc;
     }
 
-
     /**
-     * Handle status.
-     * For switching module status. Enable or disable.
+     * Handle the status of the module.
      * @return $module
      */
     private function handleStatus()
     {
         $module = Module::find('Easybill');
-        $setting = $this->argument('setting');
+        $behave = $this->argument('behave') . '=' . $this->argument('detail');
         
-        if ($setting == 'disable') {            
-            $this->info('New setting ' . $setting);
+        if ($behave == 'setting=disable') {            
+            $this->info('New setting ' . $this->argument('detail'));
             $module->disable();
             $message = ['warning' => 'Easybill module is disabled!'];
             $this->info($message['warning']);
             die(json_encode($message));
         }        
-        if ($setting == 'enable') {            
-            $this->info('New setting ' . $setting);
+        if ($behave == 'setting=enable') {            
+            $this->info('New setting ' . $this->argument('detail'));
             $module->enable();
             $message = ['success' => 'Easybill module is enabled!'];
             $this->info($message['success']);
@@ -159,7 +140,6 @@ class CustomersCommand extends Command
             $this->info($message['error']);
             die(json_encode($message));
         }
-
         return $module;
     }    
 }
