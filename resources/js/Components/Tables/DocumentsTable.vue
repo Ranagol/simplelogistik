@@ -1,23 +1,12 @@
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
             <!-- Start coding here -->
-            <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
-                <div
+            <div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+                <div v-if="title"
                     class="flex flex-col items-center justify-between p-4 space-y-3 border-b md:flex-row md:space-y-0 md:space-x-4 dark:border-gray-700">
                     <div class="flex items-center w-full space-x-3">
-                        <h5 class="font-semibold dark:text-white">{{ title }}</h5>
+                        <h5 class="font-semibold dark:text-white">{{ $t(title) }}</h5>
                         <div v-if="totalResults" class="font-medium text-gray-400">{{ totalResults }} {{ $t('labels.total-results') }}</div>
-                    </div>
-                    <div class="flex flex-row items-center justify-end w-full space-x-3">
-                        <button type="button"
-                            class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-white rounded-lg md:w-auto bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-
-                            <el-icon class="me-2">
-                                <Plus />
-                            </el-icon>
-                            {{ $t('labels.create-order') }}
-                        </button>
-
                     </div>
                 </div>
                 <div class="flex flex-col items-start justify-between p-4 border-b md:flex-row md:items-center md:space-x-4 dark:border-gray-700">
@@ -30,12 +19,12 @@
                                 <input type="search" id="default-search"
                                     class="block w-full p-2 pl-5 pr-4 text-sm text-gray-900 border border-gray-300 rounded-lg min-w-40 bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     :placeholder="$t('labels.search')">
-                                <button @click.prevent="reorder(_headers)" type="submit"
+                                <button type="submit"
                                     class="absolute top-0 bottom-0 right-0 px-4 py-2 text-sm font-medium text-white rounded-r-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ $t('labels.search') }}</button>
                             </div>
                         </form>
 
-                        <button id="limitSearchFilterDropdownButton" data-dropdown-toggle="limitSearchFilterDropdown"
+                        <button :id="'limitSearchFilterDropdownButton' + uKey" :data-dropdown-toggle="'limitSearchFilterDropdown' + uKey"
                         class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         type="button">
                             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-4 mr-2 text-gray-400"
@@ -51,11 +40,11 @@
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                             </svg>
                         </button>
-                        <div id="limitSearchFilterDropdown"
+                        <div :id="'limitSearchFilterDropdown' + uKey"
                             class="hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
                             <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
-                            <ul class="space-y-2 text-sm" aria-labelledby="limitSearchFilterDropdownButton">
-                                <li v-for="head in _headers" class="flex items-center">
+                            <ul class="space-y-2 text-sm" :aria-labelledby="'limitSearchFilterDropdownButton' + uKey">
+                                <li v-for="head in headers" class="flex items-center">
 
                                     <input v-if="head.searchable == true" :id="'search-label-' + head.key" type="checkbox"
                                         :value="head.key"
@@ -70,7 +59,7 @@
 
                     </div>
 
-                    <button id="showTableColumnsButton" data-dropdown-toggle="showTableColumns"
+                    <button :id="'showTableColumnsButton' + uKey" :data-dropdown-toggle="'showTableColumns' + uKey"
                         class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         type="button">
                         {{ $t('labels.arrange-columns') }}
@@ -80,85 +69,63 @@
                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                         </svg>
                     </button>
-                    <div id="showTableColumns"
-                        class="hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div :id="'showTableColumns' + uKey"
+                        class="z-50 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
                         <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
-                        <ul class="space-y-2 text-sm" aria-labelledby="showTableColumnsButton">
-                            <li v-for="head in _headers" class="flex items-center">
-                                <input @change="(e) => updateListedItems(head.key, e.currentTarget.checked)" :id="'search-label-' + head.key" type="checkbox"
-                                       :value="head.key" :checked="head.show === true"
-                                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label :for="'search-label-' + head.key"
-                                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $t(head.title) }}</label>
+                        <ul class="space-y-2 text-sm" :aria-labelledby="'showTableColumnsButton' + uKey">
+                            <li v-for="head in headers" class="flex items-center">
+
+                                <input @change="(e) => updateTableColumnVisibility(head.key, e.target.checked)" :id="'search-label-' + uKey + head.key" :checked="head.show === true" type="checkbox"
+                                    :value="head.key"
+                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label :for="'search-label-' + uKey + head.key"
+                                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $t(head.text) }}</label>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 no-selection">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700">
-                            <tr >
-                                <th scope="col" class="p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-all" type="checkbox"
-                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-all" class="sr-only">checkbox</label>
-                                    </div>
+                            <tr>
+                                <ConditionalHeadColumn v-for="head in headers" :data="head" />
+                                <th v-if="actions !== undefined && actions !== ''">
+
                                 </th>
-                                <th scope="col" class="px-4 py-3">
-                                    <span class="sr-only">Expand/Collapse Row</span>
-                                </th>
-                                <ConditionalHeadColumn 
-                                    v-for="col in _headers"
-                                    :data="col"
-                                    />
-                                <th scope="col" class="px-4 py-3"><!-- Actions --></th>
                             </tr>
                         </thead>
-                        <tbody data-accordion="table-column">
-                            <TableRowWithContent :actions='["show", "edit", "delete"]' v-for="item, index in data.data" :data="item" :dataIndex="index" :headers="_headers"></TableRowWithContent>
+                        <tbody>
+                            <tr v-for="entry in data" :key="entry.id"
+                                class="transition border-b cursor-pointer dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700">
+
+                                <ConditionalBodyColumn v-for="head in headers" :data="head" :cellData="renderCellData(head, entry)" />
+                                <td class="flex items-center justify-end px-4 py-3">
+                                    <button @click="this.window.open(entry.download_path, '_self', 'popup=1')" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
+                                        type="button">
+                                        <el-icon><Download /></el-icon>
+                                    </button>
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
-
-                <Pagination :links="paginationData" />
+            
             </div>
     </section>
 </template>
 
 <script setup>
-import Pagination from '@/Components/Pagination/Pagination.vue';
-import { ArrowDown, Check, Edit, Plus, Select, View } from '@element-plus/icons-vue';
+import { DArrowLeft, ArrowLeft, DArrowRight, ArrowRight, Plus, Download } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
-import { onMounted } from 'vue';
-import TableRowWithContent from './OrderTableRowWithContent.vue';
-import { ref } from 'vue';
+import { onMounted, ref} from 'vue';
+import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
 import ConditionalHeadColumn from './ConditionalHeadColumn.vue';
-
-onMounted(() => {
-    initFlowbite()
-})
-
+import { reactive } from 'vue';
 const props = defineProps({
-    headers: {
-        type: Object,
-        required: true
-    },
-    changeTableLayout: {
-        type: Function,
-        required: false
-    },
-    handleDragStart: {
-        type: Function,
-        required: false
-    },
-    handleDrop: {
-        type: Function,
-        required: false
-    },
-    handleDragEnter: {
-        type: Function,
-        required: false
+    uKey: {
+        type: String,
+        required: true,
     },
     getData: {
         type: Function,
@@ -176,6 +143,10 @@ const props = defineProps({
         type: String,
         required: false,
     },
+    headers: {
+        type: Array,
+        required: false,
+    },
     data: {
         type: Array,
         required: true,
@@ -184,67 +155,40 @@ const props = defineProps({
         type: Array,
         required: false,
     },
+    updateTableColum: {
+        type: Function,
+        required: false,
+    },
 })
 
-const storedHeaders = sessionStorage.getItem('order-table-headers')
-var _headers;
-
-if(storedHeaders !== null) {
-    _headers = ref(JSON.parse(storedHeaders))
-} else {
-    _headers = ref(props.headers)
+// Reformat Cell Data
+const renderCellData = (header, data) => {
+    switch (header.key) {
+        default:
+            return {'type': 'text', 'data': data[header.key] };
+    }
 }
 
-const reorder = (headers) => {
-    _headers = headers.sort((a,b) => a.display_order < b.display_order)
+const updateTableColumnVisibility = (key, value) => {
+    props.updateTableColum(key, value);
 }
 
-const updateListedItems = (key, value) => {
-    _headers.value = _headers.value.map((item) => {
-        if (item.key === key) {
-            item.show = value
-        }
-        return item
-    })
+onMounted(() => {
+    initFlowbite();
+})
 
-    sessionStorage.setItem('order-table-headers', JSON.stringify(_headers.value))
+const handleShow = (entry_id) => {
+    alert(`handleShow for item: ${entry_id}`)
+}
+const handleEdit = (entry_id) => {
+    alert(`handleEdit for item: ${entry_id}`)
+}
+const handleDelete = (entry_id) => {
+    alert(`handleDelete for item: ${entry_id}`)
 }
 
 </script>
 
 <script>
-const handleDragStart = (item, index) => {
-
-}
-const handleDrop = (item, index) => {
-
-}
-const handleDragEnter = (item, index) => {
-}
 
 </script>
-
-<style scoped>
-    i.el-icon[aria-expanded=true]{
-        background: transparent !important;
-        transform: rotate(-180deg);
-        transition: transform 200ms ease
-    }
-
-    i.el-icon[aria-expanded=false]{
-        background: transparent !important;
-        transform: rotate(0deg);
-        transition: transform 200ms ease
-    }
-
-    .no-selection * {
-        user-select: none !important;
-        -moz-user-select: none !important;
-        -webkit-user-select: none !important;
-    }
-    .no-selection input[type=checkbox] {
-        user-select: auto !important;
-        -moz-user-select: auto !important;
-        -webkit-user-select: auto !important;
-    }
-</style>
