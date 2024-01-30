@@ -6,8 +6,11 @@ use App\Models\TmsPamyraOrder;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\TmsPamyraOrderRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Services\PamyraServices\DateFormatterTrait;
 
 class PamyraOrderService {
+
+    use DateFormatterTrait;
 
     private string $houseNumber;
     private string $street;
@@ -66,7 +69,7 @@ class PamyraOrderService {
             'order_number' => $pamyraOrder['orderNumber'],
             'order_pdf' => $pamyraOrder['orderPdf'],
             'payment_method' => $pamyraOrder['paymentMethod'],
-            'date_of_sale' => $pamyraOrder['dateOfSale'],
+            'date_of_sale' => $this->formatPamyraDateTime($pamyraOrder['dateOfSale']),
             'date_of_cancellation' => $pamyraOrder['dateOfCancellation'],
 
             /**
