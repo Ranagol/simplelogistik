@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\System;
 
+use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class SystemSettingsController extends BaseController {
@@ -13,7 +15,7 @@ class SystemSettingsController extends BaseController {
     public function listTranslations(Request $request, String $lang) {
         return Inertia::render(
             "System/Translations/EntriesList"
-        )
+        );
     }
     public function storeTranslations() {}
 }
