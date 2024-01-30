@@ -35,7 +35,7 @@ class TmsPamyraOrderRequest extends FormRequest
             'order_pdf' => ['nullable', 'string', 'max:255'],
             'payment_method' => ['required', 'string', 'max:255'],
             'date_of_sale' => ['required', 'date'],
-            //TODO ANDOR ASK C. We use this format in db. 1992-11-05 in string. Pamyra uses 26.08.2022 13:23 string. 
+            //TODO ANDOR 11111 ASK C. We use this format in db. 1992-11-05 in string. Pamyra uses 26.08.2022 13:23 string. 
             //Should this column be a string or a date? Which format to use?
             //Make dateTime column, use Pamyra standards here for our data and for Pamyra too.
             'date_of_cancellation' => ['nullable', 'date_format:Y-m-d'],

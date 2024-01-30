@@ -15,7 +15,6 @@ class OrderService {
      * Validation rules.
      * This is just a temporary solution. We are supposed to use the OrderRequest class validation 
      * here. However, that is something that will be soon changed, because of the changes in the FE.
-     * //TODO ANDOR
      * 
      * @var array
      */

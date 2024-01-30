@@ -24,7 +24,7 @@ class TmsPamyraOrderFactory extends Factory
             'order_number' => $this->faker->unique()->numerify('#######'),
             'order_pdf' => $this->faker->url,
             'payment_method' => $this->faker->randomElement(TmsCustomer::PAYMENT_METHODS),
-            'date_of_sale' => $this->faker->date(),
+            'date_of_sale' => $this->faker->dateTime(),
             'date_of_cancellation' => $this->faker->date(),
             'pickup_date_from' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'pickup_date_to' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
