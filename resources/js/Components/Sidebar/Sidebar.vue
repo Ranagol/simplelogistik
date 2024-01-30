@@ -14,21 +14,21 @@
                     </a>
                 </li>
                 <li>
-                    <a :href="route('customers.index')"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
-                            <Avatar/>
-                        </el-icon>
-                        <span class="ml-3">{{ $t("menu.customers") }}</span>
-                    </a>
-                </li>
-                <li>
                     <a :href="route('orders.index')"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
                             <Folder></Folder>
                         </el-icon>
                         <span class="ml-3">{{ $t("menu.orders") }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a :href="route('customers.index')"
+                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
+                            <Avatar/>
+                        </el-icon>
+                        <span class="ml-3">{{ $t("menu.customers") }}</span>
                     </a>
                 </li>
                 <li>
