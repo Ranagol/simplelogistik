@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\TmsGear;
+use App\Models\TmsOrder;
 use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use Illuminate\Database\Seeder;
+use App\Models\TmsOrderAttribute;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 /**
@@ -29,6 +31,7 @@ class PivotTableSeeder extends Seeder
         $this->seed_gear_customer();
         $this->seed_gear_vehicle();
         $this->seed_gear_forwarder();
+        $this->seed_attribute_order();
     }
 
     /**
@@ -36,6 +39,8 @@ class PivotTableSeeder extends Seeder
      * table with random customer and random gear ids.
      * Every customer will get one gear.
      * Every gear will get one customer.
+     * We do this, because we use randomized id's, and this is the only way to make sure that
+     * all customers and all gears have at least one connection.
      * So, there will be 40 gear customer connections.
      *
      * @return void
@@ -124,6 +129,40 @@ class PivotTableSeeder extends Seeder
             $randomForwarderId = $forwarderIds[$randomArraykey];
             //...and we attach them to the gear.
             $gear->forwarders()->attach($randomForwarderId); 
+        }
+    }
+
+    /**
+     * We have 20 orders seeded.
+     * We have 73 attributes seeded (because Pamyra has 73 attributes).
+     * Every order must get one random attribute.
+     * Every attribute must get one random order.
+     * 
+     * @return void
+     */
+    private function seed_attribute_order():void
+    {
+        $orders = TmsOrder::all();
+        $orderIds = $orders->pluck('id')->toArray();
+        $attributes = TmsOrderAttribute::all();
+        $attributeIds = $attributes->pluck('id')->toArray();
+
+        foreach ($orders as $order) {
+
+            //We get 1 random attribute for each order...
+            $randomArraykey = array_rand($attributeIds);
+            $randomAttributeId = $attributeIds[$randomArraykey];
+            //...and we attach them to the order.
+            $order->orderAttributes()->attach($randomAttributeId); 
+        }
+
+        foreach ($attributes as $attribute) {
+
+            //We get 1 random orders for each attribute...
+            $randomArraykey = array_rand($orderIds);
+            $randomOrderId = $orderIds[$randomArraykey];
+            //...and we attach them to the attribute.
+            $attribute->orders()->attach($randomOrderId); 
         }
     }
 }

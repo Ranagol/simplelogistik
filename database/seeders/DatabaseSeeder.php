@@ -51,10 +51,10 @@ class DatabaseSeeder extends Seeder
             TmsForwardingContractSeeder::class,
             TmsOrderHistorySeeder::class,
             TmsTransportLicenseSeeder::class,
-            //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
-            PivotTableSeeder::class,
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
+            //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
+            PivotTableSeeder::class,
             TmsProvisionSeeder::class,
             TmsPamyraOrderSeeder::class,
             TmsNativeOrderSeeder::class,

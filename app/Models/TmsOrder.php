@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TmsOrder extends Model
 {
@@ -103,9 +104,9 @@ class TmsOrder extends Model
         return $this->hasMany(TmsParcel::class, 'tms_order_id');
     }
 
-    public function orderAttributes(): HasMany
+    public function orderAttributes(): BelongsToMany
     {
-        return $this->hasMany(TmsOrderAttribute::class, 'tms_order_id');
+        return $this->belongsToMany(TmsOrderAttribute::class, 'attribute_order', 'order_id', 'attribute_id');
     }
 
     public function forwardingContract(): HasOne

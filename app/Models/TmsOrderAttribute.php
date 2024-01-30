@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class TmsOrderAttribute extends Model
@@ -97,8 +98,8 @@ class TmsOrderAttribute extends Model
         'externalTimeSlotPlatform'
     ];
 
-    public function order(): BelongsTo
+    public function orders(): BelongsToMany
     {
-        return $this->belongsTo(TmsOrder::class, 'tms_order_id');
+        return $this->belongsToMany(TmsOrder::class, 'attribute_order', 'attribute_id', 'order_id');
     }
 }
