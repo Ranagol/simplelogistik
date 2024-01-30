@@ -167,7 +167,7 @@
                     </span>
                     <ul class="inline-flex items-stretch -space-x-px">
                         <li>
-                            <a :href="this.paginationData.first_page_url"
+                            <a :href="paginationData.first_page_url"
                                 class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 <span class="sr-only">First</span>
                                 <el-icon>
@@ -177,7 +177,7 @@
                             </a>
                         </li>
                         <li>
-                            <a :href="this.paginationData.prev_page_url"
+                            <a :href="paginationData.prev_page_url"
                                 class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 <span class="sr-only">Previous</span>
                                 <el-icon>
@@ -186,12 +186,12 @@
 
                             </a>
                         </li>
-                        <li v-for="link in this.paginationData.links" :class="{'bg-primary-500': link.active}" :key="item">
+                        <li v-for="link in paginationData.links" :class="{'bg-primary-500': link.active}" :key="item">
                             <a :class="{'bg-primary-500': link.active}" :href="link.url ?? '#'"
                                 class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ link.label }}</a>
                         </li>
                         <li>
-                            <a :href="this.paginationData.next_page_url"
+                            <a :href="paginationData.next_page_url"
                                 class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 <span class="sr-only">Next</span>
                                 <el-icon>
@@ -200,7 +200,7 @@
                             </a>
                         </li>
                         <li>
-                            <a :href="this.paginationData.last_page_url"
+                            <a :href="paginationData.last_page_url"
                                 class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 <span class="sr-only">Last</span>
                                 <el-icon>

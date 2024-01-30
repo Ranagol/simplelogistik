@@ -73,7 +73,8 @@ class TmsOrder extends Model
     }
 
     /**
-     * Returns the latest order history record. Only one.
+     * Returns the latest order history record. Only one. This is needed in order index page.
+     * And not in order edit page.
      *
      * @return HasOne
      */
@@ -85,36 +86,6 @@ class TmsOrder extends Model
                 $query->select('id', 'name');
             })
             ->latest();
-    }
-
-    /**
-     * Returns the latest order history update record date.
-     *
-     * @return HasOne
-     */
-    public function lastUpdate(): HasOne
-    {
-        return $this->hasOne(TmsOrderHistory::class, 'order_id')
-            ->select('updated_at')
-            ->latest();
-    }
-
-    /**
-     * Return the dispatcher name who last edited the order.
-     *
-     * @return HasOne
-     */
-    public function lastEditor(): HasOne
-    {
-        return $this->hasOne(TmsOrderHistory::class, 'order_id')
-            ->latest()
-            ->with(
-                [
-                    'dispatcher' => function ($query) {
-                        $query->select('id', 'name');
-                    }
-                ]
-            );
     }
 
     public function invoice(): HasOne
@@ -141,31 +112,6 @@ class TmsOrder extends Model
     {
         return $this->hasOne(TmsForwardingContract::class, 'order_id');
     }
-
-    /**
-     * We must return the order detail, either a PamyraOrder or a NativeOrder. In orders table, we
-     * have the origin column. If this is Pamyra, then we return the PamyraOrder relationship. If 
-     * this is anything else thany 'Pamyra', then we return the NativeOrder relationship.
-     * 
-     * const ORIGINS = [
-    *    1 => 'Pamyra',
-    *    2 => 'Sales',
-    *    3 => 'Google Ads',
-    *    4 => 'Shipping calc.'
-    *
-     * @return HasOne
-     */
-    // public function orderDetail():HasOne
-    // {
-    //     $origin = $this->origin;//why is this null? And how to access $this->origin?
-    //     // dd($origin);
-
-    //     if ($origin === 'Pamyra') {
-    //         return $this->hasOne(TmsPamyraOrder::class, 'order_id');
-    //     } 
-
-    //     return $this->hasOne(TmsNativeOrder::class, 'order_id');
-    // }
 
     /**
      * Currently, every TmsOrder has a suborder, either a PamyraOrder or a NativeOrder.
@@ -268,32 +214,6 @@ class TmsOrder extends Model
             ;
     }
 
-    /**
-     * With the main order, we always have to send to the FE the native or the pamyra order.
-     * There is an origin column in the orders table. If this is Pamyra, then we return the
-     * PamyraOrder relationship. If this is anything else than 'Pamyra', then we return the
-     * NativeOrder relationship. (Native orders are: Sales, Google Ads, Shipping calc.)
-     *
-     * @param Builder $query
-     * @param string $id
-     * @return Builder
-     */
-    public function scopeNativeOrPamyra(Builder $query, string $id): Builder
-    {
-        $order = TmsOrder::find($id);
-        $origin = $order->origin;
-        // dd($origin);
-
-        if ($origin === 'pamyra') {
-            return $query->with('pamyraOrder');
-        }
-
-        if ($origin === 'native_sales' || $origin === 'native_google-ads' || $origin === 'shipping_calc') {
-            return $query->with('nativeOrder');
-        }
-    }
-
-
     //*************MUTATORS AND ACCESSORS*************************************** */
     
     /**
@@ -345,17 +265,20 @@ class TmsOrder extends Model
      * the similar mutator from TmsCustomer model.
      * If you want to change or add a new payment method, do it in the TmsCustomer model. The payment
      * methods are defined there.
+     * 
+     * This mutator is commented out, but not deleted, because I suspect that we will need this
+     * again very soon.
      *
      * @return Attribute
      */
-    protected function paymentMethod(): Attribute
-    {
-        return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Paypal'.
-            get: fn (string $value) => TmsCustomer::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Paypal' will become 1.
-            set: fn (string $value) => array_flip(TmsCustomer::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
-        );
-    }
+    // protected function paymentMethod(): Attribute
+    // {
+    //     return Attribute::make(
+    //         //gets from db, transforms it. 1 will become 'Paypal'.
+    //         get: fn (string $value) => TmsCustomer::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
+    //         //gets from request, transforms it. 'Paypal' will become 1.
+    //         set: fn (string $value) => array_flip(TmsCustomer::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
+    //     );
+    // }
 
 }

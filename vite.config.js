@@ -9,6 +9,9 @@ import Components from 'unplugin-vue-components/vite';
 
 
 export default defineConfig({
+    define: {
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true,
+    },
     plugins: [
         laravel({
             input: 'resources/js/app.ts',

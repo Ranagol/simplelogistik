@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TmsDispatcherController extends Controller
+class TmsInvoiceHistoryController extends Controller
 {
     //
 }

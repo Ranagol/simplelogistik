@@ -85,12 +85,11 @@
                         <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
                         <ul class="space-y-2 text-sm" aria-labelledby="showTableColumnsButton">
                             <li v-for="head in _headers" class="flex items-center">
-
-                                <input v-if="head.searchable == true" :id="'search-label-' + head.key" type="checkbox"
-                                    :value="head.key"
-                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label v-if="head.searchable == true" :for="'search-label-' + head.key"
-                                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $t(head.text) }}</label>
+                                <input @change="(e) => updateListedItems(head.key, e.currentTarget.checked)" :id="'search-label-' + head.key" type="checkbox"
+                                       :value="head.key" :checked="head.show === true"
+                                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label :for="'search-label-' + head.key"
+                                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $t(head.title) }}</label>
                             </li>
                         </ul>
                     </div>
@@ -109,22 +108,15 @@
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Expand/Collapse Row</span>
                                 </th>
-                                
-                                <th draggable="true" v-for="(item, index) in _headers" :key="index" scope="col" @dragstart="handleDragStart(item)" @dragover="handleDragEnter(item)" @dragend="handleDrop(item)" class="px-4 py-3">
-                                    {{ $t(item.title) }}
-                                    <svg v-if="item.sortable" class="inline-block w-4 h-4 ml-1" fill="currentColor" viewbox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                        <path clip-rule="evenodd" fill-rule="evenodd"
-                                            d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" />
-                                    </svg>
-                                </th>
-                                <th scope="col" class="px-4 py-3">
-                                    
-                                </th>
+                                <ConditionalHeadColumn 
+                                    v-for="col in _headers"
+                                    :data="col"
+                                    />
+                                <th scope="col" class="px-4 py-3"><!-- Actions --></th>
                             </tr>
                         </thead>
                         <tbody data-accordion="table-column">
-                            <TableRowWithContent :actions='["show", "edit", "delete"]' v-for="item, index in data" :data="item" :dataIndex="index" :headers="_headers"></TableRowWithContent>
+                            <TableRowWithContent :actions='["show", "edit", "delete"]' v-for="item, index in data.data" :data="item" :dataIndex="index" :headers="_headers"></TableRowWithContent>
                         </tbody>
                     </table>
                 </div>
@@ -139,8 +131,9 @@ import Pagination from '@/Components/Pagination/Pagination.vue';
 import { ArrowDown, Check, Edit, Plus, Select, View } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
 import { onMounted } from 'vue';
-import TableRowWithContent from './TableRowWithContent.vue';
+import TableRowWithContent from './OrderTableRowWithContent.vue';
 import { ref } from 'vue';
+import ConditionalHeadColumn from './ConditionalHeadColumn.vue';
 
 onMounted(() => {
     initFlowbite()
@@ -193,17 +186,33 @@ const props = defineProps({
     },
 })
 
-var _headers = ref(props.headers)
+const storedHeaders = sessionStorage.getItem('order-table-headers')
+var _headers;
+
+if(!storedHeaders) {
+    _headers = ref(props.headers)
+} else {
+    _headers = ref(JSON.parse(storedHeaders))
+}
 
 const reorder = (headers) => {
     _headers = headers.sort((a,b) => a.display_order < b.display_order)
 }
 
+const updateListedItems = (key, value) => {
+    _headers.value = _headers.value.map((item) => {
+        if (item.key === key) {
+            item.show = value
+        }
+        return item
+    })
+
+    sessionStorage.setItem('order-table-headers', JSON.stringify(_headers.value))
+}
+
 </script>
 
 <script>
-
-
 const handleDragStart = (item, index) => {
 
 }

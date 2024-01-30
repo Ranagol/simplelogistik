@@ -1,177 +1,76 @@
 <template>
-
-    <Head :title="props.mode"/>
-
-    <!-- CREATE EDIT CARGO ORDER -->
-    <Card>
-
-        <!-- TITLE WITH CREATE AND CANCEL ORDER BUTTON -->
-        <div class="flex flex-row justify-between">
-
-            <!-- SIMPLE PAGE TITLE: THE ORDER NUMBER -->
-            <Title 
-                :title="data.title"
-            />
-
-            <div class="flex flex-row ">
-                
-                <!-- SUBMIT BUTTON -->
-                <!-- Notice: whenever there is a 'submit emit from Header, the submit()
-                is triggered, AND it receives the elformRef, which is the el-form
-                itself. This is the secret for the FE validation.' -->
-                <el-form-item>
-                    <el-button
-                        @click="triggerOrderSubmit"
-                        type="primary"
-                    >Save</el-button>
-                </el-form-item>
-
-                <!-- CANCEL ORDER BUTTON -->
-                <el-form-item>
-                    <el-button
-                        @click="console.log('cancel order clicked, but no further steps are implemented yet')"
-                        type="danger"
-                        class="ml-4"
-                    >Cancel</el-button>
-                </el-form-item>
-            </div>
+    <div class="overflow-hidden bg-white rounded-lg shadow">
+        <div class="px-4 py-5 sm:p-6">
+            <OrderDetailsTabs :content="tabContent" />
         </div>
-        
-        <!-- ALL TABS -->
-        <Tabs
-            v-model:order="data.orderData"
-            :errors="props.errors"
-            :mode="props.mode"
-            :selectOptions="props.selectOptions"
-            @submit="submit"
-            @destroy="destroy"
-        />
-
-        <!-- When scrolled all the way down, this widget will appear. Click on it will scroll the
-        user back to the top of the page. -->
-        <el-backtop :right="100" :bottom="100" />
-
-    </Card>
+    </div>
 </template>
 
 <script setup>
-import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
-import Card from '@/Shared/Card.vue';
-import { useEdit } from '@/Use/useEdit';
-import { useCreate } from '@/Use/useCreate';
-import { useDestroy } from '@/Use/useDestroy';
-import Tabs from './Tabs.vue';
-import orderDummy from './orderDummy';
-import orderEmpty from './orderEmpty';//don't delete this
-import Title from '@/Shared/Title.vue';
-import { useOrderStore } from '@/Stores/orderStore';
+    import OrderDetailsTabs from '@/Components/Tabs/OrderDetailsTabs.vue';
+    import OrderDetailsTab from './Tabs/OrderDetailsTab.vue';
+    import DocumentsTab from './Tabs/DocumentsTab.vue';
+    import OrderManagementTab from './Tabs/OrderManagementTab.vue';
+    import OrderTrackingTab from './Tabs/OrderTrackingTab.vue';
+    import OrderHistoryTab from './Tabs/OrderHistoryTab.vue';
 
-let orderStore = useOrderStore();
+    import { Bell, FolderOpened, Histogram, List, LocationInformation, Sort } from "@element-plus/icons-vue";
+    import { initFlowbite } from 'flowbite';
+    import { onMounted } from 'vue';
 
-const props = defineProps({
+    onMounted(() => {
+        initFlowbite();
+    })
 
-    /**
-     * The order object.
-     */
-    record: {
-        type: Object,
-        /**
-         * The default value is a function that returns an empty order object.
-         */
-        default: () => (orderDummy),
 
+    const props = defineProps({
+        record: {
+            type: Object,
+            required: true
+        }
+    })
+
+    const tabContent = [
+    {
+        title: 'labels.tabs.order-base',
+        target: "order-base",
+        content: OrderDetailsTab,
+        _data: props.record,
+        icon: List,
+        active: true
     },
-
-    /**
-     * These are the possibly selectable options for the el-select in customer create or edit form.
-     * The options are fetched from the backend.
-     */
-     selectOptions: Object,
-
-    /**
-     * mode is either 'create' or 'edit'. This is decided in the controller. This component will
-     * behave differently depending on which mode is it.
-     */
-    mode: {
-        type: String,
-        required: true
+    {
+        title: 'labels.tabs.management',
+        target: "management",
+        content: OrderManagementTab,
+        _data: props.record,
+        icon: Bell
     },
-
-    /**
-     * The errors object that is sent from the backend, and contains the validation errors.
-     */
-    errors: Object,
-
-});
-
-const data = reactive({
-
-    /**
-     * The order object.
-     */
-    orderData: props.record,
-    title: 'Order',
-});
-
-
-/**
- * The submit button and the order form are in two separate components. When we click on the submit
- * button in this component, we want to trigger the submitting process in DataTab component which
- * has the el-form and the FE validation. If the FE validation is OK, then the DataTab component will
- * pass the submi triggering back here to this component. To make all this possible, we use Pinia for
- * component communication.
- */
-const triggerOrderSubmit = () => {
-    orderStore.triggerOrderSubmit = true;
-    
-}
-
-/**
- * Reminder: this submit works for both create and edit. Depending on the mode, the submit will
- * either create or edit the order.
- */
-const submit = () => {
-    if (props.mode === 'edit') {
-        //edits the order
-        useEdit(
-            'orders',
-            data.orderData.id,
-            data.orderData,
-            'order',
-            'record'
-        );
-
-    } else {
-        //creates the order
-        useCreate(
-            'orders',
-            data.orderData,
-            'order',
-            null,
-            'http://localhost/orders'
-        );
+    {
+        title: 'labels.tabs.tracking',
+        target: "tracking",
+        content: OrderTrackingTab,
+        _data: props.record,
+        icon: LocationInformation
+    },
+    {
+        title: 'labels.tabs.documents',
+        target: "shipping-info",
+        content: DocumentsTab,
+        _data: props.record,
+        icon: FolderOpened
+    },
+    {
+        title: 'labels.tabs.history',
+        target: "history",
+        content: OrderHistoryTab,
+        _data: props.record,
+        icon: Sort
     }
-}
-
-const destroy = () => {
-    console.log('destroy');
-    //deletes the order
-    useDestroy(
-        `Address will be deleted. Continue?`,
-        'orders',
-        data.orderData.id,
-        'order',
-        null,
-        'http://localhost/orders'
-    );
-}
-
-
-
-
+]    
 
 </script>
 
-<style scoped>
+<script>
 
-</style>
+</script>

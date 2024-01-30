@@ -33,14 +33,19 @@ class TmsForwardingContract extends Model
         return $this->belongsTo(TmsVehicle::class, 'vehicle_id');
     }
 
-    public function dispatcher(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(TmsDispatcher::class);
+        return $this->belongsTo(User::class);
     }
 
     public function orderHistories(): HasMany
     {
         return $this->hasMany(TmsOrderHistory::class, 'forwarding_contract_id');
+    }
+
+    public function invoiceHistories(): HasMany
+    {
+        return $this->hasMany(TmsInvoiceHistory::class, 'forwarding_contract_id');
     }
 
     public function order(): BelongsTo

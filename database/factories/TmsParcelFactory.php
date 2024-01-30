@@ -21,14 +21,13 @@ class TmsParcelFactory extends Factory
             'tms_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'is_hazardous' => $this->faker->boolean,
             'information' => $this->faker->sentence,
-            //Reminder: p_ means that this column comes from Pamyra
-            'p_name' => $this->faker->randomElement(TmsParcel::PARCEL_TYPE),//Since package type is called p_name in Pamyra, we use it here
-            'p_height' => $this->faker->randomFloat(2, 0, 200),
-            'p_length' => $this->faker->randomFloat(2, 0, 200),
-            'p_width' => $this->faker->randomFloat(2, 0, 200),
-            'p_number' => $this->faker->unique()->numerify('Parcel ####'),
-            'p_stackable' => $this->faker->boolean,
-            'p_weight' => $this->faker->randomFloat(2, 0, 100),
+            'name' => $this->faker->randomElement(TmsParcel::PARCEL_TYPE),
+            'height' => $this->faker->randomFloat(2, 0, 200),
+            'length' => $this->faker->randomFloat(2, 0, 200),
+            'width' => $this->faker->randomFloat(2, 0, 200),
+            'number' => $this->faker->unique()->numerify('Parcel ####'),
+            'stackable' => $this->faker->boolean,
+            'weight' => $this->faker->randomFloat(2, 0, 100),
         ];
     }
 }

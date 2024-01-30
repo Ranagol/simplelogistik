@@ -160,24 +160,18 @@ class TmsOrderController extends BaseController
                 'parcels',
                 'orderAddresses',
                 'forwarder',
-                'orderHistories.user',
+                'orderHistories.user.roles:id,name',
                 'partner',
                 'contact',
-                'customer.headquarter'
+                'customer.headquarter',
+                'nativeOrder',
+                'pamyraOrder',
             ]
 
-        //this is a local scope defined in order model, it loads either native or pamyra orders
-        )
-        ->nativeOrPamyra($id)
-        ->findOrFail($id);
-
-        // dd($record);//this works
+        )->findOrFail($id);
         
-        
-        //Formats the order object according to FE requests.
-        // $record = $this->orderService->formatNativeOrPamyraOrders($record);
-
-        $record = new TmsOrderEditResource($record);//why is this not changing the data structure?
+        //Change response data structure according to FE needs.
+        $record = new TmsOrderEditResource($record);
         
         // dd($record->toArray(request()));//this is the only way how we can check the new data structure from resource
 
@@ -315,6 +309,8 @@ class TmsOrderController extends BaseController
                     'orderAddresses',
                     'forwarder',
                     'customer',
+                    'pamyraOrder',
+                    'nativeOrder',
                     'orderHistoryLatest',
                 ]
             )
