@@ -144,7 +144,7 @@ class OrderAddressService {
      * @param boolean $isHeadquarter
      * @param boolean $isBilling
      * @param integer $customerId
-     * @return TmsOrderAddress
+     * @return void
      */
     private function createAddress(
         array $customerPamyra,
@@ -152,7 +152,7 @@ class OrderAddressService {
         int $customerId,
         int $partnerId,
         string $addressType
-    ): TmsOrderAddress
+    ): void
     {
         $addressArray = [
             'customer_id' => $customerId,

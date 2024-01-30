@@ -142,7 +142,7 @@
         },
         "attributes": [
             {
-                "attribute": "notificationSender",
+                "attribute": "notificationSMSSender",
                 "price": 15
             },
             {
@@ -364,7 +364,7 @@
         },
         "attributes": [
             {
-                "attribute": "notificationSender",
+                "attribute": "notificationSMSSender",
                 "price": 15
             },
             {

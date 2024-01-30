@@ -163,6 +163,6 @@ class OrderHandler {
 
     private function handleOrderAttributes(array $pamyraOrder): void
     {
-        $this->orderAttributeService->handle($pamyraOrder, $this->order->id);
+        $this->orderAttributeService->handle($pamyraOrder, $this->order);
     }
 }

@@ -2,45 +2,41 @@
 
 namespace App\Services\PamyraServices;
 
-use App\Http\Requests\TmsCustomerRequest;
+use App\Models\TmsOrder;
 use App\Models\TmsCustomer;
+use App\Models\TmsOrderAttribute;
+use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Support\Facades\Validator;
 
 class OrderAttributeService {
 
-    /**
-     * Validation rules from TmsCustomerRequest.
-     *
-     * @var array
-     */
-    private array $validationRules;
-
-    public function __construct()
-    {
-        /**
-         * We copy here the validation rules from the TmsCustomerRequest. Because we want to use them
-         * in this class. And we can't use them directly from the TmsCustomerRequest, because it is
-         * a FormRequest. And we can't use a FormRequest in a class. So, we copy the rules here.
-         */
-        // $tmsCustomerRequest = new TmsCustomerRequest();
-        // $this->validationRules = $tmsCustomerRequest->customerRules();
-    }
-
-    public function handle(array $pamyraOrder, int $orderId): void
+    public function handle(array $pamyraOrder, TmsOrder $order): void
     {
         $orderAttributes = $pamyraOrder['attributes'];
         foreach($orderAttributes as $orderAttribute) {
-            $this->createOrderAttribute($orderAttribute, $orderId);
+            $this->connectOrderWithOrderAttribute($orderAttribute, $order);
         }
     }
 
-    private function createOrderAttribute(array $orderAttribute, int $orderId): void
+    /**
+     * Instead of classic create...() we have here connect...(). That is because here we work with
+     * many-to-many relationship. So, we don't create a new order attribute, we just connect the
+     * existing order attribute with the existing order.
+     *
+     * @param array $orderAttribute
+     * @param integer $orderId
+     * @return void
+     */
+    private function connectOrderWithOrderAttribute(array $orderAttribute, TmsOrder $order): void
     {
-        //No need for duplicate checking here, becase we already checked if the order is a duplicate.
+        //Find the order attribute by name
+        $orderAttributeId = TmsOrderAttribute::where('name_from_partner', $orderAttribute['attribute'])
+                                ->first()->id;
 
-        //Can't continue, first we must here define the tables + pivot tables.
-        $orderAttributeArray = [
+        if(!$orderAttributeId) {
+            throw new \Exception('Order attribute not found');
+        }
 
-        ];
+        $order->orderAttributes()->attach($orderAttributeId);
     }
 }
