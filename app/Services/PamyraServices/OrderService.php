@@ -45,7 +45,7 @@ class OrderService {
         int $partnerId
     ): TmsOrder
     {
-        //TODO ANDOR: talk to Christoph about this. 
+        //TODO ANDOR ask C. - FROSEN
         //STOP WITH THIS TASK, THIS CAN BE ONLY DONE WE CHRISTOPH PUSHES HIS CHANGES
         //in the moment that I am looking on the pamyra json I see there is a field with oderPdf. 
         //The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
@@ -103,27 +103,6 @@ class OrderService {
         int $partnerId
     ): TmsOrder
     {
-        //TODO ANDOR ask C., where should I write avis phones. Into order or, orderAddresses?
-        //delete all 3 avis phone columns from orders
-        //Add avis_phone column to OrderAddresses + faker. Change all related fakers, validators, etc.
-
-        //TODO ANDOR ask C., should we use our order statuses or status.status from pamyra?
-        //create order_statuses table. Check in Pamyra docs for statueses (how many, which type).Talk to C.
-        //[PROVIDED_NOT_YET_ACCEPTED, CANCELED_BY_CUSTOMER, CANCELED_BY_AGENCY] ---- these three statuses we know. Are there more??
-
-
-        //TODO ANDOR ask C., should we use our payment methods from customer model or pamyra payment methods? 
-        //See notebook written ansers.
-        /**
-         * Make a table for this. Remove payment method mutator from TmsCustomer. Use this table.
-         * The table should have something like Pamyra term - our term. For example:
-         * bill = rechung
-         * direct debit = sofort
-         * preCashTransfer = Paypal
-         * cashOnDelivery = leave our term empty here, write nothing
-         * credit card = vorkasse
-         */
-
         $orderArray = [
             'customer_id' => $customerId,
             'partner_id' => $partnerId,

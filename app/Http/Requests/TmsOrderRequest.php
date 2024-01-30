@@ -46,9 +46,6 @@ class TmsOrderRequest extends FormRequest
             'order_date' => ['required', 'date'],
             'purchase_price' => ['nullable', 'numeric'],
             'month_and_year' => ['nullable', 'string', 'max:255'],
-            'avis_customer_phone' => ['nullable', 'string', 'max:200'],
-            'avis_sender_phone' => ['nullable', 'string', 'max:200'],
-            'avis_receiver_phone' => ['nullable', 'string', 'max:200'],
             'payment_method' => ['required', 'numeric'],
             'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
 

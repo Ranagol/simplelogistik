@@ -97,6 +97,8 @@ class TmsOrderAddressFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
+
+            'avis_phone' => $this->faker->phoneNumber,
         ];
     }
 

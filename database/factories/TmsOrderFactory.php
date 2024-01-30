@@ -43,10 +43,6 @@ class TmsOrderFactory extends Factory
             'purchase_price' => $this->faker->randomFloat(2, 0, 1000),
             'month_and_year' => $this->faker->monthName() . ' - ' . $this->faker->year(),
 
-            'avis_customer_phone' => $this->faker->phoneNumber,
-            'avis_sender_phone' => $this->faker->phoneNumber,
-            'avis_receiver_phone' => $this->faker->phoneNumber,
-
             'payment_method' => 1,
             'shipping_label_pdf' => $this->faker->url,
 

@@ -64,6 +64,8 @@ class TmsOrderAddressRequest extends FormRequest
             'is_billing' => ['nullable', 'boolean'],
             'is_headquarter' => ['nullable', 'boolean'],
 
+            'avis_phone' => ['nullable', 'string', 'max:200'],
+
             //We attach this country with the appends trick in the TmsAddress
             'country' => ['nullable', 'array'],
 
