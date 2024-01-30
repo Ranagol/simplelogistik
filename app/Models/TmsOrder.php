@@ -193,7 +193,15 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsForwarder::class, 'forwarder_id');
     }
 
-    
+    public function paymentMethods(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            TmsPaymentMethod::class, 
+            'customer_payment_method', 
+            'customer_id', 
+            'payment_method_id'
+        );
+    }
 
 
     //*************SCOPES*************************************** */
@@ -260,26 +268,4 @@ class TmsOrder extends Model
             }
         );
     }
-
-    /**
-     * This mutator is used for the payment_method column in the tms_orders table. Do not mix it with
-     * the similar mutator from TmsCustomer model.
-     * If you want to change or add a new payment method, do it in the TmsCustomer model. The payment
-     * methods are defined there.
-     * 
-     * This mutator is commented out, but not deleted, because I suspect that we will need this
-     * again very soon.
-     *
-     * @return Attribute
-     */
-    // protected function paymentMethod(): Attribute
-    // {
-    //     return Attribute::make(
-    //         //gets from db, transforms it. 1 will become 'Paypal'.
-    //         get: fn (string $value) => TmsCustomer::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
-    //         //gets from request, transforms it. 'Paypal' will become 1.
-    //         set: fn (string $value) => array_flip(TmsCustomer::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
-    //     );
-    // }
-
 }

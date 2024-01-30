@@ -8,6 +8,7 @@ use App\Models\TmsVehicle;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use Illuminate\Database\Seeder;
+use App\Models\TmsPaymentMethod;
 use App\Models\TmsOrderAttribute;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -25,6 +26,8 @@ class PivotTableSeeder extends Seeder
 {
     /**
      * Run the database seeds for the pivot tables, belonging to the 'requirements' story.
+     * These functions are named with _ because that is the pivot table naming convention.
+     * Example: gear_customer is the pivot table for the TmsGear and TmsCustomer models.
      */
     public function run(): void
     {
@@ -32,6 +35,8 @@ class PivotTableSeeder extends Seeder
         $this->seed_gear_vehicle();
         $this->seed_gear_forwarder();
         $this->seed_attribute_order();
+        $this->seed_customer_payment_method();
+        $this->seed_order_payment_method();
     }
 
     /**
@@ -163,6 +168,70 @@ class PivotTableSeeder extends Seeder
             $randomOrderId = $orderIds[$randomArraykey];
             //...and we attach them to the attribute.
             $attribute->orders()->attach($randomOrderId); 
+        }
+    }
+
+    /**
+     * We have 20 orders seeded.
+     * We have 5 payment methods seeded.
+     * Every order must get one random payment method.
+     * 
+     * @return void
+     */
+    private function seed_order_payment_method():void
+    {
+        $orders = TmsOrder::all();
+        $orderIds = $orders->pluck('id')->toArray();
+        $paymentMethods = TmsPaymentMethod::all();
+        $paymentMethodIds = $paymentMethods->pluck('id')->toArray();
+
+        foreach ($orders as $order) {
+
+            //We get 1 random payment method for each order...
+            $randomArraykey = array_rand($paymentMethodIds);
+            $randomPaymentMethodId = $paymentMethodIds[$randomArraykey];
+            //...and we attach them to the order.
+            $order->paymentMethods()->attach(
+                $randomPaymentMethodId,
+                [
+                    'is_active' => true,
+                ]
+            ); 
+        }
+    }
+
+    /**
+     * We have 40 customers seeded.
+     * We have 5 payment methods seeded.
+     * Every customer must get one random payment method.
+     * 
+     * @return void
+     */
+    private function seed_customer_payment_method():void
+    {
+        $customers = TmsCustomer::all();
+        $customerIds = $customers->pluck('id')->toArray();
+        $paymentMethods = TmsPaymentMethod::all();
+        $paymentMethodIds = $paymentMethods->pluck('id')->toArray();
+
+        foreach ($customers as $customer) {
+
+            //We get 1 random payment method for each customer...
+            $randomArraykey = array_rand($paymentMethodIds);
+            $randomPaymentMethodId = $paymentMethodIds[$randomArraykey];
+            
+            /**
+             * ...and we attach them to the customer.
+             * Now, this pivot table has one additional column, called 'is_active'. Because a customer
+             * can have multiple payment methods, but only one can be active at a time. So, we need to
+             * set the 'is_active' column to true for the random payment method we just attached.
+             */
+            $customer->paymentMethods()->attach(
+                $randomPaymentMethodId,
+                [
+                    'is_active' => true,
+                ]
+            ); 
         }
     }
 }
