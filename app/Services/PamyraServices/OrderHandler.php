@@ -13,6 +13,7 @@ use App\Services\PamyraServices\ParcelService;
 use App\Services\PamyraServices\PamyraOrderService;
 use App\Services\PamyraServices\OrderAddressService;
 
+
 /**
  * When writing data from Pamyra json files to our database, we have an array on Pamyra order
  * object. We loop through this array and for each pamyra oder we call this class to handle it.
@@ -28,7 +29,7 @@ class OrderHandler {
      */
     private int $partnerId;
     private int $customerId;
-    private TmsAddress $headquarter;
+    private TmsAddress $headquarter;//this is used, don't delete it
     private TmsAddress $billingAddress;
     private TmsOrder $order;
     
@@ -38,6 +39,7 @@ class OrderHandler {
     private ParcelService $parcelService;
     private PamyraOrderService $pamyraOrderService;
     private OrderAddressService $orderAddressService;
+    private OrderAttributeService $orderAttributeService;
 
     public function __construct()
     {
@@ -49,6 +51,7 @@ class OrderHandler {
         $this->parcelService = new ParcelService();
         $this->pamyraOrderService = new PamyraOrderService();
         $this->orderAddressService = new OrderAddressService();
+        $this->orderAttributeService = new OrderAttributeService();
     }
 
     /**
@@ -65,12 +68,7 @@ class OrderHandler {
         $this->handleParcels($pamyraOrder);
         $this->handlePamyraOrder($pamyraOrder);
         $this->handleOrderAddresses($pamyraOrder);//pickup and delivery from TmsOrderAddress
-        
-        
-        //order_attributes//TODO ANDOR ask C. Do we need to unify, uniformize, normalize the order_attributes? 
-        //Currently pamyra has order attributes. We have none defined so far. 
-        //Andor, use pamyra order attributes to fill out th tms_orrder_attributes.
-        //Solve this in seeder too, so when seeding this table is seeded.
+        $this->handleOrderAttributes($pamyraOrder);
     }
     
     /**
@@ -86,8 +84,6 @@ class OrderHandler {
     private function handleCustomer(array $pamyraOrder): void
     {
         $this->customerId = $this->customerService->handle($pamyraOrder['customer']);
-        // $this->customerService->handle($pamyraOrder['sender']);
-        // $this->customerService->handle($pamyraOrder['receiver']);
     }
 
     /**
@@ -163,5 +159,10 @@ class OrderHandler {
             $this->partnerId, 
             TmsOrderAddress::ADDRESS_TYPES[4]//delivery
         );
+    }
+
+    private function handleOrderAttributes(array $pamyraOrder): void
+    {
+        $this->orderAttributeService->handle($pamyraOrder, $this->order->id);
     }
 }
