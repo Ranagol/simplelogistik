@@ -4,6 +4,7 @@ namespace App\Services\PamyraServices;
 
 use App\Models\TmsAddress;
 use App\Models\TmsOrder;
+use App\Models\TmsOrderAddress;
 use App\Models\TmsPartner;
 use App\Services\PamyraServices\CustomerService;
 use App\Services\PamyraServices\AddressService;
@@ -145,20 +146,22 @@ class OrderHandler {
      */
     private function handleOrderAddresses(array $pamyraOrder): void
     {
+        //Create a pickup address in OrderAddresses table.
         $this->orderAddressService->handle(
             $pamyraOrder['sender'],
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
-            3,//pickup
+            TmsOrderAddress::ADDRESS_TYPES[3]//pickup
         );
 
+        //Create a delivery address in OrderAddresses table.
         $this->orderAddressService->handle(
             $pamyraOrder['receiver'],
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
-            4,//delivery
+            TmsOrderAddress::ADDRESS_TYPES[4]//delivery
         );
     }
 }

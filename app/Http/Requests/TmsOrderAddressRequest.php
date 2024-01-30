@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TmsAddressRequest extends FormRequest
+class TmsOrderAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,19 +16,19 @@ class TmsAddressRequest extends FormRequest
 
     /**
      * This function is triggered, when we do in the controller the form validation, with
-     * TmsAddressRequest $request. But, this function can't be re-used on other places. So, we put
-     * our validation rules in the addressRules function. Because the rule is reusable. As a result,
+     * TmsOrderAddressRequest $request. But, this function can't be re-used on other places. So, we put
+     * our validation rules in the orderAddressRules function. Because the rule is reusable. As a result,
      * of all this...
      * 1 - this rules() function is triggered, when we do in the controller the form validation, with
-     * TmsAddressRequest $request.
-     * 2 - this addressRules() function we call in our code, when we want to reuse the address
+     * TmsOrderAddressRequest $request.
+     * 2 - this orderAddressRules() function we call in our code, when we want to reuse the address
      * validation in other controller than the TmsAddressController.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules()
     {
-        return $this->addressRules();
+        return $this->orderAddressRules();
     }
 
     /**
@@ -36,12 +36,12 @@ class TmsAddressRequest extends FormRequest
      *
      * @return void
      */
-    public function addressRules()
+    public function orderAddressRules()
     {
-
         return [
             
             'id' => ['nullable', 'integer', 'exists:tms_addresses,id'],
+            'order_id' => ['required', 'integer', 'exists:tms_orders,id'],
             'customer_id' => ['nullable', 'integer', 'exists:tms_customers,id'],
             'forwarder_id' => ['nullable', 'integer', 'exists:tms_forwarders,id'],
             'country_id' => ['nullable', 'integer', 'exists:tms_countries,id'], 

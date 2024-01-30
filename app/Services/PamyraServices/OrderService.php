@@ -93,7 +93,6 @@ class OrderService {
      */
     private function checkForDuplicate(array $pamyraOrder, int $customerId, int $billingAddressId)
     {
-
         $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['orderNumber'])->first();
 
         if($duplicateOrder) {

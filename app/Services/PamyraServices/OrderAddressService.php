@@ -4,7 +4,7 @@ namespace App\Services\PamyraServices;
 
 use App\Models\TmsOrderAddress;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\TmsAddressRequest;
+use App\Http\Requests\TmsOrderAddressRequest;
 use Illuminate\Support\Facades\Validator;
 
 class OrderAddressService {
@@ -14,7 +14,7 @@ class OrderAddressService {
     private int $countryId;
 
     /**
-     * Validation rules from TmsAddressRequest.
+     * Validation rules from TmsOrderAddressRequest.
      *
      * @var array
      */
@@ -23,48 +23,49 @@ class OrderAddressService {
     public function __construct()
     {
         /**
-         * We copy here the validation rules from the TmsAddressRequest. Because we want to use them
-         * in this class. And we can't use them directly from the TmsAddressRequest, because it is
+         * We copy here the validation rules from the TmsOrderAddressRequest. Because we want to use them
+         * in this class. And we can't use them directly from the TmsOrderAddressRequest, because it is
          * a FormRequest. And we can't use a FormRequest in a class. So, we copy the rules here.
-         * 
-         * Note: we use TmsAddressRequest for validation. Both use the same rules.
          */
-        $tmsAddressRequest = new TmsAddressRequest();
-        $this->validationRules = $tmsAddressRequest->addressRules();
+        $tmsOrderAddressRequest = new TmsOrderAddressRequest();
+        $this->validationRules = $tmsOrderAddressRequest->orderAddressRules();
     }
 
+    /**
+     * This is the main function in this class, that triggers all other functions.
+     *
+     * @param array $customerPamyra
+     * @param integer $orderId
+     * @param integer $customerId
+     * @param integer $partnerId
+     * @param string $addressType
+     * @return void
+     */
     public function handle(
-        array $customerPamyra,
+        array $customerPamyra,//either sender data or receiver data
         int $orderId,
         int $customerId,
         int $partnerId,
-        int $addressType//The address_type for pickup is 3 and for delivery is 4.
-    ): TmsOrderAddress | null
+        string $addressType//pickup or delivery
+    ): void
     {
         $this->separateStreetAndHouseNumber($customerPamyra);
         $this->setCountryId($customerPamyra);
         
-        // $duplicateAddress = $this->checkForDuplicate(
-        //     $isHeadquarter,
-        //     $isBilling,
-        //     $customerId,
-        //     $partnerId
-        // );
-
-        //If there is a duplicate in db
-        // if( $duplicateAddress !== null) {
-        //     return $duplicateAddress;
-        // } 
-
-        $address = $this->createAddress(
-            $customerPamyra, 
-            $isHeadquarter, 
-            $isBilling, 
+        $this->checkForDuplicate(
+            $orderId,
             $customerId,
-            $partnerId
+            $partnerId,
+            $addressType,
         );
 
-        return $address;
+        $this->createAddress(
+            $customerPamyra, 
+            $orderId,
+            $customerId,
+            $partnerId,
+            $addressType,
+        );
     }
 
     /**
@@ -114,26 +115,26 @@ class OrderAddressService {
      * @return void
      */
     private function checkForDuplicate(
-        bool $isHeadquarter,
-        bool $isBilling,
+        int $orderId,
         int $customerId,
-        int $partnerId
-    ): TmsOrderAddress | null
+        int $partnerId,
+        string $addressType
+    ): void
     {
         $duplicateAddress = TmsOrderAddress::where('street', $this->street)
                                 ->where('house_number', $this->houseNumber)
                                 ->where('country_id', $this->countryId)
+                                ->where('order_id', $orderId)
                                 ->where('partner_id', $partnerId)
                                 ->where('customer_id', $customerId)
-                                ->when($isHeadquarter, function ($query) {
-                                    return $query->where('is_headquarter', true);
-                                })
-                                ->when($isBilling, function ($query) {
-                                    return $query->where('is_billing', true);
-                                })
+                                ->where('address_type', $addressType)
                                 ->first();
 
-        return $duplicateAddress;
+        if($duplicateAddress) {
+            throw new \Exception('Duplicate address found in order_addresses table.');
+            dump('Duplicate address found in order_addresses table.');
+            dump($duplicateAddress);
+        }
     }
 
     /**
@@ -147,18 +148,19 @@ class OrderAddressService {
      */
     private function createAddress(
         array $customerPamyra,
-        bool $isHeadquarter,
-        bool $isBilling,
+        int $orderId,
         int $customerId,
-        int $partnerId
+        int $partnerId,
+        string $addressType
     ): TmsOrderAddress
     {
-
         $addressArray = [
             'customer_id' => $customerId,
             'country_id' => $this->countryId,
             'partner_id' => $partnerId,
+            'order_id' => $orderId,
             'company_name' => $customerPamyra['company'],
+            'address_type' => $addressType,
             'first_name' => $customerPamyra['firstName'],
             'last_name' => $customerPamyra['name'],
             'street' => $this->street,
@@ -168,17 +170,11 @@ class OrderAddressService {
             'address_additional_information' => $customerPamyra['address']['addressAdditionalInformation'],
             'phone' => $customerPamyra['phone'],
             'email' => $customerPamyra['mail'],
-            'is_pickup' => false,
-            'is_delivery' => false,
-            'is_headquarter' => $isHeadquarter,
-            'is_billing' => $isBilling,
         ];
 
         $this->validate($addressArray);
 
-        $address = TmsOrderAddress::create($addressArray);
-
-        return $address;
+        TmsOrderAddress::create($addressArray);
     }
 
     /**
