@@ -35,6 +35,7 @@
         }
     },
     "labels": {
+        "easy_bill_customer_id":"Easybill Kundennummer",
         "forgot-password": "Passwort vergessen?",
         "stay-logged-in": "Angemeldet bleiben",
         "mail": "E-Mail",
