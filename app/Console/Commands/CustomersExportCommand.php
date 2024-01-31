@@ -54,15 +54,16 @@ class CustomersExportCommand extends Command
 
         $customerObj = new TmsCustomer();
         $customers = $customerObj->join('tms_addresses','customer_id', '=', 'tms_customers.id')
-                                 ->where('tms_customers.exported_at', null)->orWhere('tms_customers.exported_at', '<', TmsCustomer::max('updated_at'))
+                                 ->orWhere('tms_customers.exported_at', null)->orWhere('tms_customers.exported_at', '<', TmsCustomer::max('updated_at'))
                                  ->orWhere('tms_addresses.exported_at', null)->orWhere('tms_addresses.exported_at', '<', TmsAddress::max('updated_at'))
-                                 ->get();
-        
-        foreach ($customers as $customer) {            
+                                 ->get(['tms_customers.*','tms_customers.exported_at AS tms_customers_exported_at','tms_customers.updated_at AS tms_customers_updated_at','tms_addresses.*']);
+
+        foreach ($customers as $customer) {        
             $customersAndAddresses = $customer->addresses()->where('is_billing',1)->first();
-            if($customer != null && $customer->updated_at == $customer->exported_at && 
+            if($customer != null              && $customer->tms_customers_exported_at == $customer->tms_customers_updated_at && 
                $customersAndAddresses != null && $customersAndAddresses->updated_at == $customersAndAddresses->exported_at) 
             {
+                $this->info('skipped: ' . $customer->id . json_encode($customer->updated_at) . ' ' . json_encode($customer->exported_at) . ' ' . json_encode($customersAndAddresses->updated_at) . ' ' . json_encode($customersAndAddresses->exported_at));
                 continue;
             }            
             
