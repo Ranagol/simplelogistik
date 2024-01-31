@@ -1,6 +1,12 @@
 <template>
     <td v-if="data.show === true" class="px-4">
-        {{ cellData }}
+        <span v-if="(typeof cellData !== 'object')">
+                <span>{{ cellData.data }}</span>
+        </span>
+        <div v-else>
+            <img v-if="cellData.type === 'image'" :src="cellData.data" alt="image" class="w-16 h-8 border-2">
+            <span v-else>{{ cellData.data }}</span>
+        </div>
     </td>
 </template>
 
@@ -11,7 +17,7 @@ const props = defineProps({
         type: Object
     },
     cellData: {
-        type: Object
+        type: String
     }
 })
 

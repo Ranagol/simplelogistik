@@ -6,6 +6,7 @@ import { Head, Link, createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+import moment from 'moment';
 
 import { createPinia } from 'pinia';
 import Layout from './Shared/Layout.vue';
@@ -97,8 +98,9 @@ createInertiaApp({
             .use(translations)
             .mixin({ 
                 methods: { 
+                    moment: moment,
                     getLanguages: getLanguages, 
-                 } 
+                },
             })
             .mount(el);
     },

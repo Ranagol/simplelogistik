@@ -1,5 +1,5 @@
 <template>
-    <h2 @click="onToggleSection(props.section.key)" class="w-full mb-4 text-xl font-bold text-gray-900 cursor-pointer dark:text-white"><span>{{ props.title }}</span> <el-icon class="transition-all duration-200" :class="{'rotate-180' : props.sectionActive}"><ArrowDown /></el-icon></h2>
+    <h2 @click="onToggleSection(props.section.key)" class="w-full mb-4 text-lg font-bold text-gray-900 cursor-pointer dark:text-white"><span>{{ props.title }}</span> <el-icon class="transition-all duration-200" :class="{'rotate-180' : props.sectionActive}"><ArrowDown /></el-icon></h2>
     <section class="py-3 mb-4" :class="{'border-b': props.sectionActive}">
         <div class="grid grid-cols-4 gap-4" :class="{'hidden': !sectionActive}">
             <div class="relative p-4 pt-8 bg-gray-200 rounded" v-for="address in (tabData.sort((a,b) => a.order > b.order))">
@@ -15,6 +15,10 @@
                     <p><span>{{ address.street }} {{ address.house_number }}</span></p>
                     <p><span>{{ address.zip_code }} {{ address.city }}</span></p>
                     <p><span>{{ address.state }} {{ address.country.country_name }}</span></p>
+                </div>
+                <div >
+                    Aboldatum und Uhrzeit: Zwischen {{ address.pickup_date_from }} - {{ address.pickup_date_to }}
+                    Zustelldatum und Uhrzeit: Zwischen {{ address.delivery_date_from }} - {{ address.delivery_date_to }}
                 </div>
             </div>
         </div>

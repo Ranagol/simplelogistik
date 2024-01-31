@@ -13,8 +13,9 @@
     import OrderManagementTab from './Tabs/OrderManagementTab.vue';
     import OrderTrackingTab from './Tabs/OrderTrackingTab.vue';
     import OrderHistoryTab from './Tabs/OrderHistoryTab.vue';
+    import CustomerNotesTab from './Tabs/CustomerNotesTab.vue';
 
-    import { Bell, FolderOpened, Histogram, List, LocationInformation, Sort } from "@element-plus/icons-vue";
+    import { Bell, FolderOpened, Histogram, List, LocationInformation, Sort, User } from "@element-plus/icons-vue";
     import { initFlowbite } from 'flowbite';
     import { onMounted } from 'vue';
 
@@ -59,6 +60,13 @@
         content: DocumentsTab,
         _data: props.record,
         icon: FolderOpened
+    },
+    {
+        title: 'labels.tabs.customer-notes',
+        target: "customer-notes",
+        content: CustomerNotesTab,
+        _data: props?.customerNotes,
+        icon: User
     },
     {
         title: 'labels.tabs.history',
