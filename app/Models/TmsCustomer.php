@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\TmsGear;
 use App\Models\TmsOrder;
 use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
-use App\Models\TmsGear;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
+use App\Models\TmsPaymentMethod;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;

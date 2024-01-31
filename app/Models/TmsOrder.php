@@ -13,6 +13,7 @@ use App\Models\TmsNativeOrder;
 use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
+use App\Models\TmsPaymentMethod;
 use App\Models\TmsOrderAttribute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -50,6 +51,8 @@ class TmsOrder extends Model
         3 => 'native_google-ads',
         4 => 'shipping_calc.'
     ];
+
+    
 
     //*************RELATIONSHIPS*************************************** */    
 
@@ -221,51 +224,5 @@ class TmsOrder extends Model
             ->orWhere('customer_reference', 'like', "%{$searchTerm}%")
             ->orWhere('status', 'like', "%{$searchTerm}%")
             ;
-    }
-
-    //*************MUTATORS AND ACCESSORS*************************************** */
-    
-    /**
-     * These are the possible order statuses.
-     * Waring: if we display the keys too (like 1 => 'Order created'), then we Laravel return an
-     * object. If we display only the values (like 'Order created'), then Laravel returns an array.
-     */
-    const STATUSES = [
-        1 => 'Order created',
-        2 => 'Waiting for forwarder',
-        3 => 'Forwarder found',
-        4 => 'Picked up',
-        5 => 'Delivered',
-        6 => 'Canceled',
-        7 => 'Invoice sent to customer',
-        8 => 'Invoice paid',
-    ];
-
-    /**
-     * This here is a Laravel accessor, for getting the status name.
-     * https://laravel.com/docs/10.x/eloquent-mutators#defining-an-accessor
-     *
-     * @return Attribute
-     */
-    protected function status(): Attribute
-    {
-        return Attribute::make(
-
-            /**
-             * Accessor.
-             * Gets 1 from db, transforms it to 'Order created'.
-             */
-            get: function (string $value) {
-                return self::STATUSES[$value] ?? 'Missing data TmsOrder.';
-            },
-
-            /**
-             * Mutator.
-             * Gets 'Order created' from the form, transforms it to 1.
-             */
-            set: function (string $value) {
-                return array_flip(self::STATUSES)[$value] ?? 'Missing data TmsOrder.';
-            }
-        );
     }
 }

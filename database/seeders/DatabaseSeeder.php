@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\TmsInvoice;
+use App\Models\TmsOrder;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -47,6 +48,7 @@ class DatabaseSeeder extends Seeder
             TmsAddressSeeder::class,
             TmsContactSeeder::class,
             TmsVehicleSeeder::class,
+            TmsOrderStatusSeeder::class,
             TmsOrderSeeder::class,
             TmsInvoiceSeeder::class,
             TmsOfferPriceSeeder::class,

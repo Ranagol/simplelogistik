@@ -107,7 +107,7 @@ class OrderService {
             'customer_id' => $customerId,
             'partner_id' => $partnerId,
             'origin' => TmsOrder::ORIGINS[1], //this is: pamyra
-            'status' => TmsOrder::STATUSES[1], //this is 'Order created. 
+            'status' => TmsOrder::STATUSES[1]['internal_name'], //this is 'Order created. 
             'provision' => 6,
             'currency' => 'EUR',
             'order_date' => $this->formatOrderDate($pamyraOrder['dateOfSale']),
