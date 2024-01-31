@@ -52,7 +52,7 @@ class TmsPaymentMethod extends Model
     {
         return $this->belongsToMany(
             TmsOrder::class, 
-            'tms_order_payment_method', 
+            'order_payment_method', 
             'payment_method_id', 
             'order_id'
         );
@@ -62,7 +62,7 @@ class TmsPaymentMethod extends Model
     {
         return $this->belongsToMany(
             TmsCustomer::class, 
-            'tms_customer_payment_method', 
+            'customer_payment_method', 
             'payment_method_id', 
             'customer_id'
         );

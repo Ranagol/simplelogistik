@@ -197,8 +197,8 @@ class TmsOrder extends Model
     {
         return $this->belongsToMany(
             TmsPaymentMethod::class, 
-            'customer_payment_method', 
-            'customer_id', 
+            'order_payment_method', 
+            'order_id', 
             'payment_method_id'
         );
     }
