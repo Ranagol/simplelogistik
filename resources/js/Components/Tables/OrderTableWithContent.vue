@@ -181,7 +181,7 @@ var _headers;
 
 const defaultHeaders = props.headers;
 
-if(storedHeaders !== 'null') {
+if(storedHeaders !== 'null' && storedHeaders !== null) {
     _headers = ref(JSON.parse(storedHeaders))
 } else {
     _headers = ref(defaultHeaders)
