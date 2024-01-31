@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TmsOrderStatus extends Model
 {
@@ -53,4 +54,9 @@ class TmsOrderStatus extends Model
             'external_name' => '',
         ],
     ];
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(TmsOrder::class, 'order_status_id');
+    }
 }

@@ -206,6 +206,11 @@ class TmsOrder extends Model
         );
     }
 
+    public function orderStatus(): BelongsTo
+    {
+        return $this->belongsTo(TmsOrderStatus::class, 'order_status_id');
+    }
+
 
     //*************SCOPES*************************************** */
 
