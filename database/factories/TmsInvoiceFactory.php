@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TmsInvoice;
+use App\Models\TmsInvoiceStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,10 @@ class TmsInvoiceFactory extends Factory
             'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'invoice_status_id' => $this->faker->numberBetween(
+                1,
+                count(TmsInvoiceStatus::INVOICE_STATUSES)
+            ),
             'invoice_number' => $this->faker->bothify('INV-####'),
             'invoice_type' => $this->faker->numberBetween(1, 2),
             'invoice_link' => $this->faker->url(),

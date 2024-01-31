@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
             TmsVehicleSeeder::class,
             TmsOrderStatusSeeder::class,
             TmsOrderSeeder::class,
+            TmsInvoiceStatusSeeder::class,
             TmsInvoiceSeeder::class,
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
