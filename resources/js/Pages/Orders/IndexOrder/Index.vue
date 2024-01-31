@@ -4,7 +4,7 @@
         @getData="getData" 
         :title="$t('labels.orders')" 
         :data="props.dataFromController.data" 
-        :headers="headers"
+        :headers="_defaultHeaders"
         :paginationData="props.dataFromController.record"
         @changeTableLayout="changeTableLayout"
     ></TableWithContent>
@@ -23,13 +23,14 @@
     const getData = () => {}
 
 
-    const headers = [
+    const _defaultHeaders = [
         {
             show: true, 
             key: "id", 
             title: "labels.id", 
             sortable: true, 
-            filterable: true, 
+            filterable: true,
+            searchable: true,
             display_order: 1
         },{
             show: true, 
@@ -37,6 +38,7 @@
             title: "labels.forwarder", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 1
         },{
             show: true, 
@@ -44,6 +46,7 @@
             title: "labels.type_of_transport", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 2
         },{
             show: true, 
@@ -51,6 +54,7 @@
             title: "labels.origin", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 3
         },{
             show: true, 
@@ -58,6 +62,7 @@
             title: "labels.status", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 4
         },{
             show: true, 
@@ -65,6 +70,7 @@
             title: "labels.customer_reference", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 5
         },{
             show: true, 
@@ -72,6 +78,7 @@
             title: "labels.provision", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 6
         },
         // {
@@ -80,6 +87,7 @@
         //     title: "labels.order_edited_events", 
         //     sortable: true, 
         //     filterable: true, 
+        //     searchable: true,
         //     display_order: 7
         // },
         {
@@ -88,6 +96,7 @@
             title: "labels.currency", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -95,6 +104,7 @@
             title: "labels.order_date", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -102,6 +112,7 @@
             title: "labels.purchase_price", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -109,6 +120,7 @@
             title: "labels.month_and_year", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -116,6 +128,7 @@
             title: "labels.created_at", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -123,6 +136,7 @@
             title: "labels.updated_at", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -130,6 +144,7 @@
             title: "labels.payment_method", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -137,6 +152,7 @@
             title: "labels.easy_bill_customer_id", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -144,6 +160,7 @@
             title: "labels.last_update", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
         },{
             show: false, 
@@ -151,8 +168,9 @@
             title: "labels.last_editor", 
             sortable: true, 
             filterable: true, 
+            searchable: true,
             display_order: 7
-        },]
+        }]
 
 
 </script>
