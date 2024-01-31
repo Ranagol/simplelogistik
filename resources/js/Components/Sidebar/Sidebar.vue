@@ -4,61 +4,46 @@
         aria-label="Sidenav" id="drawer-navigation">
         <div class="h-full px-3 py-5 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2">
-                <li>
-                    <a :href="route('dashboard')"
+                <li v-for="item, index in menuItems">
+                    <div v-if="item.submenu">
+                        <button type="button"
+                            class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                            :aria-controls="'menu-submenu-trigger-' + (index + 1)" :data-collapse-toggle="'menu-submenu-trigger-' + (index + 1)">
+                            <el-icon v-if="item.icon">
+                                <component :is='item.icon' />
+                            </el-icon>
+                            <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ $t('menu.more') }}</span>
+                            <el-icon class="submenu-icon"><ArrowDown /></el-icon>
+                        </button>
+                        <ul :id="'menu-submenu-trigger-' + (index + 1)" class="hidden py-2 space-y-2">
+                            <li v-for="sub in item.submenu">
+                                <a v-if="sub.link" :href="route(sub.link)"
+                                    class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{ $t(sub.title) }}</a>
+                                <a v-else href="#"
+                                    class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{ $t(sub.title) }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-else>
+                        <a v-if="item.route" :href="route(item.route)"
+                        class="flex items-center p-2 text-base font-medium text-gray-900 transition-all duration-200 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-primary-700 dark:hover:text-white hover:text-gray-900 group"
+                        :class="{'bg-primary-700 text-white hover:text-white hover:bg-primary-800': route().current() === item.route }">
+                            <el-icon v-if="item.icon" :color="route().current() === item.route ? 'white' : 'rgb(107 114 128 / var(--tw-text-opacity))'">
+                                <component :is="item.icon"/>
+                            </el-icon>
+                            <span class="ml-3">{{ $t(item.title) }}</span>
+                        </a>
+                        <a v-else href="#"
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
-                            <Histogram></Histogram>
-                        </el-icon>
-                        <span class="ml-3">{{ $t("menu.dashboard") }}</span>
-                    </a>
-                </li>
-                <li>
-                    <a :href="route('customers.index')"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
-                            <Avatar/>
-                        </el-icon>
-                        <span class="ml-3">{{ $t("menu.customers") }}</span>
-                    </a>
-                </li>
-                <li>
-                    <a :href="route('orders.index')"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
-                            <Folder></Folder>
-                        </el-icon>
-                        <span class="ml-3">{{ $t("menu.orders") }}</span>
-                    </a>
-                </li>
-                <li>
-                    <a :href="route('addresses.index')"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <el-icon color="rgb(107 114 128 / var(--tw-text-opacity))">
-                            <TakeawayBox />
-                        </el-icon>
-                        <span class="ml-3">{{ $t("menu.addresses") }}</span>
-                    </a>
-                </li>
-
-                <li>
-                    <button type="button"
-                        class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                        aria-controls="dropdown-authentication" data-collapse-toggle="dropdown-authentication">
-                        <el-icon>
-                            <More />
-                        </el-icon>
-                        <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ $t('menu.more') }}</span>
-                        <el-icon class="submenu-icon"><ArrowDown /></el-icon>
-                    </button>
-                    <ul id="dropdown-authentication" class="hidden py-2 space-y-2">
-                        <li>
-                            <a href="#"
-                                class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Pamyra</a>
-                        </li>
-                    </ul>
+                            <el-icon v-if="item.icon" color="rgb(107 114 128 / var(--tw-text-opacity))">
+                                <component :is="item.icon"/>
+                            </el-icon>
+                            <span class="ml-3">{{ $t(item.title) }}</span>
+                        </a>
+                    </div>
                 </li>
             </ul>
+            <!-- Secondary Menu -->
             <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
                 <li>
                     <a href="#"
@@ -101,6 +86,7 @@
                     </a>
                 </li>
             </ul>
+            <!-- Secondary Menu End -->
         </div>
         <div
             class="absolute bottom-0 left-0 z-20 justify-center hidden w-full p-4 space-x-4 bg-white lg:flex dark:bg-gray-800">
@@ -127,7 +113,6 @@
                 Settings page
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-
         </div>
     </aside>
 </template>
@@ -136,9 +121,12 @@
 import { ArrowDown, Avatar, Folder, Histogram, List, More, TakeawayBox, User } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
 import { onMounted } from 'vue';
+import menuItems from '@Config/mainMenu';
+
 onMounted(() => {
     initFlowbite();
 });
+
 </script>
 <style scoped>
     button[data-collapse-toggle="dropdown-authentication"][aria-expanded="true"] .submenu-icon{

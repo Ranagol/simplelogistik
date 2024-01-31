@@ -10,14 +10,14 @@
             </div>
         </td>
         <td class="w-4 p-3">
-                <el-icon :id="'table-column-header-' + dataIndex" 
-                    :data-accordion-target="'#table-column-body-' + dataIndex" 
-                    aria-expanded="false" 
-                    :aria-controls="'table-column-body-' + dataIndex">
-                    <ArrowDown />
-                </el-icon>
+            <el-icon :id="'table-column-header-' + dataIndex" 
+                :data-accordion-target="'#table-column-body-' + dataIndex" 
+                aria-expanded="false" 
+                :aria-controls="'table-column-body-' + dataIndex">
+                <ArrowDown />
+            </el-icon>
         </td>
-        <ConditionalBodyColumn v-for="header in headers" :key="header.key" :data="header" :cellData="data[header.key]" />
+        <ConditionalBodyColumn v-for="header in headers" :key="header.key" :data="header" :cellData="renderCellData(header, data)" />
         <td v-if="actions !== undefined && actions !== ''"
                                     class="flex items-center justify-end px-4 py-3">
             <button :id="'actions-dropdown-button-' + dataIndex"
@@ -48,7 +48,7 @@
     </tr>
     <tr  class="flex-1 hidden w-full overflow-x-auto" :id="'table-column-body-' + dataIndex"
         :aria-labelledby="'table-column-header-' + dataIndex">
-        <td class="p-4 border-b dark:border-gray-700" :colspan="headers.length + 3">
+        <td class="p-4 border-b dark:border-gray-700" :colspan="(headers?.length ?? 0) + 3">
             <div class="grid grid-cols-4 gap-4 mb-4">
                 <!-- TODO: (Andor) Require Customer Address as Address Object  -->
                 <div
@@ -102,21 +102,9 @@
                 <div
                     class="relative flex flex-col items-start justify-between p-3 pt-0">
                     <span
-                        class="mb-4 text-lg font-medium leading-none text-gray-600 dark:text-white">
+                        class="mb-2 text-lg font-medium leading-none text-gray-600 dark:text-white">
                         {{ $t('labels.package-information')}}</span>
-                    <div class="grid grid-flow-row gap-3">
-                        <div
-                            class="">
-                            <p class="text-[16px]">{{ $t('labels.package-count-total') }} <span class="bg-primary-100 text-corporate-800 text-[1rem] font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-primary-900 dark:text-corporate-300">{{ data.parcels?.length ?? 0 }}</span></p>
-                        </div>
-                        <div
-                            class="">
-                            <!-- TODO: Replace Fake avatar with real Forwarder Logo -->
-                            <p class="grid grid-flow-col text-[16px] place-items-center justify-start">{{ $t('labels.forwarder') }} 
-                                <img :src="'https://i.pravatar.cc/80?img=' + data.forwarder.id" class="object-cover w-16 h-8 ml-2" />
-                            </p>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <div class="grid grid-cols-4 gap-4 mt-4">
@@ -206,24 +194,15 @@
                     <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                         <el-icon size="18">
-                            <Edit />
-                        </el-icon>
-                    <span class="pl-2">{{ $t('labels.edit') }}</span>
-                    </button>
-                    <button type="button"
-                    class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                        <el-icon size="18">
                             <View />
-                        </el-icon> 
-                    <span class="pl-2">{{ $t('labels.details') }}</span>
+                        </el-icon>
+                    <span class="pl-2">{{ $t('labels.show') }}</span>
                     </button>
+                    
                     <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                        <el-icon size="18">
-                            <Close />
-                        </el-icon> 
                         <span v-if="data.canceled">{{ $t('labels.cancelled') }}</span>
-                        <span v-else class="pl-2">{{ $t('labels.void') }}</span>
+                        <span v-else>{{ $t('labels.void') }}</span>
                     </button>
                 </div>
                 <div class="grid grid-flow-col">
@@ -255,19 +234,19 @@
                                 <span class="p-3 font-semibold text-corporate-100">Herunterladen in:</span>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/de.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Deutsch</span></a>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/de.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">{{ $t('lang.Deutsch') }}</span></a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/en.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Englisch</span></a>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/en.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">{{ $t('lang.Englisch') }}</span></a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/bg.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Bulgarisch</span></a>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/bg.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">{{ $t('lang.Bulgarisch') }}</span></a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/pl.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Polnisch</span></a>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/pl.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">{{ $t('lang.Polnisch') }}</span></a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/ro.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">In Rumänisch</span></a>
+                                <a href="#" class="block px-4 py-2 text-corporate-200 hover:bg-primary-500 dark:hover:bg-primary-600 dark:hover:text-white"><img src="/images/flags/ro.svg" class="inline-flex w-5 h-5 object-fit"> <span class="pl-2">{{ $t('lang.Rumänisch') }}</span></a>
                             </li>
                         </ul>
                     </div>
@@ -278,15 +257,28 @@
 </template>
 
 <script setup>
-import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Box, Message } from '@element-plus/icons-vue';
+import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Message } from '@element-plus/icons-vue';
 import MultilingualDownloadModal from '@Components/Modal/MultilingualDownloadModal.vue';
-import { onMounted } from 'vue';
+import { onMounted, h } from 'vue';
 import { initFlowbite } from 'flowbite';
 import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
 
 onMounted(()=> {
     initFlowbite()
 })
+
+// Manipulatees the data to be displayed in the table
+const renderCellData = (header, data) => {
+
+    switch (header.key) {
+        case "forwarder":
+            return {'type': 'image', 'data': data.forwarder.url_logo}
+        case "id":
+            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.details.order_number}
+        default:
+            return {'type': 'text', 'data': data[header.key] };
+    }
+}
 
 const props = defineProps({
     dataIndex: {
@@ -315,7 +307,6 @@ const props = defineProps({
         type: Function
     },
 })
-
 
 </script>
 

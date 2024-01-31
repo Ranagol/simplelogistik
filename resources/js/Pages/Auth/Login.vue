@@ -95,19 +95,18 @@
                                         class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800">
                                 </div>
                                 <div class="ml-3 text-sm">
-                                    <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
+                                    <label for="remember" class="text-gray-500 dark:text-gray-300">{{ $t('labels.stay-logged-in') }}</label>
                                 </div>
                             </div>
                             <a :href="route('password.request')"
-                                class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot
-                                password?</a>
+                                class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">{{ $t('labels.forgot-password') }}</a>
                         </div>
 
                     </form>
                 </div>
             </div>
             <div class="mr-auto place-self-center lg:col-span-6">
-                <img class="hidden mx-auto lg:flex w-full" src="/images/login.svg" alt="illustration">
+                <img class="hidden w-full mx-auto lg:flex" src="/images/login.svg" alt="illustration">
             </div>
         </div>
     </section>
