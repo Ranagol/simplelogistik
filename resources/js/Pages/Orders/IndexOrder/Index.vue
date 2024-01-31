@@ -4,7 +4,7 @@
         @getData="getData" 
         :title="$t('labels.orders')" 
         :data="props.dataFromController.data" 
-        :headers="_defaultHeaders"
+        :headers="defaultHeaders"
         :paginationData="props.dataFromController.record"
         @changeTableLayout="changeTableLayout"
     ></TableWithContent>
@@ -23,7 +23,7 @@
     const getData = () => {}
 
 
-    const _defaultHeaders = [
+    const defaultHeaders = [
         {
             show: true, 
             key: "id", 

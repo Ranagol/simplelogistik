@@ -82,7 +82,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 no-selection">
                         <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700">
-                            <tr >
+                            <tr>
                                 <th scope="col" class="p-4">
                                     <div class="flex items-center">
                                         <input id="checkbox-all" type="checkbox"
@@ -93,7 +93,7 @@
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Expand/Collapse Row</span>
                                 </th>
-                                <ConditionalHeadColumn 
+                                <ConditionalHeadColumn
                                     v-for="col in _headers"
                                     :data="col"
                                     />
@@ -101,7 +101,12 @@
                             </tr>
                         </thead>
                         <tbody data-accordion="table-column">
-                            <TableRowWithContent :actions='["show", "edit", "delete"]' v-for="item, index in data.data" :data="item" :dataIndex="index" :headers="_headers"></TableRowWithContent>
+                            <TableRowWithContent 
+                            v-for="item, index in data.data" 
+                            :data="item"
+                            :dataIndex="index" 
+                            :actions='["show", "edit", "delete"]' 
+                            :headers="_headers" />
                         </tbody>
                     </table>
                 </div>
@@ -176,7 +181,7 @@ var _headers;
 
 const defaultHeaders = props.headers;
 
-if(storedHeaders !== 'null') {
+if(storedHeaders !== 'null' && storedHeaders !== null) {
     _headers = ref(JSON.parse(storedHeaders))
 } else {
     _headers = ref(defaultHeaders)

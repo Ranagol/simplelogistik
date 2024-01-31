@@ -4,7 +4,7 @@ import './bootstrap';
 
 import { Head, Link, createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createApp, h } from 'vue';
+import { createApp, h, onMounted } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import moment from 'moment';
 
@@ -88,7 +88,11 @@ createInertiaApp({
     },
 
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        createApp({ render: () => h(App, props), setup() { 
+            onMounted(() => {
+                // document.getElementById('app').dataset.page = null;
+            })
+        }})
             .use(plugin)
             .component('Link', Link)//global registration of Link
             .component('Head', Head)//global registration of Head

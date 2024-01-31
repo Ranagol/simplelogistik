@@ -1,7 +1,7 @@
 <template>
     <section class="bg-white dark:bg-gray-900">
         <div class="relative flex justify-between gap-8 px-3 py-4">
-            <div class="w-2/3">
+            <div class="w-full">
                 <!-- <h1 class="mb-4 text-lg font-bold text-black">Auftragsnummer: {{ tabData.id }}</h1> -->
                 <GeneralSection 
                     :title="$t('labels.section-general')"
@@ -39,8 +39,7 @@
                     :data="tabData?.vehicles ?? {}"
                 />
             </div>
-            <div class="relative flex flex-col w-1/5 gap-4 align-top">
-                
+            <div class="relative flex flex-col mt-14 w-[380px] gap-4 align-top">
                 <div class="grid gap-2 p-3 bg-white border rounded-md shadow-md border-slate-100">
                     <div class="mb-4">
                         <h3 class="grid justify-between grid-flow-col text-lg font-bold text-gray-900">{{ $t("labels.order") }} <span>{{ tabData.details.order_number }}</span></h3>
@@ -69,20 +68,26 @@
                     </div>
                     <div class="grid justify-between grid-flow-col">
                         <span class="text-gray-900">{{ $t('labels.selling-price') }}</span>
-                        <span>{{ tabData.details.price_gross + " " + (tabData.currency_sign ?? "€") }}</span>
+                        <span>{{ tabData.details.price_gross + " " + (tabData?.currency_sign ?? "€") }}</span>
                     </div>
                     <div class="grid justify-between grid-flow-col">
                         <span class="text-gray-900">{{ $t('labels.provision') }}</span>
-                        <span>{{ parseDate(tabData.provision) }}%</span>
+                        <span>{{ tabData.provision }} %</span>
                     </div>
                     <div class="grid justify-between grid-flow-col">
                         <span class="text-gray-900">{{ $t('labels.buying-price') }}</span>
-                        <span>{{ parseDate(tabData.purchase_price) }}</span>
+                        <span>{{ tabData.purchase_price + " " + (tabData?.currency_sign ?? "€")}}</span>
                     </div>
                     <div class="grid justify-between grid-flow-col">
                         <span class="text-gray-900">{{ $t('labels.profit') }}</span>
-                        <span>{{ parseDate(tabData.details.date_of_cancellations) }}</span>
+                        <span>
+                            {{ (tabData.details.price_gross - (tabData.details.price_gross * tabData?.provision) - tabData.purchase_price).toFixed(2) }} {{ tabData?.currency_sign ?? "€" }}</span>
                     </div>
+                    <div class="grid justify-between grid-flow-col pt-2 mt-2 border-t">
+                        <span class="text-gray-900">{{ $t('labels.payment_method') }}</span>
+                        <span>{{ tabData.payment_method }}</span>
+                    </div>
+
                 </div>
             </div>
         </div>
