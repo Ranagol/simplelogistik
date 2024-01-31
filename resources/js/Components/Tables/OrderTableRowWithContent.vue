@@ -48,7 +48,7 @@
     </tr>
     <tr  class="flex-1 hidden w-full overflow-x-auto" :id="'table-column-body-' + dataIndex"
         :aria-labelledby="'table-column-header-' + dataIndex">
-        <td class="p-4 border-b dark:border-gray-700" :colspan="headers.length + 3">
+        <td class="p-4 border-b dark:border-gray-700" :colspan="(headers?.length ?? 0) + 3">
             <div class="grid grid-cols-4 gap-4 mb-4">
                 <!-- TODO: (Andor) Require Customer Address as Address Object  -->
                 <div
@@ -267,11 +267,14 @@ onMounted(()=> {
     initFlowbite()
 })
 
+// Manipulatees the data to be displayed in the table
 const renderCellData = (header, data) => {
 
     switch (header.key) {
         case "forwarder":
             return {'type': 'image', 'data': data.forwarder.url_logo}
+        case "id":
+            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.details.order_number}
         default:
             return {'type': 'text', 'data': data[header.key] };
     }
