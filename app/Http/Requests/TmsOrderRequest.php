@@ -38,7 +38,7 @@ class TmsOrderRequest extends FormRequest
             'partner_id' => ['nullable', 'integer'],
             'type_of_transport' => ['nullable', 'string', 'max:200'],
             'origin' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'string', 'max:255'],
+            'order_status_id' => ['required', 'integer'],
             'customer_reference' => ['nullable', 'string', 'max:255'],
             'provision' => ['nullable', 'numeric', 'between:0,99.99'],
             'order_edited_events' => ['nullable', 'json'],

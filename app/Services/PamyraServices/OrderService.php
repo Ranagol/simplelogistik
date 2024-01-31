@@ -2,12 +2,13 @@
 
 namespace App\Services\PamyraServices;
 
-use App\Models\TmsOrder;
-use App\Http\Requests\TmsOrderRequest;
-use App\Models\TmsCustomer;
-use App\Models\TmsPamyraOrder;
-use Illuminate\Support\Facades\Validator;
 use DateTime;
+use App\Models\TmsOrder;
+use App\Models\TmsCustomer;
+use App\Models\TmsOrderStatus;
+use App\Models\TmsPamyraOrder;
+use App\Http\Requests\TmsOrderRequest;
+use Illuminate\Support\Facades\Validator;
 
 class OrderService {
 
@@ -107,7 +108,8 @@ class OrderService {
             'customer_id' => $customerId,
             'partner_id' => $partnerId,
             'origin' => TmsOrder::ORIGINS[1], //this is: pamyra
-            'status' => TmsOrder::STATUSES[1]['internal_name'], //this is 'Order created. 
+            //this is 'Order created. This is the first status of the order, returned with array_key_first
+            'order_status_id' => array_key_first(TmsOrderStatus::STATUSES), 
             'provision' => 6,
             'currency' => 'EUR',
             'order_date' => $this->formatOrderDate($pamyraOrder['dateOfSale']),
