@@ -18,7 +18,7 @@ const props = defineProps({
         type: Object
     },
     cellData: {
-        type: String
+        type: Object
     }
 })
 
