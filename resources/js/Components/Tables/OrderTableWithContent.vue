@@ -3,8 +3,9 @@
             <!-- Start coding here -->
             <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                 <div
-                    class="grid items-center justify-end grid-flow-col p-4 space-y-3 border-b md:flex-row md:space-y-0 md:space-x-4 dark:border-gray-700">
+                    class="grid items-center justify-between grid-flow-col p-4 space-y-3 border-b md:flex-row md:space-y-0 md:space-x-4 dark:border-gray-700">
                     <div class="flex flex-row flex-1">
+                        <!-- SEARCH -->
                         <form class="flex-1 w-full md:max-w-sm md:mr-4">
                             <label for="search-orders"
                                 class="text-sm font-medium text-gray-900 sr-only dark:text-white">{{ $t('labels.search') }}</label>
@@ -23,7 +24,8 @@
                                     class="relative top-0 bottom-0 right-0 px-4 py-2 text-sm font-medium text-white rounded-r-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ $t('labels.search') }}</button>
                             </div>
                         </form>
-
+                        <!-- SEARCH End -->
+                        <!-- Search in Fields -->
                         <div id="limitSearchFilterDropdown"
                             class="hidden w-auto p-3 bg-white rounded-lg shadow dark:bg-gray-700">
                             <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
@@ -38,9 +40,20 @@
                                 </li>
                             </ul>
                         </div>
+                        <!-- Search in Fields end -->
                         
                     </div>
-                    <div>
+                    <div class="grid grid-flow-col gap-4">
+                        <!-- CREATE ORDER BUTTON -->
+                        <button type="button"
+                            class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-white rounded-lg md:w-auto bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+
+                            <el-icon class="me-2">
+                                <Plus />
+                            </el-icon>
+                            {{ $t('labels.create-order') }}
+                        </button>
+                        <!-- SELECT Visible Table Columns -->
                         <button id="showTableColumnsButton" data-dropdown-toggle="showTableColumns"
                             class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                             type="button">
@@ -62,15 +75,9 @@
                                 </li>
                             </ul>
                         </div>
+                        
                     </div>
-                    <button type="button"
-                            class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-white rounded-lg md:w-auto bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-
-                        <el-icon class="me-2">
-                            <Plus />
-                        </el-icon>
-                        {{ $t('labels.create-order') }}
-                    </button>
+                    
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 no-selection">
