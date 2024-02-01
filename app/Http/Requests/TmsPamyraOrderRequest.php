@@ -36,12 +36,7 @@ class TmsPamyraOrderRequest extends FormRequest
             'payment_method' => ['required', 'string', 'max:255'],
             'date_of_sale' => ['required', 'date'],
             'date_of_cancellation' => ['nullable', 'date_format:Y-m-d'],
-            'pickup_date_from' => ['nullable', 'date'],
-            'pickup_date_to' => ['nullable', 'date'],
-            'pickup_comments' => ['nullable', 'string', 'max:255'],
-            'delivery_date_from' => ['nullable', 'date'],
-            'delivery_date_to' => ['nullable', 'date'],
-            'delivery_comments' => ['nullable', 'string', 'max:255'],
+            
             'description_of_transport' => ['nullable', 'string', 'max:255'],
             'particularities' => ['nullable', 'string', 'max:255'],
             'loading_meter' => ['nullable', 'numeric'],

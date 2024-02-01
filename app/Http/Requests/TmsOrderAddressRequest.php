@@ -46,7 +46,6 @@ class TmsOrderAddressRequest extends FormRequest
             'forwarder_id' => ['nullable', 'integer', 'exists:tms_forwarders,id'],
             'country_id' => ['nullable', 'integer', 'exists:tms_countries,id'], 
             'partner_id' => [ 'nullable', 'integer', 'exists:tms_partners,id'],
-
             'company_name' => ['nullable', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
@@ -58,13 +57,14 @@ class TmsOrderAddressRequest extends FormRequest
             'address_additional_information' => ['nullable', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:100'],
             'email' => ['nullable', 'string', 'max:100'],
-
             'is_pickup' => ['nullable', 'boolean'],
             'is_delivery' => ['nullable', 'boolean'],
             'is_billing' => ['nullable', 'boolean'],
             'is_headquarter' => ['nullable', 'boolean'],
-
             'avis_phone' => ['nullable', 'string', 'max:200'],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date'],
+            'comments' => ['nullable', 'string', 'max:255'],
 
             //We attach this country with the appends trick in the TmsAddress
             'country' => ['nullable', 'array'],

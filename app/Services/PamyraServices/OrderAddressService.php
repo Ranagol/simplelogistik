@@ -34,32 +34,26 @@ class OrderAddressService {
     /**
      * This is the main function in this class, that triggers all other functions.
      *
-     * @param array $pamyraOrder
+     * @param array $customer       This is either sender (for pickup) or receiver (for delivery).
+     * @param array $date           This is either pickupDate or deliveryDate in Pamyra order, and contains all pickup or delivery details
      * @param integer $orderId
      * @param integer $customerId
      * @param integer $partnerId
-     * @param string $customerType  This is either sender (for pickup) or receiver (for delivery).
-     * @param string $addressType
+     * @param string $addressType   pickup or delivery
      * @return void
      */
     public function handle(
-        array $pamyraOrder,
+        array $customer,
+        array $date,
         int $orderId,
         int $customerId,
         int $partnerId,
-        string $customerType,
         string $addressType//pickup or delivery
     ): void
     {
-        $this->separateStreetAndHouseNumber(
-            $pamyraOrder, 
-            $customerType
-        );
+        $this->separateStreetAndHouseNumber($customer);
 
-        $this->setCountryId(
-            $pamyraOrder,
-            $customerType
-        );
+        $this->setCountryId($customer);
         
         $this->checkForDuplicate(
             $orderId,
@@ -69,12 +63,12 @@ class OrderAddressService {
         );
 
         $this->createAddress(
-            $pamyraOrder, 
+            $customer,
+            $date,
             $orderId,
             $customerId,
             $partnerId,
             $addressType,
-            $customerType
         );
     }
 
@@ -84,16 +78,13 @@ class OrderAddressService {
      * This must be separated into street and house number.
      * Source: https://stackoverflow.com/questions/7488557/separate-street-name-from-street-number
      * 
-     * @param array $pamyraOrder
-     * @param string $customerType  This is either sender (for pickup) or receiver (for delivery).
+     * @param array $customer    This is either sender (for pickup) or receiver (for delivery).
+     * 
      * @return void
      */
-    private function separateStreetAndHouseNumber(
-        array $pamyraOrder, 
-        string $customerType
-    ): void
+    private function separateStreetAndHouseNumber(array $customer): void
     {
-        $streetAndNumber = $pamyraOrder[$customerType]['address']['street'];//Example:"street": "Am Hochhaus 70".
+        $streetAndNumber = $customer['address']['street'];//Example:"street": "Am Hochhaus 70".
         if (!preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match)) {//Extract street and number
             throw new \Exception('Invalid address format');//If something is wrong with the extraction, throw an exception.
         }
@@ -103,17 +94,14 @@ class OrderAddressService {
 
     /**
      * Sets the country id from the country code.
+     * 
+     * @param array $customer    This is either sender (for pickup) or receiver (for delivery).
      *
-     * @param array $pamyraOrder
-     * @param string $customerType  This is either sender (for pickup) or receiver (for delivery).
      * @return void
      */
-    private function setCountryId(
-        array $pamyraOrder,
-        string $customerType
-    ): void
+    private function setCountryId($customer): void
     {
-        $countryCode = $pamyraOrder[$customerType]['address']['countryCode'];
+        $countryCode = $customer['address']['countryCode'];
         $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
     }
 
@@ -158,21 +146,21 @@ class OrderAddressService {
     /**
      * Creates an order address record in the database.
      *
-     * @param array $pamyraOrder
+     * @param array $customer
+     * @param array $date
      * @param integer $orderId
      * @param integer $customerId
      * @param integer $partnerId
      * @param string $addressType
-     * @param string $customerType
      * @return void
      */
     private function createAddress(
-        array $pamyraOrder,
+        array $customer,
+        array $date,
         int $orderId,
         int $customerId,
         int $partnerId,
         string $addressType,
-        string $customerType
     ): void
     {
         $addressArray = [
@@ -180,24 +168,20 @@ class OrderAddressService {
             'country_id' => $this->countryId,
             'partner_id' => $partnerId,
             'order_id' => $orderId,
-            'company_name' => $pamyraOrder[$customerType]['company'],
+            'company_name' => $customer['company'],
             'address_type' => $addressType,
-            'first_name' => $pamyraOrder[$customerType]['firstName'],
-            'last_name' => $pamyraOrder[$customerType]['name'],
+            'first_name' => $customer['firstName'],
+            'last_name' => $customer['name'],
             'street' => $this->street,
             'house_number' => $this->houseNumber,
-            'zip_code' => $pamyraOrder[$customerType]['address']['postalCode'],
-            'city' => $pamyraOrder[$customerType]['address']['city'],
-            'address_additional_information' => $pamyraOrder[$customerType]['address']['addressAdditionalInformation'],
-            'phone' => $pamyraOrder[$customerType]['phone'],
-            'email' => $pamyraOrder[$customerType]['mail'],
-
-            'pickup_date_from' => $pamyraOrder['pickupDate']['dateFrom'],
-            'pickup_date_to' => $pamyraOrder['pickupDate']['dateTo'],
-            'pickup_comments' => $pamyraOrder['pickupDate']['asString'],
-            'delivery_date_from' => $pamyraOrder['deliveryDate']['dateFrom'] ,
-            'delivery_date_to' => $pamyraOrder['deliveryDate']['dateTo'],
-            'delivery_comments' => $pamyraOrder['deliveryDate']['asString'],
+            'zip_code' => $customer['address']['postalCode'],
+            'city' => $customer['address']['city'],
+            'address_additional_information' => $customer['address']['addressAdditionalInformation'],
+            'phone' => $customer['phone'],
+            'email' => $customer['mail'],
+            'date_from' => $date['dateFrom'],
+            'date_to' => $date['dateTo'],
+            'comments' => $date['asString'],
         ];
 
         $this->validate($addressArray);

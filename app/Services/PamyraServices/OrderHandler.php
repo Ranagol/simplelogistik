@@ -144,21 +144,21 @@ class OrderHandler {
     {
         //Create a pickup address in OrderAddresses table.
         $this->orderAddressService->handle(
-            $pamyraOrder,
+            $pamyraOrder['sender'],
+            $pamyraOrder['pickupDate'],
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
-            'sender',//because pickup address is sender data
             TmsOrderAddress::ADDRESS_TYPES[3]//pickup address
         );
 
         //Create a delivery address in OrderAddresses table.
         $this->orderAddressService->handle(
-            $pamyraOrder,
+            $pamyraOrder['receiver'],
+            $pamyraOrder['deliveryDate'],
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
-            'receiver',//because delivery address is receiver data
             TmsOrderAddress::ADDRESS_TYPES[4]//delivery address
         );
     }
