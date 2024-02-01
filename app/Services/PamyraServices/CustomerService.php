@@ -86,7 +86,7 @@ class CustomerService {
             'internal_id' => 'temporary testing',
         ];
 
-        $this->validate($customerArray);//for validation we must transform model to array
+        $this->validate($customerArray);
         
         $customer = TmsCustomer::create($customerArray);
 

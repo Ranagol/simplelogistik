@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderAttributeService {
 
+    /**
+     * This is the main function in this class, that triggers all other functions.
+     *
+     * @param array $pamyraOrder
+     * @param TmsOrder $order
+     * @return void
+     */
     public function handle(array $pamyraOrder, TmsOrder $order): void
     {
         $orderAttributes = $pamyraOrder['attributes'];
@@ -48,7 +55,7 @@ class OrderAttributeService {
             );
         }
 
-        //Connect the order with the order attribute in the pivot table
+        //Connect the order with the order attribute in the order_order_attribute pivot table
         $order->orderAttributes()->attach($orderAttributeId);
     }
 }

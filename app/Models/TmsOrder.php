@@ -39,7 +39,8 @@ class TmsOrder extends Model
         2 => 'LTL/FTL',
         3 => 'Direct transport',
         4 => 'Parcell up to 31.5 kg',
-        5 => 'Special order'
+        5 => 'Special order',
+        6 => 'Regel tour'
     ];
 
     /**
