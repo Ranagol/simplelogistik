@@ -9,14 +9,15 @@ class OrdersHandler
     private string $pathToPamyraData;
     private OrderHandler $orderHandler;
 
-    public function __construct()
+    public function __construct(OrderHandler $orderHandler)
     {
         /**
          * returns the path to the pamyra.json file in the root directory of your Laravel 
          * application.
          */
         $this->pathToPamyraData = base_path('pamyra_response.json');
-        $this->orderHandler = new OrderHandler();
+        $this->orderHandler = $orderHandler;
+
     }
 
     /**
@@ -49,3 +50,4 @@ class OrdersHandler
         return json_decode($json, true);
     }
 }
+

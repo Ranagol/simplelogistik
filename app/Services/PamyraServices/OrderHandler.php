@@ -41,17 +41,42 @@ class OrderHandler {
     private OrderAddressService $orderAddressService;
     private OrderAttributeService $orderAttributeService;
 
-    public function __construct()
+    /**
+     * We use a lot of helper classes here. To get them, we use dependency injection.
+     *
+     * @param CustomerService $customerService
+     * @param AddressService $addressService
+     * @param OrderService $orderService
+     * @param ParcelService $parcelService
+     * @param PamyraOrderService $pamyraOrderService
+     * @param OrderAddressService $orderAddressService
+     * @param OrderAttributeService $orderAttributeService
+     */
+    public function __construct(
+        CustomerService $customerService,
+        AddressService $addressService,
+        OrderService $orderService,
+        ParcelService $parcelService,
+        PamyraOrderService $pamyraOrderService,
+        OrderAddressService $orderAddressService,
+        OrderAttributeService $orderAttributeService
+    )
     {
-        $this->partnerId = TmsPartner::where('company_name', 'Pamyra')->where('id', 1)->first()->id;
+        //We must find our partner. In this case, this is always Pamyra.
+        $this->partnerId = TmsPartner::where('company_name', 'Pamyra')
+                ->where('id', 1)
+                ->firstOrFail()
+                ->id;
 
-        $this->customerService = new CustomerService();
-        $this->addressService = new AddressService();//only billing and headquarter from TmsAddress
-        $this->orderService = new OrderService();
-        $this->parcelService = new ParcelService();
-        $this->pamyraOrderService = new PamyraOrderService();
-        $this->orderAddressService = new OrderAddressService();
-        $this->orderAttributeService = new OrderAttributeService();
+        //Setting dependencies through dependency injection.
+        $this->customerService = $customerService;
+        $this->addressService = $addressService;
+        $this->orderService = $orderService;
+        $this->parcelService = $parcelService;
+        $this->pamyraOrderService = $pamyraOrderService;
+        $this->orderAddressService = $orderAddressService;
+        $this->orderAttributeService = $orderAttributeService;
+
     }
 
     /**
