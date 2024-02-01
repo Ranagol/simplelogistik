@@ -111,8 +111,6 @@ class OrderAddressService {
      * We must check here for 3 cases:
      * 1. isHeadquarter = true
      * 2. isBilling = true
-     * 3. isHeadquarter = true && isBilling = true (when an address is headquarter and billing at the same time) 
-     * Undocumented function
      *
      * @param array $pamyraOrder
      * @param boolean $isHeadquarter
@@ -164,10 +162,10 @@ class OrderAddressService {
     ): void
     {
         $addressArray = [
+            'order_id' => $orderId,
             'customer_id' => $customerId,
             'country_id' => $this->countryId,
             'partner_id' => $partnerId,
-            'order_id' => $orderId,
             'company_name' => $customer['company'],
             'address_type' => $addressType,
             'first_name' => $customer['firstName'],
@@ -179,6 +177,7 @@ class OrderAddressService {
             'address_additional_information' => $customer['address']['addressAdditionalInformation'],
             'phone' => $customer['phone'],
             'email' => $customer['mail'],
+            'avis_phone' => $customer['avisPhone'],
             'date_from' => $date['dateFrom'],
             'date_to' => $date['dateTo'],
             'comments' => $date['asString'],
