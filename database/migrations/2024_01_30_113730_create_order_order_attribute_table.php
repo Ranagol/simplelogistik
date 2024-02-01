@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attribute_order', function (Blueprint $table) {
+        Schema::create('order_order_attribute', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('tms_orders');
-            $table->foreignId('attribute_id')->constrained('tms_order_attributes');
+            $table->foreignId('order_attribute_id')->constrained('tms_order_attributes');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attribute_order');
+        Schema::dropIfExists('order_order_attribute');
     }
 };

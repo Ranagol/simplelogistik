@@ -210,9 +210,9 @@ class TmsOrder extends Model
     {
         return $this->belongsToMany(
             TmsOrderAttribute::class, 
-            'attribute_order', 
+            'order_order_attribute', 
             'order_id', 
-            'attribute_id'
+            'order_attribute_id'
         );
     }
 

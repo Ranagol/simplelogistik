@@ -34,7 +34,7 @@ class PivotTableSeeder extends Seeder
         $this->seed_gear_customer();
         $this->seed_gear_vehicle();
         $this->seed_gear_forwarder();
-        $this->seed_attribute_order();
+        $this->seed_order_order_attribute();
         $this->seed_customer_payment_method();
         $this->seed_order_payment_method();
     }
@@ -141,11 +141,10 @@ class PivotTableSeeder extends Seeder
      * We have 20 orders seeded.
      * We have 73 attributes seeded (because Pamyra has 73 attributes).
      * Every order must get one random attribute.
-     * Every attribute must get one random order.
      * 
      * @return void
      */
-    private function seed_attribute_order():void
+    private function seed_order_order_attribute():void
     {
         $orders = TmsOrder::all();
         $orderIds = $orders->pluck('id')->toArray();
@@ -159,15 +158,6 @@ class PivotTableSeeder extends Seeder
             $randomAttributeId = $attributeIds[$randomArraykey];
             //...and we attach them to the order.
             $order->orderAttributes()->attach($randomAttributeId); 
-        }
-
-        foreach ($attributes as $attribute) {
-
-            //We get 1 random orders for each attribute...
-            $randomArraykey = array_rand($orderIds);
-            $randomOrderId = $orderIds[$randomArraykey];
-            //...and we attach them to the attribute.
-            $attribute->orders()->attach($randomOrderId); 
         }
     }
 
