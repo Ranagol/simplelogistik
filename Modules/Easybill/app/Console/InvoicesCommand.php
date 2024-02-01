@@ -10,15 +10,12 @@ use App\Models\TmsNativeOrder;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsPamyraOrder;
 use Illuminate\Console\Command;
-use Nwidart\Modules\Facades\Module;
 use App\Models\TmsOrder;
 use App\Models\TmsApiAccess;
 use Modules\Easybill\app\Helper\EasyBillDataMapping;
 use Modules\Easybill\app\Helper\EasyBillApiConnector;
 use Modules\Easybill\app\Helper\CustomerHandling;
-use stdClass;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Modules\Easybill\app\Helper\EasyBillModuleHandling;
 
 class InvoicesCommand extends Command
 {
@@ -52,12 +49,18 @@ class InvoicesCommand extends Command
      */
     public function handle()
     {
-        $dataMapping = new EasyBillDataMapping();
-        $easyBillConnector = new EasyBillApiConnector();
-
         $mappedData = [];
         
-        $this->handleStatus();
+        $dataMapping       = new EasyBillDataMapping();
+        $easyBillConnector = new EasyBillApiConnector();
+        $easyBillStatus    = new EasybillModuleHandling();
+
+        $moduleStatus = $easyBillStatus->handleStatus($this->arguments());
+        if ($moduleStatus !== []) {
+            $this->info(json_encode($moduleStatus));
+            die();
+        }
+        
         $this->info($this->description);    
 
         $this->apiName = config('api.billingApi');                
@@ -125,7 +128,11 @@ class InvoicesCommand extends Command
         }
 
         $customerHandler = new CustomerHandling();
-        $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);       
+        $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData); 
+        if (isset($result['code']) && $result['code'] !== 200) {            
+            $this->info('Error: ' . $result['message']);
+            die();
+        }
         
         $easybillData = $result['easybillData'];
         $this->info('Customer update or create: ' .  $result['message']);      
@@ -216,39 +223,7 @@ class InvoicesCommand extends Command
         return $newArray;
     }
 
-    /**
-     * Handle the status of the module.
-     * @return $module
-     */
-    private function handleStatus()
-    {
-        $module = Module::find('Easybill');
-        $behave = $this->argument('behave') . '=' . $this->argument('detail');
-        
-        if ($behave == 'setting=disable') {            
-            $this->info('New setting ' . $this->argument('detail'));
-            $module->disable();
-            $message = ['warning' => 'Easybill module is disabled!'];
-            $this->info($message['warning']);
-            die(json_encode($message));
-        }        
-        if ($behave == 'setting=enable') {            
-            $this->info('New setting ' . $this->argument('detail'));
-            $module->enable();
-            $message = ['success' => 'Easybill module is enabled!'];
-            $this->info($message['success']);
-            die(json_encode($message));
-        }
-
-        if (Module::isDisabled('Easybill')) {
-            $message = ['error' => 'Easybill module is disabled!'];
-            $this->info($message['error']);
-            die(json_encode($message));
-        }
-
-        return $module;
-    }    
-
+    
     /**
      * Prepare order data.
      * Get (main)order data from DB and merge with native or pamyra order data.

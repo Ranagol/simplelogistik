@@ -4,17 +4,13 @@ namespace Modules\Easybill\app\Console;
 
 use App\Models\TmsAddress;
 use App\Models\TmsCustomer;
-use App\Models\TmsOrderAddress;
 use Illuminate\Console\Command;
 use Modules\Easybill\app\Helper\CustomerHandling;
-use Nwidart\Modules\Facades\Module;
 use App\Models\TmsApiAccess;
 use App\Models\TmsCountry;
-use App\Models\TmsOrder;
 use Modules\Easybill\app\Helper\EasyBillDataMapping;
 use Modules\Easybill\app\Helper\EasyBillApiConnector;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Modules\Easybill\app\Helper\EasyBillModuleHandling;
 
 class CustomersCommand extends Command
 {
@@ -49,10 +45,13 @@ class CustomersCommand extends Command
     public function handle()
     {
         $dataMapping = new EasyBillDataMapping();
-        $easyBillConnector = new EasyBillApiConnector();
+        $easyBillStatus = new EasyBillModuleHandling();
 
-        $this->info('Arguments: ' . json_encode($this->arguments()));
-        $this->handleStatus();
+        $moduleStatus = $easyBillStatus->handleStatus($this->arguments());
+        if ($moduleStatus !== []) {
+            $this->info(json_encode($moduleStatus));
+            die();
+        }
         $this->info($this->description);     
         
         $this->apiName = config('api.billingApi');                
@@ -66,14 +65,20 @@ class CustomersCommand extends Command
             $customer                     = TmsCustomer::where('id', $this->argument('detail'))->first();    
             $addresses[0]['is_billing']   = TmsAddress::where('id', $this->argument('detail'))->first();  
             $mappedData                   = $dataMapping->mapCustomer($customer, $addresses, $countries);
-        }       
+        } else {
+            $this->info('Error: No customerId given.');
+            die();
+        }      
       
         $customerHandler = new CustomerHandling();
-        $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);       
+        $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);     
+        if (isset($result['code']) && $result['code'] !== 200) {            
+            $this->info('Error: ' . $result['message']);
+            die();
+        }  
         
         $easybillData = $result['easybillData'];
         $this->info($result['message']);
-
       
         if (isset($easybillData->id)) {
             TmsCustomer::where('id', $customer->id)->update(['easy_bill_customer_id' => $easybillData->id]);
@@ -85,61 +90,4 @@ class CustomersCommand extends Command
             $this->info('Customer successfully sent to easybill.');
         }
     }
-
-    /**
-     * Make assoc array of addresses.
-     * @param array $addresses
-     * @return array
-     */
-    private function makeAssocAddresses($addresses):array
-    {
-        $assoc = [];
-        foreach ($addresses as $address) {
-            if ($address->is_billing) {
-                $assoc['is_billing'] = $address;
-            }
-            if ($address->is_delivery) {
-                $assoc['is_delivery'] = $address;
-            }
-            if ($address->is_headquarter) {
-                $assoc['is_headquarter'] = $address;
-            }
-            if ($address->is_pickup) {
-                $assoc['is_pickup'] = $address;
-            }
-        }
-        return $assoc;
-    }
-
-    /**
-     * Handle the status of the module.
-     * @return $module
-     */
-    private function handleStatus()
-    {
-        $module = Module::find('Easybill');
-        $behave = $this->argument('behave') . '=' . $this->argument('detail');
-        
-        if ($behave == 'setting=disable') {            
-            $this->info('New setting ' . $this->argument('detail'));
-            $module->disable();
-            $message = ['warning' => 'Easybill module is disabled!'];
-            $this->info($message['warning']);
-            die(json_encode($message));
-        }        
-        if ($behave == 'setting=enable') {            
-            $this->info('New setting ' . $this->argument('detail'));
-            $module->enable();
-            $message = ['success' => 'Easybill module is enabled!'];
-            $this->info($message['success']);
-            die(json_encode($message));
-        }
-
-        if (Module::isDisabled('Easybill')) {
-            $message = ['error' => 'Easybill module is disabled!'];
-            $this->info($message['error']);
-            die(json_encode($message));
-        }
-        return $module;
-    }    
 }
