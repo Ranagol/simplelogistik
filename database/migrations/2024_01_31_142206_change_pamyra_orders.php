@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tms_pamyra_orders', function (Blueprint $table) {
-            //
+            $table->dropColumn('pickup_date_from');
+            $table->dropColumn('pickup_date_to');
+            $table->dropColumn('pickup_comments');
+            $table->dropColumn('delivery_date_from');
+            $table->dropColumn('delivery_date_to');
+            $table->dropColumn('delivery_comments');
         });
     }
 
@@ -22,7 +27,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tms_pamyra_orders', function (Blueprint $table) {
-            //
+            $table->date('pickup_date_from')->nullable();
+            $table->date('pickup_date_to')->nullable();
+            $table->text('pickup_comments')->nullable();
+            $table->date('delivery_date_from')->nullable();
+            $table->date('delivery_date_to')->nullable();
+            $table->text('delivery_comments')->nullable();
         });
     }
 };

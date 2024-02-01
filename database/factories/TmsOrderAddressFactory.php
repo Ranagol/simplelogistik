@@ -97,8 +97,13 @@ class TmsOrderAddressFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
-
             'avis_phone' => $this->faker->phoneNumber,
+            'pickup_date_from' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
+            'pickup_date_to' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
+            'pickup_comments' => $this->faker->sentence,
+            'delivery_date_from' => $this->faker->dateTimeBetween('+2 weeks', '+3 weeks'),
+            'delivery_date_to' => $this->faker->dateTimeBetween('+3 weeks', '+4 weeks'),
+            'delivery_comments' => $this->faker->sentence,
         ];
     }
 

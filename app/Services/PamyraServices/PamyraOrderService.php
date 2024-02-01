@@ -69,16 +69,7 @@ class PamyraOrderService {
             'payment_method' => $pamyraOrder['paymentMethod'],
             'date_of_sale' => $this->formatPamyraDateTime($pamyraOrder['dateOfSale']),
             'date_of_cancellation' => $pamyraOrder['dateOfCancellation'],
-
-            
-            // 'pickup_date_from' => $pamyraOrder['pickupDate']['dateFrom'] . ' ' . $pamyraOrder['pickupDate']['timeFromFrom'],
-            // 'pickup_date_to' => $pamyraOrder['pickupDate']['dateTo'] . ' ' . $pamyraOrder['pickupDate']['timeFromTo'],
-            // 'pickup_comments' => $pamyraOrder['pickupDate']['asString'],
-            // 'delivery_date_from' => $pamyraOrder['deliveryDate']['dateFrom'] . ' ' . $pamyraOrder['deliveryDate']['timeFromFrom'],
-            // 'delivery_date_to' => $pamyraOrder['deliveryDate']['dateTo'] . ' ' . $pamyraOrder['deliveryDate']['timeFromTo'],
-            // 'delivery_comments' => $pamyraOrder['deliveryDate']['asString'],
-            // 'description_of_transport' => $pamyraOrder['descriptionOfTransport'],
-
+            'description_of_transport' => $pamyraOrder['descriptionOfTransport'],
             'particularities' => $pamyraOrder['particularities'],
             'loading_meter' => $pamyraOrder['loadingMeter'],
             'square_meter' => $pamyraOrder['squareMeter'],
