@@ -37,6 +37,7 @@ class OrderAttributeService {
             throw new \Exception('Order attribute not found');
         }
 
+        //Connect the order with the order attribute in the pivot table
         $order->orderAttributes()->attach($orderAttributeId);
     }
 }
