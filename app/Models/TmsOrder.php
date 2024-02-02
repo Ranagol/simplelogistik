@@ -34,7 +34,15 @@ class TmsOrder extends Model
     protected $guarded = ['id'];
     protected $table = "tms_orders";
 
-    const TYPES_OF_TRANSPORT = [
+    /**
+     * This is the format of the order numbers in the old app: 465244. We will use this number
+     * to number the orders in the new app. The first order will have the number 465245.
+     *
+     * @var integer
+     */
+    public const ORDER_NUMBER_START_VALUE = 465244;
+
+    public const TYPES_OF_TRANSPORT = [
         1 => 'General cargo',
         2 => 'LTL/FTL',
         3 => 'Direct transport',
@@ -46,7 +54,7 @@ class TmsOrder extends Model
     /**
      * This is the source, the origin of the order.
      */
-    const ORIGINS = [
+    public const ORIGINS = [
         1 => 'pamyra',
         2 => 'native_sales',
         3 => 'native_google-ads',

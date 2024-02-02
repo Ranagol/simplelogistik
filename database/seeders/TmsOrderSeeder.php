@@ -10,12 +10,7 @@ use Illuminate\Database\Seeder;
 
 class TmsOrderSeeder extends Seeder
 {
-    /**
-     * This is the format of the order numbers in the old app. In seeding this value is good enough.
-     *
-     * @var integer
-     */
-    private $orderNumberStartValue = 465244;
+    
 
     /**
      * Run the database seeds.
@@ -49,7 +44,7 @@ class TmsOrderSeeder extends Seeder
                 'origin' => $origin,
                 //Give me an address, for customer $i, where is_billing true. Give me the id of this address.
                 'billing_address_id' => TmsAddress::where('customer_id', $i)->where('is_billing', true)->first()->id,
-                'order_number' => $this->orderNumberStartValue + $i,
+                'order_number' => TmsOrder::ORDER_NUMBER_START_VALUE + $i,
             ]);
         }
     }
