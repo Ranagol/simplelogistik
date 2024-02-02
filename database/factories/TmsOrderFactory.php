@@ -48,7 +48,8 @@ class TmsOrderFactory extends Factory
             'purchase_price' => $this->faker->randomFloat(2, 0, 1000),
             'month_and_year' => $this->faker->monthName() . ' - ' . $this->faker->year(),
             'shipping_label_pdf' => $this->faker->url,
-            'order_number' => $this->faker->numerify('#######'),
+            // 'order_number' => $this->faker->numerify('#######'),
+            'order_number' => 666666,
         ];
     }
 }

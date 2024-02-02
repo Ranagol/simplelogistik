@@ -22,6 +22,8 @@ class TmsOrderSeeder extends Seeder
          * pickup_address_id and delivery_address_id. All 1. Then same for order nr 2.
          * This can work only when we have 20 customers and 20 contacts in the database.
          * Which we have.
+         * 
+         * $i = 20
          */
         for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
 

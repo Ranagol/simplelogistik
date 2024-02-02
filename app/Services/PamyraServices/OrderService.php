@@ -9,8 +9,11 @@ use App\Models\TmsOrderStatus;
 use App\Models\TmsPamyraOrder;
 use App\Http\Requests\TmsOrderRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Services\PamyraServices\OrderNumberMakerTrait;
 
 class OrderService {
+
+    use OrderNumberMakerTrait;
 
     /**
      * Validation rules.
@@ -116,6 +119,7 @@ class OrderService {
             'purchase_price' => $pamyraOrder['priceNet'],
             'payment_method' => 5, //this is invoice payment method
             'billing_address_id' => $billingAddressId,
+            'order_number' => $this->setOrderNumber(),
         ];
 
         $this->validate($orderArray);

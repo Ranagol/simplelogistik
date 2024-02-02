@@ -48,7 +48,7 @@ class TmsOrderRequest extends FormRequest
             'month_and_year' => ['nullable', 'string', 'max:255'],
             'payment_method' => ['required', 'numeric'],
             'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
-            'order_number' => ['nullable', 'string', 'max:255'],
+            'order_number' => ['required', 'integer'],
 
             // //NATIVE ORDER VALIDATION (from native_orders table)
             // 'native_order' => 'nullable|array',

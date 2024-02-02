@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tms_orders', function (Blueprint $table) {
-            $table->string('order_number')->nullable()->after('order_status_id')->comment('This is our internal order number');
+            $table->integer('order_number')
+                    ->nullable()
+                    ->after('order_status_id')
+                    ->comment('This is our internal order number');
         });
     }
 
