@@ -13,7 +13,7 @@ class GetEmonsInvoices extends Command
      * To enable this modul: sail artisan module:enable EmonsInvoice
      * To disable this modul: sail artisan module:disable EmonsInvoice
      */
-    protected $signature = 'command:name';
+    protected $signature = 'getEmonsInvoices';
 
     /**
      * The console command description.
@@ -33,7 +33,7 @@ class GetEmonsInvoices extends Command
      */
     public function handle()
     {
-        //
+        echo "Hello World";
     }
 
     /**
