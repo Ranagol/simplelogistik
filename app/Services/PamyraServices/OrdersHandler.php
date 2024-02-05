@@ -9,9 +9,18 @@ use Illuminate\Support\Facades\File;
 
 class OrdersHandler
 {
-
+    /**
+     * This is a path to the json file with Pamyra orders.
+     *
+     * @var string
+     */
     public string $pathToPamyraData = '/PamyraOrders/Inbox/pamyra.json';
     
+    /**
+     * A service that handles the order data.
+     *
+     * @var OrderHandler
+     */
     private OrderHandler $orderHandler;
 
     public function __construct(OrderHandler $orderHandler)
@@ -28,28 +37,16 @@ class OrdersHandler
     {
         echo 'Handling Pamyra data has started.' . PHP_EOL;
 
-        // $pamyraOrders = $this->readJsonFile();
+        //We read the json file and get all the data from it into $pamyraOrders.
+        $pamyraOrders = Storage::json($this->pathToPamyraData);
 
-        // foreach ($pamyraOrders as $pamyraOrder) {
-        //     $this->orderHandler->handle($pamyraOrder);
-        // }
+        foreach ($pamyraOrders as $pamyraOrder) {
+            $this->orderHandler->handle($pamyraOrder);
+        }
 
         echo 'Handling Pamyra data has ended.' . PHP_EOL;
 
         $this->archiveJsonFile();
-    }
-
-    /**
-     * We receive from pamyra a json file. Here one array contains all order objects. This function
-     * can read this json file and return all the data from it into a php array.
-     *
-     * @return array
-     */
-    private function readJsonFile(): array
-    {
-        // dump($this->pathToPamyraData);
-        $json = file_get_contents($this->pathToPamyraData);
-        return json_decode($json, true);
     }
 
     /**
@@ -79,9 +76,7 @@ class OrdersHandler
     {
         $todayDate = Carbon::now()->format('Y_m_d');
         $newFileName = $todayDate . '_pamyra_orders' . '.json';
-        $targetPath = 'PamyraOrders/Archived/' . $newFileName;
-
-        return $targetPath;
+        return 'PamyraOrders/Archived/' . $newFileName;
     }
 
 }
