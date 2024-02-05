@@ -3,8 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\TmsOrder;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use App\Models\TmsOrderStatus;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 
 /**
@@ -25,6 +26,10 @@ class TmsOrderFactory extends Factory
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'contact_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'order_status_id' => $this->faker->numberBetween(
+                1, 
+                count(TmsOrderStatus::STATUSES)
+            ),
 
             /**
              * This is a simple way to assure that about 90% of the orders will NOT belong to a 
@@ -36,20 +41,15 @@ class TmsOrderFactory extends Factory
 
             'type_of_transport' => $this->faker->randomElement(TmsOrder::TYPES_OF_TRANSPORT),
             'origin' => $this->faker->randomElement(TmsOrder::ORIGINS),
-            'status' => $this->faker->randomElement(TmsOrder::STATUSES),
+            // 'status' => $this->faker->randomElement(TmsOrder::STATUSES),
             'customer_reference' => $this->faker->numerify('#######'),
             'provision' => $this->faker->randomFloat(2, 0, 10),//provision should be less than 10%
             'order_date' => $this->faker->date(),
             'purchase_price' => $this->faker->randomFloat(2, 0, 1000),
             'month_and_year' => $this->faker->monthName() . ' - ' . $this->faker->year(),
-
-            'avis_customer_phone' => $this->faker->phoneNumber,
-            'avis_sender_phone' => $this->faker->phoneNumber,
-            'avis_receiver_phone' => $this->faker->phoneNumber,
-
-            'payment_method' => 1,
             'shipping_label_pdf' => $this->faker->url,
-
+            // 'order_number' => $this->faker->numerify('#######'),
+            'order_number' => 666666,
         ];
     }
 }

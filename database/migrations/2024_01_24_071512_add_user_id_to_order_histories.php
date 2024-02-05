@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('tms_order_histories', function (Blueprint $table) {
             $table->dropForeign(['dispatcher_id']);
-            $table->unsignedBigInteger('user_id')->nullable();//TODO ANDOR something is wrong here, this column is not behaving as a foreign key in the database, when you oper order_histories
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

@@ -10,6 +10,8 @@ use Illuminate\Database\Seeder;
 
 class TmsOrderSeeder extends Seeder
 {
+    
+
     /**
      * Run the database seeds.
      */
@@ -20,6 +22,8 @@ class TmsOrderSeeder extends Seeder
          * pickup_address_id and delivery_address_id. All 1. Then same for order nr 2.
          * This can work only when we have 20 customers and 20 contacts in the database.
          * Which we have.
+         * 
+         * $i = 20
          */
         for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
 
@@ -42,6 +46,7 @@ class TmsOrderSeeder extends Seeder
                 'origin' => $origin,
                 //Give me an address, for customer $i, where is_billing true. Give me the id of this address.
                 'billing_address_id' => TmsAddress::where('customer_id', $i)->where('is_billing', true)->first()->id,
+                'order_number' => TmsOrder::ORDER_NUMBER_START_VALUE + $i,
             ]);
         }
     }

@@ -83,14 +83,10 @@ class TmsOrderAddressFactory extends Factory
              * partner. When it belongs to a partner, then it is partner_id = 1. 
              */
             'partner_id' => Arr::random([
-                //TODO LOSI 2
                 null, null, null, null, null, null, null, null, null, null, null, null, null, null, 1,
             ]),
-
             'company_name' => $this->faker->company,
-
             'address_type' => Arr::random(['Pickup address', 'Delivery address']),//works with mutator/**************************** */
-
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'street' => $this->faker->streetName,
@@ -101,17 +97,10 @@ class TmsOrderAddressFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'address_additional_information' => $this->faker->sentence,
+            'avis_phone' => $this->faker->phoneNumber,
+            'date_from' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
+            'date_to' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
+            'comments' => $this->faker->sentence,
         ];
-    }
-
-    public function foo(): static
-    {
-        return $this->state(
-            [
-                'order_id' => 1,
-                'customer_id' => 1,
-                'forwarder_id' => 1,
-            ]
-        );
     }
 }

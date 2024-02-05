@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\TmsInvoice;
+use App\Models\TmsOrder;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -38,23 +39,27 @@ class DatabaseSeeder extends Seeder
             TmsRolesAndPermissionsSeeder::class,
             UserSeeder::class,
             TmsCountrySeeder::class,
+            
             TmsForwarderSeeder::class,
             TmsCustomerSeeder::class,
             TmsPartnerSeeder::class,
+            TmsPaymentMethodSeeder::class,
             TmsGearSeeder::class,
             TmsAddressSeeder::class,
             TmsContactSeeder::class,
             TmsVehicleSeeder::class,
+            TmsOrderStatusSeeder::class,
             TmsOrderSeeder::class,
+            TmsInvoiceStatusSeeder::class,
             TmsInvoiceSeeder::class,
             TmsOfferPriceSeeder::class,
             TmsForwardingContractSeeder::class,
             TmsOrderHistorySeeder::class,
             TmsTransportLicenseSeeder::class,
-            //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
-            PivotTableSeeder::class,
             TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
+            //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
+            PivotTableSeeder::class,
             TmsProvisionSeeder::class,
             TmsPamyraOrderSeeder::class,
             TmsNativeOrderSeeder::class,

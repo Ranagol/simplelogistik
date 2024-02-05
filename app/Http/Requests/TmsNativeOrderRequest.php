@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PamyraOrderRequest extends FormRequest
+class TmsNativeOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,12 +21,13 @@ class PamyraOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        return $this->pamyraOrderRules();
+        return $this->nativeOrderRules();
     }
 
-    public function pamyraOrderRules()
+    public function nativeOrderRules()
     {
         return [
+
             /**
              * Do not use | pipes, use array in validation rules!
              */
@@ -36,26 +37,16 @@ class PamyraOrderRequest extends FormRequest
             'payment_method' => ['required', 'string', 'max:255'],
             'date_of_sale' => ['required', 'date'],
             'date_of_cancellation' => ['nullable', 'date_format:Y-m-d'],
-            'pickup_date_from' => ['nullable', 'date'],
-            'pickup_date_to' => ['nullable', 'date'],
-            'pickup_comments' => ['nullable', 'string', 'max:255'],
-            'delivery_date_from' => ['nullable', 'date'],
-            'delivery_date_to' => ['nullable', 'date'],
-            'delivery_comments' => ['nullable', 'string', 'max:255'],
             'description_of_transport' => ['nullable', 'string', 'max:255'],
             'particularities' => ['nullable', 'string', 'max:255'],
-
             'loading_meter' => ['nullable', 'string', 'max:255'],
             'square_meter' => ['nullable', 'string', 'max:255'],
             'total_weight' => ['nullable', 'string', 'max:255'],
             'qubic_meter' => ['nullable', 'string', 'max:255'],
-
             'calculated_transport_price' => ['nullable', 'string', 'max:255'],
             'transport_price_gross' => ['nullable', 'string', 'max:255'],
-
             'transport_price_vat' => ['nullable', 'string', 'max:255'],
             'transport_price_net' => ['nullable', 'string', 'max:255'],
-
             'customized_price_change' => ['nullable', 'string', 'max:255'],
             'customized_price_mode' => ['nullable', 'string', 'max:255'],
             'discount' => ['nullable', 'string', 'max:255'],

@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\TmsGear;
 use App\Models\TmsOrder;
 use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsVehicle;
-use App\Models\TmsGear;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
+use App\Models\TmsPaymentMethod;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -159,6 +160,16 @@ class TmsCustomer extends Model
         return $this->hasMany(TmsOrderAddress::class, 'order_id');
     }
 
+    public function paymentMethods(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            TmsPaymentMethod::class, 
+            'customer_payment_method', 
+            'customer_id', 
+            'payment_method_id'
+        );
+    }
+
     //*************SCOPES*************************************** */
 
     /**
@@ -246,29 +257,4 @@ class TmsCustomer extends Model
             set: fn (string $value) => array_flip(self::INVOICE_SHIPPING_METHODS)[$value] ?? 'Missing data xxx.',
         );
     }
-
-    /**
-     * This constant can be used by other models too. TmsOrders uses it for example. However, it is
-     * important to have one one single source of truth/info. And that is here. If you want to add
-     * a new payment method, do it here.
-     */
-    const PAYMENT_METHODS = [
-        1 => 'PayPal',
-        2 => 'Sofort',
-        3 => 'Amazon',
-        4 => 'Vorkasse',
-        5 => 'Invoice'
-    ];
-
-    protected function paymentMethod(): Attribute
-    {
-        return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Paypal'.
-            get: fn (string $value) => self::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Paypal' will become 1.
-            set: fn (string $value) => array_flip(self::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
-        );
-    }
-    
-
 }
