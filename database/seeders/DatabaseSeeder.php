@@ -39,7 +39,6 @@ class DatabaseSeeder extends Seeder
             TmsRolesAndPermissionsSeeder::class,
             UserSeeder::class,
             TmsCountrySeeder::class,
-            
             TmsForwarderSeeder::class,
             TmsCustomerSeeder::class,
             TmsPartnerSeeder::class,
@@ -65,6 +64,7 @@ class DatabaseSeeder extends Seeder
             TmsNativeOrderSeeder::class,
             TmsOrderAddressSeeder::class,
             TmsInvoiceHistorySeeder::class,
+            TmsEmonsInvoiceSeeder::class,
         ]);
     }
 }
