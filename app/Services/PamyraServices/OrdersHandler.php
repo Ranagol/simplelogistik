@@ -2,22 +2,21 @@
 
 namespace App\Services\PamyraServices;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use App\Services\PamyraServices\OrderHandler;
+use Illuminate\Support\Facades\File;
 
 class OrdersHandler
 {
-    private string $pathToPamyraData;
+
+    public string $pathToPamyraData = '/PamyraOrders/Inbox/pamyra.json';
+    
     private OrderHandler $orderHandler;
 
     public function __construct(OrderHandler $orderHandler)
     {
-        /**
-         * returns the path to the pamyra.json file in the root directory of your Laravel 
-         * application.
-         */
-        $this->pathToPamyraData = base_path('pamyra_response.json');
         $this->orderHandler = $orderHandler;
-
     }
 
     /**
@@ -29,13 +28,15 @@ class OrdersHandler
     {
         echo 'Handling Pamyra data has started.' . PHP_EOL;
 
-        $pamyraOrders = $this->readJsonFile();
+        // $pamyraOrders = $this->readJsonFile();
 
-        foreach ($pamyraOrders as $pamyraOrder) {
-            $this->orderHandler->handle($pamyraOrder);
-        }
+        // foreach ($pamyraOrders as $pamyraOrder) {
+        //     $this->orderHandler->handle($pamyraOrder);
+        // }
 
         echo 'Handling Pamyra data has ended.' . PHP_EOL;
+
+        $this->archiveJsonFile();
     }
 
     /**
@@ -46,8 +47,44 @@ class OrdersHandler
      */
     private function readJsonFile(): array
     {
+        // dump($this->pathToPamyraData);
         $json = file_get_contents($this->pathToPamyraData);
         return json_decode($json, true);
     }
+
+    /**
+     * After we have handled all the orders, we rename and archive the json file.
+     *
+     * @return void
+     */
+    private function archiveJsonFile(): void
+    {
+        $targetPath = $this->createTargetPath();
+
+        //Here we just check if the source file exists at '/PamyraOrders/Inbox/pamyra.json'
+        if (Storage::disk('local')->exists($this->pathToPamyraData)) {
+            Storage::move($this->pathToPamyraData, $targetPath);
+        } else {
+            throw new \Exception('The source pamyra.json file could not be moved to the archive folder.');
+        }
+    }
+
+    /**
+     * We create a new file name with a new target path for the archived file. It will be named like this: 
+     * '2021_07_01_pamyra_orders.json'. 
+     *
+     * @return string
+     */
+    private function createTargetPath(): string
+    {
+        $todayDate = Carbon::now()->format('Y_m_d');
+        $newFileName = $todayDate . '_pamyra_orders' . '.json';
+        $targetPath = 'PamyraOrders/Archived/' . $newFileName;
+
+        return $targetPath;
+    }
+
 }
+
+
 
