@@ -12,7 +12,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->commands([
+            \Modules\EmonsInvoice\app\Console\GetEmonsInvoices::class,
+        ]);
     }
 
     /**
