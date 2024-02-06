@@ -13,11 +13,14 @@ use Illuminate\Support\Facades\Session;
 
 class TmsCustomerController extends BaseController
 {
+    private string $index = 'Customers/Index';
+    private string $show = 'Customers/Show';
+    private string $create = 'Customers/Create';
+    private string $edit = 'Customers/Edit';
+
     public function __construct()
     {
         $this->model = new TmsCustomer();
-        $this->vueIndexPath = 'Customers/IndexCustomer/Index';
-        $this->vueCreateEditPath = 'Customers/CreateEditCustomer/CreateEditBase';
     }
 
     /**
@@ -48,7 +51,7 @@ class TmsCustomerController extends BaseController
         $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
 
         return Inertia::render(
-            $this->vueIndexPath, 
+            $this->index, 
             [
                 'dataFromController' => $records,
                 'searchTermProp' => $searchTerm,
@@ -86,44 +89,10 @@ class TmsCustomerController extends BaseController
         $forwarders->push($emptyForwarder);
 
         return Inertia::render(
-            $this->vueCreateEditPath, 
+            $this->create, 
             [
                 'record' => $newCustomer,
-                // 'record' => TmsCustomer::select(//needed for edit validation testing
-                //     // 'id',
-                //     'forwarder_id',
-                //     'company_name',
-                //     'internal_id',
-                //     'first_name',
-                //     'last_name',
-                //     'email',
-                //     'phone',
-                //     'tax_number',
-                //     'rating',
-                //     'comments',
-                //     'payment_time',
-                //     'auto_book_as_private',
-                //     'dangerous_goods',
-                //     'bussiness_customer',
-                //     'debt_collection',
-                //     'direct_debit',
-                //     'manual_collective_invoicing',
-                //     'private_customer',
-                //     'invoice_customer',
-                //     'poor_payment_morale',
-                //     'can_login',
-                //     'customer_type',
-                //     'invoice_dispatch',
-                //     'invoice_shipping_method',
-                //     'payment_method',
-                //     'payment_method_options_to_offer',
-                //     'email_for_invoice',
-                //     'email_for_label',
-                //     'email_for_pod',
-                //     'customer_reference',
-                // )->find(2),
 
-                'mode' => 'create',
                 //These are the possibly selectable options for the el-select in customer create or edit form.
                 'selectOptions' => [
                     'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
@@ -200,10 +169,9 @@ class TmsCustomerController extends BaseController
         Session::forget('customerCreate');
 
         return Inertia::render(
-            $this->vueCreateEditPath, 
+            $this->edit, 
             [
                 'record' => $record,
-                'mode' => 'edit',
 
                 /**
                  * This is only needed, when a new customer was created, and then the user is redirected

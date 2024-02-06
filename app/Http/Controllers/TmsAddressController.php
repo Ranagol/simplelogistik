@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Session;
 
 class TmsAddressController extends BaseController
 {
+    private string $index = 'Addresses/Index';
+    private string $show = 'Addresses/Show';
+    private string $create = 'Addresses/Create';
+    private string $edit = 'Addresses/Edit';
+
     public function __construct()
     {
         $this->model = new TmsAddress();
