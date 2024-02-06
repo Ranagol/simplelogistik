@@ -28,6 +28,13 @@ class HandlePamyraOrders extends Command
      */
     public function handle(OrdersHandler $ordersHandler): void
     {
-        $ordersHandler->handle();
+        // $ordersHandler->handle();
+
+        try {
+            $contents = Storage::disk('sftp')->allFiles();
+            dd($contents);
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage() . PHP_EOL;
+        }
     }
 }

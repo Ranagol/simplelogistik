@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.8",
         "league/flysystem": "^3.24",
         "league/flysystem-ftp": "^3.24",
+        "league/flysystem-sftp-v3": "^3.0",
         "nwidart/laravel-modules": "^10.0",
         "spatie/laravel-permission": "^6.3",
         "tightenco/ziggy": "^1.0"
