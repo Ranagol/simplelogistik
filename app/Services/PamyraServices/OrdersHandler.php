@@ -17,7 +17,7 @@ class OrdersHandler
     public string $pathToPamyraData = '/PamyraOrders/Inbox/pamyra.json';
     
     /**
-     * A service that handles the order data.
+     * A service that handles the order data. 
      *
      * @var OrderHandler
      */
@@ -62,7 +62,7 @@ class OrdersHandler
         if (Storage::disk('local')->exists($this->pathToPamyraData)) {
             Storage::move($this->pathToPamyraData, $targetPath);
         } else {
-            throw new \Exception('The source pamyra.json file could not be moved to the archive folder.');
+            throw new \Exception('The source pamyra.json file could not be found.');
         }
     }
 
@@ -78,8 +78,4 @@ class OrdersHandler
         $newFileName = $todayDate . '_pamyra_orders' . '.json';
         return 'PamyraOrders/Archived/' . $newFileName;
     }
-
 }
-
-
-
