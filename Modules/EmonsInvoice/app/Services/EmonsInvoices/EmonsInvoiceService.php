@@ -77,38 +77,39 @@ class EmonsInvoiceService
         $invoices = [];
 
         //We read the csv file line by line, and transform each line into an array.
-        while (($rowInCsvFile = fgetcsv($file)) !== false) {
+        while (($rowInCsvFile = fgetcsv($file, null, '|')) !== false) {
 
             /**
              * This is a first row in the csv file. Looks like this:
              * b"0201002145|2023-01-16|437561|AUTO-PALAK - Pawel Palak|DE|97950|Großrinderfeld [Gerchsheim]|HGS Drebes|DE|01259|Dresden|26.78"
              * Now, this is a string, separated by |. We want to transform this string into an array.
              */
-            // dd($rowInCsvFile[0]);
+            // dd($rowInCsvFile);
 
             /**
              * Here we transformed one csv line into an array. This array has numeric keys, that
              * must be replaced with the keys from the $this->keys array.
              */
-            $array = explode("|", $rowInCsvFile[0]);
+            // $array = explode("|", $rowInCsvFile);
             // dd($array);
 
-            $formattedInvoice = [];
+            // $formattedInvoice = [];
 
             /**
              * Here we transform the numeric keys into the keys from the $this->keys array.
              */
-            foreach ($array as $key => $value) {
-                $newKey = $this->keys[$key];
-                $formattedInvoice[$newKey] = $value;
-            }
+            // foreach ($array as $key => $value) {
+            //     $newKey = $this->keys[$key];
+            //     $formattedInvoice[$newKey] = $value;
+            // }
 
             /**
              * The $formattedInvoice now has the correct keys and correct values.
              */
             // dd($formattedInvoice);//this is OK.
 
-            $invoices[] = $formattedInvoice;//1-THIS IS THE PROBLEM: this creates 5 invoices, all the first invoice from csv
+            // $invoices[] = $formattedInvoice;//1-THIS IS THE PROBLEM: this creates 5 invoices, all the first invoice from csv
+            $invoices[] = $rowInCsvFile;
             // dd($invoices);
         }
 
