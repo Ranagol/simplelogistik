@@ -52,7 +52,7 @@ class EmonsInvoiceService
     {
         // echo "EmonsInvoiceService triggered" . PHP_EOL;
         // $invoices = $this->getFileFromEmons();
-        $this->transformCsvToArray();
+        $invoices = $this->transformCsvToArray();
         // $this->checkForDuplicates($invoices);
         // $this->validateEmonsInvoices($invoices);
         // DB::table('tms_emons_invoices')->insert($invoices);
@@ -70,52 +70,24 @@ class EmonsInvoiceService
 
     }
 
-    private function transformCsvToArray()
+    private function transformCsvToArray(): array
     {
         $path = storage_path('/app/EmonsInvoice/Inbox/emonsInvoices.CSV');
         $file = fopen($path, 'r');
         $invoices = [];
 
-        //We read the csv file line by line, and transform each line into an array.
+        /**
+         * We read the csv file row/line by row/line, and transform each row/line into an array.
+         * Every row/line is one invoice. Insid the row/line, the columns are separated by a pipe '|'.
+         * So we must use the pipe as the delimiter argument for the fgetcsv function.
+         */
         while (($rowInCsvFile = fgetcsv($file, null, '|')) !== false) {
-
-            /**
-             * This is a first row in the csv file. Looks like this:
-             * b"0201002145|2023-01-16|437561|AUTO-PALAK - Pawel Palak|DE|97950|Großrinderfeld [Gerchsheim]|HGS Drebes|DE|01259|Dresden|26.78"
-             * Now, this is a string, separated by |. We want to transform this string into an array.
-             */
-            // dd($rowInCsvFile);
-
-            /**
-             * Here we transformed one csv line into an array. This array has numeric keys, that
-             * must be replaced with the keys from the $this->keys array.
-             */
-            // $array = explode("|", $rowInCsvFile);
-            // dd($array);
-
-            // $formattedInvoice = [];
-
-            /**
-             * Here we transform the numeric keys into the keys from the $this->keys array.
-             */
-            // foreach ($array as $key => $value) {
-            //     $newKey = $this->keys[$key];
-            //     $formattedInvoice[$newKey] = $value;
-            // }
-
-            /**
-             * The $formattedInvoice now has the correct keys and correct values.
-             */
-            // dd($formattedInvoice);//this is OK.
-
-            // $invoices[] = $formattedInvoice;//1-THIS IS THE PROBLEM: this creates 5 invoices, all the first invoice from csv
             $invoices[] = $rowInCsvFile;
-            // dd($invoices);
         }
 
         fclose($file);
 
-        dd($invoices);
+        return $invoices;
     }
 
 
