@@ -31,9 +31,22 @@ return [
     'disks' => [
 
         'local' => [
+            
             'driver' => 'local',
-            'root' => storage_path('app/EmonsInvoice/Inbox'),
-            'throw' => false,
+
+            /**
+             * storage_path() returns the absolute path to the storage directory in your Laravel 
+             * project. Example:
+             * dd(storage_path('app'));//"/var/www/html/storage/app"
+             */
+            'root' => storage_path('app'),
+
+            /**
+             * If 'throw' => false, it means that the application should fail silently (i.e., not 
+             * throw an exception) when a filesystem operation fails. If 'throw' => true, it means 
+             * that the application should throw an exception when a filesystem operation fails.
+             */
+            'throw' => true,
         ],
 
         'public' => [
