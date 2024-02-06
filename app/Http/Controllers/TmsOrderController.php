@@ -163,9 +163,9 @@ class TmsOrderController extends Controller
                     'countries' => TmsCountry::select('id', 'country_name')->get(),
                     'typesOfTransport' => TmsOrder::TYPES_OF_TRANSPORT,
                     'origins' => TmsOrder::ORIGINS,//Example: Pamyra, sales...
-                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
                     'parcelTypes' => TmsParcel::PARCEL_TYPE,
-                    'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
+                    // 'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
                 ]
             ]
         );
