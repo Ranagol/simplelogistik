@@ -127,6 +127,7 @@ class InvoicesCommand extends Command
             die();
         }
 
+        // create or update customer in easybill
         $customerHandler = new CustomerHandling();
         $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData); 
         if (isset($result['code']) && $result['code'] !== 200) {            
@@ -135,8 +136,7 @@ class InvoicesCommand extends Command
         }
         
         $easybillData = $result['easybillData'];
-        $this->info('Customer update or create: ' .  $result['message']);      
-      
+        $this->info('Customer update or create: ' .  $result['message']);          
         if (isset($easybillData->id)) {
             TmsCustomer::where('id', $customer->id)->update(['easy_bill_customer_id' => $easybillData->id]);
         }
