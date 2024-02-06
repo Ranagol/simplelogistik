@@ -45,9 +45,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('addresses', TmsAddressController::class);
     Route::resource('forwarders', TmsForwarderController::class);
     Route::middleware([])->group(function(){
-        Route::get("system/translations", [SystemSettingsController::class, 'listLanguages']);
-        Route::get("system/translations/{language}", [SystemSettingsController::class, 'listTranslations']);
-        Route::post("system/translations", [SystemSettingsController::class, "storeTranslations"]);
+        Route::get('/system/languages', [SystemSettingsController::class,'listLanguages'])->name('languages.index'); // List all Languages
+        Route::get('/system/language/{id}', [SystemSettingsController::class,'showLanguages'])->name('languages.show'); // Show Details about Language
+        Route::get('/system/language/{id}/edit', [SystemSettingsController::class,'editLanguage'])->name('languages.edit'); // Edit Language
+        Route::get('/system/language/{id}/translations', [SystemSettingsController::class,'listLanguages'])->name('translation.index'); // List all Translations for a Language
+        Route::get('/system/language/{id}/translations/{tid}', [SystemSettingsController::class,'listLanguages'])->name('translation.show'); // Show Details about Translation
+        Route::get('/system/language/{id}/translations/{tid}/edit', [SystemSettingsController::class,'listLanguages'])->name('translation.edit'); // Edit Translation 
+        Route::post('/system/languages/create', [SystemSettingsController::class,'storeLanguages'])->name('languages.store'); // create new Language
     });
 
 
@@ -63,7 +67,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.create');
 });
 
 require __DIR__.'/auth.php';

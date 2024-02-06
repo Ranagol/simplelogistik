@@ -1,89 +1,53 @@
-<template>
+    <template>
     <h2 @click="onToggleSection(props.section.key)" class="w-full mb-4 text-lg font-semibold text-gray-900 cursor-pointer dark:text-white"><span>{{ props.title }}</span> <el-icon class="transition-all duration-200" :class="{'rotate-180' : props.sectionActive}"><ArrowDown /></el-icon></h2>
     <section class="py-3 mb-4" :class="{'border-b': props.sectionActive, 'py-0 mb-0': !sectionActive}">
-        <div class="grid grid-cols-2 gap-4" :class="{'hidden': !sectionActive}">
+        <div class="grid gap-4" :class="{'hidden': !sectionActive}">
             <!-- <pre>{{ tabData }}</pre> -->
             <!-- Type of Transport -->
             <!-- TODO: (Andor) make types of transport to be fed from backend database -->
-            
-            <div class="relative">
-                <select :value="null" id="type_of_transport" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.type-of-transport')">
-                    <option v-for="tot, index in getTypesOfTransport()" :value="tot.key" :selected="tabData.type_of_transport === tot.key">{{ $t(tot.name) }}</option>
-                </select>
-                <label for="type_of_transport" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.type-of-transport')}}</label>
+            <div class="grid grid-flow-col grid-cols-2 gap-4">
+                <CustomDropdown 
+                    :floating="true" 
+                    labelText="labels.type_of_transport"
+                    id="type_of_transport"
+                    :value="generalData.type_of_transport" 
+                    :updateValue="(value) => {generalData.type_of_transport = value}" 
+                    :options="getTypesOfTransport()" 
+                    />
+                    
+                <CustomDropdown 
+                    :floating="true" 
+                    labelText="labels.status"
+                    id="order_status"
+                    :value="generalData.status" 
+                    :updateValue="(value) => {generalData.status = value}" 
+                    :options="getStatuses()" 
+                    />
             </div>
-            <div class="relative">
-                <select :value="data?.status" id="input_field_status" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.status')">
-                    <option v-for="status, index in getStatuses()" :value="status.key">{{ $t(status.name) }}</option>
-                </select>
-                <label for="input_field_status" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.status')}}</label>
+            <div class="grid grid-flow-col gap-4">
+                <IconTooltipInput :value="data?.partner?.name ?? 'Kein Partner'" placeholder="labels.partner" :keyup="(a) => console.log(a.target.value)" tooltipText="Geben Sie den Partner an" />
+                <IconTooltipInput :value="tabData?.origin" placeholder="labels.origin" :keyup="(a) => console.log(a.target.value)" tooltipText="Geben Sie den Partner an" />
+                <IconTooltipInput :value="tabData?.customer_reference" placeholder="labels.customer_reference" :keyup="(a) => console.log(a.target.value)"/>
+                <IconTooltipInput :value="tabData?.details?.distance_km" placeholder="labels.distance_km" :keyup="(a) => console.log(a.target.value)"/>
             </div>
-            <div class="relative">
-                <input :value="data?.partner?.name" type="text" id="input_field_partner" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.partner')"/>
-                <label for="input_field_partner" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.partner')}}</label>
+            <div class="grid grid-flow-col gap-4">
+                <IconTooltipInput :value="tabData?.details?.duration_minutes" placeholder="labels.distance_duration" :keyup="(a) => console.log(a.target.value)" tooltipText="Geben Sie den Partner an" />
+                <IconTooltipInput :value="tabData?.details?.calculation_model_name" placeholder="labels.calculation_model_name" :keyup="(a) => console.log(a.target.value)"/>
             </div>
-            <div class="relative">
-                <input :value="data?.origin" type="text" id="input_field_origin" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.origin-of-order')"/>
-                <label for="input_field_origin" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.origin-of-order')}}</label>
+            <div class="grid grid-flow-col gap-4">
+                <IconTooltipInput :value="tabData?.details?.particularities" placeholder="labels.particularities" :keyup="(a) => console.log(a.target.value)" tooltipText="Geben Sie den Partner an" />
+                <IconTooltipInput :value="tabData?.details?.description_of_transport" placeholder="labels.description_of_transport" :keyup="(a) => console.log(a.target.value)"/>
             </div>
-            
-            <div class="relative">
-                <input :value="data?.customer_reference" type="text" id="input_field_customer_reference" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.customer_reference')"/>
-                <label for="input_field_customer_reference" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.customer_reference')}}</label>
-            </div> 
-
-            <!-- <div class="relative">
-                <input :value="data?.payment_method" type="text" id="input_field_payment_method" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.payment_method')"/>
-                <label for="input_field_payment_method" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.payment_method')}}</label>
-            </div> -->
-            
-<!--                        
-            <div class="relative">
-                <input :value="data?.order_date" type="date" id="input_field_order_date" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.order_date')"/>
-                <label for="input_field_order_date" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.order_date')}}</label>
-            </div>
-             -->
-            <!-- <div class="relative">
-                <input :value="data?.date_of_sale" type="date" id="input_field_date_of_sale" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.date_of_sale')"/>
-                <label for="input_field_date_of_sale" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.date_of_sale')}}</label>
-            </div> -->
-            <!-- <div class="relative">
-                <input :value="data?.date_of_cancellation" type="date" id="input_field_date_of_cancellation" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.date_of_cancellation')"/>
-                <label for="input_field_date_of_cancellation" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.date_of_cancellation')}}</label>
-            </div> -->
-            <div class="relative">
-                <input :value="data?.distance_km" type="text" id="input_field_distance_km" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.distance_km')"/>
-                <label for="input_field_distance_km" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.distance_km')}}</label>
-            </div>
-            <div class="relative">
-                <input :value="data?.duration_min" type="text" id="input_field_duration_min" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.duration_min')"/>
-                <label for="input_field_duration_min" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.duration_min')}}</label>
-            </div>
-            <!-- <div class="relative">
-                <input :value="data?.month_and_year" type="text" id="input_field_month_and_year" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.month_and_year')"/>
-                <label for="input_field_month_and_year" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.month_and_year')}}</label>
-            </div> -->
-            <div class="relative">
-                <input :value="data?.calculation_model_name" type="text" id="input_field_calculation_model_name" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.calculation_model_name')"/>
-                <label for="input_field_calculation_model_name" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.calculation_model_name')}}</label>
-            </div>
-            <div class="relative">
-                <input :value="data?.particularities" type="text" id="input_field_particularities" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.particularities')"/>
-                <label for="input_field_particularities" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.particularities')}}</label>
-            </div>
-            <div class="relative">
-                <input :value="data?.description_of_transport" type="text" id="input_field_description_of_transport" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" :placeholder="$t('labels.description_of_transport')"/>
-                <label for="input_field_description_of_transport" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">{{$t('labels.description_of_transport')}}</label>
-            </div>
-            
-            
-            <!-- TODO: (Patric) Implement Logic and Design for General Data editing in Frontend Controller -->
         </div>
     </section>
 </template>
 <script setup>
-import { ArrowDown } from '@element-plus/icons-vue';
+import CustomDropdown from '@/Components/Dropdowns/CustomDropdown.vue';
+import IconTooltipInput from '@/Components/Inputs/IconTooltipInput.vue';
+
+import { ArrowDown, QuestionFilled } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
+import { reactive } from 'vue';
 import { onMounted } from 'vue';
 
 
@@ -110,6 +74,11 @@ const props = defineProps({
     }
 })
 
+var generalData = reactive({
+    type_of_transport: null,
+    status: null
+})
+
 const data = props.tabData
 
 const getTypesOfTransport = () => {
@@ -129,7 +98,7 @@ const getTypesOfTransport = () => {
 const getStatuses = () => {
     // TODO: fetch types of transport from backend
     return [
-        { key: "Order created", name: 'labels.order-status-open' },
+        { key: 1, name: 'labels.order-status-open' },
         { key: 2, name: 'labels.order-status-delivered' }
     ]
 }

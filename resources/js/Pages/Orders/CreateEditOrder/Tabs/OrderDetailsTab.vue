@@ -15,7 +15,7 @@
                     :onToggleSection="toggleSection"
                     :section="sections.address" 
                     :sectionActive="sections.address.state"
-                    :tabData="tabData?.addresses ?? [{}]"
+                    :tabData="tabData ?? {}"
                 />
                 <ParcelsSection 
                     :title="$t('labels.section-parcels')"
@@ -147,7 +147,8 @@ const props = defineProps({
 const sections = reactive( settings );
 
 const parseDate = (date, withTimeString = false) => {
-    return moment(date).format('DD.MM.YYYY' + (withTimeString ? ' HH:mm' : '')).toString();
+    return date;
+    return moment.moment(date).format('DD.MM.YYYY' + (withTimeString ? ' HH:mm' : '')).toString();
 }
 
 const toggleSection = (section) => {

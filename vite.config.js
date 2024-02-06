@@ -7,8 +7,12 @@ import AutoImport from 'unplugin-auto-import/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 
+import fs from 'fs';
+import {homedir} from 'os'
+import {resolve} from 'path'
 
 export default defineConfig({
+    server: detectServerConfig('simplelogistik.test'),
     define: {
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true,
     },
@@ -42,3 +46,26 @@ export default defineConfig({
         },
     },
 });
+
+
+function detectServerConfig(host) {
+    let keyPath = resolve(homedir(), `.config/valet/Certificates/${host}.key`)
+    let certificatePath = resolve(homedir(), `.config/valet/Certificates/${host}.crt`)
+
+    if (!fs.existsSync(keyPath)) {
+        return {}
+    }
+
+    if (!fs.existsSync(certificatePath)) {
+        return {}
+    }
+
+    return {
+        hmr: {host},
+        host,
+        https: {
+            key: fs.readFileSync(keyPath),
+            cert: fs.readFileSync(certificatePath),
+        },
+    }
+}

@@ -1,60 +1,212 @@
 <template>
     <Head title="Address" />
 
-    <Card>
-
-        <Title 
-            title="Addresses" 
-        />
-
-        <!-- SEARCH FIELD -->
-        <div class="flex justify-between">
-
-            <SearchField
-                v-model:searchTerm="data.searchTerm"
-                placeholder="Search addresses..."
-                @getData="getData"
-            />
-
-            <el-button
-                type="success"
-                class="mt-1"
-                @click="handleCreate"
-            >Create</el-button>
-
-        </div>
-
-        <!-- ADDRESSES TABLE -->
-        <AddressTable
-            v-model:sortColumn="data.sortColumn"
-            v-model:sortOrder="data.sortOrder"
-            :addresses="data.addresses"
-            @getData="getData"
-        />
-
-        <!-- PAGINATION -->
-        <Pagination
-            v-model:paginationData="data.paginationData"
-            @getData="getData"
-        />
-    </Card>
-
+    <AddressesTable 
+        :actions="['edit', 'show']" 
+        :getData="getData" 
+        :title="$t('labels.orders')" 
+        :data="data.addresses" 
+        :headers="defaultHeaders"
+        :paginationData="{}"
+        @changeTableLayout="changeTableLayout"
+    />
 </template>
 
 <script setup>
-import Card from '@/Shared/Card.vue';
-import _ from 'lodash';
 import { router } from '@inertiajs/vue3'
 import { reactive, computed, watch, onMounted, nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus';
 import { useAddressStore } from '@/Stores/addressStore';
-import SearchField from '@/Shared/SearchField.vue';
-import Pagination from '@/Shared/Pagination.vue';
-import AddressTable from './AddressTable.vue';
-import Title from '@/Shared/Title.vue';
+import _ from 'lodash';
+import AddressesTable from '@/Components/Tables/AddressesTable.vue';
 
-let addressStore = useAddressStore();
+const changeTableLayout = (entries) => {}
 
+const defaultHeaders = [
+{
+    show: false, 
+    key: "id",
+    title: "labels.id", 
+    sortable: true, 
+    filterable: true,
+    searchable: true,
+    display_order: 1
+},{
+    show: true, 
+    key: "customer_id",
+    title: "labels.customer_id", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 1
+},{
+    show: true, 
+    key: "forwarder_id",
+    title: "labels.forwarder_id", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 2
+},{
+    show: true, 
+    key: "country_id",
+    title: "labels.country_id", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 3
+},{
+    show: true, 
+    key: "partner_id",
+    title: "labels.partner_id", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 4
+},{
+    show: true, 
+    key: "company_name",
+    title: "labels.company_name", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 5
+}
+,{
+    show: true, 
+    key: "first_name",
+    title: "labels.first_name", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 6
+}
+,{
+    show: true, 
+    key: "last_name",
+    title: "labels.last_name", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 6
+}
+,{
+    show: true, 
+    key: "street",
+    title: "labels.street", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 6
+}
+,{
+    show: true, 
+    key: "house_number",
+    title: "labels.house_number", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 6
+}
+,{
+    show: true, 
+    key: "zip_code",
+    title: "labels.zip_code", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 6
+}
+,{
+    show: true, 
+    key: "city",
+    title: "labels.city", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 6
+}
+,{
+    show: false, 
+    key: "state",
+    title: "labels.state", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "address_additional_information",
+    title: "labels.address_additional_information", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "phone",
+    title: "labels.phone", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "email",
+    title: "labels.email", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "is_pickup",
+    title: "labels.is_pickup", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "is_delivery",
+    title: "labels.is_delivery", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "is_billing",
+    title: "labels.is_billing", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "is_headquarter",
+    title: "labels.is_headquarter", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "created_at",
+    title: "labels.created_at", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+},{
+    show: false, 
+    key: "updated_at",
+    title: "labels.updated_at", 
+    sortable: true, 
+    filterable: true, 
+    searchable: true,
+    display_order: 7
+}]
 // PROPS
 let props = defineProps( 
     {
@@ -98,37 +250,11 @@ let data = reactive({
     paginationData: _.omit({...props.dataFromController}, 'data')
 });
 
-
 /**
- * getData() is triggered by: 
- * 
- * the search button, 
- * the sorting clicks, 
- * the pagination clicks.
- * Also on input field clear/reset.
- * If enter is hit by the user.
- * 
- * It sends a request to the backend to get the addresses. The backend will return the addresses 
- * sorted and the pagination data. getData() does not have arguments, because it uses the
- * data from data(). Because every search/sort/paginate change is in the data().
- * Now addresses from this function arrive to props. There is a watcher for props, that sends addresses
- * from props to Pinia store.
+ * This is the data that will be passed to the AddressesTable component.
+ * It is a computed property, because it depends on the data from the backend.
  */
-let getData = () => {
-    const addresses = router.get(
-        '/addresses',
-        {
-            /**
-             * This is the data that we send to the backend.
-             */
-            searchTerm: data.searchTerm,
-            sortColumn: data.sortColumn,
-            sortOrder: data.sortOrder,
-            page: data.paginationData.current_page,
-            newItemsPerPage: data.paginationData.per_page,
-        }
-    );
-};
+let getData = () => {}
 
 /**
  * This function is triggered when the user clicks on the create new address button.
