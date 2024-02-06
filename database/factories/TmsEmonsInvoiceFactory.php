@@ -37,7 +37,7 @@ class TmsEmonsInvoiceFactory extends Factory
             'receiver_zip_code' => $this->faker->postcode(),
             'receiver_city' => $this->faker->city(),
             'netto_price' => $this->faker->randomFloat(2, 1, 100),
-            'is_correct' => null,
+            // 'is_correct' => null,
         ];
     }
 }

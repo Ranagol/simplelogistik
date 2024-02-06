@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('receiver_zip_code')->required()->comment('The receiver zip code.');
             $table->string('receiver_city')->required()->comment('The receiver city.');
             $table->float('netto_price')->required()->comment('The netto price of the invoice from Emons. This will be compared with our price.');
-            $table->boolean('is_correct')->default(null)->nullable()->comment('This will be set to null by default. Null means that the netto_price is not checked yet. When the netto_price is checked, the value of this column will be true, if all is OK, and false if the price is wrong.');
+            // $table->boolean('is_correct')->default(null)->nullable()->comment('This will be set to null by default. Null means that the netto_price is not checked yet. When the netto_price is checked, the value of this column will be true, if all is OK, and false if the price is wrong.');
             $table->timestamps();
         });
     }

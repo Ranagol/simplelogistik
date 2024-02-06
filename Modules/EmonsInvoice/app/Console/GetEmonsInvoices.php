@@ -5,6 +5,8 @@ namespace Modules\EmonsInvoice\app\Console;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Modules\EmonsInvoice\app\Services\EmonsInvoices\EmonsInvoiceService;
+
 
 class GetEmonsInvoices extends Command
 {
@@ -12,20 +14,27 @@ class GetEmonsInvoices extends Command
      * The name and signature of the console command.
      * To enable this modul: sail artisan module:enable EmonsInvoice
      * To disable this modul: sail artisan module:disable EmonsInvoice
+     * To run this command: sail artisan getEmonsInvoices
      */
     protected $signature = 'getEmonsInvoices';
 
     /**
      * The console command description.
      */
-    protected $description = 'Command description.';
+    protected $description = 'Get Emons Invoices from Emons FTP server, and writes them to the database.';
+
+    /**
+     * The EmonsInvoiceService instance.
+     */
+    protected $emonsInvoiceService;
 
     /**
      * Create a new command instance.
      */
-    public function __construct()
+    public function __construct(EmonsInvoiceService $emonsInvoiceService)
     {
         parent::__construct();
+        $this->emonsInvoiceService = $emonsInvoiceService;
     }
 
     /**
@@ -33,26 +42,9 @@ class GetEmonsInvoices extends Command
      */
     public function handle()
     {
-        echo "Hello World";
+        // $this->info('Getting Emons Invoices...');
+        $this->emonsInvoiceService->handle();
+        // $this->info('Emons Invoices retrieved.');
     }
 
-    /**
-     * Get the console command arguments.
-     */
-    protected function getArguments(): array
-    {
-        return [
-            ['example', InputArgument::REQUIRED, 'An example argument.'],
-        ];
-    }
-
-    /**
-     * Get the console command options.
-     */
-    protected function getOptions(): array
-    {
-        return [
-            ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
-        ];
-    }
 }
