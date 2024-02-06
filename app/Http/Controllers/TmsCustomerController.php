@@ -11,27 +11,12 @@ use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Session;
 
-class TmsCustomerController extends BaseController
+class TmsCustomerController extends Controller
 {
     private string $index = 'Customers/Index';
     private string $show = 'Customers/Show';
     private string $create = 'Customers/Create';
     private string $edit = 'Customers/Edit';
-
-    public function __construct()
-    {
-        $this->model = new TmsCustomer();
-    }
-
-    /**
-     * This is used for dynamic validation. Which happens in the parent BaseController.
-     *
-     * @return string
-     */
-    protected function getRequestClass(): string
-    {
-        return TmsCustomerRequest::class;
-    }
 
     /**
      * Returns records.
@@ -57,6 +42,22 @@ class TmsCustomerController extends BaseController
                 'searchTermProp' => $searchTerm,
                 'sortColumnProp' => $sortColumn,
                 'sortOrderProp' => $sortOrder,
+            ]
+        );
+    }
+
+    public function show(string $id): Response
+    {
+        $record = TmsCustomer::with(
+            [
+                'addresses'
+            ]
+        )->find($id);
+
+        return Inertia::render(
+            $this->show, 
+            [
+                'record' => $record,
             ]
         );
     }
@@ -98,7 +99,7 @@ class TmsCustomerController extends BaseController
                     'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
-                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
                     'forwarders' => $forwarders,
                 ]
             ]
@@ -114,18 +115,8 @@ class TmsCustomerController extends BaseController
      * So, the user gets his feedback, and the record list is refreshed.
      *
      */
-    public function store()
+    public function store(TmsCustomerRequest $request)
     {
-        /**
-         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
-         * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsCustomerRequest 
-         * when called from TmsCustomerController.
-         * So basically, here we trigger TmsCustomerRequest. The $request is an instance of
-         * TmsCustomerRequest.
-         */
-        $request = app($this->getRequestClass());//
-        
         /**
          * The validated method is used to get the validated data from the request.
          */
@@ -133,7 +124,7 @@ class TmsCustomerController extends BaseController
 
         $newRecord = $this->handleForwarderId($newRecord);
 
-        $newlyCreatedRecord = $this->model->create($newRecord);
+        $newlyCreatedRecord = TmsCustomer::create($newRecord);
 
         /**
          * Since a new address is created, we send a success message to the FE. First step of this
@@ -159,7 +150,7 @@ class TmsCustomerController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::with(['addresses'])->find($id);
+        $record = TmsCustomer::with(['addresses'])->find($id);
 
         /**
          * Here we check if there is a session variable called 'customerCreate'. If yes, we send it
@@ -184,7 +175,7 @@ class TmsCustomerController extends BaseController
                     'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
                     'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
                     'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
-                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,//all payment methods
+                    // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,//all payment methods
                     'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
                         return [
                             'id' => $forwarder->id,
@@ -202,27 +193,16 @@ class TmsCustomerController extends BaseController
      * @param string $id
      * @return void
      */
-    public function update(string $id): void
+    public function update(TmsCustomerRequest $request, string $id): void
     {
-        /**
-         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
-         * calling this method?
-         */
-        $request = app($this->getRequestClass());
-        
         /**
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
-        // dd($newRecord);
         
         $newRecord = $this->handleForwarderId($newRecord);
 
-        /**
-         * 1. Find the relevant record and...
-         * 2. ...update it.
-         */
-        $this->model->find($id)->update($newRecord);
+        TmsCustomer::find($id)->update($newRecord);
     }
 
     /**
@@ -321,7 +301,7 @@ class TmsCustomerController extends BaseController
         int $newItemsPerPage = null,
     ): LengthAwarePaginator
     {
-        $records = $this->model::query()
+        $records = TmsCustomer::query()
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
