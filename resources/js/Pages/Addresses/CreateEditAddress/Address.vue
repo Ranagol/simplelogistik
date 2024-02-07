@@ -583,7 +583,6 @@
                     @change="handleAvisPhone"
                 />
 
-                <!-- //TODO Andor this here is unfinished, validation error message display not working -->
                 <!-- <BackendValidationErrorDisplay :errorMessage="props.orderErrors.avis_phone"/> -->
 
             </div>
@@ -612,7 +611,6 @@
                     @clear="handleComment"
                     @change="handleComment"
                 />
-                <!-- //TODO Andor this here is unfinished, validation error message display not working -->
                 <!-- <BackendValidationErrorDisplay :errorMessage="props.orderErrors.comment"/> -->
 
             </div>

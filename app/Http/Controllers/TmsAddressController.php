@@ -15,24 +15,12 @@ use App\Http\Requests\TmsAddressRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Session;
 
-class TmsAddressController extends BaseController
+class TmsAddressController extends Controller
 {
-    public function __construct()
-    {
-        $this->model = new TmsAddress();
-        $this->vueIndexPath = 'Addresses/IndexAddress/Index';
-        $this->vueCreateEditPath = 'Addresses/CreateEditAddress/CreateEditBase';
-    }
-
-    /**
-     * This is used for dynamic validation. Which happens in the parent BaseController.
-     *
-     * @return string
-     */
-    protected function getRequestClass(): string
-    {
-        return TmsAddressRequest::class;
-    }
+    private string $index = 'Addresses/Index';
+    private string $show = 'Addresses/Show';
+    private string $create = 'Addresses/Create';
+    private string $edit = 'Addresses/Edit';
 
     /**
      * Returns records.
@@ -52,7 +40,7 @@ class TmsAddressController extends BaseController
         $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
 
         return Inertia::render(
-            $this->vueIndexPath, 
+            $this->index, 
             [
                 'dataFromController' => $records,
                 'searchTermProp' => $searchTerm,
@@ -62,41 +50,23 @@ class TmsAddressController extends BaseController
         );
     }
 
+    public function show(string $id): Response
+    {
+        $record = TmsAddress::find($id);
+
+        return Inertia::render(
+            $this->show, 
+            [
+                'record' => $record,
+            ]
+        );
+    }
+
     public function create(): Response
     {
         return Inertia::render(
-            $this->vueCreateEditPath, 
+            $this->create, 
             [
-                /**
-                 * This is a cool trick. When we create a new record, we send a new and empty 
-                 * TmsAddress() model. This is needed for the CreateEditBase.vue component, because
-                 * it needs a record to work with. 
-                 */
-                'record' => new TmsAddress(),//this is what we need to send to the FE Address create
-                // 'record' => TmsAddress::select(//this is needed for testing, do not delete
-                //     // 'id',
-                //     'customer_id',
-                //     'forwarder_id',
-                //     'country_id',
-                //     'partner_id',
-                //     'company_name',
-                //     'first_name',
-                //     'last_name',
-                //     'street',
-                //     'house_number',
-                //     'zip_code',
-                //     'city',
-                //     'state',
-                //     'address_additional_information',
-                //     'phone',
-                //     'email',
-                //     'is_pickup',
-                //     'is_delivery',
-                //     'is_billing',
-                //     'is_headquarter',
-                // )->find(1),
-
-                'mode' => 'create',
                 // we send all customers and forwarders to the FE, so that the user can select them
                 'customers' => TmsCustomer::all()->map(function ($customer) {
                     return [
@@ -129,21 +99,6 @@ class TmsAddressController extends BaseController
     }
 
     /**
-     * If this is a company return the company name, otherwise return the name of the person.
-     * This name will be created from the first and last name.
-     *
-     * @return string
-     */
-    private function generateCustomerName(TmsCustomer $customer): string
-    {
-        if ($customer->company_name) {
-            return $customer->company_name;
-        }
-
-        return $customer->first_name . ' ' . $customer->last_name;
-    }
-
-    /**
      * Stores records. Inertia automatically sends succes or error feedback to the frontend.
      * 
      * A little explanation: here we only save the record into db.
@@ -152,18 +107,8 @@ class TmsAddressController extends BaseController
      * So, the user gets his feedback, and the record list is refreshed.
      *
      */
-    public function store()
+    public function store(TmsAddressRequest $request)
     {
-        /**
-         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
-         * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
-         * when called from TmsCustomerController.
-         * So basically, here we trigger TmsGearRequest. The $request is an instance of
-         * TmsGearRequest.
-         */
-        $request = app($this->getRequestClass());//
-        
         /**
          * The validated method is used to get the validated data from the request.
          */
@@ -173,7 +118,7 @@ class TmsAddressController extends BaseController
         $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
         $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
 
-        $newlyCreatedRecord = $this->model->create($newRecord);
+        $newlyCreatedRecord = TmsAddress::create($newRecord);
 
         /**
          * Since a new address is created, we send a success message to the FE. First step of this
@@ -197,7 +142,7 @@ class TmsAddressController extends BaseController
      */
     public function edit(string $id): Response
     {
-        $record = $this->model::find($id);
+        $record = TmsAddress::find($id);
 
         /**
          * Here we check if there is a session variable called 'addressCreate'. If yes, we send it
@@ -207,10 +152,9 @@ class TmsAddressController extends BaseController
         Session::forget('addressCreate');
 
         return Inertia::render(
-            $this->vueCreateEditPath, 
+            $this->edit, 
             [
                 'record' => $record,
-                'mode' => 'edit',
 
                 /**
                  * This is only needed, when a new address was created, and then the user is redirected
@@ -251,33 +195,25 @@ class TmsAddressController extends BaseController
         );
     }
 
-    public function update(string $id): void
+    public function update(TmsAddressRequest $request, string $id): void
     {
-        /**
-         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
-         * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
-         * when called from TmsCustomerController.
-         */
-        $request = app($this->getRequestClass());
         
         /**
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
+
         $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
         $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
         $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
         $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
-
-        // dd($newRecord);
 
         /**
          * 
          * 1. Find the relevant record and...
          * 2. ...update it.
          */
-        $this->model->find($id)->update($newRecord);
+        TmsAddress::find($id)->update($newRecord);
     }
 
     /**
@@ -296,7 +232,7 @@ class TmsAddressController extends BaseController
         int $newItemsPerPage = null,
     ): LengthAwarePaginator
     {
-        $records = $this->model::query()
+        $records = TmsAddress::query()
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
@@ -335,6 +271,21 @@ class TmsAddressController extends BaseController
 
             // dd($records);
         return $records;
+    }
+
+    /**
+     * If this is a company return the company name, otherwise return the name of the person.
+     * This name will be created from the first and last name.
+     *
+     * @return string
+     */
+    private function generateCustomerName(TmsCustomer $customer): string
+    {
+        if ($customer->company_name) {
+            return $customer->company_name;
+        }
+
+        return $customer->first_name . ' ' . $customer->last_name;
     }
 }
 

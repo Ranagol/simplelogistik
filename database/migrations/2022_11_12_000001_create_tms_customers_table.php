@@ -55,10 +55,10 @@ return new class extends Migration
             $table->boolean('vorkasse')->default(false);
 
             //These will work with mutators defined in model
-            $table->integer('customer_type')->unsigned()->nullable();
-            $table->integer('invoice_dispatch')->unsigned()->nullable();
-            $table->integer('invoice_shipping_method')->unsigned()->nullable();
-            $table->integer('payment_method')->unsigned()->nullable();//uses mutator!
+            $table->integer('customer_type')->unsigned()->nullable();//uses mutator!
+            $table->integer('invoice_dispatch')->unsigned()->nullable();//uses mutator!
+            $table->integer('invoice_shipping_method')->unsigned()->nullable();//uses mutator!
+            $table->integer('payment_method')->unsigned()->nullable();
 
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();

@@ -16,10 +16,10 @@ use Illuminate\Http\RedirectResponse;
 
 class TmsForwarderController extends Controller
 {
-    //These are paths to the Vue components
-    private string $listPath = 'Forwarders/List/List';
-    private string $createEditPath = 'Forwarders/CreateEdit/CreateEditBase';
-    private string $detailsPath = 'Forwarders/Details/Details';
+    private string $index = 'Forwarders/Index';
+    private string $show = 'Forwarders/Show';
+    private string $create = 'Forwarders/Create';
+    private string $edit = 'Forwarders/Edit';
 
     /**
      * Contains helper methods for the TmsForwarderController.
@@ -56,7 +56,7 @@ class TmsForwarderController extends Controller
         );
 
         return Inertia::render(
-            $this->listPath, 
+            $this->index, 
             [
                 'records' => $records,
                 'searchTerm' => $searchTerm,
@@ -81,7 +81,7 @@ class TmsForwarderController extends Controller
         )->findOrFail($id);
 
         return Inertia::render(
-            $this->detailsPath, 
+            $this->show, 
             [
                 'record' => $record,
             ]
@@ -96,7 +96,7 @@ class TmsForwarderController extends Controller
     public function create(): Response
     {
         return Inertia::render(
-            $this->createEditPath, 
+            $this->create, 
             [
                 'record' => new TmsForwarder(),//just an empty record
                 'mode' => 'create',
@@ -140,7 +140,7 @@ class TmsForwarderController extends Controller
         )->findOrFail($id);
 
         return Inertia::render(
-            $this->createEditPath, 
+            $this->edit, 
             [
                 'record' => $record,
                 'mode' => 'edit',
