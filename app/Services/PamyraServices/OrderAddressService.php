@@ -179,8 +179,16 @@ class OrderAddressService {
             'phone' => $customer['Phone'],
             'email' => $customer['Mail'],
             'avis_phone' => $customer['AvisPhone'] ?? null,
-            'date_from' => $this->formatPamyraDate($date['DateFrom']),
-            'date_to' => $this->formatPamyraDate($date['DateTo']),
+            'date_from' => $this->formatPamyraDateTime(
+                $date['DateFrom'],
+                'd.m.Y',
+                'Y-m-d'
+            ),
+            'date_to' => $this->formatPamyraDateTime(
+                $date['DateTo'],
+                'd.m.Y',
+                'Y-m-d'
+            ),
             'comments' => $date['AsString'],
         ];
 
