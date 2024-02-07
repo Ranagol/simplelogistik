@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderAddressService {
 
+    use DateFormatterTrait;
+
     private string $houseNumber;
     private string $street;
     private int $countryId;
@@ -84,7 +86,7 @@ class OrderAddressService {
      */
     private function separateStreetAndHouseNumber(array $customer): void
     {
-        $streetAndNumber = $customer['address']['street'];//Example:"street": "Am Hochhaus 70".
+        $streetAndNumber = $customer['Address']['Street'];//Example:"street": "Am Hochhaus 70".
         if (!preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match)) {//Extract street and number
             throw new \Exception('Invalid address format');//If something is wrong with the extraction, throw an exception.
         }
@@ -101,7 +103,7 @@ class OrderAddressService {
      */
     private function setCountryId($customer): void
     {
-        $countryCode = $customer['address']['countryCode'];
+        $countryCode = $customer['Address']['CountryCode'];
         $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
     }
 
@@ -136,7 +138,6 @@ class OrderAddressService {
 
         if($duplicateAddress) {
             throw new \Exception('Duplicate address found in order_addresses table.');
-            dump('Duplicate address found in order_addresses table.');
             dump($duplicateAddress);
         }
     }
@@ -166,21 +167,21 @@ class OrderAddressService {
             'customer_id' => $customerId,
             'country_id' => $this->countryId,
             'partner_id' => $partnerId,
-            'company_name' => $customer['company'],
+            'company_name' => $customer['Company'],
             'address_type' => $addressType,
-            'first_name' => $customer['firstName'],
-            'last_name' => $customer['name'],
+            'first_name' => $customer['FirstName'],
+            'last_name' => $customer['Name'],
             'street' => $this->street,
             'house_number' => $this->houseNumber,
-            'zip_code' => $customer['address']['postalCode'],
-            'city' => $customer['address']['city'],
-            'address_additional_information' => $customer['address']['addressAdditionalInformation'],
-            'phone' => $customer['phone'],
-            'email' => $customer['mail'],
-            'avis_phone' => $customer['avisPhone'],
-            'date_from' => $date['dateFrom'],
-            'date_to' => $date['dateTo'],
-            'comments' => $date['asString'],
+            'zip_code' => $customer['Address']['PostalCode'],
+            'city' => $customer['Address']['City'],
+            'address_additional_information' => $customer['Address']['AddressAdditionalInformation'] ?? null,
+            'phone' => $customer['Phone'],
+            'email' => $customer['Mail'],
+            'avis_phone' => $customer['AvisPhone'] ?? null,
+            'date_from' => $this->formatPamyraDate($date['DateFrom']),
+            'date_to' => $this->formatPamyraDate($date['DateTo']),
+            'comments' => $date['AsString'],
         ];
 
         $this->validate($addressArray);
