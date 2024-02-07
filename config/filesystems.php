@@ -68,8 +68,8 @@ return [
             'host' => env('SFTP_HOST'),
             'username' => env('SFTP_USERNAME'),
             'password' => env('SFTP_PASSWORD'),
-            'port' => intval(env('SFTP_PORT', 7876))
-
+            'port' => intval(env('SFTP_PORT', 7876)),
+            'throw' => true
 
          
             // Settings for SSH key based authentication with encryption password...
