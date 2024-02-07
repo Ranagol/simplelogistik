@@ -167,7 +167,7 @@ class OrderAddressService {
             'customer_id' => $customerId,
             'country_id' => $this->countryId,
             'partner_id' => $partnerId,
-            'company_name' => $customer['Company'],
+            'company_name' => $customer['Company'] ?? null,
             'address_type' => $addressType,
             'first_name' => $customer['FirstName'],
             'last_name' => $customer['Name'],
