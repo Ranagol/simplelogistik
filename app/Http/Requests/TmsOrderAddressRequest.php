@@ -55,7 +55,7 @@ class TmsOrderAddressRequest extends FormRequest
             'city' => ['required', 'string', 'max:100'],
             'state' => ['nullable', 'string', 'max:100'],
             'address_additional_information' => ['nullable', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:100'],
+            'phone' => ['nullable', 'string', 'max:100'],
             'email' => ['nullable', 'string', 'max:100'],
             'is_pickup' => ['nullable', 'boolean'],
             'is_delivery' => ['nullable', 'boolean'],

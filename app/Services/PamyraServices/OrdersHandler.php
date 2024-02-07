@@ -15,6 +15,13 @@ class OrdersHandler
      * @var string
      */
     public string $pathToPamyraData = '/PamyraOrders/Inbox/pamyra.json';
+
+    /**
+     * A service that handles the ftp connection, and getting all the files/info from the ftp server.
+     *
+     * @var FtpConnector
+     */
+    private FtpConnector $ftpConnector;
     
     /**
      * A service that handles the order data. 
@@ -23,9 +30,10 @@ class OrdersHandler
      */
     private OrderHandler $orderHandler;
 
-    public function __construct(OrderHandler $orderHandler)
+    public function __construct(FtpConnector $ftpConnector, OrderHandler $orderHandler)
     {
         $this->orderHandler = $orderHandler;
+        $this->ftpConnector = $ftpConnector;
     }
 
     /**
@@ -35,18 +43,15 @@ class OrdersHandler
      */
     public function handle(): void
     {
-        echo 'Handling Pamyra data has started.' . PHP_EOL;
 
-        //We read the json file and get all the data from it into $pamyraOrders.
-        $pamyraOrders = Storage::json($this->pathToPamyraData);
+        $orders = $this->ftpConnector->handle();
 
-        foreach ($pamyraOrders as $pamyraOrder) {
+
+        foreach ($orders as $pamyraOrder) {
             $this->orderHandler->handle($pamyraOrder);
         }
 
-        echo 'Handling Pamyra data has ended.' . PHP_EOL;
-
-        $this->archiveJsonFile();
+        // $this->archiveJsonFile();
     }
 
     /**

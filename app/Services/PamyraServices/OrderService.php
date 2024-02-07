@@ -14,6 +14,7 @@ use App\Services\PamyraServices\OrderNumberMakerTrait;
 class OrderService {
 
     use OrderNumberMakerTrait;
+    use DateFormatterTrait;
 
     /**
      * Validation rules.
@@ -49,11 +50,7 @@ class OrderService {
         int $partnerId
     ): TmsOrder
     {
-        //TODO ANDOR ask C. - FROSEN
-        //STOP WITH THIS TASK, THIS CAN BE ONLY DONE WE CHRISTOPH PUSHES HIS CHANGES
-        //in the moment that I am looking on the pamyra json I see there is a field with oderPdf. 
-        //The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
-
+        
         $this->checkForDuplicate(
             $pamyraOrder, 
             $customerId, 
@@ -115,7 +112,7 @@ class OrderService {
             'order_status_id' => array_key_first(TmsOrderStatus::STATUSES), 
             'provision' => 6,
             'currency' => 'EUR',
-            'order_date' => $this->formatOrderDate($pamyraOrder['dateOfSale']),
+            'order_date' => $this->formatPamyraDateTime($pamyraOrder['dateOfSale']),
             'purchase_price' => $pamyraOrder['priceNet'],
             'payment_method' => 5, //this is invoice payment method
             'billing_address_id' => $billingAddressId,
@@ -127,22 +124,6 @@ class OrderService {
         $order = TmsOrder::create($orderArray);
 
         return $order;
-    }
-
-    /**
-     * Formats the order date from d.m.Y H:i to Y-m-d H:i:s
-     *
-     * @param string $orderDate
-     * @return string
-     */
-    private function formatOrderDate(string $orderDate): string
-    {
-        //Create a DateTime object from string
-        $date = DateTime::createFromFormat('d.m.Y H:i', $orderDate);
-
-        //Add the missing seconds to the formatting, because mysql needs this
-        $formattedDate = $date->format('Y-m-d H:i:s');
-        return $formattedDate;
     }
 
     /**

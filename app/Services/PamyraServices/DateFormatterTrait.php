@@ -12,9 +12,10 @@ trait DateFormatterTrait
     public function formatPamyraDateTime(
 
         /**
-         * dateOfSales from Pamyra json data is in this format.
+         * dateOfSales from Pamyra json data is in this format. It might be null, because sometimes
+         * Pamyra just don't provide us this info.
          */
-        string $date, 
+        string | null $date, 
 
         /**
          * dateOfSales from Pamyra json data is in this format.
@@ -27,6 +28,10 @@ trait DateFormatterTrait
         string $outputFormat = 'Y-m-d H:i:s'
     )
     {
+        if ($date === null) {
+            return null;
+        }
+        
         $dateTime = DateTime::createFromFormat($inputFormat, $date);
         $formattedDate = $dateTime->format($outputFormat);
         return $formattedDate;
