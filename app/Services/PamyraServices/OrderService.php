@@ -80,11 +80,11 @@ class OrderService {
      */
     private function checkForDuplicate(array $pamyraOrder, int $customerId, int $billingAddressId)
     {
-        $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['orderNumber'])->first();
+        $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['OrderNumber'])->first();
 
         if($duplicateOrder) {
-            echo 'Order with order number ' . $pamyraOrder['orderNumber'] . ' already exists.' . PHP_EOL;
-            throw new \Exception('Order with order number ' . $pamyraOrder['orderNumber'] . ' already exists.');
+            echo 'Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists.' . PHP_EOL;
+            throw new \Exception('Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists.');
         }
     }
 
@@ -112,8 +112,8 @@ class OrderService {
             'order_status_id' => array_key_first(TmsOrderStatus::STATUSES), 
             'provision' => 6,
             'currency' => 'EUR',
-            'order_date' => $this->formatPamyraDateTime($pamyraOrder['dateOfSale']),
-            'purchase_price' => $pamyraOrder['priceNet'],
+            'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
+            'purchase_price' => $pamyraOrder['PriceNet'],
             'payment_method' => 5, //this is invoice payment method
             'billing_address_id' => $billingAddressId,
             'order_number' => $this->setOrderNumber(),
