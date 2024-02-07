@@ -32,7 +32,7 @@ class TmsPamyraOrderRequest extends FormRequest
         return [
             'calculation_model_name' => ['nullable', 'string', 'max:255'],
             'order_number' => ['required', 'string', 'max:255'],
-            'order_pdf' => ['nullable', 'string', 'max:255'],
+            'order_pdf' => ['nullable', 'string'],
             'payment_method' => ['required', 'string', 'max:255'],
             'date_of_sale' => ['nullable', 'date'],
             'date_of_cancellation' => ['nullable', 'date_format:Y-m-d'],

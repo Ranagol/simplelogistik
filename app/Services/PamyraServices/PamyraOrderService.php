@@ -51,7 +51,7 @@ class PamyraOrderService {
     {
         $pamyraOrder = TmsPamyraOrder::where('order_id', $orderId)->first();
         if ($pamyraOrder) {
-            echo 'Order with order number ' . $pamyraOrder['orderNumber'] . ' already exists.' . PHP_EOL;
+            echo 'Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists.' . PHP_EOL;
             throw new \Exception("Pamyra order with order_id = $orderId already exists in the database.");
         }
     }
@@ -63,34 +63,34 @@ class PamyraOrderService {
     {
         $pamyraOrderArray = [
             'order_id' => $orderId,
-            'calculation_model_name' => $pamyraOrder['calculationModelName'],
-            'order_number' => $pamyraOrder['orderNumber'],
-            'order_pdf' => $pamyraOrder['orderPdf'],
-            'payment_method' => $pamyraOrder['paymentMethod'],
-            'date_of_sale' => $this->formatPamyraDateTime($pamyraOrder['dateOfSale']),
-            'date_of_cancellation' => $pamyraOrder['dateOfCancellation'],
-            'description_of_transport' => $pamyraOrder['descriptionOfTransport'],
-            'particularities' => $pamyraOrder['particularities'],
-            'loading_meter' => $pamyraOrder['loadingMeter'],
-            'square_meter' => $pamyraOrder['squareMeter'],
-            'total_weight' => $pamyraOrder['totalWeight'],
-            'qubic_meter' => $pamyraOrder['qubicMeter'],
-            'calculated_transport_price' => $pamyraOrder['calculatedTransportPrice'],
-            'transport_price_gross' => $pamyraOrder['transportPriceGross'],
-            'transport_price_vat' => $pamyraOrder['transportPriceVat'],
-            'transport_price_net' => $pamyraOrder['transportPriceNet'],
-            'customized_price_change' => $pamyraOrder['customizedPriceChange'],
-            'customized_price_mode' => $pamyraOrder['customizedPriceMode'],
-            'discount' => $pamyraOrder['discount'],
-            'price_gross' => $pamyraOrder['priceGross'],
-            'price_vat' => $pamyraOrder['priceVat'],
-            'price_net' => $pamyraOrder['priceNet'],
-            'price_fuel_surcharge' => $pamyraOrder['priceFuelSurcharge'],
-            'vat_rate' => $pamyraOrder['vatRate'],
-            'value_insured' => $pamyraOrder['valueInsured'],
-            'value_of_goods' => $pamyraOrder['valueOfGoods'],
-            'distance_km' => $pamyraOrder['distanceKm'],
-            'duration_minutes' => $pamyraOrder['durationMinutes'],
+            'calculation_model_name' => $pamyraOrder['CalculationModelName'],
+            'order_number' => $pamyraOrder['OrderNumber'],
+            'order_pdf' => $pamyraOrder['OrderPdf'],
+            'payment_method' => $pamyraOrder['PaymentMethod'],
+            'date_of_sale' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
+            // 'date_of_cancellation' => $pamyraOrder['DateOfCancellation'],
+            'description_of_transport' => $pamyraOrder['DescriptionOfTransport'],
+            'particularities' => $pamyraOrder['Particularities'],
+            'loading_meter' => $pamyraOrder['LoadingMeter'],
+            'square_meter' => $pamyraOrder['SquareMeter'],
+            'total_weight' => $pamyraOrder['TotalWeight'],
+            'qubic_meter' => $pamyraOrder['QubicMeter'],
+            'calculated_transport_price' => $pamyraOrder['CalculatedTransportPrice'],
+            'transport_price_gross' => $pamyraOrder['TransportPriceGross'],
+            'transport_price_vat' => $pamyraOrder['TransportPriceVat'],
+            'transport_price_net' => $pamyraOrder['TransportPriceNet'],
+            'customized_price_change' => $pamyraOrder['CustomizedPriceChange'],
+            'customized_price_mode' => $pamyraOrder['CustomizedPriceMode'],
+            'discount' => $pamyraOrder['Discount'],
+            'price_gross' => $pamyraOrder['PriceGross'],
+            'price_vat' => $pamyraOrder['PriceVat'],
+            'price_net' => $pamyraOrder['PriceNet'],
+            'price_fuel_surcharge' => $pamyraOrder['PriceFuelSurcharge'],
+            'vat_rate' => $pamyraOrder['VatRate'],
+            'value_insured' => $pamyraOrder['ValueInsured'],
+            'value_of_goods' => $pamyraOrder['ValueOfGoods'],
+            'distance_km' => $pamyraOrder['DistanceKm'],
+            'duration_minutes' => $pamyraOrder['DurationMinutes'],
         ];
 
         $this->validate($pamyraOrderArray);
