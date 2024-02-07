@@ -62,7 +62,7 @@ class FtpConnector
     private function filterFileNames(array $allFileNames): array
     {
         return array_filter($allFileNames, function ($fileName) {
-            return strpos($fileName, '.json') !== false && strpos($fileName, '/PAM') !== false;
+            return strpos($fileName, '.json') !== false && strpos($fileName, 'upload/PAM') !== false;
         });
     }
 

@@ -64,13 +64,13 @@ class ParcelService {
     {
         $parcelArray = [
             'tms_order_id' => $orderId,
-            'name' => $parcel['Name'],
-            'height' => $parcel['Height'],
-            'length' => $parcel['Length'],
-            'width' => $parcel['Width'],
-            'number' => $parcel['Number'],
-            'stackable' => $parcel['Stackable'],
-            'weight' => $parcel['Weight'],
+            'name' => $parcel['Name'] ?? null,
+            'height' => $parcel['Height'] ?? null,
+            'length' => $parcel['Length'] ?? null,
+            'width' => $parcel['Width'] ?? null,
+            'number' => $parcel['Number'] ?? null,
+            'stackable' => $parcel['Stackable'] ?? null,
+            'weight' => $parcel['Weight'] ?? null,
         ];
 
         $this->validate($parcelArray);

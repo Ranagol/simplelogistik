@@ -53,8 +53,6 @@ class OrderService {
         
         $this->checkForDuplicate(
             $pamyraOrder, 
-            $customerId, 
-            $billingAddressId
         );
 
         $order = $this->createOrder(
@@ -71,20 +69,17 @@ class OrderService {
      * The only way to check for duplicate is to check if the order number already exists in the
      * tms_pamyra_orders table. (Not in tms_orders table!)
      * 
-     * To test for duplicate, use this order number: PAM220826-1323140813
-     *
      * @param array $pamyraOrder
-     * @param integer $customerId
-     * @param integer $billingAddressId
      * @return void
      */
-    private function checkForDuplicate(array $pamyraOrder, int $customerId, int $billingAddressId)
+    private function checkForDuplicate(array $pamyraOrder)
     {
         $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['OrderNumber'])->first();
+        // dd($duplicateOrder);
 
         if($duplicateOrder) {
-            echo 'Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists.' . PHP_EOL;
-            throw new \Exception('Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists.');
+            throw new \Exception('Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists (OrderService).');
+            dump($pamyraOrder);
         }
     }
 
@@ -113,7 +108,7 @@ class OrderService {
             'provision' => 6,
             'currency' => 'EUR',
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
-            'purchase_price' => $pamyraOrder['PriceNet'],
+            'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
             'payment_method' => 5, //this is invoice payment method
             'billing_address_id' => $billingAddressId,
             'order_number' => $this->setOrderNumber(),

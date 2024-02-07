@@ -77,13 +77,13 @@ class CustomerService {
     private function createCustomer(array $customerPamyra): TmsCustomer
     {
         $customerArray = [
-            'company_name' => $customerPamyra['Company'],
-            'email' => $customerPamyra['Mail'],
-            'first_name' => $customerPamyra['FirstName'],
-            'last_name' => $customerPamyra['Name'],
-            'tax_number' => $customerPamyra['VatId'],
-            'phone' => $customerPamyra['Phone'],
-            'internal_id' => 'temporary testing',
+            'company_name' => $customerPamyra['Company'] ?? null,
+            'email' => $customerPamyra['Mail'] ?? null,
+            'first_name' => $customerPamyra['FirstName'] ?? null,
+            'last_name' => $customerPamyra['Name'] ?? null,
+            'tax_number' => $customerPamyra['VatId'] ?? null,
+            'phone' => $customerPamyra['Phone'] ?? null,
+            'internal_id' => 'temporary testing' ?? null,
         ];
 
         $this->validate($customerArray);
