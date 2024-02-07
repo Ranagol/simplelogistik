@@ -37,6 +37,7 @@
         }
     },
     "labels": {
+        "add-package": "Weiteres Packstück",
         "additional_options": "Zusätzliche Optionen",
         "order-client-informations": "Auftraggeber",
         "easy_bill_customer_id":"Easybill Kundennummer",

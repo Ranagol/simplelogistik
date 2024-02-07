@@ -1,7 +1,7 @@
 <template>
     <div class="relative grid w-full">
         <button :id="'customDropDownButton' + _id ?? 'item'" :data-dropdown-toggle="'custom-dropdown-' + _id ?? 'item'" 
-        class="inline-flex items-center p-3 text-center bg-white border rounded-md border-primary-700" type="button">
+        class="inline-flex items-center p-3 py-2 text-center bg-white border rounded-md border-primary-700" type="button">
             <span class="grid justify-between w-full grid-flow-col mr-2 place-items-center">{{ $t(getActiveLabel(activeSelection)) }} <el-icon><ArrowDown class="w-4 h-4" /></el-icon></span>
         </button>
         <label class="absolute px-1 font-bold -translate-y-1/2 bg-white start-2 text-corporate-700" v-if="floating" :for="'customDropDownButton' + _id ?? 'item'">{{ $t(labelText) }}</label>
