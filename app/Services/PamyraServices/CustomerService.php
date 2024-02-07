@@ -55,9 +55,9 @@ class CustomerService {
      */
     private function checkForDuplicate($customerPamyra): TmsCustomer|null
     {
-        $first_name = $customerPamyra['firstName'];
-        $last_name = $customerPamyra['name'];
-        $phone = $customerPamyra['phone'];
+        $first_name = $customerPamyra['FirstName'];
+        $last_name = $customerPamyra['Name'];
+        $phone = $customerPamyra['Phone'];
 
         $customer = TmsCustomer::where('first_name', $first_name)
                                 ->where('last_name', $last_name)
@@ -77,12 +77,12 @@ class CustomerService {
     private function createCustomer(array $customerPamyra): TmsCustomer
     {
         $customerArray = [
-            'company_name' => $customerPamyra['company'],
-            'email' => $customerPamyra['mail'],
-            'first_name' => $customerPamyra['firstName'],
-            'last_name' => $customerPamyra['name'],
-            'tax_number' => $customerPamyra['vatId'],
-            'phone' => $customerPamyra['phone'],
+            'company_name' => $customerPamyra['Company'],
+            'email' => $customerPamyra['Mail'],
+            'first_name' => $customerPamyra['FirstName'],
+            'last_name' => $customerPamyra['Name'],
+            'tax_number' => $customerPamyra['VatId'],
+            'phone' => $customerPamyra['Phone'],
             'internal_id' => 'temporary testing',
         ];
 

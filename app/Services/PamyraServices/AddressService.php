@@ -85,7 +85,7 @@ class AddressService {
      */
     private function separateStreetAndHouseNumber(array $customerPamyra): void
     {
-        $streetAndNumber = $customerPamyra['address']['street'];//Example:"street": "Am Hochhaus 70".
+        $streetAndNumber = $customerPamyra['Address']['Street'];//Example:"street": "Am Hochhaus 70".
         if (!preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match)) {//Extract street and number
             throw new \Exception('Invalid address format');//If something is wrong with the extraction, throw an exception.
         }
@@ -101,7 +101,7 @@ class AddressService {
      */
     private function setCountryId(array $customerPamyra): void
     {
-        $countryCode = $customerPamyra['address']['countryCode'];
+        $countryCode = $customerPamyra['Address']['CountryCode'];
         $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
     }
 
@@ -165,16 +165,16 @@ class AddressService {
             'customer_id' => $customerId,
             'country_id' => $this->countryId,
             'partner_id' => $partnerId,
-            'company_name' => $customerPamyra['company'],
-            'first_name' => $customerPamyra['firstName'],
-            'last_name' => $customerPamyra['name'],
+            'company_name' => $customerPamyra['Company'],
+            'first_name' => $customerPamyra['FirstName'],
+            'last_name' => $customerPamyra['Name'],
             'street' => $this->street,
             'house_number' => $this->houseNumber,
-            'zip_code' => $customerPamyra['address']['postalCode'],
-            'city' => $customerPamyra['address']['city'],
-            'address_additional_information' => $customerPamyra['address']['addressAdditionalInformation'],
-            'phone' => $customerPamyra['phone'],
-            'email' => $customerPamyra['mail'],
+            'zip_code' => $customerPamyra['Address']['PostalCode'],
+            'city' => $customerPamyra['Address']['City'],
+            // 'address_additional_information' => $customerPamyra['Address']['AddressAdditionalInformation'],
+            'phone' => $customerPamyra['Phone'],
+            'email' => $customerPamyra['Mail'],
             'is_pickup' => false,
             'is_delivery' => false,
             'is_headquarter' => $isHeadquarter,

@@ -109,7 +109,7 @@ class OrderHandler {
     private function handleCustomer(array $pamyraOrder): void
     {
         // dd($pamyraOrder);
-        $this->customerId = $this->customerService->handle($pamyraOrder['customer']);
+        $this->customerId = $this->customerService->handle($pamyraOrder['Customer']);
     }
 
     /**
@@ -123,7 +123,7 @@ class OrderHandler {
     private function handleAddresses(array $pamyraOrder): void
     {
         $this->headquarter = $this->addressService->handle(
-            $pamyraOrder['customer'], 
+            $pamyraOrder['Customer'], 
             true,//isHeadquarter
             false,//isBilling
             $this->customerId,
@@ -131,7 +131,7 @@ class OrderHandler {
         );
 
         $this->billingAddress = $this->addressService->handle(
-            $pamyraOrder['customer'], 
+            $pamyraOrder['Customer'], 
             false,//isHeadquarter
             true,//isBilling
             $this->customerId,
@@ -170,8 +170,8 @@ class OrderHandler {
     {
         //Create a pickup address in OrderAddresses table.
         $this->orderAddressService->handle(
-            $pamyraOrder['sender'],
-            $pamyraOrder['pickupDate'],
+            $pamyraOrder['Sender'],
+            $pamyraOrder['PickupDate'],
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
@@ -180,8 +180,8 @@ class OrderHandler {
 
         //Create a delivery address in OrderAddresses table.
         $this->orderAddressService->handle(
-            $pamyraOrder['receiver'],
-            $pamyraOrder['deliveryDate'],
+            $pamyraOrder['Receiver'],
+            $pamyraOrder['DeliveryDate'],
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 

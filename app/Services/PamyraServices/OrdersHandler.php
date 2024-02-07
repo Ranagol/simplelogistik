@@ -43,9 +43,7 @@ class OrdersHandler
      */
     public function handle(): void
     {
-
         $orders = $this->ftpConnector->handle();
-
 
         foreach ($orders as $pamyraOrder) {
             $this->orderHandler->handle($pamyraOrder);
