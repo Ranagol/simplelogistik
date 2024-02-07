@@ -44,7 +44,7 @@ class ParcelService {
         int $orderId
     ): void
     {
-        $parcels = $pamyraOrder['transportobjects'];
+        $parcels = $pamyraOrder['Transportobjects'];
         foreach ($parcels as $parcel) {
             $this->create($parcel, $orderId);
         }
@@ -64,13 +64,13 @@ class ParcelService {
     {
         $parcelArray = [
             'tms_order_id' => $orderId,
-            'name' => $parcel['name'],
-            'height' => $parcel['height'],
-            'length' => $parcel['length'],
-            'width' => $parcel['width'],
-            'number' => $parcel['number'],
-            'stackable' => $parcel['stackable'],
-            'weight' => $parcel['weight'],
+            'name' => $parcel['Name'],
+            'height' => $parcel['Height'],
+            'length' => $parcel['Length'],
+            'width' => $parcel['Width'],
+            'number' => $parcel['Number'],
+            'stackable' => $parcel['Stackable'],
+            'weight' => $parcel['Weight'],
         ];
 
         $this->validate($parcelArray);
