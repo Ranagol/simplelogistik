@@ -35,6 +35,9 @@ class FtpConnector
         //Filter out only those files that are Pamyra orders, ignore all the other files
         $pamyraFileNames = $this->filterFileNames($allFileNames);
 
+        //If there are any pamyra files at all
+        $this->checkPamyraFiles($pamyraFileNames);
+
         //Will collect all pamyra orders from all pamyra json files from the ftp server into an array
         $pamyraOrders = $this->handlePamyraFiles($pamyraFileNames);
 
@@ -54,6 +57,7 @@ class FtpConnector
             return $allFileNames;
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
+            Log::error('Error: ' . $e->getMessage());
         }
     }
 
@@ -77,6 +81,22 @@ class FtpConnector
         $this->filteredFileNames = $filteredFileNames;
 
         return $filteredFileNames;
+    }
+
+    /**
+     * If there are any pamyra files at all, we can continue. If there are no pamyra files, we can stop
+     * the process here.
+     *
+     * @param array $pamyraFileNames
+     * @return void
+     */
+    private function checkPamyraFiles(array $pamyraFileNames): void
+    {
+        if (empty($pamyraFileNames)) {
+            echo 'No Pamyra files found on FTP server.' . PHP_EOL;
+            Log::info('No Pamyra files found on FTP server.');
+            exit;
+        }
     }
 
     /**
