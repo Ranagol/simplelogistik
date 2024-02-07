@@ -7,9 +7,11 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * This class connects to an sftp server, and handles files from here.
+ */
 class FtpConnector
 {
-
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
      * Pamyra orders to the database. Later, when this is done, we will need these file names
@@ -27,22 +29,22 @@ class FtpConnector
      */
     public function handle(): array
     {
+        //Get all file list from ftp
         $allFileNames = $this->getFileList();
-        // dd($allFileNames);
+
+        //Filter out only those files that are Pamyra orders, ignore all the other files
         $pamyraFileNames = $this->filterFileNames($allFileNames);
-        // dd($pamyraFileNames);
+
+        //Will collect all pamyra orders from all pamyra json files from the ftp server into an array
         $pamyraOrders = $this->handlePamyraFiles($pamyraFileNames);
-        // dump($pamyraOrders);
-        // Log::debug($pamyraOrders);
-        // dd($pamyraOrders);
 
         return $pamyraOrders;
     }
 
     /**
-     * Get the list of all files in the ftp server.
+     * This is the first step here. Get the list of all files in the ftp server.
      *
-     * @return array
+     * @return array    An array with all file names on the ftp server.
      */
     private function getFileList(): array
     {
@@ -77,6 +79,14 @@ class FtpConnector
         return $filteredFileNames;
     }
 
+    /**
+     * Will collect all pamyra orders from all pamyra json files from the ftp server into an array.
+     * Here we loop through every pamyra json file, and extract its content into an array.
+     * The end goal is to have all pamyra orders from all pamyra json files in one php array.
+     *
+     * @param array $pamyraFileNames    All pamyra json file names
+     * @return array
+     */
     private function handlePamyraFiles(array $pamyraFileNames): array
     {
         $pamyraOrders = [];
@@ -84,13 +94,17 @@ class FtpConnector
         foreach ($pamyraFileNames as $pamyraJsonFile) {
             $pamyraOrders[] = Storage::disk('sftp')->json($pamyraJsonFile);
         }
+
         return $pamyraOrders;
     }
 
     /*
-     * After we have handled all the orders, we 
+     * After we have handled all the orders (so every order is written from pamyra json file into
+     * our database), we 
      * 1. copy the files from the ftp server to our app
      * 2. rename these files so they have the date in their name
+     * 3. archive these files in storage/app/PamyraOrders/Archived
+     * 4. delete these files from the ftp server
      *
      * @return void
      */
@@ -98,11 +112,13 @@ class FtpConnector
     {
         foreach ($this->filteredFileNames as $fileName) {
 
+            //Check if file exists on ftp server
             if(Storage::disk('sftp')->exists($fileName)) {
                 echo $fileName . ' exists on FTP server!' . PHP_EOL;
             }
 
             try {
+
                 // Read the file content from the sftp disk
                 $fileContent = Storage::disk('sftp')->get($fileName);
 
@@ -117,7 +133,9 @@ class FtpConnector
                 }
 
             } catch (\Throwable $th) {
+
                 echo 'Error: ' . $th->getMessage() . PHP_EOL;
+
             } finally {
                 
                 //Delete the original json file from the ftp server
