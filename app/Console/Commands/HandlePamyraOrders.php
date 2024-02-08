@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Services\PamyraServices\OrdersHandler;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
+use App\Services\PamyraServices\OrdersHandler;
 
 class HandlePamyraOrders extends Command
 {
@@ -27,6 +28,8 @@ class HandlePamyraOrders extends Command
      */
     public function handle(OrdersHandler $ordersHandler): void
     {
+        $this->info('Handling Pamyra orders has started.');
         $ordersHandler->handle();
+        $this->info('Handling Pamyra orders has ended.');
     }
 }

@@ -43,7 +43,7 @@ class TmsOrderRequest extends FormRequest
             'provision' => ['nullable', 'numeric', 'between:0,99.99'],
             'order_edited_events' => ['nullable', 'json'],
             'currency' => ['nullable', 'string', 'max:50'],
-            'order_date' => ['required', 'date'],
+            'order_date' => ['nullable', 'date'],
             'purchase_price' => ['nullable', 'numeric'],
             'month_and_year' => ['nullable', 'string', 'max:255'],
             'payment_method' => ['required', 'numeric'],

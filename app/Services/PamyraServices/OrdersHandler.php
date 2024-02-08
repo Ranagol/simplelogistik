@@ -2,22 +2,31 @@
 
 namespace App\Services\PamyraServices;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use App\Services\PamyraServices\OrderHandler;
+use Illuminate\Support\Facades\File;
 
 class OrdersHandler
 {
-    private string $pathToPamyraData;
+    /**
+     * A service that handles the ftp connection, and getting all the files/info from the ftp server.
+     *
+     * @var FtpConnector
+     */
+    private FtpConnector $ftpConnector;
+    
+    /**
+     * A service that handles the order data. 
+     *
+     * @var OrderHandler
+     */
     private OrderHandler $orderHandler;
 
-    public function __construct(OrderHandler $orderHandler)
+    public function __construct(FtpConnector $ftpConnector, OrderHandler $orderHandler)
     {
-        /**
-         * returns the path to the pamyra.json file in the root directory of your Laravel 
-         * application.
-         */
-        $this->pathToPamyraData = base_path('pamyra_response.json');
         $this->orderHandler = $orderHandler;
-
+        $this->ftpConnector = $ftpConnector;
     }
 
     /**
@@ -27,27 +36,15 @@ class OrdersHandler
      */
     public function handle(): void
     {
-        echo 'Handling Pamyra data has started.' . PHP_EOL;
+        //Gets all the orders from all the PAM json files from the ftp server
+        $orders = $this->ftpConnector->handle();
 
-        $pamyraOrders = $this->readJsonFile();
-
-        foreach ($pamyraOrders as $pamyraOrder) {
+        //We loop through all the orders and write each one to the database
+        foreach ($orders as $pamyraOrder) {
             $this->orderHandler->handle($pamyraOrder);
         }
 
-        echo 'Handling Pamyra data has ended.' . PHP_EOL;
-    }
-
-    /**
-     * We receive from pamyra a json file. Here one array contains all order objects. This function
-     * can read this json file and return all the data from it into a php array.
-     *
-     * @return array
-     */
-    private function readJsonFile(): array
-    {
-        $json = file_get_contents($this->pathToPamyraData);
-        return json_decode($json, true);
+        //We archive all the json files in the app from the ftp server
+        $this->ftpConnector->archiveJsonFiles();
     }
 }
-

@@ -37,6 +37,7 @@ class TmsCustomerRequest extends FormRequest
             'tax_number' => 'nullable|string|min:2|max:50',
             'internal_id' => 'required|string|min:2|max:100',
             'payment_time' => 'nullable|integer',
+            'customer_type' => 'required',
 
             //We attach this forwarder with the appends trick in the TmsAddress
             'forwarder' => ['nullable', 'array'],

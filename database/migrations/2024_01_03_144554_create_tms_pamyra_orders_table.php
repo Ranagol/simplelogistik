@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->string('calculation_model_name')->comment('Name of the tariff')->nullable();
             $table->string('order_number')->nullable();
-            $table->string('order_pdf')->nullable();
+            $table->text('order_pdf')->nullable();
             $table->string('payment_method')->nullable();
             $table->string('date_of_sale')->nullable();
             $table->string('date_of_cancellation')->nullable();

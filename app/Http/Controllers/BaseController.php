@@ -129,7 +129,6 @@ abstract class BaseController extends Controller
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
-        // dd($newRecord);
 
         /**
          * 1. Find the relevant record and...
@@ -168,7 +167,6 @@ abstract class BaseController extends Controller
     public function batchDelete(Request $request): void
     {
         $ids = $request->ids;
-        // dd($ids);
         $this->model::destroy($ids);
     }
 
@@ -227,7 +225,6 @@ abstract class BaseController extends Controller
              */
             ->withQueryString();
 
-            // dd($records);
         return $records;
     }
 

@@ -4,10 +4,13 @@ namespace App\Services\PamyraServices;
 
 use App\Models\TmsOrderAddress;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\TmsOrderAddressRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TmsOrderAddressRequest;
 
 class OrderAddressService {
+
+    use DateFormatterTrait;
 
     private string $houseNumber;
     private string $street;
@@ -40,6 +43,7 @@ class OrderAddressService {
      * @param integer $customerId
      * @param integer $partnerId
      * @param string $addressType   pickup or delivery
+     * @param string $pamyraOrderNumber
      * @return void
      */
     public function handle(
@@ -48,10 +52,11 @@ class OrderAddressService {
         int $orderId,
         int $customerId,
         int $partnerId,
-        string $addressType//pickup or delivery
+        string $addressType,//pickup or delivery
+        string $pamyraOrderNumber
     ): void
     {
-        $this->separateStreetAndHouseNumber($customer);
+        $this->separateStreetAndHouseNumber($customer, $pamyraOrderNumber);
 
         $this->setCountryId($customer);
         
@@ -79,17 +84,33 @@ class OrderAddressService {
      * Source: https://stackoverflow.com/questions/7488557/separate-street-name-from-street-number
      * 
      * @param array $customer    This is either sender (for pickup) or receiver (for delivery).
+     * @param string $pamyraOrderNumber
      * 
      * @return void
      */
-    private function separateStreetAndHouseNumber(array $customer): void
+    private function separateStreetAndHouseNumber(array $customer, string $pamyraOrderNumber): void
     {
-        $streetAndNumber = $customer['address']['street'];//Example:"street": "Am Hochhaus 70".
+        $streetAndNumber = $customer['Address']['Street'];//Example:"street": "Am Hochhaus 70".
         if (!preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match)) {//Extract street and number
-            throw new \Exception('Invalid address format');//If something is wrong with the extraction, throw an exception.
+            
+            //If the street and house number separation failed, log it.
+            $errorMessage = 'Separating street and house failed in Pamyra order '
+                            . $pamyraOrderNumber
+                            . ' for street '
+                            . $customer['Address']['Street'];
+
+            //If something is wrong with the extraction, log it.
+            Log::error($errorMessage);
+            echo $errorMessage . PHP_EOL;
+
+            //And then just simply write all into the street field.
+            $this->street = $customer['Address']['Street'] ?? null;
+            $this->houseNumber = '';
+        } else {
+            //If the street and house number separation was successful, set the street and house number.
+            $this->street = $match[1];//Example:"Am Hochhaus".
+            $this->houseNumber = $match[2];//Example:"70".
         }
-        $this->street = $match[1];//Example:"Am Hochhaus".
-        $this->houseNumber = $match[2];//Example:"70".
     }
 
     /**
@@ -101,7 +122,7 @@ class OrderAddressService {
      */
     private function setCountryId($customer): void
     {
-        $countryCode = $customer['address']['countryCode'];
+        $countryCode = $customer['Address']['CountryCode'];
         $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
     }
 
@@ -112,10 +133,11 @@ class OrderAddressService {
      * 1. isHeadquarter = true
      * 2. isBilling = true
      *
-     * @param array $pamyraOrder
-     * @param boolean $isHeadquarter
-     * @param boolean $isBilling
+     * @param integer $orderId
      * @param integer $customerId
+     * @param integer $partnerId
+     * @param string $addressType
+     * @throws \Exception
      * @return void
      */
     private function checkForDuplicate(
@@ -136,8 +158,6 @@ class OrderAddressService {
 
         if($duplicateAddress) {
             throw new \Exception('Duplicate address found in order_addresses table.');
-            dump('Duplicate address found in order_addresses table.');
-            dump($duplicateAddress);
         }
     }
 
@@ -166,21 +186,29 @@ class OrderAddressService {
             'customer_id' => $customerId,
             'country_id' => $this->countryId,
             'partner_id' => $partnerId,
-            'company_name' => $customer['company'],
+            'company_name' => $customer['Company'] ?? null,
             'address_type' => $addressType,
-            'first_name' => $customer['firstName'],
-            'last_name' => $customer['name'],
+            'first_name' => $customer['FirstName'],
+            'last_name' => $customer['Name'],
             'street' => $this->street,
             'house_number' => $this->houseNumber,
-            'zip_code' => $customer['address']['postalCode'],
-            'city' => $customer['address']['city'],
-            'address_additional_information' => $customer['address']['addressAdditionalInformation'],
-            'phone' => $customer['phone'],
-            'email' => $customer['mail'],
-            'avis_phone' => $customer['avisPhone'],
-            'date_from' => $date['dateFrom'],
-            'date_to' => $date['dateTo'],
-            'comments' => $date['asString'],
+            'zip_code' => $customer['Address']['PostalCode'],
+            'city' => $customer['Address']['City'],
+            'address_additional_information' => $customer['Address']['AddressAdditionalInformation'] ?? null,
+            'phone' => $customer['Phone'],
+            'email' => $customer['Mail'],
+            'avis_phone' => $customer['AvisPhone'] ?? null,
+            'date_from' => $this->formatPamyraDateTime(
+                $date['DateFrom'],
+                'd.m.Y',
+                'Y-m-d'
+            ),
+            'date_to' => $this->formatPamyraDateTime(
+                $date['DateTo'],
+                'd.m.Y',
+                'Y-m-d'
+            ),
+            'comments' => $date['AsString'],
         ];
 
         $this->validate($addressArray);
@@ -195,6 +223,7 @@ class OrderAddressService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $addressPamyra
+     * @throws \Exception
      * @return void
      */
     private function validate(array $addressPamyra): void

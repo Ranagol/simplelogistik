@@ -81,11 +81,12 @@ class AddressService {
      * Source: https://stackoverflow.com/questions/7488557/separate-street-name-from-street-number
      * 
      * @param array $customerPamyra
+     * @throws \Exception
      * @return void
      */
     private function separateStreetAndHouseNumber(array $customerPamyra): void
     {
-        $streetAndNumber = $customerPamyra['address']['street'];//Example:"street": "Am Hochhaus 70".
+        $streetAndNumber = $customerPamyra['Address']['Street'];//Example:"street": "Am Hochhaus 70".
         if (!preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match)) {//Extract street and number
             throw new \Exception('Invalid address format');//If something is wrong with the extraction, throw an exception.
         }
@@ -101,7 +102,7 @@ class AddressService {
      */
     private function setCountryId(array $customerPamyra): void
     {
-        $countryCode = $customerPamyra['address']['countryCode'];
+        $countryCode = $customerPamyra['Address']['CountryCode'];
         $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
     }
 
@@ -165,16 +166,16 @@ class AddressService {
             'customer_id' => $customerId,
             'country_id' => $this->countryId,
             'partner_id' => $partnerId,
-            'company_name' => $customerPamyra['company'],
-            'first_name' => $customerPamyra['firstName'],
-            'last_name' => $customerPamyra['name'],
+            'company_name' => $customerPamyra['Company'] ?? null,
+            'first_name' => $customerPamyra['FirstName'] ?? null,
+            'last_name' => $customerPamyra['Name'] ?? null,
             'street' => $this->street,
             'house_number' => $this->houseNumber,
-            'zip_code' => $customerPamyra['address']['postalCode'],
-            'city' => $customerPamyra['address']['city'],
-            'address_additional_information' => $customerPamyra['address']['addressAdditionalInformation'],
-            'phone' => $customerPamyra['phone'],
-            'email' => $customerPamyra['mail'],
+            'zip_code' => $customerPamyra['Address']['PostalCode'] ?? null,
+            'city' => $customerPamyra['Address']['City'] ?? null,
+            // 'address_additional_information' => $customerPamyra['Address']['AddressAdditionalInformation'],
+            'phone' => $customerPamyra['Phone'] ?? null,
+            'email' => $customerPamyra['Mail'] ?? null,
             'is_pickup' => false,
             'is_delivery' => false,
             'is_headquarter' => $isHeadquarter,
@@ -195,6 +196,7 @@ class AddressService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $addressPamyra
+     * @throws \Exception
      * @return void
      */
     private function validate(array $addressPamyra): void

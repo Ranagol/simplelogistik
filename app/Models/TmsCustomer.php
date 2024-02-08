@@ -234,7 +234,6 @@ class TmsCustomer extends Model
 
     protected function invoiceDispatch(): Attribute
     {
-        // dd('xxxx');
         return Attribute::make(
             //gets from db, transforms it. 1 will become 'Bussiness customer'.
             get: fn (string $value) => self::INVOICE_DISPATCHES[$value] ?? 'Missing data xxx.',

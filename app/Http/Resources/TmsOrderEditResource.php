@@ -18,7 +18,6 @@ class TmsOrderEditResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // dd('TmsOrderEditResource triggered');
 
         return [
             'id' => $this->id,
@@ -66,7 +65,6 @@ class TmsOrderEditResource extends JsonResource
      */
     private function setDetails()
     {
-        // dd('setDetails');
 
         $pamyraOrder = $this->pamyraOrder ?? null;
         $nativeOrder = $this->nativeOrder ?? null;

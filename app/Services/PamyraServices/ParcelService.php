@@ -44,7 +44,7 @@ class ParcelService {
         int $orderId
     ): void
     {
-        $parcels = $pamyraOrder['transportobjects'];
+        $parcels = $pamyraOrder['Transportobjects'];
         foreach ($parcels as $parcel) {
             $this->create($parcel, $orderId);
         }
@@ -64,13 +64,13 @@ class ParcelService {
     {
         $parcelArray = [
             'tms_order_id' => $orderId,
-            'name' => $parcel['name'],
-            'height' => $parcel['height'],
-            'length' => $parcel['length'],
-            'width' => $parcel['width'],
-            'number' => $parcel['number'],
-            'stackable' => $parcel['stackable'],
-            'weight' => $parcel['weight'],
+            'name' => $parcel['Name'] ?? null,
+            'height' => $parcel['Height'] ?? null,
+            'length' => $parcel['Length'] ?? null,
+            'width' => $parcel['Width'] ?? null,
+            'number' => $parcel['Number'] ?? null,
+            'stackable' => $parcel['Stackable'] ?? null,
+            'weight' => $parcel['Weight'] ?? null,
         ];
 
         $this->validate($parcelArray);
@@ -87,6 +87,7 @@ class ParcelService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $parcelArray
+     * @throws \Exception
      * @return void
      */
     private function validate(array $parcelArray): void

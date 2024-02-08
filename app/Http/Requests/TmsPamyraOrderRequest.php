@@ -32,9 +32,9 @@ class TmsPamyraOrderRequest extends FormRequest
         return [
             'calculation_model_name' => ['nullable', 'string', 'max:255'],
             'order_number' => ['required', 'string', 'max:255'],
-            'order_pdf' => ['nullable', 'string', 'max:255'],
+            'order_pdf' => ['nullable', 'string'],
             'payment_method' => ['required', 'string', 'max:255'],
-            'date_of_sale' => ['required', 'date'],
+            'date_of_sale' => ['nullable', 'date'],
             'date_of_cancellation' => ['nullable', 'date_format:Y-m-d'],
             'description_of_transport' => ['nullable', 'string', 'max:255'],
             'particularities' => ['nullable', 'string', 'max:255'],
@@ -56,7 +56,7 @@ class TmsPamyraOrderRequest extends FormRequest
             'vat_rate' => ['nullable', 'numeric'],
             'value_insured' => ['nullable', 'numeric'],
             'value_of_goods' => ['nullable', 'numeric'],
-            'distance_km' => ['required', 'numeric'],
+            'distance_km' => ['nullable', 'numeric'],
             'duration_minutes' => ['nullable', 'numeric'],
         ];
     }
