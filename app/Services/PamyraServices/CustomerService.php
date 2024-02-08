@@ -116,6 +116,7 @@ class CustomerService {
      *
      * @param array $customer
      * @throws \Exception
+     * @return void
      */
     private function validate(array $customerArray): void
     {

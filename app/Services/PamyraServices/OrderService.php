@@ -70,6 +70,7 @@ class OrderService {
      * tms_pamyra_orders table. (Not in tms_orders table!)
      * 
      * @param array $pamyraOrder
+     * @throws \Exception
      * @return void
      */
     private function checkForDuplicate(array $pamyraOrder)
@@ -126,6 +127,7 @@ class OrderService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $orderArray
+     * @throws \Exception
      * @return void
      */
     private function validate(array $orderArray): void

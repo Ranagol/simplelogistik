@@ -81,6 +81,7 @@ class AddressService {
      * Source: https://stackoverflow.com/questions/7488557/separate-street-name-from-street-number
      * 
      * @param array $customerPamyra
+     * @throws \Exception
      * @return void
      */
     private function separateStreetAndHouseNumber(array $customerPamyra): void
@@ -195,6 +196,7 @@ class AddressService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $addressPamyra
+     * @throws \Exception
      * @return void
      */
     private function validate(array $addressPamyra): void

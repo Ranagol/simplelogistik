@@ -133,10 +133,11 @@ class OrderAddressService {
      * 1. isHeadquarter = true
      * 2. isBilling = true
      *
-     * @param array $pamyraOrder
-     * @param boolean $isHeadquarter
-     * @param boolean $isBilling
+     * @param integer $orderId
      * @param integer $customerId
+     * @param integer $partnerId
+     * @param string $addressType
+     * @throws \Exception
      * @return void
      */
     private function checkForDuplicate(
@@ -157,7 +158,6 @@ class OrderAddressService {
 
         if($duplicateAddress) {
             throw new \Exception('Duplicate address found in order_addresses table.');
-            dump($duplicateAddress);
         }
     }
 
@@ -223,6 +223,7 @@ class OrderAddressService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $addressPamyra
+     * @throws \Exception
      * @return void
      */
     private function validate(array $addressPamyra): void

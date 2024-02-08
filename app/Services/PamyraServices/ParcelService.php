@@ -87,6 +87,7 @@ class ParcelService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $parcelArray
+     * @throws \Exception
      * @return void
      */
     private function validate(array $parcelArray): void

@@ -44,6 +44,14 @@ class PamyraOrderService {
         $this->createPamyraOrder($pamyraOrder, $orderId);
     }
 
+    /**
+     * Checks for duplicate in the database.
+     *
+     * @param array $pamyraOrder
+     * @param integer $orderId
+     * @throws \Exception
+     * @return void
+     */
     private function checkForDuplicate(
         array $pamyraOrder, 
         int $orderId
@@ -103,6 +111,7 @@ class PamyraOrderService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $pamyraOrderArray
+     * @throws \Exception
      * @return void
      */
     private function validate(array $pamyraOrderArray): void
