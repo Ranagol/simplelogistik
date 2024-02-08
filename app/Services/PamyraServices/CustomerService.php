@@ -84,6 +84,7 @@ class CustomerService {
             'tax_number' => $customerPamyra['VatId'] ?? null,
             'phone' => $customerPamyra['Phone'] ?? null,
             'internal_id' => 'temporary testing' ?? null,
+            'customer_type' => $this->createCustomerType($customerPamyra),
         ];
 
         $this->validate($customerArray);
@@ -91,6 +92,18 @@ class CustomerService {
         $customer = TmsCustomer::create($customerArray);
 
         return $customer;//this will have the id
+    }
+
+    /**
+     * if customer has company then customer_type is 'Bussiness customer, else 'Private customer'.
+     *
+     * @param array $customerPamyra
+     * @return string
+     */
+    private function createCustomerType(array $customerPamyra): string
+    {
+        $company = $customerPamyra['Company'] ?? null;
+        return $company ? 'Bussiness customer' : 'Private customer';
     }
 
     /**
