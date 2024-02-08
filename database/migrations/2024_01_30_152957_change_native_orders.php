@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tms_native_orders', function (Blueprint $table) {
-            $table->dropColumn('payment_method');
+            if (Schema::hasColumn('tms_native_orders', 'payment_method')) {
+                $table->dropColumn('payment_method');
+            }
+            
         });
     }
 
@@ -22,7 +25,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tms_native_orders', function (Blueprint $table) {
-            $table->string('payment_method')->nullable()->change();
+            if (Schema::hasColumn('tms_native_orders', 'payment_method')) {
+                $table->string('payment_method')->nullable()->change();
+            }
         });
     }
 };
