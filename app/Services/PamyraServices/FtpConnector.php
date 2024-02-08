@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Storage;
  */
 class FtpConnector
 {
+    // private string $ftpSourcePath = 'upload/PAM';//this is the real path on the ftp server, where pamyra sends its files. LIVE DATA! 
+    private string $ftpSourcePath = 'upload/andor/PAM';//this is for my testing only, targets my dir. For development only!
+
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
      * Pamyra orders to the database. Later, when this is done, we will need these file names
@@ -75,7 +78,7 @@ class FtpConnector
     private function filterFileNames(array $allFileNames): array
     {
         $filteredFileNames = array_filter($allFileNames, function ($fileName) {
-            return strpos($fileName, '.json') !== false && strpos($fileName, 'upload/PAM') !== false;
+            return strpos($fileName, '.json') !== false && strpos($fileName, $this->ftpSourcePath) !== false;
         });
 
         $this->filteredFileNames = $filteredFileNames;
