@@ -152,7 +152,6 @@ class TmsOrderAddress extends Model
              */
             // set: fn (string $value) => array_flip(self::ADDRESS_TYPES)[$value] ?? 'Missing data TmsAddress model.',
             set: function (string $value) {//the old way
-                // dd($value);
                 return array_flip(self::ADDRESS_TYPES)[$value] ?? (env('APP_DEBUG') ? 'Missing data TmsAddress model.' : 'labels.address-default');
             }
 

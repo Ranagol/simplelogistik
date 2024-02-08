@@ -108,7 +108,6 @@ class OrderHandler {
      */
     private function handleCustomer(array $pamyraOrder): void
     {
-        // dd($pamyraOrder);
         $this->customerId = $this->customerService->handle($pamyraOrder['Customer']);
     }
 

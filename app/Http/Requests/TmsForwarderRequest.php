@@ -31,7 +31,6 @@ class TmsForwarderRequest extends FormRequest
      */
     public function forwarderRules()
     {
-        // dd('forwarderRules validation triggered.');
 
         return [
             'id' => ['required', 'integer', 'min:1'],

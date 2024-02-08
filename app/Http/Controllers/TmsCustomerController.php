@@ -340,7 +340,6 @@ class TmsCustomerController extends Controller
              */
             ->withQueryString();
 
-            // dd($records);
         return $records;
     }
 }

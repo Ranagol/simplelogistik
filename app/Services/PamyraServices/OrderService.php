@@ -75,11 +75,9 @@ class OrderService {
     private function checkForDuplicate(array $pamyraOrder)
     {
         $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['OrderNumber'])->first();
-        // dd($duplicateOrder);
 
         if($duplicateOrder) {
             throw new \Exception('Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists (OrderService).');
-            dump($pamyraOrder);
         }
     }
 

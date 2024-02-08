@@ -15,7 +15,6 @@ trait OrderNumberMakerTrait {
     public function setOrderNumber()
     {
         $lastOrder = TmsOrder::orderBy('id', 'desc')->first();
-        // dd($lastOrder);
 
         if ($lastOrder) {
             return $lastOrder->order_number + 1;
