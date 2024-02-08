@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TmsVehicleController;
 use Inertia\Inertia;
 use App\Models\TmsOrder;
 use App\Models\TmsCustomer;
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', TmsOrderController::class);
     Route::resource('addresses', TmsAddressController::class);
     Route::resource('forwarders', TmsForwarderController::class);
+    Route::resource('vehicles', TmsVehicleController::class);
     Route::middleware([])->group(function(){
         Route::get('/system/languages', [SystemSettingsController::class,'listLanguages'])->name('languages.index'); // List all Languages
         Route::get('/system/language/{id}', [SystemSettingsController::class,'showLanguages'])->name('languages.show'); // Show Details about Language
