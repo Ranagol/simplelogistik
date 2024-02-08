@@ -183,7 +183,6 @@ class TmsOrderController extends Controller
          * The validated method is used to get the validated order data from the orderRequest.
          */
         $orderFromRequest = $request->validated();//do validation
-        // dd($orderFromRequest);
 
         //Get the order from db
         $orderFromDb = TmsOrder::find($id);

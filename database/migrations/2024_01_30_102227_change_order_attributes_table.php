@@ -27,10 +27,18 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tms_order_attributes', function (Blueprint $table) {
-            $table->string('type')->nullable();
-            $table->unsignedBigInteger('tms_order_id')->comment('An attribute always belongs to a cargo order.');
-            $table->foreign('tms_order_id')->references('id')->on('tms_orders');
-            $table->dropForeign('partner_id');
+            if (!Schema::hasColumn('tms_order_attributes', 'type')) {
+                $table->string('type')->nullable();
+            }
+
+            if (!Schema::hasColumn('tms_order_attributes', 'tms_order_id')) {
+                $table->unsignedBigInteger('tms_order_id')->comment('An attribute always belongs to a cargo order.');
+                $table->foreign('tms_order_id')->references('id')->on('tms_orders');
+            }
+
+            if (Schema::hasColumn('tms_order_attributes', 'partner_id')) {
+                $table->dropForeign('tms_order_attributes_partner_id_foreign');
+            }
         });
     }
 };

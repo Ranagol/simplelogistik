@@ -28,6 +28,8 @@ class HandlePamyraOrders extends Command
      */
     public function handle(OrdersHandler $ordersHandler): void
     {
+        $this->info('Handling Pamyra orders has started.');
         $ordersHandler->handle();
+        $this->info('Handling Pamyra orders has ended.');
     }
 }

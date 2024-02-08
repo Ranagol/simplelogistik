@@ -108,7 +108,7 @@ class OrderHandler {
      */
     private function handleCustomer(array $pamyraOrder): void
     {
-        $this->customerId = $this->customerService->handle($pamyraOrder['customer']);
+        $this->customerId = $this->customerService->handle($pamyraOrder['Customer']);
     }
 
     /**
@@ -122,7 +122,7 @@ class OrderHandler {
     private function handleAddresses(array $pamyraOrder): void
     {
         $this->headquarter = $this->addressService->handle(
-            $pamyraOrder['customer'], 
+            $pamyraOrder['Customer'], 
             true,//isHeadquarter
             false,//isBilling
             $this->customerId,
@@ -130,7 +130,7 @@ class OrderHandler {
         );
 
         $this->billingAddress = $this->addressService->handle(
-            $pamyraOrder['customer'], 
+            $pamyraOrder['Customer'], 
             false,//isHeadquarter
             true,//isBilling
             $this->customerId,
@@ -169,22 +169,24 @@ class OrderHandler {
     {
         //Create a pickup address in OrderAddresses table.
         $this->orderAddressService->handle(
-            $pamyraOrder['sender'],
-            $pamyraOrder['pickupDate'],
+            $pamyraOrder['Sender'],
+            $pamyraOrder['PickupDate'],
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
-            TmsOrderAddress::ADDRESS_TYPES[3]//pickup address
+            TmsOrderAddress::ADDRESS_TYPES[3],//pickup address
+            $pamyraOrder['OrderNumber']
         );
 
         //Create a delivery address in OrderAddresses table.
         $this->orderAddressService->handle(
-            $pamyraOrder['receiver'],
-            $pamyraOrder['deliveryDate'],
+            $pamyraOrder['Receiver'],
+            $pamyraOrder['DeliveryDate'],
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
-            TmsOrderAddress::ADDRESS_TYPES[4]//delivery address
+            TmsOrderAddress::ADDRESS_TYPES[4],//delivery address
+            $pamyraOrder['OrderNumber']
         );
     }
 

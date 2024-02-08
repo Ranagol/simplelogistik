@@ -55,9 +55,9 @@ class CustomerService {
      */
     private function checkForDuplicate($customerPamyra): TmsCustomer|null
     {
-        $first_name = $customerPamyra['firstName'];
-        $last_name = $customerPamyra['name'];
-        $phone = $customerPamyra['phone'];
+        $first_name = $customerPamyra['FirstName'];
+        $last_name = $customerPamyra['Name'];
+        $phone = $customerPamyra['Phone'];
 
         $customer = TmsCustomer::where('first_name', $first_name)
                                 ->where('last_name', $last_name)
@@ -77,13 +77,16 @@ class CustomerService {
     private function createCustomer(array $customerPamyra): TmsCustomer
     {
         $customerArray = [
-            'company_name' => $customerPamyra['company'],
-            'email' => $customerPamyra['mail'],
-            'first_name' => $customerPamyra['firstName'],
-            'last_name' => $customerPamyra['name'],
-            'tax_number' => $customerPamyra['vatId'],
-            'phone' => $customerPamyra['phone'],
-            'internal_id' => 'temporary testing',
+            'company_name' => $customerPamyra['Company'] ?? null,
+            'email' => $customerPamyra['Mail'] ?? null,
+            'first_name' => $customerPamyra['FirstName'] ?? null,
+            'last_name' => $customerPamyra['Name'] ?? null,
+            'tax_number' => $customerPamyra['VatId'] ?? null,
+            'phone' => $customerPamyra['Phone'] ?? null,
+            'internal_id' => 'temporary testing' ?? null,
+            'customer_type' => $this->createCustomerType($customerPamyra),
+            'invoice_dispatch' => 'Direct',
+            'invoice_shipping_method' => 'Email',
         ];
 
         $this->validate($customerArray);
@@ -94,6 +97,18 @@ class CustomerService {
     }
 
     /**
+     * if customer has company then customer_type is 'Bussiness customer, else 'Private customer'.
+     *
+     * @param array $customerPamyra
+     * @return string
+     */
+    private function createCustomerType(array $customerPamyra): string
+    {
+        $company = $customerPamyra['Company'] ?? null;
+        return $company ? 'Bussiness customer' : 'Private customer';
+    }
+
+    /**
      * Validate the customer data.
      * 
      * @Christoph said, that temporarily we just need to throw a simple basic exception if the 
@@ -101,6 +116,7 @@ class CustomerService {
      *
      * @param array $customer
      * @throws \Exception
+     * @return void
      */
     private function validate(array $customerArray): void
     {

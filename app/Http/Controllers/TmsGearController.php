@@ -151,7 +151,6 @@ class TmsGearController extends Controller
              */
             ->withQueryString();
 
-            // dd($requirements);
         return $requirements;
     }
 }

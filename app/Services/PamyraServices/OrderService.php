@@ -14,6 +14,7 @@ use App\Services\PamyraServices\OrderNumberMakerTrait;
 class OrderService {
 
     use OrderNumberMakerTrait;
+    use DateFormatterTrait;
 
     /**
      * Validation rules.
@@ -49,15 +50,9 @@ class OrderService {
         int $partnerId
     ): TmsOrder
     {
-        //TODO ANDOR ask C. - FROSEN
-        //STOP WITH THIS TASK, THIS CAN BE ONLY DONE WE CHRISTOPH PUSHES HIS CHANGES
-        //in the moment that I am looking on the pamyra json I see there is a field with oderPdf. 
-        //The data from this field schould go to (base_path).documents.orders.pamyra  name of File then $orderNumer .".pdf"
-
+        
         $this->checkForDuplicate(
             $pamyraOrder, 
-            $customerId, 
-            $billingAddressId
         );
 
         $order = $this->createOrder(
@@ -74,20 +69,16 @@ class OrderService {
      * The only way to check for duplicate is to check if the order number already exists in the
      * tms_pamyra_orders table. (Not in tms_orders table!)
      * 
-     * To test for duplicate, use this order number: PAM220826-1323140813
-     *
      * @param array $pamyraOrder
-     * @param integer $customerId
-     * @param integer $billingAddressId
+     * @throws \Exception
      * @return void
      */
-    private function checkForDuplicate(array $pamyraOrder, int $customerId, int $billingAddressId)
+    private function checkForDuplicate(array $pamyraOrder)
     {
-        $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['orderNumber'])->first();
+        $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['OrderNumber'])->first();
 
         if($duplicateOrder) {
-            echo 'Order with order number ' . $pamyraOrder['orderNumber'] . ' already exists.' . PHP_EOL;
-            throw new \Exception('Order with order number ' . $pamyraOrder['orderNumber'] . ' already exists.');
+            throw new \Exception('Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists (OrderService).');
         }
     }
 
@@ -115,8 +106,8 @@ class OrderService {
             'order_status_id' => array_key_first(TmsOrderStatus::STATUSES), 
             'provision' => 6,
             'currency' => 'EUR',
-            'order_date' => $this->formatOrderDate($pamyraOrder['dateOfSale']),
-            'purchase_price' => $pamyraOrder['priceNet'],
+            'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
+            'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
             'payment_method' => 5, //this is invoice payment method
             'billing_address_id' => $billingAddressId,
             'order_number' => $this->setOrderNumber(),
@@ -130,28 +121,13 @@ class OrderService {
     }
 
     /**
-     * Formats the order date from d.m.Y H:i to Y-m-d H:i:s
-     *
-     * @param string $orderDate
-     * @return string
-     */
-    private function formatOrderDate(string $orderDate): string
-    {
-        //Create a DateTime object from string
-        $date = DateTime::createFromFormat('d.m.Y H:i', $orderDate);
-
-        //Add the missing seconds to the formatting, because mysql needs this
-        $formattedDate = $date->format('Y-m-d H:i:s');
-        return $formattedDate;
-    }
-
-    /**
      * Validates the order data.
      * 
      * @Christoph said, that temporarily we just need to throw a simple basic exception if the 
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $orderArray
+     * @throws \Exception
      * @return void
      */
     private function validate(array $orderArray): void
