@@ -85,6 +85,8 @@ class CustomerService {
             'phone' => $customerPamyra['Phone'] ?? null,
             'internal_id' => 'temporary testing' ?? null,
             'customer_type' => $this->createCustomerType($customerPamyra),
+            'invoice_dispatch' => 'Direct',
+            'invoice_shipping_method' => 'Email',
         ];
 
         $this->validate($customerArray);

@@ -4,8 +4,9 @@ namespace App\Services\PamyraServices;
 
 use App\Models\TmsOrderAddress;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\TmsOrderAddressRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TmsOrderAddressRequest;
 
 class OrderAddressService {
 
@@ -42,6 +43,7 @@ class OrderAddressService {
      * @param integer $customerId
      * @param integer $partnerId
      * @param string $addressType   pickup or delivery
+     * @param string $pamyraOrderNumber
      * @return void
      */
     public function handle(
@@ -50,10 +52,11 @@ class OrderAddressService {
         int $orderId,
         int $customerId,
         int $partnerId,
-        string $addressType//pickup or delivery
+        string $addressType,//pickup or delivery
+        string $pamyraOrderNumber
     ): void
     {
-        $this->separateStreetAndHouseNumber($customer);
+        $this->separateStreetAndHouseNumber($customer, $pamyraOrderNumber);
 
         $this->setCountryId($customer);
         
@@ -81,17 +84,33 @@ class OrderAddressService {
      * Source: https://stackoverflow.com/questions/7488557/separate-street-name-from-street-number
      * 
      * @param array $customer    This is either sender (for pickup) or receiver (for delivery).
+     * @param string $pamyraOrderNumber
      * 
      * @return void
      */
-    private function separateStreetAndHouseNumber(array $customer): void
+    private function separateStreetAndHouseNumber(array $customer, string $pamyraOrderNumber): void
     {
         $streetAndNumber = $customer['Address']['Street'];//Example:"street": "Am Hochhaus 70".
         if (!preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match)) {//Extract street and number
-            throw new \Exception('Invalid address format');//If something is wrong with the extraction, throw an exception.
+            
+            //If the street and house number separation failed, log it.
+            $errorMessage = 'Separating street and house failed in Pamyra order '
+                            . $pamyraOrderNumber
+                            . ' for street '
+                            . $customer['Address']['Street'];
+
+            //If something is wrong with the extraction, log it.
+            Log::error($errorMessage);
+            echo $errorMessage . PHP_EOL;
+
+            //And then just simply write all into the street field.
+            $this->street = $customer['Address']['Street'] ?? null;
+            $this->houseNumber = '';
+        } else {
+            //If the street and house number separation was successful, set the street and house number.
+            $this->street = $match[1];//Example:"Am Hochhaus".
+            $this->houseNumber = $match[2];//Example:"70".
         }
-        $this->street = $match[1];//Example:"Am Hochhaus".
-        $this->houseNumber = $match[2];//Example:"70".
     }
 
     /**

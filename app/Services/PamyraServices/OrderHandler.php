@@ -175,7 +175,8 @@ class OrderHandler {
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
-            TmsOrderAddress::ADDRESS_TYPES[3]//pickup address
+            TmsOrderAddress::ADDRESS_TYPES[3],//pickup address
+            $pamyraOrder['OrderNumber']
         );
 
         //Create a delivery address in OrderAddresses table.
@@ -185,7 +186,8 @@ class OrderHandler {
             $this->order->id, 
             $this->customerId,
             $this->partnerId, 
-            TmsOrderAddress::ADDRESS_TYPES[4]//delivery address
+            TmsOrderAddress::ADDRESS_TYPES[4],//delivery address
+            $pamyraOrder['OrderNumber']
         );
     }
 
