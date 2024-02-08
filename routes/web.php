@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard.index');
 
     Route::get('/pamyra', function () {
         return Inertia::render('Pamyra');

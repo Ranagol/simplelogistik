@@ -3,7 +3,7 @@ import { Histogram, Folder, Avatar, TakeawayBox, More, ArrowDown, Location, Van}
 const items =  [
     {
         "title": "menu.dashboard",
-        "route": 'dashboard',
+        "route": 'dashboard.index',
         "icon": Histogram,
     },
     {
@@ -24,6 +24,11 @@ const items =  [
     {
         "title": "menu.forwarders",
         "route": 'forwarders.index',
+        "icon": Van,
+    },
+    {
+        "title": "menu.vehicles",
+        "route": 'vehicles.index',
         "icon": Van,
     },
     {

@@ -2,20 +2,21 @@
 
     <!-- TITLE -->
     <h1
-        class="font-semibold text-xl text-gray-500 leading-tight"
+        class="text-xl font-semibold leading-tight text-gray-500"
     >Addresses that belong to the customer</h1>
 
     
     <!-- TABLE OF ADDRESSES BELONGING TO THE CUSTOMER (FILTERED) -->
-    <AddressTable
+    <!-- <AddressTable
         :addresses="props.addresses"
-    />
+        /> -->
+        {{props.addresses}}
     
 </template>
 
 <script setup>
 import { reactive, computed, watch, onMounted, ref, onUpdated, nextTick } from 'vue';
-import AddressTable from '@/Pages/Addresses/IndexAddress/AddressTable.vue';
+// import AddressTable from '@/Pages/Addresses/IndexAddress/AddressTable.vue';
 import _ from 'lodash';
 
 let props = defineProps({

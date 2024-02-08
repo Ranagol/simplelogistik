@@ -99,14 +99,14 @@
 
 <script setup>
 import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
-import DataTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/DataTab.vue';
-import AddressesTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/AddressesTab.vue';
-import ContactsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/ContactsTab.vue';
-import OrdersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OrdersTab.vue';
-import OffersTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/OffersTab.vue';
-import IndividualTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/IndividualTab.vue';
-import CommentsTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/CommentsTab.vue';
-import InvoicesTab from '@/Pages/Customers/CreateEditCustomer/CustomerTabs/InvoicesTab.vue';
+import DataTab from './DataTab.vue';
+import AddressesTab from './AddressesTab.vue';
+import ContactsTab from './ContactsTab.vue';
+import OrdersTab from './OrdersTab.vue';
+import OffersTab from './OffersTab.vue';
+import IndividualTab from './IndividualTab.vue';
+import CommentsTab from './CommentsTab.vue';
+import InvoicesTab from './InvoicesTab.vue';
 import _ from 'lodash';
 
 const props = defineProps({
