@@ -2,15 +2,22 @@
 
 namespace Modules\EmonsInvoice\app\Services\EmonsInvoices;
 
+use UConverter;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\TmsEmonsInvoiceRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TmsEmonsInvoiceRequest;
 
 class EmonsInvoiceService
 {
     private array $validationRules;
 
+    /**
+     * This array is crucial for transforming the csv file into an array with the right names for
+     * the keys. The keys are the column names in the database table.
+     *
+     * @var array
+     */
     private array $keys = [
         0 => 'emons_invoice_number',
         1 => 'billing_date',
@@ -48,16 +55,29 @@ class EmonsInvoiceService
         $this->validationRules = $tmsEmonsInvoiceRequest->emonsInvoiceRules();//this does not work with injection
     }
 
+    /**
+     * This is the main method of this class. It will trigger all other helper methods.
+     *
+     * @return void
+     */
     public function handle(): void
     {
-        // echo "EmonsInvoiceService triggered" . PHP_EOL;
         // $invoices = $this->getFileFromEmons();
+
         $invoices = $this->transformCsvToArray();
+
+        $this->checkIfInvoicesExist($invoices);
+
         // $this->checkForDuplicates($invoices);
+
         // $this->validateEmonsInvoices($invoices);
+
         DB::table('tms_emons_invoices')->insert($invoices);
+
         // $this->archiveFile();
     }
+
+    
     
     /**
      * We use raw php to read the csv file, because the Storage facade does not want to recognize
@@ -83,8 +103,6 @@ class EmonsInvoiceService
          */
         while (($rowInCsvFile = fgetcsv($file, null, '|')) !== false) {
 
-            // $rowInCsvFile = array_map('utf8_encode', $rowInCsvFile);//TODO ANDOR ENCODING 1 (not working)this encoding is not working. We have to find a solution for this.
-
             //Every row/line in the csv file is an invoice. We will store here the invoice data.
             $invoice = [];
             
@@ -108,8 +126,14 @@ class EmonsInvoiceService
              *   ]
              */
             foreach ($this->keys as $key => $value) {
-                // $invoice[$value] = $rowInCsvFile[$key];//original working code without encoding
-                $invoice[$value] = mb_convert_encoding($rowInCsvFile[$key], 'ISO-8859-2', 'UTF-8');//TODO ANDOR ENCODING 2 (not working)
+
+                /**
+                 * mb_convert_encoding - not working
+                 * UConverter::transcode(($rowInCsvFile[$key]), 'ISO-8859-1', 'UTF-8'); - not working
+                 * $invoice[$value] = utf8_encode($rowInCsvFile[$key]);//working, but deprecated
+                 */
+                $invoice[$value] = iconv('ISO-8859-1', 'UTF-8', $rowInCsvFile[$key]);
+
             }
 
             $invoices[] = $invoice;
@@ -120,8 +144,23 @@ class EmonsInvoiceService
         return $invoices;
     }
 
+    /**
+     * Checks if there are any invoices in the csv file. If not, it throws an exception.
+     *
+     * @param array $invoices
+     * @throws \Exception
+     * @return void
+     */
+    private function checkIfInvoicesExist(array $invoices): void
+    {
+        if (empty($invoices)) {
+            throw new \Exception('No invoices found in the csv file.');
+            exit;
+        }
+    }
 
-    private function checkForDuplicates($invoices)
+
+    private function checkForDuplicates(array $invoices): void
     {
 
     }
@@ -138,48 +177,6 @@ class EmonsInvoiceService
     {
 
     }
-
-    // /**
-    //  * getting CSV array with UTF-8 encoding
-    //  *
-    //  * @param   resource    &$handle
-    //  * @param   integer     $length
-    //  * @param   string      $separator
-    //  *
-    //  * @return  array|false
-    //  */
-    // private function fgetcsvUTF8(&$handle, $length, $separator = ';')
-    // {
-    //     if (($buffer = fgets($handle, $length)) !== false)
-    //     {
-    //         $buffer = $this->autoUTF($buffer);
-    //         return str_getcsv($buffer, $separator);
-    //     }
-    //     return false;
-    // }
-
-    // /**
-    //  * automatic convertion windows-1250 and iso-8859-2 info utf-8 string
-    //  *
-    //  * @param   string  $s
-    //  *
-    //  * @return  string
-    //  */
-    // private function autoUTF($s)
-    // {
-    //     return iconv('WINDOWS-1250', 'UTF-8', $s);
-
-    //     // detect UTF-8
-    //     if (preg_match('#[\x80-\x{1FF}\x{2000}-\x{3FFF}]#u', $s))
-    //         return $s;
-
-    //     // detect WINDOWS-1250
-    //     if (preg_match('#[\x7F-\x9F\xBC]#', $s))
-    //         return iconv('WINDOWS-1252', 'UTF-8', $s);
-
-    //     // assume ISO-8859-2
-    //     return iconv('ISO-8859-2', 'UTF-8', $s);
-    // }
 
 
 }
