@@ -37,7 +37,7 @@ return new class extends Migration
             }
 
             if (Schema::hasColumn('tms_order_attributes', 'partner_id')) {
-                $table->dropForeign('partner_id');    
+                $table->dropForeign('tms_order_attributes_partner_id_foreign');
             }
         });
     }
