@@ -272,7 +272,7 @@ const renderCellData = (header, data) => {
 
     switch (header.key) {
         case "forwarder":
-            return {'type': 'image', 'data': data.forwarder.url_logo}
+            return {'type': 'image', 'data': data.forwarder?.url_logo ?? 'https://via.placeholder.com/150'}
         case "id":
             return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.details.order_number}
         default:
