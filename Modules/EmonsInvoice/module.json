@@ -1,0 +1,11 @@
+{
+    "name": "EmonsInvoice",
+    "alias": "emonsinvoice",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\EmonsInvoice\\app\\Providers\\EmonsInvoiceServiceProvider"
+    ],
+    "files": []
+}

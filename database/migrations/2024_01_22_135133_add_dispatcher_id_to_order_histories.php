@@ -23,7 +23,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tms_order_histories', function (Blueprint $table) {
-            $table->dropForeign(['dispatcher_id']);
+            // if (Schema::hasColumn('tms_order_histories', 'dispatcher_id')) {
+            //     $table->dropForeign(['tms_order_histories_dispatcher_id_foreign']);
+            //     // $table->dropColumn('dispatcher_id');
+            // }
         });
     }
 };

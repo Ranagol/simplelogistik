@@ -1,9 +1,9 @@
-import { Histogram, Folder, Avatar, TakeawayBox, More, ArrowDown, Location} from "@element-plus/icons-vue"
+import { Histogram, Folder, Avatar, TakeawayBox, More, ArrowDown, Location, Van} from "@element-plus/icons-vue"
 
 const items =  [
     {
         "title": "menu.dashboard",
-        "route": 'dashboard',
+        "route": 'dashboard.index',
         "icon": Histogram,
     },
     {
@@ -20,6 +20,16 @@ const items =  [
         "title": "menu.addresses",
         "route": 'addresses.index',
         "icon": TakeawayBox,
+    },
+    {
+        "title": "menu.forwarders",
+        "route": 'forwarders.index',
+        "icon": Van,
+    },
+    {
+        "title": "menu.vehicles",
+        "route": 'vehicles.index',
+        "icon": Van,
     },
     {
         "title": "menu.more",

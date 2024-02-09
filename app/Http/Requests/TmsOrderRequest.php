@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Requests\TmsAddressRequest;
-use App\Http\Requests\NativeOrderRequest;
-use App\Http\Requests\PamyraOrderRequest;
+use App\Http\Requests\TmsNativeOrderRequest;
+use App\Http\Requests\TmsPamyraOrderRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\ValidationRules\ParcelValidationRule;
 
@@ -24,59 +24,52 @@ class TmsOrderRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
-        $addressRequest = new TmsAddressRequest();
-        $nativeOrderRequest = new NativeOrderRequest();
-        $pamyraOrderRequest = new PamyraOrderRequest();
+       return $this->orderRules();
+    }
 
+    public function orderRules()
+    {
         return [
 
-            //FOREIGN KEY VALIDATION (from orders table)
-            'customer.id' => 'nullable|integer',
-            'customer.company_name' => 'required|string|max:255',
-            'contact_id' => 'nullable|integer',
-            'partner_id' => 'nullable|integer',
-
-            //ORDER VALIDATION (from orders table)
-            'type_of_transport' => 'required|string|max:200',
-            'origin' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
-            'customer_reference' => 'required|string|max:255',
-            'provision' => 'nullable|numeric|between:0,99.99',
-            'order_edited_events' => 'nullable|json',
-            'currency' => 'nullable|string|max:50',
-            'order_date' => 'required|date',
-            'purchase_price' => 'nullable|string|max:200',
-            'month_and_year' => 'nullable|string|max:255',
-
-            'avis_customer_phone' => 'nullable|string|max:200',
-            'avis_sender_phone' => 'nullable|string|max:200',
-            'avis_receiver_phone' => 'nullable|string|max:200',
-
-            'payment_method' => 'required|string|min:2|max:100',
+            'company_name' => ['nullable', 'string', 'max:255'],
+            'contact_id' => ['nullable', 'integer'],
+            'partner_id' => ['nullable', 'integer'],
+            'type_of_transport' => ['nullable', 'string', 'max:200'],
+            'origin' => ['required', 'string', 'max:255'],
+            'order_status_id' => ['required', 'integer'],
+            'customer_reference' => ['nullable', 'string', 'max:255'],
+            'provision' => ['nullable', 'numeric', 'between:0,99.99'],
+            'order_edited_events' => ['nullable', 'json'],
+            'currency' => ['nullable', 'string', 'max:50'],
+            'order_date' => ['nullable', 'date'],
+            'purchase_price' => ['nullable', 'numeric'],
+            'month_and_year' => ['nullable', 'string', 'max:255'],
+            'payment_method' => ['required', 'numeric'],
             'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
+            'order_number' => ['required', 'integer'],
 
-            //NATIVE ORDER VALIDATION (from native_orders table)
-            'native_order' => 'nullable|array',
-            'native_order.*' => $nativeOrderRequest->nativeOrderRules(),
+            // //NATIVE ORDER VALIDATION (from native_orders table)
+            // 'native_order' => 'nullable|array',
+            // 'native_order.*' => $TmsNativeOrderRequest->nativeOrderRules(),
 
-            //PAMYRA ORDER VALIDATION (from pamyra_orders table)
-            'pamyra_order' => 'nullable|array',
-            'pamyra_order.*' => $pamyraOrderRequest->pamyraOrderRules(),
+            // //PAMYRA ORDER VALIDATION (from pamyra_orders table)
+            // 'pamyra_order' => 'nullable|array',
+            // 'pamyra_order.*' => $TmsPamyraOrderRequest->pamyraOrderRules(),
 
             //PARCEL VALIDATION (parcels is an array of objects, hence the * to symbolize the parcel object in parcels array)
-            'parcels.*.id' => 'nullable|integer',
-            'parcels.*.tms_order_id' => 'required|integer|exists:tms_orders,id',
-            'parcels.*.is_hazardous' => 'boolean',
-            'parcels.*.information' => 'required|string|max:255',
-            'parcels.*.p_name' => 'required|string|max:255',
-            'parcels.*.p_height' => 'required|numeric|between:0,9999999999.99',
-            'parcels.*.p_length' => 'required|numeric|between:0,9999999999.99',
-            'parcels.*.p_width' => 'required|numeric|between:0,9999999999.99',
-            'parcels.*.p_number' => 'required|string|max:255',//This is a property of Pamyra orders. Number is an index of transport objects.
-            'parcels.*.p_stackable' => 'boolean',
-            'parcels.*.p_weight' => 'required|numeric|between:0,9999999999.99',
+            // 'parcels.*.id' => 'nullable|integer',
+            // 'parcels.*.tms_order_id' => 'required|integer|exists:tms_orders,id',
+            // 'parcels.*.is_hazardous' => 'boolean',
+            // 'parcels.*.information' => 'required|string|max:255',
+            // 'parcels.*.p_name' => 'required|string|max:255',
+            // 'parcels.*.p_height' => 'required|numeric|between:0,9999999999.99',
+            // 'parcels.*.p_length' => 'required|numeric|between:0,9999999999.99',
+            // 'parcels.*.p_width' => 'required|numeric|between:0,9999999999.99',
+            // 'parcels.*.p_number' => 'required|string|max:255',//This is a property of Pamyra orders. Number is an index of transport objects.
+            // 'parcels.*.p_stackable' => 'boolean',
+            // 'parcels.*.p_weight' => 'required|numeric|between:0,9999999999.99',
             
             /**
              * HEADQUARTER ADDRESS VALIDATION (HEADQUARTER IS A PROPERTY OF CUSTOMER)
@@ -85,10 +78,9 @@ class TmsOrderRequest extends FormRequest
              * 
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
-            'customer.headquarter' => 'array',
-            //TODO LOSI: order edit validacio nem dolgozik, mert a headquarter.company_name nem validalodik.
-            // 'customer.headquarter.company_name' => 'required|string|max:255',//this works
-            'customer.headquarter' => $addressRequest->addressRules(),//this doesn't work
+            // 'customer.headquarter' => 'array',
+            // // 'customer.headquarter.company_name' => 'required|string|max:255',//this works
+            // 'customer.headquarter' => $addressRequest->addressRules(),//this doesn't work
             
             /**
              * PICKUP ADDRESS VALIDATION
@@ -97,8 +89,8 @@ class TmsOrderRequest extends FormRequest
              * 
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
-            'pickup_addresses' => 'array',
-            'pickup_addresses.*' => $addressRequest->addressRules(),
+            // 'pickup_addresses' => 'array',
+            // 'pickup_addresses.*' => $addressRequest->addressRules(),
             
             /**
              * DELIVERY ADDRESS VALIDATION
@@ -107,8 +99,8 @@ class TmsOrderRequest extends FormRequest
              * 
              * $addressRequest->addressRules() is reused TmsAddressRequest.
              */
-            'delivery_addresses' => 'array',
-            'delivery_addresses.*' => $addressRequest->addressRules(),
+            // 'delivery_addresses' => 'array',
+            // 'delivery_addresses.*' => $addressRequest->addressRules(),
 
         ];
     }

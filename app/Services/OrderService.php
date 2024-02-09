@@ -14,8 +14,6 @@ use App\Models\TmsOrderAddress;
  */
 class OrderService
 {   
-
-    //TODO: ANDOR REFACTOR - these function have to be refactored
     public function handleNativeOrder(array $orderFromRequest): void
     {
             
@@ -28,7 +26,6 @@ class OrderService
         if (!empty($orderFromRequest['native_order'])) {
 
             $nativeOrder = $orderFromRequest['native_order'];
-            // dd($nativeOrder);
 
             TmsNativeOrder::updateOrCreate(
                 // Check if we have this id on the db
@@ -51,7 +48,6 @@ class OrderService
         if (!empty($orderFromRequest['pamyra_order'])) {
 
             $pamyraOrder = $orderFromRequest['pamyra_order'];
-            // dd($pamyraOrder);
 
             TmsPamyraOrder::updateOrCreate(
                 // Check if we have this id on the db

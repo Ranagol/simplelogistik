@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tms_forwarding_contracts', function (Blueprint $table) {
-            $table->dropForeign('tms_forwarding_contracts_dispatcher_id_foreign');
+        Schema::table('tms_order_histories', function (Blueprint $table) {
+            $table->dropForeign('tms_order_histories_dispatcher_id_foreign');
         });
-        Schema::table('tms_dispatchers', function (Blueprint $table) {
-            Schema::dropIfExists('tms_dispatchers');
-        });
+        
+        Schema::dropIfExists('tms_dispatchers');
     }
 
     /**

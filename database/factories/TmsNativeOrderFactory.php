@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\TmsOrder;
 use App\Models\TmsCustomer;
+use App\Models\TmsPaymentMethod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,15 +24,8 @@ class TmsNativeOrderFactory extends Factory
             'calculation_model_name' => $this->faker->word,
             'order_number' => $this->faker->unique()->numerify('#######'),
             'order_pdf' => $this->faker->url,
-            'payment_method' => $this->faker->randomElement(TmsCustomer::PAYMENT_METHODS),
             'date_of_sale' => $this->faker->date(),
             'date_of_cancellation' => $this->faker->date(),
-            'pickup_date_from' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
-            'pickup_date_to' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
-            'pickup_comments' => $this->faker->sentence,
-            'delivery_date_from' => $this->faker->dateTimeBetween('+2 weeks', '+3 weeks'),
-            'delivery_date_to' => $this->faker->dateTimeBetween('+3 weeks', '+4 weeks'),
-            'delivery_comments' => $this->faker->sentence,
             'description_of_transport' => $this->faker->sentence($nbWords = 3),
             'particularities' => $this->faker->sentence,
             'loading_meter' => $this->faker->randomFloat(2, 0, 100),
