@@ -26,20 +26,13 @@ class OrderService
      * @param string|null $sortOrder
      * @param integer|null $newItemsPerPage
      */
-    //@return AnonymousResourceCollection
     public function getRecords(
-
         string $searchTerm = null, 
-        // array $searchColumns = [
-        //     'order_number', //not a relationship
-        //     'customer_reference',//not a relationship notice the singular form
-        //     'customers__first_name',//relationship, notice the plural
-        //     'customers__last_name'//relationship
-        // ], 
         string $sortColumn = null, 
         string $sortOrder = null, 
         int $newItemsPerPage = null,
-    )/*: AnonymousResourceCollection*/
+        array $searchColumns = []
+    )
     {
         $records = TmsOrder::query()
 

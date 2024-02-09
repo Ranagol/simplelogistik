@@ -50,7 +50,7 @@ class TmsOrderController extends Controller
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
-        
+
         $records = $this->orderService->getRecords(
             $searchTerm, 
             $sortColumn, 
