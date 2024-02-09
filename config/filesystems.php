@@ -31,9 +31,62 @@ return [
     'disks' => [
 
         'local' => [
+            
             'driver' => 'local',
+
+            /**
+             * storage_path() returns the absolute path to the storage directory in your Laravel 
+             * project. Example:
+             * dd(storage_path('app'));//"/var/www/html/storage/app"
+             */
             'root' => storage_path('app'),
-            'throw' => false,
+
+            /**
+             * If 'throw' => false, it means that the application should fail silently (i.e., not 
+             * throw an exception) when a filesystem operation fails. If 'throw' => true, it means 
+             * that the application should throw an exception when a filesystem operation fails.
+             */
+            'throw' => true,
+        ],
+
+        // 'ftp' => [
+        //     'driver' => 'ftp',
+        //     'host' => env('FTP_HOST'),
+        //     'username' => env('FTP_USERNAME'),
+        //     'password' => env('FTP_PASSWORD'),
+        //     'port' => env('FTP_PORT', 7876),
+         
+        //     // Optional FTP Settings...
+        //     // 'root' => env('FTP_ROOT'),
+        //     // 'passive' => true,
+        //     // 'ssl' => true,
+        //     // 'timeout' => 30,
+        // ],
+
+        'sftp' => [
+            'driver' => 'sftp',
+            'host' => env('SFTP_HOST'),
+            'username' => env('SFTP_USERNAME'),
+            'password' => env('SFTP_PASSWORD'),
+            'port' => intval(env('SFTP_PORT', 7876)),
+            'throw' => true
+
+         
+            // Settings for SSH key based authentication with encryption password...
+            // 'privateKey' => env('SFTP_PRIVATE_KEY'),
+            // 'passphrase' => env('SFTP_PASSPHRASE'),
+         
+            // Settings for file / directory permissions...
+            // 'visibility' => 'private', // `private` = 0600, `public` = 0644
+            // 'directory_visibility' => 'private', // `private` = 0700, `public` = 0755
+         
+            // Optional SFTP Settings...
+            // 'hostFingerprint' => env('SFTP_HOST_FINGERPRINT'),
+            // 'maxTries' => 4,
+            // 'passphrase' => env('SFTP_PASSPHRASE'),
+            // 'root' => env('SFTP_ROOT', ''),
+            // 'timeout' => 30,
+            // 'useAgent' => true,
         ],
 
         'public' => [

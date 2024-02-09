@@ -23,26 +23,18 @@ use App\Http\Resources\TmsOrderIndexCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class TmsOrderController extends BaseController
+class TmsOrderController extends Controller
 {
     private $orderService;
 
+    private string $index = 'Orders/Index';
+    private string $show = 'Orders/Show';
+    private string $create = 'Orders/Create';
+    private string $edit = 'Orders/Edit';
+
     public function __construct(OrderService $orderService)
     {
-        $this->model = new TmsOrder();
-        $this->vueIndexPath = 'Orders/IndexOrder/Index';
-        $this->vueCreateEditPath = 'Orders/CreateEditOrder/CreateEditBase';
         $this->orderService = $orderService;
-    }
-
-    /**
-     * This is used for dynamic validation. Which happens in the parent BaseController.
-     *
-     * @return string
-     */
-    protected function getRequestClass(): string
-    {
-        return TmsOrderRequest::class;
     }
 
     /**
@@ -63,7 +55,7 @@ class TmsOrderController extends BaseController
         $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
 
         return Inertia::render(
-            $this->vueIndexPath, 
+            $this->index, 
             [
                 'dataFromController' => $records,
                 'searchTermProp' => $searchTerm,
@@ -73,15 +65,33 @@ class TmsOrderController extends BaseController
         );
     }
 
-    public function create(): Response
+    public function show($id): Response
     {
-        return Inertia::render(
-            $this->vueCreateEditPath, 
+        $order = TmsOrder::with(
             [
-                // 'record' => $record,
-                'mode' => 'create',
+                'parcels',
+                'orderAddresses',
+                'forwarder',
+                'orderHistories.user.roles:id,name',
+                'partner',
+                'contact',
+                'customer.headquarter',
+                'nativeOrder',
+                'pamyraOrder',
+            ]
+        )->findOrFail($id);
+
+        return Inertia::render(
+            $this->show,
+            [
+                'order' => $order,
             ]
         );
+    }
+
+    public function create(): Response
+    {
+        return Inertia::render($this->create);
     }
 
     /**
@@ -90,29 +100,15 @@ class TmsOrderController extends BaseController
      * A little explanation: here we only save the record into db.
      * This simply triggers onSuccess event in FE component, which then displays the success message
      */
-    public function store()
+    public function store(TmsOrderRequest $request)
     {
-        /**
-         * This is a bit tricky. How to use here dynamic validation, depending which controller is 
-         * calling this method?
-         * In this code, app($this->getRequestClass()) will return an instance of TmsGearRequest 
-         * when called from TmsCustomerController.
-         * So basically, here we trigger TmsGearRequest. The $request is an instance of
-         * TmsGearRequest.
-         */
-        $request = app($this->getRequestClass());
         
         /**
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
-        // dd($newRecord);
-        /**
-         * 1. Find the relevant record and...
-         * 2. ...update it.
-         * 3. Get the newly created record, and return it to the FE.
-         */
-        $newlyCreatedRecord = $this->model->create($newRecord);
+
+        $newlyCreatedRecord = TmsOrder::create($newRecord);
 
         /**
          * Call the Esaybill API to create a new invoice.
@@ -172,24 +168,21 @@ class TmsOrderController extends BaseController
         
         //Change response data structure according to FE needs.
         $record = new TmsOrderEditResource($record);
-        
-        // dd($record->toArray(request()));//this is the only way how we can check the new data structure from resource
 
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
-            $this->vueCreateEditPath, 
+            $this->edit, 
             [
                 'record' => $record,
-                //$record,
-                'mode' => 'edit',
+
                 //This is data for the select/options fields in the form, so the user can choose.
                 'selectOptions' => [
                     'countries' => TmsCountry::select('id', 'country_name')->get(),
                     'typesOfTransport' => TmsOrder::TYPES_OF_TRANSPORT,
                     'origins' => TmsOrder::ORIGINS,//Example: Pamyra, sales...
-                    'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
                     'parcelTypes' => TmsParcel::PARCEL_TYPE,
-                    'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
+                    // 'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
                 ]
             ]
         );
@@ -201,21 +194,12 @@ class TmsOrderController extends BaseController
      * part is done in the handleHeadquarter() and handleParcel() functions.
      *
      */
-    public function update(string $id): void
+    public function update(TmsOrderRequest $request, string $id): void
     {
-        // dd('controller triggered');
-        /**
-         * We get the $request on this awkward way, so this function is compatible with the parent
-         * update() function. Otherwise, we could just simply inject the TmsOrderRequest
-         * into this function. Which would be much cleaner.
-         */
-        $orderRequest = app(TmsOrderRequest::class);
-
         /**
          * The validated method is used to get the validated order data from the orderRequest.
          */
-        $orderFromRequest = $orderRequest->validated();//do validation
-        // dd($orderFromRequest);
+        $orderFromRequest = $request->validated();//do validation
 
         //Get the order from db
         $orderFromDb = TmsOrder::find($id);
@@ -277,7 +261,7 @@ class TmsOrderController extends BaseController
         int $newItemsPerPage = null,
     )/*: AnonymousResourceCollection*/
     {
-        $records = $this->model::query()
+        $records = TmsOrder::query()
 
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
@@ -328,9 +312,6 @@ class TmsOrderController extends BaseController
             ->withQueryString();
 
         $records = new TmsOrderIndexCollection($records);
-        // dd($records);//this is the only way how we can check the new data structure from resource
-
-        // dd($records->toArray(request()));//in this case, something is wrong here...
         
         return $records;
     }

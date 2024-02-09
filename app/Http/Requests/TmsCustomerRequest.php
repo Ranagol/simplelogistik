@@ -21,17 +21,23 @@ class TmsCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
+        return $this->customerRules();
+    }
+
+    public function customerRules()
+    {
         return [
             // General customer data
-            'company_name' => 'required|string|min:2|max:100',
+            'company_name' => 'nullable|string|min:2|max:100',
             'first_name' => 'required|string|min:2|max:200',
             'last_name' => 'required|string|min:2|max:200',
-            'email' => 'required|email|max:100',
+            'email' => 'nullable|email|max:100',
             'phone' => 'required|string|min:2|max:100',
-            'rating' => 'required|integer|between:1,5',
-            'tax_number' => 'required|string|min:2|max:50',
+            'rating' => 'nullable|integer|between:1,5',
+            'tax_number' => 'nullable|string|min:2|max:50',
             'internal_id' => 'required|string|min:2|max:100',
-            'payment_time' => 'required|integer',
+            'payment_time' => 'nullable|integer',
+            'customer_type' => 'required',
 
             //We attach this forwarder with the appends trick in the TmsAddress
             'forwarder' => ['nullable', 'array'],
@@ -61,18 +67,15 @@ class TmsCustomerRequest extends FormRequest
              * customer_type must be a string during validation. Example: 'Bussiness customer'.
              * Only after validation it will be converted to an integer. Example: 1.
              */
-            'customer_type' => 'required|string|min:2|max:100',
-            'invoice_dispatch' => 'required|string|min:2|max:100',
-            'invoice_shipping_method' => 'required|string|min:2|max:100',
-
-            'payment_method' => 'required|string|min:2|max:100',
+            'customer_type' => 'nullable|string|min:2|max:100',
+            'invoice_dispatch' => 'nullable|string|min:2|max:100',
+            'invoice_shipping_method' => 'nullable|string|min:2|max:100',
+            'payment_method' => 'nullable|string|min:2|max:100',
             'payment_method_options_to_offer' => 'array',
-
-            'email_for_invoice' => ['required', 'string', 'email', 'max:255'],
-            'email_for_label' => ['required', 'string', 'email', 'max:255'],
-            'email_for_pod' => ['required', 'string', 'email', 'max:255'],
-            'customer_reference' => ['required', 'string', 'max:255'],
-
+            'email_for_invoice' => ['nullable', 'string', 'email', 'max:255'],
+            'email_for_label' => ['nullable', 'string', 'email', 'max:255'],
+            'email_for_pod' => ['nullable', 'string', 'email', 'max:255'],
+            'customer_reference' => ['nullable', 'string', 'max:255'],
             'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
         ];
     }

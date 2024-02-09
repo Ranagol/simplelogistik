@@ -1,5 +1,6 @@
 {
     "CalcMatrix": true,
     "CalcDefault": true,
-    "Easybill": true
+    "Easybill": true,
+    "EmonsInvoice": true
 }

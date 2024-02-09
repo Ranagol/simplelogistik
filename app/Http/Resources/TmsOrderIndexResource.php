@@ -42,8 +42,8 @@ class TmsOrderIndexResource extends JsonResource
             'payment_method' => $this->payment_method,
             'easy_bill_customer_id' => $this->easy_bill_customer_id,
 
-            'last_update' => $this->orderHistoryLatest->updated_at->format('Y-m-d H:i:s'),
-            'last_editor' => $this->orderHistoryLatest->user->name,
+            'last_update' => $this->orderHistoryLatest?->updated_at->format('Y-m-d H:i:s'),
+            'last_editor' => $this->orderHistoryLatest?->user->name,
             
             //relationships are loaded in the controller, so here we can just return them.
             //this is not deleted, because I expect that we will need it in the future.
@@ -60,7 +60,7 @@ class TmsOrderIndexResource extends JsonResource
 
     private function setDetails(): array
     {
-        $details = $this->pamyraOrder->toArray() ?? $this->nativeOrder->toArray();
+        $details = $this->pamyraOrder?->toArray() ?? $this->nativeOrder?->toArray();
         return $details;
     }
 }

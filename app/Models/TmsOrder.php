@@ -13,6 +13,7 @@ use App\Models\TmsNativeOrder;
 use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
+use App\Models\TmsPaymentMethod;
 use App\Models\TmsOrderAttribute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TmsOrder extends Model
 {
@@ -32,23 +34,34 @@ class TmsOrder extends Model
     protected $guarded = ['id'];
     protected $table = "tms_orders";
 
-    const TYPES_OF_TRANSPORT = [
+    /**
+     * This is the format of the order numbers in the old app: 465244. We will use this number
+     * to number the orders in the new app. The first order will have the number 465245.
+     *
+     * @var integer
+     */
+    public const ORDER_NUMBER_START_VALUE = 465244;
+
+    public const TYPES_OF_TRANSPORT = [
         1 => 'General cargo',
         2 => 'LTL/FTL',
         3 => 'Direct transport',
         4 => 'Parcell up to 31.5 kg',
-        5 => 'Special order'
+        5 => 'Special order',
+        6 => 'Regel tour'
     ];
 
     /**
      * This is the source, the origin of the order.
      */
-    const ORIGINS = [
+    public const ORIGINS = [
         1 => 'pamyra',
         2 => 'native_sales',
         3 => 'native_google-ads',
         4 => 'shipping_calc.'
     ];
+
+    
 
     //*************RELATIONSHIPS*************************************** */    
 
@@ -101,11 +114,6 @@ class TmsOrder extends Model
     public function parcels(): HasMany
     {
         return $this->hasMany(TmsParcel::class, 'tms_order_id');
-    }
-
-    public function orderAttributes(): HasMany
-    {
-        return $this->hasMany(TmsOrderAttribute::class, 'tms_order_id');
     }
 
     public function forwardingContract(): HasOne
@@ -192,7 +200,30 @@ class TmsOrder extends Model
         return $this->belongsTo(TmsForwarder::class, 'forwarder_id');
     }
 
-    
+    public function paymentMethods(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            TmsPaymentMethod::class, 
+            'order_payment_method', 
+            'order_id', 
+            'payment_method_id'
+        );
+    }
+
+    public function orderStatus(): BelongsTo
+    {
+        return $this->belongsTo(TmsOrderStatus::class, 'order_status_id');
+    }
+
+    public function orderAttributes(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            TmsOrderAttribute::class, 
+            'order_order_attribute', 
+            'order_id', 
+            'order_attribute_id'
+        );
+    }
 
 
     //*************SCOPES*************************************** */
@@ -213,72 +244,4 @@ class TmsOrder extends Model
             ->orWhere('status', 'like', "%{$searchTerm}%")
             ;
     }
-
-    //*************MUTATORS AND ACCESSORS*************************************** */
-    
-    /**
-     * These are the possible order statuses.
-     * Waring: if we display the keys too (like 1 => 'Order created'), then we Laravel return an
-     * object. If we display only the values (like 'Order created'), then Laravel returns an array.
-     */
-    const STATUSES = [
-        1 => 'Order created',
-        2 => 'Waiting for forwarder',
-        3 => 'Forwarder found',
-        4 => 'Picked up',
-        5 => 'Delivered',
-        6 => 'Canceled',
-        7 => 'Invoice sent to customer',
-        8 => 'Invoice paid',
-    ];
-
-    /**
-     * This here is a Laravel accessor, for getting the status name.
-     * https://laravel.com/docs/10.x/eloquent-mutators#defining-an-accessor
-     *
-     * @return Attribute
-     */
-    protected function status(): Attribute
-    {
-        return Attribute::make(
-
-            /**
-             * Accessor.
-             * Gets 1 from db, transforms it to 'Order created'.
-             */
-            get: function (string $value) {
-                return self::STATUSES[$value] ?? 'Missing data TmsOrder.';
-            },
-
-            /**
-             * Mutator.
-             * Gets 'Order created' from the form, transforms it to 1.
-             */
-            set: function (string $value) {
-                return array_flip(self::STATUSES)[$value] ?? 'Missing data TmsOrder.';
-            }
-        );
-    }
-
-    /**
-     * This mutator is used for the payment_method column in the tms_orders table. Do not mix it with
-     * the similar mutator from TmsCustomer model.
-     * If you want to change or add a new payment method, do it in the TmsCustomer model. The payment
-     * methods are defined there.
-     * 
-     * This mutator is commented out, but not deleted, because I suspect that we will need this
-     * again very soon.
-     *
-     * @return Attribute
-     */
-    // protected function paymentMethod(): Attribute
-    // {
-    //     return Attribute::make(
-    //         //gets from db, transforms it. 1 will become 'Paypal'.
-    //         get: fn (string $value) => TmsCustomer::PAYMENT_METHODS[$value] ?? 'Missing data xxx.',
-    //         //gets from request, transforms it. 'Paypal' will become 1.
-    //         set: fn (string $value) => array_flip(TmsCustomer::PAYMENT_METHODS)[$value] ?? 'Missing data xxx.',
-    //     );
-    // }
-
 }
