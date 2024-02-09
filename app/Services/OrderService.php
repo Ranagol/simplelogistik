@@ -31,7 +31,6 @@ class OrderService
         string $sortColumn = null, 
         string $sortOrder = null, 
         int $newItemsPerPage = null,
-        array $searchColumns = []
     )
     {
         $records = TmsOrder::query()
