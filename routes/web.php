@@ -30,12 +30,13 @@ use App\Http\Controllers\System\SystemSettingsController;
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
-        return Inertia::render('Home', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
+        return to_route('dashboard.index');
+        // return Inertia::render('Dashboard', [
+        //     'canLogin' => Route::has('login'),
+        //     'canRegister' => Route::has('register'),
+        //     'laravelVersion' => Application::VERSION,
+        //     'phpVersion' => PHP_VERSION,
+        // ]);
     });
 
     Route::resource('users', UserController::class);
@@ -60,7 +61,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard.index');
+    })->name('dashboard.index');
 
     Route::get('/pamyra', function () {
         return Inertia::render('Pamyra');

@@ -124,7 +124,9 @@ class TmsCustomerController extends Controller
 
         $newRecord = $this->handleForwarderId($newRecord);
 
+
         $newlyCreatedRecord = TmsCustomer::create($newRecord);
+
 
         /**
          * Since a new address is created, we send a success message to the FE. First step of this

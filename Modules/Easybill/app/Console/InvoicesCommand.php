@@ -11,15 +11,12 @@ use App\Models\TmsOrderAddress;
 use App\Models\TmsPamyraOrder;
 use App\Services\ModulesService;
 use Illuminate\Console\Command;
-use Nwidart\Modules\Facades\Module;
 use App\Models\TmsOrder;
 use App\Models\TmsApiAccess;
 use Modules\Easybill\app\Helper\EasyBillDataMapping;
 use Modules\Easybill\app\Helper\EasyBillApiConnector;
 use Modules\Easybill\app\Helper\CustomerHandling;
-use stdClass;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Modules\Easybill\app\Helper\EasyBillModuleHandling;
 
 class InvoicesCommand extends Command
 {
@@ -137,12 +134,16 @@ class InvoicesCommand extends Command
             die();
         }
 
+        // create or update customer in easybill
         $customerHandler = new CustomerHandling();
-        $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);       
+        $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData); 
+        if (isset($result['code']) && $result['code'] !== 200) {            
+            $this->info('Error: ' . $result['message']);
+            die();
+        }
         
         $easybillData = $result['easybillData'];
-        $this->info('Customer update or create: ' .  $result['message']);      
-      
+        $this->info('Customer update or create: ' .  $result['message']);          
         if (isset($easybillData->id)) {
             TmsCustomer::where('id', $customer->id)->update(['easy_bill_customer_id' => $easybillData->id]);
         }
@@ -229,6 +230,7 @@ class InvoicesCommand extends Command
         return $newArray;
     }
 
+    
     /**
      * Prepare order data.
      * Get (main)order data from DB and merge with native or pamyra order data.

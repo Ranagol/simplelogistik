@@ -27,10 +27,14 @@ class CustomerHandling
             $apiAccess,
             'customers?number=' . $mappedData['number'], 
             []
-        ), true);        
+        ), true);    
+        
+        if (isset($result['code']) && $result['code'] !== 200) {            
+            return $result;
+        }
 
         //create or update customer in easybill        
-        if (isset($result['items']) && $result['items'] == []) 
+        if (isset($result['items']) && $result['items'] == [] ) 
         {
             $resArr['message'] = 'Customer(' .$mappedData['number']. ') not found. Creating new customer.';
             $response = $easyBillConnector->callAPI(

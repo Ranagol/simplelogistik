@@ -50,7 +50,7 @@ class EasyBillDataMapping
             'delivery_first_name'           =>  $addresses[0]['is_delivery']->first_name ?? '',  
             'delivery_last_name'            =>  $addresses[0]['is_delivery']->last_name ?? '',
             'delivery_personal'             =>  false,
-            'delivery_salutation'           =>  null,                                                       //2,
+            'delivery_salutation'           =>  $addresses[0]['is_delivery']->salutation ?? null,
             'delivery_state'                =>  '',
             'delivery_street'               =>  $addresses[0]['is_delivery']->street ?? '',
             'delivery_suffix_1'             =>  null,
@@ -86,7 +86,7 @@ class EasyBillDataMapping
             'postbox_state'                 =>  '',
             'postbox_zip_code'              =>  null,
             'sale_price_level'              =>  null,
-            'salutation'                    =>  null,                                   //2,
+            'salutation'                    =>  $addresses[0]['is_billing']->salutation ?? null,                                   
             'sepa_agreement'                =>  null,
             'sepa_agreement_date'           =>  null,
             'sepa_mandate_reference'        =>  '',
@@ -116,11 +116,11 @@ class EasyBillDataMapping
      */
     public function mapOrder($cid, $orders, $invoice, $customer, $addresses) {
 
-        $itmes = [];
+        $items = [];
         
         $i = 0;
         foreach ($orders as $order) {
-            $itmes[] = [
+            $items[] = [
                 'number'                => (isset($invoice->type_of_transport)) ? $invoice->type_of_transport : '',
                 'description'           => (isset($addresses[$i]['is_pickup'], $addresses[$i]['is_delivery'])) ? 
                                             ('Transport ' . $addresses[$i]['is_pickup']->city . ' nach ' . 
@@ -172,7 +172,7 @@ class EasyBillDataMapping
             'is_archive'            => false,
             'is_replica'            => false,
             'is_oss'                => false,
-            'items'                 => $itmes,
+            'items'                 => $items,
             'login_id'              => null,
             'number'                => $invoice->invoice_number ?? '',
             'order_number'          => $orders[0]['order_number'],                         // use numbers that are starting with 300 and having 4 more digits
