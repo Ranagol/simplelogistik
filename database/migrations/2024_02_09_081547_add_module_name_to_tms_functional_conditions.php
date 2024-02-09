@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tms_functional_condition', function (Blueprint $table) {
+        Schema::table('tms_functional_conditions', function (Blueprint $table) {
             $table->dropColumn('module_name');
             $table->dropColumn('module_status');
         });
