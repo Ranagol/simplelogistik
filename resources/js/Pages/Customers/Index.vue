@@ -10,6 +10,7 @@
         :data="data.customers"
         :headers="headers"
     />
+    <Pagination :links="data.paginationData" />
 </template>
 
 <script setup>
@@ -20,6 +21,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { useCustomerStore } from '@/Stores/customerStore';
 
 import CustomerTableWithActions from '@/Components/Tables/CustomerTableWithActions.vue';
+import Pagination from "@/Components/Pagination/Pagination.vue";
 
 const headers = [
     {

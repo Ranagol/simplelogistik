@@ -5,12 +5,13 @@
         :title="$t('labels.orders')" 
         :data="props.dataFromController.data" 
         :headers="defaultHeaders"
-        :paginationData="props.dataFromController.record"
         @changeTableLayout="changeTableLayout"
     ></TableWithContent>
+    <Pagination :links="props.dataFromController.meta" />
 </template>
 <script setup>
-    import TableWithContent from '@/Components/Tables/OrderTableWithContent.vue';
+    import Pagination from '@/Components/Pagination/Pagination.vue';
+import TableWithContent from '@/Components/Tables/OrderTableWithContent.vue';
 
     let props = defineProps({
         dataFromController: Object,

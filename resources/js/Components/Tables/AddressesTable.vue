@@ -2,16 +2,15 @@
     <section class="bg-gray-50 dark:bg-gray-900">
             <!-- Start coding here -->
             <div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
-                
                 <div
                     class="grid items-center justify-between grid-flow-col p-4 space-y-3 border-b md:flex-row md:space-y-0 md:space-x-4 dark:border-gray-700">
                     <div class="flex flex-row flex-1">
                         <!-- SEARCH -->
-                        <form class="flex-1 w-full md:max-w-sm md:mr-4">
+                        <!-- <form class="flex-1 w-full md:max-w-sm md:mr-4"> -->
                             <label for="search-orders"
                                 class="text-sm font-medium text-gray-900 sr-only dark:text-white">{{ $t('labels.search') }}</label>
                             <div class="relative grid grid-flow-col">
-                                <input type="search" id="search-orders"
+                                <input type="search" id="search-orders" v-model="filters.searchTerm" name="searchTerm"
                                     class="block w-full p-2 pl-5 pr-4 text-sm text-gray-900 border border-gray-300 rounded-lg rounded-e-none border-e-0 min-w-40 bg-gray-50 focus:border-gray-400 focus:ring-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                     :placeholder="$t('labels.search')">
                                 <button id="limitSearchFilterDropdownButton" data-dropdown-toggle="limitSearchFilterDropdown"
@@ -21,10 +20,10 @@
                                         <!-- {{ $t('labels.limit-search') }} -->
                                         <el-icon size="24" class="pl-2"><ArrowDown /></el-icon>
                                 </button>
-                                <button @click.prevent="reorder(_headers)" type="submit"
+                                <button @click.prevent="runSearch" type="submit"
                                     class="relative top-0 bottom-0 right-0 px-4 py-2 text-sm font-medium text-white rounded-r-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ $t('labels.search') }}</button>
                             </div>
-                        </form>
+                        <!-- </form> -->
                         <!-- SEARCH End -->
                         <!-- Search in Fields -->
                         <div id="limitSearchFilterDropdown"
@@ -141,6 +140,8 @@ import { initFlowbite } from 'flowbite';
 import { onMounted, ref} from 'vue';
 import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
 import ConditionalHeadColumn from './ConditionalHeadColumn.vue';
+import { router } from '@inertiajs/vue3';
+import { reactive } from 'vue';
 
 const props = defineProps({
     getData: {
@@ -171,6 +172,10 @@ const props = defineProps({
         type: Array,
         required: false,
     },
+    filters: {
+        type: Object,
+        required: false,
+    },
 })
 
 // RESET HEADERS
@@ -190,6 +195,14 @@ if(storedHeaders !== 'null' && storedHeaders !== null) {
 const reorder = (headers) => {
     _headers = headers.sort((a,b) => a.display_order < b.display_order)
 }
+
+var searchTerm = ref(props.searchTermProp)
+
+const runSearch = () => {
+    router.get(route('addresses.index', {searchTerm: searchTerm.value}))
+}
+
+
 
 const updateListedItems = (key, value) => {
     _headers.value = _headers.value.map((item) => {
@@ -224,7 +237,8 @@ const handleDelete = (entry_id) => {
     alert(`handleDelete for item: ${entry_id}`)
 }
 
-</script>
+
+    </script>
 
 <script>
 

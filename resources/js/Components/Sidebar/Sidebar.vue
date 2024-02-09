@@ -4,7 +4,7 @@
         aria-label="Sidenav" id="drawer-navigation">
         <div class="h-full px-3 py-5 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2">
-                <li v-for="item, index in menuItems">
+                <li class="cursor-pointer" v-for="item, index in menuItems">
                     <div v-if="item.submenu">
                         <button type="button"
                             class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -31,17 +31,17 @@
                     </div>
                     <div v-else>
                         <p v-if="item.route" @click="states.activeRoute = item.route; router.visit(route(item.route));"
-                        class="flex items-center p-2 text-base font-medium text-gray-900 transition-all duration-200 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-primary-700 dark:hover:text-white hover:text-gray-900 group"
+                        class="grid justify-start grid-flow-col p-2 py-2.5 text-base font-medium text-gray-900 transition-all duration-200 rounded-lg place-items-center dark:text-white hover:bg-gray-200 dark:hover:bg-primary-700 dark:hover:text-white hover:text-gray-900 group"
                         :class="{'bg-primary-700 text-white hover:text-white hover:bg-primary-800': isActive(states.activeRoute, item.route) }">
-                        <span v-if="item?.customIcon !== true">
+                        <span v-if="item?.customIcon !== true" class="leading-none">
                             <el-icon v-if="item.icon" :color="isActive(states.activeRoute, item.route) ? 'white' : 'rgb(107 114 128 / var(--tw-text-opacity))'">
                                 <component :is="item.icon"/>
                             </el-icon>
                         </span>
-                        <span v-else>
+                        <span v-else class="leading-none">
                             <component :is="item.icon" />
                         </span>
-                        <span class="ml-3">{{ $t(item.title) }}</span>
+                        <span class="ml-3 leading-none">{{ $t(item.title) }}</span>
                         </p>
                         <p v-else
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -139,6 +139,8 @@
             </div>
         </div>
     </aside>
+
+    
     {{ states.activeRoute === "" ? states.activeRoute = route().current() : null }}
 </template>
 
@@ -158,6 +160,7 @@ const getBase = (route) => {
 const isActive = (current, target) => {
     return (getBase(current) === getBase(target));
 }
+
 
 onMounted(() => {
     initFlowbite();
