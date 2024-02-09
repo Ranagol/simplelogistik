@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/easybill",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Easybill\\": "",
+            "Modules\\Easybill\\App\\": "app/",
+            "Modules\\Easybill\\Database\\Factories\\": "database/factories/",
+            "Modules\\Easybill\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Easybill\\Tests\\": "tests/"
+        }
+    }
+}
