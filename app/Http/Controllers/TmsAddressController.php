@@ -46,11 +46,12 @@ class TmsAddressController extends Controller
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
 
+        $searchTerm = 'daniel';
         $searchColumns = [
             'first_name',
             'last_name',
-            'customers__first_name',
-            'forwarders__company_name',
+            'customer__first_name',
+            'forwarder__company_name',
         ];
         
         $records = $this->addressService->getRecords(
