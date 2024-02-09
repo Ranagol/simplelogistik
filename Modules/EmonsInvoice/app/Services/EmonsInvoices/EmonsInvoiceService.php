@@ -4,9 +4,11 @@ namespace Modules\EmonsInvoice\app\Services\EmonsInvoices;
 
 use UConverter;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TmsEmonsInvoiceRequest;
+use App\Models\TmsEmonsInvoice;
 
 class EmonsInvoiceService
 {
@@ -49,10 +51,13 @@ class EmonsInvoiceService
      */
     private string $targetPath = '/EmonsInvoice/Archive';
 
+    /**
+     * We import this way the validation rules from the TmsEmonsInvoiceRequest class.
+     */
     public function __construct()
     {
         $tmsEmonsInvoiceRequest = new TmsEmonsInvoiceRequest();
-        $this->validationRules = $tmsEmonsInvoiceRequest->emonsInvoiceRules();//this does not work with injection
+        $this->validationRules = $tmsEmonsInvoiceRequest->emonsInvoiceRules();
     }
 
     /**
@@ -62,17 +67,15 @@ class EmonsInvoiceService
      */
     public function handle(): void
     {
-        // $invoices = $this->getFileFromEmons();
+        // $invoices = $this->getFileFromEmons();//this is frosen, I am waiting so the ftp server issue is solved by David
 
         $invoices = $this->transformCsvToArray();
 
         $this->checkIfInvoicesExist($invoices);
 
-        // $this->checkForDuplicates($invoices);
+        $invoices = $this->removeDuplicates($invoices);
 
-        // $this->validateEmonsInvoices($invoices);
-
-        DB::table('tms_emons_invoices')->insert($invoices);
+        $this->createInvoices($invoices);
 
         // $this->archiveFile();
     }
@@ -164,17 +167,60 @@ class EmonsInvoiceService
         }
     }
 
-
-    private function checkForDuplicates(array $invoices): void
+    /**
+     * Checks if there are any duplicates in the csv file. If there are, it removes them from the array.
+     * The duplicates will be logged, and then removed from the array. So we will write only the
+     * non-duplicates to the database.
+     *
+     * @param array $invoices
+     * @return array
+     */
+    private function removeDuplicates(array $invoices): array
     {
+        //Get all our already existing order numbers from emons_invoices table
+        $orderNumbers = DB::table('tms_emons_invoices')->pluck('order_number')->toArray();
 
+        //Array of order numbers that already exist in the database - duplicates
+        $duplicateOrderNumbers = array_intersect($orderNumbers, array_column($invoices, 'order_number'));
+
+        if (!empty($duplicateOrderNumbers)) {
+            // throw new \Exception('The following order numbers already exist in the database: ' . implode(', ', $duplicateOrderNumbers));
+            echo 'The following order numbers already exist in the database: ' . implode(', ', $duplicateOrderNumbers) . PHP_EOL;
+            Log::error("The following order numbers already exist in the database: " . implode(', ', $duplicateOrderNumbers));
+        }
+
+        //Remove duplicates from the array
+        $invoices = array_filter(
+            $invoices, 
+            function ($invoice) use ($duplicateOrderNumbers) {
+
+                return !in_array(
+                    $invoice['order_number'], 
+                    $duplicateOrderNumbers
+                );
+            }
+        );
+
+        return $invoices;
     }
 
-    private function validateEmonsInvoices(array $invoices)
+    private function createInvoices(array $invoices): void
     {
-        $validator = Validator::make($invoices, $this->validationRules);
-        if ($validator->fails()) {
-            throw new \Exception($validator->errors()->first());
+        foreach ($invoices as $invoice) {
+
+            $validator = Validator::make($invoice, $this->validationRules);
+            
+            /**
+             * If the validation fails, we log the error and continue to the next invoice, skipping 
+             * the faulty one.
+             */
+            if ($validator->fails()) {
+                Log::error($validator->errors()->first());
+                echo $validator->errors()->first() . ' In order number ' . $invoice['order_number'] . PHP_EOL;
+                continue;
+            }
+    
+            TmsEmonsInvoice::create($invoice);
         }
     }
 
