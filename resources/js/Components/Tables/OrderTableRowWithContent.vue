@@ -191,13 +191,13 @@
             </div>
             <div class="flex items-center justify-between mt-4 space-x-3">
                 <div class="grid grid-flow-col gap-2 align-middle place-items-center">
-                    <button type="button"
+                    <a :href="route('orders.edit', data.id)" type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                         <el-icon size="18">
                             <View />
                         </el-icon>
                     <span class="pl-2">{{ $t('labels.show') }}</span>
-                    </button>
+                    </a>
                     
                     <button type="button"
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
