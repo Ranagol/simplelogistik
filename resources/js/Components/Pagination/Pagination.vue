@@ -2,67 +2,109 @@
     <nav class="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
         aria-label="Table navigation">
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing
-            <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-            of
-            <span class="font-semibold text-gray-900 dark:text-white">1000</span>
+            {{ $t('labels.showing') }}
+            <span class="font-semibold text-gray-900 dark:text-white">{{ from }} - {{ to }}</span>
+            {{ $t('labels.of') }}
+            <span class="font-semibold text-gray-900 dark:text-white">{{ total }}</span>
         </span>
-        <ul class="inline-flex items-stretch -space-x-px">
-            <li>
-                <a href="#"
-                    class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only">Previous</span>
-                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </a>
+        <pre>{{ split }}</pre>
+        <ul class="inline-flex items-stretch -space-x-px border rounded-md border-primary-700 text-corporate-700">
+            <li v-if="current_page > 1" @click="router.visit(first)">
+                <span class="grid p-3 leading-none place-items-center min-w-fit hover:bg-primary-400 hover:text-white">
+                <el-icon><DArrowLeft /></el-icon>
+                </span>
             </li>
-            <li>
-                <a href="#"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+            <li v-else>
+                <span class="grid p-3 leading-none text-gray-400 place-items-center min-w-fit">
+                <el-icon><DArrowLeft /></el-icon>
+                </span>
             </li>
-            <li>
-                <a href="#"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+            <li v-if="current_page > 1" @click="router.visit(links.path + '?page=' + (parseInt(links.current_page) - parseInt(1)))">
+                <span class="grid p-3 leading-none place-items-center min-w-fit hover:bg-primary-400 hover:text-white">
+                    <el-icon><ArrowLeft /></el-icon>
+                </span>
             </li>
-            <li>
-                <a href="#" aria-current="page"
-                    class="z-10 flex items-center justify-center px-3 py-2 text-sm leading-tight border text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+            <li v-else>
+                <span class="grid p-3 leading-none text-gray-400 place-items-center min-w-fit">
+                <el-icon><ArrowLeft /></el-icon>
+                </span>
             </li>
-            <li>
-                <a href="#"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
+        
+            <!-- ITEMS -->
+            <li v-for="item in items" @click="router.visit(item.url)">
+                <span class="grid p-3 leading-none text-gray-400 cursor-pointer place-items-center min-w-fit hover:bg-primary-600 hover:text-white"
+                :class="{'bg-primary-700 text-white cursor-default': item.active}">
+                {{ item.label }}
+                </span>
             </li>
-            <li>
-                <a href="#"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
+
+
+
+
+            <li v-if="current_page < last_page" @click="router.visit(links.path + '?page=' + (parseInt(links.current_page) + parseInt(1)))">
+                <span class="grid p-3 leading-none place-items-center min-w-fit hover:bg-primary-400 hover:text-white">
+                <el-icon><ArrowRight /></el-icon>
+                </span>
             </li>
-            <li>
-                <a href="#"
-                    class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only">Next</span>
-                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </a>
+            <li v-else>
+                <span class="grid p-3 leading-none text-gray-400 place-items-center min-w-fit">
+                <el-icon><ArrowRight /></el-icon>
+                </span>
+            </li>
+            <li v-if="current_page < last_page" @click="router.visit(last)">
+                <span class="grid p-3 leading-none place-items-center min-w-fit hover:bg-primary-400 hover:text-white">
+                <el-icon><DArrowRight /></el-icon>
+                </span>
+            </li>
+            <li v-else>
+                <span class="grid p-3 leading-none text-gray-400 place-items-center min-w-fit">
+                <el-icon><DArrowRight /></el-icon>
+                </span>
             </li>
         </ul>
-    </nav>
-        
-    
+    </nav>   
 </template>
 
 <script setup>
+import { ArrowLeft, DArrowLeft, ArrowRight, DArrowRight } from '@element-plus/icons-vue';
+import { router } from '@inertiajs/vue3';
+import { reactive } from 'vue';
+
 const props = defineProps({
     links: Object
 })
 
-console.log(props.links)
+var linksCount = props.links.links.length;
+
+var from = props.links.from
+var to = props.links.to
+var total = props.links.total
+var per_page = props.links.per_page
+var path = props.links.path
+
+
+var current_page = props.links.current_page
+var last_page = props.links.last_page
+
+
+var first = props.links.first_page_url;
+var last = props.links.last_page_url
+
+delete props.links.links[0];
+delete props.links.links[linksCount -1];
+
+var items = [];
+
+props.links.links.map((link) => {
+    if(link !== null) {
+        var item = {
+            url: link.url,
+            label: link.label,
+            active: link.active
+        }
+        items.push(item);
+    }
+});
+
 
 </script>

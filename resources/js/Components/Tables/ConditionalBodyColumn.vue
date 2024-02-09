@@ -5,13 +5,15 @@
         </span>
         <div v-else>
             <img v-if="cellData.type === 'image'" :src="cellData.data" alt="image" class="object-contain object-center w-16 h-8">
-            <a class="text-corporate-500 hover:underline" v-else-if="cellData.type === 'link'" :href="route(cellData.target, cellData.targetID)">{{ cellData.data }}</a>
+            <span class="text-corporate-500 hover:underline" v-else-if="cellData.type === 'link'" @click="router.visit(route(cellData.target, cellData.targetID))">{{ cellData.data }}</span>
             <span v-else>{{ cellData.data }}</span>
         </div>
     </td>
 </template>
 
 <script setup>
+import { router } from '@inertiajs/vue3';
+
 
 const props = defineProps({
     data: {
