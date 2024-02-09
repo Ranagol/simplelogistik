@@ -100,6 +100,21 @@ class EmonsInvoiceService
          * We read the csv file row/line by row/line, and transform each row/line into an array.
          * Every row/line is one invoice. Insid the row/line, the columns are separated by a pipe '|'.
          * So we must use the pipe as the delimiter argument for the fgetcsv function.
+         * $rowInCsvFile looks like this:
+         * array:12 [
+         *     0 => "0201002145"
+         *     1 => "2023-01-16"
+         *     2 => "437560"
+         *     3 => "AUTO-PALAK - Pawel Palak"
+         *     4 => "DE"
+         *     5 => "97950"
+         *     6 => "Gro�rinderfeld [Gerchsheim]"
+         *     7 => "J�rg Schneider"
+         *     8 => "DE"
+         *     9 => "02733"
+         *     10 => "Cunewalde"
+         *     11 => "42.00"
+         *   ]
          */
         while (($rowInCsvFile = fgetcsv($file, null, '|')) !== false) {
 
@@ -108,22 +123,11 @@ class EmonsInvoiceService
             
 
             /**
-             * $rowInCsvFile looks like this:
-             * *
-             * array:12 [
-             *     0 => "0201002145"
-             *     1 => "2023-01-16"
-             *     2 => "437560"
-             *     3 => "AUTO-PALAK - Pawel Palak"
-             *     4 => "DE"
-             *     5 => "97950"
-             *     6 => "Gro�rinderfeld [Gerchsheim]"
-             *     7 => "J�rg Schneider"
-             *     8 => "DE"
-             *     9 => "02733"
-             *     10 => "Cunewalde"
-             *     11 => "42.00"
-             *   ]
+             * $this->keys contains the future column names in the database table. We have to replace
+             * the numeric keys in $rowInCsvFile with the keys from $this->keys.
+             * While we are doing this, we do another thing at the same time: we encode the content
+             * from csv file to UTF-8. This is necessary, because the content from the csv file is
+             * encoded in ISO-8859-1, and we must store it in the database in UTF-8.
              */
             foreach ($this->keys as $key => $value) {
 
@@ -131,6 +135,7 @@ class EmonsInvoiceService
                  * mb_convert_encoding - not working
                  * UConverter::transcode(($rowInCsvFile[$key]), 'ISO-8859-1', 'UTF-8'); - not working
                  * $invoice[$value] = utf8_encode($rowInCsvFile[$key]);//working, but deprecated
+                 * $invoice[$value] = iconv('ISO-8859-1', 'UTF-8', $rowInCsvFile[$key]);//this works perfectly
                  */
                 $invoice[$value] = iconv('ISO-8859-1', 'UTF-8', $rowInCsvFile[$key]);
 
