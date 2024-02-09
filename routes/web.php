@@ -30,12 +30,13 @@ use App\Http\Controllers\System\SystemSettingsController;
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
-        return Inertia::render('Dashboard', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
+        return redirect('/dashboard');
+        // return Inertia::render('Dashboard', [
+        //     'canLogin' => Route::has('login'),
+        //     'canRegister' => Route::has('register'),
+        //     'laravelVersion' => Application::VERSION,
+        //     'phpVersion' => PHP_VERSION,
+        // ]);
     });
 
     Route::resource('users', UserController::class);
