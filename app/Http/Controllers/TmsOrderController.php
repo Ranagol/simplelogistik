@@ -225,4 +225,4 @@ class TmsOrderController extends Controller
         TmsOrder::destroy($id);
     }
 
-    }
+}
