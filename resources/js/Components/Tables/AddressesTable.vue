@@ -6,11 +6,11 @@
                     class="grid items-center justify-between grid-flow-col p-4 space-y-3 border-b md:flex-row md:space-y-0 md:space-x-4 dark:border-gray-700">
                     <div class="flex flex-row flex-1">
                         <!-- SEARCH -->
-                        <!-- <form class="flex-1 w-full md:max-w-sm md:mr-4"> -->
+                        <form @submit="runSearch">
                             <label for="search-orders"
                                 class="text-sm font-medium text-gray-900 sr-only dark:text-white">{{ $t('labels.search') }}</label>
                             <div class="relative grid grid-flow-col">
-                                <input type="search" id="search-orders" v-model="filters.searchTerm" name="searchTerm"
+                                <input type="search" id="search-orders" @submit="runSearch" :value="filters.searchTerm" @input="e => searchTerm = e.target.value " name="searchTerm"
                                     class="block w-full p-2 pl-5 pr-4 text-sm text-gray-900 border border-gray-300 rounded-lg rounded-e-none border-e-0 min-w-40 bg-gray-50 focus:border-gray-400 focus:ring-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                     :placeholder="$t('labels.search')">
                                 <button id="limitSearchFilterDropdownButton" data-dropdown-toggle="limitSearchFilterDropdown"
@@ -23,7 +23,7 @@
                                 <button @click.prevent="runSearch" type="submit"
                                     class="relative top-0 bottom-0 right-0 px-4 py-2 text-sm font-medium text-white rounded-r-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ $t('labels.search') }}</button>
                             </div>
-                        <!-- </form> -->
+                        </form>
                         <!-- SEARCH End -->
                         <!-- Search in Fields -->
                         <div id="limitSearchFilterDropdown"
@@ -31,7 +31,7 @@
                             <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
                             <ul class="space-y-2 text-sm" aria-labelledby="limitSearchFilterDropdownButton">
                                 <li v-for="head in _headers" class="flex items-center">
-
+ 
                                     <input @change="(e) => updateListedItems(head.key, e.currentTarget.checked)" v-if="head.searchable == true" :id="'search-label-' + head.key" type="checkbox"
                                         :value="head.key"
                                         class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
@@ -41,7 +41,7 @@
                             </ul>
                         </div>
                         <!-- Search in Fields end -->
-                        
+                       
                     </div>
                     <div class="grid grid-flow-col gap-4">
                         <!-- CREATE ORDER BUTTON -->
@@ -74,19 +74,19 @@
                                 </li>
                             </ul>
                         </div>
-                        
+                       
                     </div>
-                    
+                   
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700">
                             <tr>
-
+ 
                                 <ConditionalHeadColumn v-for="head in _headers" :data="head" />
-                                
+                               
                                 <th v-if="actions !== undefined && actions !== ''">
-
+ 
                                 </th>
                             </tr>
                         </thead>
@@ -126,14 +126,14 @@
                                     </div>
                                 </td>
                             </tr>
-
+ 
                         </tbody>
                     </table>
                 </div>
             </div>
     </section>
 </template>
-
+ 
 <script setup>
 import { DArrowLeft, ArrowLeft, DArrowRight, ArrowRight, Plus, View, ArrowDown, Filter } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
@@ -142,7 +142,7 @@ import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
 import ConditionalHeadColumn from './ConditionalHeadColumn.vue';
 import { router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
-
+ 
 const props = defineProps({
     getData: {
         type: Function,
@@ -177,33 +177,34 @@ const props = defineProps({
         required: false,
     },
 })
-
+ 
 // RESET HEADERS
 // sessionStorage.removeItem('address-table-headers')
-
+ 
 const storedHeaders = sessionStorage.getItem('address-table-headers')
 var _headers;
-
+ 
 const defaultHeaders = props.headers;
-
+ 
 if(storedHeaders !== 'null' && storedHeaders !== null) {
     _headers = ref(JSON.parse(storedHeaders))
 } else {
     _headers = ref(defaultHeaders)
 }
-
+ 
 const reorder = (headers) => {
     _headers = headers.sort((a,b) => a.display_order < b.display_order)
 }
-
-var searchTerm = ref(props.searchTermProp)
-
+ 
+var searchTerm = ref(props.filters.searchTerm)
+ 
 const runSearch = () => {
+    console.log('runSearch', searchTerm)
     router.get(route('addresses.index', {searchTerm: searchTerm.value}))
 }
-
-
-
+ 
+ 
+ 
 const updateListedItems = (key, value) => {
     _headers.value = _headers.value.map((item) => {
         if (item.key === key) {
@@ -211,22 +212,22 @@ const updateListedItems = (key, value) => {
         }
         return item
     })
-
+ 
     sessionStorage.setItem('address-table-headers', JSON.stringify(_headers.value))
 }
-
+ 
 const renderCellData = (header, data) => {
-
+ 
     switch (header.key) {
         default:
             return {'type': 'text', 'data': data[header.key] ?? "-" };
     }
 }
-
+ 
 onMounted(() => {
     initFlowbite();
 })
-
+ 
 const handleShow = (entry_id) => {
     alert(`handleShow for item: ${entry_id}`)
 }
@@ -236,10 +237,10 @@ const handleEdit = (entry_id) => {
 const handleDelete = (entry_id) => {
     alert(`handleDelete for item: ${entry_id}`)
 }
-
-
+ 
+ 
     </script>
-
+ 
 <script>
-
+ 
 </script>
