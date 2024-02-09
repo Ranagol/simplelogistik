@@ -155,25 +155,5 @@ class TmsAddress extends Model
     {
         return $this->hasOne(TmsOrder::class, 'billing_address_id');
     }
-    
 
-    //*************SCOPES*************************************** */
-
-    /**
-     * This here is a Laravel local scope, for searching by search term.
-     * https://laravel.com/docs/10.x/eloquent#local-scopes
-     *
-     * @param Builder $query
-     * @param string $searchTerm
-     * @return Builder
-     */
-    public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
-    {
-        return $query->where('first_name', 'like', "%{$searchTerm}%")
-            ->orWhere('last_name', 'like', "%{$searchTerm}%")
-            ->orWhere('street', 'like', "%{$searchTerm}%")
-            ->orWhere('city', 'like', "%{$searchTerm}%")
-            ->orWhere('state', 'like', "%{$searchTerm}%")
-            ;
-    }
 }

@@ -30,12 +30,13 @@ class AddressService
             // If there is a search term defined...
             ->when($searchTerm, function($query, $searchTerm) {
 
-                /**
-                 * This is a bit tricky.
-                 * Here we use a model scope. The model scope code is defined in the relevant model.
-                 * https://laravel.com/docs/10.x/eloquent#local-scopes
-                 */
-                $query->searchBySearchTerm($searchTerm);
+                // $query->searchBySearchTerm($searchTerm);
+                return $query->where('first_name', 'like', "%{$searchTerm}%")
+                        ->orWhere('last_name', 'like', "%{$searchTerm}%")
+                        ->orWhere('street', 'like', "%{$searchTerm}%")
+                        ->orWhere('city', 'like', "%{$searchTerm}%")
+                        ->orWhere('state', 'like', "%{$searchTerm}%")
+                        ;
             })
             
             /**
