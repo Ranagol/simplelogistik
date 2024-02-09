@@ -30,7 +30,7 @@ use App\Http\Controllers\System\SystemSettingsController;
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
-        return Inertia::render('Home', [
+        return Inertia::render('Dashboard', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
