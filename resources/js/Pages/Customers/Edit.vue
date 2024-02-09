@@ -25,7 +25,7 @@ import { useEdit } from '@/Use/useEdit';
 import { useCreate } from '@/Use/useCreate';
 import { useDestroy } from '@/Use/useDestroy';
 import _ from 'lodash';
-import Tabs from '@/Pages/Customers/CreateEditCustomer/Tabs.vue';
+import Tabs from '@/Pages/Customers/Partials/Tabs.vue';
 
 const props = defineProps({
 
