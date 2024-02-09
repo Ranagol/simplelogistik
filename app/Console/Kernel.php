@@ -13,6 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+
+        // Export all customers that are new or have changed( exported_at != updated_at) to a file every day at 02:00
+        $schedule->command('customers-export')->dailyAt('02:00');
     }
 
     /**

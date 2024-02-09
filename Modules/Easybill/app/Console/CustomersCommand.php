@@ -4,13 +4,13 @@ namespace Modules\Easybill\app\Console;
 
 use App\Models\TmsAddress;
 use App\Models\TmsCustomer;
+use App\Models\TmsOrderAddress;
+use App\Services\ModulesService;
 use Illuminate\Console\Command;
-use Modules\Easybill\app\Helper\CustomerHandling;
 use App\Models\TmsApiAccess;
 use App\Models\TmsCountry;
+use Modules\Easybill\app\Helper\CustomerHandling;
 use Modules\Easybill\app\Helper\EasyBillDataMapping;
-use Modules\Easybill\app\Helper\EasyBillApiConnector;
-use Modules\Easybill\app\Helper\EasyBillModuleHandling;
 
 class CustomersCommand extends Command
 {
@@ -19,6 +19,9 @@ class CustomersCommand extends Command
 
     /** array $apiAccess */
     protected $apiAccess = [];
+
+    /** sting $moduleStatus */
+    protected $moduleStatus = '';
 
     /**
      * The name and signature of the console command.
@@ -45,49 +48,49 @@ class CustomersCommand extends Command
     public function handle()
     {
         $dataMapping = new EasyBillDataMapping();
-        $easyBillStatus = new EasyBillModuleHandling();
+        $moduleService = new ModulesService();
 
-        $moduleStatus = $easyBillStatus->handleStatus($this->arguments());
-        if ($moduleStatus !== []) {
-            $this->info(json_encode($moduleStatus));
-            die();
-        }
-        $this->info($this->description);     
-        
-        $this->apiName = config('api.billingApi');                
-        $this->apiAccess = TmsApiAccess::where('api_name', $this->apiName)->first();
+        $this->info('Start: ' . $this->description);
 
-        $countries  = TmsCountry::all();
-        $countries  = $countries->keyBy('id');
+        $this->moduleStatus = $moduleService->handleArguments( ($this->argument('behave') . '=' . $this->argument('detail')), 
+                                                               ['setting=enable', 'setting=disable', 'customerId=']
+                                                             );        
+        $this->moduleStatus = $moduleService->handleStatus('Easybill', ($this->argument('behave') . '=' . $this->argument('detail')), $this->moduleStatus);
+        $this->info($this->moduleStatus['message']);
+        if ($this->moduleStatus['status'] !== 'success' || $this->argument('behave') == 'setting') {       
+            return;
+        }        
 
         if ($this->argument('behave') == 'customerId') {    
+        
+            $this->apiName = config('api.billingApi');                
+            $this->apiAccess = TmsApiAccess::where('api_name', $this->apiName)->first();
+
+            $countries  = TmsCountry::all();
+            $countries  = $countries->keyBy('id');
+            
             $this->info('OrderId: ' . $this->argument('detail'));
             $customer                     = TmsCustomer::where('id', $this->argument('detail'))->first();    
             $addresses[0]['is_billing']   = TmsAddress::where('id', $this->argument('detail'))->first();  
-            $mappedData                   = $dataMapping->mapCustomer($customer, $addresses, $countries);
-        } else {
-            $this->info('Error: No customerId given.');
-            die();
-        }      
-      
-        $customerHandler = new CustomerHandling();
-        $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);     
-        if (isset($result['code']) && $result['code'] !== 200) {            
-            $this->info('Error: ' . $result['message']);
-            die();
-        }  
+            $mappedData                   = $dataMapping->mapCustomer($customer, $addresses, $countries);        
         
-        $easybillData = $result['easybillData'];
-        $this->info($result['message']);
-      
-        if (isset($easybillData->id)) {
-            TmsCustomer::where('id', $customer->id)->update(['easy_bill_customer_id' => $easybillData->id]);
-        }
+            $customerHandler = new CustomerHandling();
+            $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);       
+            
+            $easybillData = $result['easybillData'];
+            $this->info($result['message']);
         
-        if (isset($easybillData->code) && $easybillData->code !== 200) {
-            $this->info('Error: ' . $easybillData->message);
-        } else {            
-            $this->info('Customer successfully sent to easybill.');
-        }
+            if (isset($easybillData->id)) {
+                TmsCustomer::where('id', $customer->id)->update(['easy_bill_customer_id' => $easybillData->id]);
+            }
+            
+            if (isset($easybillData->code) && $easybillData->code !== 200) {
+                $this->info('Error: ' . $easybillData->message);
+            } else {            
+                $this->info('Customer successfully sent to easybill.');
+            }
+        }       
     }
+
+        
 }

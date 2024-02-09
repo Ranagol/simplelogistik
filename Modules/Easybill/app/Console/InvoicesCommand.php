@@ -9,6 +9,7 @@ use App\Models\TmsInvoice;
 use App\Models\TmsNativeOrder;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsPamyraOrder;
+use App\Services\ModulesService;
 use Illuminate\Console\Command;
 use App\Models\TmsOrder;
 use App\Models\TmsApiAccess;
@@ -25,10 +26,13 @@ class InvoicesCommand extends Command
     /** array $apiAccess */
     protected $apiAccess = [];
 
+    /** sting $moduleStatus */
+    protected $moduleStatus = '';
+
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'sendinvoices {behave : (behave=setting/orderId/ordersOfCustomerID)} {detail : (detail=enable/disable) Enables or disables the module. Have to be used with command=setting. (detail=17) OrderId or CustomerId.}
+    protected $signature = 'sendinvoices {behave : (behave=setting/orderId/ordersOfCustomerId)} {detail : (detail=enable/disable) Enables or disables the module. Have to be used with command=setting. (detail=17) OrderId or CustomerId.}
                                          {-h|--help?}';
 
     /**
@@ -49,19 +53,22 @@ class InvoicesCommand extends Command
      */
     public function handle()
     {
-        $mappedData = [];
-        
-        $dataMapping       = new EasyBillDataMapping();
-        $easyBillConnector = new EasyBillApiConnector();
-        $easyBillStatus    = new EasybillModuleHandling();
+        $dataMapping = new EasyBillDataMapping();
+        $easyBillConnector = new EasyBillApiConnector();        
+        $moduleService = new ModulesService();
 
-        $moduleStatus = $easyBillStatus->handleStatus($this->arguments());
-        if ($moduleStatus !== []) {
-            $this->info(json_encode($moduleStatus));
-            die();
-        }
-        
-        $this->info($this->description);    
+        $mappedData = [];
+
+        $this->info($this->description);   
+
+        $this->moduleStatus = $moduleService->handleArguments( ($this->argument('behave') . '=' . $this->argument('detail')), 
+                                                               ['setting=enable', 'setting=disable', 'orderId=', 'ordersOfCustomerId=']
+                                                             );        
+        $this->moduleStatus = $moduleService->handleStatus('Easybill', ($this->argument('behave') . '=' . $this->argument('detail')), $this->moduleStatus);
+        $this->info($this->moduleStatus['message']);
+        if ($this->moduleStatus['status'] !== 'success' || $this->argument('behave') == 'setting') {       
+            return;
+        }        
 
         $this->apiName = config('api.billingApi');                
         $this->apiAccess = TmsApiAccess::where('api_name', $this->apiName)->first();     

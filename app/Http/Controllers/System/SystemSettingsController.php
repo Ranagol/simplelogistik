@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\System;
 
-
-use App\Http\Controllers\BaseController;
-use Illuminate\Support\Facades\Request;
 use App\Http\Requests\LanguageRequest;
 use App\Models\SystemLanguage;
+use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\Request;
+
+
 use Inertia\Inertia;
 
 class SystemSettingsController extends BaseController {
@@ -20,10 +21,12 @@ class SystemSettingsController extends BaseController {
             "System/Translations/EntriesList"
         );
     }
+
     public function listLanguages() {
         return Inertia::render('System/Languages/Index', [
             "languages" => SystemLanguage::with(["entries"])->get()->toArray()
         ]);
+
 
     }
 
