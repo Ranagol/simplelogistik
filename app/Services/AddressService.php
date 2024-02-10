@@ -92,6 +92,8 @@ class AddressService
                     $query->where($column, 'LIKE', "%$searchTerm%");
                 });
             }
+            //TODO ANDOR. The dynamic search works, but only if the FE provides the
+            //exact relationship name, and not table name.
         }
             
         /**
