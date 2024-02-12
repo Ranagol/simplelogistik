@@ -124,13 +124,13 @@
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                             :aria-labelledby="'actions-dropdown-button-' + entry.id">
                                             <li v-for=" action  in  actions ">
-                                                <a :href="route(`customers.show`, entry.id )" v-if="action === 'show'" href="#"
+                                                <a @click="router.visit(route(`customers.show`, entry.id ))" v-if="action === 'show'" href="#"
                                                     class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
                                                         $t('labels.show') }}</a>
-                                                <a :href="route(`customers.edit`, entry.id )" v-else-if="action === 'edit'" href="#"
+                                                <a @click="router.visit(route(`customers.show`, entry.id ))" v-else-if="action === 'edit'" href="#"
                                                     class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
                                                         $t('labels.edit') }}</a>
-                                                <button @click="handleDelete(entry.id)" v-if="action === 'delete'" href="#"
+                                                <button @click="router.visit(route(`customers.destroy`, entry.id ))" v-if="action === 'delete'" href="#"
                                                     class="block w-full px-4 py-2 text-left text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-700">{{
                                                         $t('labels.delete') }}</button>
                                             </li>
@@ -148,6 +148,7 @@
 
 <script setup>
 import { DArrowLeft, ArrowLeft, DArrowRight, ArrowRight, Plus, View, ArrowDown, Filter } from '@element-plus/icons-vue';
+import { router } from '@inertiajs/vue3';
 import { initFlowbite } from 'flowbite';
 import { onMounted, ref} from 'vue';
 defineProps({
