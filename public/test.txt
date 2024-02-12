@@ -1,0 +1,5 @@
+Arguments: {"command":"sendinvoices","orderid":"16","setting":"none","-h|--help":null}
+Send invoice(s) to easybill.
+ApiAccess: {"id":1,"api_name":"Easybill(live)","api_key":null,"api_secret":null,"api_url":"https:\/\/api.easybill.de\/rest\/v1\/","api_token":"0686a98c3069a6e53b1365502acd45329778cdb752de8e8d45f257f66c3e1bc3","api_token_type":"Bearer","api_token_expires_in":null,"api_token_expires_at":null,"api_token_refresh_token":null,"api_token_refresh_token_expires_in":null,"api_token_refresh_token_expires_at":null,"api_token_scope":null,"created_at":null,"updated_at":null}
+OrderId: 16
+Error: Call to undefined method App\Models\TmsOrderAddress::getAddressTypes()

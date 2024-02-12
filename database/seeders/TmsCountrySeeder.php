@@ -22,7 +22,7 @@ class TmsCountrySeeder extends Seeder
          * This is actually our TmsCountryFactory, the actualy TmsCountryFactory is not used.
          */
         foreach (TmsCountry::COUNTRIES as $country) {
-            DB::table('tms_countries')->insert([
+            DB::table('tms_countries')->updateOrInsert([
                 'id' => (int)$country[3], // numeric_code is the id, because it is unique****
                 'country_name' => $country[0],
                 'alpha2_code' => $country[1],

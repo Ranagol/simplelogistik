@@ -106,7 +106,7 @@
                 </div>
             </div>
             <div class="mr-auto place-self-center lg:col-span-6">
-                <img class="hidden w-full mx-auto lg:flex" src="/images/login.svg" alt="illustration">
+                <img class="hidden max-w-full mx-auto lg:flex" :width="10000" src="/images/login.svg" alt="illustration">
             </div>
         </div>
     </section>
