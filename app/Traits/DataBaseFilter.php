@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -99,6 +100,9 @@ trait DataBaseFilter {
                 $column = $result[1];
                 $relationshipName = $result[0];
                 $this->relationshipSearchColumns[$relationshipName] = $column;
+            } elseif (substr_count($column, '__') > 1) {
+                throw new \Exception('You can not have more than one "__" in the column name.');
+                Log::error('You can not have more than one "__" in the column name.');
             } else {
                 $this->simpleSearchColumns[] = $column;
             }
@@ -123,18 +127,7 @@ trait DataBaseFilter {
     ): Builder
     {
         //Define the static part of the query, but do not execute it yet.
-        $query = $model::query()
-        
-            /**
-             * SORTING
-             */
-            ->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
-                $query->orderBy($sortColumn, $sortOrder);
-            }, function ($query) {
-
-                //... but if sort is not specified, please return sort by id and ascending.
-                return $query->orderBy('id', 'desc');
-            });
+        $query = $model::query();
 
         //Add dynamically more search columns to the query, if there is a search term
         if ($searchTerm) {
@@ -144,9 +137,25 @@ trait DataBaseFilter {
 
             //2 - DYNAMIC SEARCH - RELATIONSHIP SEARCH INSIDE RELATED TABLES
             foreach ($this->relationshipSearchColumns as $relationshipName => $columnInRelatiodTable) {
-                $this->searchThroughRelationship($query, $searchTerm, $columnInRelatiodTable, $relationshipName);
+                $this->searchThroughRelationship(
+                    $query, 
+                    $searchTerm, 
+                    $columnInRelatiodTable, 
+                    $relationshipName
+                );
             }
         }
+
+        /**
+         * SORTING
+         */
+        $query->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
+            $query->orderBy($sortColumn, $sortOrder);
+        }, function ($query) {
+
+            //... but if sort is not specified, please return sort by id and ascending.
+            return $query->orderBy('id', 'desc');
+        });
 
         return $query;
     }
