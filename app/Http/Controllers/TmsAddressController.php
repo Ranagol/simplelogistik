@@ -36,18 +36,19 @@ class TmsAddressController extends Controller
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
+        $searchColumns = $request->searchColumns;
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
 
         //Temporary hardcoded stuff for development
-        $searchTerm = 'daniel';
-        $searchColumns = [
-            'first_name',
-            'last_name',
-            'customer__first_name',
-            'forwarder__company_name',
-        ];
+        // $searchTerm = 'daniel';
+        // $searchColumns = [
+        //     'first_name',
+        //     'last_name',
+        //     'customer__first_name',
+        //     'forwarder__company_name',
+        // ];
         
         $records = $this->getRecords(
             new TmsAddress(),
@@ -61,10 +62,11 @@ class TmsAddressController extends Controller
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'data' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }

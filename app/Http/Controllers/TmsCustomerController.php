@@ -9,10 +9,13 @@ use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Http\Requests\TmsCustomerRequest;
+use App\Traits\DataBaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsCustomerController extends Controller
 {
+    use DataBaseFilter;
+
     private string $index = 'Customers/Index';
     private string $show = 'Customers/Show';
     private string $create = 'Customers/Create';
@@ -29,19 +32,27 @@ class TmsCustomerController extends Controller
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
+        $searchColumns = $request->searchColumns;
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
         
-        $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+        $records = $this->getRecords(
+            $searchTerm, 
+            $sortColumn, 
+            $sortOrder, 
+            $newItemsPerPage,
+            $searchColumns
+        );
 
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'data' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }

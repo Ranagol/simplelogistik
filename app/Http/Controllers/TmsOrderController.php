@@ -20,11 +20,14 @@ use App\Http\Resources\TmsOrderCollection;
 use App\Http\Resources\TmsOrderEditResource;
 use App\Http\Resources\TmsOrderIndexResource;
 use App\Http\Resources\TmsOrderIndexCollection;
+use App\Traits\DataBaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TmsOrderController extends Controller
 {
+    use DataBaseFilter;
+
     private $orderService;
 
     private string $index = 'Orders/Index';
@@ -48,24 +51,27 @@ class TmsOrderController extends Controller
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
+        $searchColumns = $request->searchColumns;
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
 
-        $records = $this->orderService->getRecords(
+        $records = $this->getRecords(
             $searchTerm, 
             $sortColumn, 
             $sortOrder, 
-            $newItemsPerPage
+            $newItemsPerPage,
+            $searchColumns
         );
 
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'data' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }
