@@ -12,10 +12,13 @@ use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Services\ForwarderService;
 use App\Http\Requests\TmsForwarderRequest;
+use App\Traits\DataBaseFilter;
 use Illuminate\Http\RedirectResponse;
 
 class TmsForwarderController extends Controller
 {
+    use DataBaseFilter;
+
     private string $index = 'Forwarders/Index';
     private string $show = 'Forwarders/Show';
     private string $create = 'Forwarders/Create';
@@ -44,24 +47,27 @@ class TmsForwarderController extends Controller
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
+        $searchColumns = $request->searchColumns;
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
         
-        $records = $this->forwarderService->getRecords(//Undefined variable $forwarderService
+        $records = $this->getRecords(
             $searchTerm, 
             $sortColumn, 
             $sortOrder, 
-            $newItemsPerPage
+            $newItemsPerPage,
+            $searchColumns
         );
 
         return Inertia::render(
             $this->index, 
             [
-                'records' => $records,
-                'searchTerm' => $searchTerm,
-                'sortColumn' => $sortColumn,
-                'sortOrder' => $sortOrder,
+                'data' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }
