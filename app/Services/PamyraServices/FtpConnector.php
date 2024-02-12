@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * This class connects to an sftp server, and handles files from here.
+ * /upload contains the live data.
+ * /andor contains pamyra json files that we use for dev and testing
+ * /PAM: every pamyra json file's name starts with PAM.
  */
 class FtpConnector
 {

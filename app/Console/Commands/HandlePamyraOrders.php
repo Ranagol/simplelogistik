@@ -14,7 +14,7 @@ class HandlePamyraOrders extends Command
      *
      * @var string
      */
-    protected $signature = 'handle-pamyra-orders';
+    protected $signature = 'handlePamyraOrders';
 
     /**
      * The console command description.

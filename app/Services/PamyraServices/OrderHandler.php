@@ -2,14 +2,16 @@
 
 namespace App\Services\PamyraServices;
 
-use App\Models\TmsAddress;
 use App\Models\TmsOrder;
-use App\Models\TmsOrderAddress;
+use App\Models\TmsAddress;
 use App\Models\TmsPartner;
-use App\Services\PamyraServices\CustomerService;
-use App\Services\PamyraServices\AddressService;
+use App\Models\TmsPamyraOrder;
+use App\Models\TmsOrderAddress;
+use Illuminate\Support\Facades\Log;
 use App\Services\PamyraServices\OrderService;
 use App\Services\PamyraServices\ParcelService;
+use App\Services\PamyraServices\AddressService;
+use App\Services\PamyraServices\CustomerService;
 use App\Services\PamyraServices\PamyraOrderService;
 use App\Services\PamyraServices\OrderAddressService;
 
@@ -87,6 +89,12 @@ class OrderHandler {
      */
     public function handle(array $pamyraOrder): void
     {
+        $isDuplicate = $this->checkForDuplicate($pamyraOrder);
+
+        if($isDuplicate){
+            return;
+        }
+
         $this->handleCustomer($pamyraOrder);
         $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
         $this->handleOrder($pamyraOrder);
@@ -94,6 +102,43 @@ class OrderHandler {
         $this->handlePamyraOrder($pamyraOrder);
         $this->handleOrderAddresses($pamyraOrder);//pickup and delivery from TmsOrderAddress
         $this->handleOrderAttributes($pamyraOrder);
+    }
+
+    /**
+     * Checks for duplicate in the database. These are the rules, how the duplicate cases are handled:
+     * 
+     * pamyraOrder: this is the only way to check, if the order already exists in the db. Checking 
+     * this is the first thing to do, before anything else. If there is a duplicate pamyra order,
+     * then we return, and stop the creating of the given order. We also log this. However, all other
+     * pamyra orders, that are not duplicates will be created.
+     * 
+     * customer: don't create it, if the same object already exists in db.
+     * addresses: don't create it, if the same object already exists in db.
+     * orders: no checking.
+     * parcels: no checking, because none of the parcel columns is unique
+     * orderAddresses:  don't create it, if the same object already exists in db.
+     * orderAttributes: we can't check for duplicates here
+     * 
+     *
+     * @param array $pamyraOrder
+     * @return bool
+     */
+    private function checkForDuplicate(array $pamyraOrder): bool
+    {
+        $pamyraOrderDuplicate = TmsPamyraOrder::where('order_number', $pamyraOrder['OrderNumber'])->first();
+
+        if ($pamyraOrderDuplicate) {
+            echo 'Order with order number ' 
+                    . $pamyraOrder['OrderNumber'] 
+                    . ' already exists.' . PHP_EOL;
+            Log::alert('Order with order number ' 
+                    . $pamyraOrder['OrderNumber'] 
+                    . ' already exists.' . PHP_EOL);
+
+            return true;
+        }
+
+        return false;
     }
     
     /**

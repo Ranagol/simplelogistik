@@ -60,12 +60,7 @@ class OrderAddressService {
 
         $this->setCountryId($customer);
         
-        $this->checkForDuplicate(
-            $orderId,
-            $customerId,
-            $partnerId,
-            $addressType,
-        );
+        
 
         $this->createAddress(
             $customer,
@@ -126,40 +121,7 @@ class OrderAddressService {
         $this->countryId = DB::table('tms_countries')->where('alpha2_code', $countryCode)->first()->id;
     }
 
-    /**
-     * Checks if there is a duplicate address in the database.
-     * 
-     * We must check here for 3 cases:
-     * 1. isHeadquarter = true
-     * 2. isBilling = true
-     *
-     * @param integer $orderId
-     * @param integer $customerId
-     * @param integer $partnerId
-     * @param string $addressType
-     * @throws \Exception
-     * @return void
-     */
-    private function checkForDuplicate(
-        int $orderId,
-        int $customerId,
-        int $partnerId,
-        string $addressType
-    ): void
-    {
-        $duplicateAddress = TmsOrderAddress::where('street', $this->street)
-                                ->where('house_number', $this->houseNumber)
-                                ->where('country_id', $this->countryId)
-                                ->where('order_id', $orderId)
-                                ->where('partner_id', $partnerId)
-                                ->where('customer_id', $customerId)
-                                ->where('address_type', $addressType)
-                                ->first();
-
-        if($duplicateAddress) {
-            throw new \Exception('Duplicate address found in order_addresses table.');
-        }
-    }
+    
 
     /**
      * Creates an order address record in the database.
@@ -181,6 +143,17 @@ class OrderAddressService {
         string $addressType,
     ): void
     {
+        $isDuplicate = $this->checkForDuplicate(
+            $orderId,
+            $customerId,
+            $partnerId,
+            $addressType,
+        );
+
+        if($isDuplicate) {
+            return;
+        }
+
         $addressArray = [
             'order_id' => $orderId,
             'customer_id' => $customerId,
@@ -214,6 +187,40 @@ class OrderAddressService {
         $this->validate($addressArray);
 
         TmsOrderAddress::create($addressArray);
+    }
+
+    /**
+     * Checks if there is a duplicate address in the database.
+     * 
+     * @param integer $orderId
+     * @param integer $customerId
+     * @param integer $partnerId
+     * @param string $addressType
+     * @return bool
+     */
+    private function checkForDuplicate(
+        int $orderId,
+        int $customerId,
+        int $partnerId,
+        string $addressType
+    ): bool
+    {
+        $duplicateAddress = TmsOrderAddress::where('street', $this->street)
+                                ->where('house_number', $this->houseNumber)
+                                ->where('country_id', $this->countryId)
+                                ->where('order_id', $orderId)
+                                ->where('partner_id', $partnerId)
+                                ->where('customer_id', $customerId)
+                                ->where('address_type', $addressType)
+                                ->first();
+
+        if($duplicateAddress) {
+            echo 'Duplicate address found in order_addresses table, while trying to create a Pamyra order from Pamyra json file.';
+            Log::alert('Duplicate address found in order_addresses table, while trying to create a Pamyra order from Pamyra json file..');
+            return true;
+        }
+
+        return false;
     }
 
     /**

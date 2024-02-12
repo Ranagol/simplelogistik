@@ -35,33 +35,21 @@ class PamyraOrderService {
         $this->validationRules = $tmsPamyraOrderRequest->pamyraOrderRules();
     }
 
+    /**
+     * The main function in this class, that triggers all other functions.
+     * We do not check here for duplicate pamyra order, since we already did that in the OrderHandler 
+     * class, at the very beginning, as first step.
+     *
+     * @param array $pamyraOrder
+     * @param integer $orderId
+     * @return void
+     */
     public function handle(
         array $pamyraOrder, 
         int $orderId
     )
     {
-        $this->checkForDuplicate($pamyraOrder, $orderId);
         $this->createPamyraOrder($pamyraOrder, $orderId);
-    }
-
-    /**
-     * Checks for duplicate in the database.
-     *
-     * @param array $pamyraOrder
-     * @param integer $orderId
-     * @throws \Exception
-     * @return void
-     */
-    private function checkForDuplicate(
-        array $pamyraOrder, 
-        int $orderId
-    ): void
-    {
-        $pamyraOrder = TmsPamyraOrder::where('order_id', $orderId)->first();
-        if ($pamyraOrder) {
-            echo 'Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists (PamyraOrderService).' . PHP_EOL;
-            throw new \Exception("Pamyra order with order_id = $orderId already exists in the database(PamyraOrderService).");
-        }
     }
 
     private function createPamyraOrder(
