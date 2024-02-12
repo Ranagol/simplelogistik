@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsCustomer;
@@ -9,7 +10,6 @@ use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Session;
 
 class TmsCustomerController extends Controller
 {
@@ -124,7 +124,9 @@ class TmsCustomerController extends Controller
 
         $newRecord = $this->handleForwarderId($newRecord);
 
+
         $newlyCreatedRecord = TmsCustomer::create($newRecord);
+
 
         /**
          * Since a new address is created, we send a success message to the FE. First step of this

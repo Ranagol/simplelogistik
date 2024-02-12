@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Artisan;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsOrder;
@@ -110,6 +111,22 @@ class TmsOrderController extends Controller
         $newlyCreatedRecord = TmsOrder::create($newRecord);
 
         /**
+         * Call the Esaybill API to create a new invoice.
+         */
+        $id = $newlyCreatedRecord->id;
+        $result = Artisan::command('Easybill.sendinvoices', function($id) {
+            echo $id;   
+        });
+        file_put_contents('test.txt', Artisan::output());
+        /**
+         * Todo: 
+         * - check if the API call was successful.
+         * - store result in session.
+         * - display result in FE.
+         */
+
+
+        /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
          * page. This is what we do here, otherwise this line would not be needed.
          */
@@ -207,6 +224,22 @@ class TmsOrderController extends Controller
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
+
+        /**
+         * Call the Esaybill API to create a new invoice.
+         */
+        $id = $orderFromDb->id;
+        // $result = Artisan::command('Easybill.sendinvoices ', function($id) {
+        //     echo $id;   
+        // });
+        $result = $this->execute('cd ..; php artisan sendinvoices ' . $id . ';');
+        file_put_contents('test.txt', $result);
+        /**
+         * Todo: 
+         * - check if the API call was successful.
+         * - store result in session.
+         * - display result in FE.
+         */
     }
 
     /**
@@ -282,4 +315,28 @@ class TmsOrderController extends Controller
         
         return $records;
     }
+
+    public static function execute($cmd): string
+    {
+        $process = Process::fromShellCommandline($cmd);
+
+        $processOutput = '';
+
+        $captureOutput = function ($type, $line) use (&$processOutput) {
+            $processOutput .= $line;
+        };
+
+        $process->setTimeout(null)
+            ->run($captureOutput);
+
+        if ($process->getExitCode()) {
+            $exception = new \Exception($cmd . " - " . $processOutput);
+            report($exception);
+
+            throw $exception;
+        }
+
+        return $processOutput;
+    }
+
 }

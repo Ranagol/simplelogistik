@@ -1,0 +1,11 @@
+{
+    "name": "Easybill",
+    "alias": "easybill",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Easybill\\app\\Providers\\EasybillServiceProvider"
+    ],
+    "files": []
+}
