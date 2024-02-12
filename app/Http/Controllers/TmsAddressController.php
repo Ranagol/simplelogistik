@@ -13,23 +13,17 @@ use Illuminate\Http\Request;
 use App\Services\AddressService;
 use Faker\Provider\ar_EG\Address;
 use Illuminate\Support\Facades\Session;
-use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsAddressRequest;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Traits\DataBaseFilter;
 
 class TmsAddressController extends Controller
 {
+    use DataBaseFilter;
+
     private string $index = 'Addresses/Index';
     private string $show = 'Addresses/Show';
     private string $create = 'Addresses/Create';
     private string $edit = 'Addresses/Edit';
-
-    private AddressService $addressService;
-
-    public function __construct(AddressService $addressService)
-    {
-        $this->addressService = $addressService;
-    }
 
     /**
      * Returns records.
@@ -46,8 +40,8 @@ class TmsAddressController extends Controller
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
 
+        //Temporary hardcoded stuff for development
         $searchTerm = 'daniel';
-        
         $searchColumns = [
             'first_name',
             'last_name',
@@ -55,7 +49,8 @@ class TmsAddressController extends Controller
             'forwarder__company_name',
         ];
         
-        $records = $this->addressService->getRecords(
+        $records = $this->getRecords(
+            new TmsAddress(),
             $searchTerm, 
             $sortColumn, 
             $sortOrder, 

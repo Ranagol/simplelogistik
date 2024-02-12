@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Services;
+namespace App\Traits;
 
-use App\Models\TmsAddress;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-class AddressService
-{
+/**
+ * This trait is used for the majority of all index() functions in the controllers. It is used for
+ * the records list (Index.vue component). It is used for the search, sort and pagination of the
+ * records. Since these are repeated functions, we extracted it here.
+ */
+trait DataBaseFilter {
+
     /**
      * This is an ordinary array with numeric keys, and the values are the column names.
      * This is used for the multiple column search. [ 'first_name', 'last_name']
@@ -32,9 +37,11 @@ class AddressService
      * @param string|null $sortColumn
      * @param string|null $sortOrder
      * @param integer|null $newItemsPerPage
+     * @param array $searchColumns
      * @return LengthAwarePaginator
      */
     public function getRecords(
+        Model $model,
         string $searchTerm = null, 
         string $sortColumn = null, 
         string $sortOrder = null, 
@@ -48,6 +55,7 @@ class AddressService
         
         //Make the dynamic query
         $query = $this->makeDynamicQuery(
+            $model,
             $searchTerm, 
             $sortColumn, 
             $sortOrder, 
@@ -64,9 +72,9 @@ class AddressService
     }
 
     /**
-     * Separates simple search in the models own table (Example we search for street in the Address 
+     * Separates simple search in the models own table (Example we search for street in the ...Model 
      * table). And the more complex search in related tables (Example we search for first_name in the
-     * Customers table, on a customer that is related to the Address.).
+     * Customers table, on a customer that is related to the ...Model.).
      * $this->simpleSearchColumns - will store the simple search columns
      * $this->relationshipSearchColumns - will store the relationship search columns
      *
@@ -108,13 +116,14 @@ class AddressService
      * @return Builder
      */
     private function makeDynamicQuery(
+        Model $model,
         string $searchTerm, 
         string | null $sortColumn,
         string | null $sortOrder,  
     ): Builder
     {
         //Define the static part of the query, but do not execute it yet.
-        $query = TmsAddress::query()
+        $query = $model::query()
         
             /**
              * SORTING
@@ -188,4 +197,5 @@ class AddressService
             $query->where($columnInRelatedTable, 'LIKE', "$searchTerm%");
         });
     }
+
 }
