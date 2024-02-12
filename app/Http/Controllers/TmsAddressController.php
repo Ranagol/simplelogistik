@@ -10,13 +10,16 @@ use App\Models\TmsPartner;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
-use App\Http\Controllers\BaseController;
-use App\Http\Requests\TmsAddressRequest;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Services\AddressService;
+use Faker\Provider\ar_EG\Address;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\TmsAddressRequest;
+use App\Traits\DataBaseFilter;
 
 class TmsAddressController extends Controller
 {
+    use DataBaseFilter;
+
     private string $index = 'Addresses/Index';
     private string $show = 'Addresses/Show';
     private string $create = 'Addresses/Create';
@@ -33,19 +36,37 @@ class TmsAddressController extends Controller
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn;
         $sortOrder = $request->sortOrder;
+        $searchColumns = $request->searchColumns;
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
+
+        //Temporary hardcoded stuff for development
+        // $searchTerm = 'daniel';
+        // $searchColumns = [
+        //     'first_name',
+        //     'last_name',
+        //     'customer__first_name',
+        //     'forwarder__company_name',
+        // ];
         
-        $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+        $records = $this->getRecords(
+            new TmsAddress(),
+            $searchTerm, 
+            $sortColumn, 
+            $sortOrder, 
+            $newItemsPerPage,
+            $searchColumns
+        );
 
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'data' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }
@@ -216,61 +237,7 @@ class TmsAddressController extends Controller
         TmsAddress::find($id)->update($newRecord);
     }
 
-    /**
-     * Returns records for records list (Index.vue component)
-     *
-     * @param string|null $searchTerm
-     * @param string|null $sortColumn
-     * @param string|null $sortOrder
-     * @param integer|null $newItemsPerPage
-     * @return LengthAwarePaginator
-     */
-    private function getRecords(
-        string $searchTerm = null, 
-        string $sortColumn = null, 
-        string $sortOrder = null, 
-        int $newItemsPerPage = null,
-    ): LengthAwarePaginator
-    {
-        $records = TmsAddress::query()
-
-            // If there is a search term defined...
-            ->when($searchTerm, function($query, $searchTerm) {
-
-                /**
-                 * This is a bit tricky.
-                 * Here we use a model scope. The model scope code is defined in the relevant model.
-                 * https://laravel.com/docs/10.x/eloquent#local-scopes
-                 */
-                $query->searchBySearchTerm($searchTerm);
-            })
-            
-            /**
-             * SORTING
-             * When there is $sortColumn and $sortOrder defined
-             */
-            ->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
-                $query->orderBy($sortColumn, $sortOrder);
-            }, function ($query) {
-
-                //... but if sort is not specified, please return sort by id and ascending.
-                return $query->orderBy('id', 'desc');
-            })
-            
-            /**
-             * PAGINATION
-             * If it is not otherwise specified, paginate by 10 items per page.
-             */
-            ->paginate($newItemsPerPage ? $newItemsPerPage : 10)
-
-            /**
-             * Include the query string too into pagination data links for page 1,2,3,4... 
-             * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
-             */
-            ->withQueryString();
-
-        return $records;
-    }
+    
 
     /**
      * If this is a company return the company name, otherwise return the name of the person.
