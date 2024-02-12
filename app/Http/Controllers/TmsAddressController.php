@@ -46,12 +46,12 @@ class TmsAddressController extends Controller
         $page = $request->page;
         $newItemsPerPage = (int)$request->newItemsPerPage;
 
-        $searchTerm = 'daniel';
+        $searchTerm = 'gerlach';
         
         $searchColumns = [
             'first_name',
             'last_name',
-            'customer__first_name',
+            'customer__last_name',
             'forwarder__company_name',
         ];
         
@@ -66,11 +66,12 @@ class TmsAddressController extends Controller
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
-            ]
+                'data' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
+            ] 
         );
     }
 
