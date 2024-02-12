@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('emons_invoice_number')->required()->comment('The invoice number from Emons.');
             $table->date('billing_date')->required()->comment('The date when the invoice was billed.');
-            $table->string('order_number')->required()->comment('The order number.');
+            $table->string('order_number')->required()->comment('Our internal order number.');
             $table->string('customer_name')->required()->comment('The customer name.');
             $table->string('customer_country_code')->required()->comment('The customer country code. Example: "DE".');
             $table->string('customer_zip_code')->required()->comment('The customer zip code.');

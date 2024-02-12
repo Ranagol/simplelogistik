@@ -47,6 +47,7 @@ class TmsAddressController extends Controller
         $newItemsPerPage = (int)$request->newItemsPerPage;
 
         $searchTerm = 'daniel';
+        
         $searchColumns = [
             'first_name',
             'last_name',
