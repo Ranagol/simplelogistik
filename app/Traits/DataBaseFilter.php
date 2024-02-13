@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\TmsAddress;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,11 +49,9 @@ trait DataBaseFilter {
         string $sortOrder = null, 
         int $newItemsPerPage = null,
         array $searchColumns = null,
-        array $relations = []
+        array $withRelations = []
     ): LengthAwarePaginator
-    {
-
-        //Separate simple and relationship search columns into two arrays
+    {   //Separate simple and relationship search columns into two arrays
         $this->handleSearchColumns($searchColumns);
         
         //Make the dynamic query
@@ -122,7 +121,7 @@ trait DataBaseFilter {
      */
     private function makeDynamicQuery(
         Model $model,
-        string $searchTerm, 
+        string | null $searchTerm, 
         string | null $sortColumn,
         string | null $sortOrder,  
     ): Builder
@@ -131,7 +130,7 @@ trait DataBaseFilter {
         $query = $model::query();
 
         //Add dynamically more search columns to the query, if there is a search term
-        if ($searchTerm) {
+        if ($searchTerm && !is_null($searchTerm)) {
 
             //1 - DYNAMIC SEARCH - SIMPLE SEARCH INSIDE THE MODEL'S OWN TABLE
             $this->searchSimple($query, $searchTerm);

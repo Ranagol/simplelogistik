@@ -69,7 +69,7 @@
                         <span>{{ data.customer.state }} {{ data.customer.country }}</span>
                     </p>
                 </div>
-                <div v-for="address, key in data?.addresses" :key="key"
+                <div v-for="address, key in data?.order_addresses" :key="key"
                     class="relative grid p-2 py-6 bg-gray-100 rounded-lg place-items-center sm:w-full dark:bg-gray-700">
                     <p class="absolute top-0 right-0 pb-2 m-3">
                         <span v-if="address.address_type === 'Pickup address'" class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ address.address_type }}</span>
