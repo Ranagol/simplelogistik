@@ -2,14 +2,13 @@
     <Head title="Address" />
     <AddressesTable 
         :actions="['edit', 'show']" 
-        :getData="getData" 
+        :getData="() => {}"
         :title="$t('labels.orders')" 
-        :data="data.addresses" 
+        :data="fe_data.addresses" 
         :headers="defaultHeaders"
-        :filters="data"
     />
 
-    <Pagination :links="data.paginationData" />
+    <Pagination :links="fe_data.pagination" />
 </template>
 
 <script setup>
@@ -249,56 +248,31 @@ const defaultHeaders = [
 let props = defineProps( 
     {
         errors: Object, 
-        dataFromController: Object,
-
-        /**
-         * We need to pass the searchTermProp, sortColumnProp and sortOrderProp from the backend
-         * to the frontend. So the backend sends them, and this component receives them as props.
-         * However, props data can't be changed. So we need to store them in data().
-         */
-        searchTermProp: String,
-        sortColumnProp: String,
-        sortOrderProp: String,
+        data: Object,
+        search: String,
+        search_in: Array,
+        order_by: String,
+        order: String,
     }
 );
 
-let data = reactive({
-    /**
-     * Unfortunatelly, addresses are coming in from backend mixed with pagination data.
-     * That is what we have here in the dataFromController. We need
-     * seaparted addresses and separated pagination data. This will happen in computed properties.
-     */
-    addresses: props.dataFromController.data,
-    searchTerm: props.searchTermProp,
-    sortColumn: props.sortColumnProp,
-    sortOrder: props.sortOrderProp,
-
-    /**
-     * All pagination related data is stored here. 
-     * Unfortunatelly,addresses are coming in from backend mixed with pagination data.
-     * That is what we have here in the dataFromController. We need
-     * seaparated addresses and separated pagination data. This will happen in computed properties.
-     * Here. So, this is the pagination related data. And a small reminder:
-     * 
-     * el-pagination        Laravel ->paginate()
-     * current-page	        paginationData.current_page         Where the user is currently
-     * page-size	        paginationData.per_page             Number of items / page
-     * total	            paginationData.total                Number of all db records
-     */
-    paginationData: _.omit({...props.dataFromController}, 'data')
+// Setting Frontend Data
+const fe_data = reactive({
+    addresses: props.data.data,
+    pagination: {
+        current_page: props.data.current_page,
+        last_page: props.data.last_page,
+        from: props.data.from,
+        to: props.data.to,
+        links: props.data.links,
+        total: props.data.total,
+        per_page: props.data.per_page,
+        path: props.data.path,
+        first_page_url: props.data.first_page_url,
+        last_page_url: props.data.last_page_url,
+    } ,
 });
 
-/**
- * This is the data that will be passed to the AddressesTable component.
- * It is a computed property, because it depends on the data from the backend.
- */
-let getData = () => {}
-
-/**
- * This function is triggered when the user clicks on the create new address button.
- */
-const handleCreate = () => {
-    router.get('addresses/create');
-};
+console.log('props', props.data);
 
 </script>

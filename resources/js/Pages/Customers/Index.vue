@@ -4,13 +4,11 @@
     />
     <CustomerTableWithActions
         :actions="['show', 'edit']"
-        v-model:paginationData="data.paginationData"
-        @getData="getData"
         :title="$t('labels.customers')"
-        :data="data.customers"
+        :data="fe_data.customers"
         :headers="headers"
     />
-    <Pagination :links="data.paginationData" />
+    <Pagination :links="fe_data.pagination" />
 </template>
 
 <script setup>
@@ -54,132 +52,32 @@ const headers = [
     }
 ]
 
-let customerStore = useCustomerStore();
-
-// PROPS
-let props = defineProps(
+let props = defineProps( 
     {
-        errors: Object,
-        dataFromController: Object,
-
-        /**
-         * We need to pass the searchTermProp, sortColumnProp and sortOrderProp from the backend
-         * to the frontend. So the backend sends them, and this component receives them as props.
-         * However, props data can't be changed. So we need to store them in data().
-         */
-        searchTermProp: String,
-        sortColumnProp: String,
-        sortOrderProp: String,
+        errors: Object, 
+        data: Object,
+        search: String,
+        search_in: Array,
+        order_by: String,
+        order: String,
     }
 );
 
-let data = reactive({
-    /**
-     * Unfortunatelly, customers are coming in from backend mixed with pagination data.
-     * That is what we have here in the dataFromController. We need
-     * seaparted customers and separated pagination data. This will happen in computed properties.
-     */
-    customers: props.dataFromController.data,
-    searchTerm: props.searchTermProp,
-    sortColumn: props.sortColumnProp,
-    sortOrder: props.sortOrderProp,
-
-    /**
-     * All pagination related data is stored here.
-     * Unfortunatelly,customers are coming in from backend mixed with pagination data.
-     * That is what we have here in the dataFromController. We need
-     * seaparated customers and separated pagination data. This will happen in computed properties.
-     * Here. So, this is the pagination related data. And a small reminder:
-     *
-     * el-pagination        Laravel ->paginate()
-     * current-page	        paginationData.current_page         Where the user is currently
-     * page-size	        paginationData.per_page             Number of items / page
-     * total	            paginationData.total                Number of all db records
-     */
-    paginationData: _.omit({...props.dataFromController}, 'data')
+// Setting Frontend Data
+const fe_data = reactive({
+    customers: props.data.data,
+    pagination: {
+        current_page: props.data.current_page,
+        last_page: props.data.last_page,
+        from: props.data.from,
+        to: props.data.to,
+        links: props.data.links,
+        total: props.data.total,
+        per_page: props.data.per_page,
+        path: props.data.path,
+        first_page_url: props.data.first_page_url,
+        last_page_url: props.data.last_page_url,
+    } ,
 });
-
-
-/**
- * getData() is triggered by:
- *
- * the search button,
- * the sorting clicks,
- * the pagination clicks.
- * Also on input field clear/reset.
- * If enter is hit by the user.
- *
- * It sends a request to the backend to get the customers. The backend will return the customers
- * sorted and the pagination data. getData() does not have arguments, because it uses the
- * data from data(). Because every search/sort/paginate change is in the data().
- * Now customers from this function arrive to props. There is a watcher for props, that sends customers
- * from props to Pinia store.
- */
-let getData = () => {
-    const customers = router.get(
-        '/customers',
-        {
-            /**
-             * This is the data that we send to the backend.
-             */
-            searchTerm: data.searchTerm,
-            sortColumn: data.sortColumn,
-            sortOrder: data.sortOrder,
-            page: data.paginationData.current_page,
-            newItemsPerPage: data.paginationData.per_page,
-        }
-    );
-};
-
-/**
- * This function is triggered when the user clicks on the create new customer button.
- */
-const handleCreate = () => {
-    router.get('customers/create');
-};
-
-
-/**
- * Sends the delete customer request to the backend.
- */
-const handleDelete = (index, object) => {
-
-    // Asks for confirmation message, for deleting the customer.
-    ElMessageBox.confirm(
-        `Customer  ${object.company_name} will be deleted. Continue?`,
-        'Warning',
-        {
-            confirmButtonText: 'OK',
-            cancelButtonText: 'Cancel',
-            type: 'warning',
-        }
-    )
-    .then(() => {
-        //If the deleting wish is confirmed, then we send the delete request to the backend.
-        router.delete(
-            `/customers/${object.id}`,
-            {
-                onSuccess: () => {
-                    ElMessage({
-                        message: 'Customer deleted successfully',
-                        type: 'success',
-                    });
-                    router.reload({ only: ['dataFromController'] });
-                },
-                onError: (errors) => {
-                    ElMessage.error('Oops, something went wrong while deleting a customer.')
-                    ElMessage(errors);
-                }
-            }
-        )
-    })
-    .catch(() => {
-        //If the deleting wish is canceled, then we show a message.
-        ElMessage({
-            type: 'info',
-            message: 'Delete canceled',
-        })
-    })
-};
 
 </script>

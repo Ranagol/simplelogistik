@@ -76,13 +76,13 @@
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                             :aria-labelledby="'actions-dropdown-button-' + entry.id">
                                             <li v-for=" action  in  actions ">
-                                                <a :href="route(`addresses.show`, entry.id )" v-if="action === 'show'" href="#"
+                                                <a @click.prevent="router.visit(route(`addresses.show`, entry.id ))" v-if="action === 'show'" href="#"
                                                     class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
                                                         $t('labels.show') }}</a>
-                                                <a :href="route(`addresses.edit`, entry.id )" v-else-if="action === 'edit'" href="#"
+                                                <a @click.prevent="router.visit(route(`addresses.edit`, entry.id ))" v-else-if="action === 'edit'" href="#"
                                                     class="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
                                                         $t('labels.edit') }}</a>
-                                                <button @click="handleDelete(entry.id)" v-if="action === 'delete'" href="#"
+                                                <button @click="router.visit(route(`addresses.destroy`, entry.id ))" v-if="action === 'delete'" href="#"
                                                     class="block w-full px-4 py-2 text-left text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-700">{{
                                                         $t('labels.delete') }}</button>
                                             </li>
@@ -138,10 +138,6 @@ const props = defineProps({
         type: Array,
         required: false,
     },
-    filters: {
-        type: Object,
-        required: false,
-    },
 })
  
 // RESET HEADERS
@@ -184,20 +180,6 @@ const renderCellData = (header, data) => {
 onMounted(() => {
     initFlowbite();
 })
- 
-const handleShow = (entry_id) => {
-    alert(`handleShow for item: ${entry_id}`)
-}
-const handleEdit = (entry_id) => {
-    alert(`handleEdit for item: ${entry_id}`)
-}
-const handleDelete = (entry_id) => {
-    alert(`handleDelete for item: ${entry_id}`)
-}
- 
- 
-    </script>
- 
-<script>
+
  
 </script>

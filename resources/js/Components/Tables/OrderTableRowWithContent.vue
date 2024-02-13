@@ -173,20 +173,20 @@
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance_duration')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.duration_minutes ?? '' }} min</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ details?.duration_minutes ?? '' }} min</div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.distance_km ?? '' }} km
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ details?.distance_km ?? '' }} km
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.selling_price')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.price_gross ?? '' }} {{ data.currency }}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ details?.price_gross ?? '' }} {{ data.currency }}</div>
                 </div>
             </div>
             <div class="flex items-center justify-between mt-4 space-x-3">
@@ -219,7 +219,7 @@
                     </button>
                     <button type="button" :id="'multilingualDownloadDropdownButton-' + data.id" :data-dropdown-toggle="'multilingualDownloadDropdown-' + data.id" 
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-800 rounded-lg hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900">
-                        <el-icon size="18" v-if="data.details?.order_pdf ?? '' ">
+                        <el-icon size="18" v-if="details?.order_pdf ?? '' ">
                             <Message />
                         </el-icon>
                         <el-icon size="18" v-else>
@@ -274,7 +274,7 @@ const renderCellData = (header, data) => {
         case "forwarder":
             return {'type': 'image', 'data': data.forwarder?.url_logo ?? 'https://via.placeholder.com/150'}
         case "id":
-            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.details.order_number}
+            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': details.order_number}
         default:
             return {'type': 'text', 'data': data[header.key] };
     }
@@ -296,20 +296,13 @@ const props = defineProps({
     headers: {
         type: Array,
         required: true
-    },
-    handleShow: {
-        type: Function
-    },
-    handleEdit: {
-        type: Function
-    },
-    handleDelete: {
-        type: Function
-    },
+    }
 })
 
-</script>
+const details = props?.data?.pamyraOrder ?? props?.data?.nativeOrder ?? props?.data?.order ?? {}
 
+console.log(details)
+</script>
 
 <style scoped>
     i.el-icon[aria-expanded=true]{
