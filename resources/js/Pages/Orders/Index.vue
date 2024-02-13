@@ -43,7 +43,7 @@ const fe_data = reactive({
     } ,
 });
 
-console.log("ORDERS", fe_data.orders);
+console.log(fe_data)
 
 const defaultHeaders = [
     {
