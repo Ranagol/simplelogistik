@@ -36,10 +36,10 @@
                 <li v-for="head in headers" class="flex items-center">
 
                     <input @change="(e) => updateListedItems(head.key, e.currentTarget.checked)" v-if="head.searchable == true" :id="'search-label-' + head.key" type="checkbox"
-                        :value="head.key"
+                        :value="head.search_key"
                         class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                     <label v-if="head.searchable == true" :for="'search-label-' + head.key"
-                        class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer hover:text-corporate-700 dark:text-gray-100">{{ $t(head.title) }}</label>
+                        class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer hover:text-corporate-700 dark:text-gray-100">{{ $t(head.search_title) }}</label>
                 </li>
             </ul>
         </div>
@@ -51,8 +51,7 @@
 <script setup>
 
 import { ArrowDown, Filter } from '@element-plus/icons-vue';
-import { router } from '@inertiajs/vue3';
-import { reactive } from 'vue';
-import { defineProps, ref, watch, onMounted, computed } from 'vue';
+
+
 
 </script>
