@@ -69,7 +69,7 @@
                         <span>{{ data.customer.state }} {{ data.customer.country }}</span>
                     </p>
                 </div>
-                <div v-for="address, key in data?.order_addresses" :key="key"
+                <div v-for="address, key in data?.addresses" :key="key"
                     class="relative grid p-2 py-6 bg-gray-100 rounded-lg place-items-center sm:w-full dark:bg-gray-700">
                     <p class="absolute top-0 right-0 pb-2 m-3">
                         <span v-if="address.address_type === 'Pickup address'" class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ address.address_type }}</span>
@@ -269,12 +269,11 @@ onMounted(()=> {
 
 // Manipulatees the data to be displayed in the table
 const renderCellData = (header, data) => {
-
     switch (header.key) {
         case "forwarder":
             return {'type': 'image', 'data': data.forwarder?.url_logo ?? 'https://via.placeholder.com/150'}
         case "id":
-            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': details.order_number}
+            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.details.order_number}
         default:
             return {'type': 'text', 'data': data[header.key] };
     }
@@ -299,9 +298,7 @@ const props = defineProps({
     }
 })
 
-const details = props?.data?.pamyraOrder ?? props?.data?.nativeOrder ?? props?.data?.order ?? {}
 
-console.log(details)
 </script>
 
 <style scoped>

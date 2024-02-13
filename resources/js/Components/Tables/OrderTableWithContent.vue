@@ -102,7 +102,7 @@
                         </thead>
                         <tbody data-accordion="table-column">
                             <TableRowWithContent 
-                            v-for="item, index in data" 
+                            v-for="item, index in data.data" 
                             :data="item"
                             :dataIndex="index" 
                             :actions='["show", "edit", "delete"]' 

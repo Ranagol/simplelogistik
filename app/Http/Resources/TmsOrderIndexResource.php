@@ -43,7 +43,7 @@ class TmsOrderIndexResource extends JsonResource
             'easy_bill_customer_id' => $this->easy_bill_customer_id,
 
             'last_update' => $this->orderHistoryLatest?->updated_at->format('Y-m-d H:i:s'),
-            'last_editor' => $this->orderHistoryLatest?->user->name,
+            'last_editor' => $this->orderHistoryLatest?->user?->name,
             
             //relationships are loaded in the controller, so here we can just return them.
             //this is not deleted, because I expect that we will need it in the future.

@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 /**
  * Here we can transform the data structure of the whole collection of order model objects, that
  * is sent to the order index page. 
+ * So, this TmsOrderIndexCollection.php is using TmsOrderIndexResource.php to format the data.
  */
 class TmsOrderIndexCollection extends ResourceCollection
 {

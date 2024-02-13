@@ -14,7 +14,9 @@ use App\Services\AddressService;
 use Faker\Provider\ar_EG\Address;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\TmsAddressRequest;
+use App\Http\Resources\GeneralResource;
 use App\Traits\DataBaseFilter;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class TmsAddressController extends Controller
 {
@@ -59,10 +61,12 @@ class TmsAddressController extends Controller
             $searchColumns
         );
 
+        $records = GeneralResource::collection($records);
+
         return Inertia::render(
             $this->index, 
             [
-                'data' => $records,
+                'records' => $records,
                 'search' => $searchTerm,
                 'search_in' => $searchColumns,
                 'per_page' => $newItemsPerPage,
