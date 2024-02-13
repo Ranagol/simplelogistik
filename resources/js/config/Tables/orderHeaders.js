@@ -2,7 +2,7 @@ const headers = [
     {
         show: true, 
         key: "id", 
-        title: "labels.id", 
+        title: "labels.order_number", 
         sortable: true, 
         filterable: true,
         searchable: true,

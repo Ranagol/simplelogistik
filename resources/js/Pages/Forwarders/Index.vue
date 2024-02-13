@@ -1,5 +1,5 @@
 <template>
-    <Head title="Address" />
+    <Head title="Dienstleister" />
     <ForwarderTable 
         :actions="['edit', 'show']" 
         :getData="() => {}"

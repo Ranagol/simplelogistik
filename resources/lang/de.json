@@ -41,6 +41,7 @@
         }
     },
     "labels": {
+        "packing_type": "Packmittel",
         "customers": "Kunden",
         "showing": "Zeige",
         "of": "von",

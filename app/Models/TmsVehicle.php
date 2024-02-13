@@ -28,6 +28,11 @@ class TmsVehicle extends Model
         return $this->belongsTo(TmsForwarder::class);
     }
 
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(TmsAddress::class, 'id', 'address_id');
+    }
+
     public function gears(): BelongsToMany
     {
         /**
