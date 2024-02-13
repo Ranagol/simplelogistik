@@ -24,16 +24,5 @@ const props = defineProps({
     }
 })
 
-const handleDragStart = (item) => {
-    props.handleDragStart(item)
-}
-
-const handleDrop = (item) => {
-    props.handleDrop(item)
-}
-
-const handleDragEnter = (item) => {
-    props.handleDragEnter(item)
-}
 
 </script>

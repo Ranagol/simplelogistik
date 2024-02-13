@@ -2,21 +2,19 @@
     <Head
         :title="$t('labels.customers')"
     />
+
     <CustomerTableWithActions
         :actions="['show', 'edit']"
         :title="$t('labels.customers')"
-        :data="fe_data.customers"
+        :data="fe_data.customers.data"
         :headers="defaultHeaders"
-    />
-    <Pagination :links="fe_data.pagination" />
+        :props="props"
+    ></CustomerTableWithActions>
+    <Pagination :links="buildPaginationData(fe_data.customers)" />
 </template>
 
 <script setup>
-import _ from "lodash"
-import { router } from '@inertiajs/vue3'
 import { reactive } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
-import { useCustomerStore } from '@/Stores/customerStore';
 
 import CustomerTableWithActions from '@/Components/Tables/CustomerTableWithActions.vue';
 import Pagination from "@/Components/Pagination/Pagination.vue";
@@ -27,7 +25,7 @@ const defaultHeaders = headers;
 let props = defineProps( 
     {
         errors: Object, 
-        data: Object,
+        records: Object,
         search: String,
         search_in: Array,
         order_by: String,
@@ -37,19 +35,7 @@ let props = defineProps(
 
 // Setting Frontend Data
 const fe_data = reactive({
-    customers: props.data.data,
-    pagination: {
-        current_page: props.data.current_page,
-        last_page: props.data.last_page,
-        from: props.data.from,
-        to: props.data.to,
-        links: props.data.links,
-        total: props.data.total,
-        per_page: props.data.per_page,
-        path: props.data.path,
-        first_page_url: props.data.first_page_url,
-        last_page_url: props.data.last_page_url,
-    } ,
+    customers: props.records,
 });
 
 </script>

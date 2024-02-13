@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GeneralResource;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsOrder;
@@ -47,7 +48,7 @@ class TmsForwarderController extends Controller
         $searchTerm = $request->searchTerm ?? "";
         $sortColumn = $request->sortColumn ?? "id";
         $sortOrder = $request->sortOrder ?? "ASC";
-        $searchColumns = $request->searchColumns ?? ["first_name"];
+        $searchColumns = $request->searchColumns ?? [];
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = $request->per_page ?? 10;
@@ -61,10 +62,12 @@ class TmsForwarderController extends Controller
             $searchColumns
         );
 
+        $records = GeneralResource::collection($records);
+
         return Inertia::render(
             $this->index, 
             [
-                'data' => $records,
+                'records' => $records,
                 'search' => $searchTerm,
                 'search_in' => $searchColumns,
                 'per_page' => $newItemsPerPage,

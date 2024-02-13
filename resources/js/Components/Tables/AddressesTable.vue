@@ -99,15 +99,27 @@
 </template>
  
 <script setup>
-import { DArrowLeft, ArrowLeft, DArrowRight, ArrowRight, Plus, View, ArrowDown, Filter } from '@element-plus/icons-vue';
-import { initFlowbite } from 'flowbite';
-import { onMounted, ref} from 'vue';
-import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
-import ConditionalHeadColumn from './ConditionalHeadColumn.vue';
-import { router } from '@inertiajs/vue3';
-import { reactive } from 'vue';
 
-import FilteredSearch from '@/Components/Inputs/FilteredSearch.vue';
+import { Plus, View, ArrowDown } 
+    from '@element-plus/icons-vue';
+
+import { initFlowbite } 
+    from 'flowbite';
+
+import { onMounted, ref} 
+    from 'vue';
+
+import ConditionalBodyColumn 
+    from './ConditionalBodyColumn.vue';
+
+import ConditionalHeadColumn 
+    from './ConditionalHeadColumn.vue';
+
+import { router } 
+    from '@inertiajs/vue3';
+
+import FilteredSearch 
+    from '@/Components/Inputs/FilteredSearch.vue';
  
 const props = defineProps({
     getData: {
@@ -139,10 +151,7 @@ const props = defineProps({
         required: false,
     },
 })
- 
-// RESET HEADERS
-// sessionStorage.removeItem('address-table-headers')
- 
+  
 const storedHeaders = sessionStorage.getItem('address-table-headers')
 var _headers;
  
@@ -153,11 +162,7 @@ if(storedHeaders !== 'null' && storedHeaders !== null) {
 } else {
     _headers = ref(defaultHeaders)
 }
- 
-const reorder = (headers) => {
-    _headers = headers.sort((a,b) => a.display_order < b.display_order)
-}
- 
+
 const updateListedItems = (key, value) => {
     _headers.value = _headers.value.map((item) => {
         if (item.key === key) {

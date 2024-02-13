@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GeneralResource;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -46,10 +47,12 @@ class TmsCustomerController extends Controller
             $searchColumns
         );
 
+        $records = GeneralResource::collection($records);
+
         return Inertia::render(
             $this->index, 
             [
-                'data' => $records,
+                'records' => $records,
                 'search' => $searchTerm,
                 'search_in' => $searchColumns,
                 'per_page' => $newItemsPerPage,

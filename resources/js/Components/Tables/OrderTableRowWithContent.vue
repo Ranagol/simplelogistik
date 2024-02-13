@@ -257,27 +257,18 @@
 </template>
 
 <script setup>
-import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Message } from '@element-plus/icons-vue';
-import MultilingualDownloadModal from '@Components/Modal/MultilingualDownloadModal.vue';
-import { onMounted, h } from 'vue';
-import { initFlowbite } from 'flowbite';
-import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
-
-onMounted(()=> {
-    initFlowbite()
-})
-
-// Manipulatees the data to be displayed in the table
-const renderCellData = (header, data) => {
-    switch (header.key) {
-        case "forwarder":
-            return {'type': 'image', 'data': data.forwarder?.url_logo ?? 'https://via.placeholder.com/150'}
-        case "id":
-            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.details.order_number}
-        default:
-            return {'type': 'text', 'data': data[header.key] };
-    }
-}
+import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Message } 
+    from '@element-plus/icons-vue';
+    
+import { onMounted, h } 
+    from 'vue';
+    
+import { initFlowbite } 
+    from 'flowbite';
+    
+import ConditionalBodyColumn 
+    from './ConditionalBodyColumn.vue';
+    
 
 const props = defineProps({
     dataIndex: {
@@ -297,6 +288,23 @@ const props = defineProps({
         required: true
     }
 })
+
+
+onMounted(()=> {
+    initFlowbite()
+})
+
+// Manipulatees the data to be displayed in the table
+const renderCellData = (header, data) => {
+    switch (header.key) {
+        case "forwarder":
+            return {'type': 'image', 'data': data.forwarder?.url_logo ?? 'https://via.placeholder.com/150'}
+        case "id":
+            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.details.order_number}
+        default:
+            return {'type': 'text', 'data': data[header.key] };
+    }
+}
 
 
 </script>

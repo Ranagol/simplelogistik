@@ -170,20 +170,8 @@ const updateListedItems = (key, value) => {
 
     sessionStorage.setItem('order-table-headers', JSON.stringify(_headers.value))
 }
-
 </script>
 
-<script>
-const handleDragStart = (item, index) => {
-
-}
-const handleDrop = (item, index) => {
-
-}
-const handleDragEnter = (item, index) => {
-}
-
-</script>
 
 <style scoped>
     i.el-icon[aria-expanded=true]{

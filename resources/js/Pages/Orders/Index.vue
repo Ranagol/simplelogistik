@@ -8,20 +8,27 @@
         :data="fe_data.orders" 
         :headers="defaultHeaders"
     ></OrderTableWithContent>
-    <Pagination :links="fe_data.pagination" />
+    <Pagination :links="buildPaginationData(fe_data.orders)" />
 </template>
 <script setup>
-import Pagination from '@/Components/Pagination/Pagination.vue';
-import OrderTableWithContent from '@/Components/Tables/OrderTableWithContent.vue';
-import { reactive } from 'vue';
+import Pagination 
+    from '@/Components/Pagination/Pagination.vue';
 
-import headers from "@/config/Tables/orderHeaders";
+import OrderTableWithContent 
+    from '@/Components/Tables/OrderTableWithContent.vue';
+
+import { reactive } 
+    from 'vue';
+
+
+import headers 
+    from "@/config/Tables/orderHeaders";
+
 const defaultHeaders = headers;
 
 let props = defineProps( 
     {
-        errors: Object, 
-        data: Object,
+        records: Object,
         search: String,
         search_in: Array,
         order_by: String,
@@ -29,21 +36,10 @@ let props = defineProps(
     }
 );
 
+
 // Setting Frontend Data
 const fe_data = reactive({
-    orders: props.data.data,
-    pagination: {
-        current_page: props.data.current_page,
-        last_page: props.data.last_page,
-        from: props.data.from,
-        to: props.data.to,
-        links: props.data.links,
-        total: props.data.total,
-        per_page: props.data.per_page,
-        path: props.data.path,
-        first_page_url: props.data.first_page_url,
-        last_page_url: props.data.last_page_url,
-    } ,
+    orders: props.records,
 });
 
 

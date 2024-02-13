@@ -10,7 +10,7 @@ const headers = [
         display_order: 1
     },
     { 
-        show: true, 
+        show: false, 
         key: "customer_id", 
         title: "labels.customer_id", 
         sortable: true, 
@@ -20,7 +20,7 @@ const headers = [
         display_order: 1
     },
     { 
-        show: true, 
+        show: false, 
         key: "forwarder_id", 
         title: "labels.forwarder_id", 
         sortable: true, 
@@ -30,7 +30,7 @@ const headers = [
         display_order: 2
     },
     { 
-        show: true, 
+        show: false, 
         key: "country_id", 
         title: "labels.country_id", 
         sortable: true, 
