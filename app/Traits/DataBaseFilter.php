@@ -69,7 +69,7 @@ trait DataBaseFilter {
          * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
          */
 
-        $records = $query->with($relations)->paginate($newItemsPerPage ?? 10)->withQueryString();
+        $records = $query->with($withRelations)->paginate($newItemsPerPage ?? 10)->withQueryString();
         return $records;
     }
 

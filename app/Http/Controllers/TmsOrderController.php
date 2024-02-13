@@ -76,10 +76,13 @@ class TmsOrderController extends Controller
             ]
         );
 
+        $records = new TmsOrderIndexCollection($records);
+
+
         return Inertia::render(
             $this->index, 
             [
-                'data' => $records,
+                'records' => $records,
                 'search' => $searchTerm,
                 'search_in' => $searchColumns,
                 'per_page' => $newItemsPerPage,
