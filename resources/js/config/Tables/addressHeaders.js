@@ -40,7 +40,7 @@ const headers = [
         display_order: 3
     },
     { 
-        show: true, 
+        show: false, 
         key: "partner_id", 
         title: "labels.partner_id", 
         sortable: true, 

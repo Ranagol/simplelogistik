@@ -6,6 +6,7 @@ const headers = [
         sortable: true, 
         filterable: true,
         searchable: true,
+        search_key: '',
         display_order: 1
     },{
         show: true, 
@@ -14,6 +15,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 1
     },{
         show: true, 
@@ -22,6 +24,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 2
     },{
         show: true, 
@@ -30,6 +33,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 3
     },{
         show: true, 
@@ -38,6 +42,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 4
     },{
         show: true, 
@@ -46,6 +51,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 5
     },{
         show: true, 
@@ -54,17 +60,9 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 6
     },
-    // {
-    //     show: true, 
-    //     key: "order_edited_events", 
-    //     title: "labels.order_edited_events", 
-    //     sortable: true, 
-    //     filterable: true, 
-    //     searchable: true,
-    //     display_order: 7
-    // },
     {
         show: false, 
         key: "currency", 
@@ -72,6 +70,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -80,6 +79,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -88,6 +88,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -96,6 +97,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -104,6 +106,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -112,6 +115,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -120,6 +124,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -128,6 +133,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -136,6 +142,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     },{
         show: false, 
@@ -144,6 +151,7 @@ const headers = [
         sortable: true, 
         filterable: true, 
         searchable: true,
+        search_key: '',
         display_order: 7
     }
 ];

@@ -8,9 +8,7 @@
             <div class="relative grid grid-flow-col">
                 <input 
                     type="search" 
-                    id="search-field" 
-                    :value="searchTerm" 
-                    @input="e => searchTerm = e.target.value " 
+                    id="search-field"  
                     name="searchTerm"
                     class="block w-full p-2 pl-5 pr-4 text-sm text-gray-900 border border-gray-300 rounded-lg rounded-e-none border-e-0 min-w-40 bg-gray-50 focus:border-gray-400 focus:ring-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                     :placeholder="$t('labels.search')">
@@ -39,7 +37,7 @@
                         :value="head.search_key"
                         class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                     <label v-if="head.searchable == true" :for="'search-label-' + head.key"
-                        class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer hover:text-corporate-700 dark:text-gray-100">{{ $t(head.search_title) }}</label>
+                        class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer hover:text-corporate-700 dark:text-gray-100">{{ $t(head.search_title ?? head.title ?? head.text) }}</label>
                 </li>
             </ul>
         </div>
@@ -51,6 +49,16 @@
 <script setup>
 
 import { ArrowDown, Filter } from '@element-plus/icons-vue';
+const props = defineProps({
+    headers: {
+        type: Array,
+        required: true
+    },
+    searchAt: {
+        type: String,
+        required: true
+    }
+});
 
 
 

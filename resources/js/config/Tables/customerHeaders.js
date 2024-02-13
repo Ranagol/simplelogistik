@@ -5,7 +5,8 @@ const headers = [
         text: 'labels.customer-id',
         sortable: true, 
         filterable: true, 
-        searchable: true
+        searchable: true,
+        search_key: '',
     },
     {
         show: false,
@@ -13,7 +14,8 @@ const headers = [
         text: 'labels.first-name',
         sortable: true, 
         filterable: true, 
-        searchable: true
+        searchable: true,
+        search_key: '',
     },
     {
         show: true,
@@ -21,7 +23,8 @@ const headers = [
         text: 'labels.last-name',
         sortable: true, 
         filterable: true, 
-        searchable: true
+        searchable: true,
+        search_key: '',
     },
     {
         show: true,
@@ -29,7 +32,8 @@ const headers = [
         text: 'labels.company-name',
         sortable: true, 
         filterable: true, 
-        searchable: true
+        searchable: true,
+        search_key: '',
     },
     {
         show: true,
@@ -37,7 +41,8 @@ const headers = [
         text: 'labels.business-customer',
         sortable: true, 
         filterable: true, 
-        searchable: true
+        searchable: true,
+        search_key: '',
     }
 ]
 

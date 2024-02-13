@@ -5,7 +5,7 @@
                 <div
                     class="grid items-center justify-between grid-flow-col p-4 space-y-3 border-b md:flex-row md:space-y-0 md:space-x-4 dark:border-gray-700">
                     
-                    <FilteredSearch :searchTerm="data" searchAt="addresses.index" :headers="_headers" />
+                    <FilteredSearch searchAt="addresses.index" :headers="_headers" />
 
                     <div class="grid grid-flow-col gap-4">
                         <!-- CREATE ORDER BUTTON -->
