@@ -48,10 +48,10 @@ class TmsOrderController extends Controller
      */
     public function index(Request $request): Response
     {
-        $searchTerm = $request->searchTerm ?? "";
+        $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn ?? "id";
         $sortOrder = $request->sortOrder ?? "ASC";
-        $searchColumns = $request->searchColumns ?? ["way_of_transport"];
+        $searchColumns = $request->searchColumns ?? [];
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = $request->per_page ?? 10;
