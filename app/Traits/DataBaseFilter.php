@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Models\TmsAddress;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -49,9 +48,11 @@ trait DataBaseFilter {
         string $sortOrder = null, 
         int $newItemsPerPage = null,
         array $searchColumns = null,
-        array $withRelations = []
+        array $relations = []
     ): LengthAwarePaginator
-    {   //Separate simple and relationship search columns into two arrays
+    {
+
+        //Separate simple and relationship search columns into two arrays
         $this->handleSearchColumns($searchColumns);
         
         //Make the dynamic query
