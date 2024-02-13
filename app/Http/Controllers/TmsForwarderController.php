@@ -44,15 +44,16 @@ class TmsForwarderController extends Controller
      */
     public function index(Request $request): Response
     {
-        $searchTerm = $request->searchTerm;
-        $sortColumn = $request->sortColumn;
-        $sortOrder = $request->sortOrder;
-        $searchColumns = $request->searchColumns;
+        $searchTerm = $request->searchTerm ?? "";
+        $sortColumn = $request->sortColumn ?? "id";
+        $sortOrder = $request->sortOrder ?? "ASC";
+        $searchColumns = $request->searchColumns ?? ["first_name"];
         //pagination stuff sent from front-end
         $page = $request->page;
-        $newItemsPerPage = (int)$request->newItemsPerPage;
+        $newItemsPerPage = $request->per_page ?? 10;
         
         $records = $this->getRecords(
+            new TmsForwarder(),
             $searchTerm, 
             $sortColumn, 
             $sortOrder, 
@@ -66,6 +67,7 @@ class TmsForwarderController extends Controller
                 'data' => $records,
                 'search' => $searchTerm,
                 'search_in' => $searchColumns,
+                'per_page' => $newItemsPerPage,
                 'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
                 'order' => $sortOrder // Ascending - Descending
             ]

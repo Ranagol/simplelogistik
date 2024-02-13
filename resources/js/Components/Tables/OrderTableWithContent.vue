@@ -102,7 +102,7 @@
                         </thead>
                         <tbody data-accordion="table-column">
                             <TableRowWithContent 
-                            v-for="item, index in data.data" 
+                            v-for="item, index in data" 
                             :data="item"
                             :dataIndex="index" 
                             :actions='["show", "edit", "delete"]' 
@@ -110,14 +110,11 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- <Pagination :links="paginationData" /> -->
             </div>
     </section>
 </template>
 
 <script setup>
-import Pagination from '@/Components/Pagination/Pagination.vue';
 import { ArrowDown, Check, Edit, Filter, Plus, Select, View } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
 import { onMounted, reactive } from 'vue';
@@ -133,34 +130,6 @@ const props = defineProps({
     headers: {
         type: Object,
         required: true
-    },
-    changeTableLayout: {
-        type: Function,
-        required: false
-    },
-    handleDragStart: {
-        type: Function,
-        required: false
-    },
-    handleDrop: {
-        type: Function,
-        required: false
-    },
-    handleDragEnter: {
-        type: Function,
-        required: false
-    },
-    getData: {
-        type: Function,
-        required: true,
-    },
-    paginationData: {
-        type: Object,
-        required: true,
-    },
-    totalResults: {
-        type: Number,
-        required: false,
     },
     title: {
         type: String,

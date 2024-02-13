@@ -28,7 +28,11 @@
         "languages": "Sprachen",
         "preferences": "Einstellungen",
         "pamyra": "Pamyra",
-        "more": "Mehr"
+        "vehicles": "Fahrzeuge",
+        "more": "Mehr",
+        "help": "Hilfe",
+        "archive": "Archiv",
+        "documents": "Dokumente"
     },
     "password": {
         "forgot": {
@@ -37,6 +41,9 @@
         }
     },
     "labels": {
+        "customers": "Kunden",
+        "showing": "Zeige",
+        "of": "von",
         "add-package": "Weiteres Packstück",
         "additional_options": "Zusätzliche Optionen",
         "order-client-informations": "Auftraggeber",

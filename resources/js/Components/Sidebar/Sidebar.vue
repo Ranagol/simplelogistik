@@ -10,15 +10,15 @@
                             class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                             :aria-controls="'menu-submenu-trigger-' + (index + 1)" :data-collapse-toggle="'menu-submenu-trigger-' + (index + 1)">
                             <span v-if="item?.customIcon !== true">
-                                <el-icon v-if="item.icon">
+                                <el-icon size="18" v-if="item.icon">
                                     <component :is='item.icon' />
                                 </el-icon>
                                 </span>
                             <span v-else>
-                                <component :is="item.icon" />
+                                <component :color="isActive(states.activeRoute, item.route) ? '#fff' : 'rgb(107 114 128 / var(--tw-text-opacity))'" size="18" :is="item.icon" />
                             </span>
                             <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ $t('menu.more') }}</span>
-                            <el-icon class="submenu-icon"><ArrowDown /></el-icon>
+                            <el-icon size="18" class="submenu-icon"><ArrowDown /></el-icon>
                         </button>
                         <ul :id="'menu-submenu-trigger-' + (index + 1)" class="hidden py-2 space-y-2">
                             <li v-for="sub in item.submenu">
@@ -34,18 +34,18 @@
                         class="grid justify-start grid-flow-col p-2 py-2.5 text-base font-medium text-gray-900 transition-all duration-200 rounded-lg place-items-center dark:text-white hover:bg-gray-200 dark:hover:bg-primary-700 dark:hover:text-white hover:text-gray-900 group"
                         :class="{'bg-primary-700 text-white hover:text-white hover:bg-primary-800': isActive(states.activeRoute, item.route) }">
                         <span v-if="item?.customIcon !== true" class="leading-none">
-                            <el-icon v-if="item.icon" :color="isActive(states.activeRoute, item.route) ? 'white' : 'rgb(107 114 128 / var(--tw-text-opacity))'">
-                                <component :is="item.icon"/>
+                            <el-icon size="18" v-if="item.icon" :color="isActive(states.activeRoute, item.route) ? '#fff' : 'rgb(107 114 128 / var(--tw-text-opacity))'">
+                                <component :color="isActive(states.activeRoute, item.route) ? '#fff' : 'rgb(107 114 128 / var(--tw-text-opacity))'" :is="item.icon"/>
                             </el-icon>
                         </span>
                         <span v-else class="leading-none">
-                            <component :is="item.icon" />
+                            <component :color="isActive(states.activeRoute, item.route) ? '#fff' : 'rgb(107 114 128 / var(--tw-text-opacity))'" size="18" :is="item.icon" />
                         </span>
                         <span class="ml-3 leading-none">{{ $t(item.title) }}</span>
                         </p>
                         <p v-else
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <el-icon v-if="item.icon" color="rgb(107 114 128 / var(--tw-text-opacity))">
+                            <el-icon size="18" v-if="item.icon" :color="isActive(states.activeRoute, item.route) ? '#fff' : 'rgb(107 114 128 / var(--tw-text-opacity))'">
                                 <component :is="item.icon"/>
                             </el-icon>
                             <span class="ml-3">{{ $t(item.title) }}</span>
@@ -62,7 +62,7 @@
                             class="flex items-center w-full p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                             :aria-controls="'menu-submenu-trigger-' + (index + 1)" :data-collapse-toggle="'menu-submenu-trigger-' + (index + 1)">
                             <span v-if="item?.customIcon !== true">
-                                <el-icon v-if="item.icon">
+                                <el-icon size="18" v-if="item.icon">
                                     <component :is='item.icon' />
                                 </el-icon>
                                 </span>
@@ -70,7 +70,7 @@
                                 <component :is="item.icon" />
                             </span>
                             <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ $t('menu.more') }}</span>
-                            <el-icon class="submenu-icon"><ArrowDown /></el-icon>
+                            <el-icon size="18" class="submenu-icon"><ArrowDown /></el-icon>
                         </button>
                         <ul :id="'menu-submenu-trigger-' + (index + 1)" class="hidden py-2 space-y-2">
                             <li v-for="sub in item.submenu">
@@ -86,7 +86,7 @@
                         class="flex items-center p-2 text-base font-medium text-gray-900 transition-all duration-200 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-primary-700 dark:hover:text-white hover:text-gray-900 group"
                         :class="{'bg-primary-700 text-white hover:text-white hover:bg-primary-800': isActive(states.activeRoute, item.route) }">
                             <span v-if="item?.customIcon !== true">
-                                <el-icon v-if="item.icon" :color="isActive(states.activeRoute, item.route) ? 'white' : 'rgb(107 114 128 / var(--tw-text-opacity))'">
+                                <el-icon size="18" v-if="item.icon" :color="isActive(states.activeRoute, item.route) ? '#fff' : 'rgb(107 114 128 / var(--tw-text-opacity))'">
                                     <component :is="item.icon"/>
                                 </el-icon>
                                 </span>
@@ -98,7 +98,7 @@
                         <p v-else
                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <span v-if="item?.customIcon !== true">
-                                <el-icon v-if="item.icon" color="rgb(107 114 128 / var(--tw-text-opacity))">
+                                <el-icon size="18" v-if="item.icon" color="rgb(107 114 128 / var(--tw-text-opacity))">
                                     <component :is="item.icon"/>
                                 </el-icon>
                                 </span>
