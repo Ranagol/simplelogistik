@@ -3,6 +3,7 @@
 namespace App\Services\PamyraServices;
 
 use App\Models\TmsOrder;
+use OrderHistoryService;
 use App\Models\TmsAddress;
 use App\Models\TmsPartner;
 use App\Models\TmsPamyraOrder;
@@ -42,6 +43,7 @@ class OrderHandler {
     private PamyraOrderService $pamyraOrderService;
     private OrderAddressService $orderAddressService;
     private OrderAttributeService $orderAttributeService;
+    private OrderHistoryService $orderHistoryService;
 
     /**
      * We use a lot of helper classes here. To get them, we use dependency injection.
@@ -61,7 +63,8 @@ class OrderHandler {
         ParcelService $parcelService,
         PamyraOrderService $pamyraOrderService,
         OrderAddressService $orderAddressService,
-        OrderAttributeService $orderAttributeService
+        OrderAttributeService $orderAttributeService,
+        OrderHistoryService $orderHistoryService
     )
     {
         //We must find our partner. In this case, this is always Pamyra.
@@ -78,7 +81,7 @@ class OrderHandler {
         $this->pamyraOrderService = $pamyraOrderService;
         $this->orderAddressService = $orderAddressService;
         $this->orderAttributeService = $orderAttributeService;
-
+        $this->orderHistoryService = $orderHistoryService;
     }
 
     /**
@@ -102,6 +105,8 @@ class OrderHandler {
         $this->handlePamyraOrder($pamyraOrder);
         $this->handleOrderAddresses($pamyraOrder);//pickup and delivery from TmsOrderAddress
         $this->handleOrderAttributes($pamyraOrder);
+
+        $this->createOrderHistory($pamyraOrder);
     }
 
     /**
@@ -238,5 +243,14 @@ class OrderHandler {
     private function handleOrderAttributes(array $pamyraOrder): void
     {
         $this->orderAttributeService->handle($pamyraOrder, $this->order);
+    }
+
+    private function createOrderHistory(array $pamyraOrder): void
+    {
+        $this->orderHistoryService->createOrderHistory(
+            $pamyraOrder['OrderNumber'] ?? 'missing order number',
+            $this->customerId, 
+            $this->order->id
+        );
     }
 }
