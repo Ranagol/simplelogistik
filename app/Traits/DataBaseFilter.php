@@ -48,7 +48,7 @@ trait DataBaseFilter {
         string $sortOrder = null, 
         int $newItemsPerPage = null,
         array $searchColumns = null,
-        array $relations = []
+        array $withRelations = []
     ): LengthAwarePaginator
     {
 
