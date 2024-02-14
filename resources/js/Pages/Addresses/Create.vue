@@ -1,210 +1,233 @@
 <template>
-
-    <Head
-        :title="props.mode"
-    />
-
-    <!-- <pre>{{ JSON.stringify(data.addressData, null, 2) }}</pre>   -->
-
-    <!-- EDIT ADDRESS -->
-    <Card>
-
-        <div class="flex justify-end">
-            <!-- SUBMIT BUTTON -->
-            <el-form-item>
-                <el-button
-                    @click="submit(elFormRef)"
-                    type="primary"
-                    name="button"
-                >Submit</el-button>
-            </el-form-item>
-
-
-            <!-- DELETE BUTTON -->
-            <el-form-item
-                v-if="props.mode === 'edit'"
-                class="ml-4"
-            >
-                <el-button
-                    @click="destroy"
-                    type="danger"
-                    name="button"
-                >Delete</el-button>
-            </el-form-item>
+    <Card class="shadow">
+        <div class="grid grid-cols-4 gap-4 grid-flow-roww">
+            <div v-for="field, index in formSettings" :class="field.class">
+                <IconTooltipInput v-if="field.type === 'text'" :key="'address-field-' + index" :placeholder="field.placeholder"></IconTooltipInput>
+                <div v-else-if="field.type === 'check'">
+                    <div v-for="option in field.options">
+                        <label class="grid justify-start grid-flow-col place-items-center">
+                            <input type="checkbox" name="" id="" :value="option.key" />
+                            <span class="ps-2">{{ $t(option.label) }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
-        <!-- NEW ADDRESS FORM -->
-        <Address
-            v-model:address="data.addressData"
-            :errors="props.errors"
-            :mode="props.mode"
-            :addressTypes="props.addressTypes"
-            :customers="props.customers"
-            :forwarders="props.forwarders"
-            :partners="props.partners"
-            :countries="props.countries"
-            :showAvisPhone="false"
-            :showComment="false"
-            :showCustomer="true"
-            :showForwarder="true"
-            :showPartner="true"
-            :showBooleanAddressType="true"
-            class="grow"
-        />
-
     </Card>
 </template>
 
 <script setup>
-import { reactive, ref, onBeforeMount, watch, computed } from 'vue';
-import Card from '@/Shared/Card.vue';
-import { router } from '@inertiajs/vue3';
-import Address from './CreateEditAddress/Address.vue';
-import { useEdit } from '@/Use/useEdit';
-import { useCreate } from '@/Use/useCreate';
-import { useDestroy } from '@/Use/useDestroy';
-//@ = Pages
-import addressDummy from '@/Pages/Addresses/CreateEditAddress/addressDummy';//use this in props to have already filled address form for creating new address
-import addressEmpty from '@/Pages/Addresses/CreateEditAddress/addressEmpty';//use this in props to have empty address form for creating new address
+import IconTooltipInput 
+    from '@/Components/Inputs/IconTooltipInput.vue';
+    
+import Card 
+    from '@/Shared/Card.vue';
+    
+import { router } 
+    from '@inertiajs/vue3';
+import axios from 'axios';
+    
+import { reactive, ref } 
+    from 'vue';
 
 const props = defineProps({
-
-    /**
-     * The address object.
-     */
-    record: {
-        type: Object,
-        required: true
-    },
-
-    /**
-     * mode is either 'create' or 'edit'. This is decided in the controller. This component will
-     * behave differently depending on which mode is it.
-     */
-    mode: {
-        type: String,
-        required: true
-    },
-
-    /**
-     * The address types that are defined in TmsAddress model. The backend is sending this data here.
-     */
-    addressTypes: {
-        type: Object,
-        required: false
-    },
-
-    /**
-     * The errors object that is sent from the backend, and contains the validation errors.
-     */
-    errors: Object,
-
-    customers: {
-        type: Array,
-        required: true
-    },
-
-    forwarders: {
-        type: Array,
-        required: true
-    },
-
-    countries: {
-        type: Array,
-        required: true
-    },
-
-    partners: {
-        type: Array,
-        required: true
-    },
-
-    /**
-     * Since a new address is created, we send a success message to the FE. First step of this
-     * is to put the message into the session. After redirecting to the edit page, we will send
-     * this message to the FE, and then we will delete it from the session. So, the edit page
-     * will know that a new record was created, and it will display the success message.
-     * However, for this we can't use the props.successMessage, because it is we can't set it to
-     * null, after the success info display. So, we must use data.successMessage, and watch it.
-     */
-    successMessage: {
-        type: String,
-        required: false
-    },
+    customers: Array,
+    forwarders: Array,
+    countries: Array,
+    partners: Array,
 });
 
-const data = reactive({
+var Customers = ref(props.customers ?? []);
+var Forwarders = ref(props.forwarders  ?? []);
+var Countries = ref(props.countries ?? []);
+var Partners = ref(props.partners ?? []);
 
-    /**
-     * The address object.
-     */
-    addressData: props.record,
-    successMessage: props.successMessage,
-});
-
-//See props.successMessage docblock for more info
-watch(
-    () => data.successMessage, 
-    (newValue) => {
-        console.log('watcher triggered');
-        if (newValue != undefined) {
-            console.log('newValue:', newValue);
-
-            ElMessage({
-                message: data.successMessage,
-                type: 'success',
-            });
-
-            //reset the message state
-            data.successMessage = undefined;
+const getAddressTypes = () => {
+    return [
+        {
+            key: "is_pickup",
+            label: "labels.pickup-address",
+            default: false
+        },
+        {
+            key: "is_delivery",
+            label: "labels.delivery-address",
+            default: false
+        },
+        {
+            key: "is_billing",
+            label: "labels.billing-address",
+            default: false
+        },
+        {
+            key: "is_headquarter",
+            label: "labels.headquarter-address",
+            default: false
         }
+    ]
+}
+
+const formSettings = reactive({
+    address_type: {       
+        type: 'check',
+        options: getAddressTypes(),
+        class: "col-span-4",
+        label: 'Address Type',
+        placeholder: 'Address Type',
+        tooltip: 'The type of the address',
+        required: true,    
     },
-    { 
-        deep: true,
-        immediate: true, 
-    }
-);
+    company_name: {
+        type: 'text',
+        class: "col-span-4",
+        label: 'Company Name',
+        placeholder: 'Company Name',
+        icon: 'business',
+        tooltip: 'The name of the company',
+        required: true,
+    },
+    first_name: {
+        type: 'text',
+        class: "col-span-2",
+        label: 'First Name',
+        placeholder: 'First Name',
+        icon: 'person',
+        tooltip: 'The first name of the contact person',
+        required: true, 
+    },
+    last_name: {
+        type: 'text',
+        class: "col-span-2",
+        label: 'Last Name',
+        placeholder: 'Last Name',
+        icon: 'person',
+        tooltip: 'The last name of the contact person',
+        required: true,         
+    },
+    street: {
+        type: 'text',
+        class: "col-span-3",
+        label: 'Street',
+        placeholder: 'Street',
+        tooltip: 'The street of the address',
+        required: true,
+    },
+    house_number: {       
+        type: 'text',
+        class: "col-span-1",
+        label: 'House Number',
+        placeholder: 'House Number',
+        tooltip: 'The house number of the address',
+        required: true,    
+    },
+    zip_code: {        
+        type: 'text',
+        class: "col-span-1",
+        label: 'Zip Code',
+        placeholder: 'Zip Code',
+        tooltip: 'The zip code of the address',
+        required: true,
+    },
+    city: {       
+        type: 'text',
+        class: "col-span-3",
+        label: 'City',
+        placeholder: 'City',
+        tooltip: 'The city of the address',
+        required: true,
+    },
+    country: {        
+        type: 'select',
+        class: "col-span-4",
+        options: Countries,
+        label: 'Country Code',
+        placeholder: 'Country Code',
+        tooltip: 'The country code of the address',
+        required: true,
+    },
+    email: {       
+        type: 'text',
+        class: "col-span-4",
+        label: 'Email',
+        placeholder: 'Email',
+        tooltip: 'The email of the contact person',
+        required: true,
+    },
+    phone: {        
+        type: 'text',
+        class: "col-span-4",
+        label: 'Phone',
+        placeholder: 'Phone',
+        tooltip: 'The phone of the contact person',
+        required: true,
+    },
+    state: {       
+        type: 'text',
+        class: "col-span-4",
+        label: 'State',
+        placeholder: 'State',
+        tooltip: 'The state of the address',
+        required: true,
+    },
+    address_additional_information: {        
+        type: 'text',
+        class: "col-span-4",
+        label: 'Address Additional Information',
+        placeholder: 'Address Additional Information',
+        tooltip: 'Additional information about the address',
+        required: true,
+    },
+    customer_id: {
+        type: 'select',
+        class: "col-span-4",
+        options: Customers,
+        label: 'Customer ID',
+        placeholder: 'Customer ID',
+        tooltip: 'The customer id of the address',
+        required: true,
+    },
+    forwarder_id: {
+        type: 'select',
+        class: "col-span-4",
+        options: Forwarders,
+        label: 'Forwarder ID',
+        placeholder: 'Forwarder ID',
+        tooltip: 'The forwarder id of the address',
+        required: true,
+    },
+    forwarder_id: {
+        type: 'select',
+        class: "col-span-4",
+        options: Partners,
+        label: 'Partner',
+        placeholder: 'Partner ID',
+        tooltip: 'The forwarder id of the address',
+        required: true,
+    },
+})
 
-const submit = () => {
-    console.log('submit');
-    if (props.mode === 'edit') {
-        //edits the address
-        useEdit(
-            'addresses',
-            data.addressData.id,
-            data.addressData,
-            'address',
-            'record'
-        );
-
-    } else {
-        //creates the address
-        useCreate(
-            'addresses',
-            data.addressData,
-            'address',
-            null,
-            'http://localhost/addresses'
-        );
-    }
-}
-
-const destroy = () => {
-    console.log('destroy');
-    //deletes the address
-    useDestroy(
-        `Address will be deleted. Continue?`,
-        'addresses',
-        data.addressData.id,
-        'address',
-        null,
-        'http://localhost/addresses'
-    );
-}
+const formData = ref({
+    company_name: '',
+    first_name: '',
+    last_name: '',
+    address_types: {
+        is_pickup: false,
+        is_delivery: false,
+        is_billing: false,
+        is_headquarter: false,
+    },
+    street: '',
+    house_number: '',
+    zip_code: '',
+    city: '',
+    country_code: '',
+    email: '',
+    phone: '',
+    state: '',
+    type_of_address: '',
+    address_additional_information: '',
+    customer_id: '',
+    forwarder_id: '',
+});
 
 </script>
-
-<style scoped>
-
-</style>

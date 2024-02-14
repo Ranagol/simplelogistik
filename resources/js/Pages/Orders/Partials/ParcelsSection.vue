@@ -142,7 +142,7 @@ const getPackageTypes = () => {
     return [
         {key: 1, name: 'Paket'},
         {key: 2, name: 'Sperrgut'},
-        {key: 3, name: 'Palette'},
+        {key: 3, name: 'Europalette'},
         {key: 4, name: 'Einwegpalette'},
         {key: 5, name: 'Gitterbox'},
         {key: 6, name: 'Kiste'},
@@ -176,7 +176,13 @@ const calculateVolume = () => {
     }).reduce((a, b) => a + b, 0)).toFixed(2);
 }
 
-const calculateWeight = () => {
+const calculateArea = () => {
+    calculated.area = (parcels.map(parcel => {
+        return parcel.length * parcel.width;
+    }).reduce((a, b) => a + b, 0)).toFixed(2);
+}
+
+const sumUpWeights = () => {
     var weight = 0;
     parcels.map(parcel => {
         weight += parseFloat(parcel.weight);
@@ -184,17 +190,11 @@ const calculateWeight = () => {
     calculated.weight = weight.toFixed(2);
 }
 
-const calculateArea = () => {
-    calculated.area = (parcels.map(parcel => {
-        return parcel.length * parcel.width;
-    }).reduce((a, b) => a + b, 0)).toFixed(2);
-}
-
 const recalc = () => {
     calculatePackages()
     calculateVolume()
-    calculateWeight()
     calculateArea()
+    sumUpWeights()
 }
 
 const onToggleSection = (section) => {
