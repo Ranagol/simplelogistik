@@ -3,7 +3,6 @@
 namespace App\Services\PamyraServices;
 
 use App\Models\TmsOrder;
-use OrderHistoryService;
 use App\Models\TmsAddress;
 use App\Models\TmsPartner;
 use App\Models\TmsPamyraOrder;
@@ -15,7 +14,8 @@ use App\Services\PamyraServices\AddressService;
 use App\Services\PamyraServices\CustomerService;
 use App\Services\PamyraServices\PamyraOrderService;
 use App\Services\PamyraServices\OrderAddressService;
-
+use App\Services\PamyraServices\OrderAttributeService;
+use App\Services\PamyraServices\OrderHistoryService;
 
 /**
  * When writing data from Pamyra json files to our database, we have an array on Pamyra order
