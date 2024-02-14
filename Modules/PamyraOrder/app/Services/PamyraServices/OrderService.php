@@ -9,7 +9,8 @@ use App\Models\TmsOrderStatus;
 use App\Models\TmsPamyraOrder;
 use App\Http\Requests\TmsOrderRequest;
 use Illuminate\Support\Facades\Validator;
-use App\Services\PamyraServices\OrderNumberMakerTrait;
+use Modules\PamyraOrder\app\Services\PamyraServices\OrderNumberMakerTrait;
+use Modules\PamyraOrder\app\Services\PamyraServices\DateFormatterTrait;
 
 class OrderService {
 

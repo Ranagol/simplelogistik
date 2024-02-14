@@ -3,10 +3,9 @@
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use App\Models\TmsPamyraOrder;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\TmsPamyraOrderRequest;
 use Illuminate\Support\Facades\Validator;
-use App\Services\PamyraServices\DateFormatterTrait;
+use App\Http\Requests\TmsPamyraOrderRequest;
+use Modules\PamyraOrder\app\Services\PamyraServices\DateFormatterTrait;
 
 class PamyraOrderService {
 
