@@ -169,23 +169,10 @@ const renderCellData = (header, data) => {
     }
 }
 
-const updateTableColumnVisibility = (key, value) => {
-    props.updateTableColum(key, value);
-}
-
 onMounted(() => {
     initFlowbite();
 })
 
-const handleShow = (entry_id) => {
-    alert(`handleShow for item: ${entry_id}`)
-}
-const handleEdit = (entry_id) => {
-    alert(`handleEdit for item: ${entry_id}`)
-}
-const handleDelete = (entry_id) => {
-    alert(`handleDelete for item: ${entry_id}`)
-}
 
 </script>
 

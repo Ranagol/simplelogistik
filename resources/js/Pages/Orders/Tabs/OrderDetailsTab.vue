@@ -2,7 +2,6 @@
     <section class="bg-white dark:bg-gray-900">
         <div class="relative flex justify-between gap-8 px-3 py-4">
             <div class="w-full">
-                <!-- <h1 class="mb-4 text-lg font-bold text-black">Auftragsnummer: {{ tabData.id }}</h1> -->
                 <GeneralSection 
                     :title="$t('labels.section-general')"
                     :onToggleSection="toggleSection"
@@ -39,15 +38,14 @@
                     :data="tabData?.vehicles ?? {}"
                 />
             </div>
-            <div class="relative flex flex-col mt-14 w-[380px] gap-4 align-top">
+             <div class="relative flex flex-col mt-14 w-[380px] gap-4 align-top">
                 <div class="grid gap-2 p-3 bg-white border rounded-md shadow-md border-slate-100">
                     <div class="mb-4">
-                        <h3 class="grid justify-between grid-flow-col text-lg font-bold text-gray-900">{{ $t("labels.order") }} <span>{{ tabData.details.order_number }}</span></h3>
+                        <h3 class="grid justify-between grid-flow-col text-lg font-bold text-gray-900">{{ $t("labels.order") }} <span>{{ tabData.details?.order_number }}</span></h3>
                     </div>
                     <div class="grid justify-between grid-flow-col">
-                        <!-- <pre>{{tabData}}</pre> -->
                         <span class="text-gray-900">{{ $t('labels.customer-id') }}</span>
-                        <span><a class="underline hover:text-corporate-500 hover:font-semibold" :href="route('customers.show', tabData.customer.id )">{{ tabData.customer.id }}</a></span>
+                        <span><a class="underline hover:text-corporate-500 hover:font-semibold" :href="route('customers.show', tabData.customer?.id )">{{ tabData.customer?.id }}</a></span>
                     </div>
                     <div class="grid justify-between grid-flow-col">
                         <span class="text-gray-900">{{ $t('labels.order-date') }}</span>
@@ -91,7 +89,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> 
 </template>
 
 <script setup>
@@ -104,7 +102,6 @@ import AddressSection from './../Partials/AddressSection.vue';
 import ParcelsSection from './../Partials/ParcelsSection.vue';
 import FinancesSection from './../Partials/FinancesSection.vue';
 import VehicleSection from './../Partials/VehicleSection.vue';
-
 
 onMounted(() => {
     initFlowbite();
@@ -144,11 +141,14 @@ const props = defineProps({
         required: true
     }
 });
+
+const tabData = props.tabData.data;
+
 const sections = reactive( settings );
 
 const parseDate = (date, withTimeString = false) => {
     return date;
-    return moment.moment(date).format('DD.MM.YYYY' + (withTimeString ? ' HH:mm' : '')).toString();
+    // return moment.moment(date).format('DD.MM.YYYY' + (withTimeString ? ' HH:mm' : '')).toString();
 }
 
 const toggleSection = (section) => {

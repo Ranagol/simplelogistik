@@ -20,11 +20,14 @@ use App\Http\Resources\TmsOrderCollection;
 use App\Http\Resources\TmsOrderEditResource;
 use App\Http\Resources\TmsOrderIndexResource;
 use App\Http\Resources\TmsOrderIndexCollection;
+use App\Traits\DataBaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TmsOrderController extends Controller
 {
+    use DataBaseFilter;
+
     private $orderService;
 
     private string $index = 'Orders/Index';
@@ -46,26 +49,45 @@ class TmsOrderController extends Controller
     public function index(Request $request): Response
     {
         $searchTerm = $request->searchTerm;
-        $sortColumn = $request->sortColumn;
-        $sortOrder = $request->sortOrder;
+        $sortColumn = $request->sortColumn ?? "id";
+        $sortOrder = $request->sortOrder ?? "ASC";
+        $searchColumns = $request->searchColumns ?? [];
         //pagination stuff sent from front-end
         $page = $request->page;
-        $newItemsPerPage = (int)$request->newItemsPerPage;
+        $newItemsPerPage = $request->per_page ?? 10;
 
-        $records = $this->orderService->getRecords(
+        $records = $this->getRecords(
+            new TmsOrder(),
             $searchTerm, 
             $sortColumn, 
             $sortOrder, 
-            $newItemsPerPage
+            $newItemsPerPage,
+            $searchColumns,
+            [
+                'parcels',
+                'orderAddresses',
+                'forwarder',
+                'orderHistories.user.roles:id,name',
+                'partner',
+                'contact',
+                'customer.headquarter',
+                'nativeOrder',
+                'pamyraOrder',
+            ]
         );
+
+        $records = new TmsOrderIndexCollection($records);
+
 
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'records' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'per_page' => $newItemsPerPage,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }

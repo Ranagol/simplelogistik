@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GeneralResource;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsOrder;
@@ -12,10 +13,13 @@ use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Services\ForwarderService;
 use App\Http\Requests\TmsForwarderRequest;
+use App\Traits\DataBaseFilter;
 use Illuminate\Http\RedirectResponse;
 
 class TmsForwarderController extends Controller
 {
+    use DataBaseFilter;
+
     private string $index = 'Forwarders/Index';
     private string $show = 'Forwarders/Show';
     private string $create = 'Forwarders/Create';
@@ -41,27 +45,34 @@ class TmsForwarderController extends Controller
      */
     public function index(Request $request): Response
     {
-        $searchTerm = $request->searchTerm;
-        $sortColumn = $request->sortColumn;
-        $sortOrder = $request->sortOrder;
+        $searchTerm = $request->searchTerm ?? "";
+        $sortColumn = $request->sortColumn ?? "id";
+        $sortOrder = $request->sortOrder ?? "ASC";
+        $searchColumns = $request->searchColumns ?? [];
         //pagination stuff sent from front-end
         $page = $request->page;
-        $newItemsPerPage = (int)$request->newItemsPerPage;
+        $newItemsPerPage = $request->per_page ?? 10;
         
-        $records = $this->forwarderService->getRecords(//Undefined variable $forwarderService
+        $records = $this->getRecords(
+            new TmsForwarder(),
             $searchTerm, 
             $sortColumn, 
             $sortOrder, 
-            $newItemsPerPage
+            $newItemsPerPage,
+            $searchColumns
         );
+
+        $records = GeneralResource::collection($records);
 
         return Inertia::render(
             $this->index, 
             [
                 'records' => $records,
-                'searchTerm' => $searchTerm,
-                'sortColumn' => $sortColumn,
-                'sortOrder' => $sortOrder,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'per_page' => $newItemsPerPage,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }

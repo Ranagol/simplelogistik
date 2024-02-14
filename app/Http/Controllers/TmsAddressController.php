@@ -13,23 +13,19 @@ use Illuminate\Http\Request;
 use App\Services\AddressService;
 use Faker\Provider\ar_EG\Address;
 use Illuminate\Support\Facades\Session;
-use App\Http\Controllers\BaseController;
 use App\Http\Requests\TmsAddressRequest;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Resources\GeneralResource;
+use App\Traits\DataBaseFilter;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class TmsAddressController extends Controller
 {
+    use DataBaseFilter;
+
     private string $index = 'Addresses/Index';
     private string $show = 'Addresses/Show';
     private string $create = 'Addresses/Create';
     private string $edit = 'Addresses/Edit';
-
-    private AddressService $addressService;
-
-    public function __construct(AddressService $addressService)
-    {
-        $this->addressService = $addressService;
-    }
 
     /**
      * Returns records.
@@ -39,23 +35,25 @@ class TmsAddressController extends Controller
      */
     public function index(Request $request): Response
     {
-        $searchTerm = $request->searchTerm;
-        $sortColumn = $request->sortColumn;
-        $sortOrder = $request->sortOrder;
+        $searchTerm = $request->searchTerm ?? "";
+        $sortColumn = $request->sortColumn ?? "id";
+        $sortOrder = $request->sortOrder ?? "ASC";
+        $searchColumns = $request->searchColumns ?? ["first_name"];
         //pagination stuff sent from front-end
         $page = $request->page;
-        $newItemsPerPage = (int)$request->newItemsPerPage;
+        $newItemsPerPage = $request->per_page ?? 10;
 
-        $searchTerm = 'daniel';
+        //Temporary hardcoded stuff for development
+        // $searchTerm = 'daniel';
+        // $searchColumns = [
+        //     'first_name',
+        //     'last_name',
+        //     'customer__first_name',
+        //     'forwarder__company_name',
+        // ];
         
-        $searchColumns = [
-            'first_name',
-            'last_name',
-            'customer__first_name',
-            'forwarder__company_name',
-        ];
-        
-        $records = $this->addressService->getRecords(
+        $records = $this->getRecords(
+            new TmsAddress(),
             $searchTerm, 
             $sortColumn, 
             $sortOrder, 
@@ -63,13 +61,17 @@ class TmsAddressController extends Controller
             $searchColumns
         );
 
+        $records = GeneralResource::collection($records);
+
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'records' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'per_page' => $newItemsPerPage,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }

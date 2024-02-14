@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 /**
  * Here we can transform the data structure of the whole collection of order model objects, that
  * is sent to the order index page. 
+ * So, this TmsOrderIndexCollection.php is using TmsOrderIndexResource.php to format the data.
  */
 class TmsOrderIndexCollection extends ResourceCollection
 {
@@ -26,17 +27,6 @@ class TmsOrderIndexCollection extends ResourceCollection
              */
             'data' => $this->collection,
 
-            /**
-             * This is the way how to add some properties additionally, on the level of the whole
-             * collection. This is not the same as adding properties to each order model object.
-             */
-            'pagination' => [
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage(),
-            ],
 
         ];
     }
