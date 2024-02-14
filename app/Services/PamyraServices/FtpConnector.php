@@ -12,11 +12,37 @@ use Illuminate\Support\Facades\Storage;
  * /upload contains the live data.
  * /andor contains pamyra json files that we use for dev and testing
  * /PAM: every pamyra json file's name starts with PAM.
+ * 
+ * Problem: our ftp server has real, live data in /upload. This can't be used for development.
+ * We use /upload/andor for development. 
  */
 class FtpConnector
 {
-    // private string $ftpSourcePath = 'upload/PAM';//this is the real path on the ftp server, where pamyra sends its files. LIVE DATA! 
-    private string $ftpSourcePath = 'upload/andor/PAM';//this is for my testing only, targets my dir. For development only!
+    /**
+     * this is the real path on the ftp server, where we can find Pamyra json files.LIVE DATA! 
+     *
+     * @var string
+     */
+    private string $pathForDeployment = 'upload/PAM';
+
+    /**
+     * this is the development path on the ftp server, where we put our development json files. 
+     * This is for development only!
+     *
+     * @var string
+     */
+    private string $pathForDevelopment = 'upload/andor/PAM';
+
+    /**
+     * Depending if the app is in development or deployment, we must use different paths to get the
+     * Pamyra json files from the ftp server. This property will store the correct path. The correct
+     * path is determined in the constructor.
+     * For development: upload/andor/PAM
+     * For deployment: upload/PAM
+     *
+     * @var string
+     */
+    private string $ftpSourcePath;
 
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
@@ -27,6 +53,15 @@ class FtpConnector
      * @var array
      */
     private array $filteredFileNames;
+
+    /**
+     * If the app is in development mode, we use the development path, otherwise we use the 
+     * deployment path for getting the Pamyra json files from the ftp server.
+     */
+    public function __construct()
+    {
+        $this->ftpSourcePath = env('APP_ENV') === 'local' ? $this->pathForDevelopment : $this->pathForDeployment;
+    }
 
     /**
      * This is the main function in this class, that triggers all other functions.
