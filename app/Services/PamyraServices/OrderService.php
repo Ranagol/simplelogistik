@@ -50,10 +50,6 @@ class OrderService {
         int $partnerId
     ): TmsOrder
     {
-        
-        $this->checkForDuplicate(
-            $pamyraOrder, 
-        );
 
         $order = $this->createOrder(
             $pamyraOrder, 
@@ -63,23 +59,6 @@ class OrderService {
         );
 
         return $order;
-    }
-
-    /**
-     * The only way to check for duplicate is to check if the order number already exists in the
-     * tms_pamyra_orders table. (Not in tms_orders table!)
-     * 
-     * @param array $pamyraOrder
-     * @throws \Exception
-     * @return void
-     */
-    private function checkForDuplicate(array $pamyraOrder)
-    {
-        $duplicateOrder = TmsPamyraOrder::where('order_number', $pamyraOrder['OrderNumber'])->first();
-
-        if($duplicateOrder) {
-            throw new \Exception('Order with order number ' . $pamyraOrder['OrderNumber'] . ' already exists (OrderService).');
-        }
     }
 
     /**
@@ -102,8 +81,9 @@ class OrderService {
             'customer_id' => $customerId,
             'partner_id' => $partnerId,
             'origin' => TmsOrder::ORIGINS[1], //this is: pamyra
+            'customer_reference' => $pamyraOrder['OrderNumber'] ?? 'missing Pamyra order number',
             //this is 'Order created. This is the first status of the order, returned with array_key_first
-            'order_status_id' => array_key_first(TmsOrderStatus::STATUSES), 
+            'order_status_id' => array_key_first(TmsOrderStatus::STATUSES) ?? 1, 
             'provision' => 6,
             'currency' => 'EUR',
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
