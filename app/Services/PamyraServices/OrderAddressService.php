@@ -161,16 +161,16 @@ class OrderAddressService {
             'partner_id' => $partnerId,
             'company_name' => $customer['Company'] ?? null,
             'address_type' => $addressType,
-            'first_name' => $customer['FirstName'],
-            'last_name' => $customer['Name'],
-            'street' => $this->street,
-            'house_number' => $this->houseNumber,
-            'zip_code' => $customer['Address']['PostalCode'],
-            'city' => $customer['Address']['City'],
-            'address_additional_information' => $customer['Address']['AddressAdditionalInformation'] ?? null,
-            'phone' => $customer['Phone'],
-            'email' => $customer['Mail'],
-            'avis_phone' => $customer['AvisPhone'] ?? null,
+            'first_name' => $customer['FirstName'] ?? 'missing',
+            'last_name' => $customer['Name'] ?? 'missing',
+            'street' => $this->street ?? 'missing',
+            'house_number' => $this->houseNumber ?? 'missing',
+            'zip_code' => $customer['Address']['PostalCode'] ?? 'missing',
+            'city' => $customer['Address']['City'] ?? 'missing',
+            'address_additional_information' => $customer['Address']['AddressAdditionalInformation'] ?? 'missing',
+            'phone' => $customer['Phone'] ?? 'missing',
+            'email' => $customer['Mail'] ?? 'missing',
+            'avis_phone' => $customer['AvisPhone'] ?? 'missing',
             'date_from' => $this->formatPamyraDateTime(
                 $date['DateFrom'],
                 'd.m.Y',
@@ -181,7 +181,7 @@ class OrderAddressService {
                 'd.m.Y',
                 'Y-m-d'
             ),
-            'comments' => $date['AsString'],
+            'comments' => $date['AsString'] ?? 'missing',
         ];
 
         $this->validate($addressArray);

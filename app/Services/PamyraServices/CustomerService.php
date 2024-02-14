@@ -2,8 +2,9 @@
 
 namespace App\Services\PamyraServices;
 
-use App\Http\Requests\TmsCustomerRequest;
 use App\Models\TmsCustomer;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerService {
@@ -78,11 +79,11 @@ class CustomerService {
     {
         $customerArray = [
             'company_name' => $customerPamyra['Company'] ?? null,
-            'email' => $customerPamyra['Mail'] ?? null,
-            'first_name' => $customerPamyra['FirstName'] ?? null,
-            'last_name' => $customerPamyra['Name'] ?? null,
+            'email' => $customerPamyra['Mail'] ?? 'missing',
+            'first_name' => $customerPamyra['FirstName'] ?? 'missing',
+            'last_name' => $customerPamyra['Name'] ?? 'missing',
             'tax_number' => $customerPamyra['VatId'] ?? null,
-            'phone' => $customerPamyra['Phone'] ?? null,
+            'phone' => $customerPamyra['Phone'] ?? 'missing',
             'internal_id' => 'temporary testing' ?? null,
             'customer_type' => $this->createCustomerType($customerPamyra),
             'invoice_dispatch' => 'Direct',
@@ -115,7 +116,6 @@ class CustomerService {
      * validation fails. Later we will handle this with monitoring.
      *
      * @param array $customer
-     * @throws \Exception
      * @return void
      */
     private function validate(array $customerArray): void
@@ -123,9 +123,9 @@ class CustomerService {
         // Validate the data
         $validator = Validator::make($customerArray, $this->validationRules);
 
-        // If the validation fails, throw an exception
         if ($validator->fails()) {
-            throw new \Exception($validator->errors()->first());
+            echo $validator->errors()->first();
+            Log::error($validator->errors()->first());
         }
     }
 }
