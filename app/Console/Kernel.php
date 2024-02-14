@@ -16,6 +16,9 @@ class Kernel extends ConsoleKernel
 
         // Export all customers that are new or have changed( exported_at != updated_at) to a file every day at 02:00
         $schedule->command('customers-export')->dailyAt('02:00');
+
+        // Pamyra cronjob
+        $schedule->command('pamyraorders')->everyMinute();
     }
 
     /**
