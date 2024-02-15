@@ -24,7 +24,7 @@
                         <div id="showTableColumns"
                             class="z-50 hidden w-auto p-3 bg-white border border-gray-100 rounded-lg shadow-lg dark:bg-gray-700">
                             <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
-                            <ul class="space-y-2 text-sm" aria-labelledby="showTableColumnsButton">
+                            <ul class="space-y-2 overflow-y-scroll text-sm max-h-48" aria-labelledby="showTableColumnsButton">
                                 <li v-for="head in _headers" class="flex items-center">
                                     <input @change="(e) => updateListedItems(head.key, e.currentTarget.checked)" :id="'display-columns-label-' + head.key" type="checkbox"
                                         :value="head.key" :checked="head.show === true"
@@ -33,6 +33,7 @@
                                         class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer peer-checked:text-corporate-600 peer hover:text-corporate-700 dark:text-gray-100">{{ $t(head.title ?? head.text) }}</label>
                                 </li>
                             </ul>
+                            <div @click="restoreDefault()" class="grid w-full p-2 pt-3 ps-0">{{ $t('labels.restore-defaults') }}</div>
                         </div>
                         
                     </div>
@@ -98,6 +99,7 @@ import { onMounted, ref} from 'vue';
 import FilteredSearch from '@/Components/Inputs/FilteredSearch.vue';
 import ConditionalHeadColumn from './ConditionalHeadColumn.vue';
 import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
+import TableHeaders from '@/lib/TableHeader';
 
 const props = defineProps({
     headers: {
@@ -119,27 +121,25 @@ const props = defineProps({
 })
 
 
-const storedHeaders = sessionStorage.getItem('customers-table-headers')
-var _headers;
- 
-const defaultHeaders = props.headers;
- 
-if(storedHeaders !== 'null' && storedHeaders !== null) {
-    _headers = ref(JSON.parse(storedHeaders))
-} else {
-    _headers = ref(defaultHeaders)
-}
+// TABLE HEADER HANDLING
+
+// Initialize the empty ref
+var _headers = ref();
+// instantiate the TableHeader class
+var tableHeaders = new TableHeaders(props.headers, "customer-table-headers");
+_headers.value = tableHeaders.get();
 
 const updateListedItems = (key, value) => {
-    _headers.value = _headers.value.map((item) => {
-        if (item.key === key) {
-            item.show = value
-        }
-        return item
-    })
- 
-    sessionStorage.setItem('customers-table-headers', JSON.stringify(_headers.value))
+    tableHeaders.update(key, value);
+    _headers.value = tableHeaders.get();
 }
+
+const restoreDefault = () => {
+    tableHeaders.reset();
+    _headers.value = tableHeaders.get();
+}
+
+// END TABLE HEADER HANDLING
 
 const renderCellData = (header, data) => {
     switch (header.key) {

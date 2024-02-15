@@ -59,7 +59,7 @@
     })
 
     var _id = props.id;
-    var dropdown;
+
     onMounted(() => {
         initFlowbite();
     });
@@ -81,8 +81,8 @@
         });
 
         // Hide the dropdown
-        var item = document.querySelector('#custom-dropdown-' + _id);
-        item.classList.add('hidden');
+        var item = document.querySelector('#customDropDownButton' + _id ?? 'item');
+        item.dispatchEvent(new Event('click'));
     }
     
     const getActiveLabel = (key) => {

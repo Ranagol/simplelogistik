@@ -1,11 +1,11 @@
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
             <!-- Start coding here -->
-            <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+            <div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                 <div
                     class="grid items-center justify-between grid-flow-col p-4 space-y-3 border-b md:flex-row md:space-y-0 md:space-x-4 dark:border-gray-700">
                     
-                    <FilteredSearch searchAt="orders.index" :headers="_headers" />
+                    <FilteredSearch searchAt="orders.index" :filters="searchFilter" />
                     
                     <div class="grid grid-flow-col gap-4">
                         <!-- CREATE ORDER BUTTON -->
@@ -27,9 +27,8 @@
                         </button>
                         <div id="showTableColumns"
                             class="hidden w-auto p-3 bg-white border border-gray-100 rounded-lg shadow-lg dark:bg-gray-700">
-                            <!-- class="hidden w-auto p-3 overflow-y-scroll bg-white border border-gray-100 rounded-lg shadow-lg max-h-48 dark:bg-gray-700"> -->
                             <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
-                            <ul class="space-y-2 text-sm" aria-labelledby="showTableColumnsButton">
+                            <ul class="space-y-2 overflow-y-scroll text-sm max-h-48" aria-labelledby="showTableColumnsButton">
                                 <li v-for="head in _headers" class="flex items-center">
                                     <input @change="(e) => updateListedItems(head.key, e.currentTarget.checked)" :id="'display-columns-label-' + head.key" type="checkbox"
                                         :value="head.key" :checked="head.show === true"
@@ -38,6 +37,7 @@
                                         class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer peer-checked:text-corporate-600 peer hover:text-corporate-700 dark:text-gray-100">{{ $t(head.title) }}</label>
                                 </li>
                             </ul>
+                            <div @click="restoreDefault()" class="grid w-full p-2 pt-3 cursor-pointer ps-0 hover:text-slate-400">{{ $t('labels.restore-defaults') }}</div>
                         </div>
                         
                     </div>
@@ -79,13 +79,15 @@
 </template>
 
 <script setup>
-import { ArrowDown, Check, Edit, Filter, Plus, Select, View } from '@element-plus/icons-vue';
+import { ArrowDown, Plus, View } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
-import { onMounted, reactive } from 'vue';
+import { onMounted } from 'vue';
 import TableRowWithContent from './OrderTableRowWithContent.vue';
 import { ref } from 'vue';
 import ConditionalHeadColumn from './ConditionalHeadColumn.vue';
 import FilteredSearch from '../Inputs/FilteredSearch.vue';
+import TableHeaders from '@/lib/TableHeader';
+import searchFilter from '@/Config/SearchFilters/orderSearch';
 
 onMounted(() => {
     initFlowbite()
@@ -108,33 +110,36 @@ const props = defineProps({
         type: Array,
         required: false,
     },
+    search: {
+        type: String,
+        required: false,
+    },
+    search_in: {
+        type: Array,
+        required: false,
+    }
 })
 
-const storedHeaders = sessionStorage.getItem('order-table-headers')
-var _headers;
+// TABLE HEADER HANDLING
 
-const defaultHeaders = props.headers;
-
-if(storedHeaders !== 'null' && storedHeaders !== null) {
-    _headers = ref(JSON.parse(storedHeaders))
-} else {
-    _headers = ref(defaultHeaders)
-}
-
-const reorder = (headers) => {
-    _headers = headers.sort((a,b) => a.display_order < b.display_order)
-}
+// Initialize the empty ref
+var _headers = ref();
+// instantiate the TableHeader class
+var tableHeaders = new TableHeaders(props.headers, "order-table-headers");
+_headers.value = tableHeaders.get();
 
 const updateListedItems = (key, value) => {
-    _headers.value = _headers.value.map((item) => {
-        if (item.key === key) {
-            item.show = value
-        }
-        return item
-    })
-
-    sessionStorage.setItem('order-table-headers', JSON.stringify(_headers.value))
+    tableHeaders.update(key, value);
+    _headers.value = tableHeaders.get();
 }
+
+const restoreDefault = () => {
+    tableHeaders.reset();
+    _headers.value = tableHeaders.get();
+}
+
+// END TABLE HEADER HANDLING
+
 </script>
 
 
