@@ -15,7 +15,7 @@
                             <el-icon class="me-2">
                                 <Plus />
                             </el-icon>
-                            {{ $t('labels.create-order') }}
+                            {{ $t('page-actions.order-create') }}
                         </button>
                         <!-- SELECT Visible Table Columns -->
                         <button id="showTableColumnsButton" data-dropdown-toggle="showTableColumns"

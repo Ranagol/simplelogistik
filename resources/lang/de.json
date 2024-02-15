@@ -17,6 +17,14 @@
         "request-password": "Passwort zurücksetzen",
         "back-login": "Zurück zum Login"
     },
+    "page-actions": {
+        "order-create": "Auftrag erfassen",
+        "customer-create": "Kunde anlegen",
+        "address-create": "Adresse anlegen",
+        "forwarder-create": "Dienstleister erstellen",
+        "vehicle-create": "Fahrzeug anlegen",
+        "language-create": "Sprache hinzufügen"
+    },
     "menu": {
         "dashboard": "Dashboard",
         "addresses": "Adressen",

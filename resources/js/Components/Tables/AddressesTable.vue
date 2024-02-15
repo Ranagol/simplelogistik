@@ -14,7 +14,7 @@
                             <el-icon class="me-2">
                                 <Plus />
                             </el-icon>
-                            {{ $t('labels.create-customer') }}
+                            {{ $t('page-actions.address-create') }}
                         </button>
                         <!-- SELECT Visible Table Columns -->
                         <button id="showTableColumnsButton" data-dropdown-toggle="showTableColumns"
@@ -38,9 +38,7 @@
                                 </li>
                             </ul>
                         </div>
-                       
                     </div>
-                   
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

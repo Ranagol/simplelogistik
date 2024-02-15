@@ -14,7 +14,7 @@
                             <el-icon class="me-2">
                                 <Plus />
                             </el-icon>
-                            {{ $t('labels.create-customer') }}
+                            {{ $t('page-actions.forwarder-create') }}
                         </button>
                         <!-- SELECT Visible Table Columns -->
                         <button id="showTableColumnsButton" data-dropdown-toggle="showTableColumns"
