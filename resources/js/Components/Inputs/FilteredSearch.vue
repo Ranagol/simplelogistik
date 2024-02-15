@@ -36,7 +36,7 @@
                     <li><span>{{ section.section }}</span></li>
                     <li v-for="item in section.fields" class="flex items-center">
                         <label class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer hover:text-corporate-700 dark:text-gray-100">
-                            <input @change="e => setFilter(section.relation, item.name, e.target.checked)" type="checkbox" 
+                            <input :checked="isChecked(section.relation, item.name)" @change="e => setFilter(section.relation, item.name, e.target.checked)" type="checkbox" 
                                  class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                 <span class="ps-2"></span>{{ item.label }}
                         </label>
@@ -54,8 +54,6 @@ import { ArrowDown, Filter } from '@element-plus/icons-vue';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-let searchTerm = ref('');
-let activeFilters = ref([]);
 
 function setFilter(relation, field, state) {
     if(relation) {
@@ -70,6 +68,10 @@ function setFilter(relation, field, state) {
     }
 }
 
+function isChecked(relation, field) {
+   return false
+}
+
 const props = defineProps({
     filters: {
         type: Array,
@@ -78,8 +80,20 @@ const props = defineProps({
     searchAt: {
         type: String,
         required: true
+    },
+    search_in: {
+        type: Array,
+        required: true
+    },
+    search: {
+        type: String,
+        required: true
     }
 });
+
+
+let searchTerm = ref(props.search ?? '');
+let activeFilters = ref(props.search_in);
 
 const performSearch = () => {
     router.get(route(props.searchAt), 

@@ -2,8 +2,6 @@
     <Head
         :title="$t('labels.orders')"
     />
-    {{ search_in }}
-    {{ search }}
     <OrderTableWithContent 
         :search="search"
         :search_in="searchIn"
