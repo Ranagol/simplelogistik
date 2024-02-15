@@ -1,31 +1,37 @@
 <template>
     <Card class="shadow">
-        <div class="grid grid-cols-4 gap-4 grid-flow-roww">
+        <div class="grid grid-flow-row grid-cols-4 gap-4">
             <div v-for="field, index in formSettings" :class="field.class">
-                <IconTooltipInput v-if="field.type === 'text'" :key="'address-field-' + index" :placeholder="field.placeholder"></IconTooltipInput>
-                <div v-else-if="field.type === 'check'">
-                    <div v-for="option in field.options">
+                <IconTooltipInput @input="e => formData[index] = e.target.value" v-if="field.type === 'text'" :key="'address-field-' + index" :placeholder="field.placeholder"></IconTooltipInput>
+                <div class="grid grid-cols-4 my-3" v-else-if="field.type === 'check'">
+                    <label class="col-span-4 my-3">{{ $t(field.label) }}</label>
+                    <div class="inline-grid" v-for="option in field.options">
                         <label class="grid justify-start grid-flow-col place-items-center">
-                            <input type="checkbox" name="" id="" :value="option.key" />
+                            <input @change="e => formData.address_types[option.key] = e.target.checked" type="checkbox" name="" id="" :value="option.key" />
                             <span class="ps-2">{{ $t(option.label) }}</span>
                         </label>
                     </div>
                 </div>
+                <div v-else-if="field.type === 'select'">
+                    <CustomDropdown :searchable="field.searchable" :updateValue="(e) => {formData[index] = e}" :value="formData[index] !== '' ? formData[index] : field.options[0].key" :label-text="field.label" :id="index" :options="field.options" />
+                </div>
+            </div>
+            <div class="">
+                <Button @click="console.log(formData)" variant="primary" class="" text="Save" />
             </div>
         </div>
     </Card>
 </template>
 
 <script setup>
+import Button from '@/Components/Buttons/Button.vue';
+import CustomDropdown 
+    from '@/Components/Dropdowns/CustomDropdown.vue';
 import IconTooltipInput 
     from '@/Components/Inputs/IconTooltipInput.vue';
     
 import Card 
     from '@/Shared/Card.vue';
-    
-import { router } 
-    from '@inertiajs/vue3';
-import axios from 'axios';
     
 import { reactive, ref } 
     from 'vue';
@@ -37,11 +43,42 @@ const props = defineProps({
     partners: Array,
 });
 
-var Customers = ref(props.customers ?? []);
-var Forwarders = ref(props.forwarders  ?? []);
-var Countries = ref(props.countries ?? []);
-var Partners = ref(props.partners ?? []);
+// Map the data from the props to the format the dropdown component expects
+const customers = props.customers.map(customer => {
+    return {
+        key: customer.id,
+        name: customer.name
+    }
+});
 
+const forwarders = props.forwarders.map(forwarder => {
+    return {
+        key: forwarder.id,
+        name: forwarder.name
+    }
+});
+
+const countries = props.countries.map(country => {
+    return {
+        key: country.id,
+        name: country.country_name
+    }
+});
+
+const partners = props.partners.map(partner => {
+    return {
+        key: partner.id,
+        name: partner.name
+    }
+});
+
+// Create a reactive reference to the data
+var Customers = ref(customers ?? []);
+var Forwarders = ref(forwarders  ?? []);
+var Countries = ref(countries ?? []);
+var Partners = ref(partners ?? []);
+
+// Create a function to get the address types
 const getAddressTypes = () => {
     return [
         {
@@ -67,6 +104,7 @@ const getAddressTypes = () => {
     ]
 }
 
+// Create a reactive reference to the form settings
 const formSettings = reactive({
     address_type: {       
         type: 'check',
@@ -138,6 +176,7 @@ const formSettings = reactive({
     },
     country: {        
         type: 'select',
+        searchable: true,
         class: "col-span-4",
         options: Countries,
         label: 'Country Code',
@@ -206,6 +245,7 @@ const formSettings = reactive({
     },
 })
 
+// Create a reactive reference to the form data which will be sent to the backend
 const formData = ref({
     company_name: '',
     first_name: '',
@@ -224,7 +264,6 @@ const formData = ref({
     email: '',
     phone: '',
     state: '',
-    type_of_address: '',
     address_additional_information: '',
     customer_id: '',
     forwarder_id: '',
