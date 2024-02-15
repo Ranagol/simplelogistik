@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('order_id')->references('id')->on('tms_orders');
 
             $table->string('calculation_model_name')->comment('Name of the tariff')->nullable();
-            $table->string('order_number')->nullable();
+            $table->string('order_number')->nullable()->unique();
             $table->string('order_pdf')->nullable();
             $table->string('payment_method')->nullable();
             $table->string('date_of_sale')->nullable();

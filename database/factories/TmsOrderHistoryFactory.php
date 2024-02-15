@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TmsOrderHistory;
+use App\Models\TmsOrderStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,15 +21,15 @@ class TmsOrderHistoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
-            'comment' => $this->faker->sentence(),
-            'order_status' => $this->faker->randomElement(['pending', 'processing', 'completed', 'cancelled']),
+            'details' => $this->faker->sentence(),
+            'order_status_id' => $this->faker->randomElement(TmsOrderStatus::all()->pluck('id')->toArray()),
             'additional_cost' => $this->faker->randomFloat(2, 0, 1000), // 2 decimal places, min 0, max 1000
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'customer_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'forwarding_contract_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'user_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'cronjob_name' => $this->faker->randomElement([null, 'cronjob_name']), // 50% chance of being null
         ];
     }
 }

@@ -19,11 +19,11 @@ return new class extends Migration
             $table->decimal('additional_cost', 10, 2)->comment('These are the unplanned additinal cost of an order.')->nullable();
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('tms_orders');
-            $table->unsignedBigInteger('forwarder_id');
+            $table->unsignedBigInteger('forwarder_id')->nullable();
             $table->foreign('forwarder_id')->references('id')->on('tms_forwarders');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('tms_customers');
-            $table->unsignedBigInteger('forwarding_contract_id');
+            $table->unsignedBigInteger('forwarding_contract_id')->nullable();
             $table->foreign('forwarding_contract_id')->references('id')->on('tms_forwarding_contracts');
             $table->timestamps();
         });

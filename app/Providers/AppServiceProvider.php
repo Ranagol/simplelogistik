@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
             \Modules\Easybill\app\Console\InvoicesCommand::class,
             \Modules\Easybill\app\Console\CustomersCommand::class,
             \Modules\EmonsInvoice\app\Console\GetEmonsInvoices::class,
+            \Modules\PamyraOrder\app\Console\HandlePamyraOrders::class,
         ]);
     }
 
