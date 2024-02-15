@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class PamyraOrders extends Command
 {
@@ -39,6 +40,7 @@ class PamyraOrders extends Command
             }
         } else {
             $this->info('Ping...');
+            Log::debug('Ping-Test is running.');
         }
         $this->info('End: ' . $this->description);
     }
