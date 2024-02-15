@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\TmsFtpConnection;
+use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;

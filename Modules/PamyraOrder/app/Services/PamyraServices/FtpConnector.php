@@ -4,7 +4,7 @@ namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use Exception;
 use Carbon\Carbon;
-use App\Models\TmsFtpConnection;
+use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,23 +31,21 @@ class FtpConnector
 
     private $disk;
 
-    /**
-     * If the app is in development mode, we use the development path, otherwise we use the 
-     * deployment path for getting the Pamyra json files from the ftp server.
-     */
     public function __construct()
     {
-        
-        $pamyraOrdersTest = TmsFtpConnection::where('name', 'PamyraOrdersTest')->firstOrFail();
+        //Get the ftp credentials from the database
+        $ftpCredential = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();
+        // dd($ftpCredential);
 
+        //Create a new disk instance, that will be used to connect to the ftp server
         $this->disk = Storage::build(
             [
                 'driver' => 'sftp',
-                'host' => $pamyraOrdersTest->host,
-                'username' => $pamyraOrdersTest->username,
-                'password' => $pamyraOrdersTest->password,
-                'port' => intval($pamyraOrdersTest->port),
-                'root' => $pamyraOrdersTest->path,
+                'host' => $ftpCredential->host,
+                'username' => $ftpCredential->username,
+                'password' => $ftpCredential->password,
+                'port' => intval($ftpCredential->port),
+                'root' => $ftpCredential->path,
                 'throw' => true
             ]
         );
@@ -62,11 +60,14 @@ class FtpConnector
     {
         //Get all file list from ftp
         $allFilesInFtpServer = $this->getFileList();
-        // dd($allFilesInFtpServer);
+        dd($allFilesInFtpServer);
 
         //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
         $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
         dd($pamyraFileNames);
+
+        //If there are no pamyra files, we can stop the process here
+        $this->checkPamyraFiles($pamyraFileNames);
 
         //Will collect all pamyra orders from all pamyra json files from the ftp server into an array
         $pamyraOrders = $this->handlePamyraFiles($pamyraFileNames);
@@ -75,7 +76,9 @@ class FtpConnector
     }
 
     /**
-     * This is the first step here. Get the list of all files in the ftp server.
+     * This is the first step here. Get the list of all files in the ftp server. This might include
+     * jpg files, txt files. Because of this, we will want to filter out only the json files, that 
+     * contain the pamyra orders - in one of the steps after this.
      *
      * @return array    An array with all file names on the ftp server.
      */

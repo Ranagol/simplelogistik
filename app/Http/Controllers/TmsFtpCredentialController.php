@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TmsFtpConnectionController extends Controller
+class TmsFtpCredentialController extends Controller
 {
     //
 }

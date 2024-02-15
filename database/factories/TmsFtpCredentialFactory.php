@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TmsFtpConnection>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TmsFtpCredential>
  */
-class TmsFtpConnectionFactory extends Factory
+class TmsFtpCredentialFactory extends Factory
 {
     /**
      * Define the model's default state.

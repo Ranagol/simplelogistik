@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\TmsFtpConnection;
+use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Facades\DB;
 
-// $pamyraOrdersTest = TmsFtpConnection::where('name', 'PamyraOrdersTest')->firstOrFail();
-// $pamyraOrdersLive = TmsFtpConnection::where('name', 'PamyraOrdersLive')->firstOrFail();
+// $pamyraOrdersTest = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();
+// $pamyraOrdersLive = TmsFtpCredential::where('name', 'PamyraOrdersLive')->firstOrFail();
 
 return [
 

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tms_ftp_connections', function (Blueprint $table) {
+        Schema::create('tms_ftp_credentials', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('Connection name. Example: EmonsInvoices')->unique();
             $table->string('host')->comment('FTP host. The url link to the FTP server. Example: ftp.example.com');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tms_ftp_connections');
+        Schema::dropIfExists('tms_ftp_credentials');
     }
 };

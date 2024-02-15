@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TmsFtpConnection extends Model
+class TmsFtpCredential extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    protected $table = 'tms_ftp_connections';
+    protected $table = 'tms_ftp_credentials';
 }

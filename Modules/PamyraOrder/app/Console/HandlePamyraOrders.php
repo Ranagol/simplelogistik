@@ -3,7 +3,7 @@
 namespace Modules\PamyraOrder\app\Console;
 
 use Illuminate\Console\Command;
-use App\Models\TmsFtpConnection;
+use App\Models\TmsFtpCredential;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrdersHandler;
 
 class HandlePamyraOrders extends Command
