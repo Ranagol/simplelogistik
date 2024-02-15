@@ -171,6 +171,7 @@ class PamyraFtpHandler
             //Check if file exists on ftp server
             if($this->pamyraFtpServer->exists($fileName)) {
                 echo $fileName . ' exists on FTP server!' . PHP_EOL;
+                Log::info($fileName . ' exists on FTP server!');
             }
 
             try {
@@ -178,18 +179,20 @@ class PamyraFtpHandler
                 // Read the file content from the sftp pamyraFtpServer
                 $fileContent = $this->pamyraFtpServer->get($fileName);
 
-                //Write the file to the loca->pamyraFtpServer, with renaming.
-                $isWritten = Storage::disk('local')->put(
+                //Write the file to ./documents/... dir.
+                $isWritten = Storage::disk('documents')->put(
                     $this->createNewFileName($fileName),
                     $fileContent
                 );
 
                 if($isWritten) {
                     echo $fileName . ' was written to the local disk.' . PHP_EOL;
+                    Log::info($fileName . ' was written to the local disk.');
                 }
 
             } catch (\Throwable $th) {
 
+                Log::error('Error: ' . $th->getMessage());
                 echo 'Error: ' . $th->getMessage() . PHP_EOL;
 
             } finally {
@@ -212,13 +215,13 @@ class PamyraFtpHandler
      * name.
      * Old source name example: upload/PAM240206-1452140740.json
      * New target name example: 
-     * storage/app/PamyraOrders/Archived/2024_02_07_PAM240206-1452140740.json
+     * ./documents/PamyraOrdersArchived/2024_02_07_PAM240206-1452140740.json
      *
      * @param string $fileName
      * @return string
      */
     private function createNewFileName(string $fileName): string
     {
-        return 'PamyraOrders/Archived/' . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
+        return 'PamyraOrdersArchived/' . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
     }
 }
