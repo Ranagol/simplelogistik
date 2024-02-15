@@ -2,7 +2,11 @@
     <Head
         :title="$t('labels.orders')"
     />
+    {{ search_in }}
+    {{ search }}
     <OrderTableWithContent 
+        :search="search"
+        :search_in="searchIn"
         :actions="['edit', 'show']" 
         :title="$t('labels.orders')" 
         :data="fe_data.orders" 
