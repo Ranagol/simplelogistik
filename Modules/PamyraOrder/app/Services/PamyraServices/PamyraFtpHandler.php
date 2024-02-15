@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
  * Problem: our ftp server has real, live data in /upload. This can't be used for development.
  * We use /upload/andor for development. 
  */
-class FtpConnector
+class PamyraFtpHandler
 {
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
@@ -56,7 +56,7 @@ class FtpConnector
      *
      * @return array
      */
-    public function handle(): array
+    public function getPamyraOrders(): array
     {
         //Get all file list from ftp
         $allFilesInFtpServer = $this->getFileList();
