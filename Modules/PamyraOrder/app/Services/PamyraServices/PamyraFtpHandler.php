@@ -10,12 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * This class connects to an sftp server, and handles files from here.
- * /upload contains the live data.
- * /andor contains pamyra json files that we use for dev and testing
- * /PAM: every pamyra json file's name starts with PAM.
- * 
- * Problem: our ftp server has real, live data in /upload. This can't be used for development.
- * We use /upload/andor for development. 
  */
 class PamyraFtpHandler
 {
@@ -29,16 +23,28 @@ class PamyraFtpHandler
      */
     private array $filteredFileNames;
 
-    private $disk;
+    /**
+     * This is the Pamyra FTP server instance, that we will use to access the orders.
+     *
+     */
+    private $pamyraFtpServer;
+
+    private string $connectionName;
 
     public function __construct()
     {
+        //Set whether the connection is live or test, based on the environment
+        if(env('APP_ENV') === 'local') {
+            $this->connectionName = 'PamyraOrdersTest';
+        } else {
+            $this->connectionName = 'PamyraOrdersLive';
+        }
+
         //Get the ftp credentials from the database
         $ftpCredential = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();
-        // dd($ftpCredential);
 
-        //Create a new disk instance, that will be used to connect to the ftp server
-        $this->disk = Storage::build(
+        //Create a new pamyraFtpServer instance, with pamyra ftp credentials, for accessing orders.
+        $this->pamyraFtpServer = Storage::build(
             [
                 'driver' => 'sftp',
                 'host' => $ftpCredential->host,
@@ -60,7 +66,7 @@ class PamyraFtpHandler
     {
         //Get all file list from ftp
         $allFilesInFtpServer = $this->getFileList();
-        dd($allFilesInFtpServer);
+        // dd($allFilesInFtpServer);
 
         //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
         $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
@@ -86,9 +92,7 @@ class PamyraFtpHandler
     {
         //Get the list of all files in the ftp server
         try {
-            // $allFileNames = Storage::disk('PamyraOrdersTest')->allFiles();
-            $allFileNames = $this->disk->allFiles();
-
+            $allFileNames = $this->pamyraFtpServer->allFiles();
             return $allFileNames;
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
@@ -145,8 +149,7 @@ class PamyraFtpHandler
         $pamyraOrders = [];
 
         foreach ($pamyraFileNames as $pamyraJsonFile) {
-            // $pamyraOrders[] = Storage::disk('PamyraOrdersTest')->json($pamyraJsonFile);
-            $pamyraOrders[] = $this->disk->json($pamyraJsonFile);
+            $pamyraOrders[] = $this->pamyraFtpServer->json($pamyraJsonFile);
 
         }
 
@@ -168,16 +171,16 @@ class PamyraFtpHandler
         foreach ($this->filteredFileNames as $fileName) {
 
             //Check if file exists on ftp server
-            if(Storage::disk('PamyraOrdersTest')->exists($fileName)) {
+            if($this->pamyraFtpServer->exists($fileName)) {
                 echo $fileName . ' exists on FTP server!' . PHP_EOL;
             }
 
             try {
 
-                // Read the file content from the sftp disk
-                $fileContent = Storage::disk('PamyraOrdersTest')->get($fileName);
+                // Read the file content from the sftp pamyraFtpServer
+                $fileContent = $this->pamyraFtpServer->get($fileName);
 
-                //Write the file to the local disk, with renaming.
+                //Write the file to the loca->pamyraFtpServer, with renaming.
                 $isWritten = Storage::disk('local')->put(
                     $this->createNewFileName($fileName),
                     $fileContent
@@ -194,12 +197,13 @@ class PamyraFtpHandler
             } finally {
                 
                 //Delete the original json file from the ftp server
-                $isDeleted = Storage::disk('PamyraOrdersTest')->delete($fileName);
+                $isDeleted = $this->pamyraFtpServer->delete($fileName);
                 if($isDeleted) {
                     echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
                     echo PHP_EOL;
                 } else {
-                    throw new Exception($fileName . ' can not be deleted from FTP server');
+                    Log::error($fileName . ' can not be deleted from FTP server');
+                    echo $fileName . ' can not be deleted from FTP server' . PHP_EOL;
                 }
             }
         }
