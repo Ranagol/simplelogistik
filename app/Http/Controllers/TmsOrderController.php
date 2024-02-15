@@ -51,7 +51,7 @@ class TmsOrderController extends Controller
         $searchTerm = $request->searchTerm;
         $sortColumn = $request->sortColumn ?? "id";
         $sortOrder = $request->sortOrder ?? "ASC";
-        $searchColumns = $request->searchColumns ?? [];
+        $searchColumns = $request->searchIn ?? [];
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = $request->per_page ?? 10;
