@@ -2,8 +2,9 @@
 
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
-use Carbon\Carbon;
 use Exception;
+use Carbon\Carbon;
+use App\Models\TmsFtpConnection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,32 +20,6 @@ use Illuminate\Support\Facades\Storage;
 class FtpConnector
 {
     /**
-     * this is the real path on the ftp server, where we can find Pamyra json files.LIVE DATA! 
-     *
-     * @var string
-     */
-    private string $pathForDeployment = 'upload/PAM';
-
-    /**
-     * this is the development path on the ftp server, where we put our development json files. 
-     * This is for development only!
-     *
-     * @var string
-     */
-    private string $pathForDevelopment = 'upload/andor/PAM';
-
-    /**
-     * Depending if the app is in development or deployment, we must use different paths to get the
-     * Pamyra json files from the ftp server. This property will store the correct path. The correct
-     * path is determined in the constructor.
-     * For development: upload/andor/PAM
-     * For deployment: upload/PAM
-     *
-     * @var string
-     */
-    private string $ftpSourcePath;
-
-    /**
      * Stores all relevant json file name from the ftp server, from where we will write
      * Pamyra orders to the database. Later, when this is done, we will need these file names
      * again, because we have to copy these files from the ftp server into our app, and then we have
@@ -54,13 +29,28 @@ class FtpConnector
      */
     private array $filteredFileNames;
 
+    private $disk;
+
     /**
      * If the app is in development mode, we use the development path, otherwise we use the 
      * deployment path for getting the Pamyra json files from the ftp server.
      */
     public function __construct()
     {
-        $this->ftpSourcePath = env('APP_ENV') === 'local' ? $this->pathForDevelopment : $this->pathForDeployment;
+        
+        $pamyraOrdersTest = TmsFtpConnection::where('name', 'PamyraOrdersTest')->firstOrFail();
+
+        $this->disk = Storage::build(
+            [
+                'driver' => 'sftp',
+                'host' => $pamyraOrdersTest->host,
+                'username' => $pamyraOrdersTest->username,
+                'password' => $pamyraOrdersTest->password,
+                'port' => intval($pamyraOrdersTest->port),
+                'root' => $pamyraOrdersTest->path,
+                'throw' => true
+            ]
+        );
     }
 
     /**
@@ -71,13 +61,12 @@ class FtpConnector
     public function handle(): array
     {
         //Get all file list from ftp
-        $allFileNames = $this->getFileList();
+        $allFilesInFtpServer = $this->getFileList();
+        // dd($allFilesInFtpServer);
 
-        //Filter out only those files that are Pamyra orders, ignore all the other files
-        $pamyraFileNames = $this->filterFileNames($allFileNames);
-
-        //If there are any pamyra files at all
-        $this->checkPamyraFiles($pamyraFileNames);
+        //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
+        $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
+        dd($pamyraFileNames);
 
         //Will collect all pamyra orders from all pamyra json files from the ftp server into an array
         $pamyraOrders = $this->handlePamyraFiles($pamyraFileNames);
@@ -94,7 +83,9 @@ class FtpConnector
     {
         //Get the list of all files in the ftp server
         try {
-            $allFileNames = Storage::disk('sftp')->allFiles();
+            // $allFileNames = Storage::disk('PamyraOrdersTest')->allFiles();
+            $allFileNames = $this->disk->allFiles();
+
             return $allFileNames;
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
@@ -106,17 +97,15 @@ class FtpConnector
      * When we get a list of filenames currently on the ftp server, we want only the pamyra json files,
      * that contain the orders. These have 2 distinct characteristics:
      * 1. They are json files
-     * 2. They all have the string 'upload/PAM' in their name
-     * 
      * So, we want to get these specific files, and ignore all the rest.
      *
      * @param array $allFileNames
      * @return array
      */
-    private function filterFileNames(array $allFileNames): array
+    private function filterJsonFiles(array $allFileNames): array
     {
         $filteredFileNames = array_filter($allFileNames, function ($fileName) {
-            return strpos($fileName, '.json') !== false && strpos($fileName, $this->ftpSourcePath) !== false;
+            return strpos($fileName, '.json') !== false;
         });
 
         $this->filteredFileNames = $filteredFileNames;
@@ -153,7 +142,9 @@ class FtpConnector
         $pamyraOrders = [];
 
         foreach ($pamyraFileNames as $pamyraJsonFile) {
-            $pamyraOrders[] = Storage::disk('sftp')->json($pamyraJsonFile);
+            // $pamyraOrders[] = Storage::disk('PamyraOrdersTest')->json($pamyraJsonFile);
+            $pamyraOrders[] = $this->disk->json($pamyraJsonFile);
+
         }
 
         return $pamyraOrders;
@@ -174,14 +165,14 @@ class FtpConnector
         foreach ($this->filteredFileNames as $fileName) {
 
             //Check if file exists on ftp server
-            if(Storage::disk('sftp')->exists($fileName)) {
+            if(Storage::disk('PamyraOrdersTest')->exists($fileName)) {
                 echo $fileName . ' exists on FTP server!' . PHP_EOL;
             }
 
             try {
 
                 // Read the file content from the sftp disk
-                $fileContent = Storage::disk('sftp')->get($fileName);
+                $fileContent = Storage::disk('PamyraOrdersTest')->get($fileName);
 
                 //Write the file to the local disk, with renaming.
                 $isWritten = Storage::disk('local')->put(
@@ -200,7 +191,7 @@ class FtpConnector
             } finally {
                 
                 //Delete the original json file from the ftp server
-                $isDeleted = Storage::disk('sftp')->delete($fileName);
+                $isDeleted = Storage::disk('PamyraOrdersTest')->delete($fileName);
                 if($isDeleted) {
                     echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
                     echo PHP_EOL;

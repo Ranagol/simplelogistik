@@ -1,5 +1,12 @@
 <?php
 
+use App\Models\TmsFtpConnection;
+use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
+
+// $pamyraOrdersTest = TmsFtpConnection::where('name', 'PamyraOrdersTest')->firstOrFail();
+// $pamyraOrdersLive = TmsFtpConnection::where('name', 'PamyraOrdersLive')->firstOrFail();
+
 return [
 
     /*
@@ -30,6 +37,9 @@ return [
 
     'disks' => [
 
+        /**
+         * This is the setup for the local storage inside this Laravel app.
+         */
         'local' => [
             
             'driver' => 'local',
@@ -48,46 +58,18 @@ return [
              */
             'throw' => true,
         ],
-
-        // 'ftp' => [
-        //     'driver' => 'ftp',
-        //     'host' => env('FTP_HOST'),
-        //     'username' => env('FTP_USERNAME'),
-        //     'password' => env('FTP_PASSWORD'),
-        //     'port' => env('FTP_PORT', 7876),
-         
-        //     // Optional FTP Settings...
-        //     // 'root' => env('FTP_ROOT'),
-        //     // 'passive' => true,
-        //     // 'ssl' => true,
-        //     // 'timeout' => 30,
+        
+        /**
+         * These are the connections that I am currently using.
+         */
+        // 'sftp' => [
+        //     'driver' => 'sftp',
+        //     'host' => env('SFTP_HOST'),
+        //     'username' => env('SFTP_USERNAME'),
+        //     'password' => env('SFTP_PASSWORD'),
+        //     'port' => intval(env('SFTP_PORT', 7876)),
+        //     'throw' => true
         // ],
-
-        'sftp' => [
-            'driver' => 'sftp',
-            'host' => env('SFTP_HOST'),
-            'username' => env('SFTP_USERNAME'),
-            'password' => env('SFTP_PASSWORD'),
-            'port' => intval(env('SFTP_PORT', 7876)),
-            'throw' => true
-
-         
-            // Settings for SSH key based authentication with encryption password...
-            // 'privateKey' => env('SFTP_PRIVATE_KEY'),
-            // 'passphrase' => env('SFTP_PASSPHRASE'),
-         
-            // Settings for file / directory permissions...
-            // 'visibility' => 'private', // `private` = 0600, `public` = 0644
-            // 'directory_visibility' => 'private', // `private` = 0700, `public` = 0755
-         
-            // Optional SFTP Settings...
-            // 'hostFingerprint' => env('SFTP_HOST_FINGERPRINT'),
-            // 'maxTries' => 4,
-            // 'passphrase' => env('SFTP_PASSPHRASE'),
-            // 'root' => env('SFTP_ROOT', ''),
-            // 'timeout' => 30,
-            // 'useAgent' => true,
-        ],
 
         'public' => [
             'driver' => 'local',
