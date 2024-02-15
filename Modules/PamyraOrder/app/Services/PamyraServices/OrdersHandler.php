@@ -37,11 +37,11 @@ class OrdersHandler
         $orders = $this->pamyraFtpHandler->getPamyraOrders();
 
         //We loop through all the orders and write each one to the database
-        // foreach ($orders as $pamyraOrder) {
-        //     $this->orderHandler->handle($pamyraOrder);
-        // }
+        foreach ($orders as $pamyraOrder) {
+            $this->orderHandler->handle($pamyraOrder);
+        }
 
         //We archive all the json files in the app from the ftp server
-        // $this->PamyraFtpHandler->archiveJsonFiles();
+        $this->pamyraFtpHandler->archiveJsonFiles();
     }
 }

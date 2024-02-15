@@ -66,11 +66,9 @@ class PamyraFtpHandler
     {
         //Get all file list from ftp
         $allFilesInFtpServer = $this->getFileList();
-        // dd($allFilesInFtpServer);
 
         //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
         $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
-        dd($pamyraFileNames);
 
         //If there are no pamyra files, we can stop the process here
         $this->checkPamyraFiles($pamyraFileNames);
