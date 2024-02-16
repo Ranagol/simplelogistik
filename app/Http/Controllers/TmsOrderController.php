@@ -48,13 +48,21 @@ class TmsOrderController extends Controller
      */
     public function index(Request $request): Response
     {
-        $searchTerm = $request->searchTerm;
+        $searchTerm = $request->searchTerm ?? null;
         $sortColumn = $request->sortColumn ?? "id";
         $sortOrder = $request->sortOrder ?? "ASC";
-        $searchColumns = $request->searchIn ?? ['order_number'];
+        $searchColumns = $request->searchIn;
         //pagination stuff sent from front-end
         $page = $request->page;
         $newItemsPerPage = $request->per_page ?? 10;
+
+        // This below is for testing purposes. It is used to test the search functionality.
+        // $searchTerm = 'Andor';//1 case
+        // $searchColumns = [
+        //     'order_number',//simple search, 2 case, column from orders table
+        //     'pickupAddresses__company_name',//relationship search, 3 case
+        //     'deliveryAddresses__company_name',//relationship search, 3 case
+        // ];
 
         $records = $this->getRecords(
             new TmsOrder(),
@@ -63,7 +71,7 @@ class TmsOrderController extends Controller
             $sortOrder, 
             $newItemsPerPage,
             $searchColumns,
-            [
+            [//these are the relations that we want to load with the records. Loading happens in the getRecords() function.
                 'parcels',
                 'orderAddresses',
                 'pickupAddresses',
