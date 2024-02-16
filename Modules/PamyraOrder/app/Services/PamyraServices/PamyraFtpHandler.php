@@ -45,10 +45,10 @@ class PamyraFtpHandler
         $allFilesInFtpServer = $this->getFileList();
 
         //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
-        $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
+        $pamyraFileNames = $this->filterFiles($allFilesInFtpServer, '.json');
 
         //If there are no pamyra files, we can stop the process here
-        $this->checkPamyraFiles($pamyraFileNames);
+        $this->checkIsThisEmpty($pamyraFileNames);
 
         //Will collect all pamyra orders from all pamyra json files from the ftp server into an array
         $pamyraOrders = $this->handlePamyraFiles($pamyraFileNames);
@@ -56,60 +56,7 @@ class PamyraFtpHandler
         return $pamyraOrders;
     }
 
-    /**
-     * This is the first step here. Get the list of all files in the ftp server. This might include
-     * jpg files, txt files. Because of this, we will want to filter out only the json files, that 
-     * contain the pamyra orders - in one of the steps after this.
-     *
-     * @return array    An array with all file names on the ftp server.
-     */
-    private function getFileList(): array
-    {
-        //Get the list of all files in the ftp server
-        try {
-            $allFileNames = $this->ftpServerStorage->allFiles();
-            return $allFileNames;
-        } catch (\Exception $e) {
-            echo 'Error: ' . $e->getMessage() . PHP_EOL;
-            Log::error('Error: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * When we get a list of filenames currently on the ftp server, we want only the pamyra json files,
-     * that contain the orders. These have 2 distinct characteristics:
-     * 1. They are json files
-     * So, we want to get these specific files, and ignore all the rest.
-     *
-     * @param array $allFileNames
-     * @return array
-     */
-    private function filterJsonFiles(array $allFileNames): array
-    {
-        $filteredFileNames = array_filter($allFileNames, function ($fileName) {
-            return strpos($fileName, '.json') !== false;
-        });
-
-        $this->filteredFileNames = $filteredFileNames;
-
-        return $filteredFileNames;
-    }
-
-    /**
-     * If there are any pamyra files at all, we can continue. If there are no pamyra files, we can stop
-     * the process here.
-     *
-     * @param array $pamyraFileNames
-     * @return void
-     */
-    private function checkPamyraFiles(array $pamyraFileNames): void
-    {
-        if (empty($pamyraFileNames)) {
-            echo 'No Pamyra files found on FTP server.' . PHP_EOL;
-            Log::info('No Pamyra files found on FTP server.');
-            exit;
-        }
-    }
+    
 
     /**
      * Will collect all pamyra orders from all pamyra json files from the ftp server into an array.
