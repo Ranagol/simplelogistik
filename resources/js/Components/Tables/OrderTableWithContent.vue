@@ -87,7 +87,7 @@ import { ref } from 'vue';
 import ConditionalHeadColumn from './ConditionalHeadColumn.vue';
 import FilteredSearch from '../Inputs/FilteredSearch.vue';
 import TableHeaders from '@/lib/TableHeader';
-import searchFilter from '@/Config/SearchFilters/orderSearch';
+import searchFilter from '@Config/SearchFilters/orderSearch';
 
 onMounted(() => {
     initFlowbite()
