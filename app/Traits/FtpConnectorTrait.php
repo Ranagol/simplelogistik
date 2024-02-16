@@ -8,24 +8,12 @@ use Illuminate\Support\Facades\Storage;
 trait FtpConnectorTrait
 {
     /**
-     * @var string
-     */
-    private string $connectionNameTest;
-
-    /**
-     * @var string
-     */
-    private string $connectionNameLive;
-
-    /**
-     * $connectionNameTest is the name of the connection to the test ftp server dir.
-     * $connectionNameLive is the name of the connection to the live ftp server dir.
-     * $connectionName is either test name (when the app is in local environment) or live name 
-     * (when the app is in production environment)
      * 
      * @var string
      */
     private string $connectionName;
+
+    private string $connectionMode;
 
     /**
      * Stores the ftp credentials for the connection.
@@ -39,56 +27,51 @@ trait FtpConnectorTrait
      */
     private $ftpServerStorage;
 
-    public function connect(string $ftpCredentialName): void
+    /**
+     * This is the main function in this trait, that triggers all other functions.
+     *
+     * @param string $connectionName
+     * @return void
+     */
+    public function connect(string $connectionName): void
     {
-        $this->getTestConnectionName($ftpCredentialName);
-        $this->getLiveConnectionName($ftpCredentialName);
-        $this->setConnectionName();
+        $this->connectionName = $connectionName;
+        $this->setConnectionMode();
         $this->getFtpCredentials();
         $this->createFtpServerStorage();
     }
 
-    private function getTestConnectionName(string $ftpCredentialName): void
-    {
-        $this->connectionNameTest = TmsFtpCredential::where('name', $ftpCredentialName)
-                                                ->where('type', 'test')
-                                                ->firstOrFail();
-    }
-
-    private function getLiveConnectionName(string $ftpCredentialName): void
-    {
-        $this->connectionNameLive = TmsFtpCredential::where('name', $ftpCredentialName)
-                                                ->where('type', 'live')
-                                                ->firstOrFail();
-    }
-
-    private function setConnectionName(): void
+    private function setConnectionMode(): void
     {
         //Set whether the connection is live or test, based on the environment
         if(env('APP_ENV') === 'local') {
-            $this->connectionName = $this->connectionNameTest;
+            $this->connectionMode = 'test';
         } else {
-            $this->connectionName = $this->connectionNameLive;
+            $this->connectionMode = 'live';
         }
     }
 
     private function getFtpCredentials(): void
     {
         //Get the ftp credentials from the database
-        $this->tmsFtpCredential = TmsFtpCredential::where('name', $this->connectionName)->firstOrFail();
+        $this->tmsFtpCredential = TmsFtpCredential::where('name', $this->connectionName)
+                                                    ->where('connection_mode', $this->connectionMode)
+                                                    ->firstOrFail();
     }
 
     private function createFtpServerStorage(): void
     {
+        // dd($this->tmsFtpCredential);//ez itt ok
+
         //Create a new ftpServerStorage instance, with pamyra ftp credentials, for accessing orders.
         $this->ftpServerStorage = Storage::build(
             [
-                'driver' => 'sftp',
-                'host' => $this->ftpCredential->host,
-                'username' => $this->ftpCredential->username,
-                'password' => $this->ftpCredential->password,
-                'port' => intval($this->ftpCredential->port),
-                'root' => $this->ftpCredential->path,
+                'driver' => $this->tmsFtpCredential->driver,
+                'host' => $this->tmsFtpCredential->host,
+                'username' => $this->tmsFtpCredential->username,
+                'password' => $this->tmsFtpCredential->password,
+                'port' => intval($this->tmsFtpCredential->port),
+                'root' => $this->tmsFtpCredential->path,
                 'throw' => true
             ]
         );

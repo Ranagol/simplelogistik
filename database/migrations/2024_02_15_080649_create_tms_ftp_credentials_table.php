@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('tms_ftp_credentials', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('Connection name. Example: EmonsInvoices')->unique();
+            $table->string('name')->comment('Connection name. Example: EmonsInvoices');
+            $table->string('connection_mode')->comment('Example: test or live. Every connection must have a test and a live mode.');
+            $table->string('driver')->comment('FTP protocol or driver. Example: ftp or sftp');
             $table->string('host')->comment('FTP host. The url link to the FTP server. Example: ftp.example.com');
             $table->string('port')->comment('FTP port. Example: 21')->nullable();
             $table->string('username')->comment('FTP username. Example: user');
