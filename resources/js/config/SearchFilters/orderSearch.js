@@ -27,7 +27,7 @@ export default [
     }
     ,{
         section: 'filter-labels.pickup',
-        relation: 'orderAddresses',
+        relation: 'pickupAddresses',
         fields: [
             { name: 'company_name', label: 'labels.company_name', type: 'text' },
             { name: 'first_name', label: 'labels.first_name', type: 'text' },
@@ -39,7 +39,7 @@ export default [
     }
     ,{
         section: 'filter-labels.delivery',
-        relation: 'orderAddresses',
+        relation: 'deliveryAddresses',
         fields: [
             { name: 'company_name', label: 'labels.company_name', type: 'text' },
             { name: 'first_name', label: 'labels.first_name', type: 'text' },
