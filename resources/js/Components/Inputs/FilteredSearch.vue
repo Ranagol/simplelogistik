@@ -7,7 +7,7 @@
                 class="text-sm font-medium text-gray-900 sr-only dark:text-white">{{ $t('labels.search') }}</label>
             <div class="relative grid grid-flow-col">
                 <input 
-                    type="search" 
+                    type="text" 
                     id="search-field"  
                     name="searchTerm"
                     v-model="searchTerm"
@@ -33,12 +33,12 @@
             <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
             <ul class="space-y-2 text-sm" aria-labelledby="limitSearchFilterDropdownButton">
                 <div v-for="section in filters">
-                    <li><span>{{ section.section }}</span></li>
-                    <li v-for="item in section.fields" class="flex items-center">
-                        <label class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer hover:text-corporate-700 dark:text-gray-100">
+                    <li><span class="block p-2">{{ $t(section.section) }}</span></li>
+                    <li v-for="item in section.fields" class="flex items-center mb-1">
+                        <label class="grid justify-start w-full grid-flow-col ml-2 text-sm font-medium text-gray-900 cursor-pointer place-items-center hover:text-corporate-700 dark:text-gray-100">
                             <input :checked="isChecked(section.relation, item.name)" @change="e => setFilter(section.relation, item.name, e.target.checked)" type="checkbox" 
                                  class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <span class="ps-2"></span>{{ item.label }}
+                                <span class="ps-2"></span>{{ section.relation ? $t(`labels.` + section.relation) + " - " : '' }}{{ $t(item.label) }}
                         </label>
                     </li>
                 </div>
@@ -54,31 +54,9 @@ import { ArrowDown, Filter } from '@element-plus/icons-vue';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-
-function setFilter(relation, field, state) {
-    if(relation) {
-        var searchAt = relation + '__' + field;
-    } else {
-        var searchAt = field;
-    }
-    if(state) {
-        activeFilters.value.push(searchAt);
-    } else {
-        activeFilters.value = activeFilters.value.filter(item => item !== searchAt);
-    }
-}
-
-function isChecked(relation, field) {
-   return false
-}
-
 const props = defineProps({
     filters: {
         type: Array,
-        required: true
-    },
-    searchAt: {
-        type: String,
         required: true
     },
     search_in: {
@@ -88,19 +66,56 @@ const props = defineProps({
     search: {
         type: String,
         required: true
-    }
+    },
+    sort_column: {
+        type: String,
+        required: false
+    },
+    sort_order: {
+        type: String,
+        required: false
+    },
 });
 
-
 let searchTerm = ref(props.search ?? '');
-let activeFilters = ref(props.search_in);
+let activeFilters = ref(props.search_in ?? []);
+let sortColumn = ref(props.sort_column ?? "order_number");
+let sortOrder = ref(props.sort_order ?? "DESC");
+
+function setFilter(relation, field, state) {
+    if(relation) {
+        var searchAt = relation + '__' + field;
+    } else {
+        var searchAt = field;
+    }
+
+    if(state) {
+        activeFilters.value.push(searchAt);
+    } else {
+        activeFilters.value = activeFilters.value.filter(item => item !== searchAt);
+    }
+}
+
+function isChecked(relation, field) {
+    if(relation) {
+        var searchAt = relation + '__' + field;
+    } else {
+        var searchAt = field;
+    }
+    return activeFilters.value.includes(searchAt);
+   // console.log(relation, field, activeFilters.target);
+}
 
 const performSearch = () => {
-    router.get(route(props.searchAt), 
+
+    router.get(route(route().current()),
         { 
             searchTerm: searchTerm.value, 
-            searchIn: activeFilters.value 
-        })
+            searchIn: activeFilters.value,
+            sortColumn: sortColumn.value,
+            sortOrder: sortOrder.value
+        }
+    )
 }
 
 
