@@ -4,7 +4,7 @@
     />
     <OrderTableWithContent 
         :search="search"
-        :search_in="searchIn"
+        :search_in="search_in"
         :actions="['edit', 'show']" 
         :title="$t('labels.orders')" 
         :data="fe_data.orders" 
