@@ -66,6 +66,8 @@ class TmsOrderController extends Controller
             [
                 'parcels',
                 'orderAddresses',
+                'pickupAddresses',
+                'deliveryAddresses',
                 'forwarder',
                 'orderHistories.user.roles:id,name',
                 'partner',
