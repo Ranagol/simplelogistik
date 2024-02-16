@@ -55,7 +55,7 @@ trait DataBaseFilter {
     {
 
         //Separate simple and relationship search columns into two arrays
-        $this->handleSearchColumns($searchTerm, $searchColumns);
+        $this->handleSearchColumns($searchTerm ?? "", $searchColumns ?? []);
         
         //Make the dynamic query
         $query = $this->makeDynamicQuery(
@@ -70,8 +70,8 @@ trait DataBaseFilter {
          * Include the query string too into pagination data links for page 1,2,3,4... 
          * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
          */
-        // $records = $query->with($withRelations)->paginate($newItemsPerPage ?? 10)->withQueryString();//With Patrick adding the relationships
-        $records = $query->paginate($newItemsPerPage ?? 10)->withQueryString();
+        $records = $query->with($withRelations)->paginate($newItemsPerPage ?? 10)->withQueryString();//With Patrick adding the relationships
+        // $records = $query->paginate($newItemsPerPage ?? 10)->withQueryString();
         // dd($query->paginate(10));
 
         return $records;
@@ -152,7 +152,7 @@ trait DataBaseFilter {
             ];
 
             foreach ($columnsToSearch as $column) {
-                $query->orWhere($column, 'LIKE', $searchTerm . '%');
+                $query->orWhere($column, 'LIKE', '%' . $searchTerm . '%');
             }
         }
 
