@@ -35,22 +35,6 @@ class EmonsInvoiceService
         11 => 'netto_price',
     ];
 
-
-    /**
-     * This is where we can find the original csv file, that contains all the invoices.
-     * storage/app/EmonsInvoice/Inbox/emonsInvoices.CSV
-     *
-     * @var string
-     */
-    private string $sourcePath = 'app/EmonsInvoice/Inbox/emonsInvoices.CSV';
-
-    /**
-     * This is where we will move the original csv file, after we have processed it.
-     *
-     * @var string
-     */
-    private string $targetPath = '/EmonsInvoice/Archive';
-
     /**
      * We import this way the validation rules from the TmsEmonsInvoiceRequest class.
      */
