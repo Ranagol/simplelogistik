@@ -7,12 +7,15 @@ use Carbon\Carbon;
 use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\FtpConnectorTrait;
 
 /**
  * This class connects to an sftp server, and handles files from here.
  */
 class PamyraFtpHandler
 {
+    use FtpConnectorTrait;
+
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
      * Pamyra orders to the database. Later, when this is done, we will need these file names
@@ -23,38 +26,12 @@ class PamyraFtpHandler
      */
     private array $filteredFileNames;
 
-    /**
-     * This is the Pamyra FTP server instance, that we will use to access the orders.
-     *
-     */
-    private $pamyraFtpServer;
-
-    private string $connectionName;
-
     public function __construct()
-    {
-        //Set whether the connection is live or test, based on the environment
-        if(env('APP_ENV') === 'local') {
-            $this->connectionName = 'PamyraOrdersTest';
-        } else {
-            $this->connectionName = 'PamyraOrdersLive';
-        }
-
-        //Get the ftp credentials from the database
-        $ftpCredential = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();
-
-        //Create a new pamyraFtpServer instance, with pamyra ftp credentials, for accessing orders.
-        $this->pamyraFtpServer = Storage::build(
-            [
-                'driver' => 'sftp',
-                'host' => $ftpCredential->host,
-                'username' => $ftpCredential->username,
-                'password' => $ftpCredential->password,
-                'port' => intval($ftpCredential->port),
-                'root' => $ftpCredential->path,
-                'throw' => true
-            ]
-        );
+    {   
+        /**
+         * This comes from a trait. It connects to the ftp server.
+         */
+        $this->connect('PamyraOrders');
     }
 
     /**
@@ -90,7 +67,7 @@ class PamyraFtpHandler
     {
         //Get the list of all files in the ftp server
         try {
-            $allFileNames = $this->pamyraFtpServer->allFiles();
+            $allFileNames = $this->ftpServerStorage->allFiles();
             return $allFileNames;
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
@@ -147,7 +124,7 @@ class PamyraFtpHandler
         $pamyraOrders = [];
 
         foreach ($pamyraFileNames as $pamyraJsonFile) {
-            $pamyraOrders[] = $this->pamyraFtpServer->json($pamyraJsonFile);
+            $pamyraOrders[] = $this->ftpServerStorage->json($pamyraJsonFile);
 
         }
 
@@ -169,15 +146,15 @@ class PamyraFtpHandler
         foreach ($this->filteredFileNames as $fileName) {
 
             //Check if file exists on ftp server
-            if($this->pamyraFtpServer->exists($fileName)) {
+            if($this->ftpServerStorage->exists($fileName)) {
                 echo $fileName . ' exists on FTP server!' . PHP_EOL;
                 Log::info($fileName . ' exists on FTP server!');
             }
 
             try {
 
-                // Read the file content from the sftp pamyraFtpServer
-                $fileContent = $this->pamyraFtpServer->get($fileName);
+                // Read the file content from the sftp ftpServerStorage
+                $fileContent = $this->ftpServerStorage->get($fileName);
 
                 //Write the file to ./documents/... dir.
                 $isWritten = Storage::disk('documents')->put(
@@ -198,7 +175,7 @@ class PamyraFtpHandler
             } finally {
                 
                 //Delete the original json file from the ftp server
-                $isDeleted = $this->pamyraFtpServer->delete($fileName);
+                $isDeleted = $this->ftpServerStorage->delete($fileName);
                 if($isDeleted) {
                     echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
                     echo PHP_EOL;

@@ -2,7 +2,7 @@
 
 namespace Modules;
 
-class FtpHandler {
+abstract class FtpConnector {
 
     /**
      * This is the FTP server instance, that we will use to access the orders.
