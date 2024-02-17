@@ -146,7 +146,7 @@
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.order_number')}}</h6>
                     <div class="flex items-center text-gray-500 dark:text-gray-400">
-                        {{ data.id}}
+                        {{ data.order_number }}
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -154,7 +154,7 @@
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.payment_method')}}</h6>
                     <div class="flex items-center space-x-2">
-                        {{ data.payment_method }}
+                        {{ data?.payment_method ?? $t('messages.no-payment-method') }}
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -173,20 +173,20 @@
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance_duration')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ details?.duration_minutes ?? '' }} min</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data?.details?.duration_minutes ?? '' }} min</div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ details?.distance_km ?? '' }} km
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data?.details?.distance_km ?? '' }} km
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.selling_price')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ details?.price_gross ?? '' }} {{ data.currency }}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data?.details?.price_gross ?? '' }} {{ data.currency }}</div>
                 </div>
             </div>
             <div class="flex items-center justify-between mt-4 space-x-3">

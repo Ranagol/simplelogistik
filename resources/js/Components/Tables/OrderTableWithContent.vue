@@ -60,6 +60,8 @@
                                 <ConditionalHeadColumn
                                     v-for="col in _headers"
                                     :data="col"
+                                    :sort_column="sort_column"
+                                    :sort_order="sort_order"
                                     />
                                 <th scope="col" class="px-4 py-3"><!-- Actions --></th>
                             </tr>
@@ -116,6 +118,14 @@ const props = defineProps({
     },
     search_in: {
         type: Array,
+        required: false,
+    },
+    sort_column: {
+        type: String,
+        required: false,
+    },
+    sort_order: {
+        type: String,
         required: false,
     }
 })

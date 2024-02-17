@@ -48,7 +48,26 @@
             "info": "Bitte geben Sie Ihre E-Mail Adresse ein, um Ihr Passwort zurückzusetzen."
         }
     },
+    "filter-labels": {
+        "pickup": "Abholadresse",
+        "delivery": "Lieferadresse",
+        "customer": "Kundendaten",
+        "order": "Auftrag"
+    },
+    "messages":{
+        "no-payment-method": "Keine Zahlungsart hinterlegt"
+    },
     "labels": {
+        "origin": "Herkunft",
+        "pickupAddresses": "Abholung",
+        "deliveryAddresses": "Zustellung",
+        "country": "Land",
+        "customer_name": "Kundenname",
+        "order_status": "Auftragsstatus",
+        "payment_status": "Zahlungsstatus",
+        "delivery_date": "Lieferdatum",
+        "company": "Firma",
+        "zipcode": "Postleitzahl",
         "restore-defaults": "Standard wiederherstellen",
         "my-profile": "Mein Profil",
         "account-settings": "Kontoeinstellungen",
