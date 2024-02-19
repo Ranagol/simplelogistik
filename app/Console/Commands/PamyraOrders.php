@@ -39,8 +39,8 @@ class PamyraOrders extends Command
                 $this->info('Cronjob disabled');
             }
         } else {
-            $this->info('Ping...');
-            Log::debug('Ping-Test is running.');
+            $this->info('PamyraOrderTest...');
+            Log::debug('PamyraOrderTest is running.');
         }
         $this->info('End: ' . $this->description);
     }
