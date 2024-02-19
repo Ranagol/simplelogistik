@@ -151,9 +151,4 @@ class TmsAddress extends Model
         return $this->belongsTo(TmsPartner::class);
     }
 
-    public function order(): HasOne
-    {
-        return $this->hasOne(TmsOrder::class, 'billing_address_id');
-    }
-
 }

@@ -88,7 +88,6 @@ class TmsOrderAddress extends Model
         return $formattedForwarder;
     }
 
-
     //*************************RELATIONSHIPS************************** */
 
     public function order(): BelongsTo
@@ -116,9 +115,16 @@ class TmsOrderAddress extends Model
         return $this->belongsTo(TmsPartner::class, 'partner_id');
     }
 
+
+    
+
+    //*************************ACCESSORS************************** */
+
     /**
      * Here we set the address type db column possible options. This array will be used during
      * seeding too. So, when you want to add a new address type, this is the place to do it.
+     * We have this constant here in TmsOrderAddress model, because the same thing in TmsAddresses
+     * is solved with boolean values (is_headquarter, is_billing, is_pickup, is_delivery).
      */
     const ADDRESS_TYPES = [
         1 => 'labels.address-headquarter',//'Headquarter',
