@@ -13,11 +13,25 @@ use App\Services\FtpHandlerBase;
 class PamyraFtpHandler extends FtpHandlerBase
 {
     public function __construct()
-    {   
-        /**
-         * Connects to the ftp server.
-         */
-        $this->connect('PamyraOrders');
+    {
+        //Set the connection name for the ftp server. Defined in .env, and in config/ftp.php
+        $this->connectionName = config('ftp.pamyraOrdersFtp');
+
+        //Get the ftp credentials from the database
+        $ftpCredential = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();
+
+        //Create a new pamyraFtpServer instance, with pamyra ftp credentials, for accessing orders.
+        $this->pamyraFtpServer = Storage::build(
+            [
+                'driver' => 'sftp',
+                'host' => $ftpCredential->host,
+                'username' => $ftpCredential->username,
+                'password' => $ftpCredential->password,
+                'port' => intval($ftpCredential->port),
+                'root' => $ftpCredential->path,
+                'throw' => true
+            ]
+        );
     }
 
     /**

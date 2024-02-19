@@ -33,7 +33,7 @@ class OrderHandler {
     private int $partnerId;
     private int $customerId;
     private TmsAddress $headquarter;//this is used, don't delete it
-    private TmsAddress $billingAddress;
+    // private TmsOrderAddress $billingAddress;
     private TmsOrder $order;
     
     private CustomerService $customerService;
@@ -103,9 +103,8 @@ class OrderHandler {
         $this->handleOrder($pamyraOrder);
         $this->handleParcels($pamyraOrder);
         $this->handlePamyraOrder($pamyraOrder);
-        $this->handleOrderAddresses($pamyraOrder);//pickup and delivery from TmsOrderAddress
         $this->handleOrderAttributes($pamyraOrder);
-
+        $this->handleOrderAddresses($pamyraOrder);//pickup and delivery from TmsOrderAddress
         $this->createOrderHistory($pamyraOrder);
     }
 
@@ -179,7 +178,8 @@ class OrderHandler {
             $this->partnerId
         );
 
-        $this->billingAddress = $this->addressService->handle(
+        //Billing address that belongs to the customer (TmsAddress table)
+        $this->addressService->handle(
             $pamyraOrder['Customer'], 
             false,//isHeadquarter
             true,//isBilling
@@ -193,7 +193,6 @@ class OrderHandler {
         $this->order = $this->orderService->handle(
             $pamyraOrder, 
             $this->customerId, 
-            $this->billingAddress->id,
             $this->partnerId
         );
     }
@@ -236,6 +235,17 @@ class OrderHandler {
             $this->customerId,
             $this->partnerId, 
             TmsOrderAddress::ADDRESS_TYPES[4],//delivery address
+            $pamyraOrder['OrderNumber']
+        );
+
+        //Create billing address that belongs to the order (TmsOrderAddress table)
+        $this->orderAddressService->handle(
+            $pamyraOrder['Customer'], 
+            $pamyraOrder['DeliveryDate'],
+            $this->order->id,
+            $this->customerId,
+            $this->partnerId,
+            TmsOrderAddress::ADDRESS_TYPES[2],//billing address
             $pamyraOrder['OrderNumber']
         );
     }

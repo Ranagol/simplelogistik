@@ -3,14 +3,16 @@
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use DateTime;
+use Carbon\Carbon;
 use App\Models\TmsOrder;
 use App\Models\TmsCustomer;
 use App\Models\TmsOrderStatus;
 use App\Models\TmsPamyraOrder;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TmsOrderRequest;
 use Illuminate\Support\Facades\Validator;
-use Modules\PamyraOrder\app\Services\PamyraServices\OrderNumberMakerTrait;
 use Modules\PamyraOrder\app\Services\PamyraServices\DateFormatterTrait;
+use Modules\PamyraOrder\app\Services\PamyraServices\OrderNumberMakerTrait;
 
 class OrderService {
 
@@ -40,14 +42,12 @@ class OrderService {
      *
      * @param array $pamyraOrder
      * @param integer $customerId
-     * @param integer $billingAddressId
      * @param integer $partnerId
      * @return TmsOrder
      */
     public function handle(
         array $pamyraOrder, 
         int $customerId, 
-        int $billingAddressId,
         int $partnerId
     ): TmsOrder
     {
@@ -55,7 +55,6 @@ class OrderService {
         $order = $this->createOrder(
             $pamyraOrder, 
             $customerId, 
-            $billingAddressId,
             $partnerId
         );
 
@@ -67,14 +66,12 @@ class OrderService {
      *
      * @param array $pamyraOrder
      * @param integer $customerId
-     * @param integer $billingAddressId
      * @param integer $partnerId
      * @return TmsOrder
      */
     private function createOrder(
         array $pamyraOrder,
         int $customerId,
-        int $billingAddressId,
         int $partnerId
     ): TmsOrder
     {
@@ -90,8 +87,8 @@ class OrderService {
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
             'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
             'payment_method' => 5, //this is invoice payment method
-            'billing_address_id' => $billingAddressId,
             'order_number' => $this->setOrderNumber(),
+            'import_file_name' => $this->createFileName($pamyraOrder),
         ];
 
         $this->validate($orderArray);
@@ -120,5 +117,27 @@ class OrderService {
         if ($validator->fails()) {
             throw new \Exception($validator->errors()->first());
         }
+    }
+
+    /**
+     * Creates a file name for the order. This file name will be stored in the tms_orders table, in
+     * the import_file_name column. This is basically the archived version of the json file that
+     * contained this order.
+     * 
+     * Example: 2024_02_19_PAM240206-1452140740.json
+     * 2024_02_19 - this is the date when the record was created
+     * PAM240206 - this is the order number from Pamyra
+     *
+     * @param array $pamyraOrder
+     * @return string
+     */
+    private function createFileName(array $pamyraOrder): string
+    {
+        if($pamyraOrder['OrderNumber'] === null) {
+            Log::alert('Missing Pamyra order number for order ' . $this->setOrderNumber());
+            return 'Missing Pamyra order number for order ' . $this->setOrderNumber();
+        }
+
+        return Carbon::now()->format('Y_m_d') . '_' .  $pamyraOrder['OrderNumber'] . '.json';
     }
 }

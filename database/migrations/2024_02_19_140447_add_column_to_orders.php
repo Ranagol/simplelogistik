@@ -12,10 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tms_orders', function (Blueprint $table) {
-            if(!Schema::hasColumn('tms_orders', 'billing_address_id')){
-                $table->unsignedBigInteger('billing_address_id')->nullable();
-                $table->foreign('billing_address_id')->references('id')->on('tms_addresses');
-            }
+            $table->string('import_file_name')->nullable()->after('customer_reference');
         });
     }
 
@@ -25,9 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tms_orders', function (Blueprint $table) {
-            if (Schema::hasColumn('tms_orders', 'billing_address_id')) {
-                // $table->dropForeign('tms_orders_billing_address_id_foreign');
-                $table->dropColumn('billing_address_id');
+            if (Schema::hasColumn('tms_orders', 'import_file_name')) {
+                $table->dropColumn('import_file_name');
             }
         });
     }

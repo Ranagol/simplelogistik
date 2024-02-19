@@ -19,6 +19,7 @@ class TmsOrderAddressSeeder extends Seeder
         'labels.address-pickup',
         'labels.address-delivery',
         'labels.address-delivery',
+        'labels.address-billing'
     ];
 
     /**

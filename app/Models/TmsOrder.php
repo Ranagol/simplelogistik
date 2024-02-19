@@ -61,8 +61,6 @@ class TmsOrder extends Model
         4 => 'shipping_calc.'
     ];
 
-    
-
     //*************RELATIONSHIPS*************************************** */    
 
     public function customer(): BelongsTo
@@ -191,8 +189,9 @@ class TmsOrder extends Model
      */
     public function billingAddress(): BelongsTo
     {
-        return $this->belongsTo(TmsAddress::class, 'billing_address_id')
-            ->where('is_billing', true);
+        return $this->belongsTo(TmsOrderAddress::class, 'order_id')
+            ->where('address_type', 2);//2 is the address type for billing address.
+            
     }
 
     public function forwarder(): BelongsTo
