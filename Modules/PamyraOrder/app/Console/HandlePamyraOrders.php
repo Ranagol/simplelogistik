@@ -11,7 +11,7 @@ class HandlePamyraOrders extends Command
 {
     /**
      * The name and signature of the console command.
-     * We trigger this command with: 'sail artisan handle-pamyra-orders'.
+     * We trigger this command with: 'sail artisan handlePamyraOrders'.
      *
      * @var string
      */
