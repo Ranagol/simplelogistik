@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreign('partner_id')->references('id')->on('tms_partners');
 
             $table->string('company_name', 255)->nullable();
-            $table->string('address_type')->comment('Example: headquarter, billing address, pickup address, delivery address,')->nullable();
+            $table->string('address_type')->comment('Example: billing address, pickup address, delivery address,')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('street', 200);
