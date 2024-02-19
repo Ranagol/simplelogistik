@@ -9,9 +9,9 @@ class OrdersHandler
     /**
      * A service that handles the ftp connection, and getting all the files/info from the ftp server.
      *
-     * @var FtpConnector
+     * @var PamyraFtpHandler
      */
-    private FtpConnector $ftpConnector;
+    private pamyraFtpHandler $pamyraFtpHandler;
     
     /**
      * A service that handles the order data. 
@@ -20,10 +20,10 @@ class OrdersHandler
      */
     private OrderHandler $orderHandler;
 
-    public function __construct(FtpConnector $ftpConnector, OrderHandler $orderHandler)
+    public function __construct(PamyraFtpHandler $pamyraFtpHandler, OrderHandler $orderHandler)
     {
         $this->orderHandler = $orderHandler;
-        $this->ftpConnector = $ftpConnector;
+        $this->pamyraFtpHandler = $pamyraFtpHandler;
     }
 
     /**
@@ -34,7 +34,7 @@ class OrdersHandler
     public function handle(): void
     {
         //Gets all the orders from all the PAM json files from the ftp server
-        $orders = $this->ftpConnector->handle();
+        $orders = $this->pamyraFtpHandler->getPamyraOrders();
 
         //We loop through all the orders and write each one to the database
         foreach ($orders as $pamyraOrder) {
@@ -42,6 +42,6 @@ class OrdersHandler
         }
 
         //We archive all the json files in the app from the ftp server
-        $this->ftpConnector->archiveJsonFiles();
+        $this->pamyraFtpHandler->archiveJsonFiles();
     }
 }

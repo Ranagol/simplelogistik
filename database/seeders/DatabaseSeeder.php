@@ -65,6 +65,7 @@ class DatabaseSeeder extends Seeder
             TmsOrderAddressSeeder::class,
             TmsInvoiceHistorySeeder::class,
             TmsEmonsInvoiceSeeder::class,
+            TmsFtpCredentialSeeder::class,
         ]);
     }
 }
