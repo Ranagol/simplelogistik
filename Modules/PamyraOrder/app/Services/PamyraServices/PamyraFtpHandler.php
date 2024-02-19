@@ -2,48 +2,17 @@
 
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
-use Carbon\Carbon;
 use Exception;
+use Carbon\Carbon;
+use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
  * This class connects to an sftp server, and handles files from here.
- * /upload contains the live data.
- * /andor contains pamyra json files that we use for dev and testing
- * /PAM: every pamyra json file's name starts with PAM.
- * 
- * Problem: our ftp server has real, live data in /upload. This can't be used for development.
- * We use /upload/andor for development. 
  */
-class FtpConnector
+class PamyraFtpHandler
 {
-    /**
-     * this is the real path on the ftp server, where we can find Pamyra json files.LIVE DATA! 
-     *
-     * @var string
-     */
-    private string $pathForDeployment = 'upload/PAM';
-
-    /**
-     * this is the development path on the ftp server, where we put our development json files. 
-     * This is for development only!
-     *
-     * @var string
-     */
-    private string $pathForDevelopment = 'upload/andor/PAM';
-
-    /**
-     * Depending if the app is in development or deployment, we must use different paths to get the
-     * Pamyra json files from the ftp server. This property will store the correct path. The correct
-     * path is determined in the constructor.
-     * For development: upload/andor/PAM
-     * For deployment: upload/PAM
-     *
-     * @var string
-     */
-    private string $ftpSourcePath;
-
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
      * Pamyra orders to the database. Later, when this is done, we will need these file names
@@ -55,12 +24,37 @@ class FtpConnector
     private array $filteredFileNames;
 
     /**
-     * If the app is in development mode, we use the development path, otherwise we use the 
-     * deployment path for getting the Pamyra json files from the ftp server.
+     * This is the Pamyra FTP server instance, that we will use to access the orders.
+     *
      */
+    private $pamyraFtpServer;
+
+    private string $connectionName;
+
     public function __construct()
     {
-        $this->ftpSourcePath = env('APP_ENV') === 'local' ? $this->pathForDevelopment : $this->pathForDeployment;
+        //Set whether the connection is live or test, based on the environment
+        if(env('APP_ENV') === 'local') {
+            $this->connectionName = 'PamyraOrdersTest';
+        } else {
+            $this->connectionName = 'PamyraOrdersLive';
+        }
+
+        //Get the ftp credentials from the database
+        $ftpCredential = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();
+
+        //Create a new pamyraFtpServer instance, with pamyra ftp credentials, for accessing orders.
+        $this->pamyraFtpServer = Storage::build(
+            [
+                'driver' => 'sftp',
+                'host' => $ftpCredential->host,
+                'username' => $ftpCredential->username,
+                'password' => $ftpCredential->password,
+                'port' => intval($ftpCredential->port),
+                'root' => $ftpCredential->path,
+                'throw' => true
+            ]
+        );
     }
 
     /**
@@ -68,15 +62,15 @@ class FtpConnector
      *
      * @return array
      */
-    public function handle(): array
+    public function getPamyraOrders(): array
     {
         //Get all file list from ftp
-        $allFileNames = $this->getFileList();
+        $allFilesInFtpServer = $this->getFileList();
 
-        //Filter out only those files that are Pamyra orders, ignore all the other files
-        $pamyraFileNames = $this->filterFileNames($allFileNames);
+        //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
+        $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
 
-        //If there are any pamyra files at all
+        //If there are no pamyra files, we can stop the process here
         $this->checkPamyraFiles($pamyraFileNames);
 
         //Will collect all pamyra orders from all pamyra json files from the ftp server into an array
@@ -86,7 +80,9 @@ class FtpConnector
     }
 
     /**
-     * This is the first step here. Get the list of all files in the ftp server.
+     * This is the first step here. Get the list of all files in the ftp server. This might include
+     * jpg files, txt files. Because of this, we will want to filter out only the json files, that 
+     * contain the pamyra orders - in one of the steps after this.
      *
      * @return array    An array with all file names on the ftp server.
      */
@@ -94,7 +90,7 @@ class FtpConnector
     {
         //Get the list of all files in the ftp server
         try {
-            $allFileNames = Storage::disk('sftp')->allFiles();
+            $allFileNames = $this->pamyraFtpServer->allFiles();
             return $allFileNames;
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
@@ -106,17 +102,15 @@ class FtpConnector
      * When we get a list of filenames currently on the ftp server, we want only the pamyra json files,
      * that contain the orders. These have 2 distinct characteristics:
      * 1. They are json files
-     * 2. They all have the string 'upload/PAM' in their name
-     * 
      * So, we want to get these specific files, and ignore all the rest.
      *
      * @param array $allFileNames
      * @return array
      */
-    private function filterFileNames(array $allFileNames): array
+    private function filterJsonFiles(array $allFileNames): array
     {
         $filteredFileNames = array_filter($allFileNames, function ($fileName) {
-            return strpos($fileName, '.json') !== false && strpos($fileName, $this->ftpSourcePath) !== false;
+            return strpos($fileName, '.json') !== false;
         });
 
         $this->filteredFileNames = $filteredFileNames;
@@ -153,7 +147,8 @@ class FtpConnector
         $pamyraOrders = [];
 
         foreach ($pamyraFileNames as $pamyraJsonFile) {
-            $pamyraOrders[] = Storage::disk('sftp')->json($pamyraJsonFile);
+            $pamyraOrders[] = $this->pamyraFtpServer->json($pamyraJsonFile);
+
         }
 
         return $pamyraOrders;
@@ -174,38 +169,42 @@ class FtpConnector
         foreach ($this->filteredFileNames as $fileName) {
 
             //Check if file exists on ftp server
-            if(Storage::disk('sftp')->exists($fileName)) {
+            if($this->pamyraFtpServer->exists($fileName)) {
                 echo $fileName . ' exists on FTP server!' . PHP_EOL;
+                Log::info($fileName . ' exists on FTP server!');
             }
 
             try {
 
-                // Read the file content from the sftp disk
-                $fileContent = Storage::disk('sftp')->get($fileName);
+                // Read the file content from the sftp pamyraFtpServer
+                $fileContent = $this->pamyraFtpServer->get($fileName);
 
-                //Write the file to the local disk, with renaming.
-                $isWritten = Storage::disk('local')->put(
+                //Write the file to ./documents/... dir.
+                $isWritten = Storage::disk('documents')->put(
                     $this->createNewFileName($fileName),
                     $fileContent
                 );
 
                 if($isWritten) {
                     echo $fileName . ' was written to the local disk.' . PHP_EOL;
+                    Log::info($fileName . ' was written to the local disk.');
                 }
 
             } catch (\Throwable $th) {
 
+                Log::error('Error: ' . $th->getMessage());
                 echo 'Error: ' . $th->getMessage() . PHP_EOL;
 
             } finally {
                 
                 //Delete the original json file from the ftp server
-                $isDeleted = Storage::disk('sftp')->delete($fileName);
+                $isDeleted = $this->pamyraFtpServer->delete($fileName);
                 if($isDeleted) {
                     echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
                     echo PHP_EOL;
                 } else {
-                    throw new Exception($fileName . ' can not be deleted from FTP server');
+                    Log::error($fileName . ' can not be deleted from FTP server');
+                    echo $fileName . ' can not be deleted from FTP server' . PHP_EOL;
                 }
             }
         }
@@ -216,13 +215,13 @@ class FtpConnector
      * name.
      * Old source name example: upload/PAM240206-1452140740.json
      * New target name example: 
-     * storage/app/PamyraOrders/Archived/2024_02_07_PAM240206-1452140740.json
+     * ./documents/PamyraOrdersArchived/2024_02_07_PAM240206-1452140740.json
      *
      * @param string $fileName
      * @return string
      */
     private function createNewFileName(string $fileName): string
     {
-        return 'PamyraOrders/Archived/' . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
+        return 'PamyraOrdersArchived/' . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
     }
 }
