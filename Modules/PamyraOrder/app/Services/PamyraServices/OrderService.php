@@ -40,14 +40,12 @@ class OrderService {
      *
      * @param array $pamyraOrder
      * @param integer $customerId
-     * @param integer $billingAddressId
      * @param integer $partnerId
      * @return TmsOrder
      */
     public function handle(
         array $pamyraOrder, 
         int $customerId, 
-        int $billingAddressId,
         int $partnerId
     ): TmsOrder
     {
@@ -55,7 +53,6 @@ class OrderService {
         $order = $this->createOrder(
             $pamyraOrder, 
             $customerId, 
-            $billingAddressId,
             $partnerId
         );
 
@@ -67,14 +64,12 @@ class OrderService {
      *
      * @param array $pamyraOrder
      * @param integer $customerId
-     * @param integer $billingAddressId
      * @param integer $partnerId
      * @return TmsOrder
      */
     private function createOrder(
         array $pamyraOrder,
         int $customerId,
-        int $billingAddressId,
         int $partnerId
     ): TmsOrder
     {
@@ -90,7 +85,6 @@ class OrderService {
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
             'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
             'payment_method' => 5, //this is invoice payment method
-            'billing_address_id' => $billingAddressId,
             'order_number' => $this->setOrderNumber(),
         ];
 
