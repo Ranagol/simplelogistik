@@ -3,6 +3,10 @@
         :title="$t('labels.orders')"
     />
     <OrderTableWithContent 
+        :search="search"
+        :search_in="search_in"
+        :sort_column="order_by"
+        :sort_order="order"
         :actions="['edit', 'show']" 
         :title="$t('labels.orders')" 
         :data="fe_data.orders" 

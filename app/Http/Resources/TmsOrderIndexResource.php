@@ -29,6 +29,7 @@ class TmsOrderIndexResource extends JsonResource
             'provision' => $this->provision,
             'order_edited_events' => $this->order_edited_events,
             'currency' => $this->currency,
+            'order_number' => $this->order_number,
             'order_date' => $this->order_date,
             'purchase_price' => $this->purchase_price,
             'month_and_year' => $this->month_and_year,

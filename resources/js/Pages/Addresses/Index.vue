@@ -1,9 +1,7 @@
 <template>
     <Head title="Address" />
     <AddressesTable 
-        :actions="['edit', 'show']" 
-        :getData="() => {}"
-        :title="$t('labels.orders')" 
+        :actions="['edit', 'show']"  
         :data="fe_data.addresses.data" 
         :headers="defaultHeaders"
     />
