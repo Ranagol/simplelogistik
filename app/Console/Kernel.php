@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('pamyraorders')->everyMinute();
 
         // Handle Pamyra orders
-//        $schedule->command('handlePamyraOrders')->everyFifteenMinutes();
+        $schedule->command('handlePamyraOrders')->everyFifteenMinutes();
     }
 
     /**
