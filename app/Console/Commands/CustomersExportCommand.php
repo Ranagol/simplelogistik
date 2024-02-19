@@ -39,6 +39,8 @@ class CustomersExportCommand extends Command
         $info = $customerExportService->exportCustomers();
         $this->exportedIds = $info['exportedIds'];
 
+        $customerExportService->makeDirectory();
+
         if (count($this->exportedIds) > 0) {
             $customerExportService->saveCsv();
             $this->info('Exported IDs: ' . json_encode($this->exportedIds));
@@ -46,7 +48,5 @@ class CustomersExportCommand extends Command
             $this->info('No new or changed customers found.');
         }        
         $this->info('Done!');
-    }
-
-    
+    }    
 }
