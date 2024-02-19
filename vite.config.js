@@ -43,6 +43,7 @@ export default defineConfig({
             '@Components': fileURLToPath(new URL('resources/js/Components', import.meta.url)),
             '@Contents': fileURLToPath(new URL('resources/js/Contents', import.meta.url)),
             '@Config': fileURLToPath(new URL('resources/js/config', import.meta.url)),
+            '@Libs': fileURLToPath(new URL('resources/js/lib', import.meta.url)),
         },
     },
 });

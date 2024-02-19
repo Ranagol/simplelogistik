@@ -46,12 +46,12 @@
                     </div>
                     <div class="grid grid-flow-col gap-4">
                         <!-- CREATE ORDER BUTTON -->
-                        <button type="button"
+                        <button @click="router.visit(route('languages.create'))" type="button"
                             class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-white rounded-lg md:w-auto bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                             <el-icon class="me-2">
                                 <Plus />
                             </el-icon>
-                            {{ $t('labels.create-customer') }}
+                            {{ $t('page-actions.language-create') }}
                         </button>
                         <!-- SELECT Visible Table Columns -->
                         <button id="showTableColumnsButton" data-dropdown-toggle="showTableColumns"

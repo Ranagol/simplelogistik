@@ -46,10 +46,10 @@ class TmsAddressController extends Controller
         //Temporary hardcoded stuff for development
         // $searchTerm = 'daniel';
         // $searchColumns = [
-        //     'first_name',
-        //     'last_name',
-        //     'customer__first_name',
-        //     'forwarder__company_name',
+        //     'first_name',//simple search in the main model
+        //     'last_name',//simple search in the main model
+        //     'customer__first_name',//relationship search in the related model
+        //     'forwarder__company_name',//relationship search in the related model
         // ];
         
         $records = $this->getRecords(
