@@ -1,6 +1,7 @@
 import 'flowbite';
 import '../css/app.css';
 import './bootstrap';
+// import "./config/resetStorage";
 
 import { Head, Link, createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -15,7 +16,7 @@ import Layout from './Shared/Layout.vue';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'TMS';
 
 // Language Setup
 import { createI18n, useI18n } from 'vue-i18n';
@@ -104,6 +105,20 @@ createInertiaApp({
                 methods: { 
                     moment: moment,
                     getLanguages: getLanguages, 
+                    buildPaginationData: (records) => {
+                        return {
+                            current_page: records?.meta.current_page,
+                            last_page: records?.meta.last_page,
+                            from: records?.meta.from,
+                            to: records?.meta.to,
+                            links: records?.meta.links,
+                            total: records?.meta.total,
+                            per_page: records?.meta.per_page,
+                            path: records?.meta.path,
+                            first_page_url: records?.meta.first_page_url,
+                            last_page_url: records?.meta.last_page_url,
+                        }
+                    }
                 },
             })
             .mount(el);

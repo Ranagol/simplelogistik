@@ -6,7 +6,7 @@
         <div v-else>
             <img v-if="cellData.type === 'image'" :src="cellData.data" alt="image" class="object-contain object-center w-16 h-8">
             <span class="text-corporate-500 hover:underline" v-else-if="cellData.type === 'link'" @click="router.visit(route(cellData.target, cellData.targetID))">{{ cellData.data }}</span>
-            <span v-else>{{ cellData.data }}</span>
+            <span v-else>{{ cellData.data ?? '-' }}</span>
         </div>
     </td>
 </template>
@@ -24,16 +24,5 @@ const props = defineProps({
     }
 })
 
-const handleDragStart = (item) => {
-    props.handleDragStart(item)
-}
-
-const handleDrop = (item) => {
-    props.handleDrop(item)
-}
-
-const handleDragEnter = (item) => {
-    props.handleDragEnter(item)
-}
 
 </script>

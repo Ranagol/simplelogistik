@@ -1,177 +1,50 @@
 <template>
-    <TableWithContent 
+    <Head
+        :title="$t('labels.orders')"
+    />
+    <OrderTableWithContent 
+        :search="search"
+        :search_in="search_in"
+        :sort_column="order_by"
+        :sort_order="order"
         :actions="['edit', 'show']" 
-        @getData="getData" 
         :title="$t('labels.orders')" 
-        :data="props.dataFromController.data" 
+        :data="fe_data.orders" 
         :headers="defaultHeaders"
-        @changeTableLayout="changeTableLayout"
-    ></TableWithContent>
-    <Pagination :links="props.dataFromController.meta" />
+    ></OrderTableWithContent>
+    <Pagination :links="buildPaginationData(fe_data.orders)" />
 </template>
 <script setup>
-    import Pagination from '@/Components/Pagination/Pagination.vue';
-import TableWithContent from '@/Components/Tables/OrderTableWithContent.vue';
+import Pagination 
+    from '@/Components/Pagination/Pagination.vue';
 
-    let props = defineProps({
-        dataFromController: Object,
-    })
+import OrderTableWithContent 
+    from '@/Components/Tables/OrderTableWithContent.vue';
 
-    const changeTableLayout = (entries) => {
-        
+import { reactive } 
+    from 'vue';
+
+
+import headers 
+    from "@/config/Tables/orderHeaders";
+
+const defaultHeaders = headers;
+
+let props = defineProps( 
+    {
+        records: Object,
+        search: String,
+        search_in: Array,
+        order_by: String,
+        order: String,
     }
+);
 
-    const getData = () => {}
 
-
-    const defaultHeaders = [
-        {
-            show: true, 
-            key: "id", 
-            title: "labels.id", 
-            sortable: true, 
-            filterable: true,
-            searchable: true,
-            display_order: 1
-        },{
-            show: true, 
-            key: "forwarder", 
-            title: "labels.forwarder", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 1
-        },{
-            show: true, 
-            key: "type_of_transport", 
-            title: "labels.type_of_transport", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 2
-        },{
-            show: true, 
-            key: "origin", 
-            title: "labels.origin", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 3
-        },{
-            show: true, 
-            key: "status", 
-            title: "labels.status", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 4
-        },{
-            show: true, 
-            key: "customer_reference", 
-            title: "labels.customer_reference", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 5
-        },{
-            show: true, 
-            key: "provision", 
-            title: "labels.provision", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 6
-        },
-        // {
-        //     show: true, 
-        //     key: "order_edited_events", 
-        //     title: "labels.order_edited_events", 
-        //     sortable: true, 
-        //     filterable: true, 
-        //     searchable: true,
-        //     display_order: 7
-        // },
-        {
-            show: false, 
-            key: "currency", 
-            title: "labels.currency", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "order_date", 
-            title: "labels.order_date", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "purchase_price", 
-            title: "labels.purchase_price", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "month_and_year", 
-            title: "labels.month_and_year", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "created_at", 
-            title: "labels.created_at", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "updated_at", 
-            title: "labels.updated_at", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "payment_method", 
-            title: "labels.payment_method", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "easy_bill_customer_id", 
-            title: "labels.easy_bill_customer_id", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "last_update", 
-            title: "labels.last_update", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        },{
-            show: false, 
-            key: "last_editor", 
-            title: "labels.last_editor", 
-            sortable: true, 
-            filterable: true, 
-            searchable: true,
-            display_order: 7
-        }]
+// Setting Frontend Data
+const fe_data = reactive({
+    orders: props.records,
+});
 
 
 </script>

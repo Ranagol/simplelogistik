@@ -20,11 +20,14 @@ use App\Http\Resources\TmsOrderCollection;
 use App\Http\Resources\TmsOrderEditResource;
 use App\Http\Resources\TmsOrderIndexResource;
 use App\Http\Resources\TmsOrderIndexCollection;
+use App\Traits\DataBaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TmsOrderController extends Controller
 {
+    use DataBaseFilter;
+
     private $orderService;
 
     private string $index = 'Orders/Index';
@@ -45,22 +48,56 @@ class TmsOrderController extends Controller
      */
     public function index(Request $request): Response
     {
-        $searchTerm = $request->searchTerm;
-        $sortColumn = $request->sortColumn;
-        $sortOrder = $request->sortOrder;
+        $searchTerm = $request->searchTerm ?? null;
+        $sortColumn = $request->sortColumn ?? "id";
+        $sortOrder = $request->sortOrder ?? "ASC";
+        $searchColumns = $request->searchIn;
         //pagination stuff sent from front-end
         $page = $request->page;
-        $newItemsPerPage = (int)$request->newItemsPerPage;
-        
-        $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+        $newItemsPerPage = $request->per_page ?? 10;
+
+        // This below is for testing purposes. It is used to test the search functionality.
+        // $searchTerm = 'Andor';//1 case
+        // $searchColumns = [
+        //     'order_number',//simple search, 2 case, column from orders table
+        //     'pickupAddresses__company_name',//relationship search, 3 case
+        //     'deliveryAddresses__company_name',//relationship search, 3 case
+        // ];
+
+        $records = $this->getRecords(
+            new TmsOrder(),
+            $searchTerm, 
+            $sortColumn, 
+            $sortOrder, 
+            $newItemsPerPage,
+            $searchColumns,
+            [//these are the relations that we want to load with the records. Loading happens in the getRecords() function.
+                'parcels',
+                'orderAddresses',
+                'pickupAddresses',
+                'deliveryAddresses',
+                'forwarder',
+                'orderHistories.user.roles:id,name',
+                'partner',
+                'contact',
+                'customer.headquarter',
+                'nativeOrder',
+                'pamyraOrder',
+            ]
+        );
+
+        $records = new TmsOrderIndexCollection($records);
+
 
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'records' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'per_page' => $newItemsPerPage,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }
@@ -243,78 +280,16 @@ class TmsOrderController extends Controller
     }
 
     /**
-     * Returns records for records list (Index.vue component). The only reason why we use this
-     * function here and not the one inherited from the parent is the 
-     * ->with('contactAddresses')
-     * line. We must return customers with contact addresses.
-     *
-     * @param string|null $searchTerm
-     * @param string|null $sortColumn
-     * @param string|null $sortOrder
-     * @param integer|null $newItemsPerPage
+     * Deletes records.
+     * 
+     * @param [type] $id
+     * @return void
      */
-    //@return AnonymousResourceCollection
-    private function getRecords(
-        string $searchTerm = null, 
-        string $sortColumn = null, 
-        string $sortOrder = null, 
-        int $newItemsPerPage = null,
-    )/*: AnonymousResourceCollection*/
+    public function destroy(string $id): void
     {
-        $records = TmsOrder::query()
-
-            // If there is a search term defined...
-            ->when($searchTerm, function($query, $searchTerm) {
-
-                /**
-                 * This is a bit tricky.
-                 * Here we use a model scope. The model scope code is defined in the relevant model.
-                 * https://laravel.com/docs/10.x/eloquent#local-scopes
-                 */
-                $query->searchBySearchTerm($searchTerm);
-            })
-            
-            /**
-             * SORTING
-             * When there is $sortColumn and $sortOrder defined
-             */
-            ->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
-                $query->orderBy($sortColumn, $sortOrder);
-            }, function ($query) {
-
-                //... but if sort is not specified, please return sort by id and descending.
-                return $query->orderBy('id', 'desc');
-            })
-
-            //we need these relationships. Not all columns, only the selected ones.
-            ->with(
-                [
-                    'parcels',
-                    'orderAddresses',
-                    'forwarder',
-                    'customer',
-                    'pamyraOrder',
-                    'nativeOrder',
-                    'orderHistoryLatest',
-                ]
-            )
-            
-            /**
-             * PAGINATION
-             * If it is not otherwise specified, paginate by 10 items per page.
-             */
-            ->paginate($newItemsPerPage ? $newItemsPerPage : 10)
-
-            /**
-             * Include the query string too into pagination data links for page 1,2,3,4... 
-             * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
-             */
-            ->withQueryString();
-
-        $records = new TmsOrderIndexCollection($records);
-        
-        return $records;
+        TmsOrder::destroy($id);
     }
+
 
     public static function execute($cmd): string
     {

@@ -1,5 +1,5 @@
 import { Histogram, Folder, Avatar, TakeawayBox, More, ArrowDown, Location, Van} from "@element-plus/icons-vue"
-
+import Forwarder from "@/Components/Icons/Forwarder.vue"
 const items =  [
     {
         "title": "menu.dashboard",
@@ -24,7 +24,8 @@ const items =  [
     {
         "title": "menu.forwarders",
         "route": 'forwarders.index',
-        "icon": Van,
+        "customIcon": true,
+        "icon": Forwarder,
     },
     {
         "title": "menu.vehicles",

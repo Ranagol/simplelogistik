@@ -13,12 +13,10 @@
                 </div>
             </div>
             <div class="relative p-4 pt-8 rounded bg-gray-50" v-for="address in tabData?.addresses">
-                <span v-if="address.address_type === 'labels.address-delivery'" class="absolute block px-2 text-[12px] text-white rounded-sm top-2 right-2 bg-primary-600">
-                    {{ $t(address.address_type) }}
-                </span>
-                <span v-else="address.address_type === 'labels.address-delivery'" class="absolute block px-2 text-[12px] text-orange-900 bg-orange-300 rounded-sm top-2 right-2">
-                    {{ $t(address.address_type) }}
-                </span>
+                <AddressBadge v-if="address.address_type === 'labels.address-delivery'" variant="delivery" :label="address.address_type" />
+                <AddressBadge v-else-if="address.address_type === 'labels.address-pickup'" variant="pickup" :label="address.address_type" />
+                <AddressBadge v-else-if="address.address_type === 'labels.address-billing'" variant="billing" :label="address.address_type" />
+                <AddressBadge v-else-if="address.address_type === 'labels.address-headquarter'" variant="headquarter" :label="address.address_type" />
                 <div class="text-1">
                     <p v-if="address.company_name"><span :class="{'font-bold': address.company_name}">{{ address.company_name }}</span></p>
                     <p><span>{{ address.first_name }} {{ address.last_name }}</span></p>
@@ -45,6 +43,7 @@
 </template>
 
 <script setup>
+import AddressBadge from '@/Components/Badge/AddressBadge.vue';
 import { ArrowDown } from '@element-plus/icons-vue';
 import { initFlowbite } from 'flowbite';
 import { onMounted } from 'vue';

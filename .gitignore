@@ -4,6 +4,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/documents
 /vendor
 !/vendor/bin/**/*
 !/vendor/laravel/sail/**/*

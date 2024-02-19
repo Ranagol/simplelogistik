@@ -1,0 +1,11 @@
+{
+    "name": "PamyraOrder",
+    "alias": "pamyraorder",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PamyraOrder\\app\\Providers\\PamyraOrderServiceProvider"
+    ],
+    "files": []
+}

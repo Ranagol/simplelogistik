@@ -40,7 +40,7 @@ class TmsForwarderFactory extends Factory
     }
 
     private function getRandomLogo(){
-        return \Arr::random($this->LOGOS);
+        return Arr::random($this->LOGOS);
     }
 
     private $LOGOS = [

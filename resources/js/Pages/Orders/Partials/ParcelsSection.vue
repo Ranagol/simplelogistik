@@ -9,14 +9,14 @@
                         <CustomDropdown 
                             :options="getPackageTypes()"
                             :floating="true"
-                            labelText="Packmittel"
+                            labelText="labels.packing_type"
                             :updateValue="(value) => {parcels[index].type = value}"
                             :value="parcel?.type ?? 3"
                         /></div>
-                    <div class=""><IconTooltipInput :keyup="e => {parcels[index].weight = e.target.value; recalc() }" :value="parcel.weight" placeholder="labels.weight"/></div>
                     <div class=""><IconTooltipInput :keyup="e => {parcels[index].length = e.target.value; recalc() }" :value="parcel.length" placeholder="labels.length"/></div>
                     <div class=""><IconTooltipInput :keyup="e => {parcels[index].width = e.target.value; recalc() }" :value="parcel.width" placeholder="labels.width"/></div>
                     <div class=""><IconTooltipInput :keyup="e => {parcels[index].height = e.target.value; recalc() }" :value="parcel.height" placeholder="labels.height"/></div>
+                    <div class=""><IconTooltipInput :keyup="e => {parcels[index].weight = e.target.value; recalc() }" :value="parcel.weight" placeholder="labels.weight"/></div>
                     <div class="grid place-items-center"><button @click.prevent="duplicatePackage(parcel)" class="grid p-2 text-white rounded-md bg-primary-700 place-items-center"><el-icon color="white" size="18"><CopyDocument /></el-icon></button></div>
                     <div class="grid place-items-center"><button @click.prevent="removePackage(index)" class="grid p-2 text-white bg-red-700 rounded-md place-items-center"><el-icon color="white" size="18"><Minus /></el-icon></button></div>
                 </div>
@@ -142,7 +142,7 @@ const getPackageTypes = () => {
     return [
         {key: 1, name: 'Paket'},
         {key: 2, name: 'Sperrgut'},
-        {key: 3, name: 'Palette'},
+        {key: 3, name: 'Europalette'},
         {key: 4, name: 'Einwegpalette'},
         {key: 5, name: 'Gitterbox'},
         {key: 6, name: 'Kiste'},
@@ -176,7 +176,13 @@ const calculateVolume = () => {
     }).reduce((a, b) => a + b, 0)).toFixed(2);
 }
 
-const calculateWeight = () => {
+const calculateArea = () => {
+    calculated.area = (parcels.map(parcel => {
+        return parcel.length * parcel.width;
+    }).reduce((a, b) => a + b, 0)).toFixed(2);
+}
+
+const sumUpWeights = () => {
     var weight = 0;
     parcels.map(parcel => {
         weight += parseFloat(parcel.weight);
@@ -184,17 +190,11 @@ const calculateWeight = () => {
     calculated.weight = weight.toFixed(2);
 }
 
-const calculateArea = () => {
-    calculated.area = (parcels.map(parcel => {
-        return parcel.length * parcel.width;
-    }).reduce((a, b) => a + b, 0)).toFixed(2);
-}
-
 const recalc = () => {
     calculatePackages()
     calculateVolume()
-    calculateWeight()
     calculateArea()
+    sumUpWeights()
 }
 
 const onToggleSection = (section) => {

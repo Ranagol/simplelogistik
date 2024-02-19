@@ -42,9 +42,9 @@ class GetEmonsInvoices extends Command
      */
     public function handle()
     {
-        // $this->info('Getting Emons Invoices...');
+        $this->info('Getting Emons Invoices...');
         $this->emonsInvoiceService->handle();
-        // $this->info('Emons Invoices retrieved.');
+        $this->info('Emons Invoices written into db.');
     }
 
 }

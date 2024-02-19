@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\TmsFtpCredential;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
             \Modules\Easybill\app\Console\InvoicesCommand::class,
             \Modules\Easybill\app\Console\CustomersCommand::class,
             \Modules\EmonsInvoice\app\Console\GetEmonsInvoices::class,
+            \Modules\PamyraOrder\app\Console\HandlePamyraOrders::class,
         ]);
     }
 
@@ -25,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        JsonResource::withoutWrapping();
+        
     }
 }

@@ -146,7 +146,7 @@
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.order_number')}}</h6>
                     <div class="flex items-center text-gray-500 dark:text-gray-400">
-                        {{ data.id}}
+                        {{ data.order_number }}
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -154,7 +154,7 @@
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.payment_method')}}</h6>
                     <div class="flex items-center space-x-2">
-                        {{ data.payment_method }}
+                        {{ data?.payment_method ?? $t('messages.no-payment-method') }}
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -173,20 +173,20 @@
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance_duration')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.duration_minutes ?? '' }} min</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data?.details?.duration_minutes ?? '' }} min</div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.distance')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.distance_km ?? '' }} km
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data?.details?.distance_km ?? '' }} km
                     </div>
                 </div>
                 <div class="relative p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
                     <h6
                         class="mb-2 text-base font-medium leading-none text-gray-900 dark:text-white">
                         {{ $t('labels.selling_price')}}</h6>
-                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data.details?.price_gross ?? '' }} {{ data.currency }}</div>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400">{{ data?.details?.price_gross ?? '' }} {{ data.currency }}</div>
                 </div>
             </div>
             <div class="flex items-center justify-between mt-4 space-x-3">
@@ -219,7 +219,7 @@
                     </button>
                     <button type="button" :id="'multilingualDownloadDropdownButton-' + data.id" :data-dropdown-toggle="'multilingualDownloadDropdown-' + data.id" 
                     class="flex items-center px-3 py-2 text-sm font-medium text-center text-gray-800 rounded-lg hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900">
-                        <el-icon size="18" v-if="data.details?.order_pdf ?? '' ">
+                        <el-icon size="18" v-if="details?.order_pdf ?? '' ">
                             <Message />
                         </el-icon>
                         <el-icon size="18" v-else>
@@ -257,28 +257,18 @@
 </template>
 
 <script setup>
-import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Message } from '@element-plus/icons-vue';
-import MultilingualDownloadModal from '@Components/Modal/MultilingualDownloadModal.vue';
-import { onMounted, h } from 'vue';
-import { initFlowbite } from 'flowbite';
-import ConditionalBodyColumn from './ConditionalBodyColumn.vue';
-
-onMounted(()=> {
-    initFlowbite()
-})
-
-// Manipulatees the data to be displayed in the table
-const renderCellData = (header, data) => {
-
-    switch (header.key) {
-        case "forwarder":
-            return {'type': 'image', 'data': data.forwarder.url_logo}
-        case "id":
-            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.details.order_number}
-        default:
-            return {'type': 'text', 'data': data[header.key] };
-    }
-}
+import { ArrowDown, Close, DocumentRemove, Download, View, Edit, Van, Message } 
+    from '@element-plus/icons-vue';
+    
+import { onMounted, h } 
+    from 'vue';
+    
+import { initFlowbite } 
+    from 'flowbite';
+    
+import ConditionalBodyColumn 
+    from './ConditionalBodyColumn.vue';
+    
 
 const props = defineProps({
     dataIndex: {
@@ -296,20 +286,28 @@ const props = defineProps({
     headers: {
         type: Array,
         required: true
-    },
-    handleShow: {
-        type: Function
-    },
-    handleEdit: {
-        type: Function
-    },
-    handleDelete: {
-        type: Function
-    },
+    }
 })
 
-</script>
 
+onMounted(()=> {
+    initFlowbite()
+})
+
+// Manipulatees the data to be displayed in the table
+const renderCellData = (header, data) => {
+    switch (header.key) {
+        case "forwarder":
+            return {'type': 'image', 'data': data.forwarder?.url_logo ?? 'https://via.placeholder.com/150'}
+        case "id":
+            return {'type': 'link', 'target': 'orders.edit', 'targetID': data.id, 'data': data.order_number ?? data.details.order_number}
+        default:
+            return {'type': 'text', 'data': data[header.key] };
+    }
+}
+
+
+</script>
 
 <style scoped>
     i.el-icon[aria-expanded=true]{

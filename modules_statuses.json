@@ -2,5 +2,6 @@
     "CalcMatrix": true,
     "CalcDefault": true,
     "Easybill": true,
-    "EmonsInvoice": true
+    "EmonsInvoice": true,
+    "PamyraOrder": true
 }

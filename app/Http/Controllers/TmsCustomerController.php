@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GeneralResource;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -9,10 +10,13 @@ use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
 use App\Http\Requests\TmsCustomerRequest;
+use App\Traits\DataBaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsCustomerController extends Controller
 {
+    use DataBaseFilter;
+
     private string $index = 'Customers/Index';
     private string $show = 'Customers/Show';
     private string $create = 'Customers/Create';
@@ -26,22 +30,34 @@ class TmsCustomerController extends Controller
      */
     public function index(Request $request): Response
     {
-        $searchTerm = $request->searchTerm;
-        $sortColumn = $request->sortColumn;
-        $sortOrder = $request->sortOrder;
+        $searchTerm = $request->searchTerm ?? "";
+        $sortColumn = $request->sortColumn ?? "id";
+        $sortOrder = $request->sortOrder ?? "ASC";
+        $searchColumns = $request->searchColumns ?? ["company"];
         //pagination stuff sent from front-end
         $page = $request->page;
-        $newItemsPerPage = (int)$request->newItemsPerPage;
+        $newItemsPerPage = $request->per_page ?? 10;
         
-        $records = $this->getRecords($searchTerm, $sortColumn, $sortOrder, $newItemsPerPage);
+        $records = $this->getRecords(
+            new TmsCustomer(),
+            $searchTerm, 
+            $sortColumn, 
+            $sortOrder, 
+            $newItemsPerPage,
+            $searchColumns
+        );
+
+        $records = GeneralResource::collection($records);
 
         return Inertia::render(
             $this->index, 
             [
-                'dataFromController' => $records,
-                'searchTermProp' => $searchTerm,
-                'sortColumnProp' => $sortColumn,
-                'sortOrderProp' => $sortOrder,
+                'records' => $records,
+                'search' => $searchTerm,
+                'search_in' => $searchColumns,
+                'per_page' => $newItemsPerPage,
+                'order_by' => $sortColumn, // table column to order by (id, name, date, etc...)
+                'order' => $sortOrder // Ascending - Descending
             ]
         );
     }
@@ -280,68 +296,5 @@ class TmsCustomerController extends Controller
         // return redirect()->route('customers.edit', ['customer' => $customer->id]);
         //redirecting the user to the edit page, where he can see the newly added comment
         // return Inertia::location("http://localhost/customers/{$customer->id}/edit");//how to simply refresh the page instead of redirecting?
-    }
-
-    
-
-    /**
-     * Returns records for records list (Index.vue component). The only reason why we use this
-     * function here and not the one inherited from the parent is the 
-     * ->with('contactAddresses')
-     * line. We must return customers with contact addresses.
-     *
-     * @param string|null $searchTerm
-     * @param string|null $sortColumn
-     * @param string|null $sortOrder
-     * @param integer|null $newItemsPerPage
-     * @return LengthAwarePaginator
-     */
-    private function getRecords(
-        string $searchTerm = null, 
-        string $sortColumn = null, 
-        string $sortOrder = null, 
-        int $newItemsPerPage = null,
-    ): LengthAwarePaginator
-    {
-        $records = TmsCustomer::query()
-
-            // If there is a search term defined...
-            ->when($searchTerm, function($query, $searchTerm) {
-
-                /**
-                 * This is a bit tricky.
-                 * Here we use a model scope. The model scope code is defined in the relevant model.
-                 * https://laravel.com/docs/10.x/eloquent#local-scopes
-                 */
-                $query->searchBySearchTerm($searchTerm);
-            })
-            
-            /**
-             * SORTING
-             * When there is $sortColumn and $sortOrder defined
-             */
-            ->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
-                $query->orderBy($sortColumn, $sortOrder);
-            }, function ($query) {
-
-                //... but if sort is not specified, please return sort by id and ascending.
-                return $query->orderBy('id', 'desc');
-            })
-
-            ->with('headquarter')
-            
-            /**
-             * PAGINATION
-             * If it is not otherwise specified, paginate by 10 items per page.
-             */
-            ->paginate($newItemsPerPage ? $newItemsPerPage : 10)
-
-            /**
-             * Include the query string too into pagination data links for page 1,2,3,4... 
-             * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
-             */
-            ->withQueryString();
-
-        return $records;
     }
 }

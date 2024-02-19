@@ -1,5 +1,5 @@
 <template>
-    <button type="button" data-dropdown-toggle="language-dropdown"
+    <button id="language-dropdown-trigger" type="button" data-dropdown-toggle="language-dropdown"
         class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:hover:text-white dark:text-gray-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-600">
         <img :src="`/images/flags/${rct.locale ?? 'de'}.svg`" class="object-cover w-6 h-6 rounded-full">
     </button>
@@ -22,11 +22,22 @@
 </template>
 <script setup>
 
+import { Dropdown, initDropdowns, initFlowbite } from "flowbite";
+import { onMounted } from "vue";
 import {reactive} from "vue"
+
+
+onMounted(() => {
+    initFlowbite()
+})
 
 const rct = reactive({locale: sessionStorage.getItem('locale')})
 const changeLanguage = (store, locale) => {
     store.locale = locale
+    rct.locale = locale
     sessionStorage.setItem("locale", locale)
+    
+    var langDDTrigger = document.getElementById('language-dropdown-trigger')
+    langDDTrigger.dispatchEvent(new Event('click'))
 }
 </script>
