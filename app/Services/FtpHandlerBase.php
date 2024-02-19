@@ -1,32 +1,41 @@
 <?php
 
-namespace App\Traits;
+namespace App\Services;
 
 use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-trait FtpConnectorTrait
+class FtpHandlerBase
 {
     /**
-     * 
      * @var string
      */
-    private string $connectionName;
+    protected string $connectionName;
 
-    private string $connectionMode;
+    protected string $connectionMode;
 
     /**
      * Stores the ftp credentials for the connection.
      *
      * @var TmsFtpCredential
      */
-    private TmsFtpCredential $tmsFtpCredential;
+    protected TmsFtpCredential $tmsFtpCredential;
 
     /**
      * This is the Pamyra FTP server instance/storage, that we will use to access the orders.
      */
-    private $ftpServerStorage;
+    protected $ftpServerStorage;
+
+    /**
+     * Stores all relevant json file name from the ftp server, from where we will write
+     * Pamyra orders to the database. Later, when this is done, we will need these file names
+     * again, because we have to copy these files from the ftp server into our app, and then we have
+     * to delete these files from the ftp server.
+     *
+     * @var array
+     */
+    protected array $filteredFileNames;
 
     /**
      * This is the main function in this trait, that triggers all other functions.
@@ -125,7 +134,7 @@ trait FtpConnectorTrait
      * @param array $fileNames
      * @return void
      */
-    private function checkIsThisEmpty(array $fileNames): void
+    protected function checkIsThisEmpty(array $fileNames): void
     {
         if (empty($fileNames)) {
             echo 'No files found on FTP server.' . PHP_EOL;

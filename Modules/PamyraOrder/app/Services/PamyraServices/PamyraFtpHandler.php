@@ -2,34 +2,20 @@
 
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
-use Exception;
 use Carbon\Carbon;
-use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use App\Traits\FtpConnectorTrait;
+use App\Services\FtpHandlerBase;
 
 /**
  * This class connects to an sftp server, and handles files from here.
  */
-class PamyraFtpHandler
+class PamyraFtpHandler extends FtpHandlerBase
 {
-    use FtpConnectorTrait;
-
-    /**
-     * Stores all relevant json file name from the ftp server, from where we will write
-     * Pamyra orders to the database. Later, when this is done, we will need these file names
-     * again, because we have to copy these files from the ftp server into our app, and then we have
-     * to delete these files from the ftp server.
-     *
-     * @var array
-     */
-    private array $filteredFileNames;
-
     public function __construct()
     {   
         /**
-         * This comes from a trait. It connects to the ftp server.
+         * Connects to the ftp server.
          */
         $this->connect('PamyraOrders');
     }
@@ -56,8 +42,6 @@ class PamyraFtpHandler
         return $pamyraOrders;
     }
 
-    
-
     /**
      * Will collect all pamyra orders from all pamyra json files from the ftp server into an array.
      * Here we loop through every pamyra json file, and extract its content into an array.
@@ -72,7 +56,6 @@ class PamyraFtpHandler
 
         foreach ($pamyraFileNames as $pamyraJsonFile) {
             $pamyraOrders[] = $this->ftpServerStorage->json($pamyraJsonFile);
-
         }
 
         return $pamyraOrders;
@@ -141,10 +124,11 @@ class PamyraFtpHandler
      * New target name example: 
      * ./documents/PamyraOrdersArchived/2024_02_07_PAM240206-1452140740.json
      *
-     * @param string $fileName
-     * @return string
+     * @param string $fileName          The old file name
+     * @param string $newFilePath       The path where the file will be stored in our archive
+     * @return string                   The new file name
      */
-    private function createNewFileName(string $fileName): string
+    private function createNewFileName(string $fileName, string $newFilePath): string
     {
         return 'PamyraOrdersArchived/' . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
     }

@@ -2,13 +2,9 @@
 
 namespace Modules\EmonsInvoice\app\Services\EmonsInvoices;
 
-use App\Models\TmsFtpCredential;
-use App\Traits\FtpConnectorTrait;
-use Illuminate\Support\Facades\Storage;
+use App\Services\FtpHandlerBase;
 
-class EmonsFtpHandler {
-    
-    use FtpConnectorTrait;
+class EmonsFtpHandler extends FtpHandlerBase{
 
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
@@ -45,9 +41,11 @@ class EmonsFtpHandler {
 
     private function getCsvFiles(array $csvFileNames)
     {
-        
+        $csvFiles = [];
+
         foreach($csvFileNames as $csvFileName) {
             //Copy the csv file from the ftp server to the app/documents/EmonsInvoicesArchive
+            //Here we need logic to be made
         }
         return $csvFiles;
     }
