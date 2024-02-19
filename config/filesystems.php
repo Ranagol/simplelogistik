@@ -58,6 +58,11 @@ return [
              */
             'throw' => true,
         ],
+
+        'documents' => [
+            'driver' => 'local',
+            'root' => base_path('documents'),
+        ],
         
         /**
          * These are the connections that I am currently using.

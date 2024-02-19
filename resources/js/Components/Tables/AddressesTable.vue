@@ -9,12 +9,12 @@
 
                     <div class="grid grid-flow-col gap-4">
                         <!-- CREATE ORDER BUTTON -->
-                        <button type="button"
+                        <button @click="router.visit(route('addresses.create'))" type="button"
                             class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-white rounded-lg md:w-auto bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                             <el-icon class="me-2">
                                 <Plus />
                             </el-icon>
-                            {{ $t('labels.create-customer') }}
+                            {{ $t('page-actions.address-create') }}
                         </button>
                         <!-- SELECT Visible Table Columns -->
                         <button id="showTableColumnsButton" data-dropdown-toggle="showTableColumns"
@@ -26,9 +26,8 @@
                         </button>
                         <div id="showTableColumns"
                             class="hidden w-auto p-3 bg-white border border-gray-100 rounded-lg shadow-lg dark:bg-gray-700">
-                            <!-- class="hidden w-auto p-3 overflow-y-scroll bg-white border border-gray-100 rounded-lg shadow-lg max-h-48 dark:bg-gray-700"> -->
                             <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">{{ $t('labels.select-fields')}}</h6>
-                            <ul class="space-y-2 text-sm" aria-labelledby="showTableColumnsButton">
+                            <ul class="space-y-2 overflow-y-scroll text-sm max-h-48" aria-labelledby="showTableColumnsButton">
                                 <li v-for="head in _headers" class="flex items-center">
                                     <input @change="(e) => updateListedItems(head.key, e.currentTarget.checked)" :id="'display-columns-label-' + head.key" type="checkbox"
                                         :value="head.key" :checked="head.show === true"
@@ -37,22 +36,22 @@
                                         class="block w-full ml-2 text-sm font-medium text-gray-900 cursor-pointer peer-checked:text-corporate-600 peer hover:text-corporate-700 dark:text-gray-100">{{ $t(head.title) }}</label>
                                 </li>
                             </ul>
+                            <div @click="restoreDefault()" class="grid w-full p-2 pt-3 cursor-pointer ps-0 hover:text-slate-400">{{ $t('labels.restore-defaults') }}</div>
                         </div>
-                       
                     </div>
-                   
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700">
                             <tr>
  
-                                <ConditionalHeadColumn v-for="head in _headers" :data="head" />
+                                <ConditionalHeadColumn v-for="head in _headers" :data="head"/>
                                
                                 <th v-if="actions !== undefined && actions !== ''">
  
                                 </th>
                             </tr>
+                            
                         </thead>
                         <tbody>
                             <tr v-for="entry in data " :key="entry.id"
@@ -120,24 +119,10 @@ import { router }
 
 import FilteredSearch 
     from '@/Components/Inputs/FilteredSearch.vue';
- 
+
+import TableHeader from '@/lib/TableHeader';
+
 const props = defineProps({
-    getData: {
-        type: Function,
-        required: true,
-    },
-    paginationData: {
-        type: Object,
-        required: true,
-    },
-    totalResults: {
-        type: Number,
-        required: false,
-    },
-    title: {
-        type: String,
-        required: false,
-    },
     headers: {
         type: Array,
         required: true,
@@ -151,31 +136,29 @@ const props = defineProps({
         required: false,
     },
 })
-  
-const storedHeaders = sessionStorage.getItem('address-table-headers')
-var _headers;
- 
-const defaultHeaders = props.headers;
- 
-if(storedHeaders !== 'null' && storedHeaders !== null) {
-    _headers = ref(JSON.parse(storedHeaders))
-} else {
-    _headers = ref(defaultHeaders)
-}
+
+// TABLE HEADER HANDLING
+
+// Initialize the empty ref
+var _headers = ref();
+// instantiate the TableHeader class
+var tableHeaders = new TableHeader(props.headers, "address-table-headers");
+_headers.value = tableHeaders.get();
 
 const updateListedItems = (key, value) => {
-    _headers.value = _headers.value.map((item) => {
-        if (item.key === key) {
-            item.show = value
-        }
-        return item
-    })
- 
-    sessionStorage.setItem('address-table-headers', JSON.stringify(_headers.value))
+    tableHeaders.update(key, value);
+    _headers.value = tableHeaders.get();
 }
- 
+
+const restoreDefault = () => {
+    tableHeaders.reset();
+    _headers.value = tableHeaders.get();
+}
+
+// END TABLE HEADER HANDLING
+
+
 const renderCellData = (header, data) => {
- 
     switch (header.key) {
         default:
             return {'type': 'text', 'data': data[header.key] ?? "-" };

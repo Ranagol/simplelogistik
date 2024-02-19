@@ -226,22 +226,4 @@ class TmsOrder extends Model
     }
 
 
-    //*************SCOPES*************************************** */
-
-
-    /**
-     * This here is a Laravel local scope, for searching by search term.
-     * https://laravel.com/docs/10.x/eloquent#local-scopes
-     *
-     * @param Builder $query
-     * @param string $searchTerm
-     * @return Builder
-     */
-    public function scopeSearchBySearchTerm(Builder $query, string $searchTerm): Builder
-    {
-        return $query->where('type_of_transport', 'like', "%{$searchTerm}%")
-            ->orWhere('customer_reference', 'like', "%{$searchTerm}%")
-            ->orWhere('status', 'like', "%{$searchTerm}%")
-            ;
-    }
 }

@@ -20,7 +20,7 @@ trait DataBaseFilter {
      *
      * @var array
      */
-    private array $simpleSearchColumns = [];
+    public array $simpleSearchColumns = [];
 
     /**
      * This is an asoc. array. The key is the related table name, and the value is the column name.
@@ -28,17 +28,19 @@ trait DataBaseFilter {
      *
      * @var array
      */
-    private array $relationshipSearchColumns = [];
+    public array $relationshipSearchColumns = [];
 
     /**
      * Returns records for records list (Index.vue component). This is the main function that
      * triggers all other functions from this class.
      *
+     * @param Model $model
      * @param string|null $searchTerm
      * @param string|null $sortColumn
      * @param string|null $sortOrder
      * @param integer|null $newItemsPerPage
-     * @param array $searchColumns
+     * @param array|null $searchColumns         //['first_name', 'last_name', 'customers__first_name']
+     * @param array $withRelations              //['customer', 'forwarder']
      * @return LengthAwarePaginator
      */
     public function getRecords(
@@ -53,7 +55,7 @@ trait DataBaseFilter {
     {
 
         //Separate simple and relationship search columns into two arrays
-        $this->handleSearchColumns($searchColumns);
+        $this->handleSearchColumns($searchTerm ?? "", $searchColumns ?? []);
         
         //Make the dynamic query
         $query = $this->makeDynamicQuery(
@@ -68,8 +70,10 @@ trait DataBaseFilter {
          * Include the query string too into pagination data links for page 1,2,3,4... 
          * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
          */
+        $records = $query->with($withRelations)->paginate($newItemsPerPage ?? 10)->withQueryString();//With Patrick adding the relationships
+        // $records = $query->paginate($newItemsPerPage ?? 10)->withQueryString();
+        // dd($query->paginate(10));
 
-        $records = $query->with($withRelations)->paginate($newItemsPerPage ?? 10)->withQueryString();
         return $records;
     }
 
@@ -83,9 +87,10 @@ trait DataBaseFilter {
      * @param array $searchColumns
      * @return void
      */
-    private function handleSearchColumns(array $searchColumns)
+    private function handleSearchColumns(string $searchTerm = null, array $searchColumns)
     {
-        if (empty($searchColumns)) {
+        //If there is no search term and no search columns, then we do not need to do anything here.
+        if ( is_null($searchTerm) && empty($searchColumns)) {
             return;
         }
 
@@ -130,25 +135,81 @@ trait DataBaseFilter {
         //Define the static part of the query, but do not execute it yet.
         $query = $model::query();
 
-        //Add dynamically more search columns to the query, if there is a search term
-        if ($searchTerm && !is_null($searchTerm)) {
+        /**
+         * 1 - SIMPLEST CASE
+         * - searchterm exists
+         * - no simple search columns
+         * - no relationship search columns
+         * - we search all columns in the model's own table with the searchterm
+         */
+        if ($searchTerm && empty($this->simpleSearchColumns) && empty($this->relationshipSearchColumns) ) {
 
-            //1 - DYNAMIC SEARCH - SIMPLE SEARCH INSIDE THE MODEL'S OWN TABLE
-            $this->searchSimple($query, $searchTerm);
+            $columnsToSearch = [
+                'order_number',
+                'invoice_number',
+                'customer_reference',
+                'month_and_year',
+            ];
 
-            //2 - DYNAMIC SEARCH - RELATIONSHIP SEARCH INSIDE RELATED TABLES
-            foreach ($this->relationshipSearchColumns as $relationshipName => $columnInRelatiodTable) {
-                $this->searchThroughRelationship(
-                    $query, 
-                    $searchTerm, 
-                    $columnInRelatiodTable, 
-                    $relationshipName
-                );
+            foreach ($columnsToSearch as $column) {
+                $query->orWhere($column, 'LIKE', '%' . $searchTerm . '%');
             }
         }
 
         /**
-         * SORTING
+         * 2 - Search in base model, but only in selected columns
+         * - searchterm exists
+         * - simple search columns exist
+         * - no relationship search columns
+         * - we search all columns in the model's own table with the searchterm
+         */
+        if ($searchTerm && empty($this->relationshipSearchColumns)) {
+
+            //Simple search in the model's own table in selected columns
+            foreach ($this->simpleSearchColumns as $column) {
+                $query->orWhere($column, 'LIKE', $searchTerm . '%');
+            }
+        }
+
+        /**
+         * 3 - Search  in related tables only
+         * - searchterm exists
+         * - simple search columns DOES NOT exist
+         * - relationship search columns exist
+         */
+        if ($searchTerm && empty($this->simpleSearchColumns) && !empty($this->relationshipSearchColumns)) {
+
+            //Relationship search in related tables
+            foreach ($this->relationshipSearchColumns as $relationshipName => $columnInRelatedTable) {
+                $query->orWhereHas($relationshipName, function($query) use ($searchTerm, $columnInRelatedTable) {
+                    $query->where($columnInRelatedTable, 'LIKE', $searchTerm . '%');
+                });
+            }
+        }
+
+        /**
+         * 4 - Search in base model in selected columns, but also search in related tables too.
+         * - searchterm exists
+         * - simple search columns exist
+         * - relationship search columns exist
+         */
+        if ($searchTerm && !empty($this->simpleSearchColumns) && !empty($this->relationshipSearchColumns)) {
+
+            //a.) Simple search in the model's own table in selected columns
+            foreach ($this->simpleSearchColumns as $column) {
+                $query->orWhere($column, 'LIKE', $searchTerm . '%');
+            }
+
+            //b.) Relationship search in related tables
+            foreach ($this->relationshipSearchColumns as $relationshipName => $columnInRelatedTable) {
+                $query->orWhereHas($relationshipName, function($query) use ($searchTerm, $columnInRelatedTable) {
+                    $query->where($columnInRelatedTable, 'LIKE', $searchTerm . '%');
+                });
+            }
+        }
+
+        /**
+         * Add sorting to the existing query
          */
         $query->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
             $query->orderBy($sortColumn, $sortOrder);
@@ -160,52 +221,4 @@ trait DataBaseFilter {
 
         return $query;
     }
-    
-    /**
-     * 1 - DYNAMIC SEARCH - SIMPLE SEARCH INSIDE THE MODEL'S OWN TABLE
-     *
-     * @param Builder $query
-     * @param string $searchTerm
-     * @return Builder
-     */
-    private function searchSimple(
-        Builder $query, 
-        string $searchTerm, 
-    ): Builder
-    {
-        //This adds a WHERE clause to the query.
-        return $query->where(function($query) use ($searchTerm) {
-
-            //For every column name in the array...
-            foreach ($this->simpleSearchColumns as $column) {
-
-                //add an OR WHERE clause to the query.
-                $query->orWhere($column, 'LIKE', "$searchTerm%");
-            }
-        });
-    }
-
-    /**
-     * 2 - DYNAMIC SEARCH - RELATIONSHIP SEARCH INSIDE RELATED TABLES
-    * This is a more complex search, because we have to search in related tables.
-    * We have to use orWhereHas() method to search in related tables.
-     *
-     * @param Builder $query
-     * @param string $searchTerm
-     * @param string $columnInRelatedTable
-     * @param string $relationshipName
-     * @return Builder
-     */
-    private function searchThroughRelationship(
-        Builder $query, 
-        string$searchTerm, 
-        string $columnInRelatedTable, 
-        string $relationshipName
-    ): Builder
-    {
-        return $query->orWhereHas($relationshipName, function($query) use ($searchTerm, $columnInRelatedTable) {
-            $query->where($columnInRelatedTable, 'LIKE', "$searchTerm%");
-        });
-    }
-
 }
