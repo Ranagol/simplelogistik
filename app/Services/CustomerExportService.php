@@ -15,6 +15,8 @@ class CustomerExportService
     private $csv = '';
     private $exportedIds = [];
 
+    private $path = 'documents/csvexports/customersWithBillingAddress';
+
 
     /**
      * Export all Customers to a CSV file that are changed or new since the last export.
@@ -258,12 +260,23 @@ class CustomerExportService
     public function saveCsv()
     {
         $filename = 'customers' . Carbon::now()->format('Ymd_His'). '.csv';
-        $path = base_path('documents/csvexports/customersWithBillingAddress/' . $filename);
+        $path = base_path($this->path . $filename);
         $data = iconv('UTF-8', 'windows-1252', $this->csv);        
         
         file_put_contents($path, $data);
 
         TmsCustomer::whereIn('id', $this->exportedIds)->update(['exported_at' => Carbon::now()]);
         TmsAddress::whereIn('customer_id', $this->exportedIds)->update(['exported_at' => Carbon::now()]);        
+    }
+
+    /**
+     * Create the directory if it does not exist.     
+     */
+    public function makeDirectory()
+    {
+        $path = base_path($this->path);
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
     }
 }

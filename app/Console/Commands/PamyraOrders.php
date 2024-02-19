@@ -28,7 +28,7 @@ class PamyraOrders extends Command
     public function handle()
     {
         $this->info(json_encode($this->arguments()));
-        $this->info('Start: ' . $this->description);
+        $this->info('Start(Test): ' . $this->description);
         if ($this->argument('behave') == 'setting') {
             $this->info('Setting the cronjob to ' . $this->argument('detail'));
             if ($this->argument('detail') == 'enable') {
