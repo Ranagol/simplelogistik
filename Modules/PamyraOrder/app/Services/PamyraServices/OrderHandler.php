@@ -33,7 +33,7 @@ class OrderHandler {
     private int $partnerId;
     private int $customerId;
     private TmsAddress $headquarter;//this is used, don't delete it
-    private TmsAddress $billingAddress;
+    private TmsOrderAddress $billingAddress;
     private TmsOrder $order;
     
     private CustomerService $customerService;
@@ -179,7 +179,8 @@ class OrderHandler {
             $this->partnerId
         );
 
-        $this->billingAddress = $this->addressService->handle(
+        //Billing address that belongs to the customer (TmsAddress table)
+        $this->addressService->handle(
             $pamyraOrder['Customer'], 
             false,//isHeadquarter
             true,//isBilling
@@ -236,6 +237,17 @@ class OrderHandler {
             $this->customerId,
             $this->partnerId, 
             TmsOrderAddress::ADDRESS_TYPES[4],//delivery address
+            $pamyraOrder['OrderNumber']
+        );
+
+        //Create billing address that belongs to the order (TmsOrderAddress table)
+        $this->billingAddress = $this->orderAddressService->handle(
+            $pamyraOrder['Customer'], 
+            $pamyraOrder['DeliveryDate'],
+            $this->order->id,
+            $this->customerId,
+            $this->partnerId,
+            TmsOrderAddress::ADDRESS_TYPES[2],//billing address
             $pamyraOrder['OrderNumber']
         );
     }
