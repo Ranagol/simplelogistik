@@ -33,12 +33,8 @@ class PamyraFtpHandler
 
     public function __construct()
     {
-        //Set whether the connection is live or test, based on the environment
-        if(env('APP_ENV') === 'local') {
-            $this->connectionName = 'PamyraOrdersTest';
-        } else {
-            $this->connectionName = 'PamyraOrdersLive';
-        }
+        //Set the connection name for the ftp server. Defined in .env, and in config/ftp.php
+        $this->connectionName = config('ftp.pamyraOrdersFtp');
 
         //Get the ftp credentials from the database
         $ftpCredential = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();

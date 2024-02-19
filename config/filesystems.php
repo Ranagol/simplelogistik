@@ -63,18 +63,6 @@ return [
             'driver' => 'local',
             'root' => base_path('documents'),
         ],
-        
-        /**
-         * These are the connections that I am currently using.
-         */
-        // 'sftp' => [
-        //     'driver' => 'sftp',
-        //     'host' => env('SFTP_HOST'),
-        //     'username' => env('SFTP_USERNAME'),
-        //     'password' => env('SFTP_PASSWORD'),
-        //     'port' => intval(env('SFTP_PORT', 7876)),
-        //     'throw' => true
-        // ],
 
         'public' => [
             'driver' => 'local',
