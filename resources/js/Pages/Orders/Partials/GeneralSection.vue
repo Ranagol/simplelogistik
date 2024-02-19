@@ -25,7 +25,7 @@
                     />
             </div>
             <div class="grid grid-flow-col gap-4">
-                <IconTooltipInput :value="data?.partner?.name ?? 'Kein Partner'" placeholder="labels.partner" :keyup="(a) => console.log(a.target.value)" tooltipText="Geben Sie den Partner an" />
+                <IconTooltipInput :value="data?.partner?.name ?? 'Kein Partner'" placeholder="labels.undertaker" :keyup="(a) => console.log(a.target.value)" tooltipText="Geben Sie den Unternehmer" />
                 <IconTooltipInput :value="tabData?.origin" placeholder="labels.origin" :keyup="(a) => console.log(a.target.value)" tooltipText="Geben Sie den Partner an" />
                 <IconTooltipInput :value="tabData?.customer_reference" placeholder="labels.customer_reference" :keyup="(a) => console.log(a.target.value)"/>
                 <IconTooltipInput :value="tabData?.details?.distance_km" placeholder="labels.distance_km" :keyup="(a) => console.log(a.target.value)"/>

@@ -17,6 +17,14 @@
         "request-password": "Passwort zurücksetzen",
         "back-login": "Zurück zum Login"
     },
+    "page-actions": {
+        "order-create": "Auftrag erfassen",
+        "customer-create": "Kunde anlegen",
+        "address-create": "Adresse anlegen",
+        "forwarder-create": "Dienstleister erstellen",
+        "vehicle-create": "Fahrzeug anlegen",
+        "language-create": "Sprache hinzufügen"
+    },
     "menu": {
         "dashboard": "Dashboard",
         "addresses": "Adressen",
@@ -40,7 +48,46 @@
             "info": "Bitte geben Sie Ihre E-Mail Adresse ein, um Ihr Passwort zurückzusetzen."
         }
     },
+    "filter-labels": {
+        "pickup": "Abholadresse",
+        "delivery": "Lieferadresse",
+        "customer": "Kundendaten",
+        "order": "Auftrag"
+    },
+    "messages":{
+        "no-payment-method": "Keine Zahlungsart hinterlegt"
+    },
     "labels": {
+        "origin": "Herkunft",
+        "pickupAddresses": "Abholung",
+        "deliveryAddresses": "Zustellung",
+        "country": "Land",
+        "customer_name": "Kundenname",
+        "order_status": "Auftragsstatus",
+        "payment_status": "Zahlungsstatus",
+        "delivery_date": "Lieferdatum",
+        "company": "Firma",
+        "zipcode": "Postleitzahl",
+        "restore-defaults": "Standard wiederherstellen",
+        "my-profile": "Mein Profil",
+        "account-settings": "Kontoeinstellungen",
+        "sign-out": "Abmelden",
+        "address_id": "Adress ID",
+        "vehicle_name": "Fahrzeug Name",
+        "max_weight": "Max. Gewicht",
+        "max_pickup_weight": "Max. Gewicht",
+        "max_pickup_width": "Max. Breite",
+        "max_pickup_height": "Max. Höhe",
+        "max_pickup_length": "Max. Länge",
+        "vehicle_type": "Fahrzeugtyp",
+        "plate_number": "Kennzeichen",
+        "internal_id": "Interne ID",
+        "comments": "Kommentar",
+        "tax_number": "Steuernummer",
+        "name": "Name",
+        "rating": "Bewertung",
+        "forwarder_type": "Dienstleistertyp",
+        "url_logo": "Logo URL",
         "packing_type": "Packmittel",
         "customers": "Kunden",
         "showing": "Zeige",
@@ -55,6 +102,7 @@
         "password": "Passwort",
         "customer-id": "Kundennummer",
         "first-name": "Vorname",
+        "undertaker": "Unternehmer",
         "partner": "Partner",
         "order-status-delivered": "Geliefert",
         "order-status-open": "Offen",
@@ -63,6 +111,7 @@
         "customer-private": "Privatkunde",
         "forwarder_id": "Dienstleister ID",
         "country_id": "Land ID",
+        "undertaker_id": "Unternehmer ID",
         "partner_id": "Partner ID",
         "company_name": "Firma",
         "first_name": "Vorname",
