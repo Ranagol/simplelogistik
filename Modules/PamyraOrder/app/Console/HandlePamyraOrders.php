@@ -46,7 +46,6 @@ class HandlePamyraOrders extends Command
             Log::debug('Handling PamyraOrder is running.');
         }
         
-        
         $this->info('Handling Pamyra orders has ended.');
     }
 
