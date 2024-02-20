@@ -26,6 +26,7 @@ class TmsOrderEditResource extends JsonResource
             'status' => $this->status,
             'customer_reference' => $this->customer_reference,
             'provision' => $this->provision,
+            'provisionEur' => $this->calculateProvisionEur(),
             'order_edited_events' => $this->order_edited_events,
             'currency' => $this->currency,
             'order_number' => $this->order_number,
@@ -78,6 +79,17 @@ class TmsOrderEditResource extends JsonResource
             return $nativeOrder;
         }
     }
+
+    /**
+     * Calculate the provision in EUR.
+     *
+     * @return float
+     */
+    private function calculateProvisionEur(): float
+    {
+        return $this->provision * $this->exchange_rate;
+    }
+    
 }
 
 

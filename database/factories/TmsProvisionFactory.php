@@ -23,9 +23,9 @@ class TmsProvisionFactory extends Factory
              * So, the number 1 here is realistic.
              */
             'partner_id' => 1,
-            'value' => $this->faker->randomFloat(2, 0, 10),//Example: 1.5%,
-            'valid_from' => $date = $this->faker->date(),
-            'valid_to' => $this->faker->dateTimeBetween($date, '+30 days')->format('Y-m-d'), 
+            'value' => 6,//Pamyra does 6% provision
+            'valid_from' => '2023-01-01 00:00:00',
+            'valid_to' => '2025-12-31 23:59:59',
         ];
     }
 }
