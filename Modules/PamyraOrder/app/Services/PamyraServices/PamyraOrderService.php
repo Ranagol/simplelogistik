@@ -86,6 +86,7 @@ class PamyraOrderService {
             'value_of_goods' => $pamyraOrder['ValueOfGoods'] ?? null,
             'distance_km' => $pamyraOrder['DistanceKm'] ?? null,
             'duration_minutes' => $pamyraOrder['DurationMinutes'] ?? null,
+            'particularities' => $pamyraOrder['Particularities'] ?? null,
         ];
 
         $this->validate($pamyraOrderArray);
