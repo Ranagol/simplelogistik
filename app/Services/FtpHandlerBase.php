@@ -54,11 +54,7 @@ class FtpHandlerBase
     private function setConnectionMode(): void
     {
         //Set whether the connection is live or test, based on the environment
-        if(env('APP_ENV') === 'local') {
-            $this->connectionMode = 'test';
-        } else {
-            $this->connectionMode = 'live';
-        }
+        config('app.env') === 'local' ? $this->connectionMode = 'test': $this->connectionMode = 'live';
     }
 
     private function getFtpCredentials(): void

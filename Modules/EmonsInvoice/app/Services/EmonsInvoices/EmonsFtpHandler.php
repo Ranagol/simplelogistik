@@ -14,7 +14,7 @@ class EmonsFtpHandler extends FtpHandlerBase{
      *
      * @var array
      */
-    private array $filteredFileNames;
+    protected array $filteredFileNames;
 
     public function __construct()
     {   
