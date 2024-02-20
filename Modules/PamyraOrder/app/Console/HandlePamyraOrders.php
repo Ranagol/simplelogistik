@@ -31,6 +31,7 @@ class HandlePamyraOrders extends Command
     public function handle(OrdersHandler $ordersHandler): void
     {
         $this->info('Handling Pamyra orders has started.');
+        
         if ($this->argument('behave') == 'setting') {
             $this->info('Setting the cronjob to ' . $this->argument('detail'));
             if ($this->argument('detail') == 'enable') {
@@ -45,7 +46,6 @@ class HandlePamyraOrders extends Command
             $this->info('Handling PamyraOrder...');
             Log::debug('Handling PamyraOrder is running.');
         }
-        
         
         $this->info('Handling Pamyra orders has ended.');
     }

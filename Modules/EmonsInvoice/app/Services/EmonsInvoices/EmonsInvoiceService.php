@@ -13,13 +13,13 @@ use App\Models\TmsEmonsInvoice;
 class EmonsInvoiceService
 {
     /**
-     * The EmonsFtpHandler instance.
+     * The FtpHandlerEmons instance.
      */
     protected $emonsFtpHandler;
 
     public function __construct()
     {
-        $this->emonsFtpHandler = new EmonsFtpHandler();
+        $this->emonsFtpHandler = new FtpHandlerEmons();
     }
     
     /**

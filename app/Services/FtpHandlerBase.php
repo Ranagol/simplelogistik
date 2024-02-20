@@ -2,18 +2,26 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Filesystem\FilesystemAdapter;
 
 class FtpHandlerBase
 {
-    /**
-     * @var string
-     */
+
+    //Set the connection name for the ftp server.
     protected string $connectionName;
 
     protected string $connectionMode;
+
+    /**
+     * This is the path where the file will be stored in our archive.
+     *
+     * @var string
+     */
+    protected string $newFilePath;
 
     /**
      * Stores the ftp credentials for the connection.
@@ -23,9 +31,10 @@ class FtpHandlerBase
     protected TmsFtpCredential $tmsFtpCredential;
 
     /**
-     * This is the Pamyra FTP server instance/storage, that we will use to access the orders.
+     * This is the Pamyra FTP server instance/storage, created from Storage::build..., that we will 
+     * use to access the orders.
      */
-    protected $ftpServerStorage;
+    protected FilesystemAdapter $ftpServerStorage;
 
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
@@ -38,17 +47,13 @@ class FtpHandlerBase
     protected array $filteredFileNames;
 
     /**
-     * This is the main function in this trait, that triggers all other functions.
-     *
-     * @param string $connectionName
-     * @return void
+     * Here we set if the connection mode is test or live, and get the ftp credentials from the database.
      */
-    public function connect(string $connectionName): void
+    public function __construct(string $connectionName)
     {
         $this->connectionName = $connectionName;
         $this->setConnectionMode();
         $this->getFtpCredentials();
-        $this->createFtpServerStorage();
     }
 
     private function setConnectionMode(): void
@@ -65,23 +70,6 @@ class FtpHandlerBase
                                                     ->firstOrFail();
     }
 
-    private function createFtpServerStorage(): void
-    {
-        // dd($this->tmsFtpCredential);//ez itt ok
-
-        //Create a new ftpServerStorage instance, with pamyra ftp credentials, for accessing orders.
-        $this->ftpServerStorage = Storage::build(
-            [
-                'driver' => $this->tmsFtpCredential->driver,
-                'host' => $this->tmsFtpCredential->host,
-                'username' => $this->tmsFtpCredential->username,
-                'password' => $this->tmsFtpCredential->password,
-                'port' => intval($this->tmsFtpCredential->port),
-                'root' => $this->tmsFtpCredential->path,
-                'throw' => true
-            ]
-        );
-    }
 
     /**
      * This is the first step here. Get the list of all files in the ftp server. This might include
@@ -92,10 +80,14 @@ class FtpHandlerBase
      */
     public function getFileList(): array
     {
+        dd('getFileList triggered', $this->ftpServerStorage);//this line works
         //Get the list of all files in the ftp server
         try {
-            $allFileNames = $this->ftpServerStorage->allFiles();
+
+            $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work
+            dd($allFileNames);
             return $allFileNames;
+            
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
             Log::error('Error: ' . $e->getMessage());
@@ -137,5 +129,80 @@ class FtpHandlerBase
             Log::info('No files found on FTP server.');
             exit;
         }
+    }
+
+    /**
+     * This function transforms the source path into target path. AKa creates a new name from the old
+     * name.
+     * Old source name example: upload/PAM240206-1452140740.json
+     * New target name example: 
+     * ./documents/PamyraOrdersArchived/2024_02_07_PAM240206-1452140740.json
+     *
+     * @param string $fileName          The old file name
+     * @return string                   The new file name
+     */
+    protected function createNewFileName(string $fileName): string
+    {
+        return $this->newFilePath . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
+    }
+
+    /*
+     * After we have handled all the orders (so every order is written from pamyra json file into
+     * our database), we 
+     * 1. copy the files from the ftp server to our app
+     * 2. rename these files so they have the date in their name
+     * 3. archive these files in storage/app/PamyraOrders/Archived
+     * 4. delete these files from the ftp server
+     *
+     * @return void
+     */
+    public function moveAndArchiveFilesFromFtp(): void
+    {
+        echo 'Moving files from FTP server to our app started.' . PHP_EOL;
+
+        foreach ($this->filteredFileNames as $fileName) {
+
+            //Check if file exists on ftp server
+            if($this->ftpServerStorage->exists($fileName)) {
+                echo $fileName . ' exists on FTP server!' . PHP_EOL;
+                Log::info($fileName . ' exists on FTP server!');
+            }
+
+            try {
+
+                // Read the file content from the sftp ftpServerStorage
+                $fileContent = $this->ftpServerStorage->get($fileName);
+
+                //Write the file to ./documents/... dir.
+                $isWritten = Storage::disk('documents')->put(
+                    $this->createNewFileName($fileName),
+                    $fileContent
+                );
+
+                if($isWritten) {
+                    echo $fileName . ' was written to the local disk.' . PHP_EOL;
+                    Log::info($fileName . ' was written to the local disk.');
+                }
+
+            } catch (\Throwable $th) {
+
+                Log::error('Error: ' . $th->getMessage());
+                echo 'Error: ' . $th->getMessage() . PHP_EOL;
+
+            } finally {
+                
+                //Delete the original json file from the ftp server
+                $isDeleted = $this->ftpServerStorage->delete($fileName);
+                if($isDeleted) {
+                    echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
+                    echo PHP_EOL;
+                } else {
+                    Log::error($fileName . ' can not be deleted from FTP server');
+                    echo $fileName . ' can not be deleted from FTP server' . PHP_EOL;
+                }
+            }
+        }
+
+        echo 'Moving files from FTP server to our app ended.' . PHP_EOL;
     }
 }

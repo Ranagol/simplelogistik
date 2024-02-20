@@ -3,15 +3,16 @@
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHandler;
+use Modules\PamyraOrder\app\Services\PamyraServices\FtpHandlerPamyra;
 
 class OrdersHandler
 {
     /**
      * A service that handles the ftp connection, and getting all the files/info from the ftp server.
      *
-     * @var PamyraFtpHandler
+     * @var FtpHandlerPamyra
      */
-    private pamyraFtpHandler $pamyraFtpHandler;
+    private ftpHandlerPamyra $ftpHandlerPamyra;
     
     /**
      * A service that handles the order data. 
@@ -20,10 +21,10 @@ class OrdersHandler
      */
     private OrderHandler $orderHandler;
 
-    public function __construct(PamyraFtpHandler $pamyraFtpHandler, OrderHandler $orderHandler)
+    public function __construct(FtpHandlerPamyra $ftpHandlerPamyra, OrderHandler $orderHandler)
     {
         $this->orderHandler = $orderHandler;
-        $this->pamyraFtpHandler = $pamyraFtpHandler;
+        $this->ftpHandlerPamyra = $ftpHandlerPamyra;
     }
 
     /**
@@ -33,8 +34,12 @@ class OrdersHandler
      */
     public function handle(): void
     {
+
+        // dd('orderShandler->handle triggered');
         //Gets all the orders from all the PAM json files from the ftp server
-        $orders = $this->pamyraFtpHandler->getPamyraOrders();
+        $orders = $this->ftpHandlerPamyra->getPamyraOrders();
+        dd('this is not displayed?');
+        // dd($orders);
 
         //We loop through all the orders and write each one to the database
         foreach ($orders as $pamyraOrder) {
@@ -42,6 +47,6 @@ class OrdersHandler
         }
 
         //We archive all the json files in the app from the ftp server
-        $this->pamyraFtpHandler->archiveJsonFiles();
+        $this->ftpHandlerPamyra->moveAndArchiveFilesFromFtp();
     }
 }
