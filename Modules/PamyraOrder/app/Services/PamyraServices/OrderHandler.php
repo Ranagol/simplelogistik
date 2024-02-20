@@ -170,19 +170,50 @@ class OrderHandler {
      */
     private function handleAddresses(array $pamyraOrder): void
     {
+        //Headquarter address that belongs to the customer (TmsAddress table)
         $this->headquarter = $this->addressService->handle(
+            $pamyraOrder,
             $pamyraOrder['Customer'], 
             true,//isHeadquarter
             false,//isBilling
+            false,//isPickup
+            false,//isDelivery
             $this->customerId,
             $this->partnerId
         );
 
         //Billing address that belongs to the customer (TmsAddress table)
         $this->addressService->handle(
+            $pamyraOrder,
             $pamyraOrder['Customer'], 
             false,//isHeadquarter
             true,//isBilling
+            false,//isPickup
+            false,//isDelivery
+            $this->customerId,
+            $this->partnerId
+        );
+
+        //Pickup address that belongs to TmsCustomer model (in TmsAddress table)
+        $this->addressService->handle(
+            $pamyraOrder,
+            $pamyraOrder['Sender'], 
+            false,//isHeadquarter
+            false,//isBilling
+            true,//isPickup
+            false,//isDelivery
+            $this->customerId,
+            $this->partnerId
+        );
+
+        //Delivery address that belongs to TmsCustomer model (in TmsAddress table)
+        $this->addressService->handle(
+            $pamyraOrder,
+            $pamyraOrder['Receiver'], 
+            false,//isHeadquarter
+            false,//isBilling
+            false,//isPickup
+            true,//isDelivery
             $this->customerId,
             $this->partnerId
         );

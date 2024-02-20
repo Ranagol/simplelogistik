@@ -5,6 +5,7 @@ namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use App\Models\TmsAddress;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TmsAddressRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,27 +35,34 @@ class AddressService {
 
     /**
      * This is the main function in this class, that triggers all other functions.
-     *
-     * @param array $customerPamyra
+     * @param array $pamyraOrder        Needed for details when there is an address issue
+     * @param array $customerPamyra     Needed for creating an address.
      * @param boolean $isHeadquarter
      * @param boolean $isBilling
+     * @param boolean $isPickup
+     * @param boolean $isDelivery
      * @param integer $customerId
      * @return TmsAddress|null
      */
     public function handle(
+        array $pamyraOrder,
         array $customerPamyra,
         bool $isHeadquarter,
         bool $isBilling,
+        bool $isPickup,
+        bool $isDelivery,
         int $customerId,
         int $partnerId
     ): TmsAddress | null
     {
-        $this->separateStreetAndHouseNumber($customerPamyra);
+        $this->separateStreetAndHouseNumber($pamyraOrder, $customerPamyra);
         $this->setCountryId($customerPamyra);
         
         $duplicateAddress = $this->checkForDuplicate(
             $isHeadquarter,
             $isBilling,
+            $isPickup,
+            $isDelivery,
             $customerId,
             $partnerId
         );
@@ -68,6 +76,8 @@ class AddressService {
             $customerPamyra, 
             $isHeadquarter, 
             $isBilling, 
+            $isPickup,
+            $isDelivery,
             $customerId,
             $partnerId
         );
@@ -81,18 +91,26 @@ class AddressService {
      * This must be separated into street and house number.
      * Source: https://stackoverflow.com/questions/7488557/separate-street-name-from-street-number
      * 
+     * @param array $pamyraOrder
      * @param array $customerPamyra
-     * @throws \Exception
      * @return void
      */
-    private function separateStreetAndHouseNumber(array $customerPamyra): void
+    private function separateStreetAndHouseNumber(array $pamyraOrder, array $customerPamyra): void
     {
         $streetAndNumber = $customerPamyra['Address']['Street'];//Example:"street": "Am Hochhaus 70".
-        if (!preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match)) {//Extract street and number
-            throw new \Exception('Invalid address format');//If something is wrong with the extraction, throw an exception.
+
+        //Extract street and number. The $match is an result array containting the street and the number after regex is done.
+        if (!preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $streetAndNumber, $match)) {
+
+            //If something is wrong with the extraction display it. log it.
+            $message = 'Regex street extraction failed. PamyraOrder: ' . $pamyraOrder['OrderNumber']
+                        . ' Possible issue source: ' . $streetAndNumber
+                        . PHP_EOL;
+            echo $message;
+            Log::error($message);
         }
-        $this->street = $match[1];//Example:"Am Hochhaus".
-        $this->houseNumber = $match[2];//Example:"70".
+        $this->street = $match[1] ?? $streetAndNumber;//Example:"Am Hochhaus".
+        $this->houseNumber = $match[2] ?? $streetAndNumber;//Example:"70".
     }
 
     /**
@@ -109,22 +127,21 @@ class AddressService {
 
     /**
      * Checks if there is a duplicate address in the database.
-     * 
-     * We must check here for 3 cases:
-     * 1. isHeadquarter = true
-     * 2. isBilling = true
-     * 3. isHeadquarter = true && isBilling = true (when an address is headquarter and billing at the same time) 
-     * Undocumented function
      *
      * @param array $customerPamyra
      * @param boolean $isHeadquarter
      * @param boolean $isBilling
+     * @param boolean $isPickup
+     * @param boolean $isDelivery
      * @param integer $customerId
+     * @param integer $partnerId
      * @return void
      */
     private function checkForDuplicate(
         bool $isHeadquarter,
         bool $isBilling,
+        bool $isPickup,
+        bool $isDelivery,
         int $customerId,
         int $partnerId
     ): TmsAddress | null
@@ -140,6 +157,12 @@ class AddressService {
                                 ->when($isBilling, function ($query) {
                                     return $query->where('is_billing', true);
                                 })
+                                ->when($isPickup, function ($query) {
+                                    return $query->where('is_pickup', true);
+                                })
+                                ->when($isDelivery, function ($query) {
+                                    return $query->where('is_delivery', true);
+                                })
                                 ->first();
 
         return $duplicateAddress;
@@ -151,6 +174,8 @@ class AddressService {
      * @param array $customerPamyra
      * @param boolean $isHeadquarter
      * @param boolean $isBilling
+     * @param boolean $isPickup
+     * @param boolean $isDelivery
      * @param integer $customerId
      * @return TmsAddress
      */
@@ -158,11 +183,12 @@ class AddressService {
         array $customerPamyra,
         bool $isHeadquarter,
         bool $isBilling,
+        bool $isPickup,
+        bool $isDelivery,
         int $customerId,
         int $partnerId
     ): TmsAddress
     {
-
         $addressArray = [
             'customer_id' => $customerId,
             'country_id' => $this->countryId,
@@ -176,10 +202,11 @@ class AddressService {
             'city' => $customerPamyra['Address']['City'] ?? 'missing',
             'phone' => $customerPamyra['Phone'] ?? 'missing',
             'email' => $customerPamyra['Mail'] ?? 'missing',
-            'is_pickup' => false,
-            'is_delivery' => false,
             'is_headquarter' => $isHeadquarter,
             'is_billing' => $isBilling,
+            'is_pickup' => $isPickup,
+            'is_delivery' => $isDelivery,
+            
         ];
 
         $this->validate($addressArray);
