@@ -30,6 +30,14 @@ class TmsAddress extends Model
     protected $guarded = ['id'];
     protected $table = "tms_addresses";
 
+    public $searchable = [
+        'first_name',
+        'last_name',
+        'street',
+        'zip',
+        'city',
+    ];
+
     protected $casts = [
         'is_pickup' => 'boolean',
         'is_delivery' => 'boolean',

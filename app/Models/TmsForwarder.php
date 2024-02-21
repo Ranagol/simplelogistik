@@ -24,6 +24,11 @@ class TmsForwarder extends Model
     protected $guarded = ['id'];
     protected $table = "tms_forwarders";
 
+    public $searchable = [
+        'company_name',
+        'name',
+        'email'
+    ];
     public function addresses(): HasMany
     {
         return $this->hasMany(TmsAddress::class, 'forwarder_id');
