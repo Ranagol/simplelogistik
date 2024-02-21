@@ -40,7 +40,7 @@ trait DataBaseFilter {
      * @param string|null $sortOrder
      * @param integer|null $newItemsPerPage
      * @param array|null $searchColumns         //['first_name', 'last_name', 'customers__first_name']
-     * @param array $withRelations              //['customer', 'forwarder']
+     * @param array $relationshipNames          //['customer', 'forwarder']
      * @return LengthAwarePaginator
      */
     public function getRecords(
@@ -50,7 +50,7 @@ trait DataBaseFilter {
         string $sortOrder = null, 
         int $newItemsPerPage = null,
         array $searchColumns = null,
-        array $withRelations = []
+        array $relationshipNames = [],
     ): LengthAwarePaginator
     {
 
@@ -70,9 +70,7 @@ trait DataBaseFilter {
          * Include the query string too into pagination data links for page 1,2,3,4... 
          * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
          */
-        $records = $query->with($withRelations)->paginate($newItemsPerPage ?? 10)->withQueryString();//With Patrick adding the relationships
-        // $records = $query->paginate($newItemsPerPage ?? 10)->withQueryString();
-        // dd($query->paginate(10));
+        $records = $query->with($relationshipNames)->paginate($newItemsPerPage ?? 10)->withQueryString();//With Patrick adding the relationships
 
         return $records;
     }
@@ -209,14 +207,10 @@ trait DataBaseFilter {
         }
 
         /**
-         * Add sorting to the existing query
+         * Add sorting to the existing query. 
          */
         $query->when($sortColumn, function($query, $sortColumn) use ($sortOrder) {
             $query->orderBy($sortColumn, $sortOrder);
-        }, function ($query) {
-
-            //... but if sort is not specified, please return sort by id and ascending.
-            return $query->orderBy('id', 'desc');
         });
 
         return $query;
