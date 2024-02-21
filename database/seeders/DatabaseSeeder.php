@@ -28,6 +28,7 @@ use Database\Seeders\TmsForwardingContractSeeder;
 
 class DatabaseSeeder extends Seeder
 {
+    
     /**
      * Seed the application's database.
      */
@@ -39,32 +40,32 @@ class DatabaseSeeder extends Seeder
             TmsRolesAndPermissionsSeeder::class,
             UserSeeder::class,
             TmsCountrySeeder::class,
-            TmsForwarderSeeder::class,
-            TmsCustomerSeeder::class,
+            // TmsForwarderSeeder::class,
+            // TmsCustomerSeeder::class,
             TmsPartnerSeeder::class,
             TmsPaymentMethodSeeder::class,
             TmsGearSeeder::class,
-            TmsAddressSeeder::class,
-            TmsContactSeeder::class,
-            TmsVehicleSeeder::class,
+            // TmsAddressSeeder::class,
+            // TmsContactSeeder::class,
+            // TmsVehicleSeeder::class,
             TmsOrderStatusSeeder::class,
-            TmsOrderSeeder::class,
+            // TmsOrderSeeder::class,
             TmsInvoiceStatusSeeder::class,
-            TmsInvoiceSeeder::class,
-            TmsOfferPriceSeeder::class,
-            TmsForwardingContractSeeder::class,
-            TmsOrderHistorySeeder::class,
-            TmsTransportLicenseSeeder::class,
-            TmsParcelSeeder::class,
+            // TmsInvoiceSeeder::class,
+            // TmsOfferPriceSeeder::class,
+            // TmsForwardingContractSeeder::class,
+            // TmsOrderHistorySeeder::class,
+            // TmsTransportLicenseSeeder::class,
+            // TmsParcelSeeder::class,
             TmsOrderAttributeSeeder::class,
             //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
             PivotTableSeeder::class,
             TmsProvisionSeeder::class,
-            TmsPamyraOrderSeeder::class,
-            TmsNativeOrderSeeder::class,
-            TmsOrderAddressSeeder::class,
-            TmsInvoiceHistorySeeder::class,
-            TmsEmonsInvoiceSeeder::class,
+            // TmsPamyraOrderSeeder::class,
+            // TmsNativeOrderSeeder::class,
+            // TmsOrderAddressSeeder::class,
+            // TmsInvoiceHistorySeeder::class,
+            // TmsEmonsInvoiceSeeder::class,
             TmsFtpCredentialSeeder::class,
         ]);
     }
