@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\System\SearchController;
 use App\Http\Controllers\TmsVehicleController;
 use Inertia\Inertia;
 use App\Models\TmsOrder;
@@ -71,6 +72,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.create');
+
+    Route::post('/search', [SearchController::class, 'search'])->name('search');
 });
 
 require __DIR__.'/auth.php';
