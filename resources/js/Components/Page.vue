@@ -1,6 +1,6 @@
 <script setup>
 import Card from '@/Shared/Card.vue';
-import TabContainer from '@Components/Tab/TabContainer.vue';
+import TabContainer from '@/Components/Tab/TabContainer.vue';
 defineProps({
     config: {
         type: Object,
