@@ -31,9 +31,9 @@ class PivotTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->seed_gear_customer();
-        $this->seed_gear_vehicle();
-        $this->seed_gear_forwarder();
+        // $this->seed_gear_customer();
+        // $this->seed_gear_vehicle();
+        // $this->seed_gear_forwarder();
         $this->seed_order_order_attribute();
         $this->seed_customer_payment_method();
         $this->seed_order_payment_method();
