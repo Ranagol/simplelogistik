@@ -28,6 +28,7 @@ use Database\Seeders\TmsForwardingContractSeeder;
 
 class DatabaseSeeder extends Seeder
 {
+    
     /**
      * Seed the application's database.
      */
