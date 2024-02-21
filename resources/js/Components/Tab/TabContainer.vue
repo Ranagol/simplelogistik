@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted} from 'vue';
 import { initFlowbite } from 'flowbite';
-import FormContainer from '@Components/Forms/FormContainer.vue';
+import FormContainer from '@/Components/Forms/FormContainer.vue';
 defineProps({
     config: {
         type: Object,

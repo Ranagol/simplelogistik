@@ -1,5 +1,5 @@
 <script setup>
-import FormField from '@Components/Forms/FormField.vue';
+import FormField from '@/Components/Forms/FormField.vue';
 
 defineProps({
     config: {
