@@ -10,6 +10,7 @@ use App\Models\TmsOrderStatus;
 use App\Models\TmsPamyraOrder;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TmsOrderRequest;
+use App\Models\TmsProvision;
 use Illuminate\Support\Facades\Validator;
 use Modules\PamyraOrder\app\Services\PamyraServices\DateFormatterTrait;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderNumberMakerTrait;
@@ -82,7 +83,7 @@ class OrderService {
             'customer_reference' => $pamyraOrder['OrderNumber'] ?? 'missing Pamyra order number',
             //this is 'Order created. This is the first status of the order, returned with array_key_first
             'order_status_id' => array_key_first(TmsOrderStatus::STATUSES) ?? 1, 
-            'provision' => 6,
+            'provision' => $this->getProvision(),
             'currency' => 'EUR',
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
             'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
@@ -140,4 +141,25 @@ class OrderService {
 
         return Carbon::now()->format('Y_m_d') . '_' .  $pamyraOrder['OrderNumber'] . '.json';
     }
+
+    /**
+     * Gets the current valid provision from the tms_provisions table.
+     * We handle here Pamyra orders. Pamyra is a partner with the id 1.
+     * We use firstOrFail() because we want to throw an exception if we don't find the right provision.
+     *
+     * @return float
+     */
+    private function getProvision(): float
+    {
+        $currentDate = Carbon::now();
+
+        $provision = TmsProvision::where('partner_id', 1)
+                        ->where('valid_from', '<', $currentDate)
+                        ->where('valid_to', '>', $currentDate)
+                        ->latest()
+                        ->firstOrFail();
+
+        return $provision->value;
+    }
+
 }
