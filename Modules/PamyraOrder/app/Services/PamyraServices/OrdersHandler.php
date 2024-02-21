@@ -3,6 +3,7 @@
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHandler;
+use Modules\PamyraOrder\app\Services\PamyraServices\PamyraFtpHandler;
 
 class OrdersHandler
 {
@@ -11,7 +12,7 @@ class OrdersHandler
      *
      * @var PamyraFtpHandler
      */
-    private pamyraFtpHandler $pamyraFtpHandler;
+    private PamyraFtpHandler $pamyraFtpHandler;
     
     /**
      * A service that handles the order data. 
