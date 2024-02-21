@@ -63,19 +63,17 @@
 </script>
 
 <template>
-    <div :class="class">
-        <div :class="defaultWrapperClass">
-            <input @keyup="keyup" :type="type" :value="value" :id="'floating-input-filed-' + _id" :placeholder="$t(placeholder ?? '')"
-            :class="defaultInputClass"
-            >
-            <div :class="defaultIconWrapperClass">
-                <el-icon v-if="tooltipText && tooltipText !== ''" :data-tooltip-target="'tooltip-icon-input-'+ _id" type="button" :color="iconColor ?? 'silver'" :size="iconSize ?? '18'"><QuestionFilled :class="iconClass" /></el-icon>
-            </div>
-            <label :class="defaultLabelClass" :for="'floating-input-filed-' + _id">{{$t(label ?? placeholder ?? '')}}</label>
-            <div v-if="tooltipText && tooltipText !== ''" :id="'tooltip-icon-input-'+ _id" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                {{ $t(tooltipText) }}
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
+    <div :class="defaultWrapperClass">
+        <input @keyup="keyup" :type="type" :value="value" :id="'floating-input-filed-' + _id" :placeholder="$t(placeholder ?? '')"
+        :class="defaultInputClass"
+        >
+        <div :class="defaultIconWrapperClass">
+            <el-icon v-if="tooltipText && tooltipText !== ''" :data-tooltip-target="'tooltip-icon-input-'+ _id" type="button" :color="iconColor ?? 'silver'" :size="iconSize ?? '18'"><QuestionFilled :class="iconClass" /></el-icon>
+        </div>
+        <label :class="defaultLabelClass" :for="'floating-input-filed-' + _id">{{$t(label ?? placeholder ?? '')}}</label>
+        <div v-if="tooltipText && tooltipText !== ''" :id="'tooltip-icon-input-'+ _id" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            {{ $t(tooltipText) }}
+            <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
     </div>
 </template>
