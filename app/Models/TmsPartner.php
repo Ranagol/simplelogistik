@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * Pamyra should have id = 1 in tms_partners table.
+ * Emons should have id = 2 in tms_partners table.
+ */
 class TmsPartner extends Model
 {
     use HasFactory;
