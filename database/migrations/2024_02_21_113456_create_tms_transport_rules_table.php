@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('tms_transport_rules', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique()->comment('Example: pamyra-stuckgut-partner. The first part is company name involved. The second part is the search term/topic/name used in the rule. If needed add additional parts with - as separator.');
-            $table->string('created_by')->comment('The user who created the rule.')->nullable();
+            $table->string('action_type')->comment('Example: setPartner. Or: setOrderTransportType.');
+            //In Pamyra json file
+            $table->string('source_field')->comment('Example: calculationModelName. The field that contains the key word in Pamyra json file.')->nullable();
+            $table->string('condition_operator')->comment('Example: equal. Or: %LIKE%. If the type of transport is equal to Stuckgut then...')->nullable();
+            $table->string('keyphrase')->comment('Example: Stückgut. We search for this keyword or keyphrase.')->nullable();
+            //In db
+            $table->string('target_table_name')->comment('The name of the target table in our db.')->nullable();
+            $table->string('target_column_name')->comment('The field that should be updated in out db table.')->nullable();
+            $table->string('target_new_value')->comment('The value that should be set in our db table.')->nullable();
+
             $table->text('description')->comment('The description of the rule in non-programmer terms.')->nullable();
-            $table->string('condition_field')->comment('Example: type of transport. If the type of transport is ... then...');
-            $table->string('condition_content')->comment('Example: the phrase Stuckgut. If the type of transport is Stuckgut then...');
-            $table->string('condition_operator')->comment('Example: equal. If the type of transport is equal to Stuckgut then...');
-            $table->string('consequence')->comment('Example: ...then the price is 100. A description what will happen, if the condition is met. If the type_of_transport is Stuckgut, then the Partner should be automatically Partner Emons Villingen (when processing the pamyra json file)');
+
             $table->timestamps();
         });
     }
