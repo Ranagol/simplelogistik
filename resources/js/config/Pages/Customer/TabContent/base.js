@@ -1,4 +1,6 @@
 export default {
+    title: "forms.customers.generalCustomerData",
+    preset: "form",
     fields: [
         {
             editable: {
