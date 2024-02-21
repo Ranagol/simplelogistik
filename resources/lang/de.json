@@ -256,5 +256,15 @@
         "billing": "Rechnungsadresse",
         "pickup": "Abholadresse",
         "delivery": "Lieferadresse"
+    },
+    "tabs":{
+        "generalCustomerData": "Allgemeine Kundendaten",
+        "individualSettings": "Individuelle Einstellungen",
+        "comments": "Kommentar",
+        "addresses": "Adressen",
+        "contacts": "Kontakte",
+        "orders": "Aufträge",
+        "offers": "Angebote",
+        "invoices": "Rechnungen & Gutschriften"
     }
 }

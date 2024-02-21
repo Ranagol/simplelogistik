@@ -56,6 +56,12 @@ class TmsCustomer extends Model
         'payment_method_options_to_offer' => 'array',
     ];
 
+    public $searchable = [
+        'company_name',
+        'first_name',
+        'last_name',
+        'email',
+    ];
     /**
      * APPENDING (attaching a new column to the model, that is originally not in the model's table)
      * Here we want to add country_name to the Address model.
