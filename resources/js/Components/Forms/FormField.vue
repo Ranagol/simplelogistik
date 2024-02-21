@@ -1,7 +1,7 @@
 <script setup>
-import CustomDropdown from '@Components/Dropdowns/CustomDropdown.vue';
-import IconTooltipInput from '@Components/Inputs/IconTooltipInput.vue';
-import SearchableInput from '@Components/Inputs/SearchableInput.vue';
+import CustomDropdown from '@/Components/Dropdowns/CustomDropdown.vue';
+import IconTooltipInput from '@/Components/Inputs/IconTooltipInput.vue';
+import SearchableInput from '@/Components/Inputs/SearchableInput.vue';
 import { reactive } from 'vue';
 
 defineProps({

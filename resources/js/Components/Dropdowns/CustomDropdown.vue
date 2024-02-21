@@ -14,6 +14,18 @@ const props = defineProps({
     }
 })
 
+var searchInput = ref('');
+var activeSelection = ref('');
+var options = ref([]);
+
+function getActiveLabel(key) {
+    return options.value.find((a) => a.key === key).name;
+}
+
+function updateValue(value) {
+    activeSelection.value = value;
+}
+
 </script>
 
 <template>
@@ -36,82 +48,3 @@ const props = defineProps({
         </div>
     </div>
 </template>
-
-<script setup>
-    import { ArrowDown } from '@element-plus/icons-vue';
-    import { initFlowbite, Dropdown } from 'flowbite';
-    import { ref,onMounted } from 'vue'; 
-
-    const props = defineProps({
-        id: {
-            type: String,
-            required: false
-        },
-        options: {
-            type: Array,
-            required: true
-        },
-        floating: {
-            type: Boolean,
-            required: false,
-        },
-        labelText: {
-            type: String,
-            required: false,
-            default: 'TEST'
-        },
-        updateValue: {
-            type: Function,
-            required: true
-        },
-        value: {
-            type: String,
-            required: true
-        },
-        searchable: {
-            type: Boolean,
-            required: false,
-            default: false
-        }
-    })
-
-    var _id = props.id;
-
-    onMounted(() => {
-        initFlowbite();
-    });
-    
-
-    var searchInput = ref('');
-
-    var activeSelection = ref(props.value ?? props.options[0].key);
-
-    const updateValue = (key) => {
-        activeSelection = ref(key);
-        props.updateValue(key);
-        // Reset the search input to be empty
-        searchInput = '';
-
-        // remove filter from options
-        props.options.forEach(option => {
-            option.hidden = false;
-        });
-
-        // Hide the dropdown
-        var item = document.querySelector('#customDropDownButton' + _id ?? 'item');
-        item.dispatchEvent(new Event('click'));
-    }
-    
-    const getActiveLabel = (key) => {
-        return props.options.find(option => option.key === key).name;
-    }
-    
-</script>            <a href="#"
-                class="flex items-center p-3 text-sm font-medium text-red-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 hover:underline">
-                <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                    viewBox="0 0 20 18">
-                    <path
-                        d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
-                </svg>
-                Delete user
-            </a>
