@@ -1,11 +1,11 @@
-import base from "@Config/Pages/Customer/TabContent/base"
-import individualSettings from "@Config/Pages/Customer/TabContent/individualSettings"
-import addresses from "@Config/Pages/Customer/TabContent/addresses"
-import comments from "@Config/Pages/Customer/TabContent/comments"
-import contacts from "@Config/Pages/Customer/TabContent/contacts"
-import invoices from "@Config/Pages/Customer/TabContent/invoices"
-import offers from "@Config/Pages/Customer/TabContent/offers"
-import orders from "@Config/Pages/Customer/TabContent/orders"
+import base from "@/config/Pages/Customer/TabContent/base"
+import individualSettings from "@/config/Pages/Customer/TabContent/individualSettings"
+import addresses from "@/config/Pages/Customer/TabContent/addresses"
+import comments from "@/config/Pages/Customer/TabContent/comments"
+import contacts from "@/config/Pages/Customer/TabContent/contacts"
+import invoices from "@/config/Pages/Customer/TabContent/invoices"
+import offers from "@/config/Pages/Customer/TabContent/offers"
+import orders from "@/config/Pages/Customer/TabContent/orders"
 
 export default {
     title: "pages.customers.title",
