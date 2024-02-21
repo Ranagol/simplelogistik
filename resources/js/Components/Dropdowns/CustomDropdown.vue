@@ -1,3 +1,21 @@
+<script setup>
+
+import { initFlowbite } from 'flowbite';
+import { ref, onMounted } from 'vue';
+
+onMounted(() => {
+    initFlowbite()
+})
+
+const props = defineProps({
+    config: {
+        type: Object,
+        required: true
+    }
+})
+
+</script>
+
 <template>
     <div class="relative grid w-full">
         <button :id="'customDropDownButton' + _id ?? 'item'" :data-dropdown-toggle="'custom-dropdown-' + _id ?? 'item'" 
