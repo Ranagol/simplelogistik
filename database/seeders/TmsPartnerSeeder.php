@@ -15,13 +15,18 @@ class TmsPartnerSeeder extends Seeder
     {
         /**
          * Partner is for example Pamyra. There will be not too much of partners, so I fake only 3.
-         * The first partner is Pamyra.
+         * The first partner is always Pamyra. The second partner is always Emons.
          */
         TmsPartner::factory()->create(
             [
                 'company_name' => 'Pamyra',
             ]
         );
-        TmsPartner::factory(2)->create();
+        TmsPartner::factory()->create(
+            [
+                'company_name' => 'Emons',
+            ]
+        );
+        TmsPartner::factory(1)->create();
     }
 }
