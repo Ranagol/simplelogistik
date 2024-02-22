@@ -7,7 +7,9 @@ defineProps({
         required: true
     }
 });
+
 </script>
+
 <template>
     <span class="relative block p-4 px-0 font-bold text-[17px]">{{ $t(config.title) }}</span>
     <div class="grid grid-cols-12 gap-4">
