@@ -39,12 +39,16 @@ class TmsPaymentMethod extends Model
             'external_name' => 'preCashTransfer',
         ],
         4 => [
-            'internal_name' => 'Vorcasse',
+            'internal_name' => 'Vorkasse',
             'external_name' => 'creditCard',
         ],
         5 => [
             'internal_name' => 'Sofort',
             'external_name' => 'directDebit',
+        ],
+        6 => [
+            'internal_name' => 'Vorkasse',
+            'external_name' => '__________',
         ],
     ];
 
