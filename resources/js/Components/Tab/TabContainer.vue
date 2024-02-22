@@ -1,7 +1,8 @@
 <script setup>
-import {onMounted} from 'vue';
+import { onMounted } from 'vue';
 import { initFlowbite } from 'flowbite';
 import FormContainer from '@/Components/Forms/FormContainer.vue';
+import PageActions from '@/Components/PageActions.vue';
 defineProps({
     config: {
         type: Object,
@@ -37,7 +38,9 @@ onMounted(() => {
             :id="'content-' + tab.id" 
             role="tabpanel" 
             :aria-labelledby="tab.id + '-tab'">
+            <PageActions v-if="tab.content.actions" position="top" :actions="tab.content.actions" />
             <FormContainer :config="tab.content" />
+            <PageActions v-if="tab.content.actions" position="bottom" :actions="tab.content.actions" />
         </div>
     </div>
 </template>
