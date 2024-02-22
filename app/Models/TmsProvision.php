@@ -16,6 +16,14 @@ class TmsProvision extends Model
     protected $guarded = ['id'];
     protected $table = "tms_provisions";
 
+    public const PROVISIONS_FOR_SEEDINGS = [
+        "INSERT INTO simplelogistik.tms_provisions (id, partner_id, sales_channel, value, max_provision_limit_eur, valid_from, valid_to, created_at, updated_at) VALUES(1, 1, 'Marketplace', 8.0, 80.0, '2023-01-01', '2025-12-31', '2024-02-22 13:27:43', '2024-02-22 13:27:43');",
+        "INSERT INTO simplelogistik.tms_provisions (id, partner_id, sales_channel, value, max_provision_limit_eur, valid_from, valid_to, created_at, updated_at) VALUES(2, 1, 'PRO', 6.0, 60.0, '2023-01-01', '2025-12-31', '2024-02-22 13:27:43', '2024-02-22 13:27:43');",
+        "INSERT INTO simplelogistik.tms_provisions (id, partner_id, sales_channel, value, max_provision_limit_eur, valid_from, valid_to, created_at, updated_at) VALUES(3, 1, 'Sales Assistant', NULL, 0.95, '2023-01-01', '2025-12-31', '2024-02-22 13:27:43', '2024-02-22 13:27:43');",
+        "INSERT INTO simplelogistik.tms_provisions (id, partner_id, sales_channel, value, max_provision_limit_eur, valid_from, valid_to, created_at, updated_at) VALUES(4, 1, 'Connect', NULL, 0.95, '2023-01-01', '2025-12-31', '2024-02-22 13:27:43', '2024-02-22 13:27:43');",
+        "INSERT INTO simplelogistik.tms_provisions (id, partner_id, sales_channel, value, max_provision_limit_eur, valid_from, valid_to, created_at, updated_at) VALUES(5, 1, '4You', NULL, 0.95, '2023-01-01', '2025-12-31', '2024-02-22 13:27:43', '2024-02-22 13:27:43');",
+    ];
+
     public function partner(): BelongsTo
     {
         return $this->belongsTo(TmsPartner::class, 'partner_id');

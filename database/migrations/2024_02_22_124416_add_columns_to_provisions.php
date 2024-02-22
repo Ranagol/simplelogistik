@@ -16,17 +16,15 @@ return new class extends Migration
             if(!Schema::hasColumn('tms_provisions', 'sales_channel')) {
                 $table->string('sales_channel')
                         ->after('partner_id')
-                        ->comment('Marketplace or PRO or Sales Assistant or Connect or 4You')
-                        ->nullable();
-                        
+                        ->comment('Marketplace or PRO or Sales Assistant or Connect or 4You')//why is this comment not showing up in the database?
+                        ->nullable();          
             }
 
             if(!Schema::hasColumn('tms_provisions', 'max_provision_limit_eur')) {
-                $table->float('max_provision_limit_eur')
+                $table->float('max_provision_limit_eur', 8, 2)
                         ->after('value')
                         ->comment('80 eur for Marketplace, 60 eur for PRO. This is the maximum value of a provision, it can not be higher than this.')
-                        ->nullable();
-                        
+                        ->nullable();        
             }
         });
     }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('partner_id')->nullable();
             $table->foreign('partner_id')->references('id')->on('tms_partners');
-            $table->float('value', 10, 2)->comment('The provision value in percentage. Example: 1.5%');
+            $table->float('value', 10, 2)->comment('The provision value in percentage. Example: 1.5%')->nullable();
             $table->date('valid_from')->comment('The provision is valid from this date');
             $table->date('valid_to')->comment('The provision is valid to this date');
             $table->timestamps();
