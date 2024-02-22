@@ -17,13 +17,12 @@ class SearchController extends Controller {
 
 
     public function search(Request $request) {
-        $data = $request->only("resource", "q", "giveback");
+        $data = $request->only("resource", "q");
         $model = $this->getResorceModel($data["resource"]);
 
         if ($model) {
             $results = $this->searchInModel($model, $data["q"]);
-            $mapped = $this->mapData($results, $data["giveback"]);
-            return response()->json($mapped);
+            return response()->json($results);
 
             // return $results;
         } else {
@@ -36,22 +35,22 @@ class SearchController extends Controller {
         foreach ($model->searchable as $column) {
             $query->orWhere($column, 'like', $searchData . '%');
         }
-        $res = $query->get()->toArray();
-        return $res;
+        $res = $query->get();
+        return $res->toArray();
     }
 
 
-    private function mapData($results, $giveback) {
-        $newResults = [];
-        foreach($results as $result){
-            $mapped = [];
-            foreach($giveback as $key => $newKey){
-                $mapped[$newKey] = $result[$key];
-            }
-            array_push($newResults, $mapped);
-        }
-        return $newResults;
-    }
+    // private function mapData($results, $giveback) {
+    //     $newResults = [];
+    //     foreach($results as $result){
+    //         $mapped = [];
+    //         foreach($giveback as $key => $newKey){
+    //             $mapped[$newKey] = $result[$key];
+    //         }
+    //         array_push($newResults, $mapped);
+    //     }
+    //     return $newResults;
+    // }
 
     private function getResorceModel(String $resource) {
         switch ($resource) {
