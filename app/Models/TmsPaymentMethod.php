@@ -48,7 +48,7 @@ class TmsPaymentMethod extends Model
         ],
         6 => [
             'internal_name' => 'Vorkasse',
-            'external_name' => '__________',
+            'external_name' => 'Banküberweisung',
         ],
     ];
 
