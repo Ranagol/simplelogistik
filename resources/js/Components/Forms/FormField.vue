@@ -20,12 +20,14 @@ const updateValue = (value) => {
 }
 
 var className = props.fieldConfig.class;
+var fieldId = props.fieldConfig.id ?? Math.random().toString(36).substring(2,20);
 
 </script>
 <template>
     <div :class="className ?? 'col-span-6'">
         <IconTooltipInput 
             v-if="fieldConfig.type==='text'" 
+            :id="fieldId"
             :label="fieldConfig.label" 
             :placeholder="fieldConfig.placeholder ?? fieldConfig.label" />
 
@@ -37,6 +39,7 @@ var className = props.fieldConfig.class;
             v-else-if="fieldConfig.type==='searchable'" 
             :onUpdate="updateValue" 
             :onSelect="updateValue" 
+            :id="fieldId"
             :value="data.currentValue.name" 
             :config="fieldConfig" />
 

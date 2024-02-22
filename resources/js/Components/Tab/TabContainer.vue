@@ -11,7 +11,6 @@ defineProps({
         required: true
     }
 });
-
 onMounted(() => {
     initFlowbite();
 });
