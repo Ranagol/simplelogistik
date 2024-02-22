@@ -6,8 +6,10 @@ use DateTime;
 use Carbon\Carbon;
 use App\Models\TmsOrder;
 use App\Models\TmsCustomer;
+use App\Models\TmsForwarder;
 use App\Models\TmsOrderStatus;
 use App\Models\TmsPamyraOrder;
+use App\Models\TmsTransportRule;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TmsOrderRequest;
 use App\Models\TmsProvision;
@@ -79,6 +81,7 @@ class OrderService {
         $orderArray = [
             'customer_id' => $customerId,
             'partner_id' => $partnerId,
+            'forwarder_id' => $this->setForwarderId($pamyraOrder),
             'origin' => TmsOrder::ORIGINS[1], //this is: pamyra
             'customer_reference' => $pamyraOrder['OrderNumber'] ?? 'missing Pamyra order number',
             //this is 'Order created. This is the first status of the order, returned with array_key_first
@@ -168,5 +171,42 @@ class OrderService {
             return $provisionInEur;
         }
         return $maxProvisionLimitEur;
+    }
+    
+    /*
+     * Sets the forwarder id for the order. In general the forwarderId will be null. However,
+     * if some setForwarder rule can be applied (from tms_transport_rules table), then we set the
+     * forwarder id based on the rule.
+     * 
+     * @param array $pamyraOrder
+     * @return int|null
+     */
+    private function setForwarderId(array $pamyraOrder): int | null
+    {
+        //Based on this string we decide who should be the forwarder for the given order.
+        $calculationModelName = $pamyraOrder['CalculationModelName'] ?? null;
+        $forwarderId = null;
+
+        if($calculationModelName === null) {
+            return $forwarderId;//which will be null. No need to continue the function.
+        }
+
+        //Get all rules for setting forwarder from db. 
+        $rulesForSettingForwarder = TmsTransportRule::where('action_type', 'setForwarder')->get();
+
+        //Loop through the rules and set the forwarder id
+        foreach($rulesForSettingForwarder as $rule) {
+
+            //Search for the keyphrase in the calculation model name
+            if(strpos($calculationModelName, $rule->keyphrase) !== false) {
+                $forwarderId = TmsForwarder::where('company_name', 'Emons')
+                                            ->where('id', 1)
+                                            ->firstOrFail()
+                                            ->id;
+                break;//if we found the forwarder, we don't need to continue the loop
+            } 
+        }
+
+        return $forwarderId;
     }
 }

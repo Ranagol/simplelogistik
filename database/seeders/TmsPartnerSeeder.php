@@ -22,11 +22,6 @@ class TmsPartnerSeeder extends Seeder
                 'company_name' => 'Pamyra',
             ]
         );
-        TmsPartner::factory()->create(
-            [
-                'company_name' => 'Emons',
-            ]
-        );
-        TmsPartner::factory(1)->create();
+        TmsPartner::factory(2)->create();
     }
 }

@@ -48,6 +48,14 @@ class TmsOrder extends Model
         8 => 'Direktfahrt'
     ];
 
+    public const CALCULATION_MODEL_NAMES = [
+        'AKTION - FTL / LTL Ladung Flex',
+        'Stückgut Deutschlandweit B2B / B2C',
+        'Planensprinter Abholung innerhalb 4h',
+        'Sperrgut MAX. 35KG / verpackt B2B / B2C',
+        
+    ];
+
     /**
      * This is the source, the origin of the order.
      */
