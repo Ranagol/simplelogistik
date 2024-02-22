@@ -93,6 +93,7 @@ class OrderService {
             'payment_method' => 5, //this is invoice payment method
             'order_number' => $this->setOrderNumber(),
             'import_file_name' => $this->createFileName($pamyraOrder),
+            'type_of_transport' => $this->setTypeOfTransport($pamyraOrder),
         ];
 
         $this->validate($orderArray);
@@ -208,5 +209,32 @@ class OrderService {
         }
 
         return $forwarderId;
+    }
+
+    private function setTypeOfTransport(array $pamyraOrder): string
+    {
+        $calculationModelName = $pamyraOrder['CalculationModelName'] ?? null;
+
+        $typeOfTransport = 'missing calculation model name';
+
+        //If the calculation model name is missing, we return the default type of transport
+        if($calculationModelName === null) {
+            return $typeOfTransport;
+        }
+
+        //Get all rules for setting forwarder from db. 
+        $rulesForSettingTypeOfTransport = TmsTransportRule::where('action_type', 'setTypeOfTransport')->get();
+
+        //Loop through the rules and set the forwarder id
+        foreach($rulesForSettingTypeOfTransport as $rule) {
+
+            //Search for the keyphrase in the calculation model name
+            if(strpos($calculationModelName, $rule->keyphrase) !== false) {
+                $typeOfTransport = $rule->target_new_value;
+                break;//if we found the typeOfTransport, we don't need to continue the loop
+            } 
+        }
+
+        return $typeOfTransport;
     }
 }
