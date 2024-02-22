@@ -2,7 +2,9 @@
 import { onMounted } from 'vue';
 import { initFlowbite } from 'flowbite';
 import FormContainer from '@/Components/Forms/FormContainer.vue';
-import PageActions from '@/Components/PageActions.vue';
+import TimelineContainer from '@/Components/Forms/TimelineContainer.vue';
+import TableContainer from '@/Components/Forms/TableContainer.vue';
+import PageActions from '@/Components/Page/PageActions.vue';
 defineProps({
     config: {
         type: Object,
@@ -39,7 +41,11 @@ onMounted(() => {
             role="tabpanel" 
             :aria-labelledby="tab.id + '-tab'">
             <PageActions v-if="tab.content.actions" position="top" :actions="tab.content.actions" />
-            <FormContainer :config="tab.content" />
+            
+            <FormContainer :mode-edit="modeEdit" v-if="tab.content.preset === 'form'" :config="tab.content" />
+            <TimelineContainer :mode-edit="modeEdit" v-else-if="tab.content.preset === 'timeline|input'" :config="tab.content" />
+            <TableContainer :mode-edit="modeEdit" v-else-if="tab.content.preset === 'table'" :config="tab.content" />
+
             <PageActions v-if="tab.content.actions" position="bottom" :actions="tab.content.actions" />
         </div>
     </div>
