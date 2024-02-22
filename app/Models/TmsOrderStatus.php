@@ -45,14 +45,6 @@ class TmsOrderStatus extends Model
             'internal_name' => 'Canceled by Simplelogistik',
             'external_name' => 'CANCELED_BY_AGENCY',
         ],
-        8 => [
-            'internal_name' => 'Invoice sent to customer',
-            'external_name' => '',
-        ],
-        9 => [
-            'internal_name' => 'Invoice paid',
-            'external_name' => '',
-        ],
     ];
 
     public function orders(): HasMany

@@ -45,10 +45,11 @@ class TmsOrder extends Model
     public const TYPES_OF_TRANSPORT = [
         1 => 'General cargo',
         2 => 'LTL/FTL',
-        3 => 'Direct transport',
+        3 => 'Direct transport/Direktfahrt',
         4 => 'Parcell up to 31.5 kg',
         5 => 'Special order',
-        6 => 'Regel tour'
+        6 => 'Regel tour',
+        7 => 'Stückgut'
     ];
 
     /**
@@ -58,7 +59,9 @@ class TmsOrder extends Model
         1 => 'pamyra',
         2 => 'native_sales',
         3 => 'native_google-ads',
-        4 => 'shipping_calc.'
+        4 => 'shipping_calc.',
+        5 => 'email',
+        6 => 'contact form',
     ];
 
     //*************RELATIONSHIPS*************************************** */    
