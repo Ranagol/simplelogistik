@@ -40,8 +40,18 @@
         axios.post('/search', {
             resource: resource,
             q: e.target.value,
-            giveback: props.config.resultKeys
-        }).then(response => {
+        }).catch(error => {
+            console.log(error);
+        })
+        .then(response => {
+            if(props.config.accessKeys !== null){
+                response.data = response.data.map((item) => {
+                    return {
+                        id: item[props.config.accessKeys.id],
+                        name: item[props.config.accessKeys.name]
+                    }
+                });
+            }
             results.value = response.data;
             _results.value = response.data;
         });
@@ -110,7 +120,7 @@ document.querySelector('body').addEventListener('click', function(event) {
             <div v-else 
                 class="absolute left-0 right-0 z-50 w-full p-4 bg-white border shadow-md text-corporate-950 top-full" 
                 :class="{'block': filter.state, 'hidden': !filter.state}">
-                {{ (results.length === 0 && searchString !== '') ? $t('labels.search.no-results') : $t('labels.search.start-typing-to-search') }}
+                {{ (results.length < 1 && searchString !== '') ? $t('labels.no-results') : $t('labels.start-typing-to-search') }}
             </div>
         </div>
     </div>
