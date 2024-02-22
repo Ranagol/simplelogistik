@@ -215,7 +215,7 @@ class OrderService {
     {
         $calculationModelName = $pamyraOrder['CalculationModelName'] ?? null;
 
-        $typeOfTransport = 'missing calculation model name';
+        $typeOfTransport = 'not defined';
 
         //If the calculation model name is missing, we return the default type of transport
         if($calculationModelName === null) {
