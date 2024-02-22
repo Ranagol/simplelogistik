@@ -19,8 +19,7 @@ class TmsProvisionFactory extends Factory
         return [
             
             /**
-             * There will be 3 provisions faked. These 3 provisions can easily belong to one partner.
-             * So, the number 1 here is realistic.
+             * This logic is correct, but not used. There is a different logic in the seeder.
              */
             'partner_id' => 1,
             'value' => $this->faker->randomElement([6,8]),
