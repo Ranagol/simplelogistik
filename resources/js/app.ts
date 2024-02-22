@@ -118,6 +118,20 @@ createInertiaApp({
                             first_page_url: records?.meta.first_page_url,
                             last_page_url: records?.meta.last_page_url,
                         }
+                    },
+                    getButtonStyle: (variant: string = 'index') => {
+
+                        const styles = {
+                            "index": "p-3 text-corporate-700 rounded-md hover:text-corporate-400 place-items-center gap-1",
+                            "create": "p-3 bg-primary-700 text-white rounded-md hover:bg-primary-500 gap-2 place-items-center",
+                            "store": "p-3 bg-primary-700 text-white rounded-md hover:bg-primary-500 gap-2 place-items-center",
+                            "edit": "p-3 bg-primary-700 text-white rounded-md hover:bg-primary-500 gap-2 place-items-center",
+                            "update": "p-3 bg-slate-700 text-white rounded-md hover:bg-slate-500 gap-2 place-items-center",
+                            "destroy": "p-3 bg-red-700 text-white rounded-md hover:bg-red-500 gap-2 place-items-center",
+                            "void": "p-3 text-red-700 rounded-md hover:text-red-400 place-items-center gap-1",
+                        };
+                        
+                        return styles[variant];
                     }
                 },
             })
