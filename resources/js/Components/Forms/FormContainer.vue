@@ -5,6 +5,10 @@ defineProps({
     config: {
         type: Object,
         required: true
+    },
+    modeEdit: {
+        type: Boolean,
+        required: false,
     }
 });
 </script>
