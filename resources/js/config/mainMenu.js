@@ -17,6 +17,11 @@ const items =  [
         "icon": Avatar,
     },
     {
+        "title": "menu.customers",
+        "route": 'customer.old-create',
+        "icon": Avatar,
+    },
+    {
         "title": "menu.addresses",
         "route": 'addresses.index',
         "icon": TakeawayBox,
