@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             TmsRolesAndPermissionsSeeder::class,
             UserSeeder::class,
             TmsCountrySeeder::class,
-            // TmsForwarderSeeder::class,
+            TmsForwarderSeeder::class,
             // TmsCustomerSeeder::class,
             TmsPartnerSeeder::class,
             TmsPaymentMethodSeeder::class,
