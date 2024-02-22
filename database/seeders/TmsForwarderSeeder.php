@@ -9,10 +9,15 @@ use Illuminate\Database\Seeder;
 class TmsForwarderSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Create 1 forwarder with company name Emons and the rest 19 forwarders with random data.
      */
     public function run(): void
     {
-        TmsForwarder::factory()->count(config('constants.numberOfDbRecords'))->create();
+        TmsForwarder::factory()->count(1)->create(
+            [
+                'company_name' => 'Emons',
+            ]
+        );
+        TmsForwarder::factory()->count(config('constants.numberOfDbRecords') - 1)->create();
     }
 }

@@ -14,7 +14,12 @@ class TmsParcel extends Model
     protected $guarded = ['id'];
     protected $table = "tms_parcels";
 
-    const PARCEL_TYPE = ['package', 'bulky goods', 'euro pallet', 'disposable pallet'];
+    const PARCEL_TYPE = [
+        'package', 
+        'bulky goods', 
+        'euro pallet', 
+        'disposable pallet'
+    ];
 
     protected $casts = [
         'is_hazardous' => 'boolean',
