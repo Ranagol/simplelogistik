@@ -1,15 +1,31 @@
-import base from "@Config/Pages/Customer/TabContent/base"
-import individualSettings from "@Config/Pages/Customer/TabContent/individualSettings"
-import addresses from "@Config/Pages/Customer/TabContent/addresses"
-import comments from "@Config/Pages/Customer/TabContent/comments"
-import contacts from "@Config/Pages/Customer/TabContent/contacts"
-import invoices from "@Config/Pages/Customer/TabContent/invoices"
-import offers from "@Config/Pages/Customer/TabContent/offers"
-import orders from "@Config/Pages/Customer/TabContent/orders"
+import base from "@/config/Pages/Customer/TabContent/base"
+import individualSettings from "@/config/Pages/Customer/TabContent/individualSettings"
+import addresses from "@/config/Pages/Customer/TabContent/addresses"
+import comments from "@/config/Pages/Customer/TabContent/comments"
+import contacts from "@/config/Pages/Customer/TabContent/contacts"
+import invoices from "@/config/Pages/Customer/TabContent/invoices"
+import offers from "@/config/Pages/Customer/TabContent/offers"
+import orders from "@/config/Pages/Customer/TabContent/orders"
+
+import {
+    index,create,store,destroy,update
+} from "@/config/actionPresets";
 
 export default {
     title: "pages.customers.title",
     type: "tabs",
+    useContent: {
+        index: false,
+        create: false,
+        edit: true,
+    },
+    actions: {
+        alignment: "justify-start",
+        position: "top",
+        buttons: [
+            index
+        ]
+    },
     tabs: [
         {
             title: "tabs.generalCustomerData",
@@ -27,13 +43,13 @@ export default {
             title: "tabs.comments",
             name: "name-comments",
             id: 'id-comments',
-            content: addresses
+            content: comments
         },
         {
             title: "tabs.addresses",
             name: "name-addresses",
             id: 'id-addresses',
-            content: comments
+            content: addresses
         },
         {
             title: "tabs.contacts",
@@ -45,7 +61,7 @@ export default {
             title: "tabs.orders",
             name: "name-orders",
             id: 'id-orders',
-            content: invoices
+            content: orders
         },
         {
             title: "tabs.offers",
@@ -57,7 +73,7 @@ export default {
             title: "tabs.invoices",
             name: "name-invoices",
             id: 'id-invoices',
-            content: orders
+            content: invoices
         },
     ]
 }

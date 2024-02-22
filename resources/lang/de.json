@@ -58,6 +58,8 @@
         "no-payment-method": "Keine Zahlungsart hinterlegt"
     },
     "labels": {
+        "start-typing-to-search": "Tippen Sie, um zu suchen...",
+        "no-results": "Ihre Eingabe brachte keine Ergebnisse",
         "origin": "Herkunft",
         "pickupAddresses": "Abholung",
         "deliveryAddresses": "Zustellung",
@@ -258,13 +260,75 @@
         "delivery": "Lieferadresse"
     },
     "tabs":{
-        "generalCustomerData": "Allgemeine Kundendaten",
-        "individualSettings": "Individuelle Einstellungen",
+        "generalCustomerData": "Kundenstamm",
+        "individualSettings": "Präferenzen",
         "comments": "Kommentar",
         "addresses": "Adressen",
         "contacts": "Kontakte",
         "orders": "Aufträge",
         "offers": "Angebote",
         "invoices": "Rechnungen & Gutschriften"
+    },
+    "actions": {
+        "back-to-index": "Zurück",
+        "create": "Anlegen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "update": "Aktualisieren",
+        "show": "Anzeigen",
+        "download": "Herunterladen",
+        "send": "Senden",
+        "void": "Stornieren"
+    },
+    "forms": {
+        "fields": {
+            "companyName": "Firmenname",
+            "internalId": "Interne ID",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "phoneNumber": "Telefonnummer",
+            "emailAddress": "E-Mail Adresse",
+            "taxNumber": "Steuernummer",
+            "rating": "Bewertung",
+            "paymentTime": "Zahlungsfrist",
+            "forwarder": "Dienstleister",
+            "autoBookAsPrivate": "Automatisch als Privatkunde buchen",
+            "dangerousGoods": "Gefahrgut",
+            "businessCustomer": "Geschäftskunde",
+            "debtCollection": "Inkasso",
+            "directDebit": "Lastschrift",
+            "manualCollectiveInvoicing": "Manuelle Sammelrechnung",
+            "privateCustomer": "Privatkunde",
+            "invoiceCustomer": "Rechnungskunde",
+            "poorPaymentMorale": "Schlechte Zahlungsmoral",
+            "canLogin": "Kann sich einloggen",
+            "customerType": "Kundentyp",
+            "invoiceDispatch": "Rechnungsversand",
+            "invoiceShippingMethod": "Rechnungsversandart",
+            "paymentMethodOptionsToOffer": "Zahlungsarten",
+            "paymentMethod": "Zahlungsart",
+            "emailForInvoice": "E-Mail für Rechnung",
+            "emailForLabel": "E-Mail für Label",
+            "emailForPod": "E-Mail für POD",
+            "customerReference": "Kundenreferenz",
+            "enter-comment": "Anmerkung eingeben"
+        },
+        "customers": {
+            "generalCustomerData": "Kundenstamm",
+            "individualSettings": "Präferenzen",
+            "comments": "Kommentar",
+            "addresses": "Adressen",
+            "contacts": "Kontakte",
+            "orders": "Aufträge",
+            "offers": "Angebote",
+            "invoices": "Rechnungen & Gutschriften"
+        }
+    },
+    "pages": {
+        "customers": {
+            "title": "Kunden"
+        }
     }
 }

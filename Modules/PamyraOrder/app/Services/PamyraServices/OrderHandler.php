@@ -99,12 +99,12 @@ class OrderHandler {
         }
 
         $this->handleCustomer($pamyraOrder);
-        $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
+        // $this->handleAddresses($pamyraOrder);//TmsAddress
         $this->handleOrder($pamyraOrder);
         $this->handleParcels($pamyraOrder);
         $this->handlePamyraOrder($pamyraOrder);
         $this->handleOrderAttributes($pamyraOrder);
-        $this->handleOrderAddresses($pamyraOrder);//pickup and delivery from TmsOrderAddress
+        $this->handleOrderAddresses($pamyraOrder);//TmsOrderAddress
         $this->createOrderHistory($pamyraOrder);
     }
 
