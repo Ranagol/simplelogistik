@@ -312,7 +312,8 @@
             "emailForInvoice": "E-Mail für Rechnung",
             "emailForLabel": "E-Mail für Label",
             "emailForPod": "E-Mail für POD",
-            "customerReference": "Kundenreferenz"
+            "customerReference": "Kundenreferenz",
+            "enter-comment": "Anmerkung eingeben"
         },
         "customers": {
             "generalCustomerData": "Kundenstamm",
