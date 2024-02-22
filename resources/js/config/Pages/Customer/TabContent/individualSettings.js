@@ -3,20 +3,27 @@ import { create, destroy, index, store, update } from "@/config/actionPresets";
 export default {
     title: "forms.customers.individualSettings",
     preset: "form",
+    contentLoader: {
+        create: {
+            load: false
+        },
+        edit: {
+            load: true,
+            resource: 'customers.individualSettings',
+        },
+    },
     actions: [
         {
             position: "top",
-            alignment: "justify-between",
+            alignment: "justify-end",
             buttons: [
-                index, store
+                store
             ]
         },
         {
             position: "bottom",
             alignment: "justify-end",
-            buttons: [
-                index,create,store,destroy,update
-            ]
+            buttons: []
         },
         
     ],
@@ -29,8 +36,8 @@ export default {
             name: "auto_book_as_private",
             type: "check",
             options: false,
-            label: 'forms.fields.autoBookAsPrivate',
-            placeholder: 'forms.fields.autoBookAsPrivate',
+            label: 'forms.customers.fields.auto_book_as_private',
+            placeholder: 'forms.customers.fields.auto_book_as_private',
             hint: false,
             class: 'col-span-4',
         },
@@ -42,8 +49,8 @@ export default {
             name: "dangerous_goods",
             type: "check",
             options: false,
-            label: 'forms.fields.dangerousGoods',
-            placeholder: 'forms.fields.dangerousGoods',
+            label: 'forms.customers.fields.dangerous_goods',
+            placeholder: 'forms.customers.fields.dangerous_goods',
             hint: false,
             class: 'col-span-4',
         },
@@ -55,8 +62,8 @@ export default {
             name: "business_customer",
             type: "check",
             options: false,
-            label: 'forms.fields.businessCustomer',
-            placeholder: 'forms.fields.businessCustomer',
+            label: 'forms.customers.fields.business_customer',
+            placeholder: 'forms.customers.fields.business_customer',
             hint: false,
             class: 'col-span-4',
         },
@@ -68,8 +75,8 @@ export default {
             name: "debt_collection",
             type: "check",
             options: false,
-            label: 'forms.fields.debtCollection',
-            placeholder: 'forms.fields.debtCollection',
+            label: 'forms.customers.fields.debt_collection',
+            placeholder: 'forms.customers.fields.debt_collection',
             hint: false,
             class: 'col-span-4',
         },
@@ -81,8 +88,8 @@ export default {
             name: "direct_debit",
             type: "check",
             options: false,
-            label: 'forms.fields.directDebit',
-            placeholder: 'forms.fields.directDebit',
+            label: 'forms.customers.fields.direct_debit',
+            placeholder: 'forms.customers.fields.direct_debit',
             hint: false,
             class: 'col-span-4',
         },
@@ -94,8 +101,8 @@ export default {
             name: "manual_collective_invoicing",
             type: "check",
             options: false,
-            label: 'forms.fields.manualCollectiveInvoicing',
-            placeholder: 'forms.fields.manualCollectiveInvoicing',
+            label: 'forms.customers.fields.manual_collective_invoicing',
+            placeholder: 'forms.customers.fields.manual_collective_invoicing',
             hint: false,
             class: 'col-span-4',
         },
@@ -107,8 +114,8 @@ export default {
             name: "private_customer",
             type: "check",
             options: false,
-            label: 'forms.fields.privateCustomer',
-            placeholder: 'forms.fields.privateCustomer',
+            label: 'forms.customers.fields.private_customer',
+            placeholder: 'forms.customers.fields.private_customer',
             hint: false,
             class: 'col-span-4',
         },
@@ -120,8 +127,8 @@ export default {
             name: "invoice_customer",
             type: "check",
             options: false,
-            label: 'forms.fields.invoiceCustomer',
-            placeholder: 'forms.fields.invoiceCustomer',
+            label: 'forms.customers.fields.invoice_customer',
+            placeholder: 'forms.customers.fields.invoice_customer',
             hint: false,
             class: 'col-span-4',
         },
@@ -133,8 +140,8 @@ export default {
             name: "poor_payment_morale",
             type: "check",
             options: false,
-            label: 'forms.fields.poorPaymentMorale',
-            placeholder: 'forms.fields.poorPaymentMorale',
+            label: 'forms.customers.fields.poor_payment_morale',
+            placeholder: 'forms.customers.fields.poor_payment_morale',
             hint: false,
             class: 'col-span-4',
         },
@@ -146,13 +153,10 @@ export default {
             name: "can_login",
             type: "check",
             options: false,
-            label: 'forms.fields.canLogin',
-            placeholder: 'forms.fields.canLogin',
+            label: 'forms.customers.fields.can_login',
+            placeholder: 'forms.customers.fields.can_login',
             hint: false,
-            class: 'col-span-4',
-        },
-        {
-            type: "separator",
+            class: ' col-span-6 ',
         },
         {
             editable: {
@@ -164,10 +168,10 @@ export default {
             searchResource: false,
             // resultKeys: {"id": "id", "first_name": "name"}, > if you want to use a different key for the result
             options: false,
-            label: 'forms.fields.customerType',
-            placeholder: 'forms.fields.customerType',
+            label: 'forms.customers.fields.customer_type',
+            placeholder: 'forms.customers.fields.customer_type',
             hint: false,
-            class: 'col-span-4',
+            class: ' col-span-6 ',
         },
         {
             editable: {
@@ -179,10 +183,10 @@ export default {
             searchResource: false,
             // resultKeys: {"id": "id", "company_name": "name"},
             options: false,
-            label: 'forms.fields.invoiceDispatch',
-            placeholder: 'forms.fields.invoiceDispatch',
+            label: 'forms.customers.fields.invoice_dispatch',
+            placeholder: 'forms.customers.fields.invoice_dispatch',
             hint: false,
-            class: 'col-span-4',
+            class: ' col-span-6 ',
         },
         {
             editable: {
@@ -194,10 +198,10 @@ export default {
             // searchResource: "",
             // resultKeys: {"id": "id", "name": "name"},
             options: false,
-            label: 'forms.fields.invoiceShippingMethod',
-            placeholder: 'forms.fields.invoiceShippingMethod',
+            label: 'forms.customers.fields.invoice_shipping_method',
+            placeholder: 'forms.customers.fields.invoice_shipping_method',
             hint: false,
-            class: 'col-span-4',
+            class: ' col-span-6 ',
         },
         {
             editable: {
@@ -209,10 +213,10 @@ export default {
             // searchResource: "",
             // resultKeys: {"id": "id", "name": "name"},
             options: false,
-            label: 'forms.fields.paymentMethodOptionsToOffer',
-            placeholder: 'forms.fields.paymentMethodOptionsToOffer',
+            label: 'forms.customers.fields.payment_method_options_to_offer',
+            placeholder: 'forms.customers.fields.payment_method_options_to_offer',
             hint: false,
-            class: 'col-span-4',
+            class: ' col-span-6 ',
         },
         {
             editable: {
@@ -224,8 +228,8 @@ export default {
             // searchResource: "",
             // resultKeys: {"id": "id", "name": "name"},
             options: false,
-            label: 'forms.fields.paymentMethod',
-            placeholder: 'forms.fields.paymentMethod',
+            label: 'forms.customers.fields.payment_method',
+            placeholder: 'forms.customers.fields.payment_method',
             hint: false,
             class: 'col-span-4',
         },
@@ -237,8 +241,8 @@ export default {
             name: "email_for_invoice",
             type: "text",
             options: false,
-            label: 'forms.fields.emailForInvoice',
-            placeholder: 'forms.fields.emailForInvoice',
+            label: 'forms.customers.fields.email_for_invoice',
+            placeholder: 'forms.customers.fields.email_for_invoice',
             hint: false,
             class: 'col-span-4',
         },
@@ -250,8 +254,8 @@ export default {
             name: "email_for_label",
             type: "text",
             options: false,
-            label: 'forms.fields.emailForLabel',
-            placeholder: 'forms.fields.emailForLabel',
+            label: 'forms.customers.fields.email_for_label',
+            placeholder: 'forms.customers.fields.email_for_label',
             hint: false,
             class: 'col-span-4',
         },
@@ -263,10 +267,10 @@ export default {
             name: "email_for_pod",
             type: "text",
             options: false,
-            label: 'forms.fields.emailForPod',
-            placeholder: 'forms.fields.emailForPod',
+            label: 'forms.customers.fields.email_for_pod',
+            placeholder: 'forms.customers.fields.email_for_pod',
             hint: false,
-            class: 'col-span-4',
+            class: ' col-span-6 ',
         },
         {
             editable: {
@@ -278,10 +282,10 @@ export default {
             // searchResource: "",
             // resultKeys: {"id": "id", "name": "name"},
             options: false,
-            label: 'forms.fields.customerReference',
-            placeholder: 'forms.fields.customerReference',
+            label: 'forms.customers.fields.customer_reference',
+            placeholder: 'forms.customers.fields.customer_reference',
             hint: false,
-            class: 'col-span-4',
+            class: ' col-span-6 ',
         }
     ]    
 }
