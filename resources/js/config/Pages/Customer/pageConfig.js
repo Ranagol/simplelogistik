@@ -43,13 +43,13 @@ export default {
             title: "tabs.comments",
             name: "name-comments",
             id: 'id-comments',
-            content: addresses
+            content: comments
         },
         {
             title: "tabs.addresses",
             name: "name-addresses",
             id: 'id-addresses',
-            content: comments
+            content: addresses
         },
         {
             title: "tabs.contacts",
@@ -61,7 +61,7 @@ export default {
             title: "tabs.orders",
             name: "name-orders",
             id: 'id-orders',
-            content: invoices
+            content: orders
         },
         {
             title: "tabs.offers",
@@ -73,7 +73,7 @@ export default {
             title: "tabs.invoices",
             name: "name-invoices",
             id: 'id-invoices',
-            content: orders
+            content: invoices
         },
     ]
 }
