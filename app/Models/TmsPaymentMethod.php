@@ -54,6 +54,10 @@ class TmsPaymentMethod extends Model
             'internal_name' => 'SEPA lastschrift',
             'external_name' => '',
         ],
+        6 => [
+            'internal_name' => 'Vorkasse',
+            'external_name' => 'Banküberweisung',
+        ],
     ];
 
     public function orders(): BelongsToMany
