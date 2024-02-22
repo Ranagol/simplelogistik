@@ -45,7 +45,8 @@ class TmsOrder extends Model
         5 => 'Special order',
         6 => 'Regel tour',
         7 => 'Stückgut',
-        8 => 'Directfahrt'
+        8 => 'Directfahrt',
+        9 => 'Not defined',
     ];
 
     public const CALCULATION_MODEL_NAMES = [
