@@ -19,6 +19,13 @@ export default {
         create: false,
         edit: true,
     },
+    actions: {
+        alignment: "justify-start",
+        position: "top",
+        buttons: [
+            index
+        ]
+    },
     tabs: [
         {
             title: "tabs.generalCustomerData",
@@ -54,7 +61,7 @@ export default {
             title: "tabs.orders",
             name: "name-orders",
             id: 'id-orders',
-            content: orders
+            content: invoices
         },
         {
             title: "tabs.offers",
@@ -66,7 +73,7 @@ export default {
             title: "tabs.invoices",
             name: "name-invoices",
             id: 'id-invoices',
-            content: invoices
+            content: orders
         },
     ]
 }
