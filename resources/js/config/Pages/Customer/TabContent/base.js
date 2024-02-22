@@ -1,6 +1,31 @@
+import { create, destroy, index, store, update } from "@/config/actionPresets";
 export default {
     title: "forms.customers.generalCustomerData",
     preset: "form",
+    actions: [
+        {
+            position: "top",
+            alignment: "justify-end",
+            buttons: [
+                store
+            ]
+        },
+        {
+            position: "bottom",
+            alignment: "justify-end",
+            buttons: []
+        },
+        
+    ],
+    contentLoader: {
+        create: {
+            load: false
+        },
+        edit: {
+            load: true,
+            resource: 'customers.base',
+        },
+    },
     fields: [
         {
             editable: {

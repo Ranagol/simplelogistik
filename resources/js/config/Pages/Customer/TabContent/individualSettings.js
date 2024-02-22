@@ -1,6 +1,32 @@
+import { create, destroy, index, store, update } from "@/config/actionPresets";
+
 export default {
     title: "forms.customers.individualSettings",
     preset: "form",
+    contentLoader: {
+        create: {
+            load: false
+        },
+        edit: {
+            load: true,
+            resource: 'customers.individualSettings',
+        },
+    },
+    actions: [
+        {
+            position: "top",
+            alignment: "justify-end",
+            buttons: [
+                store
+            ]
+        },
+        {
+            position: "bottom",
+            alignment: "justify-end",
+            buttons: []
+        },
+        
+    ],
     fields: [
         {
             editable: {
@@ -13,7 +39,7 @@ export default {
             label: 'forms.customers.fields.auto_book_as_private',
             placeholder: 'forms.customers.fields.auto_book_as_private',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -26,7 +52,7 @@ export default {
             label: 'forms.customers.fields.dangerous_goods',
             placeholder: 'forms.customers.fields.dangerous_goods',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -39,7 +65,7 @@ export default {
             label: 'forms.customers.fields.business_customer',
             placeholder: 'forms.customers.fields.business_customer',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -52,7 +78,7 @@ export default {
             label: 'forms.customers.fields.debt_collection',
             placeholder: 'forms.customers.fields.debt_collection',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -65,7 +91,7 @@ export default {
             label: 'forms.customers.fields.direct_debit',
             placeholder: 'forms.customers.fields.direct_debit',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -78,7 +104,7 @@ export default {
             label: 'forms.customers.fields.manual_collective_invoicing',
             placeholder: 'forms.customers.fields.manual_collective_invoicing',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -91,7 +117,7 @@ export default {
             label: 'forms.customers.fields.private_customer',
             placeholder: 'forms.customers.fields.private_customer',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -104,7 +130,7 @@ export default {
             label: 'forms.customers.fields.invoice_customer',
             placeholder: 'forms.customers.fields.invoice_customer',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -117,7 +143,7 @@ export default {
             label: 'forms.customers.fields.poor_payment_morale',
             placeholder: 'forms.customers.fields.poor_payment_morale',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -205,7 +231,7 @@ export default {
             label: 'forms.customers.fields.payment_method',
             placeholder: 'forms.customers.fields.payment_method',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -218,7 +244,7 @@ export default {
             label: 'forms.customers.fields.email_for_invoice',
             placeholder: 'forms.customers.fields.email_for_invoice',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
@@ -231,7 +257,7 @@ export default {
             label: 'forms.customers.fields.email_for_label',
             placeholder: 'forms.customers.fields.email_for_label',
             hint: false,
-            class: ' col-span-6 ',
+            class: 'col-span-4',
         },
         {
             editable: {
