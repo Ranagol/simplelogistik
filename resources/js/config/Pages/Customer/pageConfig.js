@@ -7,9 +7,25 @@ import invoices from "@/config/Pages/Customer/TabContent/invoices"
 import offers from "@/config/Pages/Customer/TabContent/offers"
 import orders from "@/config/Pages/Customer/TabContent/orders"
 
+import {
+    index,create,store,destroy,update
+} from "@/config/actionPresets";
+
 export default {
     title: "pages.customers.title",
     type: "tabs",
+    useContent: {
+        index: false,
+        create: false,
+        edit: true,
+    },
+    actions: {
+        alignment: "justify-start",
+        position: "top",
+        buttons: [
+            index
+        ]
+    },
     tabs: [
         {
             title: "tabs.generalCustomerData",
