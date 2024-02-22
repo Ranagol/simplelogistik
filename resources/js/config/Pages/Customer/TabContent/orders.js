@@ -1,5 +1,5 @@
 export default {
-    title: "forms.customers.title",
+    title: "forms.customers.orders",
     preset: "table",
     fields: [
         {
