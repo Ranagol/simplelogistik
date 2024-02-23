@@ -21,7 +21,7 @@ class TmsParcelFactory extends Factory
             'tms_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'is_hazardous' => $this->faker->boolean,
             'information' => $this->faker->sentence,
-            'name' => $this->faker->randomElement(TmsParcel::PARCEL_TYPE),
+            'name' => $this->faker->randomElement(TmsParcel::getAllParcelTypes()),
             'height' => $this->faker->randomFloat(2, 0, 200),
             'length' => $this->faker->randomFloat(2, 0, 200),
             'width' => $this->faker->randomFloat(2, 0, 200),

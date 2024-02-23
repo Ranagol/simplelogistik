@@ -217,7 +217,7 @@ class TmsOrderController extends Controller
                     'typesOfTransport' => TmsOrder::TYPES_OF_TRANSPORT,
                     'origins' => TmsOrder::ORIGINS,//Example: Pamyra, sales...
                     // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
-                    'parcelTypes' => TmsParcel::PARCEL_TYPE,
+                    'parcelTypes' => TmsParcel::getFrontendParcelTypes(),
                     // 'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
                 ]
             ]

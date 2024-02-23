@@ -12,14 +12,25 @@ class TmsParcel extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
     protected $table = "tms_parcels";
 
-    const PARCEL_TYPE = [
-        'bulky goods', 
-        'euro pallet', 
-        'one-way pallet',
-        'cardboard',
-        'pallet cage'
+    private static $allParcelTypes = [
+        'bulky goods' => [
+            'display' => false
+        ],
+        'euro pallet' => [
+            'display' => true
+        ],
+        'one-way pallet' => [
+            'display' => true
+        ],
+        'cardboard' => [
+            'display' => false
+        ],
+        'pallet cage' => [
+            'display' => false
+        ]
     ];
 
     protected $casts = [
@@ -30,5 +41,34 @@ class TmsParcel extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(TmsOrder::class, 'tms_order_id');
+    }
+
+    /**
+     * Get the value of allParcelTypes.
+     * 
+     * @return array
+     */ 
+    public static function getAllParcelTypes(): array
+    {
+        return self::$allParcelTypes;
+    }
+
+    /**
+     * Get the value of only those parcel types that have 'true' in the 'display' key. True in this 
+     * case is for, yes, display the parcel type in the front-end.
+     * 
+     * @return array
+     */
+    public static function getFrontendParcelTypes(): array
+    {
+        $allParcelTypes = self::getAllParcelTypes();
+        $frontendParcelTypes = [];
+
+        foreach ($allParcelTypes as $parcelType => $value) {
+            if ($value['display'] === true) {
+                $frontendParcelTypes[] = $parcelType;
+            }
+        }
+        return $frontendParcelTypes;
     }
 }
