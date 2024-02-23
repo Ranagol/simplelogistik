@@ -24,11 +24,10 @@ return new class extends Migration
             $table->foreign('partner_id')->references('id')->on('tms_partners');
             
             //Basic order details
-            
             $table->string('type_of_transport', 200)->comment('The type of transport. Example: LTL, FTL, Express, Air, Sea, Rail, Intermodal, Courier, Special')->default('parcel');
             $table->string('origin')->comment('The origin of the order. Example: Pamyra, Sales, Google Ads, Shipping ...')->nullable();
             $table->string('customer_reference')->comment('Customer reference. Example: when customer says please add this to the invoice, we wish to have this addtional info on our invoice.')->nullable();
-            $table->decimal('provision', 10, 2)->comment('Example, for Pamyra orders the provision is 6%.')->nullable();
+            $table->decimal('provision', 10, 2)->comment('The calculated value of the provision, in eur. Not in percentage!')->nullable();
             $table->json('order_edited_events')->comment('When somebody edits the order, that must be registered here.')->nullable();//this does not need a factory/faker line
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
             $table->date('order_date')->nullable();

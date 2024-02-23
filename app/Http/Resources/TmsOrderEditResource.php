@@ -28,7 +28,6 @@ class TmsOrderEditResource extends JsonResource
             'status' => $this->status,
             'customer_reference' => $this->customer_reference,
             'provision' => $this->provision,
-            'provisionEur' => $this->calculateProvisionEur(),
             'order_edited_events' => $this->order_edited_events,
             'currency' => $this->currency,
             'order_number' => $this->order_number,
@@ -81,32 +80,4 @@ class TmsOrderEditResource extends JsonResource
             return $nativeOrder;
         }
     }
-
-    /**
-     * Calculate the provision in EUR.
-     *
-     * @return float
-     */
-    private function calculateProvisionEur(): float
-    {
-        //Get the provision percentage from tms_orders table.
-        $provisionPercentage = $this->provision;
-
-        //Get all data from pamyra_orders or native_orders table (one will have data, the other will be null)
-        $pamyraOrNativeOrder = $this->setDetails();
-
-        //Get the price_net from pamyra_orders or native_orders table.
-        $priceNet = $pamyraOrNativeOrder->price_net;
-
-        //Calculate the provision in EUR.
-        $provisionValueInEur = $priceNet * $provisionPercentage / 100;
-
-        //Round to 2 decimal places.
-        $provisionValueInEur = round($provisionValueInEur, 2);
-
-        return $provisionValueInEur;
-    }
-    
 }
-
-
