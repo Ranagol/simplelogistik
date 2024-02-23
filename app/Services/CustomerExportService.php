@@ -15,7 +15,7 @@ class CustomerExportService
     private $csv = '';
     private $exportedIds = [];
 
-    private $path = 'documents/csvexports/customersWithBillingAddress';
+    private $path = 'documents/csvexports/customersWithBillingAddress/';
 
 
     /**

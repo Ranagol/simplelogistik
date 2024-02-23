@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Artisan;
+use Illuminate\Support\Facades\Process;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsOrder;
@@ -151,9 +152,7 @@ class TmsOrderController extends Controller
          * Call the Esaybill API to create a new invoice.
          */
         $id = $newlyCreatedRecord->id;
-        $result = Artisan::command('Easybill.sendinvoices', function($id) {
-            echo $id;   
-        });
+        $result = $this->execute('cd ..; php artisan sendinvoices orderId ' . $id . ';');
         file_put_contents('test.txt', Artisan::output());
         /**
          * Todo: 
@@ -269,7 +268,7 @@ class TmsOrderController extends Controller
         // $result = Artisan::command('Easybill.sendinvoices ', function($id) {
         //     echo $id;   
         // });
-        $result = $this->execute('cd ..; php artisan sendinvoices ' . $id . ';');
+        $result = $this->execute('cd ..; php artisan sendinvoices orderId ' . $id . ';');
         file_put_contents('test.txt', $result);
         /**
          * Todo: 

@@ -17,6 +17,7 @@ use Modules\PamyraOrder\app\Services\PamyraServices\PamyraOrderService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderAddressService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHistoryService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderAttributeService;
+use Symfony\Component\Process\Process;
 
 /**
  * When writing data from Pamyra json files to our database, we have an array on Pamyra order
@@ -95,6 +96,7 @@ class OrderHandler {
         $isDuplicate = $this->checkForDuplicate($pamyraOrder);
 
         if($isDuplicate){
+            $this->sendDataToEasybill();
             return;
         }
 
@@ -106,6 +108,8 @@ class OrderHandler {
         $this->handleOrderAttributes($pamyraOrder);
         $this->handleOrderAddresses($pamyraOrder);//TmsOrderAddress
         $this->createOrderHistory($pamyraOrder);
+
+        $this->sendDataToEasybill();
     }
 
     /**
@@ -131,6 +135,11 @@ class OrderHandler {
     {
         $pamyraOrderDuplicate = TmsPamyraOrder::where('order_number', $pamyraOrder['OrderNumber'])->first();
 
+        $this->customerId = $pamyraOrderDuplicate ? TmsOrder::where('id', $pamyraOrderDuplicate->order_id)->first()->customer_id : -1;
+        if ($pamyraOrderDuplicate) {
+            $this->order = TmsOrder::where('id', $pamyraOrderDuplicate->order_id)->first();
+        }
+
         if ($pamyraOrderDuplicate) {
             echo 'Order with order number ' 
                     . $pamyraOrder['OrderNumber'] 
@@ -143,6 +152,18 @@ class OrderHandler {
         }
 
         return false;
+    }
+
+    /**
+     * sends the data to easybill. This is done by calling the artisan command sendcustomer and
+     */
+    private function sendDataToEasybill(): void
+    {
+        file_put_contents('test.txt', getcwd());
+        $result = $this->execute('cd simplelogistik; php artisan sendcustomer customerId ' . $this->customerId . ';');
+        file_put_contents('test.txt', $result);
+        $result = $this->execute('cd simplelogistik; php artisan sendinvoices orderId ' . $this->order->id . ';');
+        file_put_contents('test.txt', $result, FILE_APPEND);
     }
     
     /**
@@ -305,5 +326,28 @@ class OrderHandler {
             $this->customerId, 
             $this->order->id
         );
+    }
+
+    public static function execute($cmd): string
+    {
+        $process = Process::fromShellCommandline($cmd);
+
+        $processOutput = '';
+
+        $captureOutput = function ($type, $line) use (&$processOutput) {
+            $processOutput .= $line;
+        };
+
+        $process->setTimeout(null)
+            ->run($captureOutput);
+
+        if ($process->getExitCode()) {
+            $exception = new \Exception($cmd . " - " . $processOutput);
+            report($exception);
+
+            throw $exception;
+        }
+
+        return $processOutput;
     }
 }

@@ -71,8 +71,17 @@ class CustomersCommand extends Command
             
             $this->info('OrderId: ' . $this->argument('detail'));
             $customer                     = TmsCustomer::where('id', $this->argument('detail'))->first();    
-            $addresses[0]['is_billing']   = TmsAddress::where('id', $this->argument('detail'))->first();  
-            $mappedData                   = $dataMapping->mapCustomer($customer, $addresses, $countries);        
+            $addresses[0]['is_billing']   = TmsOrderAddress::where('customer_id', $this->argument('detail'))
+                                                           ->where('address_type', 2)
+                                                           ->first();  
+            $mappedData                   = $dataMapping->mapCustomer($customer, $addresses, $countries);       
+            
+            if ($mappedData['number'] === 'temporary testing' || $mappedData['number'] === '') {
+                $lastCustomer = TmsCustomer::whereNotIn('internal_id', ['temporary testing'])
+                                           ->orderBy('internal_id', 'desc')->first();
+                $mappedData['number'] = (isset($lastCustomer->internal_id) && is_numeric($lastCustomer->internal_id)) ? ($lastCustomer->internal_id + 1) : 100000;
+                TmsCustomer::where('id', $customer->id)->update(['internal_id' => $mappedData['number']]);
+            }
         
             $customerHandler = new CustomerHandling();
             $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);       
