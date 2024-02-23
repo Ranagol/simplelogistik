@@ -42,6 +42,8 @@ class HandlePamyraOrders extends Command
             }
         } else {
             $ordersHandler->handle();
+
+            
             $this->info('Handling PamyraOrder...');
             Log::debug('Handling PamyraOrder is running.');
         }

@@ -134,7 +134,7 @@ class EasyBillDataMapping
                 'unit'                  => '',                            // Stk. | Packet | Palette
                 'type'                  => 'POSITION',
                 'position'              => 1,
-                'single_price_net'      => (isset($order['price_net'])) ? (int)str_replace(['.',','], '', $order['price_net']) : 0,
+                'single_price_net'      => (isset($order['price_net'])) ? ((int)( $order['price_net'] * 100)) : 0,
                 'single_price_gross'    => 0,
                 'vat_percent'           => $order['vat_rate'],                                        
                 'discount'              => null,
