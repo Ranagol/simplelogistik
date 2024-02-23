@@ -47,6 +47,8 @@ class HandlePamyraOrders extends Command
              * This is the main function in this class, that triggers all other functions. It also uses
              */
             $ordersHandler->handle();
+
+            
             $this->info('Handling PamyraOrder...');
             Log::debug('Handling PamyraOrder is running.');
         }

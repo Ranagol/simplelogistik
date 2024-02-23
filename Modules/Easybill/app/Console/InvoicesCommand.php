@@ -79,15 +79,20 @@ class InvoicesCommand extends Command
         // When a specific order should be billed
         if ($this->argument('behave') == 'orderId') {    
             $this->info('OrderId: ' . $this->argument('detail'));
-            $customer = TmsCustomer::where('id', $this->argument('detail'))->first();    
+            $order = TmsOrder::where('id', $this->argument('detail'))->first();
+            $customer = TmsCustomer::where('id', $order->customer_id)->first();    
+            if ($customer === null) {
+                $this->info('Customer ' . $this->argument('detail') . ' not found!');
+                die();
+            }
             // check if customer has debt collection, if not, stop
-            if ($customer->debt_collection == 1) {
+            if ($customer && $customer->debt_collection == 1) {
                 $this->info('Customer wishes debt collection!');
                 die();
             } 
-            $addresses[0]['is_billing']   = TmsOrderAddress::where('order_id', $this->argument('detail'))->where('address_type', 'Billing address')->first();
-            $addresses[0]['is_pickup']    = TmsOrderAddress::where('order_id', $this->argument('detail'))->where('address_type', 'Pickup address')->first();
-            $addresses[0]['is_delivery']  = TmsOrderAddress::where('order_id', $this->argument('detail'))->where('address_type', 'Delivery address')->first();
+            $addresses[0]['is_billing']   = TmsOrderAddress::where('order_id', $this->argument('detail'))->where('address_type', 2)->first();
+            $addresses[0]['is_pickup']    = TmsOrderAddress::where('order_id', $this->argument('detail'))->where('address_type', 3)->first();
+            $addresses[0]['is_delivery']  = TmsOrderAddress::where('order_id', $this->argument('detail'))->where('address_type', 4)->first();
             $colOrders[0]                 = $this->prepareOrderData($this->argument('detail'));              
             $mappedData                   = $dataMapping->mapCustomer($customer, $addresses, $countries, $colOrders);
         } else
@@ -109,7 +114,7 @@ class InvoicesCommand extends Command
                 $this->info('Customer has no debt collection!');
                 die();
             } 
-            $addresses[0]['is_billing']      = TmsAddress::where('customer_id', $orders[0]->customer_id)->where('is_billing', true)->first();            
+            $addresses[0]['is_billing']      = TmsOrderAddress::where('customer_id', $orders[0]->customer_id)->where('is_billing', true)->first();            
 
             $i = 0;
             $colOrders = [];
@@ -132,6 +137,13 @@ class InvoicesCommand extends Command
         if (count($mappedData) === 0) {
             $this->info('mappedData empty! No data to send to easybill.');
             die();
+        }
+
+        if ($mappedData['number'] === 'temporary testing') {
+            $lastCustomer = TmsCustomer::whereNotIn('internal_id', ['temporary testing'])
+                                           ->orderBy('internal_id', 'desc')->first();
+            $mappedData['number'] = (is_numeric($lastCustomer->internal_id)) ? ($lastCustomer->internal_id + 1) : 100000;
+            TmsCustomer::where('id', $customer->id)->update(['internal_id' => $mappedData['number']]);
         }
 
         // create or update customer in easybill
