@@ -1,5 +1,4 @@
 <script setup>
-import PageActions from '../Page/PageActions.vue';
 import FormField from './FormField.vue';
 
 defineProps({
@@ -16,6 +15,5 @@ defineProps({
 
 </script>
 <template>
-    
     <FormField v-for="field in config.fields" :fieldConfig="field" />
 </template>
