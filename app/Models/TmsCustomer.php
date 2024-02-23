@@ -250,7 +250,6 @@ class TmsCustomer extends Model
 
     const INVOICE_SHIPPING_METHODS = [
         1 => 'Email',
-        2 => 'Post',
     ];
 
     protected function invoiceShippingMethod(): Attribute

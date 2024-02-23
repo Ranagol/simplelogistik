@@ -31,20 +31,28 @@ class TmsPaymentMethod extends Model
             'external_name' => 'bill',
         ],
         2 => [
-            'internal_name' => 'Cash on delivery',
-            'external_name' => 'cashOnDelivery',
+            'internal_name' => 'Paypal',
+            'external_name' => '',
         ],
         3 => [
-            'internal_name' => 'Paypal',
+            'internal_name' => 'Vorkasse',
             'external_name' => 'preCashTransfer',
         ],
         4 => [
-            'internal_name' => 'Vorcasse',
-            'external_name' => 'creditCard',
+            'internal_name' => 'Klarna',
+            'external_name' => 'directDebit',
         ],
         5 => [
-            'internal_name' => 'Sofort',
-            'external_name' => 'directDebit',
+            'internal_name' => 'Vorkasse',
+            'external_name' => 'bankTransfer',
+        ],
+        6 => [
+            'internal_name' => 'Credit card',
+            'external_name' => '',
+        ],
+        7 => [
+            'internal_name' => 'SEPA lastschrift',
+            'external_name' => '',
         ],
     ];
 
