@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\TmsParcel;
-use App\Models\TmsAddress;
 use App\Models\TmsContact;
 use App\Models\TmsInvoice;
 use App\Models\TmsPartner;
@@ -15,12 +14,8 @@ use App\Models\TmsOrderAddress;
 use App\Models\TmsOrderHistory;
 use App\Models\TmsPaymentMethod;
 use App\Models\TmsOrderAttribute;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Models\TmsForwardingContract;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,11 +39,22 @@ class TmsOrder extends Model
 
     public const TYPES_OF_TRANSPORT = [
         1 => 'General cargo',
-        2 => 'LTL/FTL',
+        2 => 'FTL / LTL',
         3 => 'Direct transport',
-        4 => 'Parcell up to 31.5 kg',
+        4 => 'Parcel up to 31.5 kg',
         5 => 'Special order',
-        6 => 'Regel tour'
+        6 => 'Regel tour',
+        7 => 'Stückgut',
+        8 => 'Direktfahrt',
+        9 => 'Not defined',
+    ];
+
+    public const CALCULATION_MODEL_NAMES = [
+        'AKTION - FTL / LTL Ladung Flex',
+        'Stückgut Deutschlandweit B2B / B2C',
+        'Planensprinter Abholung innerhalb 4h',
+        'Sperrgut MAX. 35KG / verpackt B2B / B2C',
+        
     ];
 
     /**
@@ -58,7 +64,9 @@ class TmsOrder extends Model
         1 => 'pamyra',
         2 => 'native_sales',
         3 => 'native_google-ads',
-        4 => 'shipping_calc.'
+        4 => 'shipping_calc.',
+        5 => 'email',
+        6 => 'contact form',
     ];
 
     //*************RELATIONSHIPS*************************************** */    
@@ -223,6 +231,4 @@ class TmsOrder extends Model
             'order_attribute_id'
         );
     }
-
-
 }

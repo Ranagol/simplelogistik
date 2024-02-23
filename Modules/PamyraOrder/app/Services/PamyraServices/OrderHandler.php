@@ -7,6 +7,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsPartner;
 use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
+use App\Models\TmsTransportRule;
 use Illuminate\Support\Facades\Log;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderService;
 use Modules\PamyraOrder\app\Services\PamyraServices\ParcelService;
@@ -14,6 +15,7 @@ use Modules\PamyraOrder\app\Services\PamyraServices\AddressService;
 use Modules\PamyraOrder\app\Services\PamyraServices\CustomerService;
 use Modules\PamyraOrder\app\Services\PamyraServices\PamyraOrderService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderAddressService;
+use Modules\PamyraOrder\app\Services\PamyraServices\OrderHistoryService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderAttributeService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHistoryService;
 use Symfony\Component\Process\Process;
@@ -26,10 +28,9 @@ use Symfony\Component\Process\Process;
 class OrderHandler {
 
     /**
-     * Pamyra partner should have id = 1 always. But, just in case, in the __construct() we
-     * searh for the partner id by name 'Pamyra'. And we store it in this variable.
+     * Partners are for example: Emons, DHL, DPD, Pamyra, etc.
      *
-     * @var integer
+     * @var integer | null
      */
     private int $partnerId;
     private int $customerId;
@@ -68,11 +69,11 @@ class OrderHandler {
         OrderHistoryService $orderHistoryService
     )
     {
-        //We must find our partner. In this case, this is always Pamyra.
+        //If not specified otherwise, the default partner is Pamyra
         $this->partnerId = TmsPartner::where('company_name', 'Pamyra')
-                ->where('id', 1)
-                ->firstOrFail()
-                ->id;
+                                ->where('id', 1)
+                                ->firstOrFail()
+                                ->id;
 
         //Setting dependencies through dependency injection.
         $this->customerService = $customerService;
@@ -101,12 +102,12 @@ class OrderHandler {
         }
 
         $this->handleCustomer($pamyraOrder);
-        $this->handleAddresses($pamyraOrder);//only billing and headquarter from TmsAddress
+        // $this->handleAddresses($pamyraOrder);//TmsAddress
         $this->handleOrder($pamyraOrder);
         $this->handleParcels($pamyraOrder);
         $this->handlePamyraOrder($pamyraOrder);
         $this->handleOrderAttributes($pamyraOrder);
-        $this->handleOrderAddresses($pamyraOrder);//pickup and delivery from TmsOrderAddress
+        $this->handleOrderAddresses($pamyraOrder);//TmsOrderAddress
         $this->createOrderHistory($pamyraOrder);
 
         $this->sendDataToEasybill();
@@ -253,7 +254,7 @@ class OrderHandler {
     {
         $this->parcelService->handle($pamyraOrder, $this->order->id);
     }
-
+    
     private function handlePamyraOrder(array $pamyraOrder): void
     {
         $this->pamyraOrderService->handle($pamyraOrder, $this->order->id);
@@ -302,11 +303,23 @@ class OrderHandler {
         );
     }
 
+    /**
+     * Here we handle the order attributes. 
+     *
+     * @param array $pamyraOrder
+     * @return void
+     */
     private function handleOrderAttributes(array $pamyraOrder): void
     {
         $this->orderAttributeService->handle($pamyraOrder, $this->order);
     }
 
+    /**
+     * We create an order history for the given order.
+     *
+     * @param array $pamyraOrder
+     * @return void
+     */
     private function createOrderHistory(array $pamyraOrder): void
     {
         $this->orderHistoryService->createOrderHistory(

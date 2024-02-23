@@ -15,7 +15,7 @@ class TmsPartnerSeeder extends Seeder
     {
         /**
          * Partner is for example Pamyra. There will be not too much of partners, so I fake only 3.
-         * The first partner is Pamyra.
+         * The first partner is always Pamyra. The second partner is always Emons.
          */
         TmsPartner::factory()->create(
             [

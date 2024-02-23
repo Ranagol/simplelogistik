@@ -24,6 +24,11 @@ class TmsForwarder extends Model
     protected $guarded = ['id'];
     protected $table = "tms_forwarders";
 
+    public $searchable = [
+        'company_name',
+        'name',
+        'email'
+    ];
     public function addresses(): HasMany
     {
         return $this->hasMany(TmsAddress::class, 'forwarder_id');
@@ -113,6 +118,9 @@ class TmsForwarder extends Model
     const FORWARDER_TYPES = [
         1 => 'GmbH',
         2 => 'AG',
+        3 => 'KG',
+        4 => 'GmbH & Co. KG',
+        5 => 'GBR',
     ];
 
     protected function forwarderType(): Attribute//this is called forwarderType because the db column is forwarder_type

@@ -6,8 +6,11 @@ use DateTime;
 use Carbon\Carbon;
 use App\Models\TmsOrder;
 use App\Models\TmsCustomer;
+use App\Models\TmsForwarder;
+use App\Models\TmsProvision;
 use App\Models\TmsOrderStatus;
 use App\Models\TmsPamyraOrder;
+use App\Models\TmsTransportRule;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TmsOrderRequest;
 use Illuminate\Support\Facades\Validator;
@@ -78,17 +81,19 @@ class OrderService {
         $orderArray = [
             'customer_id' => $customerId,
             'partner_id' => $partnerId,
+            'forwarder_id' => $this->setForwarderId($pamyraOrder),
             'origin' => TmsOrder::ORIGINS[1], //this is: pamyra
             'customer_reference' => $pamyraOrder['OrderNumber'] ?? 'missing Pamyra order number',
             //this is 'Order created. This is the first status of the order, returned with array_key_first
             'order_status_id' => array_key_first(TmsOrderStatus::STATUSES) ?? 1, 
-            'provision' => 6,
+            'provision' => $this->calculateProvisionInEur($pamyraOrder['PriceNet'] ?? null),
             'currency' => 'EUR',
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
             'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
             'payment_method' => 5, //this is invoice payment method
             'order_number' => $this->setOrderNumber(),
             'import_file_name' => $this->createFileName($pamyraOrder),
+            'type_of_transport' => $this->setTypeOfTransport($pamyraOrder),
         ];
 
         $this->validate($orderArray);
@@ -139,5 +144,97 @@ class OrderService {
         }
 
         return Carbon::now()->format('Y_m_d') . '_' .  $pamyraOrder['OrderNumber'] . '.json';
+    }
+
+    /**
+     * Gets the current valid provision from the tms_provisions table.
+     * We handle here Pamyra orders. Pamyra is a partner with the id 1.
+     * We use firstOrFail() because we want to throw an exception if we don't find the right provision.
+     *
+     * @return float
+     */
+    private function calculateProvisionInEur(float $priceNetEur): float
+    {
+        $currentDate = Carbon::now();
+
+        $provision = TmsProvision::where('partner_id', 1)
+                        ->where('valid_from', '<', $currentDate)
+                        ->where('valid_to', '>', $currentDate)
+                        ->where('sales_channel', 'Marketplace')
+                        ->latest()
+                        ->firstOrFail();
+
+        $provisionPercentage = $provision->value;
+        $maxProvisionLimitEur = $provision->max_provision_limit_eur;
+        $provisionInEur = $priceNetEur * $provisionPercentage / 100;
+
+        if($provisionInEur < $maxProvisionLimitEur) {
+            return $provisionInEur;
+        }
+        return $maxProvisionLimitEur;
+    }
+    
+    /*
+     * Sets the forwarder id for the order. In general the forwarderId will be null. However,
+     * if some setForwarder rule can be applied (from tms_transport_rules table), then we set the
+     * forwarder id based on the rule.
+     * 
+     * @param array $pamyraOrder
+     * @return int|null
+     */
+    private function setForwarderId(array $pamyraOrder): int | null
+    {
+        //Based on this string we decide who should be the forwarder for the given order.
+        $calculationModelName = $pamyraOrder['CalculationModelName'] ?? null;
+        $forwarderId = null;
+
+        if($calculationModelName === null) {
+            return $forwarderId;//which will be null. No need to continue the function.
+        }
+
+        //Get all rules for setting forwarder from db. 
+        $rulesForSettingForwarder = TmsTransportRule::where('action_type', 'setForwarder')->get();
+
+        //Loop through the rules and set the forwarder id
+        foreach($rulesForSettingForwarder as $rule) {
+
+            //Search for the keyphrase in the calculation model name
+            if(strpos($calculationModelName, $rule->keyphrase) !== false) {
+                $forwarderId = TmsForwarder::where('company_name', 'Emons')
+                                            ->where('id', 1)
+                                            ->firstOrFail()
+                                            ->id;
+                break;//if we found the forwarder, we don't need to continue the loop
+            } 
+        }
+
+        return $forwarderId;
+    }
+
+    private function setTypeOfTransport(array $pamyraOrder): string
+    {
+        $calculationModelName = $pamyraOrder['CalculationModelName'] ?? null;
+
+        $typeOfTransport = 'not defined';
+
+        //If the calculation model name is missing, we return the default type of transport
+        if($calculationModelName === null) {
+            return $typeOfTransport;
+        }
+
+        //Get all rules for setting forwarder from db. 
+        $rulesForSettingTypeOfTransport = TmsTransportRule::where('action_type', 'setTypeOfTransport')->get();
+
+        //Loop through the rules and set the forwarder id
+        foreach($rulesForSettingTypeOfTransport as $rule) {
+
+            //Search for the keyphrase in the calculation model name
+            if(strpos($calculationModelName, $rule->keyphrase) !== false) {
+                $typeOfTransport = $rule->target_new_value;
+                break;//if we found the typeOfTransport, we don't need to continue the loop
+            } 
+        }
+
+        return $typeOfTransport;
     }
 }

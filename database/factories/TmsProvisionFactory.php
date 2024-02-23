@@ -19,13 +19,14 @@ class TmsProvisionFactory extends Factory
         return [
             
             /**
-             * There will be 3 provisions faked. These 3 provisions can easily belong to one partner.
-             * So, the number 1 here is realistic.
+             * This logic is correct, but not used. There is a different logic in the seeder.
              */
             'partner_id' => 1,
-            'value' => $this->faker->randomFloat(2, 0, 10),//Example: 1.5%,
-            'valid_from' => $date = $this->faker->date(),
-            'valid_to' => $this->faker->dateTimeBetween($date, '+30 days')->format('Y-m-d'), 
+            'sales_channel' => 'Marketplace',
+            'value' => $this->faker->randomElement([6,8]),
+            'max_provision_limit_eur' => 80,
+            'valid_from' => '2023-01-01',
+            'valid_to' => '2025-12-31', 
         ];
     }
 }

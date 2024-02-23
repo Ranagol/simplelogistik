@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\System\SearchController;
 use App\Http\Controllers\TmsVehicleController;
 use Inertia\Inertia;
 use App\Models\TmsOrder;
@@ -71,6 +72,37 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.create');
+
+    Route::post('/search', [SearchController::class, 'search'])->name('search');
+
+    // Temporary artifact for the old customer create form
+    Route::get('/customer/old-create', function () {
+        $newCustomer = new TmsCustomer();
+
+        //Set default values for some customer properties, for customer create
+        $newCustomer->customer_type = 'Private customer';
+        $newCustomer->invoice_dispatch = 'Direct';
+        $newCustomer->invoice_shipping_method = 'Email';
+        $newCustomer->payment_method = 'Invoice';
+        return Inertia::render('Customers/OldCreate',
+            [
+                'record' => $newCustomer,
+
+                //These are the possibly selectable options for the el-select in customer create or edit form.
+                'selectOptions' => [
+                    'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
+                    'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
+                    'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
+                    // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
+                    'forwarders' => App\Models\TmsForwarder::all()->map(function ($forwarder) {
+                        return [
+                            'id' => $forwarder->id,
+                            'name' => $forwarder->company_name, 
+                        ];
+                    })
+                ]
+            ]);
+    })->name("customer.old-create");
 });
 
 require __DIR__.'/auth.php';

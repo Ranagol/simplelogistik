@@ -2,20 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\TmsProvision;
+use App\Models\TmsTransportRule;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class TmsProvisionSeeder extends Seeder
+class TmsTransportRuleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        foreach (TmsProvision::PROVISIONS_FOR_SEEDINGS as $provision) {
-            DB::statement($provision);
+        foreach (TmsTransportRule::TRANSPORT_RULES as $rule) {
+            DB::statement($rule);
         }
     }
 }
