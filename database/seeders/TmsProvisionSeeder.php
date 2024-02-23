@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\TmsProvision;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class TmsProvisionSeeder extends Seeder
 {
@@ -13,9 +14,8 @@ class TmsProvisionSeeder extends Seeder
      */
     public function run(): void
     {
-        /**
-         * During seeding, we only create 1 provision record, which will be always customer nr. 1.
-         */
-        TmsProvision::factory(1)->create();
+        foreach (TmsProvision::PROVISIONS_FOR_SEEDINGS as $provision) {
+            DB::statement($provision);
+        }
     }
 }

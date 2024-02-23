@@ -15,10 +15,11 @@ class TmsParcel extends Model
     protected $table = "tms_parcels";
 
     const PARCEL_TYPE = [
-        'package', 
         'bulky goods', 
         'euro pallet', 
-        'disposable pallet'
+        'one-way pallet',
+        'cardboard',
+        'pallet cage'
     ];
 
     protected $casts = [

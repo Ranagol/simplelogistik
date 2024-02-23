@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\TmsOrder;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
+use App\Models\TmsProvision;
 use App\Models\TmsOrderStatus;
 use App\Models\TmsPamyraOrder;
 use App\Models\TmsTransportRule;
@@ -85,7 +86,7 @@ class OrderService {
             'customer_reference' => $pamyraOrder['OrderNumber'] ?? 'missing Pamyra order number',
             //this is 'Order created. This is the first status of the order, returned with array_key_first
             'order_status_id' => array_key_first(TmsOrderStatus::STATUSES) ?? 1, 
-            'provision' => 6,
+            'provision' => $this->calculateProvisionInEur($pamyraOrder['PriceNet'] ?? null),
             'currency' => 'EUR',
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
             'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
@@ -208,4 +209,26 @@ class OrderService {
 
         return $typeOfTransport;
     }
+
+    private function calculateProvisionInEur(float $priceNetEur): float
+    {
+        $currentDate = Carbon::now();
+        
+        $provision = TmsProvision::where('partner_id', 1)
+                        ->where('valid_from', '<', $currentDate)
+                        ->where('valid_to', '>', $currentDate)
+                        ->where('sales_channel', 'Marketplace')
+                        ->latest()
+                        ->firstOrFail();
+
+        $provisionPercentage = $provision->value;
+        $maxProvisionLimitEur = $provision->max_provision_limit_eur;
+        $provisionInEur = $priceNetEur * $provisionPercentage / 100;
+
+        if($provisionInEur < $maxProvisionLimitEur) {
+            return $provisionInEur;
+        }
+        return $maxProvisionLimitEur;
+    }
+
 }

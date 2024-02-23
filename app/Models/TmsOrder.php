@@ -63,7 +63,9 @@ class TmsOrder extends Model
         1 => 'pamyra',
         2 => 'native_sales',
         3 => 'native_google-ads',
-        4 => 'shipping_calc.'
+        4 => 'shipping_calc.',
+        5 => 'email',
+        6 => 'contact form',
     ];
 
     //*************RELATIONSHIPS*************************************** */    
