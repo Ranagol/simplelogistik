@@ -12,7 +12,6 @@ use App\Models\TmsPamyraOrder;
 use App\Models\TmsTransportRule;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TmsOrderRequest;
-use App\Models\TmsProvision;
 use Illuminate\Support\Facades\Validator;
 use Modules\PamyraOrder\app\Services\PamyraServices\DateFormatterTrait;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderNumberMakerTrait;
@@ -86,7 +85,7 @@ class OrderService {
             'customer_reference' => $pamyraOrder['OrderNumber'] ?? 'missing Pamyra order number',
             //this is 'Order created. This is the first status of the order, returned with array_key_first
             'order_status_id' => array_key_first(TmsOrderStatus::STATUSES) ?? 1, 
-            'provision' => $this->getProvision(),
+            'provision' => 6,
             'currency' => 'EUR',
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
             'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
