@@ -1,4 +1,4 @@
-import { create } from "@/config/actionPresets";
+import { create, store } from "@/config/actionPresets";
 
 export default {
     title: "forms.customers.comments",
@@ -8,7 +8,7 @@ export default {
             position: "top",
             alignment: "justify-end",
             buttons: [
-                create
+                store
             ]
         }
     ],

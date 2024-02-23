@@ -10,7 +10,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import moment from 'moment';
 
 import { createPinia } from 'pinia';
-import Layout from './Shared/Layout.vue';
+import Layout from '@/Layouts/Layout.vue';
 
 //Element UI
 import ElementPlus from 'element-plus';
@@ -54,7 +54,7 @@ createInertiaApp({
      * component has a layout property set, falling back to a default layout (Layout) if one is not
      * specified in the component itself.
      */
-    resolve: (pageName): any => {
+    resolve: (pageName) => {
 
         /**
          * FINDING THE PAGE
@@ -75,7 +75,7 @@ createInertiaApp({
          * resolve and then executes the provided callback function. Inside the callback function, it
          * modifies the layout property.
          */
-        page.then((module: any) => {
+        page.then((module) => {
             // If the page does not have his own private layout, then it has to use the general Layout.vue
             module.default.layout = module.default.layout || Layout;
         });
@@ -119,7 +119,7 @@ createInertiaApp({
                             last_page_url: records?.meta.last_page_url,
                         }
                     },
-                    getButtonStyle: (variant: string = 'index') => {
+                    getButtonStyle: (variant = 'index') => {
 
                         const styles = {
                             "index": "p-3 text-corporate-700 rounded-md hover:text-corporate-400 place-items-center gap-1",
