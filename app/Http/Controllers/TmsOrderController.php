@@ -49,8 +49,8 @@ class TmsOrderController extends Controller
     public function index(Request $request): Response
     {
         $searchTerm = $request->searchTerm ?? null;
-        $sortColumn = $request->sortColumn ?? "id";
-        $sortOrder = $request->sortOrder ?? "ASC";
+        $sortColumn = $request->sortColumn ?? "order_date";
+        $sortOrder = $request->sortOrder ?? "DESC";
         $searchColumns = $request->searchIn;
         //pagination stuff sent from front-end
         $page = $request->page;
@@ -83,7 +83,7 @@ class TmsOrderController extends Controller
                 'customer.headquarter',
                 'nativeOrder',
                 'pamyraOrder',
-            ]
+            ],
         );
 
         $records = new TmsOrderIndexCollection($records);

@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Models\TmsNativeOrder;
+use App\Models\TmsPamyraOrder;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -26,6 +28,7 @@ class TmsOrderEditResource extends JsonResource
             'status' => $this->status,
             'customer_reference' => $this->customer_reference,
             'provision' => $this->provision,
+            'provisionEur' => $this->calculateProvisionEur(),
             'order_edited_events' => $this->order_edited_events,
             'currency' => $this->currency,
             'order_number' => $this->order_number,
@@ -61,10 +64,10 @@ class TmsOrderEditResource extends JsonResource
      * controller we call pamyraOrder() and nativeOrder() relationships. One of them will be null.
      * The other one will have data. We place the found data under the key 'details' in the
      * response.
-     *
-     * @return void
+     * 
+     * @return TmsPamyraOrder | TmsNativeOrder
      */
-    private function setDetails()
+    private function setDetails(): TmsPamyraOrder | TmsNativeOrder
     {
 
         $pamyraOrder = $this->pamyraOrder ?? null;
@@ -78,6 +81,32 @@ class TmsOrderEditResource extends JsonResource
             return $nativeOrder;
         }
     }
+
+    /**
+     * Calculate the provision in EUR.
+     *
+     * @return float
+     */
+    private function calculateProvisionEur(): float
+    {
+        //Get the provision percentage from tms_orders table.
+        $provisionPercentage = $this->provision;
+
+        //Get all data from pamyra_orders or native_orders table (one will have data, the other will be null)
+        $pamyraOrNativeOrder = $this->setDetails();
+
+        //Get the price_net from pamyra_orders or native_orders table.
+        $priceNet = $pamyraOrNativeOrder->price_net;
+
+        //Calculate the provision in EUR.
+        $provisionValueInEur = $priceNet * $provisionPercentage / 100;
+
+        //Round to 2 decimal places.
+        $provisionValueInEur = round($provisionValueInEur, 2);
+
+        return $provisionValueInEur;
+    }
+    
 }
 
 
