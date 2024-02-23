@@ -89,7 +89,8 @@ class OrderService {
             'provision' => $this->calculateProvisionInEur($pamyraOrder['PriceNet'] ?? null),
             'currency' => 'EUR',
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),
-            'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
+            // 'purchase_price' => $pamyraOrder['PriceNet'] ?? null,
+            'purchase_price' => 0,//this is a temporary change requested by Christoph
             'payment_method' => 5, //this is invoice payment method
             'order_number' => $this->setOrderNumber(),
             'import_file_name' => $this->createFileName($pamyraOrder),
