@@ -17,7 +17,6 @@ use Modules\PamyraOrder\app\Services\PamyraServices\PamyraOrderService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderAddressService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHistoryService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderAttributeService;
-use Modules\PamyraOrder\app\Services\PamyraServices\OrderHistoryService;
 use Symfony\Component\Process\Process;
 
 /**
