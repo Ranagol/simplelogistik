@@ -54,6 +54,7 @@ class FtpHandlerBase
         $this->connectionName = $connectionName;
         $this->setConnectionMode();
         $this->getFtpCredentials();
+        $this->createFtpServerStorage();
     }
 
     private function setConnectionMode(): void
@@ -70,6 +71,21 @@ class FtpHandlerBase
                                                     ->firstOrFail();
     }
 
+    private function createFtpServerStorage(): void
+    {
+        $this->ftpServerStorage = Storage::build(
+            [
+                'driver' => $this->tmsFtpCredential->driver,
+                'host' => $this->tmsFtpCredential->host,
+                'username' => $this->tmsFtpCredential->username,
+                'password' => $this->tmsFtpCredential->password,
+                'port' => intval($this->tmsFtpCredential->port),
+                'root' => $this->tmsFtpCredential->path,
+                'throw' => true,
+            ]
+        );
+    }
+
 
     /**
      * This is the first step here. Get the list of all files in the ftp server. This might include
@@ -78,7 +94,7 @@ class FtpHandlerBase
      *
      * @return array    An array with all file names on the ftp server.
      */
-    public function getFileList($ftpServer): array
+    public function getFileList(): array
     {
         // dd('getFileList triggered', $this->ftpServerStorage);//this line works
         //Get the list of all files in the ftp server
@@ -86,7 +102,7 @@ class FtpHandlerBase
 
             //Typed property App\Services\FtpHandlerBase::$ftpServerStorage must not be accessed before initialization
             // $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
-            $allFileNames = $ftpServer->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
+            $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
 
 
             //This feedback appears after a minute of waiting:

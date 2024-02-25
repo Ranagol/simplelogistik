@@ -22,7 +22,6 @@ class FtpHandlerPamyra extends FtpHandlerBase
 
     /**
      * This is the Pamyra FTP server instance, that we will use to access the orders.
-     *
      */
     private $pamyraFtpServer;
 
@@ -32,18 +31,6 @@ class FtpHandlerPamyra extends FtpHandlerBase
         //call parent constructor
         parent::__construct('PamyraOrders');
 
-        //Create a new pamyraFtpServer instance, with pamyra ftp credentials, for accessing orders.
-        $this->pamyraFtpServer = Storage::build(
-            [
-                'driver' => 'sftp',
-                'host' => $this->tmsFtpCredential->host,
-                'username' => $this->tmsFtpCredential->username,
-                'password' => $this->tmsFtpCredential->password,
-                'port' => intval($this->tmsFtpCredential->port),
-                'root' => $this->tmsFtpCredential->path,
-                'throw' => true
-            ]
-        );
     }
 
     /**
@@ -54,7 +41,7 @@ class FtpHandlerPamyra extends FtpHandlerBase
     public function getPamyraOrders(): array
     {
         //Get all file list from ftp
-        $allFilesInFtpServer = $this->getFileList($this->pamyraFtpServer);
+        $allFilesInFtpServer = $this->getFileList();
 
         //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
         $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
