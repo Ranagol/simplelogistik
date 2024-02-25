@@ -80,12 +80,17 @@ class FtpHandlerBase
      */
     public function getFileList(): array
     {
-        dd('getFileList triggered', $this->ftpServerStorage);//this line works
+        // dd('getFileList triggered', $this->ftpServerStorage);//this line works
         //Get the list of all files in the ftp server
         try {
 
-            $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work
-            dd($allFileNames);
+            $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
+
+            //This feedback appears after a minute of waiting:
+            //app/Services/FtpHandlerBase.phpError: Unable to list contents for '', deep listing
+            //Reason:Unable to connect to host beta.simplelogistik.de at port 7876.
+
+            dd($allFileNames);//this is never reached
             return $allFileNames;
             
         } catch (\Exception $e) {

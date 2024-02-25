@@ -27,7 +27,6 @@ class FtpHandlerPamyra extends FtpHandlerBase
          * This is individual for every ftp server, because of individual credentials.
          */
         $this->createFtpServerStorage();
-        
     }
 
     /**
