@@ -20,10 +20,6 @@ class FtpHandlerPamyra extends FtpHandlerBase
 {
     //*********************PamyraFtpHandler non-refactored from ... */
 
-    protected string $connectionMode;
-    protected TmsFtpCredential $tmsFtpCredential;
-
-
     /**
      * This is the Pamyra FTP server instance, that we will use to access the orders.
      *
@@ -33,13 +29,8 @@ class FtpHandlerPamyra extends FtpHandlerBase
 
     public function __construct()
     {
-        $this->connectionName = 'PamyraOrders';
-        $this->connectionMode = 'test';
-        $this->getFtpCredentials();
-
-
-        //Get the ftp credentials from the database
-        // $ftpCredential = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();
+        //call parent constructor
+        parent::__construct('PamyraOrders');
 
         //Create a new pamyraFtpServer instance, with pamyra ftp credentials, for accessing orders.
         $this->pamyraFtpServer = Storage::build(
@@ -51,24 +42,8 @@ class FtpHandlerPamyra extends FtpHandlerBase
                 'port' => intval($this->tmsFtpCredential->port),
                 'root' => $this->tmsFtpCredential->path,
                 'throw' => true
-
-                // 'driver' => 'sftp',
-                // 'host' => 'beta.simplelogistik.de',
-                // 'username' => 'pamyra',
-                // 'password' => 'Pamyra2020@',
-                // 'port' => 7876,
-                // 'root' => 'upload/andor',
-                // 'throw' => true
             ]
         );
-    }
-
-    private function getFtpCredentials(): void
-    {
-        //Get the ftp credentials from the database
-        $this->tmsFtpCredential = TmsFtpCredential::where('name', $this->connectionName)
-                                                    ->where('connection_mode', $this->connectionMode)
-                                                    ->firstOrFail();
     }
 
     /**

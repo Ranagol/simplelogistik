@@ -51,9 +51,9 @@ class FtpHandlerBase
      */
     public function __construct(string $connectionName)
     {
-        // $this->connectionName = $connectionName;
-        // $this->setConnectionMode();
-        // $this->getFtpCredentials();
+        $this->connectionName = $connectionName;
+        $this->setConnectionMode();
+        $this->getFtpCredentials();
     }
 
     private function setConnectionMode(): void
