@@ -11,9 +11,19 @@ use Illuminate\Filesystem\FilesystemAdapter;
 class FtpHandlerBase
 {
 
-    //Set the connection name for the ftp server.
+    
+    /**
+     * The connection name for the ftp server. Example: PamyraOrders
+     *
+     * @var string
+     */
     protected string $connectionName;
 
+    /**
+     * This is the connection mode. It can be test or live.
+     *
+     * @var string
+     */
     protected string $connectionMode;
 
     /**
@@ -34,7 +44,7 @@ class FtpHandlerBase
      * This is the Pamyra FTP server instance/storage, created from Storage::build..., that we will 
      * use to access the orders.
      */
-    protected FilesystemAdapter $ftpServerStorage;
+    protected FilesystemAdapter $ftpServer;
 
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
@@ -47,7 +57,8 @@ class FtpHandlerBase
     protected array $filteredFileNames;
 
     /**
-     * Here we set if the connection mode is test or live, and get the ftp credentials from the database.
+     * Here we set if the connection mode is test or live, and get the ftp credentials from the 
+     * database.
      */
     public function __construct(string $connectionName)
     {
@@ -57,12 +68,22 @@ class FtpHandlerBase
         $this->createFtpServerStorage();
     }
 
+    /**
+     * Set whether the connection is live or test, based on the .env file
+     *
+     * @return void
+     */
     private function setConnectionMode(): void
     {
         //Set whether the connection is live or test, based on the environment
         config('app.env') === 'local' ? $this->connectionMode = 'test': $this->connectionMode = 'live';
     }
 
+    /**
+     * Get the ftp credentials from the database
+     *
+     * @return void
+     */
     private function getFtpCredentials(): void
     {
         //Get the ftp credentials from the database
@@ -71,9 +92,14 @@ class FtpHandlerBase
                                                     ->firstOrFail();
     }
 
+    /**
+     * Create the ftp server storage instance
+     *
+     * @return void
+     */
     private function createFtpServerStorage(): void
     {
-        $this->ftpServerStorage = Storage::build(
+        $this->ftpServer = Storage::build(
             [
                 'driver' => $this->tmsFtpCredential->driver,
                 'host' => $this->tmsFtpCredential->host,
@@ -86,7 +112,6 @@ class FtpHandlerBase
         );
     }
 
-
     /**
      * This is the first step here. Get the list of all files in the ftp server. This might include
      * jpg files, txt files. Because of this, we will want to filter out only the json files, that 
@@ -96,20 +121,11 @@ class FtpHandlerBase
      */
     public function getFileList(): array
     {
-        // dd('getFileList triggered', $this->ftpServerStorage);//this line works
         //Get the list of all files in the ftp server
         try {
 
-            //Typed property App\Services\FtpHandlerBase::$ftpServerStorage must not be accessed before initialization
-            // $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
-            $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
-
-
-            //This feedback appears after a minute of waiting:
-            //app/Services/FtpHandlerBase.phpError: Unable to list contents for '', deep listing
-            //Reason:Unable to connect to host beta.simplelogistik.de at port 7876.
-
-            dd($allFileNames);//this is never reached
+            $allFileNames = $this->ftpServer->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
+            // dd($allFileNames);
             return $allFileNames;
             
         } catch (\Exception $e) {
@@ -119,10 +135,9 @@ class FtpHandlerBase
     }
 
     /**
-     * When we get a list of filenames currently on the ftp server, we want only the pamyra json files,
-     * that contain the orders. These have 2 distinct characteristics:
-     * 1. They are json files or csv files or...
-     * So, we want to get these specific files, and ignore all the rest.
+     * When we get a list of filenames currently on the ftp server, we want only specific files
+     * formats. Example, for the pamyra orders, we want only the json files. This function filters
+     * out only the files that have the desired file type.
      *
      * @param array $allFileNames
      * @param string $desiredFileType
@@ -130,9 +145,13 @@ class FtpHandlerBase
      */
     public function filterFiles(array $allFileNames, string $desiredFileType): array
     {
-        $filteredFileNames = array_filter($allFileNames, function ($fileName, $desiredFileType) {
-            return strpos($fileName, $desiredFileType) !== false;
-        });
+        // dd($allFileNames, $desiredFileType);
+        $filteredFileNames = array_filter(
+            $allFileNames, 
+            function ($fileName) use ($desiredFileType){
+                return strpos($fileName, $desiredFileType) !== false;
+            }
+        );
 
         $this->filteredFileNames = $filteredFileNames;
 
@@ -187,15 +206,15 @@ class FtpHandlerBase
     //     foreach ($this->filteredFileNames as $fileName) {
 
     //         //Check if file exists on ftp server
-    //         if($this->ftpServerStorage->exists($fileName)) {
+    //         if($this->ftpServer->exists($fileName)) {
     //             echo $fileName . ' exists on FTP server!' . PHP_EOL;
     //             Log::info($fileName . ' exists on FTP server!');
     //         }
 
     //         try {
 
-    //             // Read the file content from the sftp ftpServerStorage
-    //             $fileContent = $this->ftpServerStorage->get($fileName);
+    //             // Read the file content from the sftp ftpServer
+    //             $fileContent = $this->ftpServer->get($fileName);
 
     //             //Write the file to ./documents/... dir.
     //             $isWritten = Storage::disk('documents')->put(
@@ -216,7 +235,7 @@ class FtpHandlerBase
     //         } finally {
                 
     //             //Delete the original json file from the ftp server
-    //             $isDeleted = $this->ftpServerStorage->delete($fileName);
+    //             $isDeleted = $this->ftpServer->delete($fileName);
     //             if($isDeleted) {
     //                 echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
     //                 echo PHP_EOL;

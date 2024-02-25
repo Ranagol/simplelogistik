@@ -15,22 +15,13 @@ use Exception;
  * This class connects to an sftp server, and handles files from here.
  */
 class FtpHandlerPamyra extends FtpHandlerBase
-// class FtpHandlerPamyra
-
 {
-    //*********************PamyraFtpHandler non-refactored from ... */
-
-    /**
-     * This is the Pamyra FTP server instance, that we will use to access the orders.
-     */
-    private $pamyraFtpServer;
-
+    private $desiredFileType = '.json';
 
     public function __construct()
     {
         //call parent constructor
         parent::__construct('PamyraOrders');
-
     }
 
     /**
@@ -44,7 +35,10 @@ class FtpHandlerPamyra extends FtpHandlerBase
         $allFilesInFtpServer = $this->getFileList();
 
         //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
-        $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
+        $pamyraFileNames = $this->filterFiles($allFilesInFtpServer, $this->desiredFileType);
+
+
+        dd($pamyraFileNames);//************* */
 
         //If there are no pamyra files, we can stop the process here
         $this->checkPamyraFiles($pamyraFileNames);
@@ -53,27 +47,6 @@ class FtpHandlerPamyra extends FtpHandlerBase
         $pamyraOrders = $this->handlePamyraFiles($pamyraFileNames);
 
         return $pamyraOrders;
-    }
-
-
-    /**
-     * When we get a list of filenames currently on the ftp server, we want only the pamyra json files,
-     * that contain the orders. These have 2 distinct characteristics:
-     * 1. They are json files
-     * So, we want to get these specific files, and ignore all the rest.
-     *
-     * @param array $allFileNames
-     * @return array
-     */
-    private function filterJsonFiles(array $allFileNames): array
-    {
-        $filteredFileNames = array_filter($allFileNames, function ($fileName) {
-            return strpos($fileName, '.json') !== false;
-        });
-
-        $this->filteredFileNames = $filteredFileNames;
-
-        return $filteredFileNames;
     }
 
     /**
@@ -105,7 +78,7 @@ class FtpHandlerPamyra extends FtpHandlerBase
         $pamyraOrders = [];
 
         foreach ($pamyraFileNames as $pamyraJsonFile) {
-            $pamyraOrders[] = $this->pamyraFtpServer->json($pamyraJsonFile);
+            $pamyraOrders[] = $this->ftpServer->json($pamyraJsonFile);
 
         }
 
@@ -127,15 +100,15 @@ class FtpHandlerPamyra extends FtpHandlerBase
         foreach ($this->filteredFileNames as $fileName) {
 
             //Check if file exists on ftp server
-            if($this->pamyraFtpServer->exists($fileName)) {
+            if($this->ftpServer->exists($fileName)) {
                 echo $fileName . ' exists on FTP server!' . PHP_EOL;
                 Log::info($fileName . ' exists on FTP server!');
             }
 
             try {
 
-                // Read the file content from the sftp pamyraFtpServer
-                $fileContent = $this->pamyraFtpServer->get($fileName);
+                // Read the file content from the sftp ftpServer
+                $fileContent = $this->ftpServer->get($fileName);
 
                 //Write the file to ./documents/... dir.
                 $isWritten = Storage::disk('documents')->put(
@@ -156,7 +129,7 @@ class FtpHandlerPamyra extends FtpHandlerBase
             } finally {
                 
                 //Delete the original json file from the ftp server
-                $isDeleted = $this->pamyraFtpServer->delete($fileName);
+                $isDeleted = $this->ftpServer->delete($fileName);
                 if($isDeleted) {
                     echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
                     echo PHP_EOL;
