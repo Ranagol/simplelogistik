@@ -38,7 +38,6 @@ class OrdersHandler
         // dd('orderShandler->handle triggered');
         //Gets all the orders from all the PAM json files from the ftp server
         $orders = $this->ftpHandlerPamyra->getPamyraOrders();
-        dd('this is not displayed?');
         // dd($orders);
 
         //We loop through all the orders and write each one to the database
@@ -47,6 +46,6 @@ class OrdersHandler
         }
 
         //We archive all the json files in the app from the ftp server
-        $this->ftpHandlerPamyra->moveAndArchiveFilesFromFtp();
+        // $this->ftpHandlerPamyra->moveAndArchiveFilesFromFtp();
     }
 }
