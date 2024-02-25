@@ -51,9 +51,9 @@ class FtpHandlerBase
      */
     public function __construct(string $connectionName)
     {
-        $this->connectionName = $connectionName;
-        $this->setConnectionMode();
-        $this->getFtpCredentials();
+        // $this->connectionName = $connectionName;
+        // $this->setConnectionMode();
+        // $this->getFtpCredentials();
     }
 
     private function setConnectionMode(): void
@@ -78,13 +78,16 @@ class FtpHandlerBase
      *
      * @return array    An array with all file names on the ftp server.
      */
-    public function getFileList(): array
+    public function getFileList($ftpServer): array
     {
         // dd('getFileList triggered', $this->ftpServerStorage);//this line works
         //Get the list of all files in the ftp server
         try {
 
-            $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
+            //Typed property App\Services\FtpHandlerBase::$ftpServerStorage must not be accessed before initialization
+            // $allFileNames = $this->ftpServerStorage->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
+            $allFileNames = $ftpServer->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
+
 
             //This feedback appears after a minute of waiting:
             //app/Services/FtpHandlerBase.phpError: Unable to list contents for '', deep listing
@@ -161,53 +164,53 @@ class FtpHandlerBase
      *
      * @return void
      */
-    public function moveAndArchiveFilesFromFtp(): void
-    {
-        echo 'Moving files from FTP server to our app started.' . PHP_EOL;
+    // public function moveAndArchiveFilesFromFtp(): void
+    // {
+    //     echo 'Moving files from FTP server to our app started.' . PHP_EOL;
 
-        foreach ($this->filteredFileNames as $fileName) {
+    //     foreach ($this->filteredFileNames as $fileName) {
 
-            //Check if file exists on ftp server
-            if($this->ftpServerStorage->exists($fileName)) {
-                echo $fileName . ' exists on FTP server!' . PHP_EOL;
-                Log::info($fileName . ' exists on FTP server!');
-            }
+    //         //Check if file exists on ftp server
+    //         if($this->ftpServerStorage->exists($fileName)) {
+    //             echo $fileName . ' exists on FTP server!' . PHP_EOL;
+    //             Log::info($fileName . ' exists on FTP server!');
+    //         }
 
-            try {
+    //         try {
 
-                // Read the file content from the sftp ftpServerStorage
-                $fileContent = $this->ftpServerStorage->get($fileName);
+    //             // Read the file content from the sftp ftpServerStorage
+    //             $fileContent = $this->ftpServerStorage->get($fileName);
 
-                //Write the file to ./documents/... dir.
-                $isWritten = Storage::disk('documents')->put(
-                    $this->createNewFileName($fileName),
-                    $fileContent
-                );
+    //             //Write the file to ./documents/... dir.
+    //             $isWritten = Storage::disk('documents')->put(
+    //                 $this->createNewFileName($fileName),
+    //                 $fileContent
+    //             );
 
-                if($isWritten) {
-                    echo $fileName . ' was written to the local disk.' . PHP_EOL;
-                    Log::info($fileName . ' was written to the local disk.');
-                }
+    //             if($isWritten) {
+    //                 echo $fileName . ' was written to the local disk.' . PHP_EOL;
+    //                 Log::info($fileName . ' was written to the local disk.');
+    //             }
 
-            } catch (\Throwable $th) {
+    //         } catch (\Throwable $th) {
 
-                Log::error('Error: ' . $th->getMessage());
-                echo 'Error: ' . $th->getMessage() . PHP_EOL;
+    //             Log::error('Error: ' . $th->getMessage());
+    //             echo 'Error: ' . $th->getMessage() . PHP_EOL;
 
-            } finally {
+    //         } finally {
                 
-                //Delete the original json file from the ftp server
-                $isDeleted = $this->ftpServerStorage->delete($fileName);
-                if($isDeleted) {
-                    echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
-                    echo PHP_EOL;
-                } else {
-                    Log::error($fileName . ' can not be deleted from FTP server');
-                    echo $fileName . ' can not be deleted from FTP server' . PHP_EOL;
-                }
-            }
-        }
+    //             //Delete the original json file from the ftp server
+    //             $isDeleted = $this->ftpServerStorage->delete($fileName);
+    //             if($isDeleted) {
+    //                 echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
+    //                 echo PHP_EOL;
+    //             } else {
+    //                 Log::error($fileName . ' can not be deleted from FTP server');
+    //                 echo $fileName . ' can not be deleted from FTP server' . PHP_EOL;
+    //             }
+    //         }
+    //     }
 
-        echo 'Moving files from FTP server to our app ended.' . PHP_EOL;
-    }
+    //     echo 'Moving files from FTP server to our app ended.' . PHP_EOL;
+    // }
 }

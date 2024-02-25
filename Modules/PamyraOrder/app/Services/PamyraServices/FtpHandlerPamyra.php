@@ -14,21 +14,15 @@ use Exception;
 /**
  * This class connects to an sftp server, and handles files from here.
  */
-// class FtpHandlerPamyra extends FtpHandlerBase
-class FtpHandlerPamyra
+class FtpHandlerPamyra extends FtpHandlerBase
+// class FtpHandlerPamyra
 
 {
     //*********************PamyraFtpHandler non-refactored from ... */
 
-    /**
-     * Stores all relevant json file name from the ftp server, from where we will write
-     * Pamyra orders to the database. Later, when this is done, we will need these file names
-     * again, because we have to copy these files from the ftp server into our app, and then we have
-     * to delete these files from the ftp server.
-     *
-     * @var array
-     */
-    private array $filteredFileNames;
+    protected string $connectionMode;
+    protected TmsFtpCredential $tmsFtpCredential;
+
 
     /**
      * This is the Pamyra FTP server instance, that we will use to access the orders.
@@ -36,12 +30,13 @@ class FtpHandlerPamyra
      */
     private $pamyraFtpServer;
 
-    private string $connectionName;
 
     public function __construct()
     {
-        //Set the connection name for the ftp server. Defined in .env, and in config/ftp.php
-        // $this->connectionName = config('ftp.pamyraOrdersFtp');
+        $this->connectionName = 'PamyraOrders';
+        $this->connectionMode = 'test';
+        $this->getFtpCredentials();
+
 
         //Get the ftp credentials from the database
         // $ftpCredential = TmsFtpCredential::where('name', 'PamyraOrdersTest')->firstOrFail();
@@ -49,23 +44,31 @@ class FtpHandlerPamyra
         //Create a new pamyraFtpServer instance, with pamyra ftp credentials, for accessing orders.
         $this->pamyraFtpServer = Storage::build(
             [
-                // 'driver' => 'sftp',
-                // 'host' => $ftpCredential->host,
-                // 'username' => $ftpCredential->username,
-                // 'password' => $ftpCredential->password,
-                // 'port' => intval($ftpCredential->port),
-                // 'root' => $ftpCredential->path,
-                // 'throw' => true
-
                 'driver' => 'sftp',
-                'host' => 'beta.simplelogistik.de',
-                'username' => 'pamyra',
-                'password' => 'Pamyra2020@',
-                'port' => 7876,
-                'root' => 'upload/andor',
+                'host' => $this->tmsFtpCredential->host,
+                'username' => $this->tmsFtpCredential->username,
+                'password' => $this->tmsFtpCredential->password,
+                'port' => intval($this->tmsFtpCredential->port),
+                'root' => $this->tmsFtpCredential->path,
                 'throw' => true
+
+                // 'driver' => 'sftp',
+                // 'host' => 'beta.simplelogistik.de',
+                // 'username' => 'pamyra',
+                // 'password' => 'Pamyra2020@',
+                // 'port' => 7876,
+                // 'root' => 'upload/andor',
+                // 'throw' => true
             ]
         );
+    }
+
+    private function getFtpCredentials(): void
+    {
+        //Get the ftp credentials from the database
+        $this->tmsFtpCredential = TmsFtpCredential::where('name', $this->connectionName)
+                                                    ->where('connection_mode', $this->connectionMode)
+                                                    ->firstOrFail();
     }
 
     /**
@@ -76,7 +79,7 @@ class FtpHandlerPamyra
     public function getPamyraOrders(): array
     {
         //Get all file list from ftp
-        $allFilesInFtpServer = $this->getFileList();
+        $allFilesInFtpServer = $this->getFileList($this->pamyraFtpServer);
 
         //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
         $pamyraFileNames = $this->filterJsonFiles($allFilesInFtpServer);
@@ -90,24 +93,6 @@ class FtpHandlerPamyra
         return $pamyraOrders;
     }
 
-    /**
-     * This is the first step here. Get the list of all files in the ftp server. This might include
-     * jpg files, txt files. Because of this, we will want to filter out only the json files, that 
-     * contain the pamyra orders - in one of the steps after this.
-     *
-     * @return array    An array with all file names on the ftp server.
-     */
-    private function getFileList(): array
-    {
-        //Get the list of all files in the ftp server
-        try {
-            $allFileNames = $this->pamyraFtpServer->allFiles();
-            return $allFileNames;
-        } catch (\Exception $e) {
-            echo 'Error: ' . $e->getMessage() . PHP_EOL;
-            Log::error('Error: ' . $e->getMessage());
-        }
-    }
 
     /**
      * When we get a list of filenames currently on the ftp server, we want only the pamyra json files,
@@ -231,10 +216,6 @@ class FtpHandlerPamyra
      * @param string $fileName
      * @return string
      */
-    private function createNewFileName(string $fileName): string
-    {
-        return 'PamyraOrdersArchived/' . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
-    }
 
 
     
