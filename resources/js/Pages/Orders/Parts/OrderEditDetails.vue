@@ -5,7 +5,7 @@
         useContent: {
             type: Boolean,
             required: false,
-        },
+        }
     });
 
     import {store as useStore} from '@/Stores/orderStore';
@@ -14,5 +14,5 @@
     
 </script>
 <template>
-    <Form :content="content" :config="_config" :form="_config" />
+    <Form :content="content" :useData="route().current().includes('edit')" :store="content" :config="_config" :form="_config" />
 </template>

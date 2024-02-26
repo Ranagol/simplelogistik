@@ -1,21 +1,18 @@
 <script setup>
     import Form from '@/Components/Form.vue';
-    import _config from '@/config/Pages/Orders/Form/_details';
+    import _config from '@/config/Pages/Orders/Form/_tracking';
     defineProps({
         useContent: {
             type: Boolean,
             required: false,
-        },
-        order: {
-            type: Object,
-            required: true
-        },
-        content: {
-            type: Object,
-            required: false
         }
     });
+
+    import {store as useStore} from '@/Stores/orderStore';
+    let contentStore = useStore();
+    let content = contentStore.getOne();
+    
 </script>
 <template>
-    <Form :content="content" :config="_config" />
+    <Form :content="content" :useData="route().current().includes('edit')" :store="content" :config="_config" :form="_config" />
 </template>
