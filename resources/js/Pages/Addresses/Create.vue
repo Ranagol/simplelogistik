@@ -10,6 +10,9 @@ import { store as addressStore } from "@/Stores/addressStore";
 
 let store = addressStore()
 
+store.setOne({})
+
+
 </script>
 <template>
     <Page :content="record" :store="store" :page="config">
