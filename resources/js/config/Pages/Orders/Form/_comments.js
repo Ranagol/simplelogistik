@@ -3,9 +3,7 @@ export default {
         {
             title: "general",
             fields: [
-                {
-                    type: "text",
-                }
+                
             ]
         }
     ]
