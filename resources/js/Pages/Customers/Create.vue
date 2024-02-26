@@ -10,5 +10,8 @@ const actionHandle = new Actions(route().current(), route )
         <template #backlink>
             <button @click="actionHandle.index()">Back</button>
         </template>
+        <template #actions>
+            <button @click="customer.store()">Save</button>
+        </template>
     </Page>
 </template>

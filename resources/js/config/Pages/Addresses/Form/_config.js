@@ -73,7 +73,7 @@ export default {
                     "match": "id",
                 },
                 {
-                    name: 'address_additional_information',
+                    name: 'address_additional_information', 
                     size: 'col-span-6',
                     type: 'text',
                     placeholder: 'pages.addresses.form.address_additional_information',
