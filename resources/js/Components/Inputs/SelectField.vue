@@ -30,8 +30,6 @@ import Data from '../../lib/Data';
         // let data = await Data.shared.getData(props.field.options)
         options.value = data.data
     }
-
-
     
     getOptions()
     
@@ -40,9 +38,8 @@ import Data from '../../lib/Data';
 <template>
         <div :class="defaultWrapperClass"> 
             <label :class="defaultLabelClass" :for="_id">{{ $t(field.label ?? field.placeholder) }}</label>
-            {{ field.name }}
-            <select :id="_id" class="max-w-full rounded-md" @change="e => store.update(field.name, e.target.value)" >
-                <option v-for="(option, index) in options" :key="index" :value="option" :selected="useData ? data[field.name][field.keyName] === option[field.keyName] : false">{{ option[field.valueKey] }}</option>
+            <select :id="_id" class="w-full rounded-md" @change="e => store.update(field.name, e.target.value)" >
+                <option v-for="(option, index) in options" :key="index" :value="option" :selected="data[field.name] === option[field.match]">{{ option[field.displayKey] }}</option>
             </select>   
         </div>
 </template>

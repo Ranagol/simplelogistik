@@ -27,17 +27,19 @@
 </script>
 
 <template>
-    <div :class="defaultWrapperClass">
-        <input :required="field.required ?? false" @input="(e) => onInput(field.name, e.target.value)" :type="field?.type ?? 'text'" :value="value" :id="'floating-input-filed-' + _id" :placeholder="$t(field?.placeholder ?? '')"
-        :class="defaultInputClass"
-        >
-        <div :class="defaultIconWrapperClass">
-            <el-icon v-if="field?.tooltipText && field?.tooltipText !== ''" :data-tooltip-target="'tooltip-icon-input-'+ _id" type="button" :color="field?.iconColor ?? 'silver'" :size="field?.iconSize ?? '18'"><QuestionFilled :class="iconClass" /></el-icon>
-        </div>
-        <label :class="defaultLabelClass" :for="'floating-input-filed-' + _id">{{$t(field.label ?? field.placeholder ?? '')}}</label>
-        <div v-if="field.tooltipText && field.tooltipText !== ''" :id="'tooltip-icon-input-'+ _id" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-            {{ $t(field?.tooltipText) }}
-            <div class="tooltip-arrow" data-popper-arrow></div>
+    <div class="col-span-12" :class="field.size ?? 'col-span-12'">
+        <div :class="defaultWrapperClass">
+            <input :required="field.required ?? false" @input="(e) => onInput(field.name, e.target.value)" :type="field?.type ?? 'text'" :value="value" :id="'floating-input-filed-' + _id" :placeholder="$t(field?.placeholder ?? '')"
+            :class="defaultInputClass"
+            >
+            <div :class="defaultIconWrapperClass">
+                <el-icon v-if="field?.tooltipText && field?.tooltipText !== ''" :data-tooltip-target="'tooltip-icon-input-'+ _id" type="button" :color="field?.iconColor ?? 'silver'" :size="field?.iconSize ?? '18'"><QuestionFilled :class="iconClass" /></el-icon>
+            </div>
+            <label :class="defaultLabelClass" :for="'floating-input-filed-' + _id">{{$t(field.label ?? field.placeholder ?? '')}}</label>
+            <div v-if="field.tooltipText && field.tooltipText !== ''" :id="'tooltip-icon-input-'+ _id" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                {{ $t(field?.tooltipText) }}
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
         </div>
     </div>
 </template>
