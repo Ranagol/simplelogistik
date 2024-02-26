@@ -2,7 +2,12 @@ const headers = [
     {
         show: true,
         key: "internal_id",
-        text: 'labels.customer-id',
+        contentConfig: {
+            type: 'link',
+            use: "id",
+            to: 'customers.edit'
+        },
+        title: 'tables.customers.headers.customer_id',
         sortable: true, 
         filterable: true, 
         searchable: true,
@@ -11,7 +16,7 @@ const headers = [
     {
         show: false,
         key: "first_name",
-        text: 'labels.first-name',
+        title: 'tables.customers.headers.first_name',
         sortable: true, 
         filterable: true, 
         searchable: true,
@@ -20,7 +25,7 @@ const headers = [
     {
         show: true,
         key: "last_name",
-        text: 'labels.last-name',
+        title: 'tables.customers.headers.last_name',
         sortable: true, 
         filterable: true, 
         searchable: true,
@@ -29,7 +34,7 @@ const headers = [
     {
         show: true,
         key: "company_name",
-        text: 'labels.company-name',
+        title: 'tables.customers.headers.company_name',
         sortable: true, 
         filterable: true, 
         searchable: true,
@@ -38,7 +43,7 @@ const headers = [
     {
         show: true,
         key: "private_customer",
-        text: 'labels.business-customer',
+        title: 'tables.customers.headers.business_customer',
         sortable: true, 
         filterable: true, 
         searchable: true,

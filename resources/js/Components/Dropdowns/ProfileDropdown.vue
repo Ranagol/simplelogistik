@@ -16,17 +16,17 @@
         <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
             <li>
                 <Link @click="() => hideMenu" :href="route('profile.edit')"
-                    class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">{{ $t('labels.my-profile') }}</Link>
+                    class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">{{ $t('account.profile') }}</Link>
             </li>
             <li>
                 <Link @click="() => hideMenu" :href="route('profile.edit')"
-                    class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">{{ $t('labels.account-settings') }}</Link>
+                    class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">{{ $t('account.settings') }}</Link>
             </li>
         </ul>
         <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
             <li>
                 <Link method="post" :href="route('logout')" as="button" type="button"
-                    class="flex w-full px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ $t('labels.sign-out') }}</Link>
+                    class="flex w-full px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ $t('account.logout') }}</Link>
             </li>
         </ul>
     </div>

@@ -1,30 +1,24 @@
-<template>
-    <Head
-        :title="$t('labels.vehicles')"
-    />
-    <VehiclesTable
-        :actions="['show', 'edit']"
-        :title="$t('labels.customers')"
-        :data="fe_data.vehicles.data"
-        :headers="defaultHeaders"
-        :props="props"
-    ></VehiclesTable>
-    <Pagination :links="buildPaginationData(fe_data.vehicles)" />
-</template>
-
 <script setup>
-    import { reactive } from 'vue';
-    import VehiclesTable from "@/Components/Tables/VehiclesTable.vue";
 
-    import headers from "@/config/Tables/vehicleHeaders";
-    const defaultHeaders = headers;
+import Page from '@/Components/Page.vue';
+import config from "@/config/Pages/Vehicles/_index";
+import Actions from "@/config/Actions";
+import Button from '@/Components/Buttons/Button.vue';
 
-    const props = defineProps({
-        records: Object,
-    })
+const actionHandle = new Actions( route )
 
-    const fe_data = reactive({
-        vehicles: props.records,
-    });
-
+import tableHeaderConfig from "@/config/Tables/vehicleHeaders";
+defineProps({
+    records: {
+        type: Object,
+        required: true
+    }
+})
 </script>
+<template>
+    <Page :tableConfig="tableHeaderConfig" :content="records.data" :page="config">
+        <template #create-button>
+            <Button type="create" @click="actionHandle.create()"/>
+        </template>
+    </Page>
+</template>

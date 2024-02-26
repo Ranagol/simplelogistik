@@ -1,44 +1,25 @@
-<template>
-    <Head title="Address" />
-    <AddressesTable 
-        :actions="['edit', 'show']"  
-        :data="fe_data.addresses.data" 
-        :headers="defaultHeaders"
-    />
-
-    <Pagination :links="buildPaginationData(fe_data.addresses)" />
-</template>
-
 <script setup>
-import { reactive } 
-    from 'vue';
 
-import AddressesTable 
-    from '@/Components/Tables/AddressesTable.vue';
+import Page from '@/Components/Page.vue';
+import config from "@/config/Pages/Addresses/_index";
+import Actions from "@/config/Actions";
+import Button from '@/Components/Buttons/Button.vue';
 
-import Pagination 
-    from '@/Components/Pagination/Pagination.vue';
+const actionHandle = new Actions( route )
 
-import headers 
-    from '@/config/Tables/addressHeaders';
-
-const defaultHeaders = headers;
-
-let props = defineProps( 
-    {
-        errors: Object, 
-        records: Object,
-        search: String,
-        search_in: Array,
-        order_by: String,
-        order: String,
+import tableHeaderConfig from "@/config/Tables/addressHeaders"; 
+defineProps({
+    records: {
+        type: Object,
+        required: true
     }
-);
-
-// Setting Frontend Data
-const fe_data = reactive({
-    addresses: props.records,
-});
-
+})
 
 </script>
+<template>
+    <Page :tableConfig="tableHeaderConfig" :content="records.data" :page="config">
+        <template #create-button>
+            <Button type="create" @click="actionHandle.create()"/>
+        </template>
+    </Page>
+</template>

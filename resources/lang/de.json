@@ -116,7 +116,48 @@
         "addresses": {
             "index": "Adressen",
             "create":"Adresse anlegen",
-            "edit": "Adresse bearbeiten"
+            "edit": "Adresse bearbeiten",
+            "form": {
+                "sections": {
+                    "customer_information": "Kundeninformationen"
+                },
+                "company_name": "Firmenname",
+                "first_name": "Vorname",
+                "last_name": "Nachname",
+                "street": "Straße",
+                "house_number": "Hausnummer",
+                "zip_code": "Postleitzahl",
+                "city": "Stadt",
+                "state": "Bundesland",
+                "country": "Land",
+                "address_additional_information": "Adresszusatz",
+                "phone": "Telefon",
+                "email": "E-Mail",
+                "is_pickup": "Abholadresse",
+                "is_delivery": "Lieferadresse",
+                "is_billing": "Rechnungsadresse",
+                "is_headquarter": "Hauptsitz"
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         },
         "forwarders": {
             "index": "Dienstleister",
@@ -188,6 +229,7 @@
         },
         "forwarders":{
             "headers": {
+                "id": "ID",
                 "company_name": "Firmenname",
                 "internal_id": "Interne ID",
                 "name": "Name",

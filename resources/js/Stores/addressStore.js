@@ -1,53 +1,36 @@
+import { router } from '@inertiajs/vue3';
 import { defineStore } from 'pinia';
-
-export const useAddressStore = defineStore(
-    'address', {
-
+export const store = defineStore('address', {
     state: () => ({
-        addresses: [],//these are addresses
-        selectedAddress: {},//for edit, create, delete
-        selectedAddresses: [],//this is for batch delete
-        searchTerm: '',//for search field
-        mode: '',
-        elDialogVisible: false,//turns on the popup
-
-        //sort in el-table
-        sortOrder: '',
-        sortColumn: '',
-
-        //pagination
-        paginationData: {},
-
-        errors: {},//validation errors from the backend
-        title: '',//the title for the createEdit component
+        record: {
+        },
+        records: [],
     }),
 
-    getters: {//like computed properties. Use state here.
-
-    },
-
-    actions: {//like methods. Use .this here
-
-        addressesToStore(addresses) {
-            this.addresses = addresses;
+    actions: {
+        set(records) {
+            this.records = records;
         },
-
-        deleteAddress(address) {
-            this.addresses = this.addresses.filter((item) => item.id !== address.id);
+        get() {
+            return this.records;
         },
-
-        editAddress() {
-            let newlyEditedAddress = this.selectedAddress;
-            let index = this.addresses.findIndex((nonEditedAddress) => nonEditedAddress.id === newlyEditedAddress.id);
-            this.addresses[index] = newlyEditedAddress;
+        setOne(record) {
+            this.record = record;
         },
-
-        setCurrentPage(page) {
-            this.paginationData.current_page = page;
+        getOne() {
+            return this.record;
         },
-
-        setPageSize(size) {
-            this.paginationData.per_page = size;
+        save(){
+            router.put(route("addresses.update", this.record.id ), this.record);
         },
-    },
-});
+        store(){
+            router.post(route("addresses.store"), this.record);
+        },
+        update( field, value ){
+            this.record[field] = value;
+        },
+        delete(){
+            router.delete(route("addresses.destroy"), this.record.id);
+        }
+    }
+})
