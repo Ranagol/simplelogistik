@@ -59,18 +59,6 @@ class TmsAddressRequest extends FormRequest
             'is_delivery' => ['nullable', 'boolean'],
             'is_billing' => ['nullable', 'boolean'],
             'is_headquarter' => ['nullable', 'boolean'],
-
-            //We attach this country with the appends trick in the TmsAddress
-            'country' => ['nullable', 'array'],
-
-            //We attach this customer with the appends trick in the TmsAddress
-            'customer' => ['nullable', 'array'],
-
-            //We attach this forwarder with the appends trick in the TmsAddress
-            'forwarder' => ['nullable', 'array'],
-
-            //We attach this partner with the appends trick in the TmsAddress
-            'partner' => ['nullable', 'array'],
         ];
     }
 }
