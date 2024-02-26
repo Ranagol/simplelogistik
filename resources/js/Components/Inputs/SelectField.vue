@@ -39,7 +39,7 @@ import Data from '../../lib/Data';
         <div :class="defaultWrapperClass"> 
             <label :class="defaultLabelClass" :for="_id">{{ $t(field.label ?? field.placeholder) }}</label>
             <select :id="_id" class="w-full rounded-md" @change="e => store.update(field.name, e.target.value)" >
-                <option v-for="(option, index) in options" :key="index" :value="option" :selected="data[field.name] === option[field.match]">{{ option[field.displayKey] }}</option>
+                <option v-for="(option, index) in options" :key="index" :value="option[field.name]" :selected="data[field.name] === option[field.match]">{{ option[field.displayKey] }}</option>
             </select>   
         </div>
 </template>
