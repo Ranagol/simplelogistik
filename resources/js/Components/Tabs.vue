@@ -28,18 +28,20 @@ onMounted(() => {
                 :data-tabs-target="'#' + tab.id" 
                 type="button" 
                 role="tab" 
-                :aria-controls="tab.id" >{{ tab.title }}</button>
+                :aria-controls="tab.id" >{{ $t(tab.title) }}</button>
             </li>
         </ul>
     </div>
     <div id="default-tab-content">
         <div
-            class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+            class="hidden"
             v-for="tab in config.tabs" 
             :id="tab.id" 
             role="tabpanel" 
             :aria-labelledby="tab.id + '-tab'">
-            <component :form="config" :content="content" :is="tab.component" />
+            <div class="grid grid-cols-12 col-span-12">
+                <component :is="tab.component" />
+            </div>
         </div>
     </div>
 
