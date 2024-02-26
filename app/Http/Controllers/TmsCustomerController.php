@@ -80,21 +80,7 @@ class TmsCustomerController extends Controller
 
     public function create(): Response
     {
-        //Create a new customer object, as a template that will be sent to the FE.
-        $newCustomer = new TmsCustomer();
-
-        //Set default values for some customer properties, for customer create
-        $newCustomer->customer_type = 'Bussiness customer';
-        $newCustomer->invoice_dispatch = 'Direct';
-        $newCustomer->invoice_shipping_method = 'Email';
-        $newCustomer->payment_method = 'Invoice';
-
-        return Inertia::render(
-            $this->create, 
-            [
-                'record' => $newCustomer,
-            ]
-        );
+        return Inertia::render($this->create);
     }
 
     /**
@@ -140,7 +126,7 @@ class TmsCustomerController extends Controller
      */
     public function edit(string $id): Response
     {
-        $record = TmsCustomer::with(['addresses'])->find($id);
+        $record = TmsCustomer::find($id);
 
         /**
          * Here we check if there is a session variable called 'customerCreate'. If yes, we send it
