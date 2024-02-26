@@ -89,7 +89,6 @@ class TmsOrderController extends Controller
 
         $records = new TmsOrderIndexCollection($records);
 
-
         return Inertia::render(
             $this->index, 
             [
@@ -210,16 +209,6 @@ class TmsOrderController extends Controller
             $this->edit, 
             [
                 'record' => $record,
-
-                //This is data for the select/options fields in the form, so the user can choose.
-                'selectOptions' => [
-                    'countries' => TmsCountry::select('id', 'country_name')->get(),
-                    'typesOfTransport' => TmsOrder::TYPES_OF_TRANSPORT,
-                    'origins' => TmsOrder::ORIGINS,//Example: Pamyra, sales...
-                    // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
-                    'parcelTypes' => TmsParcel::PARCEL_TYPE,
-                    // 'statuses' => TmsOrder::STATUSES,//Example: 'Order created', 'Order confirmed'...
-                ]
             ]
         );
     }
@@ -289,7 +278,6 @@ class TmsOrderController extends Controller
         TmsOrder::destroy($id);
     }
 
-
     public static function execute($cmd): string
     {
         $process = Process::fromShellCommandline($cmd);
@@ -312,5 +300,4 @@ class TmsOrderController extends Controller
 
         return $processOutput;
     }
-
 }

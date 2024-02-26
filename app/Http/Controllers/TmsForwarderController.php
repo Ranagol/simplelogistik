@@ -110,7 +110,6 @@ class TmsForwarderController extends Controller
             $this->create, 
             [
                 'record' => new TmsForwarder(),//just an empty record
-                'mode' => 'create',
             ]
         );
     }
@@ -154,11 +153,6 @@ class TmsForwarderController extends Controller
             $this->edit, 
             [
                 'record' => $record,
-                'mode' => 'edit',
-                //This is data for the select/options fields in the form, so the user can choose.
-                'selectOptions' => [
-                    'countries' => 'just testing',
-                ]
             ]
         );
     }
