@@ -160,9 +160,9 @@ class OrderHandler {
     private function sendDataToEasybill(): void
     {
         file_put_contents('test.txt', getcwd());
-        $result = $this->execute('cd simplelogistik; php artisan sendcustomer customerId ' . $this->customerId . ';');
+        $result = $this->execute('php artisan sendcustomer customerId ' . $this->customerId . ';');
         file_put_contents('test.txt', $result);
-        $result = $this->execute('cd simplelogistik; php artisan sendinvoices orderId ' . $this->order->id . ';');
+        $result = $this->execute('php artisan sendinvoices orderId ' . $this->order->id . ';');
         file_put_contents('test.txt', $result, FILE_APPEND);
     }
     
