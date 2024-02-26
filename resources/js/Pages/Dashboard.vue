@@ -1,17 +1,12 @@
-<template>
-    <Head title="Dashboard" />
-
-
-</template>
-
 <script setup>
-
-import { Histogram } from "@element-plus/icons-vue"
-
-
+    import Page from '@/Components/Page.vue';
+    import config from "@/config/Pages/Dashboard/_index";
 </script>
 
-<style>
-</style>
-
-
+<template>
+    <Page :page="config">
+        <template #top-actions>
+            <button @click="actionHandle.create()">Create</button>
+        </template>
+    </Page>
+</template>

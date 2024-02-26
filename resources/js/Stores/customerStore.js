@@ -1,45 +1,35 @@
+import { router } from '@inertiajs/vue3';
 import { defineStore } from 'pinia';
-
-export const useCustomerStore = defineStore(
-    'customer', {
-
+export const store = defineStore('address', {
     state: () => ({
-        customers: [],//these are customers
-        selectedCustomer: {},//for edit, create, delete
-        mode: '',
-
-
-        errors: {},//validation errors from the backend
-        customerResetValues: {
-            company_name: '',
-            name: '',
-            email: '',
-            rating: '',
-            tax_number: '',
-            internal_id: '',
-        },
+        record: {},
+        records: []
     }),
 
-    getters: {//like computed properties. Use state here.
-
-    },
-
-    actions: {//like methods. Use .this here
-
-        customersToStore(customers) {
-            this.customers = customers;
+    actions: {
+        set(records) {
+            this.records = records;
         },
-
-        deleteCustomer(customer) {
-            this.customers = this.customers.filter((item) => item.id !== customer.id);
+        get() {
+            return this.records;
         },
-
-        editCustomer() {
-            let newlyEditedCustomer = this.selectedCustomer;
-            let index = this.customers.findIndex((nonEditedcustomer) => nonEditedcustomer.id === newlyEditedCustomer.id);
-            this.customers[index] = newlyEditedCustomer;
+        setOne(record) {
+            this.record = record;
         },
-
-        
-    },
-});
+        getOne() {
+            return this.record;
+        },
+        store(){
+            router.post(route("customers.store"), this.record);
+        },
+        save(){
+            router.put(route("customers.update", this.record.id ), this.record);
+        },
+        update( field, value ){
+            this.record[field] = value;
+        },
+        delete(){
+            router.delete(route("customers.destroy"), this.record.id);
+        }
+    }
+})

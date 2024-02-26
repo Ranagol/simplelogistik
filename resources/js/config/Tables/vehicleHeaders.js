@@ -1,8 +1,13 @@
 const headers = [
     {
-        show: false,
+        show: true,
         key: "id", 
-        text: 'labels.id',
+        contentConfig: {
+            type: 'link',
+            use: "id",
+            to: 'vehicles.edit'
+        },
+        title: 'tables.vehicles.headers.id',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -11,16 +16,16 @@ const headers = [
     {
         show: false,
         key: "address_id", 
-        text: 'labels.address_id',
+        title: 'tables.vehicles.headers.address_id',
         sortable: true,
         searchable: true,
         search_key: '',
         filterable: true,
     },
     {
-        show: true,
+        show: false,
         key: "name", 
-        text: 'labels.vehicle_name',
+        title: 'tables.vehicles.headers.vehicle_name',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -29,7 +34,7 @@ const headers = [
     {
         show: true,
         key: "max_weight", 
-        text: 'labels.max_weight',
+        title: 'tables.vehicles.headers.max_weight',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -38,7 +43,7 @@ const headers = [
     {
         show: true,
         key: "max_pickup_weight", 
-        text: 'labels.max_pickup_weight',
+        title: 'tables.vehicles.headers.max_pickup_weight',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -47,7 +52,7 @@ const headers = [
     {
         show: true,
         key: "max_pickup_width", 
-        text: 'labels.max_pickup_width',
+        title: 'tables.vehicles.headers.max_pickup_width',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -56,7 +61,7 @@ const headers = [
     {
         show: true,
         key: "max_pickup_height", 
-        text: 'labels.max_pickup_height',
+        title: 'tables.vehicles.headers.max_pickup_height',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -65,7 +70,7 @@ const headers = [
     {
         show: true,
         key: "max_pickup_length", 
-        text: 'labels.max_pickup_length',
+        title: 'tables.vehicles.headers.max_pickup_length',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -74,7 +79,7 @@ const headers = [
     {
         show: true,
         key: "vehicle_type", 
-        text: 'labels.vehicle_type',
+        title: 'tables.vehicles.headers.vehicle_type',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -83,7 +88,7 @@ const headers = [
     {
         show: true,
         key: "plate_number", 
-        text: 'labels.plate_number',
+        title: 'tables.vehicles.headers.plate_number',
         sortable: true,
         searchable: true,
         search_key: '',
@@ -92,16 +97,16 @@ const headers = [
     {
         show: false,
         key: "created_at", 
-        text: 'labels.created_at',
+        title: 'tables.vehicles.headers.created_at',
         sortable: true,
         searchable: true,
         search_key: '',
         filterable: true,
     },
     {
-        show: true,
+        show: false,
         key: "updated_at", 
-        text: 'labels.updated_at',
+        title: 'tables.vehicles.headers.updated_at',
         sortable: true,
         searchable: true,
         search_key: '',

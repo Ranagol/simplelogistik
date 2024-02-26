@@ -1,35 +1,17 @@
-<template>
-    <button :disabled="disabled" class="p-4 py-3 text-white rounded-md" :class="cssClass(variant)" >
-        {{ text ?? ''}}
-    </button>
-</template>
-
-
 <script setup>
-import { computed } from 'vue';
-
-    const props = defineProps({
-        text: String,
-        click: Function,
-        variant: String,
-        type: String,
-        disabled: Boolean
-    });
-
-    const cssClass = (variant) => {
-        switch (variant) {
-            case 'primary':
-                return 'bg-primary-700';
-            case 'danger':
-                return 'bg-red-700';
-            case 'success':
-                return 'bg-green-700';
-            case 'secondary':
-                return 'bg-gray-700';
-            case 'info':
-                return 'bg-blue-700';
-            default:
-                return 'bg-red-400';
-        }
-    }
+defineProps({
+    type: String,
+    click: Function
+})
 </script>
+
+<template>
+    <button :class="getButtonStyle('index')" v-if="type==='index'">{{ $t('buttons.' + `${route().current().split(".")[0]}` + '.index') }}</button>
+    <button :class="getButtonStyle('create')" v-else-if="type==='create'">{{ $t('buttons.' + `${route().current().split(".")[0]}` + '.create') }}</button>
+    <button :class="getButtonStyle('store')" v-else-if="type==='store'">{{ $t('buttons.' + `${route().current().split(".")[0]}` + '.store') }}</button>
+    <button :class="getButtonStyle('edit')" v-else-if="type==='edit'">{{ $t('buttons.' + `${route().current().split(".")[0]}` + '.edit') }}</button>
+    <button :class="getButtonStyle('update')" v-else-if="type==='update'">{{ $t('buttons.' + `${route().current().split(".")[0]}` + '.update') }}</button>
+    <button :class="getButtonStyle('destroy')" v-else-if="type==='destroy'">{{ $t('buttons.' + `${route().current().split(".")[0]}` + '.destroy') }}</button>
+    <button :class="getButtonStyle('void')" v-else-if="type==='void'">{{ $t('buttons.' + `${route().current().split(".")[0]}` + '.void') }}</button>
+    <button v-else>{{ $t('buttons.' + `${route().current().split(".")[0]}` + '.void') }}</button>
+</template>

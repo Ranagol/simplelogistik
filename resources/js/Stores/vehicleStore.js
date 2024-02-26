@@ -1,57 +1,35 @@
+import { router } from '@inertiajs/vue3';
 import { defineStore } from 'pinia';
-
-export const useVehicleStore = defineStore(
-    'vehicle', {
-
+export const store = defineStore('customer', {
     state: () => ({
-        vehicles: [],//these are vehicles
-        selectedVehicle: {},//for edit, create, delete
-        selectedVehicles: [],//this is for batch delete
-        searchTerm: '',//for search field
-        mode: '',
-        elDialogVisible: false,//turns on the popup
-
-        //sort in el-table
-        sortOrder: '',
-        sortColumn: '',
-
-        //pagination
-        paginationData: {},
-
-        errors: {},//validation errors from the backend
-        title: '',//the title for the createEdit component
+        record: {},
+        records: []
     }),
 
-    getters: {//like computed properties. Use state here.
-
-    },
-
-    actions: {//like methods. Use .this here
-
-        vehiclesToStore(vehicles) {
-            this.vehicles = vehicles;
+    actions: {
+        set(vehicles) {
+            this.records = vehicles;
         },
-
-        deleteVehicle(vehicle) {
-            this.vehicles = this.vehicles.filter((item) => item.id !== vehicle.id);
+        get() {
+            return this.records;
         },
-
-        /**
-         * Here we simply find the index of the object that we want to edit, and then replace it with
-         * the newly edited object.
-         */
-        editVehicle() {
-            let newlyEditedVehicle = this.selectedVehicle;
-            let index = this.vehicles.findIndex((nonEditedVehicle) => nonEditedVehicle.id === newlyEditedVehicle.id);
-            this.vehicles[index] = newlyEditedVehicle;
+        setOne(customer) {
+            this.record = customer;
         },
-
-        setCurrentPage(page) {
-            this.paginationData.current_page = page;
+        getOne() {
+            return this.record;
         },
-
-        setPageSize(size) {
-            this.paginationData.per_page = size;
+        store(){
+            router.post(route("vehicles.store"), this.record);
         },
-    },
-});
+        save(){
+            router.post(route("vehicles.update", this.record.id), this.record);
+        },
+        update( field, value ){
+            this.record[field] = value;
+        },
+        delete(){
+            router.delete(route("vehicles.destroy"), this.record.id);
+        }
+    }
+})
