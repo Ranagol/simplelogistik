@@ -46,6 +46,6 @@ class OrdersHandler
         }
 
         //We archive all the json files in the app from the ftp server
-        // $this->ftpHandlerPamyra->moveAndArchiveFilesFromFtp();
+        $this->ftpHandlerPamyra->archiveFiles();
     }
 }

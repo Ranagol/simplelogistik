@@ -8,9 +8,6 @@ use App\Services\FtpHandlerBase;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-
-use Exception;
-
 /**
  * This class connects to an sftp server, and handles files from here.
  */
@@ -20,7 +17,14 @@ class FtpHandlerPamyra extends FtpHandlerBase
 
     public function __construct()
     {
-        //call parent constructor by giving the connection name
+        /**
+         * Calls parent constructor by giving the connection name as an argument.
+         * The parent constructor will do a lot of things in the backgorund:
+         * 1. Sets connection name. Example: PamyraOrders
+         * 2. Sets connection mode. Example: test or live
+         * 3. Gets ftp credentials from the database
+         * 4. Creates a new instance of the ftp server, that we will use to access the orders
+         */
         parent::__construct('PamyraOrders');
     }
 
@@ -51,6 +55,8 @@ class FtpHandlerPamyra extends FtpHandlerBase
      * Will collect all pamyra orders from all pamyra json files from the ftp server into an array.
      * Here we loop through every pamyra json file, and extract its content into an array.
      * The end goal is to have all pamyra orders from all pamyra json files in one php array.
+     * 
+     * This function is specific only to Pamyra orders.
      *
      * @param array $pamyraFileNames    All pamyra json file names
      * @return array
@@ -67,6 +73,8 @@ class FtpHandlerPamyra extends FtpHandlerBase
         return $pamyraOrders;
     }
 
+    //TODO ANDOR: I stopped here. Up untill archiving pamyra json files: it works. So the next step is the archiving to make working. First test it, there is a possiblity that it already works.
+
     /*
      * After we have handled all the orders (so every order is written from pamyra json file into
      * our database), we 
@@ -77,49 +85,49 @@ class FtpHandlerPamyra extends FtpHandlerBase
      *
      * @return void
      */
-    public function archiveJsonFiles(): void
-    {
-        foreach ($this->filteredFileNames as $fileName) {
+    // public function archiveJsonFiles(): void
+    // {
+    //     foreach ($this->filteredFileNames as $fileName) {
 
-            //Check if file exists on ftp server
-            if($this->ftpServer->exists($fileName)) {
-                echo $fileName . ' exists on FTP server!' . PHP_EOL;
-                Log::info($fileName . ' exists on FTP server!');
-            }
+    //         //Check if file exists on ftp server
+    //         if($this->ftpServer->exists($fileName)) {
+    //             echo $fileName . ' exists on FTP server!' . PHP_EOL;
+    //             Log::info($fileName . ' exists on FTP server!');
+    //         }
 
-            try {
+    //         try {
 
-                // Read the file content from the sftp ftpServer
-                $fileContent = $this->ftpServer->get($fileName);
+    //             // Read the file content from the sftp ftpServer
+    //             $fileContent = $this->ftpServer->get($fileName);
 
-                //Write the file to ./documents/... dir.
-                $isWritten = Storage::disk('documents')->put(
-                    $this->createNewFileName($fileName),
-                    $fileContent
-                );
+    //             //Write the file to ./documents/... dir.
+    //             $isWritten = Storage::disk('documents')->put(
+    //                 $this->createNewFileName($fileName),
+    //                 $fileContent
+    //             );
 
-                if($isWritten) {
-                    echo $fileName . ' was written to the local disk.' . PHP_EOL;
-                    Log::info($fileName . ' was written to the local disk.');
-                }
+    //             if($isWritten) {
+    //                 echo $fileName . ' was written to the local disk.' . PHP_EOL;
+    //                 Log::info($fileName . ' was written to the local disk.');
+    //             }
 
-            } catch (\Throwable $th) {
+    //         } catch (\Throwable $th) {
 
-                Log::error('Error: ' . $th->getMessage());
-                echo 'Error: ' . $th->getMessage() . PHP_EOL;
+    //             Log::error('Error: ' . $th->getMessage());
+    //             echo 'Error: ' . $th->getMessage() . PHP_EOL;
 
-            } finally {
+    //         } finally {
                 
-                //Delete the original json file from the ftp server
-                $isDeleted = $this->ftpServer->delete($fileName);
-                if($isDeleted) {
-                    echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
-                    echo PHP_EOL;
-                } else {
-                    Log::error($fileName . ' can not be deleted from FTP server');
-                    echo $fileName . ' can not be deleted from FTP server' . PHP_EOL;
-                }
-            }
-        }
-    }    
+    //             //Delete the original json file from the ftp server
+    //             $isDeleted = $this->ftpServer->delete($fileName);
+    //             if($isDeleted) {
+    //                 echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
+    //                 echo PHP_EOL;
+    //             } else {
+    //                 Log::error($fileName . ' can not be deleted from FTP server');
+    //                 echo $fileName . ' can not be deleted from FTP server' . PHP_EOL;
+    //             }
+    //         }
+    //     }
+    // }    
 }

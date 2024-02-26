@@ -42,6 +42,10 @@ class HandlePamyraOrders extends Command
                 $this->info('Cronjob disabled');
             }
         } else {
+
+            /**
+             * This is the main function in this class, that triggers all other functions. It also uses
+             */
             $ordersHandler->handle();
             $this->info('Handling PamyraOrder...');
             Log::debug('Handling PamyraOrder is running.');
