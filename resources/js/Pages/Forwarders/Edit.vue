@@ -5,7 +5,7 @@ import Actions from "@/config/Actions";
 
 const actionHandle = new Actions(route().current(), route )
 
-defineProps({
+const props = defineProps({
     record: {
         type: Object,
         required: true
@@ -19,9 +19,12 @@ forwarder.setOne(props.record.data)
 
 </script>
 <template>
-    <Page :content="record" :page="config">
+    <Page :content="record" :store="forwarder" :page="config">
         <template #backlink>
             <button @click="actionHandle.index()">Back</button>
+        </template>
+        <template #actions>
+            <button @click="forwarder.save()">Update</button>
         </template>
     </Page>
 </template>
