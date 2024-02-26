@@ -103,70 +103,70 @@ export default {
                     "size": "col-span-4",
                     "label": "pages.customers.form.auto_book_as_private", 
                     "placeholder": "pages.customers.form.auto_book_as_private", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "dangerous_goods", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.dangerous_goods", 
                     "placeholder": "pages.customers.form.dangerous_goods", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "bussiness_customer", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.bussiness_customer", 
                     "placeholder": "pages.customers.form.bussiness_customer", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "debt_collection", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.debt_collection", 
                     "placeholder": "pages.customers.form.debt_collection", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "direct_debit", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.direct_debit", 
                     "placeholder": "pages.customers.form.direct_debit", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "manual_collective_invoicing", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.manual_collective_invoicing", 
                     "placeholder": "pages.customers.form.manual_collective_invoicing", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "private_customer", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.private_customer", 
                     "placeholder": "pages.customers.form.private_customer", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "invoice_customer", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.invoice_customer", 
                     "placeholder": "pages.customers.form.invoice_customer", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "poor_payment_morale", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.poor_payment_morale", 
                     "placeholder": "pages.customers.form.poor_payment_morale", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "can_login", 
                     "size": "col-span-4",
                     "label": "pages.customers.form.can_login", 
                     "placeholder": "pages.customers.form.can_login", 
-                    "type": "text"
+                    "type": "check"
                 },
                 {
                     "name": "customer_type", 
