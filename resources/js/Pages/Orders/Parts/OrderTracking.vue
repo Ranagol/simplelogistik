@@ -17,5 +17,7 @@
     });
 </script>
 <template>
-    <Form :content="content" :config="_config" />
+    <div>
+        <Form :content="content" :config="_config" :form="_config" />
+    </div>
 </template>

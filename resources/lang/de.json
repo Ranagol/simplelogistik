@@ -106,7 +106,15 @@
         "orders": {
             "index": "Aufträge",
             "create":"Auftrag erstellen",
-            "edit": "Auftrag bearbeiten"
+            "edit": "Auftrag bearbeiten",
+            "tabs": {
+                "details": "Allgemeine Infos",
+                "infotool": "Infotool",
+                "tracking": "Sendungsverfolgung",
+                "invoices": "Rechnungen",
+                "comments": "Kommentare",
+                "changelog": "Änderungsprotokoll"
+            }
         },
         "customers": {
             "index": "Kunden",
@@ -138,26 +146,6 @@
                 "is_billing": "Rechnungsadresse",
                 "is_headquarter": "Hauptsitz"
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         },
         "forwarders": {
             "index": "Dienstleister",

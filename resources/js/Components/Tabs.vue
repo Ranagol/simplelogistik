@@ -28,7 +28,7 @@ onMounted(() => {
                 :data-tabs-target="'#' + tab.id" 
                 type="button" 
                 role="tab" 
-                :aria-controls="tab.id" >{{ tab.title }}</button>
+                :aria-controls="tab.id" >{{ $t(tab.title) }}</button>
             </li>
         </ul>
     </div>

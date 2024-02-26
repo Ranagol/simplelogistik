@@ -1,7 +1,9 @@
 export default {
     sections: [
         {
-            title: "general",
+            title: "pages.orders.tabs.order_details",
+            sectionType: "default",
+            collapsible: true,
             fields: [
                 {
                     type: "text",
