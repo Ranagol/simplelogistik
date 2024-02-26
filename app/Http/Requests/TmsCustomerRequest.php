@@ -27,7 +27,6 @@ class TmsCustomerRequest extends FormRequest
     public function customerRules()
     {
         return [
-            // General customer data
             'company_name' => 'nullable|string|min:2|max:100',
             'first_name' => 'required|string|min:2|max:200',
             'last_name' => 'required|string|min:2|max:200',
@@ -38,19 +37,7 @@ class TmsCustomerRequest extends FormRequest
             'internal_id' => 'required|string|min:2|max:100',
             'payment_time' => 'nullable|integer',
             'customer_type' => 'required',
-
-            //We attach this forwarder with the appends trick in the TmsAddress
-            'forwarder' => ['nullable', 'array'],
             'forwarder_id' => 'nullable|integer|exists:tms_forwarders,id',
-
-            /**
-             * Individual customer data - special settings
-             * When creating a new customer, all unchecked checkboxes will be in Vue simply null,
-             * untill they are at least once checked or unchecked. After that, they are either true 
-             * or false. To avoid issues with unchcked checkboxes, we set them all to false
-             * (some of them true) by default, in the migration. Together with this, in the
-             * customer validation we allow null values for these checkboxes.
-             */
             'auto_book_as_private' => 'nullable|boolean',
             'dangerous_goods' => 'nullable|boolean',
             'bussiness_customer' => 'nullable|boolean',
@@ -61,12 +48,6 @@ class TmsCustomerRequest extends FormRequest
             'invoice_customer' => 'nullable|boolean',
             'poor_payment_morale' => 'nullable|boolean',
             'can_login' => 'nullable|boolean',
-            
-            /**
-             * These will work with mutators defined in model
-             * customer_type must be a string during validation. Example: 'Bussiness customer'.
-             * Only after validation it will be converted to an integer. Example: 1.
-             */
             'customer_type' => 'nullable|string|min:2|max:100',
             'invoice_dispatch' => 'nullable|string|min:2|max:100',
             'invoice_shipping_method' => 'nullable|string|min:2|max:100',
