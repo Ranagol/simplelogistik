@@ -24,5 +24,10 @@ customer.setOne(props.record)
         <template #backlink>
             <button @click="actionHandle.index()">Back</button>
         </template>
+        
+        <template #actions>
+            <button @click="customer.save()">Update</button>
+        </template>
+        
     </Page>
 </template>
