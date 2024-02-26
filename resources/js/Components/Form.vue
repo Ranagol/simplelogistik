@@ -27,10 +27,10 @@ const data = ref(props.useData ? props.content : {});
 
 </script>
 <template>
-    <section v-for="section in form.sections">
+    <section v-for="section in form.sections" class="grid col-span-12 gap-4">
         <h2 v-if="section.title" class="my-4">{{ $t(section.title) }}</h2>
-        <div class="grid gap-4" :class="`grid-cols-${section.cols ?? '12'}`">
-            <div v-for="field, index in section.fields" :class="`col-span-${field.size}` ?? 'col-span-12'">
+        <div class="grid grid-cols-12 gap-4">
+            <div v-for="field, index in section.fields" :key="index" :class="field?.size ?? 'col-span-6'">
                 <InputField 
                     v-if="field.type === 'input'" 
                     :field="field" 
