@@ -15,13 +15,13 @@ use Modules\Easybill\app\Helper\EasyBillDataMapping;
 class CustomersCommand extends Command
 {
     /** string $apiName */
-    protected $apiName = '';
+    private $apiName = '';
 
     /** array $apiAccess */
-    protected $apiAccess = [];
+    private $apiAccess = [];
 
     /** sting $moduleStatus */
-    protected $moduleStatus = '';
+    private $moduleStatus = '';
 
     /**
      * The name and signature of the console command.
@@ -63,8 +63,8 @@ class CustomersCommand extends Command
 
         if ($this->argument('behave') == 'customerId') {    
         
-            $this->apiName = config('api.billingApi');                
-            $this->apiAccess = TmsApiAccess::where('api_name', $this->apiName)->first();
+            $this->apiName =  config('api.billingApi');
+            $this->apiAccess = TmsApiAccess::where('api_name', $this->apiName)->first();            
 
             $countries  = TmsCountry::all();
             $countries  = $countries->keyBy('id');
@@ -85,7 +85,10 @@ class CustomersCommand extends Command
         
             $customerHandler = new CustomerHandling();
             $result = $customerHandler->createOrUpdateCustomer($mappedData, $this->apiAccess, $mappedData);       
-            
+            if (!isset($result['easybillData']) || !isset($result['easybillData']->id)) {
+                $this->info('Error: ' . $result['message']);
+                return;
+            }
             $easybillData = $result['easybillData'];
             $this->info($result['message']);
         
@@ -99,7 +102,5 @@ class CustomersCommand extends Command
                 $this->info('Customer successfully sent to easybill.');
             }
         }       
-    }
-
-        
+    }        
 }
