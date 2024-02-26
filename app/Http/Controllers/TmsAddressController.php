@@ -161,11 +161,11 @@ class TmsAddressController extends Controller
 
     public function update(TmsAddressRequest $request, string $id): void
     {
-        
         /**
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
+        dd($newRecord);
 
         TmsAddress::find($id)->update($newRecord);
     }
