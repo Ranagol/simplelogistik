@@ -89,35 +89,10 @@ class TmsCustomerController extends Controller
         $newCustomer->invoice_shipping_method = 'Email';
         $newCustomer->payment_method = 'Invoice';
 
-        //Get all forwarders, needed to for el-select options.
-        $forwarders = TmsForwarder::all()->map(function ($forwarder) {
-            return [
-                'id' => $forwarder->id,
-                'name' => $forwarder->company_name, 
-            ];
-        });
-
-        //Add a completely empy option to the forwarders array. Needed to Christoph.
-        $emptyForwarder = [
-            'id' => null,
-            'name' => null, 
-        ];
-
-        $forwarders->push($emptyForwarder);
-
         return Inertia::render(
             $this->create, 
             [
                 'record' => $newCustomer,
-
-                //These are the possibly selectable options for the el-select in customer create or edit form.
-                'selectOptions' => [
-                    'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
-                    'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
-                    'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
-                    // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,
-                    'forwarders' => $forwarders,
-                ]
             ]
         );
     }
@@ -139,7 +114,6 @@ class TmsCustomerController extends Controller
         $newRecord = $request->validated();//do validation
 
         $newRecord = $this->handleForwarderId($newRecord);
-
 
         $newlyCreatedRecord = TmsCustomer::create($newRecord);
 
@@ -187,20 +161,6 @@ class TmsCustomerController extends Controller
                  * to the edit page. In this case we send the success message to the FE.
                  */
                 'successMessage' => $successMessage,
-
-                //These are the possibly selectable options for the el-select in customer create or edit form.
-                'selectOptions' => [
-                    'customerTypes' => TmsCustomer::CUSTOMER_TYPES,
-                    'invoiceDispatches' => TmsCustomer::INVOICE_DISPATCHES,
-                    'invoiceShippingMethods' => TmsCustomer::INVOICE_SHIPPING_METHODS,
-                    // 'paymentMethods' => TmsCustomer::PAYMENT_METHODS,//all payment methods
-                    'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
-                        return [
-                            'id' => $forwarder->id,
-                            'name' => $forwarder->company_name, 
-                        ];
-                    }),
-                ]
             ]
         );
     }
@@ -292,9 +252,5 @@ class TmsCustomerController extends Controller
         $customer->update([
             'comments' => $comments,
         ]);
-
-        // return redirect()->route('customers.edit', ['customer' => $customer->id]);
-        //redirecting the user to the edit page, where he can see the newly added comment
-        // return Inertia::location("http://localhost/customers/{$customer->id}/edit");//how to simply refresh the page instead of redirecting?
     }
 }
