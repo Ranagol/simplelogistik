@@ -91,36 +91,7 @@ class TmsAddressController extends Controller
     public function create(): Response
     {
         return Inertia::render(
-            $this->create, 
-            [
-                // we send all customers and forwarders to the FE, so that the user can select them
-                'customers' => TmsCustomer::all()->map(function ($customer) {
-                    return [
-                        'id' => $customer->id,
-                        'name' => $this->generateCustomerName($customer),
-                    ];
-                }),
-                'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
-                    return [
-                        'id' => $forwarder->id,
-                        'name' => $forwarder->company_name,
-                    ];
-                }),
-                //we send countries to the FE, so that the user can select them in el-select
-                'countries' => TmsCountry::all()->map(function ($country) {
-                    return [
-                        'id' => $country->id,
-                        'country_name' => $country->country_name,
-                    ];
-                }),
-                'partners' => TmsPartner::all()->map(function ($partner) {
-                    return [
-                        'id' => $partner->id,
-                        'name' => $partner->company_name,
-                    ];
-                }),
-
-            ]
+            $this->create
         );
     }
 
@@ -187,36 +158,6 @@ class TmsAddressController extends Controller
                  * to the edit page. In this case we send the success message to the FE.
                  */
                 'successMessage' => $successMessage,
-                
-                /**
-                 * We send all customers and forwarders to the FE, so that the user can select them
-                 * in an el-select. Because every address must belong to a customer and a forwarder.
-                 */
-                'customers' => TmsCustomer::all()->map(function ($customer) {
-                    return [
-                        'id' => $customer->id,
-                        'name' => $this->generateCustomerName($customer),
-                    ];
-                }),
-                'forwarders' => TmsForwarder::all()->map(function ($forwarder) {
-                    return [
-                        'id' => $forwarder->id,
-                        'name' => $forwarder->company_name,
-                    ];
-                }),
-                //we send countries to the FE, so that the user can select them in el-select
-                'countries' => TmsCountry::all()->map(function ($country) {
-                    return [
-                        'id' => $country->id,
-                        'country_name' => $country->country_name,
-                    ];
-                }),
-                'partners' => TmsPartner::all()->map(function ($partner) {
-                    return [
-                        'id' => $partner->id,
-                        'name' => $partner->company_name,
-                    ];
-                }),
             ]
         );
     }
@@ -234,11 +175,6 @@ class TmsAddressController extends Controller
         $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
         $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
 
-        /**
-         * 
-         * 1. Find the relevant record and...
-         * 2. ...update it.
-         */
         TmsAddress::find($id)->update($newRecord);
     }
 
