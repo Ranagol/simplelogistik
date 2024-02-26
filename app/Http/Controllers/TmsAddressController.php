@@ -110,10 +110,6 @@ class TmsAddressController extends Controller
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
-        $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
-        $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
-        $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
-        $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
 
         $newlyCreatedRecord = TmsAddress::create($newRecord);
 
@@ -133,6 +129,7 @@ class TmsAddressController extends Controller
     }
 
     /**
+     * Edit a record.
      *
      * @param string $id
      * @return Response
@@ -170,15 +167,8 @@ class TmsAddressController extends Controller
          */
         $newRecord = $request->validated();//do validation
 
-        $newRecord['country_id'] = $newRecord['country']['id'];//Here we set the country id
-        $newRecord['customer_id'] = $newRecord['customer']['id'];//Here we set the customer id
-        $newRecord['forwarder_id'] = $newRecord['forwarder']['id'];//Here we set the forwarder id
-        $newRecord['partner_id'] = $newRecord['partner']['id'];//Here we set the partner id
-
         TmsAddress::find($id)->update($newRecord);
     }
-
-    
 
     /**
      * If this is a company return the company name, otherwise return the name of the person.
