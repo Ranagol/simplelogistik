@@ -113,8 +113,6 @@ class TmsCustomerController extends Controller
          */
         $newRecord = $request->validated();//do validation
 
-        $newRecord = $this->handleForwarderId($newRecord);
-
         $newlyCreatedRecord = TmsCustomer::create($newRecord);
 
 
@@ -177,30 +175,8 @@ class TmsCustomerController extends Controller
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
-        
-        $newRecord = $this->handleForwarderId($newRecord);
 
         TmsCustomer::find($id)->update($newRecord);
-    }
-
-    /**
-     * Here we handle the forwarder_id. Not every customer belong to a forwarder. So, the forwarder_id
-     * can be null. So, here we handle two situations: when we have a forwarder object, and when we
-     * do not have a forwarder object.
-     * 
-     * If there is a selected forwarder object, then we set the forwarder_id to the id of the 
-     * selected forwarder.
-     * If there is no selected forwarder object, then we set the forwarder_id to null.
-     */
-    private function handleForwarderId(array $customer): array
-    {
-        if (isset($customer['forwarder'])) {
-            $customer['forwarder_id'] = $customer['forwarder']['id'];//Here we set the forwarder id
-        } else {
-            $customer['forwarder_id'] = null;
-        }
-
-        return $customer;
     }
 
     /**
@@ -213,7 +189,6 @@ class TmsCustomerController extends Controller
      */
     public function destroy(Request $request, string $id): void
     {
-        
         TmsCustomer::destroy($id);
     }
 
