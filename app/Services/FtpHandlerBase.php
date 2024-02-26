@@ -10,8 +10,6 @@ use Illuminate\Filesystem\FilesystemAdapter;
 
 class FtpHandlerBase
 {
-
-    
     /**
      * The connection name for the ftp server. Example: PamyraOrders
      *
@@ -145,7 +143,6 @@ class FtpHandlerBase
      */
     public function filterFiles(array $allFileNames, string $desiredFileType): array
     {
-        // dd($allFileNames, $desiredFileType);
         $filteredFileNames = array_filter(
             $allFileNames, 
             function ($fileName) use ($desiredFileType){
@@ -153,8 +150,9 @@ class FtpHandlerBase
             }
         );
 
+        //We need this data later, for deleting the files from the ftp server
         $this->filteredFileNames = $filteredFileNames;
-
+        
         return $filteredFileNames;
     }
 
@@ -165,11 +163,12 @@ class FtpHandlerBase
      * @param array $fileNames
      * @return void
      */
-    protected function checkIsThisEmpty(array $fileNames): void
+    protected function checkIfServerEmpty(array $fileNames): void
     {
         if (empty($fileNames)) {
-            echo 'No files found on FTP server.' . PHP_EOL;
-            Log::info('No files found on FTP server.');
+            $message = 'No desired files found on FTP server.';
+            echo $message . PHP_EOL;
+            Log::info($message);
             exit;
         }
     }
