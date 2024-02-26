@@ -1,11 +1,24 @@
 const headers = [
     {
         show: true,
+        key: "id",
+        contentConfig: {
+            type: 'link',
+            use: "id",
+            to: 'forwarders.edit'
+        },
+        searchable: true,
+        search_key: 'id',
+        filterable: true,
+        title: "tables.forwarders.headers.id"
+    },
+    {
+        show: true,
         key: "company_name",
         searchable: true,
         search_key: 'company_name',
         filterable: true,
-        title: "labels.company_name"
+        title: "tables.forwarders.headers.company_name"
     },
     {
         show: false,
@@ -13,7 +26,7 @@ const headers = [
         searchable: true,
         search_key: 'internal_id',
         filterable: true,
-        title: "labels.internal_id"
+        title: "tables.forwarders.headers.internal_id"
     },
     {
         show: true,
@@ -21,7 +34,7 @@ const headers = [
         searchable: true,
         search_key: 'name',
         filterable: true,
-        title: "labels.name"
+        title: "tables.forwarders.headers.name"
     },
     {
         show: true,
@@ -29,7 +42,7 @@ const headers = [
         searchable: true,
         search_key: 'email',
         filterable: true,
-        title: "labels.email"
+        title: "tables.forwarders.headers.email"
     },
     {
         show: true,
@@ -37,7 +50,7 @@ const headers = [
         searchable: true,
         search_key: 'tax_number',
         filterable: true,
-        title: "labels.tax_number"
+        title: "tables.forwarders.headers.tax_number"
     },
     {
         show: true,
@@ -45,7 +58,7 @@ const headers = [
         searchable: true,
         search_key: 'rating',
         filterable: true,
-        title: "labels.rating"
+        title: "tables.forwarders.headers.rating"
     },
     {
         show: true,
@@ -53,7 +66,7 @@ const headers = [
         searchable: true,
         search_key: 'forwarder_type',
         filterable: true,
-        title: "labels.forwarder_type"
+        title: "tables.forwarders.headers.forwarder_type"
     },
     {
         show: false,
@@ -61,7 +74,7 @@ const headers = [
         searchable: true,
         search_key: 'comments',
         filterable: true,
-        title: "labels.comments"
+        title: "tables.forwarders.headers.comments"
     },
     {
         show: false,
@@ -69,7 +82,7 @@ const headers = [
         searchable: true,
         search_key: 'url_logo',
         filterable: true,
-        title: "labels.url_logo"
+        title: "tables.forwarders.headers.url_logo"
     },
     {
         show: false,
@@ -77,7 +90,7 @@ const headers = [
         searchable: true,
         search_key: 'created_at',
         filterable: true,
-        title: "labels.created_at"
+        title: "tables.forwarders.headers.created_at"
     },
     {
         show: false,
@@ -85,7 +98,7 @@ const headers = [
         searchable: true,
         search_key: 'updated_at',
         filterable: true,
-        title: "labels.updated_at"
+        title: "tables.forwarders.headers.updated_at"
     },
 ];
 

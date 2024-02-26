@@ -10,7 +10,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import moment from 'moment';
 
 import { createPinia } from 'pinia';
-import Layout from '@/Shared/Layout.vue';
+import Layout from '@/Layouts/Layout.vue';
 
 //Element UI
 import ElementPlus from 'element-plus';

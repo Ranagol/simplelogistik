@@ -1,41 +1,25 @@
-<template>
-    <Head
-        :title="$t('labels.customers')"
-    />
-
-    <CustomerTableWithActions
-        :actions="['show', 'edit']"
-        :title="$t('labels.customers')"
-        :data="fe_data.customers.data"
-        :headers="defaultHeaders"
-        :props="props"
-    ></CustomerTableWithActions>
-    <Pagination :links="buildPaginationData(fe_data.customers)" />
-</template>
-
 <script setup>
-import { reactive } from 'vue';
 
-import CustomerTableWithActions from '@/Components/Tables/CustomerTableWithActions.vue';
-import Pagination from "@/Components/Pagination/Pagination.vue";
+import Page from '@/Components/Page.vue';
+import config from "@/config/Pages/Customers/_index";
+import Actions from "@/config/Actions";
+import Button from '@/Components/Buttons/Button.vue';
 
-import headers from "@/config/Tables/customerHeaders";
-const defaultHeaders = headers;
+const actionHandle = new Actions( route )
 
-let props = defineProps( 
-    {
-        errors: Object, 
-        records: Object,
-        search: String,
-        search_in: Array,
-        order_by: String,
-        order: String,
+import tableHeaderConfig from "@/config/Tables/customerHeaders";
+
+defineProps({
+    records: {
+        type: Object,
+        required: true
     }
-);
-
-// Setting Frontend Data
-const fe_data = reactive({
-    customers: props.records,
-});
-
+})
 </script>
+<template>
+    <Page :tableConfig="tableHeaderConfig" :content="records.data" :page="config">
+        <template #create-button>
+            <Button type="create" @click="actionHandle.create()"/>
+        </template>
+    </Page>
+</template>
