@@ -1,31 +1,26 @@
-<template>
-    <Head title="Dienstleister" />
-    <ForwarderTable 
-        :actions="['edit', 'show']" 
-        :getData="() => {}"
-        :title="$t('labels.orders')" 
-        :data="fe_data.forwarders.data" 
-        :headers="defaultHeaders"
-    />
-
-    <Pagination :links="buildPaginationData(fe_data.forwarders)" />
-</template>
 <script setup>
 
-import ForwarderTable from "@/Components/Tables/ForwarderTable.vue";
-import headers from "@/config/Tables/forwarderHeaders";
-import { reactive } from "vue";
-const defaultHeaders = headers;
+import Page from '@/Components/Page.vue';
+import config from "@/config/Pages/Forwarders/_index";
+import Actions from "@/config/Actions";
+import Button from '@/Components/Buttons/Button.vue';
 
-const props = defineProps({
+const actionHandle = new Actions( route )
+
+import tableHeaderConfig from "@/config/Tables/forwarderHeaders";
+defineProps({
     records: {
         type: Object,
         required: true
     }
 })
 
-const fe_data = reactive({
-    forwarders: props.records
-});
 
 </script>
+<template>
+    <Page :tableConfig="tableHeaderConfig" :content="records.data" :page="config">
+        <template #create-button>
+            <Button type="create" @click="actionHandle.create()"/>
+        </template>
+    </Page>
+</template>

@@ -48,6 +48,14 @@ const update = {
     icon: false,
 }
 
+const cancel = {
+    action: "void",
+    type: "button",
+    target: "form",
+    label: "actions.void",
+    icon: false,
+}
+
 export {
     index as index,
     create as create,
@@ -55,4 +63,5 @@ export {
     destroy as destroy,
     edit as edit,
     update as update,
+    cancel as cancel,
 }

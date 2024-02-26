@@ -1,7 +1,14 @@
 <script setup>
-import Page from '@/Components/Page/Page.vue';
-import pageConfig from '@/config/Pages/Customer/pageConfig';
+import Page from '@/Components/Page.vue';
+import config from "@/config/Pages/Customers/_create";
+import Actions from "@/config/Actions";
+
+const actionHandle = new Actions(route().current(), route )
 </script>
 <template>
-    <Page :config="pageConfig" />
+    <Page :page="config">
+        <template #backlink>
+            <button @click="actionHandle.index()">Back</button>
+        </template>
+    </Page>
 </template>

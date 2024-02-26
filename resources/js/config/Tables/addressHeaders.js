@@ -1,223 +1,211 @@
 const headers = [
     { 
         show: false, 
-        key: "id", 
-        title: "labels.id", 
+        key: "id",
+        contentConfig: {
+            type: 'link',
+            use: "id",
+            to: 'addresses.edit'
+        },
+        title: "tables.addresses.headers.id", 
         sortable: true, 
         filterable: true, 
         searchable: false, 
-        search_key: 'id', 
-        display_order: 1
+        search_key: 'id'
     },
     { 
         show: false, 
         key: "customer_id", 
-        title: "labels.customer_id", 
+        title: "tables.addresses.headers.customer_id", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'customer_id', 
-        display_order: 1
+        search_key: 'customer_id'
     },
     { 
         show: false, 
         key: "forwarder_id", 
-        title: "labels.forwarder_id", 
+        title: "tables.addresses.headers.forwarder_id", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'forwarder_id', 
-        display_order: 2
+        search_key: 'forwarder_id'
     },
     { 
         show: false, 
         key: "country_id", 
-        title: "labels.country_id", 
+        title: "tables.addresses.headers.country_id", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'country_id', 
-        display_order: 3
+        search_key: 'country_id'
     },
     { 
         show: false, 
         key: "partner_id", 
-        title: "labels.partner_id", 
+        title: "tables.addresses.headers.partner_id", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'partner_id', 
-        display_order: 4
+        search_key: 'partner_id'
     },
     { 
         show: true, 
         key: "company_name", 
-        title: "labels.company_name", 
+        contentConfig: {
+            type: 'link',
+            use: "id",
+            to: 'addresses.edit'
+        },
+        title: "tables.addresses.headers.company_name", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'company_name', 
-        display_order: 5
+        search_key: 'company_name'
     },
     { 
         show: true, 
         key: "first_name", 
-        title: "labels.first_name", 
+        title: "tables.addresses.headers.first_name", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'first_name', 
-        display_order: 6
+        search_key: 'first_name'
     },
     { 
         show: true, 
         key: "last_name", 
-        title: "labels.last_name", 
+        title: "tables.addresses.headers.last_name", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'last_name', 
-        display_order: 6
+        search_key: 'last_name'
     },
     { 
         show: true, 
         key: "street", 
-        title: "labels.street", 
+        title: "tables.addresses.headers.street", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'street', 
-        display_order: 6
+        search_key: 'street'
     },
     { 
         show: true, 
         key: "house_number", 
-        title: "labels.house_number", 
+        title: "tables.addresses.headers.house_number", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'house_number', 
-        display_order: 6
+        search_key: 'house_number'
     },
     { 
         show: true, 
         key: "zip_code", 
-        title: "labels.zip_code", 
+        title: "tables.addresses.headers.zip_code", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'zip_code', 
-        display_order: 6
+        search_key: 'zip_code'
     },
     { 
         show: true, 
         key: "city", 
-        title: "labels.city", 
+        title: "tables.addresses.headers.city", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'city', 
-        display_order: 6
+        search_key: 'city'
     },
     { 
         show: false, 
         key: "state", 
-        title: "labels.state", 
+        title: "tables.addresses.headers.state", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'state', 
-        display_order: 7
+        search_key: 'state'
     },
     { 
         show: false, 
         key: "address_additional_information", 
-        title: "labels.address_additional_information", 
+        title: "tables.addresses.headers.address_additional_information", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'address_additional_information', 
-        display_order: 7
+        search_key: 'address_additional_information'
     },
     { 
         show: false, 
         key: "phone", 
-        title: "labels.phone", 
+        title: "tables.addresses.headers.phone", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'phone', 
-        display_order: 7
+        search_key: 'phone'
     },
     { 
         show: false, 
         key: "email", 
-        title: "labels.email", 
+        title: "tables.addresses.headers.email", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'email', 
-        display_order: 7
+        search_key: 'email'
     },
     { 
         show: false, 
         key: "is_pickup", 
-        title: "labels.is_pickup", 
+        title: "tables.addresses.headers.is_pickup", 
         sortable: true, 
         filterable: true, 
         searchable: false, 
-        search_key: 'is_pickup', 
-        display_order: 7
+        search_key: 'is_pickup'
     },
     { 
         show: false, 
         key: "is_delivery", 
-        title: "labels.is_delivery", 
+        title: "tables.addresses.headers.is_delivery", 
         sortable: true, 
         filterable: true, 
         searchable: false, 
-        search_key: 'is_delivery', 
-        display_order: 7
+        search_key: 'is_delivery'
     },
     { 
         show: false, 
         key: "is_billing", 
-        title: "labels.is_billing", 
+        title: "tables.addresses.headers.is_billing", 
         sortable: true, 
         filterable: true, 
         searchable: false, 
-        search_key: 'is_billing', 
-        display_order: 7
+        search_key: 'is_billing'
     },
     { 
         show: false, 
         key: "is_headquarter", 
-        title: "labels.is_headquarter", 
+        title: "tables.addresses.headers.is_headquarter", 
         sortable: true, 
         filterable: true, 
         searchable: false, 
-        search_key: 'is_headquarter', 
-        display_order: 7
+        search_key: 'is_headquarter'
     },
     { 
         show: false, 
         key: "created_at", 
-        title: "labels.created_at", 
+        title: "tables.addresses.headers.created_at", 
         sortable: true, 
         filterable: true, 
         searchable: false, 
-        search_key: 'created_at', 
-        display_order: 7
+        search_key: 'created_at'
     },
     { 
         show: false, 
         key: "updated_at", 
-        title: "labels.updated_at", 
+        title: "tables.addresses.headers.updated_at", 
         sortable: true, 
         filterable: true, 
         searchable: true, 
-        search_key: 'updated_at', 
-        display_order: 7
+        search_key: 'updated_at'
     }
 ];
 
