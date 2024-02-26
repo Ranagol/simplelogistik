@@ -16,7 +16,7 @@ store.setOne({})
             <button @click="actionHandle.index()">Back</button>
         </template>
         <template #actions>
-            <button @click="customer.store()">Save</button>
+            <button @click="store.store()">Save</button>
         </template>
     </Page>
 </template>
