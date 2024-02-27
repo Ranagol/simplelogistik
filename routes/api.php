@@ -35,8 +35,8 @@ Route::middleware('auth:sanctum')->group(function(){
     });
     Route::get('/customer-types', function (Request $request){
         return [
-            ["id" => 1, "name" => "general.customer-types.business"],
-            ["id" => 2, "name" => "general.customer-types.private"],
+            ["id" => 1, "name" => "general.customer_types.business"],
+            ["id" => 2, "name" => "general.customer_types.private"],
         ];
     });
     Route::get('/invocie-shipping-methods', function (Request $request){
@@ -45,6 +45,15 @@ Route::middleware('auth:sanctum')->group(function(){
             ["id" => 2, "title" => "general.invoice_shipping_method.email"]
         ];
     });
+    
+    Route::get('/invocie-dispatch', function (Request $request){
+        return [
+            ["id" => 1, "title" => "general.invoice_dispatch.direct"],
+            ["id" => 2, "title" => "general.invoice_dispatch.collected"]
+        ];
+    });
+
+
     Route::get('/forwarders', function (Request $request){
         return TmsForwarder::all();
     });

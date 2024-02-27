@@ -21,9 +21,19 @@ export const store = defineStore('address', {
             return this.record;
         },
         save(){
+            this.record.customer_id = parseInt(this.record.customer_id);
+            this.record.forwarder_id = parseInt(this.record.forwarder_id);
+            this.record.salutation_id = parseInt(this.record.salutation_id);
+            this.record.title_id  = parseInt(this.record.title_id);
+            this.record.country_id = parseInt(this.record.country_id);
             router.put(route("addresses.update", this.record.id ), this.record);
         },
         store(){
+            this.record.customer_id = parseInt(this.record.customer_id);
+            this.record.forwarder_id = parseInt(this.record.forwarder_id);
+            this.record.salutation_id = parseInt(this.record.salutation_id);
+            this.record.title_id  = parseInt(this.record.title_id);
+            this.record.country_id = parseInt(this.record.country_id);
             router.post(route("addresses.store"), this.record);
         },
         update( field, value ){
