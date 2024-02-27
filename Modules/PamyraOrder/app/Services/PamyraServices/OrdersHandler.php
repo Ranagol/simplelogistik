@@ -34,11 +34,8 @@ class OrdersHandler
      */
     public function handle(): void
     {
-
-        // dd('orderShandler->handle triggered');
         //Gets all the orders from all the PAM json files from the ftp server
         $orders = $this->ftpHandlerPamyra->getPamyraOrders();
-        // dd($orders);
 
         //We loop through all the orders and write each one to the database
         foreach ($orders as $pamyraOrder) {

@@ -58,9 +58,10 @@ class FtpHandlerBase
      * Here we set if the connection mode is test or live, and get the ftp credentials from the 
      * database.
      */
-    public function __construct(string $connectionName)
+    public function __construct(string $connectionName, string $newFilePath)
     {
         $this->connectionName = $connectionName;
+        $this->newFilePath = $newFilePath;
         $this->setConnectionMode();
         $this->getFtpCredentials();
         $this->createFtpServerStorage();

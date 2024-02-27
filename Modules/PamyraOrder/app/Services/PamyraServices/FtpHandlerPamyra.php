@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Storage;
  */
 class FtpHandlerPamyra extends FtpHandlerBase
 {
+    /**
+     * Pamyra orders have .json extension. We want files only with json extension.
+     *
+     * @var string
+     */
     private $desiredFileType = '.json';
 
     public function __construct()
@@ -24,8 +29,9 @@ class FtpHandlerPamyra extends FtpHandlerBase
          * 2. Sets connection mode. Example: test or live
          * 3. Gets ftp credentials from the database
          * 4. Creates a new instance of the ftp server, that we will use to access the orders
+         * 5. Sets the path where the file will be stored in our archive
          */
-        parent::__construct('PamyraOrders');
+        parent::__construct('PamyraOrders', 'PamyraOrdersArchived/');
     }
 
     /**
@@ -72,62 +78,4 @@ class FtpHandlerPamyra extends FtpHandlerBase
 
         return $pamyraOrders;
     }
-
-    //TODO ANDOR: I stopped here. Up untill archiving pamyra json files: it works. So the next step is the archiving to make working. First test it, there is a possiblity that it already works.
-
-    /*
-     * After we have handled all the orders (so every order is written from pamyra json file into
-     * our database), we 
-     * 1. copy the files from the ftp server to our app
-     * 2. rename these files so they have the date in their name
-     * 3. archive these files in storage/app/PamyraOrders/Archived
-     * 4. delete these files from the ftp server
-     *
-     * @return void
-     */
-    // public function archiveJsonFiles(): void
-    // {
-    //     foreach ($this->filteredFileNames as $fileName) {
-
-    //         //Check if file exists on ftp server
-    //         if($this->ftpServer->exists($fileName)) {
-    //             echo $fileName . ' exists on FTP server!' . PHP_EOL;
-    //             Log::info($fileName . ' exists on FTP server!');
-    //         }
-
-    //         try {
-
-    //             // Read the file content from the sftp ftpServer
-    //             $fileContent = $this->ftpServer->get($fileName);
-
-    //             //Write the file to ./documents/... dir.
-    //             $isWritten = Storage::disk('documents')->put(
-    //                 $this->createNewFileName($fileName),
-    //                 $fileContent
-    //             );
-
-    //             if($isWritten) {
-    //                 echo $fileName . ' was written to the local disk.' . PHP_EOL;
-    //                 Log::info($fileName . ' was written to the local disk.');
-    //             }
-
-    //         } catch (\Throwable $th) {
-
-    //             Log::error('Error: ' . $th->getMessage());
-    //             echo 'Error: ' . $th->getMessage() . PHP_EOL;
-
-    //         } finally {
-                
-    //             //Delete the original json file from the ftp server
-    //             $isDeleted = $this->ftpServer->delete($fileName);
-    //             if($isDeleted) {
-    //                 echo $fileName . ' was deleted from FTP server.' . PHP_EOL;
-    //                 echo PHP_EOL;
-    //             } else {
-    //                 Log::error($fileName . ' can not be deleted from FTP server');
-    //                 echo $fileName . ' can not be deleted from FTP server' . PHP_EOL;
-    //             }
-    //         }
-    //     }
-    // }    
 }
