@@ -29,8 +29,8 @@ const data = ref(props.useData ? props.content : {});
 <template>
     <section v-for="section in form.sections" class="grid col-span-12 gap-4">
         <h2 v-if="section.title" class="my-4">{{ $t(section.title) }}</h2>
-        <div class="grid grid-cols-12 gap-4">
-            <div v-for="field, index in section.fields" :key="index" :class="field?.size ?? 'col-span-6'">
+        <div v-for="row, index in section.rows" :key="index" class="grid grid-flow-col" :class="row.className">
+            <div v-for="field in row.fields" :key="field.name" :class="field.className">
                 <InputField 
                     v-if="field.type === 'input'" 
                     :field="field" 
@@ -64,9 +64,8 @@ const data = ref(props.useData ? props.content : {});
                     :field="field" 
                     :store="store" 
                     :data="useData ? data : {}" 
-                    />
-                    
-            </div>
+                    />                
+            </div>                   
         </div>
     </section>
     <div class="grid justify-end pt-4 pb-2 mt-4 border-t place-items-center border-t-slate-200">
