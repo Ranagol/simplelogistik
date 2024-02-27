@@ -11,7 +11,6 @@ use App\Traits\DataBaseFilter;
 use App\Http\Resources\GeneralResource;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\TmsCustomerRequest;
-use App\Http\Requests\TmsCustomerRequest2;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Validator;
 
@@ -95,58 +94,13 @@ class TmsCustomerController extends Controller
      */
     // public function store(Request $request)
     public function store(TmsCustomerRequest $request)
-
     {
         dd('store is triggered');
-        // dd($request->all());
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'company_name' => ['nullable', 'string', 'min:2', 'max:100'],
-                'first_name' => ['required', 'string', 'min:2', 'max:200'],
-                'last_name' => ['required', 'string', 'min:2', 'max:200'],
-                'email' => ['nullable', 'email', 'max:100'],
-                'phone' => ['required', 'string', 'min:2', 'max:100'],
-                'rating' => ['nullable', 'numeric', 'between:1,5'],
-                'tax_number' => ['nullable', 'string', 'min:2', 'max:50'],
-                'internal_id' => ['required', 'string', 'min:2', 'max:100'],
-                'payment_time' => ['nullable', 'numeric'],
-                'customer_type' => ['required'],
-                'forwarder_id' => ['nullable', 'numeric', 'exists:tms_forwarders,id'],
-                'auto_book_as_private' => ['nullable', 'boolean'],
-                'dangerous_goods' => ['nullable', 'boolean'],
-                'bussiness_customer' => ['nullable', 'boolean'],
-                'debt_collection' => ['nullable', 'boolean'],
-                'direct_debit' => ['nullable', 'boolean'],
-                'manual_collective_invoicing' => ['nullable', 'boolean'],
-                'private_customer' => ['nullable', 'boolean'],
-                'invoice_customer' => ['nullable', 'boolean'],
-                'poor_payment_morale' => ['nullable', 'boolean'],
-                'can_login' => ['nullable', 'boolean'],
-                'customer_type' => ['nullable', 'string', 'min:2', 'max:100'],
-                'invoice_dispatch' => ['nullable', 'string', 'min:2', 'max:100'],
-                'invoice_shipping_method' => ['nullable', 'string', 'min:2', 'max:100'],
-                'payment_method' => ['nullable', 'string', 'min:2', 'max:100'],
-                'payment_method_options_to_offer' => ['nullable'],
-                'email_for_invoice' => ['nullable', 'string', 'email', 'max:255'],
-                'email_for_label' => ['nullable', 'string', 'email', 'max:255'],
-                'email_for_pod' => ['nullable', 'string', 'email', 'max:255'],
-                'customer_reference' => ['nullable', 'string', 'max:255'],
-                'easy_bill_customer_id' => ['nullable', 'numeric', 'min:1'],
-            ]
-        );
-
-        if ($validator->fails()) {
-            dd($validator->errors());
-        } else {
-            dd('validation did not failed.');
-        }
-
 
         /**
          * The validated method is used to get the validated data from the request.
          */
-        // $newRecord = $request->validated();//how to catch the validation issue here?
+        $newRecord = $request->validated();
 
         $newlyCreatedRecord = TmsCustomer::create($newRecord);
 
@@ -203,7 +157,7 @@ class TmsCustomerController extends Controller
      * @param string $id
      * @return void
      */
-    public function update(TmsCustomerRequest2 $request, string $id): void
+    public function update(TmsCustomerRequest $request, string $id): void
     {
         /**
          * The validated method is used to get the validated data from the request.
