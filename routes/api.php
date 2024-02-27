@@ -33,6 +33,12 @@ Route::middleware('auth:sanctum')->group(function(){
             ["id" => 5, "title" => "general.ratings.excellent", "rating" => 5]
         ];
     });
+    Route::get('/invocie-shipping-methods', function (Request $request){
+        return [
+            ["id" => 1, "title" => "general.invoice_shipping_method.post"],
+            ["id" => 2, "title" => "general.invoice_shipping_method.email"]
+        ];
+    });
     Route::get('/forwarders', function (Request $request){
         return TmsForwarder::all();
     });
