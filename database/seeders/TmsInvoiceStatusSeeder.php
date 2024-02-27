@@ -14,11 +14,11 @@ class TmsInvoiceStatusSeeder extends Seeder
      */
     public function run(): void
     {
-    //     $statuses = TmsInvoiceStatus::INVOICE_STATUSES;
-    //     foreach ($statuses as $status) {
-    //         TmsInvoiceStatus::factory()->create([
-    //             'internal_name' => $status,
-    //         ]);
-    //     }
+        $statuses = TmsInvoiceStatus::INVOICE_STATUSES;
+        foreach ($statuses as $status) {
+            TmsInvoiceStatus::factory()->create([
+                'description' => $status,
+            ]);
+        }
     }
 }

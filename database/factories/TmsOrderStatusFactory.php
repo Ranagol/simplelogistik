@@ -21,8 +21,7 @@ class TmsOrderStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'internal_name' => $this->faker->word,
-            'external_name' => $this->faker->word,
+            'description' => $this->faker->word,
             'partner_id' => TmsPartner::where('company_name', 'Pamyra')->first()->id//because Pamyra is always 1
         ];
     }
