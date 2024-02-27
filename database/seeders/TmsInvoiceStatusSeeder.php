@@ -17,7 +17,7 @@ class TmsInvoiceStatusSeeder extends Seeder
         $statuses = TmsInvoiceStatus::INVOICE_STATUSES;
         foreach ($statuses as $status) {
             TmsInvoiceStatus::factory()->create([
-                'internal_name' => $status,
+                'description' => $status,
             ]);
         }
     }
