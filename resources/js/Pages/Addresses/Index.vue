@@ -17,7 +17,7 @@ defineProps({
 
 </script>
 <template>
-    <Page :tableConfig="tableHeaderConfig" :content="records.data" :page="config">
+    <Page :metaData="records.meta" :tableConfig="tableHeaderConfig" :content="records.data" :page="config">
         <template #create-button>
             <Button type="create" @click="actionHandle.create()"/>
         </template>
