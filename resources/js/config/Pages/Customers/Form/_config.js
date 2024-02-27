@@ -207,7 +207,11 @@ export default {
                         className: "col-auto",
                         "label": "pages.customers.form.invoice_shipping_method", 
                         "placeholder": "pages.customers.form.invoice_shipping_method", 
-                        "type": "text"
+                        "type": "select",
+                        "options": "ism",
+                        "displayKey": "title",
+                        "match": "id",
+
                     },
                     {
                         "name": "payment_method",
