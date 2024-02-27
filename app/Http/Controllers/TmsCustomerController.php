@@ -95,8 +95,6 @@ class TmsCustomerController extends Controller
     // public function store(Request $request)
     public function store(TmsCustomerRequest $request)
     {
-        dd('store is triggered');
-
         /**
          * The validated method is used to get the validated data from the request.
          */
