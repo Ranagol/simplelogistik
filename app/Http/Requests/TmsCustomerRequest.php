@@ -45,20 +45,18 @@ class TmsCustomerRequest extends FormRequest
             'direct_debit' => ['nullable', 'boolean'],
             'manual_collective_invoicing' => ['nullable', 'boolean'],
             'private_customer' => ['nullable', 'boolean'],
-
             'invoice_customer' => ['nullable', 'boolean'],
             'poor_payment_morale' => ['nullable', 'boolean'],
             'can_login' => ['nullable', 'boolean'],
             'customer_type' => ['nullable', 'string', 'min:2', 'max:100'],
-            
             'payment_method' => ['nullable', 'integer'],
             'payment_method_options_to_offer' => ['array'],
-
             'email_for_invoice' => ['nullable', 'string', 'email', 'max:255'],
             'email_for_label' => ['nullable', 'string', 'email', 'max:255'],
             'email_for_pod' => ['nullable', 'string', 'email', 'max:255'],
             'customer_reference' => ['nullable', 'string', 'max:255'],
             'easy_bill_customer_id' => ['nullable', 'integer', 'min:1'],
+            'legal_entity_type' => ['nullable', 'integer'],
 
             //Mutators
             'customer_type' => ['required', 'integer'],

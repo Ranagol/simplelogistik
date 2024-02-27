@@ -30,19 +30,30 @@ class TmsCustomer extends Model
     
     protected $table = "tms_customers";
 
-    const CUSTOMER_TYPES = [
+    public const CUSTOMER_TYPES = [
         1 => 'Bussiness customer',
         2 => 'Private customer',
     ];
-    
 
-    const INVOICE_DISPATCHES = [
+    public const INVOICE_DISPATCHES = [
         1 => 'Direct',
         2 => 'Collected invoicing',
     ];
 
-    const INVOICE_SHIPPING_METHODS = [
+    public const INVOICE_SHIPPING_METHODS = [
         1 => 'Email',
+    ];
+
+    /**
+     * This is the list of legal entity types used in customers, forwarders and partners. The source
+     * is here.
+     */
+    public const LEGAL_ENTITY_TYPES = [
+        1 => 'GmbH',
+        2 => 'AG',
+        3 => 'KG',
+        4 => 'GmbH & Co. KG',
+        5 => 'GBR',
     ];
 
     /**
