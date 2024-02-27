@@ -38,7 +38,6 @@
                 </span>
             </li>
             <!-- END ITEMS -->
-
             <li v-if="current_page < last_page" @click="router.visit(links.path + '?page=' + (parseInt(links.current_page) + parseInt(1)))">
                 <span class="grid p-3 leading-none cursor-pointer place-items-center min-w-fit hover:bg-primary-400 hover:text-white">
                 <el-icon><ArrowRight /></el-icon>
@@ -62,34 +61,24 @@
         </ul>
     </nav>   
 </template>
-
 <script setup>
 import { ArrowLeft, DArrowLeft, ArrowRight, DArrowRight } from '@element-plus/icons-vue';
 import { router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
-
 const props = defineProps({
     links: Object
 })
-
 var linksCount = props.links.links.length;
-
 var from = props.links.from
 var to = props.links.to
 var total = props.links.total
 var per_page = props.links.per_page
 var path = props.links.path
-
-
 var current_page = props.links.current_page
 var last_page = props.links.last_page
-
-
 delete props.links.links[0];
 delete props.links.links[linksCount -1];
-
 var items = [];
-
 props.links.links.map((link) => {
     if(link !== null) {
         var item = {
@@ -100,8 +89,6 @@ props.links.links.map((link) => {
         items.push(item);
     }
 });
-
 var first = items[0].url;
 var last = items[items.length - 1].url
-
 </script>

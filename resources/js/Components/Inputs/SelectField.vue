@@ -1,7 +1,8 @@
 <script setup>
     import { QuestionFilled } from '@element-plus/icons-vue';
     import { ref, onMounted } from 'vue';
-import Data from '../../lib/Data';
+    import Data from '../../lib/Data';
+
     const props = defineProps({
         store: Object,
         field: Object,
@@ -18,7 +19,7 @@ import Data from '../../lib/Data';
         initFlowbite()
     })
 
-    const defaultWrapperClass = 'relative ' + ' w-full ';
+    const defaultWrapperClass = 'relative' + ' w-full ';
     const defaultLabelClass = '' + 'absolute ' + 'top-0 ' + 'start-1 ' + 'px-2 ' + 'text-[15px] ' + '-translate-y-1/2 ' + 'bg-white ' + 'peer-focus:text-corporate-700 ' + 'peer-placeholder-shown:top-1/2 ' + 'peer-focus:top-0 ' + 'transition-all ' + 'duration-300 ' + 'pointer-events-none ';
     const _id = Math.random().toString(36).substring(7);
 
@@ -32,14 +33,35 @@ import Data from '../../lib/Data';
     }
     
     getOptions()
-    
+    const getDisplayData = (from, config, translator) => {
+        let displayString = [];
+        if(config.includes('|')){
+            let keys = config.split('|')
+            keys.map(key => {
+                if(key.includes('translate:')){
+                    var k = key.split(':')[1]
+                    displayString.push(translator(from[k]))
+                } else {
+                    displayString.push(from[key])
+                }
+            })
+        } else {
+            if(config.includes('translate:')){
+                var k = key.split(':')[1]
+                displayString.push(translator(from[k]))
+            } else {
+                displayString.push(from[config])
+            }
+        }
+        return displayString.join(' | ')
+    }
 </script>
 
 <template>
         <div :class="defaultWrapperClass"> 
             <label :class="defaultLabelClass" :for="_id">{{ $t(field.label ?? field.placeholder) }}</label>
             <select :id="_id" class="w-full rounded-md" @change="e => store.update(field.name, e.target.value)" >
-                <option v-for="(option, index) in options" :key="index" :value="option[field.match]" :selected="data[field.name] === option[field.match]">{{ option[field.displayKey] }}</option>
+                <option v-for="(option, index) in options" :key="index" :value="option[field.match]" :selected="data[field.name] === option[field.match]">{{ getDisplayData(option, field.displayKey, $t) }}</option>
             </select>   
         </div>
 </template>
