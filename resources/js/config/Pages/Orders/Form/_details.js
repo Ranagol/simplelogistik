@@ -1,7 +1,7 @@
 export default {
     sections: [
         {
-            title: "pages.orders.tabs.order_details",
+            title: "pages.orders.form.sections.order_details",
             sectionType: "default",
             collapsible: true,
             rows: [
@@ -13,8 +13,8 @@ export default {
                             type: 'text',
                             keyName: 'id',
                             className: 'col-auto',
-                            placeholder: 'pages.addresses.form.type_of_transport',
-                            label: 'pages.addresses.form.type_of_transport',
+                            placeholder: 'pages.orders.form.type_of_transport',
+                            label: 'pages.orders.form.type_of_transport',
                         },
                         {
                             name: 'order_status_id',
@@ -97,6 +97,74 @@ export default {
                     ]
                 },
             ]
+        },
+        {
+            title: "pages.orders.form.sections.parcels",
+            sectionType: "parcel",
+            collapsible: true,
+            data: "parcels",
+            rows: [
+                {
+                    className: 'grid-flow-row gap-4',
+                    fields: [
+                        {
+                            name: 'parcel_type',
+                            type: 'select',
+                            keyName: 'id',
+                            className: 'col-auto min-w-48 w-48',
+                            placeholder: 'pages.orders.form.parcel_type',
+                            label: 'pages.orders.form.parcel_type',
+                        },
+                        {
+                            name: 'length',
+                            type: 'text',
+                            keyName: 'id',
+                            className: 'col-auto',
+                            placeholder: 'pages.orders.form.length',
+                            label: 'pages.orders.form.length',
+                        },
+                        {
+                            name: 'width',
+                            type: 'text',
+                            className: 'col-auto',
+                            placeholder: 'pages.orders.form.width',
+                            label: 'pages.orders.form.width',
+                        },
+                        {
+                            name: 'height',
+                            type: 'text',
+                            className: 'col-auto',
+                            placeholder: 'pages.orders.form.height',
+                            label: 'pages.orders.form.height',
+                        },
+                        {
+                            name: 'weight',
+                            type: 'text',
+                            className: 'col-auto',
+                            placeholder: 'pages.orders.form.weight',
+                            label: 'pages.orders.form.weight',
+                        },
+                    ]
+                }
+            ]
+        },
+        {
+            title: "pages.orders.form.sections.orders",
+            sectionType: "default",
+            collapsible: true,
+            rows: []
+        },
+        {
+            title: "pages.orders.form.sections.finances",
+            sectionType: "default",
+            collapsible: true,
+            rows: []
+        },
+        {
+            title: "pages.orders.form.sections.vehicles",
+            sectionType: "default",
+            collapsible: true,
+            rows: []
         }
     ]
 }
