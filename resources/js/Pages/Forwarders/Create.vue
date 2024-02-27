@@ -15,7 +15,7 @@ const props = defineProps({
 import { store as useStore } from "@/Stores/forwarderStore";
 
 let forwarder = useStore()
-forwarder.setOne(props.record.data)
+forwarder.setOne({})
 
 </script>
 <template>
@@ -24,7 +24,7 @@ forwarder.setOne(props.record.data)
             <button @click="actionHandle.index()">Back</button>
         </template>
         <template #actions>
-            <button @click="forwarder.store()">Update</button>
+            <button @click="forwarder.store()">Speichern</button>
         </template>
     </Page>
 </template>

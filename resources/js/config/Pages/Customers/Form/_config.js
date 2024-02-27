@@ -203,7 +203,10 @@ export default {
                         className: "col-auto",
                         "label": "pages.customers.form.invoice_dispatch", 
                         "placeholder": "pages.customers.form.invoice_dispatch", 
-                        "type": "text"
+                        "type": "select",
+                        "options": "invoicedispatch",
+                        "displayKey": "title",
+                        "match": "id",
                     },
                     {
                         "name": "invoice_shipping_method",
