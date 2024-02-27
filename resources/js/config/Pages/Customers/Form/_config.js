@@ -193,7 +193,10 @@ export default {
                         className: "col-auto",
                         "label": "pages.customers.form.customer_type", 
                         "placeholder": "pages.customers.form.customer_type", 
-                        "type": "text"
+                        "type": "select",
+                        "options": "customertypes",
+                        "displayKey": "name",
+                        "match": "id",
                     },
                     {
                         "name": "invoice_dispatch",
