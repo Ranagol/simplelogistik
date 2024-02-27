@@ -20,8 +20,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function(){
+
     Route::get('/countries', function (Request $request){
         return TmsCountry::all();
+    });
+    Route::get('/ratings', function (Request $request){
+        return [
+            ["id" => 1, "title" => "general.ratings.miserable", "rating" => 1],
+            ["id" => 2, "title" => "general.ratings.poor", "rating" => 2],
+            ["id" => 3, "title" => "general.ratings.average", "rating" => 3],
+            ["id" => 4, "title" => "general.ratings.good", "rating" => 4],
+            ["id" => 5, "title" => "general.ratings.excellent", "rating" => 5]
+        ];
+    });
+    Route::get('/invocie-shipping-methods', function (Request $request){
+        return [
+            ["id" => 1, "title" => "general.invoice_shipping_method.post"],
+            ["id" => 2, "title" => "general.invoice_shipping_method.email"]
+        ];
     });
     Route::get('/forwarders', function (Request $request){
         return TmsForwarder::all();
