@@ -51,7 +51,7 @@ class TmsCustomerRequest extends FormRequest
             'can_login' => ['nullable', 'boolean'],
             'customer_type' => ['nullable', 'string', 'min:2', 'max:100'],
             
-            'payment_method' => ['nullable', 'string', 'min:2', 'max:100'],
+            'payment_method' => ['nullable', 'integer'],
             'payment_method_options_to_offer' => ['array'],
 
             'email_for_invoice' => ['nullable', 'string', 'email', 'max:255'],
