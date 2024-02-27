@@ -26,8 +26,11 @@ class InvoicesCommand extends Command
     /** array $apiAccess */
     protected $apiAccess = [];
 
-    /** sting $moduleStatus */
+    /** string $moduleStatus */
     protected $moduleStatus = '';
+
+    /** string $path */
+    private $path = 'documents/invoices/';
 
     /**
      * The name and signature of the console command.
@@ -195,8 +198,9 @@ class InvoicesCommand extends Command
                 if (isset($arrRes->code) && $arrRes->code !== 200) {
                     $this->info('Error: ' . $arrRes->message);
                 } else {            
-                    $this->info('Invoice successfully fetched from easybill.');                
-                    $invoicePathAndFile = base_path('documents/invoices/invoice_' . $res->number . '.pdf');
+                    $this->info('Invoice successfully fetched from easybill.');     
+                    $this->makeDirectory();           
+                    $invoicePathAndFile = base_path($this->path . 'invoice_' . $res->number . '.pdf');
                     file_put_contents($invoicePathAndFile, $response);
                 }
                 $this->updateInvoice($res, $colOrders[0],$invoicePathAndFile);
@@ -214,6 +218,18 @@ class InvoicesCommand extends Command
             $this->info('Order has no price. Not sending to easybill.');
         }
     }    
+
+    
+    /**
+     * Create the directory if it does not exist.     
+     */
+    public function makeDirectory()
+    {
+        $path = base_path($this->path);
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+    }
 
     /**
      * Get id array.
