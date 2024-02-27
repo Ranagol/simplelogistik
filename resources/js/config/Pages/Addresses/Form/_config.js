@@ -1,7 +1,7 @@
 export default {
     sections: [
         {
-            "title": "pages.addresses.form.sections.customer_information",
+            "title": "pages.addresses.form.sections.address_information",
             "rows": [
                 {className: 'grid-flow-row gap-4', fields: [
                         {
