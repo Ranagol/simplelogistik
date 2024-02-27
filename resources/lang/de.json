@@ -14,6 +14,20 @@
         "failed": "Diese Anmeldeinformationen stimmen nicht mit unseren Aufzeichnungen überein.",
         "throttle": "Zu viele Anmeldeversuche. Bitte versuchen Sie es in :seconds Sekunden erneut."
     },
+    "general": {
+        "ratings": {
+            "excellent": "Ausgezeichnet",
+            "good": "Gut",
+            "satisfactory": "Befriedigend",
+            "sufficient": "Ausreichend",
+            "poor": "Mangelhaft",
+            "very_poor": "Sehr schlecht",
+            "not_rated": "Nicht bewertet",
+            "no_rating": "Keine Bewertung",
+            "miserable": "Miserabel",
+            "average": "Durchschnittlich"
+        }
+    },
     "menu": {
         "dashboard": "Dashboard",
         "orders": "Aufträge",
@@ -114,6 +128,25 @@
                 "invoices": "Rechnungen",
                 "comments": "Kommentare",
                 "changelog": "Änderungsprotokoll"
+            },
+            "form": {
+                "sections": {
+                    "order_details": "Auftragsdetails",
+                    "parcels": "Packstücke",
+                    "addresses": "Adressen",
+                    "finances": "Finanzen",
+                    "vehicles": "Fahrzanforderungen"
+                },
+                "type_of_transport": "Transportart",
+                "order_status": "Auftragsstatus",
+                "partner": "Partner",
+                "origin": "Abholort",
+                "first_name": "Vorname",
+                "parcel_type": "Packstücktyp",
+                "length": "Länge (cm)",
+                "width": "Breite (cm)",
+                "height": "Höhe (cm)",
+                "weight": "Gewicht (kg)"
             }
         },
         "customers": {
@@ -164,7 +197,7 @@
             "edit": "Adresse bearbeiten",
             "form": {
                 "sections": {
-                    "customer_information": "Kundeninformationen"
+                    "address_information": "Adressinformationen"
                 },
                 "company_name": "Firmenname",
                 "first_name": "Vorname",
@@ -187,7 +220,24 @@
         "forwarders": {
             "index": "Dienstleister",
             "create":"Dienstleister anlegen",
-            "edit": "Dienstleister bearbeiten"
+            "edit": "Dienstleister bearbeiten",
+            "form": {
+                "sections": {
+                    "customer_information": "Kundeninformationen",
+                    "general_information": "Allgemeine Informationen",
+                    "contact_information": "Kontaktinformationen",
+                    "additional_information": "Zusätzliche Informationen"
+                },
+                "company_name": "Firmenname",
+                "internal_id": "Interne ID",
+                "name": "Name",
+                "email": "E-Mail",
+                "tax_number": "Steuernummer",
+                "rating": "Bewertung",
+                "forwarder_type": "Dienstleistertyp",
+                "comments": "Kommentare",
+                "url_logo": "Logo-URL"
+            }
         },
         "vehicles": {
             "index": "Fahrzeuge",
