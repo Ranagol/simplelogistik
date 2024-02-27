@@ -13,6 +13,10 @@ export default class Data {
         let ism = await axios.get('/api/invocie-shipping-methods');
         return ism;
     }
+    async #customertypes(){
+        let ct = await axios.get('/api/customer-types');
+        return ct;
+    }
     async #forwarders(){
         let forwarders = await axios.get('/api/forwarders');
         return forwarders;
@@ -39,6 +43,8 @@ export default class Data {
                 return await this.#ratings();
             case 'ism':
                 return await this.#ism();
+            case 'customertypes':
+                return await this.#customertypes();
             case 'forwarders':
                 return await this.#forwarders();
             case 'customers':
