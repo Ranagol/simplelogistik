@@ -3,6 +3,9 @@
     import ComplexTable from '@/Components/Tables/ComplexTable.vue';
     import TabContent from '@/Components/Tabs.vue';
     import Form from '@/Components/Form.vue';
+import { ArrowLeft } from '@element-plus/icons-vue';
+import route from 'ziggy-js';
+import { router } from '@inertiajs/vue3';
 
     const props = defineProps({
         page: {
@@ -27,9 +30,16 @@
         }
     });
 
+    const index = route().current().split('.')[0] + ".index";
+    const current = route().current();
 </script>
 <template>
     <Head :title="$t(page?.title ?? 'Page')"></Head>
+    {{ index }}
+    {{ current }}
+    <div v-if='index !== current' class="">
+        <button class="grid justify-center grid-flow-col gap-2 place-items-center" @click="router.visit(route(index))"><el-icon><ArrowLeft /></el-icon> Back Home</button>
+    </div>
     <div class="p-3 bg-white rounded-md">
         <div class="grid justify-between grid-flow-col">
             <h1 class="font-bold text-[18px] text-corporate-700">{{ $t(page?.title) }}</h1>

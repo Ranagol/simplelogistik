@@ -21,6 +21,10 @@ export default class Data {
         let ct = await axios.get('/api/customer-types');
         return ct;
     }
+    async #paymentmethods(){
+        let ct = await axios.get('/api/payment-methods');
+        return ct;
+    }
     async #forwarders(){
         let forwarders = await axios.get('/api/forwarders');
         return forwarders;
@@ -51,6 +55,8 @@ export default class Data {
                 return await this.#invoicedispatch();
             case 'customertypes':
                 return await this.#customertypes();
+            case 'paymentmethods':
+                return await this.#paymentmethods();
             case 'forwarders':
                 return await this.#forwarders();
             case 'customers':
