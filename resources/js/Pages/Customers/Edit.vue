@@ -9,6 +9,10 @@ const props = defineProps({
     record: {
         type: Object,
         required: true
+    },
+    errors: {
+        type: Object,
+        required: false
     }
 })
 

@@ -20,6 +20,10 @@
         store: {
             type: Object,
             required: false
+        },
+        metaData: {
+            type: Object,
+            required: false
         }
     });
 
@@ -32,10 +36,10 @@
             <slot name="create-button" />
         </div>
         <div v-if="page.preset === 'simple-table' || page.preset === 'table'">
-            <SimpleTable :tableConfig="tableConfig" :content="content" />
+            <SimpleTable :metaData="metaData" :tableConfig="tableConfig" :content="content" />
         </div>
         <div v-else-if="page.preset === 'complex-table'">
-            <ComplexTable :contentSettings="page.bodyContentSettings" :tableConfig="tableConfig" :content="content" />
+            <ComplexTable :metaData="metaData" :contentSettings="page.bodyContentSettings" :tableConfig="tableConfig" :content="content" />
         </div>
         <div v-else-if="page.preset === 'tabs'">
             <TabContent :config="page" />
