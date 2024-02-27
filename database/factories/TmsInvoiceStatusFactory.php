@@ -26,7 +26,7 @@ class TmsInvoiceStatusFactory extends Factory
     {
         return [
             //All relevant columns are nullable here, except the internal_name
-            'internal_name' => $this->faker->word,
+            'description' => $this->faker->word,
         ];
     }
 }
