@@ -18,7 +18,7 @@ import Data from '../../lib/Data';
         initFlowbite()
     })
 
-    const defaultWrapperClass = 'relative ' + ' w-full ';
+    const defaultWrapperClass = 'relative' + ' w-full ';
     const defaultLabelClass = '' + 'absolute ' + 'top-0 ' + 'start-1 ' + 'px-2 ' + 'text-[15px] ' + '-translate-y-1/2 ' + 'bg-white ' + 'peer-focus:text-corporate-700 ' + 'peer-placeholder-shown:top-1/2 ' + 'peer-focus:top-0 ' + 'transition-all ' + 'duration-300 ' + 'pointer-events-none ';
     const _id = Math.random().toString(36).substring(7);
 
