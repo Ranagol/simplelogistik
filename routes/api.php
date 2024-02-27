@@ -5,6 +5,7 @@ use App\Models\TmsCountry;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use App\Models\TmsPartner;
+use App\Models\TmsPaymentMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/countries', function (Request $request){
         return TmsCountry::all();
     });
+
+    
     Route::get('/ratings', function (Request $request){
         return [
             ["id" => 1, "title" => "general.ratings.miserable", "rating" => 1],
@@ -32,6 +35,17 @@ Route::middleware('auth:sanctum')->group(function(){
             ["id" => 4, "title" => "general.ratings.good", "rating" => 4],
             ["id" => 5, "title" => "general.ratings.excellent", "rating" => 5]
         ];
+    });
+    Route::get('/packing-types', function (Request $request){
+        return [
+            ["id" => 1, "title" => "general.packing_types.package"],
+            ["id" => 2, "title" => "general.packing_types.pallet"],
+            ["id" => 3, "title" => "general.packing_types.bulky_good"],
+            ["id" => 4, "title" => "general.packing_types.other"]
+        ];
+    });
+    Route::get('/payment-methods', function (Request $request){
+        return TmsPaymentMethod::all();
     });
     Route::get('/customer-types', function (Request $request){
         return [
