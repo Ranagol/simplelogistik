@@ -43,6 +43,7 @@ class TmsForwarderRequest extends FormRequest
             'forwarder_type' => ['nullable', 'integer', 'min:1'],
             'comments' => ['nullable', 'string'],
             'url_logo' => ['nullable', 'url'],
+            'legal_entity_type' => ['nullable', 'integer'],
         ];
     }
 }
