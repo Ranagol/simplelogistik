@@ -33,6 +33,12 @@ Route::middleware('auth:sanctum')->group(function(){
             ["id" => 5, "title" => "general.ratings.excellent", "rating" => 5]
         ];
     });
+    Route::get('/customer-types', function (Request $request){
+        return [
+            ["id" => 1, "name" => "general.customer-types.business"],
+            ["id" => 2, "name" => "general.customer-types.private"],
+        ];
+    });
     Route::get('/invocie-shipping-methods', function (Request $request){
         return [
             ["id" => 1, "title" => "general.invoice_shipping_method.post"],
