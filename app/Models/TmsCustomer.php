@@ -174,59 +174,59 @@ class TmsCustomer extends Model
         2 => 'Private customer',
     ];
     
-    protected function customerType(): Attribute
-    {
-        return Attribute::make(
+    // protected function customerType(): Attribute
+    // {
+    //     return Attribute::make(
 
-            /**
-             * Accessor
-             * gets from db, transforms it. 1 will become 'Bussiness customer'.
-             * directly looks up the customer type in the CUSTOMER_TYPES constant using the provided 
-             * value. If the value is not found in the constant, it defaults to 'Missing data xxx.'.
-             */
-            get: fn (string $value) => self::CUSTOMER_TYPES[$value] ?? 'Missing data xxx.',
+    //         /**
+    //          * Accessor
+    //          * gets from db, transforms it. 1 will become 'Bussiness customer'.
+    //          * directly looks up the customer type in the CUSTOMER_TYPES constant using the provided 
+    //          * value. If the value is not found in the constant, it defaults to 'Missing data xxx.'.
+    //          */
+    //         get: fn (string $value) => self::CUSTOMER_TYPES[$value] ?? 'Missing data xxx.',
 
-            /**
-             * Mutator
-             * gets from request, transforms it. 'Bussiness customer' will become 1.
-             * 
-             * To implement the setter using the CUSTOMER_TYPES constant, you need to flip the array 
-             * keys and values because you're mapping from the string representation back to the 
-             * integer value.
-             * he set method uses array_flip to swap the keys and values of the CUSTOMER_TYPES 
-             * constant, then looks up the integer value corresponding to the provided customer type 
-             * string. If the string is not found in the flipped array, it defaults to 'Missing data xxx.'.
-             */
-            set: fn (string $value) => array_flip(self::CUSTOMER_TYPES)[$value] ?? 'Missing data xxx.',
-        );
-    }
+    //         /**
+    //          * Mutator
+    //          * gets from request, transforms it. 'Bussiness customer' will become 1.
+    //          * 
+    //          * To implement the setter using the CUSTOMER_TYPES constant, you need to flip the array 
+    //          * keys and values because you're mapping from the string representation back to the 
+    //          * integer value.
+    //          * he set method uses array_flip to swap the keys and values of the CUSTOMER_TYPES 
+    //          * constant, then looks up the integer value corresponding to the provided customer type 
+    //          * string. If the string is not found in the flipped array, it defaults to 'Missing data xxx.'.
+    //          */
+    //         set: fn (string $value) => array_flip(self::CUSTOMER_TYPES)[$value] ?? 'Missing data xxx.',
+    //     );
+    // }
 
     const INVOICE_DISPATCHES = [
         1 => 'Direct',
         2 => 'Collected invoicing',
     ];
 
-    protected function invoiceDispatch(): Attribute
-    {
-        return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Bussiness customer'.
-            get: fn (string $value) => self::INVOICE_DISPATCHES[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Bussiness customer' will become 1.
-            set: fn (string $value) => array_flip(self::INVOICE_DISPATCHES)[$value] ?? 'Missing data xxx.',
-        );
-    }
+    // protected function invoiceDispatch(): Attribute
+    // {
+    //     return Attribute::make(
+    //         //gets from db, transforms it. 1 will become 'Bussiness customer'.
+    //         get: fn (string $value) => self::INVOICE_DISPATCHES[$value] ?? 'Missing data xxx.',
+    //         //gets from request, transforms it. 'Bussiness customer' will become 1.
+    //         set: fn (string $value) => array_flip(self::INVOICE_DISPATCHES)[$value] ?? 'Missing data xxx.',
+    //     );
+    // }
 
     const INVOICE_SHIPPING_METHODS = [
         1 => 'Email',
     ];
 
-    protected function invoiceShippingMethod(): Attribute
-    {
-        return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Bussiness customer'.
-            get: fn (string $value) => self::INVOICE_SHIPPING_METHODS[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Bussiness customer' will become 1.
-            set: fn (string $value) => array_flip(self::INVOICE_SHIPPING_METHODS)[$value] ?? 'Missing data xxx.',
-        );
-    }
+    // protected function invoiceShippingMethod(): Attribute
+    // {
+    //     return Attribute::make(
+    //         //gets from db, transforms it. 1 will become 'Bussiness customer'.
+    //         get: fn (string $value) => self::INVOICE_SHIPPING_METHODS[$value] ?? 'Email',
+    //         //gets from request, transforms it. 'Bussiness customer' will become 1.
+    //         set: fn (string $value) => array_flip(self::INVOICE_SHIPPING_METHODS)[$value] ?? 'Email',
+    //     );
+    // }
 }
