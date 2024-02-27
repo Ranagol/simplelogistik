@@ -88,6 +88,7 @@ class TmsAddressController extends Controller
         );
     }
 
+
     public function create(): Response
     {
         return Inertia::render(
@@ -167,6 +168,11 @@ class TmsAddressController extends Controller
         $newRecord = $request->validated();//do validation
 
         TmsAddress::find($id)->update($newRecord);
+    }
+
+    public function destroy(string $id): void
+    {
+        TmsAddress::destroy($id);
     }
 
     /**
