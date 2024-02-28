@@ -29,7 +29,7 @@ class FtpHandlerBase
      *
      * @var string
      */
-    protected string $newFilePath;
+    protected string $pathForArchive;
 
     /**
      * Stores the ftp credentials for the connection.
@@ -58,10 +58,10 @@ class FtpHandlerBase
      * Here we set if the connection mode is test or live, and get the ftp credentials from the 
      * database.
      */
-    public function __construct(string $connectionName, string $newFilePath)
+    public function __construct(string $connectionName, string $pathForArchive)
     {
         $this->connectionName = $connectionName;
-        $this->newFilePath = $newFilePath;
+        $this->pathForArchive = $pathForArchive;
         $this->setConnectionMode();
         $this->getFtpCredentials();
         $this->createFtpServerStorage();
@@ -122,18 +122,11 @@ class FtpHandlerBase
      */
     public function getFileList(): array
     {
-        // dump($this->connectionName);
-        // dump($this->connectionMode);
-        // dump($this->newFilePath);
-        // dump($this->tmsFtpCredential);
-        // dump($this->ftpServer);
-
         echo 'getFileList() triggered.' . PHP_EOL;
         //Get the list of all files in the ftp server
         try {
 
             $allFileNames = $this->ftpServer->allFiles();
-            dd($allFileNames);
             return $allFileNames;
             
         } catch (\Exception $e) {
@@ -255,6 +248,6 @@ class FtpHandlerBase
      */
     protected function createNewFileName(string $fileName): string
     {
-        return $this->newFilePath . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
+        return $this->pathForArchive . Carbon::now()->format('Y_m_d') . '_' . basename($fileName); 
     }
 }

@@ -32,7 +32,7 @@ class FtpHandlerEmons extends FtpHandlerBase
     {
         //Get all file list from ftp
         $allFilesInFtpServer = $this->getFileList();
-        dd($allFilesInFtpServer);
+        // dd($allFilesInFtpServer);
 
         //Filter out only those files that are Emons invoices (which have csv in their name), ignore all the other files
         $emonsInvoiceFileNames = $this->filterFiles($allFilesInFtpServer, $this->desiredFileType);
