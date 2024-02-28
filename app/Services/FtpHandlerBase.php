@@ -105,7 +105,7 @@ class FtpHandlerBase
                 'username' => $this->tmsFtpCredential->username,
                 'password' => $this->tmsFtpCredential->password,
                 //If the port is not set, we will set it to null. If it is set, we will convert it to int (because it is a string)
-                'port' => $this->tmsFtpCredential->port ? intval($this->tmsFtpCredential->port) : null,
+                'port' => $this->tmsFtpCredential->port,
                 'root' => $this->tmsFtpCredential->path,
                 'throw' => true,
             ]

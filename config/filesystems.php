@@ -72,6 +72,21 @@ return [
             'throw' => false,
         ],
 
+        //Only for testing purposes
+        'emons' => [
+            'driver' => 'ftp',//InvalidArgumentException .Disk [emonsInvoices] does not have a configured driver.
+            'host' => 'ftp.simplelogistik.de',
+            'username' => 'simplv_14',
+            'password' => 'VQw5fXLT4VSUBeFQ',
+            // 'port' => null,
+            'root' => 'Rechnungen/Copies',
+            'throw' => true,
+            // 'timeout' => 5,
+            'passive' => true,//Here we turn on the passive mode, needed because of firewalls
+            'ssl' => true,
+        ],
+        
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
