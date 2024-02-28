@@ -135,7 +135,13 @@
                     "parcels": "Packstücke",
                     "addresses": "Adressen",
                     "finances": "Finanzen",
-                    "vehicles": "Fahrzanforderungen"
+                    "vehicles": "Fahrzanforderungen",
+                    "parcel_summary": {
+                        "total_weight": "Gesamtgewicht",
+                        "total_volume": "Gesamtvolumen",
+                        "total_area": "Gesamtfläche",
+                        "total_parcels": "Gesamtpackstücke"
+                    }
                 },
                 "type_of_transport": "Transportart",
                 "order_status": "Auftragsstatus",
