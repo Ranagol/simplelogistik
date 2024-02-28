@@ -5,7 +5,7 @@
         store: Object,
         field: Object,
         data: Object,
-        updateValue: Function
+        val: String
     })
 
     const onInput = (name, value) => {
@@ -17,7 +17,6 @@
 
     // var value = ref(props.store?.record[props.field.name])
     
-    var value = props.field.subfield ?  props.data[props.field.name][props.field.subfield ] : props.data[props.field.name]
     onMounted(() => {
         initFlowbite()
     })
@@ -33,7 +32,7 @@
 <template>
     <div class="col-span-12" :class="field.size ?? 'col-span-12'">
         <div :class="defaultWrapperClass">
-            <input @blur="e => $emit('blur',e)" :required="field.required ?? false" @input="(e) => onInput(field.name, e.target.value)" :type="field?.type ?? 'text'" :value="value" :id="'floating-input-filed-' + _id" :placeholder="$t(field?.placeholder ?? '')"
+            <input v-bind="$props" :value="props.val" :required="field.required ?? false" :type="field?.type ?? 'text'" :id="'floating-input-filed-' + _id" :placeholder="$t(field?.placeholder ?? '')"
             :class="defaultInputClass"
             >
             <div :class="defaultIconWrapperClass">

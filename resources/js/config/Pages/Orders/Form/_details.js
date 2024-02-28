@@ -10,11 +10,10 @@ export default {
                     fields: [
                         {
                             name: 'type_of_transport',
-                            type: 'text',
-                            keyName: 'id',
                             className: 'col-auto',
                             placeholder: 'pages.orders.form.type_of_transport',
                             label: 'pages.orders.form.type_of_transport',
+                            type: 'text',
                         },
                         {
                             name: 'order_status_id',
@@ -100,70 +99,60 @@ export default {
         },
         {
             title: "pages.orders.form.sections.parcels",
-            sectionType: "parcel",
+            sectionType: "parcelEditor",
             collapsible: true,
             data: "parcels",
-            rows: [
+            fields: [
                 {
-                    className: 'grid-flow-row gap-4',
-                    fields: [
-                        {
-                            name: 'parcel_type',
-                            type: 'select',
-                            keyName: 'id',
-                            className: 'col-auto min-w-48 w-48',
-                            placeholder: 'pages.orders.form.parcel_type',
-                            label: 'pages.orders.form.parcel_type',
-                        },
-                        {
-                            name: 'length',
-                            type: 'text',
-                            keyName: 'id',
-                            className: 'col-auto',
-                            placeholder: 'pages.orders.form.length',
-                            label: 'pages.orders.form.length',
-                        },
-                        {
-                            name: 'width',
-                            type: 'text',
-                            className: 'col-auto',
-                            placeholder: 'pages.orders.form.width',
-                            label: 'pages.orders.form.width',
-                        },
-                        {
-                            name: 'height',
-                            type: 'text',
-                            className: 'col-auto',
-                            placeholder: 'pages.orders.form.height',
-                            label: 'pages.orders.form.height',
-                        },
-                        {
-                            name: 'weight',
-                            type: 'text',
-                            className: 'col-auto',
-                            placeholder: 'pages.orders.form.weight',
-                            label: 'pages.orders.form.weight',
-                        },
-                    ]
-                }
+                    name: 'length',
+                    type: 'text',
+                    keyName: 'id',
+                    className: 'col-auto',
+                    placeholder: 'pages.orders.form.length',
+                    label: 'pages.orders.form.length',
+                },
+                {
+                    name: 'width',
+                    type: 'text',
+                    className: 'col-auto',
+                    placeholder: 'pages.orders.form.width',
+                    label: 'pages.orders.form.width',
+                },
+                {
+                    name: 'height',
+                    type: 'text',
+                    className: 'col-auto',
+                    placeholder: 'pages.orders.form.height',
+                    label: 'pages.orders.form.height',
+                },
+                {
+                    name: 'weight',
+                    type: 'text',
+                    className: 'col-auto',
+                    placeholder: 'pages.orders.form.weight',
+                    label: 'pages.orders.form.weight',
+                },
             ]
         },
         {
-            title: "pages.orders.form.sections.orders",
-            sectionType: "default",
+            title: "pages.orders.form.sections.addresses",
+            sectionType: "addressesEditor",
             collapsible: true,
+            data: "addresses",
             rows: []
         },
         {
             title: "pages.orders.form.sections.finances",
-            sectionType: "default",
+            sectionType: "financialsEditor",
             collapsible: true,
+            data: "finances",
             rows: []
         },
         {
             title: "pages.orders.form.sections.vehicles",
-            sectionType: "default",
+            sectionType: "vehicleEditor",
             collapsible: true,
+            data: "vehicles",
             rows: []
         }
     ]
