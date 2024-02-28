@@ -27,87 +27,13 @@ class DbWriter
         $this->validationRules = $tmsEmonsInvoiceRequest->emonsInvoiceRules();
     }
 
-    /**
-     * This is the main method of this class. It will trigger all other helper methods.
-     *
-     * @return void
-     */
-    // public function handle(): void
-    // {
-    //     // $invoices = $this->getFileFromEmons();
-
-    //     $invoices = $this->transformCsvToArray();
-
-    //     $this->checkIfInvoicesExist($invoices);
-
-    //     $invoices = $this->removeDuplicates($invoices);
-
-    //     $this->createInvoices($invoices);
-
-    //     $this->archiveFile();
-    // }
-
-    
-
-    /**
-     * Checks if there are any invoices in the csv file. If not, it logs it.
-     *
-     * @param array $invoices
-     * @return void
-     */
-    private function checkIfInvoicesExist(array $invoices): void
+    public function createInvoice(array $invoice): void
     {
-        if (empty($invoices)) {
-            $message = 'No invoices found in the csv file.';
-            echo $message . PHP_EOL;;
-            Log::info($message);
-            exit;
-        }
-    }
+        $isDuplicate = $this->checkForDuplicates($invoice);
 
-    /**
-     * Checks if there are any duplicates in the csv file. If there are, it removes them from the array.
-     * The duplicates will be logged, and then removed from the array. So we will write only the
-     * non-duplicates to the database.
-     *
-     * @param array $invoices
-     * @return array
-     */
-    private function removeDuplicates(array $invoices): array
-    {
-        //Get all our already existing order numbers from emons_invoices table
-        $orderNumbers = DB::table('tms_emons_invoices')->pluck('order_number')->toArray();
-
-        //Array of order numbers that already exist in the database - duplicates
-        $duplicateOrderNumbers = array_intersect($orderNumbers, array_column($invoices, 'order_number'));
-
-        if (!empty($duplicateOrderNumbers)) {
-            // throw new \Exception('The following order numbers already exist in the database: ' . implode(', ', $duplicateOrderNumbers));
-            echo 'The following order numbers already exist in the database: ' . implode(', ', $duplicateOrderNumbers) . PHP_EOL;
-            Log::error("The following order numbers already exist in the database: " . implode(', ', $duplicateOrderNumbers));
-        }
-
-        //Remove duplicates from the array
-        $invoices = array_filter(
-            $invoices, 
-            function ($invoice) use ($duplicateOrderNumbers) {
-
-                return !in_array(
-                    $invoice['order_number'], 
-                    $duplicateOrderNumbers
-                );
-            }
-        );
-
-        return $invoices;
-    }
-
-    private function createInvoices(array $invoices): void
-    {
-        foreach ($invoices as $invoice) {
-
+        if (!$isDuplicate) {
             $validator = Validator::make($invoice, $this->validationRules);
-            
+        
             /**
              * If the validation fails, we log the error and continue to the next invoice, skipping 
              * the faulty one.
@@ -115,11 +41,33 @@ class DbWriter
             if ($validator->fails()) {
                 Log::error($validator->errors()->first());
                 echo $validator->errors()->first() . ' In order number ' . $invoice['order_number'] . PHP_EOL;
-                continue;
             }
-    
+
             TmsEmonsInvoice::create($invoice);
         }
     }
+
+    private function checkForDuplicates(array $invoice): bool
+    {
+        $orderNumber = $invoice['order_number'];
+
+        $invoiceDuplicate= TmsEmonsInvoice::where('order_number', $orderNumber)->get();
+        // dd($invoiceDuplicate);
+
+        if (!$invoiceDuplicate->empty()){
+            $message = 'The order number ' . $orderNumber . ' already exists in the database.';
+            echo $message . PHP_EOL;
+            Log::info($message);
+            return true;
+        }
+
+        return false;
+    }
+
+    
+
+
+
+    
 
 }
