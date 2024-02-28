@@ -139,7 +139,7 @@ class TmsVehicleController extends Controller {
         return Inertia::render(
             $this->edit, 
             [
-                $record => $record,
+                'record' => $record,
 
                 /**
                  * This is only needed, when a new vehicle was created, and then the user is redirected
