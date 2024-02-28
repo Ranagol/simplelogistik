@@ -25,7 +25,7 @@ let props = defineProps({
 });
 
 var state = reactive({
-    parcels: props.parcels,
+    parcels: props.parcels || [],
     calculations: {
         volume: 0, 
         area: 0, 
@@ -108,7 +108,7 @@ defineEmits(['blur']);
         <button @click="addParcelSet()" class="w-full p-2 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500">Add Parcel</button>
     </div>
     <div class="grid grid-flow-col gap-4 mt-6">
-        <div class="grid grid-flow-col p-4 rounded-md bg-slate-200">
+        <div class="grid grid-flow-col gap-4 p-4 rounded-md bg-slate-200">
             <div class="grid w-16 h-16 rounded-md bg-slate-300 place-items-center">
                 <img src="/images/svg/packages.svg" alt="Parcel Icon" class="w-12 h-12" />
             </div>
@@ -117,7 +117,7 @@ defineEmits(['blur']);
                 <span class="font-bold text-[18px]">{{ parseInt(state.calculations.count) }}</span>
             </div>
         </div>
-        <div class="grid grid-flow-col p-4 rounded-md bg-slate-200">
+        <div class="grid grid-flow-col gap-4 p-4 rounded-md bg-slate-200">
             <div class="grid w-16 h-16 rounded-md bg-slate-300 place-items-center">
                 <img src="/images/svg/volume.svg" alt="Parcel Icon" class="w-12 h-12" />
             </div>
@@ -126,7 +126,7 @@ defineEmits(['blur']);
                 <span class="font-bold text-[18px]">{{ parseFloat(state.calculations.volume / (100*100*100)).toFixed(2) }} m<sup>3</sup></span>
             </div>
         </div>
-        <div class="grid grid-flow-col p-4 rounded-md bg-slate-200">
+        <div class="grid grid-flow-col gap-4 p-4 rounded-md bg-slate-200">
             <div class="grid w-16 h-16 rounded-md bg-slate-300 place-items-center">
                 <img src="/images/svg/area.svg" alt="Parcel Icon" class="w-12 h-12" />
             </div>
@@ -135,7 +135,7 @@ defineEmits(['blur']);
                 <span class="font-bold text-[18px]">{{ parseFloat(state.calculations.area / (100*100)).toFixed(2) }} m<sup>2</sup></span>
             </div>
         </div>
-        <div class="grid grid-flow-col p-4 rounded-md bg-slate-200">
+        <div class="grid grid-flow-col gap-4 p-4 rounded-md bg-slate-200">
             <div class="grid w-16 h-16 rounded-md bg-slate-300 place-items-center">
                 <img src="/images/svg/weight.svg" alt="Parcel Icon" class="w-12 h-12" />
             </div>

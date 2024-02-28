@@ -14,18 +14,18 @@ const props = defineProps({
 
 import { store as addressStore } from "@/Stores/addressStore";
 
-let address = addressStore()
+let store = addressStore()
 
-address.setOne(props.record)
+store.setOne(props.record)
 
 </script>
 <template>
-    <Page :content="record" :store="address" :page="config">
+    <Page :content="record" :store="store" :page="config">
         <template #backlink>
             <button @click="actionHandle.index()">Back</button>
         </template>
         <template #actions>
-            <button class="p-2 px-4 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500" @click="address.save()">Save</button>
+            <button class="p-2 px-4 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500" @click="store.save()">Speichern</button>
         </template>
     </Page>
 </template>

@@ -4,6 +4,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsCountry;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
+use App\Models\TmsOrderStatus;
 use App\Models\TmsPartner;
 use App\Models\TmsPaymentMethod;
 use Illuminate\Http\Request;
@@ -46,6 +47,9 @@ Route::middleware('auth:sanctum')->group(function(){
     });
     Route::get('/payment-methods', function (Request $request){
         return TmsPaymentMethod::all();
+    });
+    Route::get('/order-statuses', function (Request $request){
+        return TmsOrderStatus::all();
     });
     Route::get('/customer-types', function (Request $request){
         return [

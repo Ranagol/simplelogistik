@@ -17,7 +17,7 @@
 
     // var value = ref(props.store?.record[props.field.name])
     
-    var value = props.field.subfield ?  props.data[props.field.name][props.field.subfield ] : props.data[props.field.name]
+    var value = props.field.subfield ?  props.data[props.field.name][props.field.subfield] : props.data[props.field.name]
     onMounted(() => {
         initFlowbite()
     })
