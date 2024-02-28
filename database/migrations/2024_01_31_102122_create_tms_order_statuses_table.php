@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tms_order_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('internal_name')->comment('The internal name of the order status');
-            $table->string('external_name')->comment('The external name of the order status');
+            $table->string('external_name')->comment('The external name of the order status')->nullable();
             $table->unsignedBigInteger('partner_id')->comment('The id of the partner that is the source of the order status');
             $table->foreign('partner_id')->references('id')->on('tms_partners');
             $table->timestamps();

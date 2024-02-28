@@ -30,6 +30,21 @@ class TmsCustomer extends Model
     
     protected $table = "tms_customers";
 
+    const CUSTOMER_TYPES = [
+        1 => 'Bussiness customer',
+        2 => 'Private customer',
+    ];
+    
+
+    const INVOICE_DISPATCHES = [
+        1 => 'Direct',
+        2 => 'Collected invoicing',
+    ];
+
+    const INVOICE_SHIPPING_METHODS = [
+        1 => 'Email',
+    ];
+
     /**
      * These values are stored as 0 or 1 in the database. But we want to use them as booleans.
      * So we use this casting for this.
@@ -62,38 +77,6 @@ class TmsCustomer extends Model
         'last_name',
         'email',
     ];
-    /**
-     * APPENDING (attaching a new column to the model, that is originally not in the model's table)
-     * Here we want to add country_name to the Address model.
-     * Under the country_name key in the response, we will get the country_name of the given address.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'forwarder',
-    ];
-
-    public function getForwarderAttribute()
-    {
-        //$this->forwarder_id is the forwarder_id of the current Address model.
-        $forwarder = TmsForwarder::select('id', 'company_name', 'name')->find($this->forwarder_id);
-        
-        if($forwarder && $forwarder->company_name){
-            //If the forwarder has a company_name, let the company_name be the customer_name.
-            $forwarderName = $forwarder ? $forwarder->company_name : 'TmsAddress appends error.';
-        }else{
-            //If the forwarder has no company_name, let the first_name and last_name be the customer_name.
-            $forwarderName = $forwarder ? $forwarder->name : 'TmsAddress appends error.';
-        }
-
-        //We need only the id and the name of the forwarder. So we format the forwarder object.
-        $formattedForwarder = [
-            'id' => $forwarder ? $forwarder->id : null,
-            'name' => $forwarder ? $forwarderName : null
-        ];
-
-        return $formattedForwarder;
-    }
 
     //*************RELATIONSHIPS*************************************** */
 
@@ -195,70 +178,6 @@ class TmsCustomer extends Model
             ;
     }
 
-    //*************MUTATORS AND ACCESSORS*************************************** */
 
-    /**
-     * Here we set the customer type db column possible options. This array will be used during
-     * seeding too. So, when you want to add a new customer type, this is the place to do it.
-     */
-    const CUSTOMER_TYPES = [
-        1 => 'Bussiness customer',
-        2 => 'Private customer',
-    ];
     
-    protected function customerType(): Attribute
-    {
-        return Attribute::make(
-
-            /**
-             * Accessor
-             * gets from db, transforms it. 1 will become 'Bussiness customer'.
-             * directly looks up the customer type in the CUSTOMER_TYPES constant using the provided 
-             * value. If the value is not found in the constant, it defaults to 'Missing data xxx.'.
-             */
-            get: fn (string $value) => self::CUSTOMER_TYPES[$value] ?? 'Missing data xxx.',
-
-            /**
-             * Mutator
-             * gets from request, transforms it. 'Bussiness customer' will become 1.
-             * 
-             * To implement the setter using the CUSTOMER_TYPES constant, you need to flip the array 
-             * keys and values because you're mapping from the string representation back to the 
-             * integer value.
-             * he set method uses array_flip to swap the keys and values of the CUSTOMER_TYPES 
-             * constant, then looks up the integer value corresponding to the provided customer type 
-             * string. If the string is not found in the flipped array, it defaults to 'Missing data xxx.'.
-             */
-            set: fn (string $value) => array_flip(self::CUSTOMER_TYPES)[$value] ?? 'Missing data xxx.',
-        );
-    }
-
-    const INVOICE_DISPATCHES = [
-        1 => 'Direct',
-        2 => 'Collected invoicing',
-    ];
-
-    protected function invoiceDispatch(): Attribute
-    {
-        return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Bussiness customer'.
-            get: fn (string $value) => self::INVOICE_DISPATCHES[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Bussiness customer' will become 1.
-            set: fn (string $value) => array_flip(self::INVOICE_DISPATCHES)[$value] ?? 'Missing data xxx.',
-        );
-    }
-
-    const INVOICE_SHIPPING_METHODS = [
-        1 => 'Email',
-    ];
-
-    protected function invoiceShippingMethod(): Attribute
-    {
-        return Attribute::make(
-            //gets from db, transforms it. 1 will become 'Bussiness customer'.
-            get: fn (string $value) => self::INVOICE_SHIPPING_METHODS[$value] ?? 'Missing data xxx.',
-            //gets from request, transforms it. 'Bussiness customer' will become 1.
-            set: fn (string $value) => array_flip(self::INVOICE_SHIPPING_METHODS)[$value] ?? 'Missing data xxx.',
-        );
-    }
 }
