@@ -146,13 +146,19 @@
                 "type_of_transport": "Transportart",
                 "order_status": "Auftragsstatus",
                 "partner": "Partner",
-                "origin": "Abholort",
+                "origin": "Herkunft",
                 "first_name": "Vorname",
                 "parcel_type": "Packstücktyp",
                 "length": "Länge (cm)",
                 "width": "Breite (cm)",
                 "height": "Höhe (cm)",
-                "weight": "Gewicht (kg)"
+                "weight": "Gewicht (kg)",
+                "customer_refernce": "Kundenreferenz",
+                "distance_km": "Entfernung (km)",
+                "duration_minutes": "Dauer (min)",
+                "calculation_model_name": "Berechnungsmodell",
+                "particularities": "Besonderheiten",
+                "description_of_transport": "Transportbeschreibung"
             }
         },
         "customers": {
@@ -160,6 +166,10 @@
             "create":"Kunde anlegen",
             "edit": "Kunde bearbeiten",
             "form": {
+                "street": "Straße",
+                "house_number": "Hausnummer",
+                "zip_code": "Postleitzahl",
+                "city": "Stadt",
                 "customer_information": "Kundeninformationen",
                 "forwarder": "Dienstleister",
                 "company_name": "Firmenname",

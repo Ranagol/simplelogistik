@@ -14,17 +14,17 @@ const props = defineProps({
 
 import { store as useStore } from "@/Stores/forwarderStore";
 
-let forwarder = useStore()
-forwarder.setOne({})
+let store = useStore()
+store.setOne({})
 
 </script>
 <template>
-    <Page :content="record" :store="forwarder" :page="config">
+    <Page :content="record" :store="store" :page="config">
         <template #backlink>
             <button @click="actionHandle.index()">Back</button>
         </template>
         <template #actions>
-            <button @click="forwarder.store()">Speichern</button>
+            <button class="p-2 px-4 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500" @click="store.store()">Speichern</button>
         </template>
     </Page>
 </template>

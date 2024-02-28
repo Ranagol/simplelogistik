@@ -31,6 +31,36 @@ export default {
                         type: "text"
                     },
                 ]},
+                {className: 'grid-flow-row grid-cols-4 gap-4', fields: [
+                    {
+                        name: "street",
+                        className: "col-auto",
+                        label: "pages.customers.form.street", 
+                        placeholder: "pages.customers.form.street", 
+                        type: "text"
+                    },
+                    {
+                        name: "house_number",
+                        className: "col-auto",
+                        label: "pages.customers.form.house_number", 
+                        placeholder: "pages.customers.form.house_number", 
+                        type: "text"
+                    },
+                    {
+                        name: "zip_code",
+                        className: "col-auto",
+                        label: "pages.customers.form.zip_code", 
+                        placeholder: "pages.customers.form.zip_code", 
+                        type: "text"
+                    },
+                    {
+                        name: "city",
+                        className: "col-auto",
+                        label: "pages.customers.form.city", 
+                        placeholder: "pages.customers.form.city", 
+                        type: "text"
+                    }
+                ]},
                 {className: 'grid-flow-row gap-4', fields: [
                     {
                         name: "first_name",

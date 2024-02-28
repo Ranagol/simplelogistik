@@ -29,6 +29,7 @@ class TmsOrderEditResource extends JsonResource
             'customer_reference' => $this->customer_reference,
             'provision' => $this->provision,
             'order_edited_events' => $this->order_edited_events,
+            'order_status_id' => $this->order_status_id,
             'currency' => $this->currency,
             'order_number' => $this->order_number,
             'order_date' => $this->order_date,
