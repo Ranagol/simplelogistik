@@ -32,6 +32,13 @@ class FtpHandlerBase
     protected string $pathForArchive;
 
     /**
+     * Pamyra orders have .json extension. We want files only with json extension.
+     *
+     * @var string
+     */
+    protected $desiredFileType;
+
+    /**
      * Stores the ftp credentials for the connection.
      *
      * @var TmsFtpCredential
@@ -57,14 +64,41 @@ class FtpHandlerBase
     /**
      * Here we set if the connection mode is test or live, and get the ftp credentials from the 
      * database.
+     * 'PamyraOrders', 'PamyraOrdersArchived/', '.json'
      */
-    public function __construct(string $connectionName, string $pathForArchive)
+    public function __construct(
+        string $connectionName, 
+        string $pathForArchive,
+        string $desiredFileType
+    )
     {
         $this->connectionName = $connectionName;
         $this->pathForArchive = $pathForArchive;
+        $this->desiredFileType = $desiredFileType;
         $this->setConnectionMode();
         $this->getFtpCredentials();
         $this->createFtpServerStorage();
+    }
+
+    /**
+     * This is the main function in this class.
+     * It gets all the desired file names from the ftp server.
+     * Example: all pamyra json files NAMES from the ftp server.
+     *
+     * @return array
+     */
+    public function handle(): array
+    {
+        //Get all file list from ftp
+        $allFilesInFtpServer = $this->getFileList();
+
+        //Filter out only those files that are Pamyra orders (which have json in their name), ignore all the other files
+        $desiredFileNames = $this->filterFiles($allFilesInFtpServer, $this->desiredFileType);
+
+        //If there are no pamyra files, we can stop the process here
+        $this->checkIfServerEmpty($desiredFileNames);
+
+        return $desiredFileNames;
     }
 
     /**
@@ -72,7 +106,7 @@ class FtpHandlerBase
      *
      * @return void
      */
-    private function setConnectionMode(): void
+    protected function setConnectionMode(): void
     {
         //Set whether the connection is live or test, based on the environment
         config('app.env') === 'local' ? $this->connectionMode = 'test': $this->connectionMode = 'live';
@@ -83,7 +117,7 @@ class FtpHandlerBase
      *
      * @return void
      */
-    private function getFtpCredentials(): void
+    protected function getFtpCredentials(): void
     {
         //Get the ftp credentials from the database
         $this->tmsFtpCredential = TmsFtpCredential::where('name', $this->connectionName)
@@ -96,7 +130,7 @@ class FtpHandlerBase
      *
      * @return void
      */
-    private function createFtpServerStorage(): void
+    protected function createFtpServerStorage(): void
     {
         $this->ftpServer = Storage::build(
             [
@@ -120,7 +154,7 @@ class FtpHandlerBase
      *
      * @return array    An array with all file names on the ftp server.
      */
-    public function getFileList(): array
+    protected function getFileList(): array
     {
         echo 'getFileList() triggered.' . PHP_EOL;
         //Get the list of all files in the ftp server
@@ -144,7 +178,7 @@ class FtpHandlerBase
      * @param string $desiredFileType
      * @return array
      */
-    public function filterFiles(array $allFileNames, string $desiredFileType): array
+    protected function filterFiles(array $allFileNames, string $desiredFileType): array
     {
         $filteredFileNames = array_filter(
             $allFileNames, 

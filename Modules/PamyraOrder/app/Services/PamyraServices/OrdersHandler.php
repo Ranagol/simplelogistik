@@ -3,16 +3,17 @@
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHandler;
-use Modules\PamyraOrder\app\Services\PamyraServices\FtpHandlerPamyra;
+// use Modules\PamyraOrder\app\Services\PamyraServices\FtpHandlerPamyra;
+use App\Services\FtpHandlerPamyra;
 
 class OrdersHandler
 {
     /**
-     * A service that handles the ftp connection, and getting all the files/info from the ftp server.
+     * A class that handles the ftp connection, and getting all the files/info from the ftp server.
      *
      * @var FtpHandlerPamyra
      */
-    private ftpHandlerPamyra $ftpHandlerPamyra;
+    private FtpHandlerPamyra $ftpHandlerPamyra;
     
     /**
      * A service that handles the order data. 
@@ -21,10 +22,18 @@ class OrdersHandler
      */
     private OrderHandler $orderHandler;
 
-    public function __construct(FtpHandlerPamyra $ftpHandlerPamyra, OrderHandler $orderHandler)
+    public function __construct(OrderHandler $orderHandler)
     {
         $this->orderHandler = $orderHandler;
-        $this->ftpHandlerPamyra = $ftpHandlerPamyra;
+
+        /**
+         * Here we create a new instance of the FtpHandlerPamyra class.
+         */
+        $this->ftpHandlerPamyra = new FtpHandlerPamyra(
+            'PamyraOrders', 
+            'PamyraOrdersArchived/',
+            '.json'
+        );
     }
 
     /**
@@ -34,8 +43,11 @@ class OrdersHandler
      */
     public function handle(): void
     {
-        //Gets all the orders from all the PAM json files from the ftp server
-        $orders = $this->ftpHandlerPamyra->getPamyraOrders();
+        //Gets all the json file names from the ftp server
+        $jsonFileNames = $this->ftpHandlerPamyra->handle();
+
+        //Gets all the orders from all the json files from the ftp server
+        $orders = $this->ftpHandlerPamyra->jsonToArrayConvert($jsonFileNames);
 
         //We loop through all the orders and write each one to the database
         foreach ($orders as $pamyraOrder) {
