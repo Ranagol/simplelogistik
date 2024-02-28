@@ -26,6 +26,14 @@
             "no_rating": "Keine Bewertung",
             "miserable": "Miserabel",
             "average": "Durchschnittlich"
+        },
+        "badge": {
+            "address": {
+                "pickup": "Abholadresse",
+                "delivery": "Lieferadresse",
+                "billing": "Rechnungsadresse",
+                "headquarter": "Hauptsitz"
+            }
         }
     },
     "menu": {
@@ -281,7 +289,13 @@
                 "easy_bill_customer_id": "Easybill Kunden-ID",
                 "last_update": "Letzte Aktualisierung",
                 "last_editor": "Letzter Bearbeiter"
-            } 
+            },
+            "details": {
+                "parcels": "Packstücke",
+                "details": "Allgemeine Infos",
+                "addresses": "Adressen"
+            }
+
         },
         "customers": {
             "headers": {
@@ -349,6 +363,24 @@
                 "created_at": "Erstellt am",
                 "updated_at": "Aktualisiert am"
             }
+        }
+    },
+    "labels": {
+        "address-pickup": "Abholadresse",
+        "address-delivery": "Lieferadresse",
+        "address-billing": "Rechnungsadresse",
+        "address-headquarter": "Hauptsitz",
+        "general": {
+            "measurements": "Maße",
+            "weight": "Gewicht",
+            "name": "Name",
+            "order_number": "Auftragsnummer",
+            "payment_method": "Zahlungsart",
+            "purchase_price": "Einkaufspreis",
+            "customer_number": "Kundennummer",
+            "distance_km": "Entfernung (km)",
+            "duration_minutes": "Dauer (min)",
+            "price_net": "Preis netto"
         }
     }
 }
