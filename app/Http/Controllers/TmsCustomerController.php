@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\GeneralResource;
-use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use Illuminate\Http\Request;
-use App\Http\Requests\TmsCustomerRequest;
 use App\Traits\DataBaseFilter;
+use App\Http\Resources\GeneralResource;
+use Illuminate\Support\Facades\Session;
+use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Validator;
 
 class TmsCustomerController extends Controller
 {
@@ -80,21 +81,7 @@ class TmsCustomerController extends Controller
 
     public function create(): Response
     {
-        //Create a new customer object, as a template that will be sent to the FE.
-        $newCustomer = new TmsCustomer();
-
-        //Set default values for some customer properties, for customer create
-        $newCustomer->customer_type = 'Bussiness customer';
-        $newCustomer->invoice_dispatch = 'Direct';
-        $newCustomer->invoice_shipping_method = 'Email';
-        $newCustomer->payment_method = 'Invoice';
-
-        return Inertia::render(
-            $this->create, 
-            [
-                'record' => $newCustomer,
-            ]
-        );
+        return Inertia::render($this->create);
     }
 
     /**
@@ -104,19 +91,16 @@ class TmsCustomerController extends Controller
      * This simply triggers onSuccess event in FE component, which then displays the success message
      * to the user, and then the FE component calls the $this->index() method, which returns the records.
      * So, the user gets his feedback, and the record list is refreshed.
-     *
      */
+    // public function store(Request $request)
     public function store(TmsCustomerRequest $request)
     {
         /**
          * The validated method is used to get the validated data from the request.
          */
-        $newRecord = $request->validated();//do validation
-
-        $newRecord = $this->handleForwarderId($newRecord);
+        $newRecord = $request->validated();
 
         $newlyCreatedRecord = TmsCustomer::create($newRecord);
-
 
         /**
          * Since a new address is created, we send a success message to the FE. First step of this
@@ -142,7 +126,7 @@ class TmsCustomerController extends Controller
      */
     public function edit(string $id): Response
     {
-        $record = TmsCustomer::with(['addresses'])->find($id);
+        $record = TmsCustomer::find($id);
 
         /**
          * Here we check if there is a session variable called 'customerCreate'. If yes, we send it
@@ -177,30 +161,8 @@ class TmsCustomerController extends Controller
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
-        
-        $newRecord = $this->handleForwarderId($newRecord);
 
         TmsCustomer::find($id)->update($newRecord);
-    }
-
-    /**
-     * Here we handle the forwarder_id. Not every customer belong to a forwarder. So, the forwarder_id
-     * can be null. So, here we handle two situations: when we have a forwarder object, and when we
-     * do not have a forwarder object.
-     * 
-     * If there is a selected forwarder object, then we set the forwarder_id to the id of the 
-     * selected forwarder.
-     * If there is no selected forwarder object, then we set the forwarder_id to null.
-     */
-    private function handleForwarderId(array $customer): array
-    {
-        if (isset($customer['forwarder'])) {
-            $customer['forwarder_id'] = $customer['forwarder']['id'];//Here we set the forwarder id
-        } else {
-            $customer['forwarder_id'] = null;
-        }
-
-        return $customer;
     }
 
     /**
@@ -213,7 +175,6 @@ class TmsCustomerController extends Controller
      */
     public function destroy(Request $request, string $id): void
     {
-        
         TmsCustomer::destroy($id);
     }
 
@@ -254,3 +215,5 @@ class TmsCustomerController extends Controller
         ]);
     }
 }
+
+

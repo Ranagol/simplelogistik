@@ -5,6 +5,7 @@
     import ComplexTableContent from '@/Components/Tables/ComplexTableContent.vue';
     import TableHeaders from "@/lib/TableHeaders";
     import TableHeadCell from '@/Components/Tables/TableHeadCell.vue';
+import Pagination from '../Pagination/Pagination.vue';
     const props = defineProps({
         content: {
             type: Object,
@@ -15,6 +16,10 @@
             required: true
         },
         contentSettings: {
+            type: Object,
+            required: true
+        },
+        metaData: {
             type: Object,
             required: true
         }
@@ -100,5 +105,6 @@
                 </tbody>
             </table>
         </div>
+        <Pagination v-if="metaData" :links="metaData" />
     </div>
 </template>

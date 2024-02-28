@@ -5,6 +5,26 @@ export default class Data {
         let countries = await axios.get('/api/countries');
         return countries;
     }
+    async #ratings(){
+        let ratings = await axios.get('/api/ratings');
+        return ratings;
+    }
+    async #ism(){
+        let ism = await axios.get('/api/invocie-shipping-methods');
+        return ism;
+    }
+    async #invoicedispatch(){
+        let invoicedispatch = await axios.get('/api/invocie-dispatch');
+        return invoicedispatch;
+    }
+    async #customertypes(){
+        let ct = await axios.get('/api/customer-types');
+        return ct;
+    }
+    async #paymentmethods(){
+        let ct = await axios.get('/api/payment-methods');
+        return ct;
+    }
     async #forwarders(){
         let forwarders = await axios.get('/api/forwarders');
         return forwarders;
@@ -27,6 +47,16 @@ export default class Data {
         switch(target){
             case 'countries':
                 return await this.#countries();
+            case 'ratings':
+                return await this.#ratings();
+            case 'ism':
+                return await this.#ism();
+            case 'invoicedispatch':
+                return await this.#invoicedispatch();
+            case 'customertypes':
+                return await this.#customertypes();
+            case 'paymentmethods':
+                return await this.#paymentmethods();
             case 'forwarders':
                 return await this.#forwarders();
             case 'customers':

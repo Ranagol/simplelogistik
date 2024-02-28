@@ -32,7 +32,7 @@ class TmsForwarderFactory extends Factory
             'company_name' => $this->faker->company,
             'tax_number' => $this->faker->randomNumber(9, true),
             'rating' => $this->faker->numberBetween(1, 5),
-            'forwarder_type' => Arr::random(TmsForwarder::FORWARDER_TYPES),
+            'forwarder_type' => null,
             'comments' => $this->faker->sentence,
             // 'url_logo' => $this->faker->imageUrl(),
             'url_logo' => $this->getRandomLogo(),

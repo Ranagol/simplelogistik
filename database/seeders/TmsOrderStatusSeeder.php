@@ -17,7 +17,7 @@ class TmsOrderStatusSeeder extends Seeder
         foreach ($statuses as $status) {
             TmsOrderStatus::factory()->create([
                 'description' => $status['internal_name'],
-                'external_name' => $status['external_name'],
+                'name' => $status['external_name'],
             ]);
         }
     }

@@ -88,6 +88,7 @@ class TmsAddressController extends Controller
         );
     }
 
+
     public function create(): Response
     {
         return Inertia::render(
@@ -161,13 +162,17 @@ class TmsAddressController extends Controller
 
     public function update(TmsAddressRequest $request, string $id): void
     {
-        
         /**
          * The validated method is used to get the validated data from the request.
          */
         $newRecord = $request->validated();//do validation
 
         TmsAddress::find($id)->update($newRecord);
+    }
+
+    public function destroy(string $id): void
+    {
+        TmsAddress::destroy($id);
     }
 
     /**

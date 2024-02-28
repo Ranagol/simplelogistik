@@ -20,9 +20,11 @@ export const store = defineStore('forwarder', {
             return this.record;
         },
         store(){
+            this.record.rating = parseInt(this.record.rating);
             router.post(route("forwarders.store"), this.record);
         },
         save(){
+            this.record.rating = parseInt(this.record.rating);
             router.put(route("forwarders.update", this.record.id), this.record);
         },
         update( field, value ){
