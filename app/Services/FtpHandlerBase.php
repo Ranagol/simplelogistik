@@ -104,7 +104,8 @@ class FtpHandlerBase
                 'host' => $this->tmsFtpCredential->host,
                 'username' => $this->tmsFtpCredential->username,
                 'password' => $this->tmsFtpCredential->password,
-                'port' => intval($this->tmsFtpCredential->port),
+                //If the port is not set, we will set it to null. If it is set, we will convert it to int (because it is a string)
+                'port' => $this->tmsFtpCredential->port ? intval($this->tmsFtpCredential->port) : null,
                 'root' => $this->tmsFtpCredential->path,
                 'throw' => true,
             ]
@@ -120,11 +121,18 @@ class FtpHandlerBase
      */
     public function getFileList(): array
     {
+        dump($this->connectionName);
+        dump($this->connectionMode);
+        dump($this->newFilePath);
+        dump($this->tmsFtpCredential);
+        dump($this->ftpServer);
+
+        echo 'getFileList() triggered.' . PHP_EOL;
         //Get the list of all files in the ftp server
         try {
 
-            $allFileNames = $this->ftpServer->allFiles();//this line does not work. It quetly give no feedback, nothing happens., without any feedback.
-            // dd($allFileNames);
+            $allFileNames = $this->ftpServer->allFiles();
+            dd($allFileNames);
             return $allFileNames;
             
         } catch (\Exception $e) {

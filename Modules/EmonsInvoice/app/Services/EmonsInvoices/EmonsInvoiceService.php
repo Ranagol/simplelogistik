@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TmsEmonsInvoiceRequest;
 use App\Models\TmsEmonsInvoice;
 
+/**
+ * This class is triggered by the hanldeEmonsInvoices command. This coordinates the whole process of
+ * getting the emons invoices from the ftp server, transforming them into an array, and writing them
+ * into the database, by triggering other helper classes.
+ */
 class EmonsInvoiceService
 {
     /**
@@ -29,7 +34,8 @@ class EmonsInvoiceService
      */
     public function handle(): void
     {
-        $this->emonsFtpHandler->handle();
+        echo "EmonsInvoiceService handle() method is called. \n";
+        $invoices = $this->emonsFtpHandler->getEmonsInvoices();
     }
 
     

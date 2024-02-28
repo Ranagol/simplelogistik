@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('connection_mode')->comment('Example: test or live. Every connection must have a test and a live mode.');
             $table->string('driver')->comment('FTP protocol or driver. Example: ftp or sftp');
             $table->string('host')->comment('FTP host. The url link to the FTP server. Example: ftp.example.com');
-            $table->string('port')->comment('FTP port. Example: 21')->nullable();
+            $table->integer('port')->comment('FTP port. Example: 21')->nullable();
             $table->string('username')->comment('FTP username. Example: user');
             $table->string('password')->comment('FTP password. Example: password1234');
             $table->string('path')->comment('FTP path. Example: /path/to/folder')->nullable();

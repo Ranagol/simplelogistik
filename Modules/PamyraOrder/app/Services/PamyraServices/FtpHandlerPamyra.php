@@ -2,11 +2,7 @@
 
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
-use Carbon\Carbon;
-use App\Models\TmsFtpCredential;
 use App\Services\FtpHandlerBase;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * This class connects to an sftp server, and handles files from here.

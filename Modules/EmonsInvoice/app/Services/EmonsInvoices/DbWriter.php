@@ -10,13 +10,17 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TmsEmonsInvoiceRequest;
 use App\Models\TmsEmonsInvoice;
 
+/**
+ * Extracts data from csv file, transforms it into an array, and writes it into the database.
+ */
 class DbWriter
 {
     private array $validationRules;
 
     /**
      * This array is crucial for transforming the csv file into an array with the right names for
-     * the keys. The keys are the column names in the database table.
+     * the keys. The keys are the column names in the database table. So, in the end we will have
+     * something like this example: customer_city => 'Großrinderfeld [Gerchsheim]'.
      *
      * @var array
      */
@@ -36,7 +40,8 @@ class DbWriter
     ];
 
     /**
-     * We import this way the validation rules from the TmsEmonsInvoiceRequest class.
+     * We import this way the validation rules from the TmsEmonsInvoiceRequest class. This will be
+     * needed, when we write data into the tms_emons_invoices table.
      */
     public function __construct()
     {
@@ -51,7 +56,7 @@ class DbWriter
      */
     public function handle(): void
     {
-        // $invoices = $this->getFileFromEmons();//this is frosen, I am waiting so the ftp server issue is solved by David
+        // $invoices = $this->getFileFromEmons();
 
         $invoices = $this->transformCsvToArray();
 
@@ -207,11 +212,5 @@ class DbWriter
             TmsEmonsInvoice::create($invoice);
         }
     }
-
-    private function archiveFile()
-    {
-
-    }
-
 
 }
