@@ -104,10 +104,11 @@ class FtpHandlerBase
                 'host' => $this->tmsFtpCredential->host,
                 'username' => $this->tmsFtpCredential->username,
                 'password' => $this->tmsFtpCredential->password,
-                //If the port is not set, we will set it to null. If it is set, we will convert it to int (because it is a string)
                 'port' => $this->tmsFtpCredential->port,
                 'root' => $this->tmsFtpCredential->path,
-                'throw' => true,
+                'passive' => $this->tmsFtpCredential->passive,
+                'ssl' => $this->tmsFtpCredential->ssl,
+                'throw' => $this->tmsFtpCredential->throw,
             ]
         );
     }
@@ -121,11 +122,11 @@ class FtpHandlerBase
      */
     public function getFileList(): array
     {
-        dump($this->connectionName);
-        dump($this->connectionMode);
-        dump($this->newFilePath);
-        dump($this->tmsFtpCredential);
-        dump($this->ftpServer);
+        // dump($this->connectionName);
+        // dump($this->connectionMode);
+        // dump($this->newFilePath);
+        // dump($this->tmsFtpCredential);
+        // dump($this->ftpServer);
 
         echo 'getFileList() triggered.' . PHP_EOL;
         //Get the list of all files in the ftp server
