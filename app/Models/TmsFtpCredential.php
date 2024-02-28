@@ -12,4 +12,10 @@ class TmsFtpCredential extends Model
     protected $guarded = ['id'];
 
     protected $table = 'tms_ftp_credentials';
+
+    protected $casts = [
+        'passive' => 'boolean',
+        'ssl' => 'boolean',
+        'throw' => 'boolean',
+    ];
 }

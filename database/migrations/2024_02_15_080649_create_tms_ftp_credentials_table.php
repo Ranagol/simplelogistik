@@ -20,7 +20,10 @@ return new class extends Migration
             $table->integer('port')->comment('FTP port. Example: 21')->nullable();
             $table->string('username')->comment('FTP username. Example: user');
             $table->string('password')->comment('FTP password. Example: password1234');
-            $table->string('path')->comment('FTP path. Example: /path/to/folder')->nullable();
+            $table->string('path')->comment('FTP path. Example: /path/to/folder. This is also called root sometimes.')->nullable();
+            $table->boolean('passive')->comment('Passive mode. This mode is used to get through firewalls.')->nullable();
+            $table->boolean('ssl')->nullable()->comment('enables SSL encryption for the FTP connection. Please note that not all FTP servers support SSL encryption. If you enable this option and the server does not support it, the connection will fail.');
+            $table->boolean('throw')->comment('Enables throwing exceptions when an error occurs. This should be true for test, false for live.')->nullable();
             $table->string('comment')->nullable()->comment('Comment for the connection. Example: This connection is used to download invoices from Emons');
             $table->timestamps();
         });
