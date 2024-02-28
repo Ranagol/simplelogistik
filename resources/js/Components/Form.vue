@@ -29,14 +29,14 @@ const data = ref(props.useData ? props.content : {});
 </script>
 <template>
     <section v-for="section in form.sections" class="grid col-span-12 gap-4">
-        <h2 v-if="section.title" class="mt-5 mb-0">{{ $t(section.title) }}</h2>
+        <h2 v-if="section.title" class="mt-8 mb-3 font-bold text-[16px]">{{ $t(section.title) }}</h2>
         <div v-if="!section.sectionType || section.sectionType ==='default'" v-for="row, index in section.rows" :key="index" class="grid grid-flow-col" :class="row.className">
             <div v-for="field in row.fields" :key="field.name" :class="field.className">
                 <InputField 
                     v-if="field.type === 'input'" 
                     :field="field" 
                     :store="store" 
-                    :data="useData ? data : {}" 
+                    :data="useData ? (field.subfield ? data[field.name] :  data) : {}" 
                     />
                     
                 <CheckboxField 

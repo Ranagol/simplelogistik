@@ -13,6 +13,10 @@ export default class Data {
         let ism = await axios.get('/api/invocie-shipping-methods');
         return ism;
     }
+    async #orderstatuses(){
+        let orderstatuses = await axios.get('/api/order-statuses');
+        return orderstatuses;
+    }
     async #invoicedispatch(){
         let invoicedispatch = await axios.get('/api/invocie-dispatch');
         return invoicedispatch;
@@ -55,6 +59,8 @@ export default class Data {
                 return await this.#invoicedispatch();
             case 'customertypes':
                 return await this.#customertypes();
+            case 'orderstatuses':
+                return await this.#orderstatuses();
             case 'paymentmethods':
                 return await this.#paymentmethods();
             case 'forwarders':
