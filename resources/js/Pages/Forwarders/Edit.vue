@@ -15,7 +15,7 @@ const props = defineProps({
 import { store as useStore } from "@/Stores/forwarderStore";
 
 let forwarder = useStore()
-forwarder.setOne(props.record.data)
+forwarder.setOne(props.record)
 
 </script>
 <template>

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use App\Services\ForwarderService;
 use App\Http\Requests\TmsForwarderRequest;
 use App\Traits\DataBaseFilter;
-use Illuminate\Http\RedirectResponse;
+// use Illuminate\Http\RedirectResponse;
 
 class TmsForwarderController extends Controller
 {
@@ -120,9 +120,8 @@ class TmsForwarderController extends Controller
      * This simply triggers onSuccess event in FE component, which then displays the success message
      *
      * @param TmsForwarderRequest $request
-     * @return RedirectResponse
      */
-    public function store(TmsForwarderRequest $request): RedirectResponse
+    public function store(TmsForwarderRequest $request)
     {
         $newRecord = $request->validated();//do validation
         $newlyCreatedRecord = TmsForwarder::create($newRecord);
@@ -162,15 +161,14 @@ class TmsForwarderController extends Controller
      *
      * @param TmsForwarderRequest $request
      * @param string $id
-     * @return RedirectResponse
+     * @return void
      */
-    public function update(TmsForwarderRequest $request, string $id): RedirectResponse
+    public function update(TmsForwarderRequest $request, string $id): void
     {
         $newRecord = $request->validated();//do validation
         $record = TmsForwarder::findOrFail($id);//find the relevant record
         $record->update($newRecord);//update it
 
-        return Inertia::location("/forwarders/{$record->id}/edit");
     }
 
     /**
