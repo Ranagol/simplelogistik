@@ -5,6 +5,11 @@ import CheckboxField from "@/Components/Inputs/CheckboxField.vue";
 import SelectField from "@/Components/Inputs/SelectField.vue";
 import SearchableField from "@/Components/Inputs/SearchableField.vue";
 import TextAreaField from "@/Components/Inputs/TextAreaField.vue";
+<<<<<<< HEAD
+=======
+import AddressesEditor from '@/Components/Editors/AddressesEditor.vue';
+import ParcelEditor from '@/Components/Editors/ParcelEditor.vue';
+>>>>>>> main
 
 var props = defineProps({
     form: {
@@ -22,20 +27,32 @@ var props = defineProps({
     content: Object,
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 const data = ref(props.useData ? props.content : {});
 
 </script>
 <template>
     <section v-for="section in form.sections" class="grid col-span-12 gap-4">
+<<<<<<< HEAD
         <h2 v-if="section.title" class="my-4">{{ $t(section.title) }}</h2>
         <div v-for="row, index in section.rows" :key="index" class="grid grid-flow-col" :class="row.className">
+=======
+        <h2 v-if="section.title" class="mt-8 mb-3 font-bold text-[16px]">{{ $t(section.title) }}</h2>
+        <div v-if="!section.sectionType || section.sectionType ==='default'" v-for="row, index in section.rows" :key="index" class="grid grid-flow-col" :class="row.className">
+>>>>>>> main
             <div v-for="field in row.fields" :key="field.name" :class="field.className">
                 <InputField 
                     v-if="field.type === 'input'" 
                     :field="field" 
                     :store="store" 
+<<<<<<< HEAD
                     :data="useData ? data : {}" 
+=======
+                    :data="useData ? (field.subfield ? data[field.name] :  data) : {}" 
+>>>>>>> main
                     />
                     
                 <CheckboxField 
@@ -64,10 +81,30 @@ const data = ref(props.useData ? props.content : {});
                     :field="field" 
                     :store="store" 
                     :data="useData ? data : {}" 
+<<<<<<< HEAD
                     />                
             </div>                   
         </div>
     </section>
+=======
+                    />
+            </div>                   
+        </div>
+        <div v-if="section.sectionType === 'parcelEditor'">
+            <ParcelEditor :fields="section.fields" :parent="content?.id" :store="store" :parcels="content[section.data]" />
+        </div>
+        <div v-if="section.sectionType === 'addressesEditor'">
+            <AddressesEditor :fields="section.fields" :parent="content?.id" :store="store" :addresses="content[section.data]" />
+        </div>
+        <div v-if="section.sectionType === 'financialsEditor'">
+            IN PROGRESS -> Finished Fr. 01.03.2024
+        </div>
+        <div v-if="section.sectionType === 'vehicleEditor'">
+            IN PROGRESS -> Finished Fr. 01.03.2024
+        </div>
+    </section>
+    
+>>>>>>> main
     <div class="grid justify-end pt-4 pb-2 mt-4 border-t place-items-center border-t-slate-200">
         <slot name="actions"></slot>
     </div>

@@ -5,12 +5,24 @@
     import ComplexTableContent from '@/Components/Tables/ComplexTableContent.vue';
     import TableHeaders from "@/lib/TableHeaders";
     import TableHeadCell from '@/Components/Tables/TableHeadCell.vue';
+<<<<<<< HEAD
 import Pagination from '../Pagination/Pagination.vue';
+=======
+    import Pagination from '@/Components/Pagination/Pagination.vue';
+    import SearchFilter from '@/Components/Inputs/SearchFilter.vue';
+>>>>>>> main
     const props = defineProps({
         content: {
             type: Object,
             required: true
         },
+<<<<<<< HEAD
+=======
+        searchConfig: {
+            type: Object,
+            required: true
+        },
+>>>>>>> main
         tableConfig: {
             type: Object,
             required: true
@@ -50,6 +62,7 @@ import Pagination from '../Pagination/Pagination.vue';
     <div class="relative mt-5 bg-white dark:bg-gray-800 sm:rounded-lg">
         <div class="grid justify-between grid-flow-col py-3">
             <div>
+<<<<<<< HEAD
                 <button id="search-filter-dropdown-button" data-dropdown-toggle="search-filter-dropdown" class="flex items-center justify-center w-full gap-2 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
                     <el-icon><Search /></el-icon>
                     <span>Search Filter</span>
@@ -64,6 +77,9 @@ import Pagination from '../Pagination/Pagination.vue';
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete all</a>
                     </div>
                 </div>
+=======
+                <SearchFilter :searchConfig="searchConfig" />
+>>>>>>> main
             </div>
             <div>
                 <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown" class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">

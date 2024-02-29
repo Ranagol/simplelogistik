@@ -88,6 +88,7 @@ class TmsAddressController extends Controller
         );
     }
 
+
     public function create(): Response
     {
         return Inertia::render(
@@ -161,7 +162,6 @@ class TmsAddressController extends Controller
 
     public function update(TmsAddressRequest $request, string $id): void
     {
-        
         /**
          * The validated method is used to get the validated data from the request.
          */
@@ -170,6 +170,14 @@ class TmsAddressController extends Controller
         TmsAddress::find($id)->update($newRecord);
     }
 
+<<<<<<< HEAD
+=======
+    public function destroy(string $id): void
+    {
+        TmsAddress::destroy($id);
+    }
+
+>>>>>>> main
     /**
      * If this is a company return the company name, otherwise return the name of the person.
      * This name will be created from the first and last name.

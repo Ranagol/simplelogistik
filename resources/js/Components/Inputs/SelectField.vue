@@ -1,5 +1,9 @@
 <script setup>
+<<<<<<< HEAD
     import { QuestionFilled } from '@element-plus/icons-vue';
+=======
+    import { ArrowDown, ArrowUp, QuestionFilled } from '@element-plus/icons-vue';
+>>>>>>> main
     import { ref, onMounted } from 'vue';
     import Data from '../../lib/Data';
 
@@ -19,8 +23,11 @@
         initFlowbite()
     })
 
+<<<<<<< HEAD
     const defaultWrapperClass = 'relative' + ' w-full ';
     const defaultLabelClass = '' + 'absolute ' + 'top-0 ' + 'start-1 ' + 'px-2 ' + 'text-[15px] ' + '-translate-y-1/2 ' + 'bg-white ' + 'peer-focus:text-corporate-700 ' + 'peer-placeholder-shown:top-1/2 ' + 'peer-focus:top-0 ' + 'transition-all ' + 'duration-300 ' + 'pointer-events-none ';
+=======
+>>>>>>> main
     const _id = Math.random().toString(36).substring(7);
 
     var options = ref([])
@@ -55,6 +62,7 @@
         }
         return displayString.join(' | ')
     }
+<<<<<<< HEAD
 </script>
 
 <template>
@@ -65,3 +73,48 @@
             </select>   
         </div>
 </template>
+=======
+    
+    let open = ref(false)
+    let selectedOption = ref(props.data[props.field.name] ?? false)
+    
+    const getActiveOption = () => {
+        if(selectedOption.value){
+            return options.value.find(option => option[props.field.match] == selectedOption.value)
+        }
+        return options.value.find(option => option[props.field.match] == props.data[props.field.name])
+    }
+
+    const selectOption = (option) => {
+        selectedOption.value = option[props.field.match]
+        open = ref(false)
+        document.getElementById(_id + '-dropdown-button').click()
+    }
+    
+</script>
+
+<template>
+        <div class="relative z-30 flex w-full">
+            <button 
+            class="grid justify-between w-full grid-flow-col p-3 py-2 border min-h-[42px] rounded-md place-items-center border-gray-300"
+            :id="_id + '-dropdown-button'"
+            :data-dropdown-toggle="_id + '-dropdown'"
+            @click="open = !!!open"
+            >   
+            {{ getActiveOption() !== undefined ? getActiveOption()[field.displayKey] : "" }} <el-icon><ArrowDown v-if="!open"/><ArrowUp v-else/></el-icon>
+            </button>
+            <div class="absolute hidden w-full bg-white border rounded-md overflow-clip text-corporate-700" :id="_id + '-dropdown'">
+                <div v-for="(option, index) in options"
+                @click="() => {
+                    store.update(field.name, option[field.match])
+                    selectOption(option)
+                }" 
+                :key="index" 
+                 class="p-2 px-4 cursor-pointer hover:text-white hover:bg-primary-800" 
+                >
+                    {{ getDisplayData(option, field.displayKey, $t) }}
+                </div>
+            </div>
+        </div>
+</template>
+>>>>>>> main

@@ -32,16 +32,24 @@ onMounted(() => {
             </li>
         </ul>
     </div>
+<<<<<<< HEAD
     <div id="default-tab-content">
+=======
+    <div id="default-tab-content" class="w-full">
+>>>>>>> main
         <div
             class="hidden"
             v-for="tab in config.tabs" 
             :id="tab.id" 
             role="tabpanel" 
             :aria-labelledby="tab.id + '-tab'">
+<<<<<<< HEAD
             <div class="grid grid-cols-12 col-span-12">
                 <component :is="tab.component" />
             </div>
+=======
+            <component :is="tab.component" />
+>>>>>>> main
         </div>
     </div>
 

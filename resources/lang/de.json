@@ -26,6 +26,17 @@
             "no_rating": "Keine Bewertung",
             "miserable": "Miserabel",
             "average": "Durchschnittlich"
+<<<<<<< HEAD
+=======
+        },
+        "badge": {
+            "address": {
+                "pickup": "Abholadresse",
+                "delivery": "Lieferadresse",
+                "billing": "Rechnungsadresse",
+                "headquarter": "Hauptsitz"
+            }
+>>>>>>> main
         }
     },
     "menu": {
@@ -47,7 +58,15 @@
         "en": "Englisch",
         "it": "Italienisch",
         "es": "Spanisch",
+<<<<<<< HEAD
         "fr": "Französisch"
+=======
+        "fr": "Französisch",
+        "pl": "Polnisch",
+        "ru": "Russisch",
+        "bg": "Bulgarisch",
+        "ro": "Rumänisch"
+>>>>>>> main
     },
     "buttons": {
         "general": {
@@ -58,7 +77,13 @@
             "edit": "Bearbeiten",
             "new": "Neu",
             "reset": "Zurücksetzen",
+<<<<<<< HEAD
             "save": "Speichern",
+=======
+            "reset_filters": "Filter zurücksetzen",
+            "save": "Speichern",
+            "void": "Stornieren",
+>>>>>>> main
             "search": "Suchen",
             "submit": "Absenden",
             "update": "Aktualisieren",
@@ -135,18 +160,42 @@
                     "parcels": "Packstücke",
                     "addresses": "Adressen",
                     "finances": "Finanzen",
+<<<<<<< HEAD
                     "vehicles": "Fahrzanforderungen"
+=======
+                    "vehicles": "Fahrzanforderungen",
+                    "parcel_summary": {
+                        "total_weight": "Gesamtgewicht",
+                        "total_volume": "Gesamtvolumen",
+                        "total_area": "Gesamtfläche",
+                        "total_parcels": "Gesamtpackstücke"
+                    }
+>>>>>>> main
                 },
                 "type_of_transport": "Transportart",
                 "order_status": "Auftragsstatus",
                 "partner": "Partner",
+<<<<<<< HEAD
                 "origin": "Abholort",
+=======
+                "origin": "Herkunft",
+>>>>>>> main
                 "first_name": "Vorname",
                 "parcel_type": "Packstücktyp",
                 "length": "Länge (cm)",
                 "width": "Breite (cm)",
                 "height": "Höhe (cm)",
+<<<<<<< HEAD
                 "weight": "Gewicht (kg)"
+=======
+                "weight": "Gewicht (kg)",
+                "customer_refernce": "Kundenreferenz",
+                "distance_km": "Entfernung (km)",
+                "duration_minutes": "Dauer (min)",
+                "calculation_model_name": "Berechnungsmodell",
+                "particularities": "Besonderheiten",
+                "description_of_transport": "Transportbeschreibung"
+>>>>>>> main
             }
         },
         "customers": {
@@ -154,6 +203,13 @@
             "create":"Kunde anlegen",
             "edit": "Kunde bearbeiten",
             "form": {
+<<<<<<< HEAD
+=======
+                "street": "Straße",
+                "house_number": "Hausnummer",
+                "zip_code": "Postleitzahl",
+                "city": "Stadt",
+>>>>>>> main
                 "customer_information": "Kundeninformationen",
                 "forwarder": "Dienstleister",
                 "company_name": "Firmenname",
@@ -265,7 +321,17 @@
                 "easy_bill_customer_id": "Easybill Kunden-ID",
                 "last_update": "Letzte Aktualisierung",
                 "last_editor": "Letzter Bearbeiter"
+<<<<<<< HEAD
             } 
+=======
+            },
+            "details": {
+                "parcels": "Packstücke",
+                "details": "Allgemeine Infos",
+                "addresses": "Adressen"
+            }
+
+>>>>>>> main
         },
         "customers": {
             "headers": {
@@ -333,6 +399,59 @@
                 "created_at": "Erstellt am",
                 "updated_at": "Aktualisiert am"
             }
+<<<<<<< HEAD
+=======
+        }
+    },
+    "labels": {
+        "address-pickup": "Abholadresse",
+        "address-delivery": "Lieferadresse",
+        "address-billing": "Rechnungsadresse",
+        "address-headquarter": "Hauptsitz",
+        "general": {
+            "search": "Einträge suchen",
+            "measurements": "Maße",
+            "weight": "Gewicht",
+            "name": "Name",
+            "order_number": "Auftragsnummer",
+            "payment_method": "Zahlungsart",
+            "purchase_price": "Einkaufspreis",
+            "customer_number": "Kundennummer",
+            "distance_km": "Entfernung (km)",
+            "duration_minutes": "Dauer (min)",
+            "price_net": "Preis netto",
+            "download_in": "Download in",
+            "download_label": "Versandlabel",
+            "download_transport_details": "Transportauftrag"
+        },
+        "filter": {
+            "customer_base": "Kundenstamm",
+            "forwarder_base": "",
+            "vehicle_base": "",
+            "address_base": "",
+            "order_base": ""
+        },
+
+
+        "mail": "E-Mail",
+        "password": "Passwort",
+        "forgot-password": "Passwort zurücksetzen",
+        "stay-logged-in": "Angemeldet bleiben?"
+    },
+    "login": {
+        "title": "Anmelden",
+        "description": "Bitte melden Sie sich an, um fortzufahren."
+    },
+    "button": {
+        "login": "Einloggen",
+        "back-login": "Zurück zum Login",
+        "request-password": "Anfrage senden"
+    },
+    "password": {
+        "forgot": {
+            "headline": "Passwort vergessen?",
+            "info": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen."
+>>>>>>> main
         }
     }
 }

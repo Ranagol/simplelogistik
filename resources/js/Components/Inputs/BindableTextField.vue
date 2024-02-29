@@ -5,13 +5,7 @@
         store: Object,
         field: Object,
         data: Object,
-<<<<<<< HEAD
-    })
-
-    const onInput = (name, value) => {
-        props.store.update(name,value)
-=======
-        updateValue: Function
+        val: String
     })
 
     const onInput = (name, value) => {
@@ -19,16 +13,10 @@
             props.updateValue(name, value)
             props.store.update(name,value)
         } catch(e) {}
->>>>>>> main
     }
 
     // var value = ref(props.store?.record[props.field.name])
     
-<<<<<<< HEAD
-    var value = props.field.subfield ?  props.data[props.field.name][props.field.subfield ] : props.data[props.field.name]
-=======
-    var value = props.field.subfield ?  props.data[props.field.name][props.field.subfield] : props.data[props.field.name]
->>>>>>> main
     onMounted(() => {
         initFlowbite()
     })
@@ -44,11 +32,7 @@
 <template>
     <div class="col-span-12" :class="field.size ?? 'col-span-12'">
         <div :class="defaultWrapperClass">
-<<<<<<< HEAD
-            <input :required="field.required ?? false" @input="(e) => onInput(field.name, e.target.value)" :type="field?.type ?? 'text'" :value="value" :id="'floating-input-filed-' + _id" :placeholder="$t(field?.placeholder ?? '')"
-=======
-            <input @blur="e => $emit('blur',e)" :required="field.required ?? false" @input="(e) => onInput(field.name, e.target.value)" :type="field?.type ?? 'text'" :value="value" :id="'floating-input-filed-' + _id" :placeholder="$t(field?.placeholder ?? '')"
->>>>>>> main
+            <input v-bind="$props" :value="props.val" :required="field.required ?? false" :type="field?.type ?? 'text'" :id="'floating-input-filed-' + _id" :placeholder="$t(field?.placeholder ?? '')"
             :class="defaultInputClass"
             >
             <div :class="defaultIconWrapperClass">

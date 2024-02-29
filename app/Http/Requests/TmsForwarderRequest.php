@@ -33,16 +33,16 @@ class TmsForwarderRequest extends FormRequest
     {
 
         return [
-            'id' => ['required', 'integer', 'min:1'],
             'company_name' => ['required', 'string', 'max:200'],
             'internal_id' => ['required', 'string', 'max:100'],
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:200'],
             'tax_number' => ['nullable', 'string', 'max:200'],
             'rating' => ['nullable', 'integer', 'min:1'],
-            'forwarder_type' => ['nullable', 'integer', 'min:1'],
+            'forwarder_type' => ['nullable', 'integer'],
             'comments' => ['nullable', 'string'],
-            'url_logo' => ['nullable', 'url'],
+            'url_logo' => ['nullable', 'url'],//https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/DHL_Express_logo.svg/2560px-DHL_Express_logo.svg.png
+            'legal_entity_type' => ['nullable', 'integer'],
         ];
     }
 }

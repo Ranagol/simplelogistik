@@ -14,5 +14,9 @@
     
 </script>
 <template>
+<<<<<<< HEAD
     <Form :content="content" :useData="route().current().includes('edit')" :store="content" :config="_config" :form="_config" />
+=======
+    <Form :content="content" :useData="route().current().includes('edit')" :store="contentStore" :config="_config" :form="_config" />
+>>>>>>> main
 </template>

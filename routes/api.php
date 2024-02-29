@@ -4,10 +4,15 @@ use App\Models\TmsAddress;
 use App\Models\TmsCountry;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
+<<<<<<< HEAD
+=======
+use App\Models\TmsOrderStatus;
+>>>>>>> main
 use App\Models\TmsPartner;
 use App\Models\TmsPaymentMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use function PHPUnit\Framework\directoryExists;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +30,16 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/countries', function (Request $request){
         return TmsCountry::all();
     });
+<<<<<<< HEAD
+=======
+    
+    Route::get('/origins', function (Request $request){
+        return [
+            ["id" => 1, "title" => "general.origins.pamyra"],
+            ["id" => 2, "title" => "general.origins.native"]
+        ];
+    });
+>>>>>>> main
 
     
     Route::get('/ratings', function (Request $request){
@@ -47,6 +62,12 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/payment-methods', function (Request $request){
         return TmsPaymentMethod::all();
     });
+<<<<<<< HEAD
+=======
+    Route::get('/order-statuses', function (Request $request){
+        return TmsOrderStatus::all();
+    });
+>>>>>>> main
     Route::get('/customer-types', function (Request $request){
         return [
             ["id" => 1, "name" => "general.customer_types.business"],

@@ -14,17 +14,30 @@ const props = defineProps({
 
 import { store as useStore } from "@/Stores/forwarderStore";
 
+<<<<<<< HEAD
 let forwarder = useStore()
 forwarder.setOne(props.record.data)
 
 </script>
 <template>
     <Page :content="record" :store="forwarder" :page="config">
+=======
+let store = useStore()
+store.setOne(props.record)
+
+</script>
+<template>
+    <Page :content="record" :store="store" :page="config">
+>>>>>>> main
         <template #backlink>
             <button @click="actionHandle.index()">Back</button>
         </template>
         <template #actions>
+<<<<<<< HEAD
             <button @click="forwarder.save()">Update</button>
+=======
+            <button class="p-2 px-4 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500" @click="store.save()">Speichern</button>
+>>>>>>> main
         </template>
     </Page>
 </template>

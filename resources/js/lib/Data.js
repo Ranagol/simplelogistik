@@ -5,6 +5,13 @@ export default class Data {
         let countries = await axios.get('/api/countries');
         return countries;
     }
+<<<<<<< HEAD
+=======
+    async #origins(){
+        let origins = await axios.get('/api/origins');
+        return origins;
+    }
+>>>>>>> main
     async #ratings(){
         let ratings = await axios.get('/api/ratings');
         return ratings;
@@ -13,6 +20,13 @@ export default class Data {
         let ism = await axios.get('/api/invocie-shipping-methods');
         return ism;
     }
+<<<<<<< HEAD
+=======
+    async #orderstatuses(){
+        let orderstatuses = await axios.get('/api/order-statuses');
+        return orderstatuses;
+    }
+>>>>>>> main
     async #invoicedispatch(){
         let invoicedispatch = await axios.get('/api/invocie-dispatch');
         return invoicedispatch;
@@ -47,6 +61,11 @@ export default class Data {
         switch(target){
             case 'countries':
                 return await this.#countries();
+<<<<<<< HEAD
+=======
+            case 'origins':
+                return await this.#origins();
+>>>>>>> main
             case 'ratings':
                 return await this.#ratings();
             case 'ism':
@@ -55,6 +74,11 @@ export default class Data {
                 return await this.#invoicedispatch();
             case 'customertypes':
                 return await this.#customertypes();
+<<<<<<< HEAD
+=======
+            case 'orderstatuses':
+                return await this.#orderstatuses();
+>>>>>>> main
             case 'paymentmethods':
                 return await this.#paymentmethods();
             case 'forwarders':

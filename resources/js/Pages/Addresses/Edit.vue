@@ -14,6 +14,7 @@ const props = defineProps({
 
 import { store as addressStore } from "@/Stores/addressStore";
 
+<<<<<<< HEAD
 let address = addressStore()
 
 address.setOne(props.record)
@@ -21,11 +22,24 @@ address.setOne(props.record)
 </script>
 <template>
     <Page :content="record" :store="address" :page="config">
+=======
+let store = addressStore()
+
+store.setOne(props.record)
+
+</script>
+<template>
+    <Page :content="record" :store="store" :page="config">
+>>>>>>> main
         <template #backlink>
             <button @click="actionHandle.index()">Back</button>
         </template>
         <template #actions>
+<<<<<<< HEAD
             <button class="p-2 px-4 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500" @click="address.save()">Save</button>
+=======
+            <button class="p-2 px-4 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500" @click="store.save()">Speichern</button>
+>>>>>>> main
         </template>
     </Page>
 </template>

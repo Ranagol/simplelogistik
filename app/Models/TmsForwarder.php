@@ -22,6 +22,7 @@ class TmsForwarder extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
     protected $table = "tms_forwarders";
 
     public $searchable = [
@@ -29,6 +30,7 @@ class TmsForwarder extends Model
         'name',
         'email'
     ];
+
     public function addresses(): HasMany
     {
         return $this->hasMany(TmsAddress::class, 'forwarder_id');
@@ -115,39 +117,5 @@ class TmsForwarder extends Model
      * Here we set the forwarder type db column possible options. This array will be used during
      * seeding too. So, when you want to add a new forwarder type, this is the place to do it.
      */
-    const FORWARDER_TYPES = [
-        1 => 'GmbH',
-        2 => 'AG',
-        3 => 'KG',
-        4 => 'GmbH & Co. KG',
-        5 => 'GBR',
-    ];
-
-    protected function forwarderType(): Attribute//this is called forwarderType because the db column is forwarder_type
-    {
-        return Attribute::make(
-
-            /**
-             * Accessor
-             * gets from db, transforms it. 1 will become 'GmbH'.
-             * directly looks up the forwarder type in the FORWARDER_TYPES constant using the provided
-             * value. If the value is not found in the constant, it defaults to 'Missing data.'.
-             */
-            get: fn (string $value) => self::FORWARDER_TYPES[$value] ?? 'Missing data TmsForwarder model.',
-
-            /**
-             * Mutator
-             * gets from request, transforms it. 'GmbH' will become 1.
-             *
-             * To implement the setter using the FORWARDER_TYPES constant, you need to flip the array
-             * keys and values because you're mapping from the string representation back to the
-             * integer value.
-             * The set method uses array_flip to swap the keys and values of the FORWARDER_TYPES
-             * constant, then looks up the integer value corresponding to the provided forwarder type
-             * string. If the string is not found in the flipped array, it defaults to 'Missing data.'.
-             */
-            set: fn (string $value) => array_flip(self::FORWARDER_TYPES)[$value] ?? 'Missing data TmsForwarder model.',
-        );
-    }
-
+    public const FORWARDER_TYPES = [];
 }
