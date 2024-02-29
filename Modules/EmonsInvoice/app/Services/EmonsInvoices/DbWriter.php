@@ -38,11 +38,24 @@ class DbWriter
              * If the validation fails, we log the error.
              */
             if ($validator->fails()) {
-                Log::error($validator->errors()->first());
-                echo $validator->errors()->first() . ' In order number ' . $invoice['order_number'] . '. This invoice was NOT written into db.' .  PHP_EOL;
+
+                $stringInvoice = implode(', ', $invoice);
+
+                $message = $validator->errors()->first() 
+                        . ' In order number ' . $invoice['order_number'] 
+                        . '. This invoice was NOT written into db.' 
+                        . ' Details: ' . $stringInvoice
+                        . PHP_EOL;
+                echo $message;
+                Log::info($message);
+
             } else {
+
                 $newInvoice = TmsEmonsInvoice::create($invoice);
-                echo 'Emons invoice for order number ' . $newInvoice->order_number . ' was written to db.' . PHP_EOL; 
+                echo 'Emons invoice for order number ' 
+                    . $newInvoice->order_number 
+                    . ' was written to db.' 
+                    . PHP_EOL; 
             }
         }
     }
