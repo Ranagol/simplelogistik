@@ -9,6 +9,7 @@ use App\Models\TmsPartner;
 use App\Models\TmsPaymentMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use function PHPUnit\Framework\directoryExists;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,13 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::get('/countries', function (Request $request){
         return TmsCountry::all();
+    });
+    
+    Route::get('/origins', function (Request $request){
+        return [
+            ["id" => 1, "title" => "general.origins.pamyra"],
+            ["id" => 2, "title" => "general.origins.native"]
+        ];
     });
 
     

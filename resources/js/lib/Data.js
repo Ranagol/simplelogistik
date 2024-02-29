@@ -5,6 +5,10 @@ export default class Data {
         let countries = await axios.get('/api/countries');
         return countries;
     }
+    async #origins(){
+        let origins = await axios.get('/api/origins');
+        return origins;
+    }
     async #ratings(){
         let ratings = await axios.get('/api/ratings');
         return ratings;
@@ -51,6 +55,8 @@ export default class Data {
         switch(target){
             case 'countries':
                 return await this.#countries();
+            case 'origins':
+                return await this.#origins();
             case 'ratings':
                 return await this.#ratings();
             case 'ism':
