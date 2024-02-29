@@ -14,14 +14,6 @@ class TmsParcel extends Model
     protected $guarded = ['id'];
     protected $table = "tms_parcels";
 
-    const PARCEL_TYPE = [
-        'bulky goods', 
-        'euro pallet', 
-        'one-way pallet',
-        'cardboard',
-        'pallet cage'
-    ];
-
     protected $casts = [
         'is_hazardous' => 'boolean',
         'p_stackable' => 'boolean',
@@ -29,6 +21,11 @@ class TmsParcel extends Model
 
     public function order(): BelongsTo
     {
-        return $this->belongsTo(TmsOrder::class, 'tms_order_id');
+        return $this->belongsTo(TmsOrder::class, 'order_id');
+    }
+
+    public function parcelType(): BelongsTo
+    {
+        return $this->belongsTo(TmsParcelType::class, 'parcel_type_id');
     }
 }

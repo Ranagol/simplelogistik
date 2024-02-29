@@ -10,16 +10,17 @@ class TmsParcelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * For every order we create two parcels.
      */
     public function run(): void
     {
         // TmsParcel::factory(config('constants.numberOfDbRecords'))->create();
         for ($i=1; $i <= config('constants.numberOfDbRecords'); $i++) { 
             TmsParcel::factory()->create([
-                'tms_order_id' => $i,
+                'order_id' => $i,
             ]);
             TmsParcel::factory()->create([
-                'tms_order_id' => $i,
+                'order_id' => $i,
             ]);
         }
 

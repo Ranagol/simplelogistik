@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TmsParcel;
+use App\Models\TmsParcelType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,10 +19,11 @@ class TmsParcelFactory extends Factory
     public function definition(): array
     {
         return [
-            'tms_order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'order_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
+            'parcel_type_id' => $this->faker->numberBetween(1, count(TmsParcelType::PARCEL_TYPES) - 1),
             'is_hazardous' => $this->faker->boolean,
             'information' => $this->faker->sentence,
-            'name' => $this->faker->randomElement(TmsParcel::PARCEL_TYPE),
+            'name' => $this->faker->randomElement(TmsParcelType::PARCEL_TYPES),
             'height' => $this->faker->randomFloat(2, 0, 200),
             'length' => $this->faker->randomFloat(2, 0, 200),
             'width' => $this->faker->randomFloat(2, 0, 200),

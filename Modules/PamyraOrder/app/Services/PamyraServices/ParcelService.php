@@ -63,7 +63,7 @@ class ParcelService {
     ): TmsParcel
     {
         $parcelArray = [
-            'tms_order_id' => $orderId,
+            'order_id' => $orderId,
             'name' => $parcel['Name'] ?? null,
             'height' => $parcel['Height'] ?? null,
             'length' => $parcel['Length'] ?? null,
