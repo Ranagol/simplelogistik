@@ -27,7 +27,7 @@ class TmsParcelRequest extends FormRequest
     public function parcelRules()
     {
         return [
-            'tms_order_id' => ['required', 'integer', 'exists:tms_orders,id'],
+            'order_id' => ['required', 'integer', 'exists:tms_orders,id'],
             'is_hazardous' => ['boolean'],
             'information' => ['nullable', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],

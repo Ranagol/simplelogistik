@@ -119,7 +119,7 @@ class TmsOrder extends Model
 
     public function parcels(): HasMany
     {
-        return $this->hasMany(TmsParcel::class, 'tms_order_id');
+        return $this->hasMany(TmsParcel::class, 'order_id');
     }
 
     public function forwardingContract(): HasOne

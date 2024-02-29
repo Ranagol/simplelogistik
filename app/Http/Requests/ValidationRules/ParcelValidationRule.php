@@ -18,13 +18,13 @@ class ParcelValidationRule implements ValidationRule
             return;
         }
 
-        // if (isset($value['tms_order_id']) === false) {
-        //     $fail('The :attribute tms_order_id is required.');
+        // if (isset($value['order_id']) === false) {
+        //     $fail('The :attribute order_id is required.');
         // }
 
         $this->isRequired(
             $value,
-             'tms_order_id',
+             'order_id',
               $fail
             );
 
@@ -34,8 +34,8 @@ class ParcelValidationRule implements ValidationRule
                 $fail
             );
 
-        if (is_int($value['tms_order_id']) === false) {
-            $fail('The :attribute tms_order_id must be an integer.');
+        if (is_int($value['order_id']) === false) {
+            $fail('The :attribute order_id must be an integer.');
         }
 
         if (is_bool($value['is_hazardous']) === false) {
@@ -47,7 +47,7 @@ class ParcelValidationRule implements ValidationRule
         }
 
         // return [
-        //     'tms_order_id' => 'required|integer|exists:tms_orders,id',
+        //     'order_id' => 'required|integer|exists:tms_orders,id',
         //     'is_hazardous' => 'boolean',
         //     'information' => 'required|string|max:255',
         //     'p_name' => 'required|string|max:255',

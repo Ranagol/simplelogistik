@@ -40,7 +40,7 @@ const duplicateParcel = (index) => {
     const item = state.parcels[index];
     const parcelTemplate = { 
         "id": null,
-        "tms_order_id": props.parent,
+        "order_id": props.parent,
         "is_hazardous": item.is_hazardous,
         "information": item.information, 
         "name": item.name, 
@@ -63,7 +63,7 @@ const deleteParcel = (index) => {
 const addParcelSet = () => {
     const parcelTemplate = { 
         "id": null,
-        "tms_order_id": props.parent,
+        "order_id": props.parent,
         "is_hazardous": false,
         "information": null, 
         "name": null, 
