@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TmsParcelType;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class TmsParcelTypeSeeder extends Seeder
 {
@@ -12,6 +13,14 @@ class TmsParcelTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $parcelTypes = TmsParcelType::PARCEL_TYPES;
+
+        foreach ($parcelTypes as $parcelType) {
+            TmsParcelType::factory()->create(
+                [
+                    'description' => $parcelType
+                ]
+            );
+        }
     }
 }

@@ -10,6 +10,7 @@ class TmsParcelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * For every order we create two parcels.
      */
     public function run(): void
     {

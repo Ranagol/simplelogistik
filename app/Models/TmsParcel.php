@@ -23,4 +23,9 @@ class TmsParcel extends Model
     {
         return $this->belongsTo(TmsOrder::class, 'order_id');
     }
+
+    public function parcelType(): BelongsTo
+    {
+        return $this->belongsTo(TmsParcelType::class, 'parcel_type_id');
+    }
 }
