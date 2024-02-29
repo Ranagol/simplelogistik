@@ -27,6 +27,10 @@
         metaData: {
             type: Object,
             required: false
+        },
+        searchConfig: {
+            type: Object,
+            required: false
         }
     });
 
@@ -48,10 +52,10 @@
             <h1 class="font-bold text-[18px] text-corporate-700">{{ $t(page?.title) }}</h1>
         </div>
         <div v-if="page.preset === 'simple-table' || page.preset === 'table'">
-            <SimpleTable :metaData="metaData" :tableConfig="tableConfig" :content="content" />
+            <SimpleTable :searchConfig="searchConfig" :metaData="metaData" :tableConfig="tableConfig" :content="content" />
         </div>
         <div v-else-if="page.preset === 'complex-table'">
-            <ComplexTable :metaData="metaData" :contentSettings="page.bodyContentSettings" :tableConfig="tableConfig" :content="content" />
+            <ComplexTable :searchConfig="searchConfig" :metaData="metaData" :contentSettings="page.bodyContentSettings" :tableConfig="tableConfig" :content="content" />
         </div>
         <div v-else-if="page.preset === 'tabs'">
             <TabContent :config="page" />

@@ -1,6 +1,6 @@
 <script setup>
 import TableCell from "@/Components/Tables/TableCell.vue"
-import { ArrowDown, Star, StarFilled, View } from "@element-plus/icons-vue";
+import { ArrowDown, CloseBold, Star, StarFilled, View } from "@element-plus/icons-vue";
 import { ref } from "vue";
 import OrderAddressBox from "@/Components/Boxes/OrderAddressBox.vue";
 import OrderParcelBox from "@/Components/Boxes/OrderParcelBox.vue";
@@ -43,6 +43,9 @@ const placeOnDashboard = (id) => {
 const isWatched = (id) => {
     return watchedItems.value.includes(id)
 }
+
+var _dd_ID = Math.random().toString(36).slice(2, 12);
+
 // Watched Items end
 
 </script>
@@ -94,6 +97,29 @@ const isWatched = (id) => {
                     :key="index"
                     :content="content" 
                     :field="field" />
+            </div>
+            <div class="grid justify-between grid-flow-col">
+                <!-- Buttons -->
+                <div class="grid justify-start grid-flow-col gap-4">
+                    <button class="grid justify-start grid-flow-col gap-2 p-3 px-4 text-white rounded-md place-items-center bg-primary-700 hover:bg-primary-500"><el-icon size="18"><View /></el-icon>{{ $t("buttons.general.edit") }}</button>
+                    <button class="grid justify-start grid-flow-col gap-2 p-3 px-4 text-white bg-red-700 rounded-md place-items-center hover:bg-red-500"><el-icon size="18"><CloseBold /></el-icon>{{ $t("buttons.general.void") }}</button>
+                </div>
+                <!-- Action Dropdowns -->
+                <div class="grid grid-flow-col gap-4 place-items-center">
+                    <div>{{  $t('labels.general.download_label') }}</div>
+                    <div class="relative z-50">
+                        <button :id="_dd_ID + '--file-download-dropdown-button'" class="" :data-dropdown-toggle="_dd_ID + '-file-download-dropdown'">
+                            {{  $t('labels.general.download_transport_details') }}
+                        </button>
+                        <div role="dropdown" class="hidden bg-white border rounded-md overflow-clip" :id="_dd_ID + '-file-download-dropdown'">
+                            <div class="w-full p-2 px-4 whitespace-nowrap hover:text-white hover:bg-primary-700">{{ $t('labels.general.download_in') }} {{ $t('lang.de') }}</div>
+                            <div class="w-full p-2 px-4 whitespace-nowrap hover:text-white hover:bg-primary-700">{{ $t('labels.general.download_in') }} {{ $t('lang.en') }}</div>
+                            <div class="w-full p-2 px-4 whitespace-nowrap hover:text-white hover:bg-primary-700">{{ $t('labels.general.download_in') }} {{ $t('lang.pl') }}</div>
+                            <div class="w-full p-2 px-4 whitespace-nowrap hover:text-white hover:bg-primary-700">{{ $t('labels.general.download_in') }} {{ $t('lang.ro') }}</div>
+                            <div class="w-full p-2 px-4 whitespace-nowrap hover:text-white hover:bg-primary-700">{{ $t('labels.general.download_in') }} {{ $t('lang.bg') }}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </td>
     </tr>
