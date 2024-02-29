@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('tms_parcels', function (Blueprint $table) {
             if (!Schema::hasColumn('tms_parcels', 'parcel_type_id')) {
-                $table->foreignId('parcel_type_id')->constrained('tms_parcel_types')->after('order_id');
+                $table->foreignId('parcel_type_id')->constrained('tms_parcel_types');
             }
         });
     }
