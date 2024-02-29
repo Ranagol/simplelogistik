@@ -231,4 +231,9 @@ class TmsOrder extends Model
             'order_attribute_id'
         );
     }
+
+    public function emonsInvoice(): HasOne
+    {
+        return $this->hasOne(TmsEmonsInvoice::class, 'order_number', 'order_number');
+    }
 }
