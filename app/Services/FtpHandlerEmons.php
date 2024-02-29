@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class FtpHandlerEmons extends FtpHandlerBase
@@ -32,16 +33,16 @@ class FtpHandlerEmons extends FtpHandlerBase
     {
         $emonsInvoices = [];
 
-        foreach ($csvFileNames as $csvFile) {
-            $stream = $this->ftpServer->readStream($csvFile);
-            $invoicesFromStream = $this->transformCsvToArray($stream);
+        foreach ($csvFileNames as $csvFileName) {
+            $stream = $this->ftpServer->readStream($csvFileName);
+            $invoicesFromStream = $this->transformCsvToArray($stream, $csvFileName);
             $emonsInvoices = array_merge($emonsInvoices, $invoicesFromStream);
         }
         
         return $emonsInvoices;
     }
     
-    private function transformCsvToArray($stream): array
+    private function transformCsvToArray($stream, string $csvFileName): array
     {
         $invoices = [];
 
@@ -70,6 +71,16 @@ class FtpHandlerEmons extends FtpHandlerBase
             //Every row/line in the csv file is an invoice. We will store here the invoice data.
             $invoice = [];
             
+            /**
+             * Every row in a csv file must have 12 fields, separated by a |. If the number of 
+             * fields in the line is not 12, we skip this line, and log an error.
+             */
+            if (count($rowInCsvFile) !== 12) {
+                $message =  "Invalid number of fields in the csv file row. The csv file name is: " . $csvFileName;
+                echo $message . PHP_EOL;
+                Log::error($message);
+                continue;
+            }
 
             /**
              * $this->keys contains the future column names in the database table. We have to replace
@@ -80,21 +91,27 @@ class FtpHandlerEmons extends FtpHandlerBase
              */
             foreach ($this->keys as $key => $value) {
 
-                /**
-                 * mb_convert_encoding - not working
-                 * UConverter::transcode(($rowInCsvFile[$key]), 'ISO-8859-1', 'UTF-8'); - not working
-                 * $invoice[$value] = utf8_encode($rowInCsvFile[$key]);//working, but deprecated
-                 * $invoice[$value] = iconv('ISO-8859-1', 'UTF-8', $rowInCsvFile[$key]);//this works perfectly
-                 */
-                $invoice[$value] = iconv('ISO-8859-1', 'UTF-8', $rowInCsvFile[$key]);
+                try {
 
+                    /**
+                     * mb_convert_encoding - not working
+                     * UConverter::transcode(($rowInCsvFile[$key]), 'ISO-8859-1', 'UTF-8'); - not working
+                     * $invoice[$value] = utf8_encode($rowInCsvFile[$key]);//working, but deprecated
+                     * $invoice[$value] = iconv('ISO-8859-1', 'UTF-8', $rowInCsvFile[$key]);//this works perfectly
+                     */
+                    $invoice[$value] = iconv('ISO-8859-1', 'UTF-8', $rowInCsvFile[$key]);
+
+                } catch (\Exception $e) {
+                    $message = 'Wrong the the data structure of the csv file with the name ' . $csvFileName . '. The error is: ' . $e->getMessage() . PHP_EOL;
+
+                    echo $message;
+                    Log::error($message);
+                    continue;
+                }
             }
-
             $invoices[] = $invoice;
         }
-
         fclose($stream);
-
         return $invoices;
     }
 }

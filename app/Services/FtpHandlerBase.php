@@ -209,8 +209,6 @@ class FtpHandlerBase
         }
     }
 
-    
-
     /**
      * This function transforms the source path into target path. AKa creates a new name from the old
      * name.
