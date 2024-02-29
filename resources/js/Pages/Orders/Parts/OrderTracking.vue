@@ -14,5 +14,5 @@
     
 </script>
 <template>
-    <Form :content="content" :useData="route().current().includes('edit')" :store="content" :config="_config" :form="_config" />
+    <code lang="json"><pre>{{ content }}</pre></code>
 </template>
