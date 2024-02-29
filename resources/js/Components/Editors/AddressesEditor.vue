@@ -11,7 +11,7 @@ const props = defineProps({
 });
 </script>
 <template>
+    IN PROGRESS -> Finished Do. 29.02.2024
     <div v-for="address in addresses" class="mt-4">
-        IN PROGRESS -> Finished Do. 29.02.2024
     </div>
 </template>
