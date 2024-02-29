@@ -30,7 +30,7 @@
 </script>
 
 <template>
-    <div class="col-span-12" :class="field.size ?? 'col-span-12'">
+    <!-- <div class="col-span-12" :class="field.size ?? 'col-span-12'"> -->
         <div :class="defaultWrapperClass">
             <input v-bind="$props" :value="props.val" :required="field.required ?? false" :type="field?.type ?? 'text'" :id="'floating-input-filed-' + _id" :placeholder="$t(field?.placeholder ?? '')"
             :class="defaultInputClass"
@@ -44,5 +44,5 @@
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 </template>

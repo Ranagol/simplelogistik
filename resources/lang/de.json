@@ -77,7 +77,8 @@
             "submit": "Absenden",
             "update": "Aktualisieren",
             "filter": "Filtern",
-            "arrange": "Anordnen"
+            "arrange": "Anordnen",
+            "add_parcel": "Packstück hinzufügen"
         },
         "orders": {
             "index": "Zurück zur Übersicht",
@@ -151,10 +152,10 @@
                     "finances": "Finanzen",
                     "vehicles": "Fahrzanforderungen",
                     "parcel_summary": {
-                        "total_weight": "Gesamtgewicht",
-                        "total_volume": "Gesamtvolumen",
-                        "total_area": "Gesamtfläche",
-                        "total_parcels": "Gesamtpackstücke"
+                        "total_weight": "Gewicht",
+                        "total_volume": "Volumen",
+                        "total_area": "Fläche",
+                        "total_parcels": "Packstücke"
                     }
                 },
                 "type_of_transport": "Transportart",
@@ -225,6 +226,13 @@
             "index": "Adressen",
             "create":"Adresse anlegen",
             "edit": "Adresse bearbeiten",
+            "type": "Adresstyp",
+            "types": {
+                "pickup": "Abholadresse",
+                "delivery": "Lieferadresse",
+                "billing": "Rechnungsadresse",
+                "headquarter": "Hauptsitz"
+            },
             "form": {
                 "sections": {
                     "address_information": "Adressinformationen"
