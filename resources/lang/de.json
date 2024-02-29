@@ -55,7 +55,11 @@
         "en": "Englisch",
         "it": "Italienisch",
         "es": "Spanisch",
-        "fr": "Französisch"
+        "fr": "Französisch",
+        "pl": "Polnisch",
+        "ru": "Russisch",
+        "bg": "Bulgarisch",
+        "ro": "Rumänisch"
     },
     "buttons": {
         "general": {
@@ -66,7 +70,9 @@
             "edit": "Bearbeiten",
             "new": "Neu",
             "reset": "Zurücksetzen",
+            "reset_filters": "Filter zurücksetzen",
             "save": "Speichern",
+            "void": "Stornieren",
             "search": "Suchen",
             "submit": "Absenden",
             "update": "Aktualisieren",
@@ -371,6 +377,7 @@
         "address-billing": "Rechnungsadresse",
         "address-headquarter": "Hauptsitz",
         "general": {
+            "search": "Einträge suchen",
             "measurements": "Maße",
             "weight": "Gewicht",
             "name": "Name",
@@ -380,7 +387,38 @@
             "customer_number": "Kundennummer",
             "distance_km": "Entfernung (km)",
             "duration_minutes": "Dauer (min)",
-            "price_net": "Preis netto"
+            "price_net": "Preis netto",
+            "download_in": "Download in",
+            "download_label": "Versandlabel",
+            "download_transport_details": "Transportauftrag"
+        },
+        "filter": {
+            "customer_base": "Kundenstamm",
+            "forwarder_base": "",
+            "vehicle_base": "",
+            "address_base": "",
+            "order_base": ""
+        },
+
+
+        "mail": "E-Mail",
+        "password": "Passwort",
+        "forgot-password": "Passwort zurücksetzen",
+        "stay-logged-in": "Angemeldet bleiben?"
+    },
+    "login": {
+        "title": "Anmelden",
+        "description": "Bitte melden Sie sich an, um fortzufahren."
+    },
+    "button": {
+        "login": "Einloggen",
+        "back-login": "Zurück zum Login",
+        "request-password": "Anfrage senden"
+    },
+    "password": {
+        "forgot": {
+            "headline": "Passwort vergessen?",
+            "info": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen."
         }
     }
 }
