@@ -3,7 +3,6 @@
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHandler;
-// use Modules\PamyraOrder\app\Services\PamyraServices\FtpHandlerPamyra;
 use App\Services\FtpHandlerPamyra;
 
 class OrdersHandler

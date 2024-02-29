@@ -13,14 +13,26 @@ use App\Services\FtpHandlerEmons;
  */
 class EmonsInvoiceService
 {
-    // private DbWriter $dbWriter;
+    /**
+     * Stores the ftp handler object for the emons invoices.
+     *
+     * @var FtpHandlerEmons
+     */
     private FtpHandlerEmons $ftpHandlerEmons;
 
+    /**
+     * Stores the db writer object for the emons invoices. The $dbWriter object is used to write the
+     * invoices into the database.
+     *
+     * @var DbWriter
+     */
     private DbWriter $dbWriter;
 
     public function __construct(DbWriter $dbWriter)
     {
         $this->dbWriter = $dbWriter;
+
+        //We create the ftp handler object for the emons invoices. We use 3 parameters for the constructor
         $this->ftpHandlerEmons = new FtpHandlerEmons(
             'EmonsInvoices',
             'EmonsInvoicesArchived/',
@@ -36,12 +48,10 @@ class EmonsInvoiceService
     public function handle(): void
     {
         //Gets all the csv file names from the ftp server
-        $csvFileNames = $this->ftpHandlerEmons->handle();//DONE
-        // dd($csvFileNames);
+        $csvFileNames = $this->ftpHandlerEmons->handle();
 
         //Gets all the invoices from all the csv files from the ftp server
-        $invoices = $this->ftpHandlerEmons->convertCsvToArray($csvFileNames);//DONE
-        // dd($invoices);
+        $invoices = $this->ftpHandlerEmons->convertCsvToArray($csvFileNames);
 
         //We loop through all the invoices and write each one to the database
         foreach ($invoices as $invoice) {
@@ -49,7 +59,6 @@ class EmonsInvoiceService
         }
 
         //We archive all the csv files in the app from the ftp server
-        // $this->ftpHandlerEmons->archiveFiles();
-
+        $this->ftpHandlerEmons->archiveFiles();
     }
 }

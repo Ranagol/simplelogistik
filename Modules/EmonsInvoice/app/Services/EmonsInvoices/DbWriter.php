@@ -27,16 +27,23 @@ class DbWriter
         $this->validationRules = $tmsEmonsInvoiceRequest->emonsInvoiceRules();
     }
 
+    /**
+     * This method writes the invoice into the database.
+     *
+     * @param array $invoice
+     * @return void
+     */
     public function createInvoice(array $invoice): void
     {
         $isDuplicate = $this->checkForDuplicates($invoice);
 
+        //If there is no duplicate...
         if (!$isDuplicate) {
+
+            //We validate the invoice
             $validator = Validator::make($invoice, $this->validationRules);
         
-            /**
-             * If the validation fails, we log the error.
-             */
+            //If the validation fails, we log the error.
             if ($validator->fails()) {
 
                 $stringInvoice = implode(', ', $invoice);
@@ -51,6 +58,7 @@ class DbWriter
 
             } else {
 
+                //Write into db
                 $newInvoice = TmsEmonsInvoice::create($invoice);
                 echo 'Emons invoice for order number ' 
                     . $newInvoice->order_number 
@@ -60,12 +68,17 @@ class DbWriter
         }
     }
 
+    /**
+     * This method checks if the invoice is already in the database. If it is, we skip it.
+     *
+     * @param array $invoice
+     * @return bool
+     */
     private function checkForDuplicates(array $invoice): bool
     {
         $orderNumber = $invoice['order_number'];
 
         $duplicatesFromDb= TmsEmonsInvoice::where('order_number', $orderNumber)->get();
-        // dd($duplicatesFromDb);//this finds the duplicate ok
 
         if (!$duplicatesFromDb->isEmpty()){
             $message = 'The order number ' . $orderNumber . ' already exists in the database. Skipping...';

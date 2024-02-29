@@ -5,12 +5,18 @@ namespace App\Services;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * This class handles all about the emons invoices ftp server. It gets the csv files from the ftp
+ * server, and reads them. It also has a method for converting the csv files into an array.
+ * The majority of methods can be seen in the parent class FtpHandlerBase.
+ */
 class FtpHandlerEmons extends FtpHandlerBase
 {
     /**
      * This array is crucial for transforming the csv file into an array with the right names for
      * the keys. The keys are the column names in the database table. So, in the end we will have
-     * something like this example: customer_city => 'Großrinderfeld [Gerchsheim]'.
+     * something like this example: customer_city => 'Großrinderfeld [Gerchsheim]'. The number of
+     * these items and the order of these items must not change!!!
      *
      * @var array
      */
@@ -29,11 +35,19 @@ class FtpHandlerEmons extends FtpHandlerBase
         11 => 'netto_price',
     ];
 
+    /**
+     * Converts csv files into a php array.
+     *
+     * @param array $csvFileNames
+     * @return array
+     */
     public function convertCsvToArray(array $csvFileNames): array
     {
         $emonsInvoices = [];
 
         foreach ($csvFileNames as $csvFileName) {
+
+            //readStream opens a PHP stream, which can be later used with fgetcsv to read the file line by line
             $stream = $this->ftpServer->readStream($csvFileName);
             $invoicesFromStream = $this->transformCsvToArray($stream, $csvFileName);
             $emonsInvoices = array_merge($emonsInvoices, $invoicesFromStream);
@@ -42,6 +56,13 @@ class FtpHandlerEmons extends FtpHandlerBase
         return $emonsInvoices;
     }
     
+    /**
+     * Transforms the csv file into a php array.
+     *
+     * @param resource $stream
+     * @param string $csvFileName
+     * @return array
+     */
     private function transformCsvToArray($stream, string $csvFileName): array
     {
         $invoices = [];
