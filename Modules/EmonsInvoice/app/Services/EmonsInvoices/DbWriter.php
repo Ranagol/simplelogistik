@@ -35,15 +35,15 @@ class DbWriter
             $validator = Validator::make($invoice, $this->validationRules);
         
             /**
-             * If the validation fails, we log the error and continue to the next invoice, skipping 
-             * the faulty one.
+             * If the validation fails, we log the error.
              */
             if ($validator->fails()) {
                 Log::error($validator->errors()->first());
                 echo $validator->errors()->first() . ' In order number ' . $invoice['order_number'] . PHP_EOL;
+            } else {
+                $newInvoice = TmsEmonsInvoice::create($invoice);
+                echo 'Emons invoice for order number ' . $newInvoice->order_number . ' was written to db.' . PHP_EOL; 
             }
-
-            TmsEmonsInvoice::create($invoice);
         }
     }
 
@@ -51,11 +51,11 @@ class DbWriter
     {
         $orderNumber = $invoice['order_number'];
 
-        $invoiceDuplicate= TmsEmonsInvoice::where('order_number', $orderNumber)->get();
-        // dd($invoiceDuplicate);
+        $duplicatesFromDb= TmsEmonsInvoice::where('order_number', $orderNumber)->get();
+        // dd($duplicatesFromDb);//this finds the duplicate ok
 
-        if (!$invoiceDuplicate->empty()){
-            $message = 'The order number ' . $orderNumber . ' already exists in the database.';
+        if (!$duplicatesFromDb->isEmpty()){
+            $message = 'The order number ' . $orderNumber . ' already exists in the database. Skipping...';
             echo $message . PHP_EOL;
             Log::info($message);
             return true;
@@ -63,11 +63,4 @@ class DbWriter
 
         return false;
     }
-
-    
-
-
-
-    
-
 }
