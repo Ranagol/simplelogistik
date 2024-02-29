@@ -14,8 +14,6 @@ class TmsParcel extends Model
     protected $guarded = ['id'];
     protected $table = "tms_parcels";
 
-    
-
     protected $casts = [
         'is_hazardous' => 'boolean',
         'p_stackable' => 'boolean',
