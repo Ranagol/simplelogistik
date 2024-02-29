@@ -105,7 +105,7 @@ defineEmits(['blur']);
         </div>
     </div>
     <div class="mt-4">
-        <button @click="addParcelSet()" class="w-full p-2 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500">Add Parcel</button>
+        <button @click="addParcelSet()" class="w-full p-2 text-white transition-colors duration-200 rounded-md bg-primary-700 hover:bg-primary-500">{{ $t('buttons.general.add') }}</button>
     </div>
     <div class="grid grid-flow-col gap-4 mt-6">
         <div class="grid grid-flow-col gap-4 p-4 rounded-md bg-slate-200">

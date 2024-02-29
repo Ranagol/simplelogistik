@@ -1,25 +1,13 @@
 export default {
-    columns: [
-        {
-            className: 'col-span-3',
-            
-        },
-        {
-            className: '',
-        }
-    ],
-    sections: [
-        {
-            title: "pages.orders.form.sections.order_details",
-            sectionType: "default",
-            collapsible: true,
+    sections: {
+        general: {
             rows: [
                 {
-                    className: 'grid grid-flow-row grid-cols-2 gap-4',
+                    className: 'grid-cols-2 gap-4',
                     fields: [
                         {
                             name: 'type_of_transport',
-                            className: 'col-auto',
+                            className: 'col-1',
                             placeholder: 'pages.orders.form.type_of_transport',
                             label: 'pages.orders.form.type_of_transport',
                             type: 'text',
@@ -30,19 +18,19 @@ export default {
                             options: "orderstatuses",
                             displayKey: 'internal_name',
                             match: "id",
-                            className: 'col-auto',
+                            className: 'col-1',
                             placeholder: 'pages.orders.form.order_status',
                             label: 'pages.orders.form.order_status',
                         },
                     ]
                 },
                 {
-                    className: 'grid grid-flow-row grid-cols-4 gap-4',
+                    className: 'grid-cols-4 gap-4',
                     fields: [
                         {
                             name: 'id',
                             subfield: 'partner',
-                            className: 'col-auto',
+                            className: 'col-1',
                             type: 'select',
                             options: "partners",
                             displayKey: 'company_name',
@@ -52,7 +40,7 @@ export default {
                         },
                         {
                             name: 'origin',
-                            className: 'col-auto',
+                            className: 'col-1',
                             type: 'select',
                             options: "origins",
                             displayKey: 'title',
@@ -62,7 +50,7 @@ export default {
                         },
                         {
                             name: 'customer_reference',
-                            className: 'col-auto',
+                            className: 'col-1',
                             type: 'text',
                             placeholder: 'pages.orders.form.customer_refernce',
                             label: 'pages.orders.form.customer_refernce',
@@ -70,7 +58,7 @@ export default {
                         {
                             name: "details",
                             subfield: 'distance_km',
-                            className: 'col-auto',
+                            className: 'col-1',
                             type: 'text',
                             placeholder: 'pages.orders.form.distance_km',
                             label: 'pages.orders.form.distance_km',
@@ -78,18 +66,20 @@ export default {
                     ]
                 },
                 {
-                    className: 'grid-flow-row gap-4',
+                    className: 'grid-cols-2 gap-4',
                     fields: [
                         {
-                            name: 'duration_minutes',
-                            className: 'col-auto',
+                            name: 'details',
+                            subfield: 'duration_minutes',
+                            className: 'col-1',
                             type: 'text',
                             placeholder: 'pages.orders.form.duration_minutes',
                             label: 'pages.orders.form.duration_minutes',
                         },
                         {
-                            name: 'calculation_model_name',
-                            className: 'col-auto',
+                            name: 'details',
+                            subfield: 'calculation_model_name',
+                            className: 'col-1',
                             type: 'text',
                             placeholder: 'pages.orders.form.calculation_model_name',
                             label: 'pages.orders.form.calculation_model_name',
@@ -97,18 +87,20 @@ export default {
                     ]
                 },
                 {
-                    className: 'grid-flow-row gap-4',
+                    className: 'grid-cols-2 gap-4',
                     fields: [
                         {
-                            name: 'particularities',
-                            className: 'col-auto',
+                            name: 'details',
+                            subfield: 'particularities',
+                            className: 'col-1',
                             type: 'text',
                             placeholder: 'pages.orders.form.particularities',
                             label: 'pages.orders.form.particularities',
                         },
                         {
-                            name: 'description_of_transport',
-                            className: 'col-auto',
+                            name: 'details',
+                            subfield: 'description_of_transport',
+                            className: 'col-1',
                             type: 'text',
                             placeholder: 'pages.orders.form.description_of_transport',
                             label: 'pages.orders.form.description_of_transport',
@@ -117,11 +109,7 @@ export default {
                 },
             ]
         },
-        {
-            title: "pages.orders.form.sections.parcels",
-            sectionType: "parcelEditor",
-            collapsible: true,
-            data: "parcels",
+        parcels: {
             fields: [
                 {
                     name: 'length',
@@ -154,27 +142,53 @@ export default {
                 },
             ]
         },
-        {
-            title: "pages.orders.form.sections.addresses",
-            sectionType: "addressesEditor",
-            collapsible: true,
-            data: "addresses",
-            rows: []
+        addresses: {
+            rows: [
+                {className: "", fields : [
+                    {
+                        name: 'address_type',
+                        type: 'text',
+                        className: 'col-auto',
+                        placeholder: 'pages.addresses.type',
+                        label: 'pages.addresses.type',
+                    },
+                ]},
+                {className: "", fields : [
+                    {
+                        name: 'first_name',
+                        type: 'text',
+                        className: 'col-auto',
+                        placeholder: 'pages.customers.form.first_name',
+                        label: 'pages.customers.form.first_name',
+                    },
+                ]},
+                {className: "", fields : [
+                    {
+                        name: 'last_name',
+                        type: 'text',
+                        className: 'col-auto',
+                        placeholder: 'pages.customers.form.last_name',
+                        label: 'pages.customers.form.last_name',
+                    },
+                ]},
+                {className: "", fields : [
+                    {
+                        name: 'street',
+                        type: 'text',
+                        className: 'col-auto',
+                        placeholder: 'pages.customers.form.street',
+                        label: 'pages.customers.form.street',
+                    },
+                    {
+                        name: 'house_number',
+                        type: 'text',
+                        className: 'col-auto',
+                        placeholder: 'pages.customers.form.house_number',
+                        label: 'pages.customers.form.house_number',
+                    },
+                ]}
+            ],
         },
-        {
-            title: "pages.orders.form.sections.finances",
-            sectionType: "financialsEditor",
-            collapsible: true,
-            data: "finances",
-            rows: []
-        },
-        {
-            title: "pages.orders.form.sections.vehicles",
-            sectionType: "vehicleEditor",
-            collapsible: true,
-            data: "vehicles",
-            rows: []
-        }
-    ]
+    }   
 }
 
