@@ -1,3 +1,435 @@
 {
-    
+    "account": {
+        "login": "Anmelden",
+        "logout": "Abmelden",
+        "register": "Registrieren",
+        "forgot": "Passwort vergessen",
+        "reset": "Passwort zurücksetzen",
+        "profile": "Profil",
+        "settings": "Einstellungen",
+        "password": "Passwort",
+        "email": "E-Mail",
+        "name": "Name",
+        "remember": "Angemeldet bleiben",
+        "failed": "Diese Anmeldeinformationen stimmen nicht mit unseren Aufzeichnungen überein.",
+        "throttle": "Zu viele Anmeldeversuche. Bitte versuchen Sie es in :seconds Sekunden erneut."
+    },
+    "general": {
+        "ratings": {
+            "excellent": "Ausgezeichnet",
+            "good": "Gut",
+            "satisfactory": "Befriedigend",
+            "sufficient": "Ausreichend",
+            "poor": "Mangelhaft",
+            "very_poor": "Sehr schlecht",
+            "not_rated": "Nicht bewertet",
+            "no_rating": "Keine Bewertung",
+            "miserable": "Miserabel",
+            "average": "Durchschnittlich"
+        },
+        "badge": {
+            "address": {
+                "pickup": "Abholadresse",
+                "delivery": "Lieferadresse",
+                "billing": "Rechnungsadresse",
+                "headquarter": "Hauptsitz"
+            }
+        }
+    },
+    "menu": {
+        "dashboard": "Dashboard",
+        "orders": "Aufträge",
+        "customers": "Kunden",
+        "addresses": "Adressen",
+        "forwarders": "Dienstleister",
+        "vehicles": "Fahrzeuge",
+        "languages": "Sprachen",
+        "documents": "Dokumente",
+        "archive": "Archiv",
+        "help": "Hilfe & Support",
+        "more": "Mehr",
+        "pamyra": "Pamyra"
+    },
+    "lang": {
+        "de": "Deutsch",
+        "en": "Englisch",
+        "it": "Italienisch",
+        "es": "Spanisch",
+        "fr": "Französisch",
+        "pl": "Polnisch",
+        "ru": "Russisch",
+        "bg": "Bulgarisch",
+        "ro": "Rumänisch"
+    },
+    "buttons": {
+        "general": {
+            "back": "Zurück",
+            "cancel": "Abbrechen",
+            "create": "Anlegen",
+            "delete": "Löschen",
+            "edit": "Bearbeiten",
+            "new": "Neu",
+            "reset": "Zurücksetzen",
+            "reset_filters": "Filter zurücksetzen",
+            "save": "Speichern",
+            "void": "Stornieren",
+            "search": "Suchen",
+            "submit": "Absenden",
+            "update": "Aktualisieren",
+            "filter": "Filtern",
+            "arrange": "Anordnen",
+            "add_parcel": "Packstück hinzufügen"
+        },
+        "orders": {
+            "index": "Zurück zur Übersicht",
+            "create": "Auftrag erstellen",
+            "store": "Speichern",
+            "edit": "Bearbeiten",
+            "update": "Aktualisieren",
+            "destroy": "Löschen",
+            "void": "Stornieren"
+        }
+        ,"customers": {
+            "index": "Zurück zur Übersicht",
+            "create": "Kunde anlegen",
+            "store": "Speichern",
+            "edit": "Bearbeiten",
+            "update": "Aktualisieren",
+            "destroy": "Löschen",
+            "void": "Abbrechen"
+        }
+        ,"addresses": {
+            "index": "Zurück zur Übersicht",
+            "create": "Adresse anlegen",
+            "store": "Speichern",
+            "edit": "Bearbeiten",
+            "update": "Aktualisieren",
+            "destroy": "Löschen",
+            "void": "Abbrechen"
+        }
+        ,"forwarders": {
+            "index": "Zurück zur Übersicht",
+            "create": "Dienstleister anlegen",
+            "store": "Speichern",
+            "edit": "Bearbeiten",
+            "update": "Aktualisieren",
+            "destroy": "Löschen",
+            "void": "Abbrechen"
+        }
+        ,"vehicles": {
+            "index": "Zurück zur Übersicht",
+            "create": "Fahrzeug anlegen",
+            "store": "Speichern",
+            "edit": "Bearbeiten",
+            "update": "Aktualisieren",
+            "destroy": "Löschen",
+            "void": "Abbrechen"
+        }
+    },
+    "pages": {
+        "dashboard": {
+            "index": "Dashboard",
+            "create":"Adresse anlegen",
+            "edit": "Adresse bearbeiten"
+        },
+        "orders": {
+            "index": "Aufträge",
+            "create":"Auftrag erstellen",
+            "edit": "Auftrag bearbeiten",
+            "tabs": {
+                "details": "Allgemeine Infos",
+                "infotool": "Infotool",
+                "tracking": "Sendungsverfolgung",
+                "invoices": "Rechnungen",
+                "comments": "Kommentare",
+                "changelog": "Änderungsprotokoll"
+            },
+            "form": {
+                "sections": {
+                    "order_details": "Auftragsdetails",
+                    "parcels": "Packstücke",
+                    "addresses": "Adressen",
+                    "finances": "Finanzen",
+                    "vehicles": "Fahrzanforderungen",
+                    "parcel_summary": {
+                        "total_weight": "Gewicht",
+                        "total_volume": "Volumen",
+                        "total_area": "Fläche",
+                        "total_parcels": "Packstücke"
+                    }
+                },
+                "type_of_transport": "Transportart",
+                "order_status": "Auftragsstatus",
+                "partner": "Partner",
+                "origin": "Herkunft",
+                "first_name": "Vorname",
+                "parcel_type": "Packstücktyp",
+                "length": "Länge (cm)",
+                "width": "Breite (cm)",
+                "height": "Höhe (cm)",
+                "weight": "Gewicht (kg)",
+                "customer_refernce": "Kundenreferenz",
+                "distance_km": "Entfernung (km)",
+                "duration_minutes": "Dauer (min)",
+                "calculation_model_name": "Berechnungsmodell",
+                "particularities": "Besonderheiten",
+                "description_of_transport": "Transportbeschreibung"
+            }
+        },
+        "customers": {
+            "index": "Kunden",
+            "create":"Kunde anlegen",
+            "edit": "Kunde bearbeiten",
+            "form": {
+                "street": "Straße",
+                "house_number": "Hausnummer",
+                "zip_code": "Postleitzahl",
+                "city": "Stadt",
+                "customer_information": "Kundeninformationen",
+                "forwarder": "Dienstleister",
+                "company_name": "Firmenname",
+                "internal_id": "Interne ID",
+                "salutation_id": "Anrede",
+                "title_id": "Titel",
+                "first_name": "Vorname",
+                "last_name": "Nachname",
+                "email": "E-Mail",
+                "phone": "Telefon",
+                "tax_number": "Steuernummer",
+                "rating": "Bewertung",
+                "comments": "Kommentare",
+                "payment_time": "Zahlungsziel",
+                "auto_book_as_private": "Automatisch als Privatkunde buchen",
+                "dangerous_goods": "Gefahrgut",
+                "bussiness_customer": "Geschäftskunde",
+                "debt_collection": "Inkasso",
+                "direct_debit": "Lastschrift",
+                "manual_collective_invoicing": "Manuelle Sammelrechnung",
+                "private_customer": "Privatkunde",
+                "invoice_customer": "Rechnungskunde",
+                "poor_payment_morale": "Schlechte Zahlungsmoral",
+                "can_login": "Zugang zum Kundenportal",
+                "customer_type": "Kundentyp",
+                "invoice_dispatch": "Rechnungsversand",
+                "invoice_shipping_method": "Rechnungsversandart",
+                "payment_method": "Zahlungsart",
+                "email_for_invoice": "E-Mail für Rechnung",
+                "email_for_label": "E-Mail für Label",
+                "email_for_pod": "E-Mail für POD",
+                "customer_reference": "Kundenreferenz",
+                "payment_method_options_to_offer": "Verfügbare Zahlungsarten",
+                "easy_bill_customer_id": "Easybill Kunden-ID",
+                "invoice_send_date": "Rechnungsversanddatum"
+            }
+        },
+        "addresses": {
+            "index": "Adressen",
+            "create":"Adresse anlegen",
+            "edit": "Adresse bearbeiten",
+            "type": "Adresstyp",
+            "types": {
+                "pickup": "Abholadresse",
+                "delivery": "Lieferadresse",
+                "billing": "Rechnungsadresse",
+                "headquarter": "Hauptsitz"
+            },
+            "form": {
+                "sections": {
+                    "address_information": "Adressinformationen"
+                },
+                "company_name": "Firmenname",
+                "first_name": "Vorname",
+                "last_name": "Nachname",
+                "street": "Straße",
+                "house_number": "Hausnummer",
+                "zip_code": "Postleitzahl",
+                "city": "Stadt",
+                "state": "Bundesland",
+                "country": "Land",
+                "address_additional_information": "Adresszusatz",
+                "phone": "Telefon",
+                "email": "E-Mail",
+                "is_pickup": "Abholadresse",
+                "is_delivery": "Lieferadresse",
+                "is_billing": "Rechnungsadresse",
+                "is_headquarter": "Hauptsitz"
+            }
+        },
+        "forwarders": {
+            "index": "Dienstleister",
+            "create":"Dienstleister anlegen",
+            "edit": "Dienstleister bearbeiten",
+            "form": {
+                "sections": {
+                    "customer_information": "Kundeninformationen",
+                    "general_information": "Allgemeine Informationen",
+                    "contact_information": "Kontaktinformationen",
+                    "additional_information": "Zusätzliche Informationen"
+                },
+                "company_name": "Firmenname",
+                "internal_id": "Interne ID",
+                "name": "Name",
+                "email": "E-Mail",
+                "tax_number": "Steuernummer",
+                "rating": "Bewertung",
+                "forwarder_type": "Dienstleistertyp",
+                "comments": "Kommentare",
+                "url_logo": "Logo-URL"
+            }
+        },
+        "vehicles": {
+            "index": "Fahrzeuge",
+            "create":"Fahrzeug anlegen",
+            "edit": "Fahrzeug bearbeiten"
+        }
+    },
+    "tables": {
+        "orders": {
+            "headers": {
+                "order_number": "Auftragsnummer",
+                "forwarder": "Dienstleister",
+                "type_of_transport": "Transportart",
+                "origin": "Abholort",
+                "status": "Status",
+                "customer_reference": "Kundenreferenz",
+                "provision": "Provision",
+                "currency": "Währung",
+                "order_date": "Auftragsdatum",
+                "purchase_price": "Einkaufspreis",
+                "month_and_year": "Monat und Jahr",
+                "created_at": "Erstellt am",
+                "updated_at": "Aktualisiert am",
+                "payment_method": "Zahlungsart",
+                "easy_bill_customer_id": "Easybill Kunden-ID",
+                "last_update": "Letzte Aktualisierung",
+                "last_editor": "Letzter Bearbeiter"
+            },
+            "details": {
+                "parcels": "Packstücke",
+                "details": "Allgemeine Infos",
+                "addresses": "Adressen"
+            }
+
+        },
+        "customers": {
+            "headers": {
+                "business_customer": "Geschäftskunde",
+                "customer_id": "Kunde",
+                "company_name": "Firmenname",
+                "first_name": "Vorname",
+                "last_name": "Nachname"
+            } 
+        },
+        "addresses": {
+            "headers": {
+                "id": "ID",
+                "customer_id": "Kunde",
+                "forwarder_id": "Dienstleister",
+                "country_id": "Land",
+                "partner_id": "Partner",
+                "company_name": "Firmenname",
+                "first_name": "Vorname",
+                "last_name": "Nachname",
+                "street": "Straße",
+                "house_number": "Hausnummer",
+                "zip_code": "Postleitzahl",
+                "city": "Stadt",
+                "state": "Bundesland",
+                "address_additional_information": "Adresszusatz",
+                "phone": "Telefon",
+                "email": "E-Mail",
+                "is_pickup": "Abholadresse",
+                "is_delivery": "Lieferadresse",
+                "is_billing": "Rechnungsadresse",
+                "is_headquarter": "Hauptsitz",
+                "created_at": "Erstellt am",
+                "updated_at": "Aktualisiert am"
+            } 
+        },
+        "forwarders":{
+            "headers": {
+                "id": "ID",
+                "company_name": "Firmenname",
+                "internal_id": "Interne ID",
+                "name": "Name",
+                "email": "E-Mail",
+                "tax_number": "Steuernummer",
+                "rating": "Bewertung",
+                "forwarder_type": "Dienstleistertyp",
+                "comments": "Kommentare",
+                "url_logo": "Logo-URL",
+                "created_at": "Erstellt am",
+                "updated_at": "Aktualisiert am"
+            }
+        },
+        "vehicles": {
+            "headers": {
+                "id": "ID",
+                "address_id": "Adresse",
+                "vehicle_name": "Fahrzeugname",
+                "max_weight": "Max. Gewicht",
+                "max_pickup_weight": "Max. Abholgewicht",
+                "max_pickup_width": "Max. Abholbreite",
+                "max_pickup_height": "Max. Abholhöhe",
+                "max_pickup_length": "Max. Abhollänge",
+                "vehicle_type": "Fahrzeugtyp",
+                "plate_number": "Kennzeichen",
+                "created_at": "Erstellt am",
+                "updated_at": "Aktualisiert am"
+            }
+        }
+    },
+    "labels": {
+        "address-pickup": "Abholadresse",
+        "address-delivery": "Lieferadresse",
+        "address-billing": "Rechnungsadresse",
+        "address-headquarter": "Hauptsitz",
+        "general": {
+            "search": "Einträge suchen",
+            "measurements": "Maße",
+            "weight": "Gewicht",
+            "name": "Name",
+            "order_number": "Auftragsnummer",
+            "payment_method": "Zahlungsart",
+            "purchase_price": "Einkaufspreis",
+            "customer_number": "Kundennummer",
+            "distance_km": "Entfernung (km)",
+            "duration_minutes": "Dauer (min)",
+            "price_net": "Preis netto",
+            "download_in": "Download in",
+            "download_label": "Versandlabel",
+            "download_transport_details": "Transportauftrag",
+            "messages": {
+                "changed_state_to": "hat den Status geändert zu"
+            }
+        },
+        "filter": {
+            "customer_base": "Kundenstamm",
+            "forwarder_base": "",
+            "vehicle_base": "",
+            "address_base": "",
+            "order_base": ""
+        },
+
+
+        "mail": "E-Mail",
+        "password": "Passwort",
+        "forgot-password": "Passwort zurücksetzen",
+        "stay-logged-in": "Angemeldet bleiben?"
+    },
+    "login": {
+        "title": "Anmelden",
+        "description": "Bitte melden Sie sich an, um fortzufahren."
+    },
+    "button": {
+        "login": "Einloggen",
+        "back-login": "Zurück zum Login",
+        "request-password": "Anfrage senden"
+    },
+    "password": {
+        "forgot": {
+            "headline": "Passwort vergessen?",
+            "info": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen."
+        }
+    }
 }
