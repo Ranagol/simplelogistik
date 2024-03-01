@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')->group(function(){
             ["id" => 5, "title" => "general.ratings.excellent", "rating" => 5]
         ];
     });
-    Route::get('/packing-types', function (Request $request){
+    Route::get('/packingtypes', function (Request $request){
         return [
             ["id" => 1, "title" => "general.packing_types.package"],
             ["id" => 2, "title" => "general.packing_types.pallet"],

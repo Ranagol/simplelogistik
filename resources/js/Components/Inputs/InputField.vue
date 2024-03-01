@@ -24,7 +24,7 @@
 
     const defaultWrapperClass = 'relative ' + ' w-full ';
     const defaultLabelClass = '' + 'absolute ' + 'top-0 ' + 'start-1 ' + 'px-2 ' + 'text-[15px] ' + '-translate-y-1/2 ' + 'bg-white ' + 'peer-focus:text-corporate-700 ' + 'peer-placeholder-shown:top-1/2 ' + 'peer-focus:top-0 ' + 'transition-all ' + 'duration-300 ' + 'pointer-events-none ';
-    const defaultInputClass = '' + 'rounded-md '  + 'w-full ' + 'peer ' + 'pr-8 ' + 'text-[15px] ' + 'text-black ' + 'border-gray-300 ' + 'focus:border-primary-700 ' + 'ring-0 ' + 'focus:ring-0 ';
+    const defaultInputClass = '' + 'rounded-md '  + 'w-full ' + 'peer ' + (props.field.tooltipText !== '' ? 'pr-8 ' : 'pr-0 ') + 'text-[15px] ' + 'text-black ' + 'border-gray-300 ' + 'focus:border-primary-700 ' + 'ring-0 ' + 'focus:ring-0 ';
     const defaultIconWrapperClass = '' + 'absolute ' + 'top-0 ' + 'end-2.5 ' + 'top-1/2 ' + '-translate-y-1/2 ';
     
     const _id = Math.random().toString(36).substring(7);
