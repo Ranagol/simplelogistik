@@ -6,9 +6,11 @@
         <!-- Sidebar -->
         <Sidebar />
 
-        <main class="p-4 md:ml-64 h-screen pt-20">
-            <div class="rounded-lg h-auto mb-4">
+        <main class="h-screen p-4 pt-20 md:ml-64">
+            <div class="h-auto mb-4 rounded-lg">
+
                 <slot />
+                
             </div>
         </main>
     </div>
