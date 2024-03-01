@@ -14,9 +14,9 @@ class GetEmonsInvoices extends Command
      * The name and signature of the console command.
      * To enable this modul: sail artisan module:enable EmonsInvoice
      * To disable this modul: sail artisan module:disable EmonsInvoice
-     * To run this command: sail artisan getEmonsInvoices
+     * To run this command: sail artisan handleEmonsInvoices
      */
-    protected $signature = 'getEmonsInvoices';
+    protected $signature = 'handleEmonsInvoices';
 
     /**
      * The console command description.
