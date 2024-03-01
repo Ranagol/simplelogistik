@@ -15,6 +15,16 @@
         "throttle": "Zu viele Anmeldeversuche. Bitte versuchen Sie es in :seconds Sekunden erneut."
     },
     "general": {
+        "packing_types": {
+            "box": "Karton",
+            "roll": "Rolle",
+            "bag": "Beutel",
+            "package": "Paket",
+            "envelope": "Umschlag",
+            "pallet": "Palette",
+            "bulky_good": "Sperrgut",
+            "other": "Sonstiges"
+        },
         "ratings": {
             "excellent": "Ausgezeichnet",
             "good": "Gut",

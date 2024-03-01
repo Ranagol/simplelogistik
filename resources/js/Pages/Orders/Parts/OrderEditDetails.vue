@@ -11,9 +11,10 @@
 
 
     import {store as useStore} from '@/Stores/orderStore';
-    import { CopyDocument, Delete, Plus } from '@element-plus/icons-vue';
+    import { ArrowDown, CopyDocument, Delete, Plus } from '@element-plus/icons-vue';
     import OrderCalcHelper from "@/lib/OrderCalcHelper.js";
 
+    console.log(_config.sections.general)
     defineProps({
         useContent: {
             type: Boolean,
@@ -106,8 +107,8 @@
         <div class="grid col-span-3 gap-4 px-4">
             <p>Auftragsdetails</p>
             <div class="grid gap-4">
-                <div v-for="row in _config.sections.general.rows" class="grid grid-flow-row" :class="row.className">
-                    <div v-for="field in row.fields" :key="field.name" :class="field.className">
+                <div v-for="row in _config.sections.general.rows" class="grid grid-flow-row " :class="{[row.className]: true}">
+                    <div v-for="field in row.fields" :key="field.name" class="col-auto" :class="{[field.className]: true}">
                         <InputField 
                             v-if="field.type === 'input'" 
                             :field="field" 
@@ -149,7 +150,10 @@
             <p>Packstücke</p>
             <div class="grid gap-4">
                 <div v-for="parcel,index in state.parcels" :key="index" class="grid grid-flow-col gap-4">
-                    <div v-for="field in _config.sections.parcels.fields" class="">
+                    <div class="grid justify-center w-6 place-items-center">
+                        <span class="grid font-bold text-corporate-700 text-1 place-items-center">{{index + 1}}</span>
+                    </div>
+                    <div v-for="field in _config.sections.parcels.fields">
                         
                         <BindableTextField 
                             v-if="field.type === 'text'" 
@@ -239,15 +243,27 @@
             </div>
             <p>Adressen</p>
             <div class="grid max-w-full grid-flow-col gap-4 pb-4 overflow-x-scroll">
-                <div v-for="address in content.addresses" class="w-[300px] p-3 bg-slate-50 rounded-md">
-                    <div v-for="row in _config.sections.addresses.rows" class="grid grid-flow-col gap-4 mb-4 last:mb-0">
-                        <div v-for="field in row.fields" class="grid gap-4">
+                <div v-for="address,ai in content.addresses" class="w-[350px] p-3 bg-slate-50 rounded-md">
+                    <div v-for="row,ri in _config.sections.addresses.rows" class="grid grid-flow-col gap-4 mb-4 last:mb-0" :class="row.className">
+                        <div v-for="field,fi in row.fields" class="grid gap-4" :class="field.className">
+                            <div class="relative pt-8" v-if="field.type==='badge_dd'">
+                                <span class="absolute top-0 right-0 px-3 text-white duration-200 rounded-full cursor-pointer hover:bg-primary-600 bg-primary-700" :data-dropdown-toggle="`${ai}_${ri}_${fi}`">{{ $t(address[field.name]) }}</span>
+                                <div role="dropdown" :id="`${ai}_${ri}_${fi}`" class="hidden z-[100] bg-white rounded-md cursor-pointer overflow-clip shadow-md">
+                                    <ul>
+                                        <li class="p-1 px-3 hover:bg-primary-700 hover:text-white">{{ $t("general.badge.address.pickup") }}</li>
+                                        <li class="p-1 px-3 hover:bg-primary-700 hover:text-white">{{ $t("general.badge.address.delivery") }}</li>
+                                        <li class="p-1 px-3 hover:bg-primary-700 hover:text-white">{{ $t("general.badge.address.billing") }}</li>
+                                        <li class="p-1 px-3 hover:bg-primary-700 hover:text-white">{{ $t("general.badge.address.headquarter") }}</li>
+                                    </ul>
+                                </div>
+
+                            </div>
                             <BindableTextField 
                                 v-if="field.type === 'text'" 
                                 :field="field" 
                                 :store="store" 
                                 :data="address"
-                                :val="address[field.name]"
+                                :val="field.subfield ? address[field.name][field.subfield] : address[field.name]"
                                 @input="(event) => {
                                     state.addresses[index][field.name] = event.target.value;
                                 }"

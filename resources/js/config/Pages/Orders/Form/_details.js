@@ -3,7 +3,7 @@ export default {
         general: {
             rows: [
                 {
-                    className: 'grid-cols-2 gap-4',
+                    className: 'grid-flow-col grid-cols-2 gap-4',
                     fields: [
                         {
                             name: 'type_of_transport',
@@ -14,54 +14,55 @@ export default {
                         },
                         {
                             name: 'order_status_id',
+                            className: 'col-1',
                             type: 'select',
                             options: "orderstatuses",
-                            displayKey: 'internal_name',
+                            displayKey: 'name',
                             match: "id",
-                            className: 'col-1',
+                            className: 'col-auto bg-red-400',
                             placeholder: 'pages.orders.form.order_status',
                             label: 'pages.orders.form.order_status',
                         },
                     ]
                 },
                 {
-                    className: 'grid-cols-4 gap-4',
+                    className: 'grid-flow-col grid-cols-2 gap-4',
                     fields: [
                         {
                             name: 'id',
                             subfield: 'partner',
-                            className: 'col-1',
                             type: 'select',
                             options: "partners",
                             displayKey: 'company_name',
                             match: "id",
                             placeholder: 'pages.orders.form.partner',
                             label: 'pages.orders.form.partner',
+                            className: "grid-flow-col bg-blue-400"
                         },
                         {
                             name: 'origin',
-                            className: 'col-1',
                             type: 'select',
                             options: "origins",
                             displayKey: 'title',
                             match: 'id',
                             placeholder: 'pages.orders.form.origin',
                             label: 'pages.orders.form.origin',
+                            className: "grid-flow-col bg-blue-400"
                         },
                         {
                             name: 'customer_reference',
-                            className: 'col-1',
                             type: 'text',
                             placeholder: 'pages.orders.form.customer_refernce',
                             label: 'pages.orders.form.customer_refernce',
+                            className: "grid-flow-col bg-blue-400"
                         },
                         {
                             name: "details",
                             subfield: 'distance_km',
-                            className: 'col-1',
                             type: 'text',
                             placeholder: 'pages.orders.form.distance_km',
                             label: 'pages.orders.form.distance_km',
+                            className: "grid-flow-col bg-blue-400"
                         },
                     ]
                 },
@@ -112,6 +113,16 @@ export default {
         parcels: {
             fields: [
                 {
+                    name: 'parcel_type',
+                    type: 'select',
+                    options: "packingtypes",
+                    displayKey: 'title',
+                    match: 'id',
+                    className: 'col-auto',
+                    placeholder: 'pages.orders.form.length',
+                    label: 'pages.orders.form.length',
+                },
+                {
                     name: 'length',
                     type: 'text',
                     keyName: 'id',
@@ -143,11 +154,12 @@ export default {
             ]
         },
         addresses: {
+            className: "grid-cols-3 gap-4",
             rows: [
                 {className: "", fields : [
                     {
                         name: 'address_type',
-                        type: 'text',
+                        type: 'badge_dd',
                         className: 'col-auto',
                         placeholder: 'pages.addresses.type',
                         label: 'pages.addresses.type',
@@ -157,12 +169,10 @@ export default {
                     {
                         name: 'first_name',
                         type: 'text',
-                        className: 'col-auto',
+                        className: 'col-span-2',
                         placeholder: 'pages.customers.form.first_name',
                         label: 'pages.customers.form.first_name',
                     },
-                ]},
-                {className: "", fields : [
                     {
                         name: 'last_name',
                         type: 'text',
@@ -186,7 +196,51 @@ export default {
                         placeholder: 'pages.customers.form.house_number',
                         label: 'pages.customers.form.house_number',
                     },
-                ]}
+                ]},
+                {className: "", fields : [
+                    {
+                        name: 'zip_code',
+                        type: 'text',
+                        className: 'col-span-2',
+                        placeholder: 'pages.customers.form.zip_code',
+                        label: 'pages.customers.form.zip_code',
+                    },
+                    {
+                        name: 'city',
+                        type: 'text',
+                        className: 'col-auto',
+                        placeholder: 'pages.customers.form.city',
+                        label: 'pages.customers.form.city',
+                    },
+                ]},
+                {className: "", fields : [
+                    {
+                        subfield: 'country_name',
+                        name: 'country',
+                        type: 'text',
+                        className: 'col-span-2',
+                        placeholder: 'pages.customers.form.country',
+                        label: 'pages.customers.form.country',
+                    }
+                ]},
+                {className: "", fields : [
+                    {
+                        name: 'phone',
+                        type: 'text',
+                        className: 'col-span-2',
+                        placeholder: 'pages.customers.form.phone',
+                        label: 'pages.customers.form.phone',
+                    },
+                ]},
+                {className: "", fields : [
+                    {
+                        name: 'email',
+                        type: 'text',
+                        className: 'col-auto',
+                        placeholder: 'pages.customers.form.email',
+                        label: 'pages.customers.form.email',
+                    },
+                ]},
             ],
         },
     }   
