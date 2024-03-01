@@ -59,6 +59,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/order-statuses', function (Request $request){
         return TmsOrderStatus::all();
     });
+    Route::get('/order-status/{id}', function (Request $request, $id){
+        return TmsOrderStatus::findOrFail($id);
+    });
     Route::get('/customer-types', function (Request $request){
         return [
             ["id" => 1, "name" => "general.customer_types.business"],
