@@ -398,7 +398,10 @@
             "price_net": "Preis netto",
             "download_in": "Download in",
             "download_label": "Versandlabel",
-            "download_transport_details": "Transportauftrag"
+            "download_transport_details": "Transportauftrag",
+            "messages": {
+                "changed_state_to": "hat den Status geändert zu"
+            }
         },
         "filter": {
             "customer_base": "Kundenstamm",
