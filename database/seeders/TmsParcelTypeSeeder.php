@@ -13,7 +13,7 @@ class TmsParcelTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $parcelTypes = TmsParcelType::PARCEL_TYPES;
+        $parcelTypes = TmsParcelType::getAllParcelTypes();
 
         foreach ($parcelTypes as $parcelType) {
             TmsParcelType::factory()->create(
