@@ -87,7 +87,7 @@ class CustomerService {
             'internal_id' => 'temporary testing' ?? null,
             'customer_type' => $this->createCustomerType($customerPamyra),
             'invoice_dispatch' => array_search('Direct', TmsCustomer::INVOICE_DISPATCHES),//This will be 1.
-            'invoice_shipping_method' => 'Email',
+            'invoice_shipping_method' => array_search('Email', TmsCustomer::INVOICE_SHIPPING_METHODS),//This will be 1.
         ];
 
         $this->validate($customerArray);
