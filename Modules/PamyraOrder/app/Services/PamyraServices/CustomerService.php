@@ -86,7 +86,7 @@ class CustomerService {
             'phone' => $customerPamyra['Phone'] ?? 'missing',
             'internal_id' => 'temporary testing' ?? null,
             'customer_type' => $this->createCustomerType($customerPamyra),
-            'invoice_dispatch' => 'Direct',
+            'invoice_dispatch' => array_search('Direct', TmsCustomer::INVOICE_DISPATCHES),//This will be 1.
             'invoice_shipping_method' => 'Email',
         ];
 
