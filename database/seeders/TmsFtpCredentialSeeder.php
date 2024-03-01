@@ -13,14 +13,24 @@ class TmsFtpCredentialSeeder extends Seeder
      */
     public function run(): void
     {
-        $pamyraOrdersTest = env('PAMYRA_ORDERS_TEST');
-        if ($pamyraOrdersTest !== null) {
-            DB::statement($pamyraOrdersTest);
-        }
+        // $pamyraOrdersTest = env('PAMYRA_ORDERS_TEST');
+        // if ($pamyraOrdersTest !== null) {
+        //     DB::statement($pamyraOrdersTest);
+        // }
 
-        $pamyraOrdersLive = env('PAMYRA_ORDERS_LIVE');
-        if ($pamyraOrdersLive !== null) {
-            DB::statement($pamyraOrdersLive);
-        }
+        // $pamyraOrdersLive = env('PAMYRA_ORDERS_LIVE');
+        // if ($pamyraOrdersLive !== null) {
+        //     DB::statement($pamyraOrdersLive);
+        // }
+
+        // $emonsInvoicesTest = env('EMONS_INVOICES_TEST');
+        // if ($emonsInvoicesTest !== null) {
+        //     DB::statement($emonsInvoicesTest);
+        // }
+
+        // $emonsInvoicesLive = env('EMONS_INVOICES_LIVE');
+        // if ($emonsInvoicesLive !== null) {
+        //     DB::statement($emonsInvoicesLive);
+        // }
     }
 }

@@ -86,8 +86,8 @@ class CustomerService {
             'phone' => $customerPamyra['Phone'] ?? 'missing',
             'internal_id' => 'temporary testing' ?? null,
             'customer_type' => $this->createCustomerType($customerPamyra),
-            'invoice_dispatch' => 'Direct',
-            'invoice_shipping_method' => 'Email',
+            'invoice_dispatch' => array_search('Direct', TmsCustomer::INVOICE_DISPATCHES),//This will be 1.
+            'invoice_shipping_method' => array_search('Email', TmsCustomer::INVOICE_SHIPPING_METHODS),//This will be 1.
         ];
 
         $this->validate($customerArray);
@@ -99,14 +99,20 @@ class CustomerService {
 
     /**
      * if customer has company then customer_type is 'Bussiness customer, else 'Private customer'.
+     * But instead of these strings, we use the keys of the CUSTOMER_TYPES array. 1 for 'Bussiness 
+     * customer' and 2 for 'Private customer'.
      *
      * @param array $customerPamyra
      * @return string
      */
     private function createCustomerType(array $customerPamyra): string
     {
+        //Check if the customer has a company
         $company = $customerPamyra['Company'] ?? null;
-        return $company ? 'Bussiness customer' : 'Private customer';
+        $businessCustomerKey = array_search('Bussiness customer', TmsCustomer::CUSTOMER_TYPES);//This will be 1.
+        $privateCustomerKey = array_search('Private customer', TmsCustomer::CUSTOMER_TYPES);//This will be 2.
+
+        return $company ? $businessCustomerKey : $privateCustomerKey;
     }
 
     /**

@@ -27,18 +27,19 @@ class TmsEmonsInvoiceRequest extends FormRequest
     public function emonsInvoiceRules()
     {
         return [
-            'emons_invoice_number' => 'required|string',
-            'billing_date' => 'required|date',
-            'order_number' => 'required|string',
-            'customer_name' => 'required|string',
-            'customer_country_code' => 'required|string|size:2',
-            'customer_zip_code' => 'required|string',
-            'customer_city' => 'required|string',
-            'receiver_name' => 'required|string',
-            'receiver_country_code' => 'required|string|size:2',
-            'receiver_zip_code' => 'required|string',
-            'receiver_city' => 'required|string',
-            'netto_price' => 'required|numeric',
+
+            'emons_invoice_number' => ['required', 'string'],
+            'billing_date' => ['required', 'date'],
+            'order_number' => ['required', 'string', 'size:6'],
+            'customer_name' => ['required', 'string'],
+            'customer_country_code' => ['required', 'string', 'size:2'],
+            'customer_zip_code' => ['required', 'string'],
+            'customer_city' => ['required', 'string'],
+            'receiver_name' => ['required', 'string'],
+            'receiver_country_code' => ['required', 'string', 'size:2'],
+            'receiver_zip_code' => ['required', 'string'],
+            'receiver_city' => ['required', 'string'],
+            'netto_price' => ['required', 'numeric'],
         ];
     }
 

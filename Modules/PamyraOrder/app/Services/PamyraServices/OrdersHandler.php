@@ -3,16 +3,16 @@
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHandler;
-use Modules\PamyraOrder\app\Services\PamyraServices\PamyraFtpHandler;
+use App\Services\FtpHandlerPamyra;
 
 class OrdersHandler
 {
     /**
-     * A service that handles the ftp connection, and getting all the files/info from the ftp server.
+     * A class that handles the ftp connection, and getting all the files/info from the ftp server.
      *
-     * @var PamyraFtpHandler
+     * @var FtpHandlerPamyra
      */
-    private PamyraFtpHandler $pamyraFtpHandler;
+    private FtpHandlerPamyra $ftpHandlerPamyra;
     
     /**
      * A service that handles the order data. 
@@ -21,10 +21,18 @@ class OrdersHandler
      */
     private OrderHandler $orderHandler;
 
-    public function __construct(PamyraFtpHandler $pamyraFtpHandler, OrderHandler $orderHandler)
+    public function __construct(OrderHandler $orderHandler)
     {
         $this->orderHandler = $orderHandler;
-        $this->pamyraFtpHandler = $pamyraFtpHandler;
+
+        /**
+         * Here we create a new instance of the FtpHandlerPamyra class.
+         */
+        $this->ftpHandlerPamyra = new FtpHandlerPamyra(
+            'PamyraOrders', 
+            'PamyraOrdersArchived/',
+            '.json'
+        );
     }
 
     /**
@@ -34,8 +42,11 @@ class OrdersHandler
      */
     public function handle(): void
     {
-        //Gets all the orders from all the PAM json files from the ftp server
-        $orders = $this->pamyraFtpHandler->getPamyraOrders();
+        //Gets all the json file names from the ftp server
+        $jsonFileNames = $this->ftpHandlerPamyra->handle();
+
+        //Gets all the orders from all the json files from the ftp server
+        $orders = $this->ftpHandlerPamyra->jsonToArrayConvert($jsonFileNames);
 
         //We loop through all the orders and write each one to the database
         foreach ($orders as $pamyraOrder) {
@@ -43,6 +54,6 @@ class OrdersHandler
         }
 
         //We archive all the json files in the app from the ftp server
-        $this->pamyraFtpHandler->archiveJsonFiles();
+        $this->ftpHandlerPamyra->archiveFiles();
     }
 }
