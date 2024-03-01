@@ -176,7 +176,7 @@ class TmsParcelType extends Model
      * Gets the parcel type id from the Pamyra parcel type name. Example: 'EUR-Palette'
      * will return 2.
      * 
-     * This is used to get the parcel type id from the name of the parcel type in Pamyra.
+     * This is used to get the parcel type id from the name of the parcel type in Pamyra. In ParcelService.php
      * 
      * For testing in Tinker:
      * App\Models\TmsParcelType::getParcelTypeIdPamyra('EUR-Palette');//2
