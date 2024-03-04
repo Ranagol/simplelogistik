@@ -13,6 +13,10 @@ export default class Data {
         let ratings = await axios.get('/api/ratings');
         return ratings;
     }
+    async #packingtypes(){
+        let packingtypes = await axios.get('/api/packingtypes');
+        return packingtypes;
+    }
     async #ism(){
         let ism = await axios.get('/api/invocie-shipping-methods');
         return ism;
@@ -59,6 +63,8 @@ export default class Data {
                 return await this.#origins();
             case 'ratings':
                 return await this.#ratings();
+            case 'packingtypes':
+                return await this.#packingtypes();
             case 'ism':
                 return await this.#ism();
             case 'invoicedispatch':

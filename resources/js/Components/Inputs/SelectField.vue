@@ -31,7 +31,10 @@
     }
     
     getOptions()
-    const getDisplayData = (from, config, translator) => {
+    const getDisplayData = (from, config, translate) => {
+
+        return translate(from[config]);
+        
         let displayString = [];
         if(config.includes('|')){
             let keys = config.split('|')
@@ -73,16 +76,16 @@
 </script>
 
 <template>
-        <div class="relative z-30 flex w-full">
+        <div class="relative flex w-full">
             <button 
-            class="grid justify-between w-full grid-flow-col p-3 py-2 border min-h-[42px] rounded-md place-items-center border-gray-300"
+            class="grid justify-between w-full z-10 grid-flow-col p-3 py-2 border min-h-[42px] rounded-md place-items-center border-gray-300"
             :id="_id + '-dropdown-button'"
             :data-dropdown-toggle="_id + '-dropdown'"
             @click="open = !!!open"
             >   
-            {{ getActiveOption() !== undefined ? getActiveOption()[field.displayKey] : "" }} <el-icon><ArrowDown v-if="!open"/><ArrowUp v-else/></el-icon>
+            {{ getActiveOption() !== undefined ? $t(getActiveOption()[field.displayKey]) : "" }} <el-icon><ArrowDown v-if="!open"/><ArrowUp v-else/></el-icon>
             </button>
-            <div class="absolute hidden w-full bg-white border rounded-md overflow-clip text-corporate-700" :id="_id + '-dropdown'">
+            <div class="absolute z-50 hidden w-full bg-white border rounded-md overflow-clip text-corporate-700 min-w-max" :id="_id + '-dropdown'">
                 <div v-for="(option, index) in options"
                 @click="() => {
                     store.update(field.name, option[field.match])
