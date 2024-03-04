@@ -188,7 +188,4 @@ class TmsCustomer extends Model
             ->orWhere('last_name', 'like', "%{$searchTerm}%")
             ;
     }
-
-
-    
 }

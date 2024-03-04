@@ -4,11 +4,12 @@ namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use DateTime;
 use App\Models\TmsOrder;
+use App\Models\TmsParcel;
 use App\Models\TmsCustomer;
+use App\Models\TmsParcelType;
 use App\Models\TmsPamyraOrder;
 use App\Http\Requests\TmsOrderRequest;
 use App\Http\Requests\TmsParcelRequest;
-use App\Models\TmsParcel;
 use Illuminate\Support\Facades\Validator;
 
 class ParcelService {
@@ -65,6 +66,8 @@ class ParcelService {
         $parcelArray = [
             'order_id' => $orderId,
             'name' => $parcel['Name'] ?? null,
+            //Example: 'EUR-Palette' ParcelName will return 2, which is the id for 'euro palett'
+            'parcel_type_id' => TmsParcelType::getParcelTypeIdPamyra($parcel['Name']) ?? null,
             'height' => $parcel['Height'] ?? null,
             'length' => $parcel['Length'] ?? null,
             'width' => $parcel['Width'] ?? null,
