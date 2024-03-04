@@ -18,9 +18,8 @@ class TmsParcelType extends Model
      * A list of Pamyra parcel types can be found here: https://www.pamyra.de/app?step=2
      * 
      * parcelTypeSimplelogistik - this is our name for the parcel type in Simplelogistik
-     * display - if true, the parcel type will be displayed in the front-end
+     * display - if true, the parcel type will be displayed in the front-end (not all will be displayed)
      * parcelTypePamyra - this is the name of the parcel type in Pamyra
-     
      *
      * @var array
      */
@@ -29,7 +28,7 @@ class TmsParcelType extends Model
             'id' => 1,
             'parcelTypeSimplelogistik' => 'bulky goods',
             'display' => false,
-            'parcelTypePamyra' => []
+            'parcelTypePamyra' => []//there is no parcel type in Pamyra for 'bulky goods'
         ],
         [
             'id' => 2,
@@ -68,7 +67,9 @@ class TmsParcelType extends Model
             'id' => 5,
             'parcelTypeSimplelogistik' => 'pallet cage',
             'display' => false,
-            'parcelTypePamyra' => 'EUR-Gitterbox'
+            'parcelTypePamyra' => [
+                'EUR-Gitterbox',
+            ]
         ],
         [
             /**
@@ -133,47 +134,6 @@ class TmsParcelType extends Model
     }
 
     /**
-     * Gets the parcel type id from the Simplelogistik parcel type name. Example: 'euro pallet'
-     * will return 2.
-     * If the function can't match the parcel type, it will return 6, which is the id for 'missing
-     * palett info'.
-     * 
-     * This is used to get the parcel type id from the name of the parcel type in Simplelogistik.
-     * 
-     * For testing in Tinker:
-     * App\Models\TmsParcelType::getParcelTypeIdSimplelogistik('bulky goods');//1
-     * App\Models\TmsParcelType::getParcelTypeIdSimplelogistik('should fail');//6
-     *
-     * @param string|null     $simplelogistikParcelType
-     * @return integer
-     */
-    public static function getParcelTypeIdSimplelogistik(string | null $simplelogistikParcelType): int
-    {
-        //This is a guard clause, because Simplelogistik might not provide a parcel type
-        if ($simplelogistikParcelType === null) {
-            return self::getMissingParcelTypeId();//missing palett id = 6
-        }
-
-        $parcelTypeId = null;
-
-        //Loop over all parcel types
-        foreach (self::$allParcelTypes as $type) {//1 level deep
-            if ($type['parcelTypeSimplelogistik'] === $simplelogistikParcelType) {
-                $parcelTypeId = $type['id'];
-            }
-        }
-
-        if ($parcelTypeId !== null) {
-
-            //If we found a match, return the id of the parcel type. This is the id we need
-            return $parcelTypeId;
-        }
-
-        //... otherwise return 6, which is the id for 'missing palett info'
-        return self::getMissingParcelTypeId();
-    }
-
-    /**
      * Gets the parcel type id from the Pamyra parcel type name. Example: 'EUR-Palette'
      * will return 2.
      * 
@@ -194,18 +154,21 @@ class TmsParcelType extends Model
     {
         //This is a guard clause, because Pamyra might not provide a parcel type
         if ($argument === null) {
-            return self::getMissingParcelTypeId();
+            return self::$allParcelTypes[5]['id'];//return 6, which is the id for 'missing palett info'
         }
 
         $parcelTypeId = null;
 
-        foreach (self::$allParcelTypes as $type) {//1 level deep only
+        foreach (self::$allParcelTypes as $type1) {//1 level deep only
 
-            //Example (If EUR-Palette === EUR-Palette)
-            if ($type['parcelTypePamyra'] === $argument) {
+            foreach ($type1['parcelTypePamyra'] as $type2) {//2 levels deep
 
-                //We extract here the id of the parcel type. This is what we need
-                $parcelTypeId = $type['id'];
+                //Example: if EUR-Palette from this model const === EUR-Palette from pamyra json file
+                if ($type2 === $argument) {
+
+                    //We extract here the id of the parcel type. This is what we need
+                    $parcelTypeId = $type1['id'];
+                }
             }
         }
 
@@ -216,16 +179,6 @@ class TmsParcelType extends Model
         }
 
         //... otherwise return 6, which is the id for 'missing palett info'
-        return self::getMissingParcelTypeId();
-    }
-
-    private static function getMissingParcelTypeId(): int
-    {
-        //Loop over all parcel types
-        foreach (self::$allParcelTypes as $type) {//1 level deep
-            if ($type['parcelTypeSimplelogistik'] === 'missing palett info') {
-                return $type['id'];//this will be id = 6, the id for 'missing palett info'
-            } 
-        }
+        return self::$allParcelTypes[5]['id'];//return 6, which is the id for 'missing palett info'
     }
 }
