@@ -53,6 +53,7 @@ class TmsOrderEditResource extends JsonResource
             'customer' => $this->customer,
             'partner' => $this->partner,
             'contact' => $this->contact,
+            'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
             
             //this is actually data from native orders or pamyra orders table.
             'details' => $this->setDetails(),

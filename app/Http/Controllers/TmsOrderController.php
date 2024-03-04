@@ -116,7 +116,7 @@ class TmsOrderController extends Controller
                 'customer.headquarter',
                 'nativeOrder',
                 'pamyraOrder',
-                'emonsInvoice:neto_price'
+                'emonsInvoice'
             ]
         )->findOrFail($id);
 
@@ -199,7 +199,7 @@ class TmsOrderController extends Controller
                 'customer.headquarter',
                 'nativeOrder',
                 'pamyraOrder',
-                'emonsInvoice:neto_price'
+                'emonsInvoice'
             ]
 
         )->findOrFail($id);
