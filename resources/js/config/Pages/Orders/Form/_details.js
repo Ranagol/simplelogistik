@@ -3,7 +3,7 @@ export default {
         general: {
             rows: [
                 {
-                    className: 'grid-flow-col grid-cols-2 gap-4',
+                    className: 'grid-flow-row grid-cols-2 gap-4',
                     fields: [
                         {
                             name: 'type_of_transport',
@@ -19,14 +19,14 @@ export default {
                             options: "orderstatuses",
                             displayKey: 'name',
                             match: "id",
-                            className: 'col-auto bg-red-400',
+                            className: 'col-auto',
                             placeholder: 'pages.orders.form.order_status',
                             label: 'pages.orders.form.order_status',
                         },
                     ]
                 },
                 {
-                    className: 'grid-flow-col grid-cols-2 gap-4',
+                    className: 'grid-flow-row grid-cols-4 gap-4',
                     fields: [
                         {
                             name: 'id',
@@ -67,7 +67,7 @@ export default {
                     ]
                 },
                 {
-                    className: 'grid-cols-2 gap-4',
+                    className: 'grid-flow-row grid-cols-2 gap-4',
                     fields: [
                         {
                             name: 'details',
@@ -88,7 +88,7 @@ export default {
                     ]
                 },
                 {
-                    className: 'grid-cols-2 gap-4',
+                    className: 'grid-flow-row grid-cols-2 gap-4',
                     fields: [
                         {
                             name: 'details',
@@ -111,6 +111,7 @@ export default {
             ]
         },
         parcels: {
+            className: "grid-cols-6 gap-4",
             fields: [
                 {
                     name: 'parcel_type',
@@ -154,38 +155,50 @@ export default {
             ]
         },
         addresses: {
-            className: "grid-cols-3 gap-4",
             rows: [
-                {className: "", fields : [
+                { className: "flex gap-4",
+                    fields : [
                     {
                         name: 'address_type',
                         type: 'badge_dd',
-                        className: 'col-auto',
+                        className: 'w-full',
                         placeholder: 'pages.addresses.type',
                         label: 'pages.addresses.type',
                     },
                 ]},
-                {className: "", fields : [
+                { className: "flex gap-4",
+                fields : [
+                    {
+                        name: 'company_name',
+                        type: 'text',
+                        className: 'w-full',
+                        placeholder: 'pages.customers.form.company_name',
+                        label: 'pages.customers.form.company_name',
+                    }
+                ]},
+                { className: "flex gap-4",
+                fields : [
                     {
                         name: 'first_name',
                         type: 'text',
-                        className: 'col-span-2',
+                        className: 'w-full',
                         placeholder: 'pages.customers.form.first_name',
                         label: 'pages.customers.form.first_name',
                     },
                     {
                         name: 'last_name',
                         type: 'text',
-                        className: 'col-auto',
+                        className: 'w-full',
                         placeholder: 'pages.customers.form.last_name',
                         label: 'pages.customers.form.last_name',
                     },
                 ]},
-                {className: "", fields : [
+                { className: "flex gap-4",
+                fields : [
                     {
                         name: 'street',
                         type: 'text',
-                        className: 'col-auto',
+                        className: 'w-full',
                         placeholder: 'pages.customers.form.street',
                         label: 'pages.customers.form.street',
                     },
@@ -197,46 +210,50 @@ export default {
                         label: 'pages.customers.form.house_number',
                     },
                 ]},
-                {className: "", fields : [
+                { className: "flex gap-4",
+                fields : [
                     {
                         name: 'zip_code',
                         type: 'text',
-                        className: 'col-span-2',
+                        className: 'w-full',
                         placeholder: 'pages.customers.form.zip_code',
                         label: 'pages.customers.form.zip_code',
                     },
                     {
                         name: 'city',
                         type: 'text',
-                        className: 'col-auto',
+                        className: 'w-full',
                         placeholder: 'pages.customers.form.city',
                         label: 'pages.customers.form.city',
                     },
                 ]},
-                {className: "", fields : [
+                { className: "flex gap-4",
+                fields : [
                     {
                         subfield: 'country_name',
                         name: 'country',
                         type: 'text',
-                        className: 'col-span-2',
+                        className: 'w-full',
                         placeholder: 'pages.customers.form.country',
                         label: 'pages.customers.form.country',
                     }
                 ]},
-                {className: "", fields : [
+                { className: "flex gap-4 mt-2 border-t pt-8",
+                fields : [
                     {
                         name: 'phone',
                         type: 'text',
-                        className: 'col-span-2',
+                        className: 'w-full',
                         placeholder: 'pages.customers.form.phone',
                         label: 'pages.customers.form.phone',
                     },
                 ]},
-                {className: "", fields : [
+                { className: "flex gap-4",
+                fields : [
                     {
                         name: 'email',
                         type: 'text',
-                        className: 'col-auto',
+                        className: 'w-full',
                         placeholder: 'pages.customers.form.email',
                         label: 'pages.customers.form.email',
                     },
