@@ -75,7 +75,7 @@ class FtpHandlerBase
      * @param string $pathForArchive    This is the path where the file will be stored in our archive.
      * @param string $desiredFileType   
      */
-    public function __construct(//why is this constructor activated during a migration?
+    public function __construct(
         string $connectionName, 
         string $pathForArchive,
         string $desiredFileType
