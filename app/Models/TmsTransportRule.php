@@ -13,11 +13,9 @@ class TmsTransportRule extends Model
     protected $table = 'tms_transport_rules';
 
     /**
-     * The trasport rules defined by Francesco.
+     * The trasport rules defined by Francesco. All rules defined by Francesco will be stored here,
+     * and from here it will be used to seed the database.
      */
-    // public const TRANSPORT_RULES = [
-    // ];
-    
     public const TRANSPORT_RULE_ARRAYS = [
         [
             'action_type' => 'setForwarder',

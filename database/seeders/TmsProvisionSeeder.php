@@ -14,8 +14,8 @@ class TmsProvisionSeeder extends Seeder
      */
     public function run(): void
     {
-        foreach (TmsProvision::PROVISIONS_FOR_SEEDINGS as $provision) {
-            DB::statement($provision);
+        foreach (TmsProvision::PROVISIONS_FOR_SEEDING as $provision) {
+            TmsProvision::create($provision);
         }
     }
 }
