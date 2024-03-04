@@ -50,10 +50,8 @@ class TmsOrderController extends Controller
     public function index(Request $request): Response
     {
         $searchTerm = $request->searchTerm ?? null;
-        // $sortColumn = $request->sortColumn ?? "order_date";
-        // $sortOrder = $request->sortOrder ?? "DESC";
-        $sortColumn = $request->sortColumn ?? "id";
-        $sortOrder = $request->sortOrder ?? "ASC";
+        $sortColumn = $request->sortColumn ?? "order_date";
+        $sortOrder = $request->sortOrder ?? "DESC";
         $searchColumns = $request->searchIn;
         //pagination stuff sent from front-end
         $page = $request->page;
@@ -75,17 +73,17 @@ class TmsOrderController extends Controller
             $newItemsPerPage,
             $searchColumns,
             [//these are the relations that we want to load with the records. Loading happens in the getRecords() function.
-                // 'parcels',
-                // 'orderAddresses',
-                // 'pickupAddresses',
-                // 'deliveryAddresses',
-                // 'forwarder',
-                // 'orderHistories.user.roles:id,name',
-                // 'partner',
-                // 'contact',
-                // 'customer.headquarter',
-                // 'nativeOrder',
-                // 'pamyraOrder',
+                'parcels',
+                'orderAddresses',
+                'pickupAddresses',
+                'deliveryAddresses',
+                'forwarder',
+                'orderHistories.user.roles:id,name',
+                'partner',
+                'contact',
+                'customer.headquarter',
+                'nativeOrder',
+                'pamyraOrder',
                 'emonsInvoice'
             ],
         );
