@@ -10,6 +10,8 @@ class TmsParcelTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * getAllParcelTypes() returns a simple array of strings, which are the parcel types (names used
+     * in Simplelogistik.
      */
     public function run(): void
     {

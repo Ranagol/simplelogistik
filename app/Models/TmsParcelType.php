@@ -72,7 +72,8 @@ class TmsParcelType extends Model
         ],
         [
             /**
-             * This is a catch-all for when we can't match the parcel type.
+             * This is a catch-all for when we can't match the parcel type, because Pamyra did not
+             * provide one with the given order/parcel.
              */
             'id' => 6,
             'parcelTypeSimplelogistik' => 'missing palett info',
