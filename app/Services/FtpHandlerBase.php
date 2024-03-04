@@ -75,18 +75,29 @@ class FtpHandlerBase
      * @param string $pathForArchive    This is the path where the file will be stored in our archive.
      * @param string $desiredFileType   
      */
-    public function __construct(
+    public function __construct(//why is this constructor activated during a migration?
         string $connectionName, 
         string $pathForArchive,
         string $desiredFileType
     )
     {
-        $this->connectionName = $connectionName;
-        $this->pathForArchive = $pathForArchive;
-        $this->desiredFileType = $desiredFileType;
-        $this->setConnectionMode();
-        $this->getFtpCredentials();
-        $this->createFtpServerStorage();
+        /**
+         * when no TmsFtpCredential data in db, the migration does not work. The migration does not
+         * work because  of this constructor. It throws an exception, although there is no need to
+         * use this constructor during a migration. So, to avoid all this issue, we simply put
+         * all the logic into a try catch block, so the app can simply continue its job, even if the
+         * ftp server data is not available.
+         */
+        try {
+            $this->connectionName = $connectionName;
+            $this->pathForArchive = $pathForArchive;
+            $this->desiredFileType = $desiredFileType;
+            $this->setConnectionMode();
+            $this->getFtpCredentials();
+            $this->createFtpServerStorage();
+        } catch (\Throwable $th) {
+            Log::error('Error: ' . $th->getMessage());
+        }
     }
 
     /**
