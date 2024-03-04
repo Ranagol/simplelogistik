@@ -204,6 +204,7 @@
                 "first_name": "Vorname",
                 "last_name": "Nachname",
                 "email": "E-Mail",
+                "country": "Land",
                 "phone": "Telefon",
                 "tax_number": "Steuernummer",
                 "rating": "Bewertung",
