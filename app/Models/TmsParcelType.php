@@ -199,18 +199,13 @@ class TmsParcelType extends Model
 
         $parcelTypeId = null;
 
-        foreach (self::$allParcelTypes as $type) {//1 level deep
-            foreach(
-                $type['parcelTypePamyra'] 
-                as 
-                $pamyraType) {//2 levels deep, looping over Pamyra types
+        foreach (self::$allParcelTypes as $type) {//1 level deep only
 
-                //Example (If EUR-Palette === EUR-Palette)
-                if ($pamyraType === $argument) {
+            //Example (If EUR-Palette === EUR-Palette)
+            if ($type['parcelTypePamyra'] === $argument) {
 
-                    //We extract here the id of the parcel type. This is what we need
-                    $parcelTypeId = $type['id'];
-                }
+                //We extract here the id of the parcel type. This is what we need
+                $parcelTypeId = $type['id'];
             }
         }
 
