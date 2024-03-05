@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('currency', 50)->comment('The currency of the order. Example: EUR, USD, GBP')->default('EUR');
             $table->date('order_date')->nullable();
             $table->string('purchase_price', 200)->comment('The purchase price of the order.');
-            $table->string('month_and_year')->comment('The month and year of the order. Example: 2021-01')->nullable();
+            $table->string('month_and_year')->comment('The month and year of the order, but in full date format.')->nullable();
 
             //Avis phone numbers. 
             $table->string('avis_customer_phone', 200)->comment('One time use customer phone number')->nullable();

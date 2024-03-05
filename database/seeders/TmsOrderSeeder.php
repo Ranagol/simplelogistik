@@ -10,8 +10,6 @@ use Illuminate\Database\Seeder;
 
 class TmsOrderSeeder extends Seeder
 {
-    
-
     /**
      * Run the database seeds.
      */
