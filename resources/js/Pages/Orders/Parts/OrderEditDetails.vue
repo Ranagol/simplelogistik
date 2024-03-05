@@ -384,7 +384,7 @@
             </div>
             <p class="mt-10 text-[16px] font-bold text-corporate-700">Fahrzeuganforderungen</p>
             <div class="p-8 bg-slate-200">
-                <pre>{{ content.details }}</pre>
+                <!-- <pre>{{ content.details }}</pre> -->
             </div>
         </div>
         <div class="grid w-full text-right">
