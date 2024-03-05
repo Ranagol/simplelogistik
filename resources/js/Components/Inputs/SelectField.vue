@@ -77,6 +77,7 @@
 
 <template>
         <div class="relative flex w-full">
+            
             <button 
             class="grid justify-between w-full z-10 grid-flow-col p-3 py-2 border min-h-[42px] rounded-md place-items-center border-gray-300"
             :id="_id + '-dropdown-button'"
@@ -85,6 +86,7 @@
             >   
             {{ getActiveOption() !== undefined ? $t(getActiveOption()[field.displayKey]) : "" }} <el-icon><ArrowDown v-if="!open"/><ArrowUp v-else/></el-icon>
             </button>
+            <span class="absolute top-0 z-10 px-2 -translate-y-1/2 bg-white left-1">{{ $t(field.label) }}</span>
             <div class="absolute z-50 hidden w-full bg-white border rounded-md overflow-clip text-corporate-700 min-w-max" :id="_id + '-dropdown'">
                 <div v-for="(option, index) in options"
                 @click="() => {

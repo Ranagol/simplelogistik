@@ -206,6 +206,7 @@ const headers = [
     },{
         show: true, 
         key: "last_editor", 
+        standard: 'System',
         title: "tables.orders.headers.last_editor", 
         sortable: true, 
         filterable: true, 
