@@ -226,9 +226,17 @@
             </div>
             <p class="mt-10 text-[16px] font-bold text-corporate-700">Adressen</p>
             <div class="grid max-w-full">
+                <div class="relative p-4 mb-4 rounded-md bg-slate-50">
+                    <span class="absolute px-3 text-white duration-200 bg-orange-600 rounded-full top-4 right-4 hover:bg-orange-600">{{ $t('pages.orders.titles.client_address') }}</span>
+                    <p>{{ content.customer.company_name }}</p>
+                    <p>{{ content.customer.first_name }} {{ content.customer.last_name }}</p>
+                    <p>{{ content.customer.headquarter.street }} {{ content.customer.headquarter.house_number }}</p>
+                    <p>{{ content.customer.headquarter.zip_code }} {{ content.customer.headquarter.city }}</p>
+                    <p class="pt-2 mt-2 border-t"><a :href="'tel:' + content.customer.headquarter.phone">{{ content.customer.headquarter.phone }}</a></p>
+                    <p><a :href="'mailto:' + content.customer.headquarter.email">{{ content.customer.headquarter.email }}</a></p>
+                </div>
                 <div class="grid max-w-full grid-flow-col gap-4 pb-4 overflow-x-scroll">
                     <div v-for="address,ai in content.addresses" class="grid w-[350px] p-3 bg-slate-50 rounded-md gap-4">
-                        
                         <div v-for="row,ri in _config.sections.addresses.rows" :class="row.className">
                             <div v-for="field,fi in row.fields" :class="field.className">
                                 <div class="relative pt-8" v-if="field.type==='badge_dd'">
