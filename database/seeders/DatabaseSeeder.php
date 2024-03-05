@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             TmsCustomerSeeder::class,
             TmsPartnerSeeder::class,
             TmsPaymentMethodSeeder::class,
+            TmsParcelTypeSeeder::class,
             TmsGearSeeder::class,
             TmsAddressSeeder::class,
             // TmsContactSeeder::class,
