@@ -67,7 +67,7 @@ class ParcelService {
             'order_id' => $orderId,
             'name' => $parcel['Name'] ?? null,
             //Example: 'EUR-Palette' ParcelName will return 2, which is the id for 'euro palett'
-            'parcel_type_id' => TmsParcelType::getParcelTypeIdPamyra($parcel['Name']) ?? null,
+            'parcel_type_id' => TmsParcelType::getParcelTypeIdPamyra($parcel['Name'] ?? null),
             'height' => $parcel['Height'] ?? null,
             'length' => $parcel['Length'] ?? null,
             'width' => $parcel['Width'] ?? null,

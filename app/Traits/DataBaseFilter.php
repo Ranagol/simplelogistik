@@ -70,7 +70,10 @@ trait DataBaseFilter {
          * Include the query string too into pagination data links for page 1,2,3,4... 
          * And the url will now include this too: http://127.0.0.1:8000/users?search=a&page=2 
          */
-        $records = $query->with($relationshipNames)->paginate( $newItemsPerPage ?? 10)->onEachSide(1)->withQueryString();//With Patrick adding the relationships
+        $records = $query->with($relationshipNames)
+                            ->paginate( $newItemsPerPage ?? 10)
+                            ->onEachSide(1)
+                            ->withQueryString();//With Patrick adding the relationships
 
         return $records;
     }

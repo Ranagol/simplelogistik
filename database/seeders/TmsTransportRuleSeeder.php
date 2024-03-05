@@ -14,8 +14,8 @@ class TmsTransportRuleSeeder extends Seeder
      */
     public function run(): void
     {
-        foreach (TmsTransportRule::TRANSPORT_RULES as $rule) {
-            DB::statement($rule);
+        foreach (TmsTransportRule::TRANSPORT_RULE_ARRAYS as $rule) {
+            TmsTransportRule::create($rule);
         }
     }
 }

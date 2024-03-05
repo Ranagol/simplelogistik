@@ -88,7 +88,9 @@
             "update": "Aktualisieren",
             "filter": "Filtern",
             "arrange": "Anordnen",
-            "add_parcel": "Packstück hinzufügen"
+            "add_parcel": "Packstück hinzufügen",
+            "cancel_order": "Auftrag stornieren",
+            "add_address": "Addresse hinzufügen"
         },
         "orders": {
             "index": "Zurück zur Übersicht",
@@ -297,6 +299,7 @@
     "tables": {
         "orders": {
             "headers": {
+                "order": "Auftrag",
                 "order_number": "Auftragsnummer",
                 "forwarder": "Dienstleister",
                 "type_of_transport": "Transportart",
@@ -396,6 +399,7 @@
         "address-billing": "Rechnungsadresse",
         "address-headquarter": "Hauptsitz",
         "general": {
+            "not_cancelled": "nein",
             "search": "Einträge suchen",
             "measurements": "Maße",
             "weight": "Gewicht",

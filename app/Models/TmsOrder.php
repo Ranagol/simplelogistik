@@ -54,7 +54,6 @@ class TmsOrder extends Model
         'Stückgut Deutschlandweit B2B / B2C',
         'Planensprinter Abholung innerhalb 4h',
         'Sperrgut MAX. 35KG / verpackt B2B / B2C',
-        
     ];
 
     /**
@@ -229,6 +228,20 @@ class TmsOrder extends Model
             'order_order_attribute', 
             'order_id', 
             'order_attribute_id'
+        );
+    }
+
+    /**
+     * Return the emons invoice for this order. If there is one.
+     *
+     * @return HasOne
+     */
+    public function emonsInvoice(): HasOne
+    {
+        return $this->hasOne(
+            TmsEmonsInvoice::class, 
+            'order_number', 
+            'order_number'
         );
     }
 }

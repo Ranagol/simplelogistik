@@ -54,6 +54,7 @@ class TmsOrderIndexResource extends JsonResource
             'customer' => $this->customer,
             'partner' => $this->partner,
             'contact' => $this->contact,
+            'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
             'details' => $this->setDetails(),
 
             //special data for FE
@@ -66,6 +67,11 @@ class TmsOrderIndexResource extends JsonResource
         ];
     }
 
+    /**
+     * It returns either pamyra order or native order data.
+     *
+     * @return array
+     */
     private function setDetails(): array
     {
         $details = $this->pamyraOrder?->toArray() ?? $this->nativeOrder?->toArray();
