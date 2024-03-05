@@ -50,8 +50,11 @@ class TmsOrderController extends Controller
     public function index(Request $request)
     {
         $searchTerm = $request->searchTerm ?? null;
-        $sortColumn = $request->sortColumn ?? "order_date";
-        $sortOrder = $request->sortOrder ?? "DESC";
+        // $sortColumn = $request->sortColumn ?? "order_date";
+        // $sortOrder = $request->sortOrder ?? "DESC";
+
+        $sortColumn = $request->sortColumn ?? "id";
+        $sortOrder = $request->sortOrder ?? "ASC";
         $searchColumns = $request->searchIn;
         //pagination stuff sent from front-end
         $page = $request->page;
@@ -90,7 +93,7 @@ class TmsOrderController extends Controller
 
         $records = new TmsOrderIndexCollection($records);
 
-        return response()->json($records);//TODO ANDOR I STOPPED HERE, HAD TO SWITCH TO ANOTHER URGENT TASK
+        return response()->json($records);
 
         return Inertia::render(
             $this->index, 

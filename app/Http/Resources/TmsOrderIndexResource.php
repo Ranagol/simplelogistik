@@ -47,19 +47,19 @@ class TmsOrderIndexResource extends JsonResource
             'last_editor' => $this->orderHistoryLatest?->user?->name,
             
             //relationships are loaded in the controller, so here we can just return them.
-            'parcels' => $this->parcels,
-            'addresses' => $this->orderAddresses,
-            'forwarder' => $this->forwarder,
-            'history' => $this->orderHistories,
-            'customer' => $this->customer,
-            'partner' => $this->partner,
-            'contact' => $this->contact,
-            'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
-            'details' => $this->setDetails(),
+            // 'parcels' => $this->parcels,
+            // 'addresses' => $this->orderAddresses,
+            // 'forwarder' => $this->forwarder,
+            // 'history' => $this->orderHistories,
+            // 'customer' => $this->customer,
+            // 'partner' => $this->partner,
+            // 'contact' => $this->contact,
+            // 'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
+            // 'details' => $this->setDetails(),
 
             //special data for FE
             '_firstPickupAddress' => $this->getFirstPickupAddress(),
-            'andor' => 'testiing',
+            // 'andor' => 'testiing',
 
             // 'firstDeliveryAddress' => $this->getFirstDeliveryAddress(),
             // 'firstPickupDate' => $this->getFirstPickupDate(),
@@ -78,18 +78,24 @@ class TmsOrderIndexResource extends JsonResource
         return ($details !== null) ? $details : [];
     }
 
+    /**
+     * $this->orderAddresses            //this is a collection!!!!!
+     *
+     * @return void
+     */
     private function getFirstPickupAddress()
     {
-        // $firstpickupAddress = $this->orderAddresses
-        //                         ->where('type', 'labels.address-pickup')//only pickup addresses. Mutator invlolved.
-        //                         ->sortBy('order', SORT_NATURAL);
-        //                         // ->first();
-        
+        // $sortedByOrder = $this->orderAddresses->sortBy('order');
+        $sortedByOrder = $this->pickupAddresses->sortBy('order');
+
+        // dd($sortedByOrder);
 
         // $zipAndCity = $firstpickupAddress->zip_code . ' ' . $firstpickupAddress->city;
         // dd($zipAndCity);
 
-        return 'random string for andor xxxxxxxxxxx';
+        // return $firstpickupAddress;
+        // dd($this->orderAddresses);//this is a collection!!!!!
+        return $sortedByOrder;
     }
 
     // private function getFirstDeliveryAddress(): string
