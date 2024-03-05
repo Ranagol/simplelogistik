@@ -47,7 +47,6 @@ class TmsOrderIndexResource extends JsonResource
             'last_editor' => $this->orderHistoryLatest?->user?->name,
             
             //relationships are loaded in the controller, so here we can just return them.
-            //this is not deleted, because I expect that we will need it in the future.
             'parcels' => $this->parcels,
             'addresses' => $this->orderAddresses,
             'forwarder' => $this->forwarder,
@@ -56,6 +55,14 @@ class TmsOrderIndexResource extends JsonResource
             'partner' => $this->partner,
             'contact' => $this->contact,
             'details' => $this->setDetails(),
+
+            //special data for FE
+            '_firstPickupAddress' => $this->getFirstPickupAddress(),
+            // 'andor' => 'testiiiiiiing',
+
+            // 'firstDeliveryAddress' => $this->getFirstDeliveryAddress(),
+            // 'firstPickupDate' => $this->getFirstPickupDate(),
+            // 'lastDeliveryDate' => $this->getLastDeliveryDate(),
         ];
     }
 
@@ -64,4 +71,34 @@ class TmsOrderIndexResource extends JsonResource
         $details = $this->pamyraOrder?->toArray() ?? $this->nativeOrder?->toArray();
         return ($details !== null) ? $details : [];
     }
+
+    private function getFirstPickupAddress()
+    {
+        // $firstpickupAddress = $this->orderAddresses
+        //                         ->where('type', 'labels.address-pickup')//only pickup addresses. Mutator invlolved.
+        //                         ->sortBy('order', SORT_NATURAL);
+        //                         // ->first();
+        
+
+        // $zipAndCity = $firstpickupAddress->zip_code . ' ' . $firstpickupAddress->city;
+        // dd($zipAndCity);
+
+        // return 'random string for andor';
+    }
+
+    // private function getFirstDeliveryAddress(): string
+    // {
+    // }
+
+    // private function getFirstPickupDate(): string
+    // {
+    // }
+
+    // private function getLastDeliveryDate(): string
+    // {
+    // }
+
+
+
+
 }
