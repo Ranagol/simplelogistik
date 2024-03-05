@@ -15,7 +15,8 @@ import {router} from "@inertiajs/vue3"
                 </a>
             </span>
             <span v-else-if="cellConfig.contentConfig.type == 'image'">
-                <img :src="cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key]" class="object-contain w-full h-5">
+                <img v-if="(cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key])" :src="cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key]" class="object-contain w-full h-5">
+                <span v-else>{{ $t('labels.general.messages.no_image_present') }}</span>
             </span>
             <span v-else-if="cellConfig.contentConfig.type == 'date'">
                 {{ moment(cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key]).format(cellConfig.contentConfig.format) }} 
