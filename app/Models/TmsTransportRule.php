@@ -61,10 +61,10 @@ class TmsTransportRule extends Model
             'action_type' => 'setTypeOfTransport',
             'source_field' => 'calculationModelName',
             'condition_operator' => 'contains',
-            'keyphrase' => 'Directfahrt',
+            'keyphrase' => 'Direktfahrt',
             'target_table_name' => 'tms_orders',
             'target_column_name' => 'type_of_transport',
-            'target_new_value' => 'Directfahrt',
+            'target_new_value' => 'Direktfahrt',
             'description' => '',
         ],
         [
