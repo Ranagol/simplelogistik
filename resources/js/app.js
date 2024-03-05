@@ -1,4 +1,7 @@
 import 'flowbite';
+import 'flowbite-datepicker';
+import 'flowbite-datepicker/Datepicker';
+import 'flowbite/dist/datepicker.turbo.js';
 import '../css/app.css';
 import './bootstrap';
 // import "./config/resetStorage";

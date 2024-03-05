@@ -14,6 +14,12 @@ import {router} from "@inertiajs/vue3"
                     {{ content[cellConfig.key] }}
                 </a>
             </span>
+            <span v-else-if="cellConfig.contentConfig.type == 'image'">
+                <img :src="cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key]" class="object-contain w-full h-5">
+            </span>
+            <span v-else-if="cellConfig.contentConfig.type == 'date'">
+                {{ moment(cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key]).format(cellConfig.contentConfig.format) }} 
+            </span>
         </span>
         <span v-else-if="cellConfig.subkey">
             {{ content[cellConfig.key][cellConfig.subkey] }}

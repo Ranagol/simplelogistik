@@ -1,10 +1,14 @@
 <script setup>
 import TableCell from "@/Components/Tables/TableCell.vue"
 import { ArrowDown, CloseBold, Star, StarFilled, View } from "@element-plus/icons-vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import OrderAddressBox from "@/Components/Boxes/OrderAddressBox.vue";
 import OrderParcelBox from "@/Components/Boxes/OrderParcelBox.vue";
 import OrderDetailBox from "@/Components/Boxes/OrderDetailBox.vue";
+import { store as useStore } from "@/Stores/dashboardStore";
+const dashboardStore = useStore();
+var orders = dashboardStore.getOrders();
+
 const props = defineProps({
     content: {
         type: Object,
@@ -29,24 +33,25 @@ props.cellConfig.map((cell) => {
     cell.show ? colspan++ : null
 })
 
-
-/** 
- * Temporary solution for watched items
- * Needs to be replaced with backend support
- * */
-var watchedItems = ref([]);
-
-const placeOnDashboard = (id) => {
-    watchedItems.value.includes(id) ? watchedItems.value = watchedItems.value.filter(item => item !== id) : watchedItems.value.push(id) 
-}
-
-const isWatched = (id) => {
-    return watchedItems.value.includes(id)
-}
-
 var _dd_ID = Math.random().toString(36).slice(2, 12);
 
-// Watched Items end
+const placeOnDashboard = (item) => {
+    try{
+        if(dashboardStore.find(item) === undefined){
+            dashboardStore.addOrderToWatchList(item);
+        } else {
+            dashboardStore.remove(item);
+        }
+    } catch(error){
+        console.error(error);
+    }
+}
+
+
+
+var isWatched = (item) => {
+    return dashboardStore.find(item) !== undefined
+}
 
 </script>
 <template>
@@ -62,8 +67,8 @@ var _dd_ID = Math.random().toString(36).slice(2, 12);
         </td>
         <td>
             <div class="grid p-3 bg-transparent place-items-center">
-                <span class="cursor-pointer" @click="placeOnDashboard(content.id)">
-                    <el-icon v-if="isWatched(content.id) === true" size="20" color="#215e7d"><StarFilled /></el-icon>
+                <span class="cursor-pointer" @click="() => placeOnDashboard(content)">
+                    <el-icon v-if="isWatched(content)" size="20" color="#215e7d"><StarFilled /></el-icon>
                     <el-icon v-else size="20" color="#215e7d"><Star /></el-icon>
                 </span>
             </div>

@@ -8,7 +8,7 @@ import OrderCustomerNotes from "@/Pages/Orders/Parts/OrderCustomerNotes.vue"
 import OrderChangelog from "@/Pages/Orders/Parts/OrderChangelog.vue"
 
 export default {
-    title: "pages.orders.edit",
+    title: "",
     preset: "tabs",
     mode: "edit",
     tabs: [
