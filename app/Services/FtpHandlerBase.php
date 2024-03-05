@@ -22,7 +22,9 @@ class FtpHandlerBase
     protected string $connectionName;
 
     /**
-     * This is the connection mode. It can be test or live.
+     * This is the connection mode. It can be test or live. This is decided automatically by the
+     * app, and it depends on the environment. If the app is in local environment, the connection
+     * mode will be test. If the app is in production environment, the connection mode will be live.
      *
      * @var string
      */
