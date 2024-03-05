@@ -47,7 +47,7 @@ class TmsOrderController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request)
     {
         $searchTerm = $request->searchTerm ?? null;
         $sortColumn = $request->sortColumn ?? "order_date";
@@ -89,6 +89,8 @@ class TmsOrderController extends Controller
         );
 
         $records = new TmsOrderIndexCollection($records);
+
+        return response()->json($records);//TODO ANDOR I STOPPED HERE, HAD TO SWITCH TO ANOTHER URGENT TASK
 
         return Inertia::render(
             $this->index, 

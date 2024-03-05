@@ -59,7 +59,7 @@ class TmsOrderIndexResource extends JsonResource
 
             //special data for FE
             '_firstPickupAddress' => $this->getFirstPickupAddress(),
-            // 'andor' => 'testiiiiiiing',
+            'andor' => 'testiing',
 
             // 'firstDeliveryAddress' => $this->getFirstDeliveryAddress(),
             // 'firstPickupDate' => $this->getFirstPickupDate(),
@@ -89,7 +89,7 @@ class TmsOrderIndexResource extends JsonResource
         // $zipAndCity = $firstpickupAddress->zip_code . ' ' . $firstpickupAddress->city;
         // dd($zipAndCity);
 
-        // return 'random string for andor';
+        return 'random string for andor xxxxxxxxxxx';
     }
 
     // private function getFirstDeliveryAddress(): string
