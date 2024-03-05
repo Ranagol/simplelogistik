@@ -50,7 +50,7 @@ class TmsOrderController extends Controller
     public function index(Request $request): Response
     {
         $searchTerm = $request->searchTerm ?? null;
-        $sortColumn = $request->sortColumn ?? "order_date";
+        $sortColumn = $request->sortColumn ?? "order_number";
         $sortOrder = $request->sortOrder ?? "DESC";
         $searchColumns = $request->searchIn;
         //pagination stuff sent from front-end
