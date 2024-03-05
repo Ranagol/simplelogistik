@@ -17,7 +17,7 @@ class TmsParcelTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word,
+            'name' => null,
             'description' => $this->faker->word,
         ];
     }

@@ -13,56 +13,73 @@ class TmsParcelType extends Model
     protected $guarded = ['id'];
     protected $table = "tms_parcel_types";
 
-    // public const PARCEL_TYPES = [//OLD, to be removed
-    //     'bulky goods', 
-    //     'euro pallet', 
-    //     'one-way pallet',
-    //     'cardboard',
-    //     'pallet cage'
-    // ];
-
     /**
      * All parcel types.
      * A list of Pamyra parcel types can be found here: https://www.pamyra.de/app?step=2
+     * 
+     * parcelTypeSimplelogistik - this is our name for the parcel type in Simplelogistik
+     * display - if true, the parcel type will be displayed in the front-end (not all will be displayed)
+     * parcelTypePamyra - this is the name of the parcel type in Pamyra
      *
      * @var array
      */
-    private static $allParcelTypes = [//NEW
+    private static $allParcelTypes = [
         [
             'id' => 1,
-            'parcelType' => 'bulky goods',
+            'parcelTypeSimplelogistik' => 'bulky goods',
             'display' => false,
-            'pamyraName' => 'none'
+            'parcelTypePamyra' => []//there is no parcel type in Pamyra for 'bulky goods'
         ],
         [
             'id' => 2,
-            'parcelType' => 'euro pallet',
+            'parcelTypeSimplelogistik' => 'euro pallet',
             'display' => true,
-            'pamyraName' => 'EUR-Palette'
+            'parcelTypePamyra' => [
+                'EUR-Palette',
+                'EUR-Palette mit Überhang',
+            ]
         ],
         [
             'id' => 3,
-            'parcelType' => 'one-way pallet',
+            'parcelTypeSimplelogistik' => 'one-way pallet',
             'display' => true,
-            'pamyraName' => 'Einweg-Palette'
+            'parcelTypePamyra' => [
+                'Einweg-Palette',
+                'ENP Palette (nicht tauschbar)',
+                'Halbpalette',
+                'Industriepalette',
+                'Sonstige / Eigene Maße (palettiert)',
+            ]
         ],
         [
             'id' => 4,
-            'parcelType' => 'cardboard',
+            'parcelTypeSimplelogistik' => 'cardboard',
             'display' => false,
-            'pamyraName' => 'none'
+            'parcelTypePamyra' => [
+                'Fahrrad (im Karton)',
+                'E-Bike (im Karton)',
+                'Sonstige / Eigene Maße (nicht palettiert)',
+                'Paket',
+                'Stück / loses Stückgut (nicht palettiert)',
+            ]
         ],
         [
             'id' => 5,
-            'parcelType' => 'pallet cage',
+            'parcelTypeSimplelogistik' => 'pallet cage',
             'display' => false,
-            'pamyraName' => 'EUR-Gitterbox'
+            'parcelTypePamyra' => [
+                'EUR-Gitterbox',
+            ]
         ],
         [
+            /**
+             * This is a catch-all for when we can't match the parcel type, because Pamyra did not
+             * provide one with the given order/parcel.
+             */
             'id' => 6,
-            'parcelType' => 'missing palett info',
+            'parcelTypeSimplelogistik' => 'missing palett info',
             'display' => false,
-            'pamyraName' => 'none'
+            'parcelTypePamyra' => []
         ],
     ];
 
@@ -79,7 +96,8 @@ class TmsParcelType extends Model
 
     /**
      * Get the value of allParcelTypes. Althoug this is a nested array, we return a simple array of
-     * strings, which are the parcel types.
+     * strings, which are the parcel types (names used in Simplelogistik).
+     * This is used in seeders and factories.
      * 
      * @return array    Array of all parcel types.
      */ 
@@ -88,7 +106,7 @@ class TmsParcelType extends Model
         $allParcelTypes = [];
 
         foreach (self::$allParcelTypes as $parcelType) {
-            $allParcelTypes[] = $parcelType['parcelType'];
+            $allParcelTypes[] = $parcelType['parcelTypeSimplelogistik'];
         }
 
         return $allParcelTypes;
@@ -99,6 +117,7 @@ class TmsParcelType extends Model
      * case is for, yes, display the parcel type in the front-end.
      * Althoug this is a nested array, we return a simple array of
      * strings, which are the parcel types.
+     * This is used to send parcel types to the front-end.
      * 
      * @return array    Array of parcel type that are to be displayed in the front-end.
      */
@@ -108,64 +127,22 @@ class TmsParcelType extends Model
 
         foreach (self::$allParcelTypes as $parcelType) {
             if ($parcelType['display'] === true) {
-                $frontendParcelTypes[] = $parcelType['parcelType'];
+                $frontendParcelTypes[] = $parcelType['parcelTypeSimplelogistik'];
             }
         }
         return $frontendParcelTypes;
     }
 
     /**
-     * Gets the parcel type id from the Simplelogistik parcel type name. Example: 'euro pallet'
-     * will return 2.
-     * If the function can't match the parcel type, it will return 6, which is the id for 'missing
-     * palett info'.
-     * 
-     * For testing in Tinker:
-     * App\Models\TmsParcelType::getParcelTypeIdSimplelogistik('bulky goods');
-     * App\Models\TmsParcelType::getParcelTypeIdSimplelogistik('should fail');
-     *
-     * @param string|null     $simplelogistikParcelType
-     * @return integer
-     */
-    public static function getParcelTypeIdSimplelogistik(string | null $simplelogistikParcelType): int
-    {
-
-        if ($simplelogistikParcelType === null) {
-            return 6;//missing palett info
-        }
-
-        $filteredNestedArray = array_filter(
-            self::$allParcelTypes,//loop throug this array...
-            function ($parcel) use ($simplelogistikParcelType) {
-
-                //and find the nested array that matches the parcel type
-                return $parcel['parcelType'] === $simplelogistikParcelType;
-            }
-        );
-
-        /**
-         * The array_filter() function preserves keys by default, so the keys in $filteredArray 
-         * will be the same as in the original $array. If you want to reindex the keys, you can use 
-         * the array_values() function:
-         */
-        $filteredNestedArray = array_values($filteredNestedArray);
-
-        //If there is a nested array, return the id of it
-        if (isset($filteredNestedArray[0]) === true) {
-            return $filteredNestedArray[0]['id'];//Example: for euro pallet, return 2
-        }
-
-        //... otherwise return 6, which is the id for 'missing palett info'
-        return 6;//missing palett info
-    }
-
-    /**
      * Gets the parcel type id from the Pamyra parcel type name. Example: 'EUR-Palette'
      * will return 2.
      * 
+     * This is used to get the parcel type id from the name of the parcel type in Pamyra. In ParcelService.php
+     * 
      * For testing in Tinker:
-     * App\Models\TmsParcelType::getParcelTypeIdPamyra('EUR-Palette');
-     * App\Models\TmsParcelType::getParcelTypeIdPamyra('should fail');
+     * App\Models\TmsParcelType::getParcelTypeIdPamyra('EUR-Palette');//2
+     * App\Models\TmsParcelType::getParcelTypeIdPamyra('should fail');//6
+     * App\Models\TmsParcelType::getParcelTypeIdPamyra('Sonstige / Eigene Maße (palettiert)');//3
      * 
      * If the function can't match the parcel type, it will return 6, which is the id for 'missing
      * palett info'.
@@ -173,32 +150,35 @@ class TmsParcelType extends Model
      * @param string|null $parcelType
      * @return integer
      */
-    public static function getParcelTypeIdPamyra(string|null $pamyraParcelType): int
+    public static function getParcelTypeIdPamyra(string|null $argument): int
     {
-        if ($pamyraParcelType === null) {
-            return 6;//missing palett info
+        //This is a guard clause, because Pamyra might not provide a parcel type
+        if ($argument === null) {
+            return self::$allParcelTypes[5]['id'];//return 6, which is the id for 'missing palett info'
         }
 
-        $filteredNestedArray = array_filter(
-            self::$allParcelTypes, 
-            function ($parcel) use ($pamyraParcelType) {
-                return $parcel['pamyraName'] === $pamyraParcelType;
+        $parcelTypeId = null;
+
+        foreach (self::$allParcelTypes as $type1) {//1 level deep only
+
+            foreach ($type1['parcelTypePamyra'] as $type2) {//2 levels deep
+
+                //Example: if EUR-Palette from this model const === EUR-Palette from pamyra json file
+                if ($type2 === $argument) {
+
+                    //We extract here the id of the parcel type. This is what we need
+                    $parcelTypeId = $type1['id'];
+                }
             }
-        );
+        }
 
-        /**
-         * The array_filter() function preserves keys by default, so the keys in $filteredArray 
-         * will be the same as in the original $array. If you want to reindex the keys, you can use 
-         * the array_values() function:
-         */
-        $filteredNestedArray = array_values($filteredNestedArray);
+        if ($parcelTypeId !== null) {
 
-        //If there is a nested array, return the id of it
-        if (isset($filteredNestedArray[0]) === true) {
-            return $filteredNestedArray[0]['id'];//Example: for euro pallet, return 2
+            //If we found a match, return the id of the parcel type. This is the id we need
+            return $parcelTypeId;
         }
 
         //... otherwise return 6, which is the id for 'missing palett info'
-        return 6;//missing palett info
+        return self::$allParcelTypes[5]['id'];//return 6, which is the id for 'missing palett info'
     }
 }
