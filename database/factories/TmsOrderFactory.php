@@ -45,7 +45,7 @@ class TmsOrderFactory extends Factory
             'provision' => $this->faker->randomFloat(2, 0, 10),//provision should be less than 10%
             'order_date' => $this->faker->date(),
             'purchase_price' => $this->faker->randomFloat(2, 0, 1000),
-            'month_and_year' => $this->faker->monthName() . ' - ' . $this->faker->year(),
+            'month_and_year' => $this->faker->dateTime(), // generates a random datetime
             'shipping_label_pdf' => $this->faker->url,
             // 'order_number' => $this->faker->numerify('#######'),
             'order_number' => 666666,
