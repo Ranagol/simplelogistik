@@ -77,5 +77,15 @@ class TmsTransportRule extends Model
             'target_new_value' => 'Stückgut',
             'description' => '',
         ],
+        [
+            'action_type' => 'setForwarder',
+            'source_field' => 'calculationModelName',
+            'condition_operator' => 'contains',
+            'keyphrase' => 'FTL / LTL',
+            'target_table_name' => 'tms_orders',
+            'target_column_name' => 'forwarder_id',
+            'target_new_value' => '2',
+            'description' => '2 is TimoCom',
+        ],
     ];
 }
