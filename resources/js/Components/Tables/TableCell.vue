@@ -26,7 +26,10 @@ import {router} from "@inertiajs/vue3"
             {{ content[cellConfig.key][cellConfig.subkey] }}
         </span>
         <span v-else>
-            {{ content[cellConfig.key] ?? "N/A"}}
+            <span v-if="cellConfig.standard && (content[cellConfig.key] === null || content[cellConfig.key] === undefined)">{{ $t(cellConfig.standard) }}</span>
+            <span v-else>
+                {{ content[cellConfig.key] ?? "N/A"}}
+            </span>
         </span>
     </td>
 </template>
