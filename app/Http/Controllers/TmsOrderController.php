@@ -93,8 +93,6 @@ class TmsOrderController extends Controller
 
         $records = new TmsOrderIndexCollection($records);
 
-        return response()->json($records);
-
         return Inertia::render(
             $this->index, 
             [

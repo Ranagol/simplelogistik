@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -47,23 +48,23 @@ class TmsOrderIndexResource extends JsonResource
             'last_editor' => $this->orderHistoryLatest?->user?->name,
             
             //relationships are loaded in the controller, so here we can just return them.
-            // 'parcels' => $this->parcels,
-            // 'addresses' => $this->orderAddresses,
-            // 'forwarder' => $this->forwarder,
-            // 'history' => $this->orderHistories,
-            // 'customer' => $this->customer,
-            // 'partner' => $this->partner,
-            // 'contact' => $this->contact,
-            // 'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
-            // 'details' => $this->setDetails(),
-
-            //special data for FE
-            '_firstPickupAddress' => $this->getFirstPickupAddress(),
-            // 'andor' => 'testiing',
-
-            // 'firstDeliveryAddress' => $this->getFirstDeliveryAddress(),
-            // 'firstPickupDate' => $this->getFirstPickupDate(),
-            // 'lastDeliveryDate' => $this->getLastDeliveryDate(),
+            'parcels' => $this->parcels,
+            'addresses' => $this->orderAddresses,
+            'forwarder' => $this->forwarder,
+            'history' => $this->orderHistories,
+            'customer' => $this->customer,
+            'partner' => $this->partner,
+            'contact' => $this->contact,
+            'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
+            'details' => $this->setDetails(),
+            'firstPickupAddress' => $this->getFirstAddressZipAndCity(
+                $this->pickupAddresses->sortBy('date_from')
+            ),
+            'firstDeliveryAddress' => $this->getFirstAddressZipAndCity(
+                $this->pickupAddresses->sortBy('date_from')
+            ),
+            'firstPickupDate' => $this->getFirstPickupDate(),
+            'lastDeliveryDate' => $this->getLastDeliveryDate(),
         ];
     }
 
@@ -79,38 +80,71 @@ class TmsOrderIndexResource extends JsonResource
     }
 
     /**
-     * $this->orderAddresses            //this is a collection!!!!!
+     * Returns the zip and city of the first pickup address, and the number of the remaining addresses.
+     * Works both for pickup and for delivery addresses. If a pickup address collection is given as 
+     * an argument, then it work with pickup addresses. If a delivery address collection is given as
+     * an argument, then it works with delivery addresses.
      *
-     * @return void
+     * @param Collection $addresses     Example: $this->pickupAddresses->sortBy('date_from')
+     * @return string
      */
-    private function getFirstPickupAddress()
+    private function getFirstAddressZipAndCity(Collection $addresses): string
     {
-        // $sortedByOrder = $this->orderAddresses->sortBy('order');
-        $sortedByOrder = $this->pickupAddresses->sortBy('order');
+        $zipAndCity = null;
 
-        // dd($sortedByOrder);
+        //If there is no pickup address, then we return an empty string
+        if($addresses->count() === 0) {
+            $zipAndCity = '';
+        }
 
-        // $zipAndCity = $firstpickupAddress->zip_code . ' ' . $firstpickupAddress->city;
-        // dd($zipAndCity);
+        //If there is only one pickup address, then we return the zip and city of that address as a string
+        if($addresses->count() === 1) {
+            $firstPickupAddress = $addresses->first();
+            $zipAndCity = $firstPickupAddress->zip_code . ' ' . $firstPickupAddress->city;
+        }
 
-        // return $firstpickupAddress;
-        // dd($this->orderAddresses);//this is a collection!!!!!
-        return $sortedByOrder;
+        /**
+         * If there are more than one pickup addresses, then we return the zip and city of the first 
+         * address, and we add the number of the remaining addresses, all as a string.
+         */
+        if($addresses->count() > 1) {
+            $firstPickupAddress = $addresses->first();
+            $zipAndCity = $firstPickupAddress->zip_code 
+                        . ' ' 
+                        . $firstPickupAddress->city
+                        . " + " 
+                        . ($addresses->count() - 1) . " more";
+        }
+
+        return $zipAndCity;
     }
 
-    // private function getFirstDeliveryAddress(): string
-    // {
-    // }
+    /**
+     * Returns the date_from of the first pickup address.
+     * Takes all belonging pickup addresses, and sorts them by date_from, then takes the first
+     * pickup address, and returns its date_from.
+     *
+     * @return string
+     */
+    private function getFirstPickupDate(): string
+    {
+        
+        $earliestPickupaddress = $this->pickupAddresses->sortBy('date_from')->first();
 
-    // private function getFirstPickupDate(): string
-    // {
-    // }
+        return $earliestPickupaddress->date_from;
+    }
 
-    // private function getLastDeliveryDate(): string
-    // {
-    // }
+    /**
+     * Returns the date_to of the last delivery address.
+     * Takes all belonging delivery addresses, and sorts them by date_to, then takes the last one.
+     *
+     * @return string
+     */
+    private function getLastDeliveryDate(): string
+    {
+        //Take all belonging delivery addresses, and sort them by date_to, then take the last one.
+        $latestDeliveryAddress = $this->deliveryAddresses->sortBy('date_to')->last();
 
-
-
-
+        return $latestDeliveryAddress->date_to;
+    }
 }
