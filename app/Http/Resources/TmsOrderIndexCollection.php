@@ -26,8 +26,6 @@ class TmsOrderIndexCollection extends ResourceCollection
              * order index page. The data is formatted in TmsOrderIndexResource.php.
              */
             'data' => $this->collection,
-
-
         ];
     }
 }
