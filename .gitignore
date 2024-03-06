@@ -24,3 +24,4 @@ yarn-error.log
 /.vscode
 components.d.ts
 yarn.lock
+.DS_Store
