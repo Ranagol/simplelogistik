@@ -201,10 +201,7 @@ class OrderService {
 
             //Search for the keyphrase in the calculation model name
             if(strpos($calculationModelName, $rule->keyphrase) !== false) {
-                $forwarderId = TmsForwarder::where('company_name', 'Emons')
-                                            ->where('id', 1)
-                                            ->firstOrFail()
-                                            ->id;
+                $forwarderId = $rule->target_new_value;
                 break;//if we found the forwarder, we don't need to continue the loop
             } 
         }
