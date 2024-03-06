@@ -194,11 +194,10 @@ class TmsOrder extends Model
      *
      * @return HasOne
      */
-    public function billingAddress(): BelongsTo
+    public function billingAddress(): HasOne
     {
-        return $this->belongsTo(TmsOrderAddress::class, 'order_id')
-            ->where('address_type', 2);//2 is the address type for billing address.
-            
+        return $this->hasOne(TmsOrderAddress::class, 'order_id')
+            ->where('address_type', 2);
     }
 
     public function forwarder(): BelongsTo

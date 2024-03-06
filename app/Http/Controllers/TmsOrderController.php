@@ -74,14 +74,11 @@ class TmsOrderController extends Controller
             $searchColumns,
             [//these are the relations that we want to load with the records. Loading happens in the getRecords() function.
                 'parcels',
-                'orderAddresses',
-                'pickupAddresses',
-                'deliveryAddresses',
                 'forwarder',
                 'orderHistories.user.roles:id,name',
                 'partner',
                 'contact',
-                'customer.headquarter',
+                'customer',
                 'nativeOrder',
                 'pamyraOrder',
                 'emonsInvoice'
@@ -89,6 +86,8 @@ class TmsOrderController extends Controller
         );
 
         $records = new TmsOrderIndexCollection($records);
+
+        return response()->json($records);
 
         return Inertia::render(
             $this->index, 

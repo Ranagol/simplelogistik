@@ -49,14 +49,16 @@ class TmsOrderIndexResource extends JsonResource
             
             //relationships are loaded in the controller, so here we can just return them.
             'parcels' => $this->parcels,
-            'addresses' => $this->orderAddresses,
             'forwarder' => $this->forwarder,
             'history' => $this->orderHistories,
             'customer' => $this->customer,
             'partner' => $this->partner,
             'contact' => $this->contact,
-            'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
             'details' => $this->setDetails(),
+
+            'addresses' => $this->getAddresses(),
+
+            'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
             'firstPickupAddress' => $this->getFirstAddressZipAndCity(
                 $this->pickupAddresses->sortBy('date_from')
             ),
@@ -77,6 +79,62 @@ class TmsOrderIndexResource extends JsonResource
     {
         $details = $this->pamyraOrder?->toArray() ?? $this->nativeOrder?->toArray();
         return ($details !== null) ? $details : [];
+    }
+
+    /**
+     * Return all the orderAddresses, in the next order: billing, pickup, delivery.
+     * Every returned orderAddress will have an additional key called index. This index will be
+     * mirroring this actual order of the orderAddresses. This index will be 0 for the billing, and
+     * then it will be 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, etc. for the pickup and delivery addresses.
+     * When this method processes the addresses, there are a couple of steps:
+     * 1. Get the addresses with a relationship
+     * 2. Convert every TmsOrderAddress object to an array, so we can add the index key to them.
+     * 3. Add the index key to every address, with the value of the current index.
+     * 4. Add the address to the addresses array.
+     * 5. Incresase the index by one.
+     * 
+     * @return array
+     */
+    private function getAddresses(): array
+    {
+        //We collect here all the order addresses
+        $addresses = [];
+
+        //This is the index of the addresses. It mirrors the order of the addresses.
+        $index = 0;
+
+        //BILLING ADDRESS
+        $billingAddress = $this->billingAddress;
+        $billingAddress = $this->billingAddress->toArray();
+        $billingAddress['index'] = $index;
+        $addresses[$index] = $billingAddress;
+        $index++;
+
+        //PICKUP ADDRESSES
+        $pickupAddresses = $this->pickupAddresses;
+        foreach ($pickupAddresses as $pickupAddress) {
+            $pickupAddress = $pickupAddress->toArray();
+            $pickupAddress['index'] = $index;
+            $addresses[$index] = $pickupAddress;
+            $index++;
+        }
+
+        //DELIVERY ADDRESSES
+        $deliveryAddresses = $this->deliveryAddresses;
+        foreach ($deliveryAddresses as $deliveryAddress) {
+            $deliveryAddress = $deliveryAddress->toArray();
+            $deliveryAddress['index'] = $index;
+            $addresses[$index] = $deliveryAddress;
+            $index++;
+        }
+
+        return $addresses;
+    }
+
+    private function handleBillingAddress()
+    {
+        $billingAddress = $this->orderAddresses->where('type', 'billing')->first();
+        return $billingAddress;
     }
 
     /**
