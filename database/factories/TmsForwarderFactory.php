@@ -30,6 +30,8 @@ class TmsForwarderFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'company_name' => $this->faker->company,
+            //lexify('????????') generates a random string of 8 characters.
+            'slug' => $this->faker->unique()->lexify('??????????????'),
             'tax_number' => $this->faker->randomNumber(9, true),
             'rating' => $this->faker->numberBetween(1, 5),
             'forwarder_type' => null,
