@@ -48,13 +48,13 @@ class TmsOrderIndexResource extends JsonResource
             'last_editor' => $this->orderHistoryLatest?->user?->name,
             
             //relationships are loaded in the controller, so here we can just return them.
-            // 'parcels' => $this->parcels,
-            // 'forwarder' => $this->forwarder,
-            // 'history' => $this->orderHistories,
-            // 'customer' => $this->customer,
-            // 'partner' => $this->partner,
-            // 'contact' => $this->contact,
-            // 'details' => $this->setDetails(),
+            'parcels' => $this->parcels,
+            'forwarder' => $this->forwarder,
+            'history' => $this->orderHistories,
+            'customer' => $this->customer,
+            'partner' => $this->partner,
+            'contact' => $this->contact,
+            'details' => $this->setDetails(),
             'addresses' => $this->getAddresses(),
 
             'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
