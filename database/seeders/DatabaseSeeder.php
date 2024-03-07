@@ -34,80 +34,94 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        
-        //Here starts the seeding process.
-        $this->call([
-            TmsRolesAndPermissionsSeeder::class,
-            UserSeeder::class,
-            TmsCountrySeeder::class,
-            TmsForwarderSeeder::class,
-            TmsCustomerSeeder::class,
-            TmsPartnerSeeder::class,
-            TmsPaymentMethodSeeder::class,
-            TmsParcelTypeSeeder::class,
-            TmsGearSeeder::class,
-            TmsAddressSeeder::class,
-            // TmsContactSeeder::class,
-            TmsVehicleSeeder::class,
-            TmsOrderStatusSeeder::class,
-            // TmsOrderSeeder::class,
-            TmsInvoiceStatusSeeder::class,
-            // TmsInvoiceSeeder::class,
-            // TmsOfferPriceSeeder::class,
-            // TmsForwardingContractSeeder::class,
-            // TmsOrderHistorySeeder::class,
-            // TmsTransportLicenseSeeder::class,
-            // TmsParcelSeeder::class,
-            TmsOrderAttributeSeeder::class,
-            //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
-            PivotTableSeeder::class,
-            TmsProvisionSeeder::class,
-            // TmsPamyraOrderSeeder::class,
-            // TmsNativeOrderSeeder::class,
-            // TmsOrderAddressSeeder::class,
-            // TmsInvoiceHistorySeeder::class,
-            // TmsEmonsInvoiceSeeder::class,
-            TmsFtpCredentialSeeder::class,
-            TmsTransportRuleSeeder::class,
-        ]);
+        //get enviroment from config/app.php
+        $env = config('app.env');
 
-        /**
-         * This is a migration used by Andor, for testing and development purposes.
-         */
-        // $this->call([
-        //     TmsRolesAndPermissionsSeeder::class,
-        //     UserSeeder::class,
-        //     TmsCountrySeeder::class,
-        //     TmsForwarderSeeder::class,
-        //     TmsCustomerSeeder::class,
-        //     TmsPartnerSeeder::class,
-        //     TmsPaymentMethodSeeder::class,
-        //     TmsGearSeeder::class,
-        //     TmsAddressSeeder::class,
-        //     TmsContactSeeder::class,
-        //     TmsVehicleSeeder::class,
-        //     TmsOrderStatusSeeder::class,
-        //     TmsOrderSeeder::class,
-        //     TmsInvoiceStatusSeeder::class,
-        //     TmsInvoiceSeeder::class,
-        //     TmsOfferPriceSeeder::class,
-        //     TmsForwardingContractSeeder::class,
-        //     TmsOrderHistorySeeder::class,
-        //     TmsTransportLicenseSeeder::class,
-        //     TmsParcelTypeSeeder::class,
-        //     TmsParcelSeeder::class,
-        //     TmsOrderAttributeSeeder::class,
-        //     //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
-        //     PivotTableSeeder::class,
-        //     TmsProvisionSeeder::class,
-        //     TmsPamyraOrderSeeder::class,
-        //     TmsNativeOrderSeeder::class,
-        //     TmsOrderAddressSeeder::class,
-        //     TmsInvoiceHistorySeeder::class,
-        //     TmsEmonsInvoiceSeeder::class,
-        //     TmsFtpCredentialSeeder::class,
-        //     TmsTransportRuleSeeder::class,
-        // ]);
+        if($env === 'local') {
+
+            echo PHP_EOL . " **** Running FULL seeding LOCAL enviroment **** " . PHP_EOL;
+
+            /**
+             * If we are in a local enviroment, run a full seeding. This is absolutely needed
+             * for backend development and testing.
+             */
+            $this->call([
+                TmsRolesAndPermissionsSeeder::class,
+                UserSeeder::class,
+                TmsCountrySeeder::class,
+                TmsForwarderSeeder::class,
+                TmsCustomerSeeder::class,
+                TmsPartnerSeeder::class,
+                TmsPaymentMethodSeeder::class,
+                TmsGearSeeder::class,
+                TmsAddressSeeder::class,
+                TmsContactSeeder::class,
+                TmsVehicleSeeder::class,
+                TmsOrderStatusSeeder::class,
+                TmsOrderSeeder::class,
+                TmsInvoiceStatusSeeder::class,
+                TmsInvoiceSeeder::class,
+                TmsOfferPriceSeeder::class,
+                TmsForwardingContractSeeder::class,
+                TmsOrderHistorySeeder::class,
+                TmsTransportLicenseSeeder::class,
+                TmsParcelTypeSeeder::class,
+                TmsParcelSeeder::class,
+                TmsOrderAttributeSeeder::class,
+                //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
+                PivotTableSeeder::class,
+                TmsProvisionSeeder::class,
+                TmsPamyraOrderSeeder::class,
+                TmsNativeOrderSeeder::class,
+                TmsOrderAddressSeeder::class,
+                TmsInvoiceHistorySeeder::class,
+                TmsEmonsInvoiceSeeder::class,
+                TmsFtpCredentialSeeder::class,
+                TmsTransportRuleSeeder::class,
+            ]);
+        } else {
+
+            echo PHP_EOL . "**** Running minimal seeding in production enviroment ****" . PHP_EOL;
+
+            /**
+             * If we are in a production enviroment, run a minimal seeding, with only the selected
+             * seeders. Seeders were selected by C.
+             */
+            $this->call([
+                TmsRolesAndPermissionsSeeder::class,
+                UserSeeder::class,
+                TmsCountrySeeder::class,
+                TmsForwarderSeeder::class,
+                TmsCustomerSeeder::class,
+                TmsPartnerSeeder::class,
+                TmsPaymentMethodSeeder::class,
+                TmsParcelTypeSeeder::class,
+                TmsGearSeeder::class,
+                TmsAddressSeeder::class,
+                // TmsContactSeeder::class,
+                TmsVehicleSeeder::class,
+                TmsOrderStatusSeeder::class,
+                // TmsOrderSeeder::class,
+                TmsInvoiceStatusSeeder::class,
+                // TmsInvoiceSeeder::class,
+                // TmsOfferPriceSeeder::class,
+                // TmsForwardingContractSeeder::class,
+                // TmsOrderHistorySeeder::class,
+                // TmsTransportLicenseSeeder::class,
+                // TmsParcelSeeder::class,
+                TmsOrderAttributeSeeder::class,
+                //all pivot table connections are created in PivotTableSeeder, except Spatie stuff
+                PivotTableSeeder::class,
+                TmsProvisionSeeder::class,
+                // TmsPamyraOrderSeeder::class,
+                // TmsNativeOrderSeeder::class,
+                // TmsOrderAddressSeeder::class,
+                // TmsInvoiceHistorySeeder::class,
+                // TmsEmonsInvoiceSeeder::class,
+                TmsFtpCredentialSeeder::class,
+                TmsTransportRuleSeeder::class,
+            ]);
+        }
     }
 }
 

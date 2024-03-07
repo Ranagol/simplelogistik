@@ -56,8 +56,8 @@ class TmsPamyraOrderRequest extends FormRequest
             'vat_rate' => ['nullable', 'numeric'],
             'value_insured' => ['nullable', 'numeric'],
             'value_of_goods' => ['nullable', 'numeric'],
-            'distance_km' => ['nullable', 'numeric'],
-            'duration_minutes' => ['nullable', 'numeric'],
+            'distance_km' => ['nullable', 'integer'],
+            'duration_minutes' => ['nullable', 'integer'],
         ];
     }
 }

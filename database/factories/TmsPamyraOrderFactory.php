@@ -46,7 +46,7 @@ class TmsPamyraOrderFactory extends Factory
             'vat_rate' => $this->faker->randomFloat(2, 0, 20),
             'value_insured' => $this->faker->randomFloat(2, 0, 10000),
             'value_of_goods' => $this->faker->randomFloat(2, 0, 10000),
-            'distance_km' => $this->faker->randomFloat(2, 0, 1000),
+            'distance_km' => $this->faker->numberBetween(0, 1000),
             'duration_minutes' => $this->faker->numberBetween(0, 600),
         ];
     }

@@ -57,8 +57,8 @@ class TmsNativeOrderRequest extends FormRequest
             'vat_rate' => ['nullable', 'string', 'max:255'],
             'value_insured' => ['nullable', 'string', 'max:255'],
             'value_of_goods' => ['nullable', 'string', 'max:255'],
-            'distance_km' => ['required', 'string', 'max:255'],
-            'duration_minutes' => ['nullable', 'string', 'max:255'],
+            'distance_km' => ['required', 'integer'],
+            'duration_minutes' => ['nullable', 'integer'],
         ];
     }
 }
