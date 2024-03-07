@@ -32,10 +32,12 @@ class CustomerExportService
 
         $customerObj = new TmsCustomer();
         $customers = $customerObj->join('tms_addresses','customer_id', '=', 'tms_customers.id')
-                                 ->orWhere('tms_customers.exported_at', null)->orWhere('tms_customers.exported_at', '<', TmsCustomer::max('updated_at'))
-                                 ->orWhere('tms_addresses.exported_at', null)->orWhere('tms_addresses.exported_at', '<', TmsAddress::max('updated_at'))
+                                 ->orWhere('tms_customers.exported_at', null)
+                                 ->orWhere('tms_customers.exported_at', '<', (TmsCustomer::max('updated_at')??'2021-01-01 00:00:00'))
+                                 ->orWhere('tms_addresses.exported_at', null)
+                                 ->orWhere('tms_addresses.exported_at', '<', (TmsAddress::max('updated_at')??'2021-01-01 00:00:00'))
                                  ->get(['tms_customers.*','tms_customers.exported_at AS tms_customers_exported_at','tms_customers.updated_at AS tms_customers_updated_at','tms_addresses.*']);
-
+                                 
         foreach ($customers as $customer) {        
             $customersAndAddresses = $customer->addresses()->where('is_billing',1)->first();
             if($customer != null              && $customer->tms_customers_exported_at == $customer->tms_customers_updated_at && 
@@ -251,7 +253,7 @@ class CustomerExportService
      * @return string
      */ 
     private function getAlpha2Code($countryName) {
-        return TmsCountry::where('id', json_decode($countryName)->id)->first()->alpha2_code;
+        return TmsCountry::where('id', json_decode($countryName)?->id)->first()?->alpha2_code;
     }
 
     /**
