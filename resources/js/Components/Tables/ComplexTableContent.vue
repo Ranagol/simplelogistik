@@ -73,7 +73,7 @@ var isWatched = (item) => {
                 </span>
             </div>
         </td>
-        <TableCell v-for="cell, ci in cellConfig" :cellConfig="cell" :content="content" :key="ci" class="p-3"/>
+        <TableCell v-for="cell, ci in cellConfig" :cellConfig="cell" :content="content" :key="ci" class="p-3 px-4"/>
     </tr>
     <tr  class="flex-1 hidden w-full overflow-x-auto" 
         :id="'table-column-body-' + row" 
