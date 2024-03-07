@@ -15,10 +15,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 
         // Export all customers that are new or have changed( exported_at != updated_at) to a file every day at 02:00
-        $schedule->command('customers-export')->everyMinute();
+        $schedule->command('customers-export')->dailyAt('02:00');
 
         // Pamyra cronjob test
-        $schedule->command('pamyraorders')->everyMinute();
+        // $schedule->command('pamyraorders')->everyMinute();
 
         // Handle Pamyra orders
         $schedule->command('handlePamyraOrders')->everyMinute();
