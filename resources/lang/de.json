@@ -178,7 +178,7 @@
                 "partner": "Partner",
                 "origin": "Herkunft",
                 "first_name": "Vorname",
-                "parcel_type": "Packstücktyp",
+                "parcel_type": "Packstück",
                 "length": "Länge (cm)",
                 "width": "Breite (cm)",
                 "height": "Höhe (cm)",
@@ -306,7 +306,7 @@
                 "order_number": "Auftragsnummer",
                 "forwarder": "Dienstleister",
                 "type_of_transport": "Transportart",
-                "origin": "Abholort",
+                "origin": "Herkunft",
                 "status": "Status",
                 "customer_reference": "Kundenreferenz",
                 "provision": "Provision",
@@ -422,7 +422,9 @@
             "download_label": "Versandlabel",
             "download_transport_details": "Transportauftrag",
             "messages": {
-                "changed_state_to": "hat den Status geändert zu"
+                "changed_state_to": "hat den Status geändert zu",
+                "copy": "Kopieren",
+                "copied": "Kopiert!"
             }
         },
         "filter": {
