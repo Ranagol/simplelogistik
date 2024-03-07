@@ -317,6 +317,10 @@
                 "created_at": "Erstellt am",
                 "updated_at": "Aktualisiert am",
                 "payment_method": "Zahlungsart",
+                "pickup_date": "Abholdatum",
+                "pickup_address": "Abholadresse",
+                "delivery_date": "Lieferdatum",
+                "delivery_address": "Lieferadresse",
                 "easy_bill_customer_id": "Easybill Kunden-ID",
                 "last_update": "Letzte Aktualisierung",
                 "last_editor": "Letzter Bearbeiter"
