@@ -61,6 +61,10 @@
     let selectedOption = ref(props.data[props.field.name] ?? false)
     
     const getActiveOption = () => {
+        if(props.field.subfield){
+            // console.log("Subfield detected in ", props.field.name, " with value ", selectedOption.value[props.field.subfield])
+            return options.value.find(option => option[props.field.match] == selectedOption.value[props.field.subfield])
+        }
         if(selectedOption.value){
             return options.value.find(option => option[props.field.match] == selectedOption.value)
         }

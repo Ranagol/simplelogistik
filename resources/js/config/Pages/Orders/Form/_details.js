@@ -17,7 +17,7 @@ export default {
                             className: 'col-1',
                             type: 'select',
                             options: "orderstatuses",
-                            displayKey: 'name',
+                            displayKey: 'description',
                             match: "id",
                             className: 'col-auto',
                             placeholder: '',
@@ -29,8 +29,8 @@ export default {
                     className: 'grid-flow-row grid-cols-4 gap-4',
                     fields: [
                         {
-                            name: 'id',
-                            subfield: 'partner',
+                            name: 'partner',
+                            subfield: 'id',
                             type: 'select',
                             options: "partners",
                             displayKey: 'company_name',

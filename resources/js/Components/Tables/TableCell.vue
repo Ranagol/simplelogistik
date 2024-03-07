@@ -1,34 +1,44 @@
 <script setup>
 import {router} from "@inertiajs/vue3"
-    defineProps({
+    const props = defineProps({
         cellConfig: Object,
         content: Object
-    })
+    });
+
+    const cell = props.cellConfig;
+    const config = cell.contentConfig;
+    const cellType = config?.type ?? 'standard';
+    let data = "";
+    try {
+        data = cell.subkey ? props.content[cell?.key][cell?.subkey] : props.content[cell?.key];
+    } catch (error) {
+        data = null;
+    }
 </script>
 
 <template>
-    <td v-if="cellConfig.show">
-        <span v-if="cellConfig.contentConfig">
-            <span v-if="cellConfig.contentConfig.type == 'link'">
-                <a class="cursor-pointer text-corporate-700 hover:text-corporate-500 hover:underline" @click="router.visit(route(cellConfig.contentConfig.to, content[cellConfig.contentConfig.use]))">
-                    {{ content[cellConfig.key] }}
+    <td v-if="cell.show">
+        <span v-if="config">
+            <span v-if="cellType == 'link'">
+                <a class="cursor-pointer text-corporate-700 hover:text-corporate-500 hover:underline" @click="router.visit(route(config.to, content[config.use]))">
+                    {{ data }}
                 </a>
             </span>
-            <span v-else-if="cellConfig.contentConfig.type == 'image'">
-                <img v-if="(cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key])" :src="cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key]" class="object-contain w-full h-5">
-                <span v-else>{{ $t('labels.general.messages.no_image_present') }}</span>
+            <span v-else-if="cellType == 'image'">
+                <img v-if="data !== null" :src="data" class="object-contain w-full h-5">
+                <img v-else src="https://via.assets.so/img.jpg?w=400&h=150&tc=black&bg=white&t=nodata" class="object-contain w-full h-5">
             </span>
-            <span v-else-if="cellConfig.contentConfig.type == 'date'">
-                {{ moment(cellConfig.subkey ? content[cellConfig.key][cellConfig.subkey] : content[cellConfig.key]).format(cellConfig.contentConfig.format) }} 
+            <span v-else-if="cellType == 'date'">
+                {{ moment(data).format(config.format) }} 
             </span>
         </span>
         <span v-else-if="cellConfig.subkey">
-            {{ content[cellConfig.key][cellConfig.subkey] }}
+            {{ data }}
         </span>
         <span v-else>
-            <span v-if="cellConfig.standard && (content[cellConfig.key] === null || content[cellConfig.key] === undefined)">{{ $t(cellConfig.standard) }}</span>
+            <span v-if="cell.standard && (data === null || data === undefined || data === '')">{{ $t(cell.standard) }}</span>
             <span v-else>
-                {{ content[cellConfig.key] ?? "N/A"}}
+                {{ data }}
             </span>
         </span>
     </td>

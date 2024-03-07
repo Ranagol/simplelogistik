@@ -61,6 +61,10 @@ const headers = [
     {
         show: true, 
         key: "firstPickupDate", 
+        contentConfig: {
+            type: 'date',
+            format: 'DD.MM.YYYY'
+        },
         title: "tables.orders.headers.pickup_date", 
         sortable: true, 
         filterable: true, 
@@ -80,6 +84,10 @@ const headers = [
     {
         show: true, 
         key: "lastDeliveryDate", 
+        contentConfig: {
+            type: 'date',
+            format: 'DD.MM.YYYY'
+        },
         title: "tables.orders.headers.delivery_date", 
         sortable: true, 
         filterable: true, 
