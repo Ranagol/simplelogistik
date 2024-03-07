@@ -29,7 +29,7 @@ class OrderHistoryCreator {
 
         //Set, format data for order history
         $orderHistory = [
-            'order_status_id' => 1,//we might need a dynamic getter here
+            'order_status_id' => 1,//we might need a dynamic getter here, because for update we need to get the new status
             'details' => $action,
             'additional_cost' => null,
             'order_id' => null,
