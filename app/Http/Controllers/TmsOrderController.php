@@ -7,38 +7,32 @@ use Illuminate\Support\Facades\Process;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsOrder;
-use App\Models\TmsParcel;
-use App\Models\TmsAddress;
-use App\Models\TmsCountry;
-use App\Models\TmsCustomer;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
 use App\Http\Requests\TmsOrderRequest;
-use App\Http\Requests\TmsParcelRequest;
-use App\Http\Controllers\BaseController;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\TmsOrderCollection;
 use App\Http\Resources\TmsOrderEditResource;
 use App\Http\Resources\TmsOrderIndexResource;
 use App\Http\Resources\TmsOrderIndexCollection;
+use App\Services\OrderHistoryCreator;
 use App\Traits\DataBaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TmsOrderController extends Controller
 {
     use DataBaseFilter;
 
-    private $orderService;
+    private OrderService $orderService;
+    private OrderHistoryCreator $orderHistoryCreator;
 
     private string $index = 'Orders/Index';
     private string $show = 'Orders/Show';
     private string $create = 'Orders/Create';
     private string $edit = 'Orders/Edit';
 
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderService $orderService, OrderHistoryCreator $orderHistoryCreator)
     {
         $this->orderService = $orderService;
+        $this->orderHistoryCreator = $orderHistoryCreator;
     }
 
     /**

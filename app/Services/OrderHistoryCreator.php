@@ -10,22 +10,39 @@ class OrderHistoryCreator {
     /**
      * Undocumented function
      *
-     * @param [type] $order
-     * @param [type] $action
-     * @param [type] $user
+     * @param TmsOrder $order
+     * @param string $action            store | update
+     * @param integer|null $userId
+     * @param string|null $cronJobName
      * @return void
      */
     public function createOrderHistory(
         TmsOrder $order,
         string $action,
-        int $userId,
-        string $cronJobName
+        int $userId = null,
+        string $cronJobName = null
     ): void
     {
-        $orderHistory = new TmsOrderHistory();
-        $orderHistory->order_id = $order->id;
-        $orderHistory->action = $action;
-        $orderHistory->user_id = $user->id;
-        $orderHistory->save();
+
+
+
+
+        //Set, format data for order history
+        $orderHistory = [
+            'order_status_id' => 1,//we might need a dynamic getter here
+            'details' => $action,
+            'additional_cost' => null,
+            'order_id' => null,
+            'forwarder_id' => null,
+            'customer_id' => null,
+            'forwarding_contract_id' => null,//can we delete this column from the tms_order_histories? This info should not be stored here.
+            'user_id' => $userId,
+            'cron_job_name' => $cronJobName,
+            'previous_state' => null,
+        ];
+
+        //Validate
+
+        //Create a new order history
     }
 }
