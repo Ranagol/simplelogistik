@@ -87,7 +87,17 @@ class TmsTransportRule extends Model
             'target_new_value' => '2',
             'description' => '2 is TimoCom',
         ],
-        //These below are only temporary dummy rules needed to Patrick. Will be changed.
+        [
+            'action_type' => 'setForwarder',
+            'source_field' => 'calculationModelName',
+            'condition_operator' => 'contains',
+            'keyphrase' => 'Sperrgut',
+            'target_table_name' => 'tms_orders',
+            'target_column_name' => 'forwarder_id',
+            'target_new_value' => '1',
+            'description' => '',
+        ],
+        //These below are only temporary dummy rules needed to Patrick. Above are the real rules.
         [
             'action_type' => 'setForwarder',
             'source_field' => 'calculationModelName',
@@ -108,15 +118,6 @@ class TmsTransportRule extends Model
             'target_new_value' => '2',
             'description' => '2 is TimoCom',
         ],
-        [
-            'action_type' => 'setForwarder',
-            'source_field' => 'calculationModelName',
-            'condition_operator' => 'contains',
-            'keyphrase' => 'Sperrgut',
-            'target_table_name' => 'tms_orders',
-            'target_column_name' => 'forwarder_id',
-            'target_new_value' => '2',
-            'description' => '2 is TimoCom',
-        ],
+        
     ];
 }
