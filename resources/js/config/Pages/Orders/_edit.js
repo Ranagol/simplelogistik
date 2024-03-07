@@ -11,6 +11,14 @@ export default {
     title: "",
     preset: "tabs",
     mode: "edit",
+    actions: [
+        {handler: (data) => {
+            alert(`Speichere Auftrag: ${(data?.order_number ?? data.data.order_number)}`)
+        }, class: "", title: "buttons.general.save"},
+        {handler: (data) => {
+            alert(`Storniere Auftrag: ${(data?.order_number ?? data.data.order_number)}`)
+        }, class: "bg-red-700 hover:bg-red-600", title: "buttons.general.void"},
+    ],
     tabs: [
         {
             "title": "pages.orders.tabs.details",

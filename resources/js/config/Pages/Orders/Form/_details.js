@@ -121,7 +121,7 @@ export default {
                     match: 'id',
                     className: 'col-auto',
                     placeholder: '',
-                    label: 'pages.orders.form.length',
+                    label: 'pages.orders.form.parcel_type',
                 },
                 {
                     name: 'length',
