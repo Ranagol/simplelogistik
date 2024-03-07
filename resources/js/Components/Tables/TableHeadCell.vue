@@ -8,9 +8,7 @@
 </script>
 
 <template>
-    <th v-if="cell.show === true" scope="col" class="p-4">
-        <div class="flex items-center">
-            {{ $t(cell.title) }}
-        </div>
+    <th v-if="cell.show === true" scope="col" class="px-4">
+        {{ $t(cell.title) }}
     </th>    
 </template>
