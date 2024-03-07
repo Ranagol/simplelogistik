@@ -74,9 +74,6 @@ class TmsOrderController extends Controller
             $searchColumns,
             [//these are the relations that we want to load with the records. Loading happens in the getRecords() function.
                 'parcels',
-                'orderAddresses',
-                'pickupAddresses',
-                'deliveryAddresses',
                 'forwarder',
                 'orderHistories.user.roles:id,name',
                 'partner',

@@ -9,8 +9,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 class TmsOrderAddressSeeder extends Seeder
 {
     /**
-     * We want every order to have 4 addresses. 2 pickup and 2 delivery addresses. We achive this
-     * with looping through this hard coded array, in run().
+     * We want every order to have 4 addresses. 2 pickup and 2 delivery addresses. And one billing address.
+     * We achive this with looping through this hard coded array, in run().
      *
      * @var array
      */
