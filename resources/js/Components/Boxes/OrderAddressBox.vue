@@ -22,7 +22,7 @@ defineProps({
                 </span>
             </span>
             <span v-else-if="item.type === 'single'">
-                <span v-if="typeof content[item.field] === 'object'">{{ content[item.field]["country_name"] }}</span>
+                <span v-if="typeof content[item.field] === 'object'">{{ content[item.field]?.country_name ?? "" }}</span>
                 <span v-else>{{ content[item.field] }}</span>
             </span>
         </div>

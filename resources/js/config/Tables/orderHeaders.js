@@ -58,50 +58,43 @@ const headers = [
         searchable: true,
         search_key: ''
     },
+    {
+        show: true, 
+        key: "firstPickupDate", 
+        title: "tables.orders.headers.pickup_date", 
+        sortable: true, 
+        filterable: true, 
+        searchable: true,
+        search_key: ''
+    },
 
-    // Abholdatum
-    // {
-    //     show: true, 
-    //     key: "first_pickup_date", 
-    //     title: "tables.orders.headers.order_date", 
-    //     sortable: true, 
-    //     filterable: true, 
-    //     searchable: true,
-    //     search_key: ''
-    // },
-    
-    // Abholort
-    // {
-    //     show: true, 
-    //     key: "first_pickup_address", 
-    //     title: "tables.orders.headers.order_date", 
-    //     sortable: true, 
-    //     filterable: true, 
-    //     searchable: true,
-    //     search_key: ''
-    // },
-
-    // Zustelldatum
-    // {
-    //     show: true, 
-    //     key: "last_delivery_date", 
-    //     title: "tables.orders.headers.order_date", 
-    //     sortable: true, 
-    //     filterable: true, 
-    //     searchable: true,
-    //     search_key: ''
-    // },
-
-    // Zustellort
-    // {
-    //     show: true, 
-    //     key: "first_delivery_address", 
-    //     title: "tables.orders.headers.order_date", 
-    //     sortable: true, 
-    //     filterable: true, 
-    //     searchable: true,
-    //     search_key: ''
-    // },
+    {
+        show: true, 
+        key: "firstPickupAddress", 
+        title: "tables.orders.headers.pickup_address", 
+        sortable: true, 
+        filterable: true, 
+        searchable: true,
+        search_key: ''
+    },
+    {
+        show: true, 
+        key: "lastDeliveryDate", 
+        title: "tables.orders.headers.delivery_date", 
+        sortable: true, 
+        filterable: true, 
+        searchable: true,
+        search_key: ''
+    },
+    {
+        show: true, 
+        key: "firstDeliveryAddress", 
+        title: "tables.orders.headers.delivery_address", 
+        sortable: true, 
+        filterable: true, 
+        searchable: true,
+        search_key: ''
+    },
     {
         show: true, 
         key: "customer_reference", 
