@@ -236,7 +236,7 @@
                     <p><a :href="'mailto:' + content.customer?.headquarter?.email">{{ content.customer?.headquarter?.email }}</a></p>
                 </div>
                 <div class="grid max-w-full grid-flow-col gap-4 pb-4 overflow-x-scroll">
-                    <div v-for="address,ai in content.addresses" class="grid w-[350px] p-3 bg-slate-50 rounded-md gap-4">
+                    <div v-for="address,ai in content.addresses" class="grid w-full gap-4 p-3 rounded-md bg-slate-50">
                         <div v-for="row,ri in _config.sections.addresses.rows" :class="row.className">
                             <div v-for="field,fi in row.fields" :class="field.className">
                                 <div class="relative pt-8" v-if="field.type==='badge_dd'">

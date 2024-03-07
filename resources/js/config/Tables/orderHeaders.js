@@ -15,7 +15,7 @@ const headers = [
     },
     {
         show: true, 
-        key: "status", 
+        key: "order_status_id", 
         title: "tables.orders.headers.status", 
         sortable: true, 
         filterable: true, 
@@ -197,7 +197,8 @@ const headers = [
         key: "last_update", 
         contentConfig: {
             type: 'date',
-            format: 'DD.MM.YYYY HH:mm'
+            format: 'DD.MM.YYYY HH:mm',
+            append: " Uhr"
         },
         title: "tables.orders.headers.last_update", 
         sortable: true, 

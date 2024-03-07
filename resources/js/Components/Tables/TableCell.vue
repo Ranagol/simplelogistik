@@ -29,7 +29,9 @@ import {router} from "@inertiajs/vue3"
                 <img v-else src="https://via.assets.so/img.jpg?w=400&h=150&tc=black&bg=white&t=nodata" class="object-contain w-full h-5">
             </span>
             <span v-else-if="cellType == 'date'">
-                {{ moment(data).format(config.format) }} 
+                <span v-if="config.prepend">{{ config.prepend }}</span>
+                {{ moment(data).format(config.format) }}
+                <span v-if="config.append">{{ config.append }}</span>
             </span>
         </span>
         <span v-else-if="cellConfig.subkey">
@@ -38,7 +40,8 @@ import {router} from "@inertiajs/vue3"
         <span v-else>
             <span v-if="cell.standard && (data === null || data === undefined || data === '')">{{ $t(cell.standard) }}</span>
             <span v-else>
-                {{ data }}
+                <span v-if="cell.key == 'order_status_id'">{{ data ?? 'N/A' }}</span> 
+                <span v-else>{{ data }}</span> 
             </span>
         </span>
     </td>
