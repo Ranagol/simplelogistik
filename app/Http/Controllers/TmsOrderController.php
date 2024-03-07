@@ -100,7 +100,7 @@ class TmsOrderController extends Controller
         );
     }
 
-    public function show($id): Response
+    public function show($id)
     {
         $order = TmsOrder::with(
             [
@@ -116,6 +116,9 @@ class TmsOrderController extends Controller
                 'emonsInvoice'
             ]
         )->findOrFail($id);
+
+        //format the order with the resource
+        $order = new TmsOrderIndexResource($order);
 
         return Inertia::render(
             $this->show,
@@ -182,7 +185,7 @@ class TmsOrderController extends Controller
      * @param string $id
      * @return Response
      */
-    public function edit(string $id): Response
+    public function edit(string $id)
     {
         //Gets the relevant data for us from db.
         $record = TmsOrder::with(
@@ -200,9 +203,9 @@ class TmsOrderController extends Controller
             ]
 
         )->findOrFail($id);
-        
-        //Change response data structure according to FE needs.
-        $record = new TmsOrderEditResource($record);
+
+        //format the order with the resource
+        $record = new TmsOrderIndexResource($record);
 
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
