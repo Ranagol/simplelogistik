@@ -15,7 +15,7 @@ const headers = [
     },
     {
         show: true, 
-        key: "order_status_id", 
+        key: "order_status", 
         title: "tables.orders.headers.status", 
         sortable: true, 
         filterable: true, 
