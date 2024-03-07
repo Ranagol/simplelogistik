@@ -84,8 +84,8 @@ class PamyraOrderService {
             'vat_rate' => $pamyraOrder['VatRate'] ?? null,
             'value_insured' => $pamyraOrder['ValueInsured'] ?? null,
             'value_of_goods' => $pamyraOrder['ValueOfGoods'] ?? null,
-            'distance_km' => $pamyraOrder['DistanceKm'] ?? null,
-            'duration_minutes' => $pamyraOrder['DurationMinutes'] ?? null,
+            'distance_km' => round($pamyraOrder['DistanceKm']) ?? null,
+            'duration_minutes' => round($pamyraOrder['DurationMinutes']) ?? null,
             'particularities' => $pamyraOrder['Particularities'] ?? null,
         ];
 
