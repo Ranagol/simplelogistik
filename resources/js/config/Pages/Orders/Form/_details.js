@@ -41,7 +41,7 @@ export default {
                         },
                         {
                             name: 'origin',
-                            type: 'select',
+                            type: 'text',
                             options: "origins",
                             displayKey: 'title',
                             match: 'id',
@@ -205,7 +205,7 @@ export default {
                     {
                         name: 'house_number',
                         type: 'text',
-                        className: 'col-auto',
+                        className: 'w-full',
                         placeholder: '',
                         label: 'pages.customers.form.house_number',
                     },
