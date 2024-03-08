@@ -70,14 +70,14 @@ class TmsOrderIndexResource extends JsonResource
             'deliveryDate' => $this->getDeliveryDatePeriod(),
             
             //relationships are loaded in the controller, so here we can just return them.
-            // 'parcels' => $this->parcels,
-            // 'forwarder' => $this->forwarder,
-            // 'history' => $this->orderHistories,
-            // 'customer' => $this->customer,
-            // 'partner' => $this->partner,
-            // 'contact' => $this->contact,
-            // 'details' => $this->setDetails(),
-            // 'addresses' => $this->getAddresses(),
+            'parcels' => $this->parcels,
+            'forwarder' => $this->forwarder,
+            'history' => $this->orderHistories,
+            'customer' => $this->customer,
+            'partner' => $this->partner,
+            'contact' => $this->contact,
+            'details' => $this->setDetails(),
+            'addresses' => $this->getAddresses(),
         ];
     }
 
