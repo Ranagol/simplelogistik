@@ -8,6 +8,7 @@ use App\Models\TmsParcel;
 use App\Models\TmsCustomer;
 use App\Models\TmsParcelType;
 use App\Models\TmsPamyraOrder;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TmsOrderRequest;
 use App\Http\Requests\TmsParcelRequest;
 use Illuminate\Support\Facades\Validator;
@@ -99,7 +100,8 @@ class ParcelService {
         $validator = Validator::make($parcelArray, $this->validationRules);
 
         if ($validator->fails()) {
-            throw new \Exception($validator->errors()->first());
+            echo $validator->errors()->first() . PHP_EOL;
+            Log::error($validator->errors()->first());
         }
     }
 }

@@ -4,8 +4,29 @@ namespace App\Services;
 
 use App\Models\TmsOrder;
 use App\Models\TmsOrderHistory;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TmsOrderHistoryRequest;
 
 class OrderHistoryCreator {
+
+    /**
+     * Validation rules.
+     *
+     * @var array
+     */
+    private array $validationRules;
+
+    public function __construct()
+    {
+        /**
+         * We copy here the validation rules from the TmsOrderHistoryRequest. Because we want to use them
+         * in this class. And we can't use them directly from the TmsOrderHistoryRequest, because it is
+         * a FormRequest. And we can't use a FormRequest in a class. So, we copy the rules here.
+         */
+        $tmsOrderHistoryRequest = new TmsOrderHistoryRequest();
+        $this->validationRules = $tmsOrderHistoryRequest->orderHistoryRules();
+    }
 
     /**
      * Undocumented function
@@ -38,8 +59,31 @@ class OrderHistoryCreator {
         ];
 
         //Validate
+        $this->validate($orderHistory);
 
         //Create a new order history
         TmsOrderHistory::create($orderHistory);
+    }
+
+    /**
+     * Validates the address data from Pamyra.
+     * 
+     * @Christoph said, that temporarily we just need to throw a simple basic exception if the 
+     * validation fails. Later we will handle this with monitoring.
+     *
+     * @param array $addressPamyra
+     * @throws \Exception
+     * @return void
+     */
+    private function validate(array $addressPamyra): void
+    {
+        // Validate the data
+        $validator = Validator::make($addressPamyra, $this->validationRules);
+
+        // Throw an exception if validation fails
+        if ($validator->fails()) {
+            echo $validator->errors()->first() . PHP_EOL;
+            Log::error($validator->errors()->first());
+        }
     }
 }

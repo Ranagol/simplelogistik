@@ -5,6 +5,7 @@ namespace Modules\PamyraOrder\app\Services\PamyraServices;
 use App\Models\TmsOrder;
 use App\Models\TmsCustomer;
 use App\Models\TmsOrderAttribute;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TmsCustomerRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,11 +49,11 @@ class OrderAttributeService {
                                 ->id;
 
         if(!$orderAttributeId) {
-            throw new \Exception(
-                'Order attribute from Pamyra json data not found in our database! There is a new 
+            $message = 'Order attribute from Pamyra json data not found in our database! There is a new 
                 order attribute in Pamyra json data! Please check all order attributes in our db, 
-                and in Pamyra, see what is missing!'
-            );
+                and in Pamyra, see what is missing!';
+            Log::error($message);
+            echo $message;
         }
 
         //Connect the order with the order attribute in the order_order_attribute pivot table
