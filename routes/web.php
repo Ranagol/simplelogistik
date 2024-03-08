@@ -30,9 +30,6 @@ use App\Http\Controllers\System\SystemSettingsController;
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/trigger', [TmsOrderController::class, 'store']);//this is only temporary!!!!!!
-
-
     Route::get('/', function () {
         return to_route('dashboard.index');
         // return Inertia::render('Dashboard', [

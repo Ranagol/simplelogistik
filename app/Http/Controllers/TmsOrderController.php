@@ -135,36 +135,10 @@ class TmsOrderController extends Controller
      * here we only save the record into db. This simply triggers onSuccess event in FE component, 
      * which then displays the success message.
      */
-    // public function store(TmsOrderRequest $request)
-    public function store()
+    public function store(TmsOrderRequest $request)
     {
         //The validated method is used to get the validated data from the request.
-        // $newRecord = $request->validated();
-
-        $newRecord = [
-            'customer_id' => 1,
-            'contact_id' => 1,
-            'partner_id' => null,
-            'forwarder_id' => 1,
-            'order_status_id' => 3,
-            'order_number' => 499015,
-            'owner' => null,
-            'invoice_number' => null,
-            'type_of_transport' => 'Parcel up to 31.5 kg',
-            'origin' => 'native_sales',
-            'customer_reference' => '3472348',
-            'import_file_name' => null,
-            'provision' => 0.01,
-            'order_edited_events' => null,
-            'currency' => 'EUR',
-            'order_date' => '1976-01-27',
-            'purchase_price' => '693.37',
-            'month_and_year' => '2008-07-10 05:53:49',
-            'payment_method' => null,
-            'easy_bill_customer_id' => null,
-            'billing_address_id' => null,
-            'shipping_label_pdf' => 'http://harris.org/',
-        ];
+        $newRecord = $request->validated();
 
         //Create a new order
         $newlyCreatedRecord = TmsOrder::create($newRecord);
@@ -172,7 +146,7 @@ class TmsOrderController extends Controller
         //Use lazy eager loading to load the newly created record with the relationships
         $newlyCreatedRecord->load(
             [
-                'parcels',//talk to C., which relatinship do we need on previous_state column in tms_order_histories
+                'parcels',//TODO ANDOR talk to C., which relatinship do we need on previous_state column in tms_order_histories
                 'orderAddresses',
                 'forwarder',
                 'orderHistories.user.roles:id,name',
@@ -266,26 +240,31 @@ class TmsOrderController extends Controller
         //Get the order from db
         $orderFromDb = TmsOrder::find($id);
 
-        //Handle native order (if there is one, of course)
-        $this->orderService->handleNativeOrder($orderFromRequest);
-
-        //Handle pamyra order (if there is one, of course)
-        $this->orderService->handlePamyraOrder($orderFromRequest);
-        
-        //Handle parcels
-        $this->orderService->handleParcel($orderFromRequest);
-
-        //Handle headquarter address
-        $this->orderService->handleHeadquarter($orderFromRequest);
-
-        //Handle pickup address
-        $this->orderService->handlePickupAddresses($orderFromRequest);
-
-        //Handle delivery address
-        $this->orderService->handleDeliveryAddresses($orderFromRequest);
+        //This is commented out, because we might reuse this code later when Patrick does the FE order update create part.
+        // //Handle native order (if there is one, of course)
+        // $this->orderService->handleNativeOrder($orderFromRequest);
+        // //Handle pamyra order (if there is one, of course)
+        // $this->orderService->handlePamyraOrder($orderFromRequest);
+        // //Handle parcels
+        // $this->orderService->handleParcel($orderFromRequest);
+        // //Handle headquarter address
+        // $this->orderService->handleHeadquarter($orderFromRequest);
+        // //Handle pickup address
+        // $this->orderService->handlePickupAddresses($orderFromRequest);
+        // //Handle delivery address
+        // $this->orderService->handleDeliveryAddresses($orderFromRequest);
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
+
+        //Create a new order history about this order update
+        $this->orderHistoryCreator->createOrderHistory(
+            $orderFromDb, 
+            'update',
+            // Get the currently authenticated user's ID
+            Auth::id(),
+            null
+        );
 
         /**
          * Call the Easybill API to create a new invoice.

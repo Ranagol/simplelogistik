@@ -56,7 +56,7 @@ class OrderHistoryCreator {
             'order_id' => $order->id,
             'forwarder_id' => $order->forwarder_id,
             'customer_id' => $order->customer_id,
-            'forwarding_contract_id' => null,//can we delete this column from the tms_order_histories? This info should not be stored here.
+            'forwarding_contract_id' => null,//TODO ANDOR: can we delete this column from the tms_order_histories? This info should not be stored here.
             'user_id' => $userId,
             'cron_job_name' => $cronJobName,
             'previous_state' => $order,
