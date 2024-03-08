@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\OrderResources;
 
 use Illuminate\Http\Request;
 use App\Models\TmsNativeOrder;
@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Formats one order model for order edit page.
  */
-class TmsOrderEditResource extends JsonResource
+class ShowEditResource extends JsonResource
 {
 
     /**
