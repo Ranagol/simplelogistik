@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources\OrderResources;
 
+use DateTime;
 use Illuminate\Http\Request;
+use App\Models\TmsOrderStatus;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use DateTime;
 
 /**
  * Formats the data structure of all order model object in a collection, that is sent to the
@@ -26,7 +27,8 @@ class IndexResource extends JsonResource
             'id' => $this->id,
             'type_of_transport' => $this->type_of_transport,
             'origin' => $this->origin,
-            'status' => $this->status,
+            'order_status_id' => $this->order_status_id,
+            'order_status_text' => TmsOrderStatus::getInternalStatusName($this->order_status_id),
             'customer_reference' => $this->customer_reference,
             'provision' => $this->provision,
             'order_edited_events' => $this->order_edited_events,

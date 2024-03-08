@@ -16,7 +16,7 @@ class TmsOrderStatus extends Model
     /**
      * This is the status of the order. External name comes from Pamyra API.
      */
-    public const STATUSES = [
+    private static $orderStatuses = [
         1 => [
             'internal_name' => 'Neuer Auftrag',
             'external_name' => '',
@@ -46,5 +46,18 @@ class TmsOrderStatus extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(TmsOrder::class, 'order_status_id');
+    }
+
+    public static function getInternalStatusName(int $statusId): string
+    {
+        return self::$orderStatuses[$statusId]['internal_name'];
+    }
+
+    /**
+     * Get this is the status of the order. External name comes from Pamyra API.
+     */ 
+    public static function getOrderStatuses()
+    {
+        return self::$orderStatuses;
     }
 }
