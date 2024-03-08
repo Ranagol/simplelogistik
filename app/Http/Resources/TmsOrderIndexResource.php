@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use DateTime;
 
 /**
  * Formats the data structure of all order model object in a collection, that is sent to the
@@ -46,16 +47,6 @@ class TmsOrderIndexResource extends JsonResource
 
             'last_update' => $this->orderHistoryLatest?->updated_at->format('Y-m-d H:i:s'),
             'last_editor' => $this->orderHistoryLatest?->user?->name,
-            
-            //relationships are loaded in the controller, so here we can just return them.
-            'parcels' => $this->parcels,
-            'forwarder' => $this->forwarder,
-            'history' => $this->orderHistories,
-            'customer' => $this->customer,
-            'partner' => $this->partner,
-            'contact' => $this->contact,
-            'details' => $this->setDetails(),
-            'addresses' => $this->getAddresses(),
 
             'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
             'firstPickupAddress' => $this->getFirstAddressZipAndCity(
@@ -64,8 +55,18 @@ class TmsOrderIndexResource extends JsonResource
             'firstDeliveryAddress' => $this->getFirstAddressZipAndCity(
                 $this->deliveryAddresses->sortBy('date_from')
             ),
-            'firstPickupDate' => $this->getFirstPickupDate(),
-            'lastDeliveryDate' => $this->getLastDeliveryDate(),
+            'pickupDate' => $this->getPickupDatePeriod(),
+            'deliveryDate' => $this->getDeliveryDatePeriod(),
+            
+            //relationships are loaded in the controller, so here we can just return them.
+            // 'parcels' => $this->parcels,
+            // 'forwarder' => $this->forwarder,
+            // 'history' => $this->orderHistories,
+            // 'customer' => $this->customer,
+            // 'partner' => $this->partner,
+            // 'contact' => $this->contact,
+            // 'details' => $this->setDetails(),
+            // 'addresses' => $this->getAddresses(),
         ];
     }
 
@@ -180,16 +181,40 @@ class TmsOrderIndexResource extends JsonResource
     /**
      * Returns the date_from of the first pickup address.
      * Takes all belonging pickup addresses, and sorts them by date_from, then takes the first
-     * pickup address, and returns its date_from.
+     * pickup address, the last pickup address and returns its date_from as a string.
+     * 
+     * Example: pickupDate = 23.03.2024 - 29.03.2024 
      *
      * @return string
      */
-    private function getFirstPickupDate(): string
+    private function getPickupDatePeriod(): string
     {
-        
-        $earliestPickupaddress = $this->pickupAddresses->sortBy('date_from')->first();
+        //$this->pickupAddresses is a relationship, that returns a collection of pickup addresses.
+        $pickupaddresses = $this->pickupAddresses->sortBy('date_from');
 
-        return $earliestPickupaddress->date_from;
+        //$pickupAddresses is a collection, so we can use the first() and last() methods on it.
+        $earliestPickupaddress = $pickupaddresses->first();
+        $latestPickupaddress = $pickupaddresses->last();
+
+        //We format the date to the format 'd.m.Y'.
+        $earliestPickupDate = $this->formatDate($earliestPickupaddress->date_from);
+        $latestPickupDate = $this->formatDate($latestPickupaddress->date_to);
+
+        return $earliestPickupDate 
+                . ' - ' 
+                . $latestPickupDate;
+    }
+
+    /**
+     * Formats the date to the format 'd.m.Y'.
+     *
+     * @param string $date
+     * @return string
+     */
+    private function formatDate(string $date): string
+    {
+        $date = new DateTime($date);
+        return $date->format('d.m.Y');
     }
 
     /**
@@ -198,11 +223,21 @@ class TmsOrderIndexResource extends JsonResource
      *
      * @return string
      */
-    private function getLastDeliveryDate(): string
+    private function getDeliveryDatePeriod(): string
     {
-        //Take all belonging delivery addresses, and sort them by date_to, then take the last one.
-        $latestDeliveryAddress = $this->deliveryAddresses->sortBy('date_to')->last();
+        //$this->deliveryAddresses is a relationship, that returns a collection of delivery addresses.
+        $deliveryAddresses = $this->deliveryAddresses->sortBy('date_to');
 
-        return $latestDeliveryAddress->date_to;
+        //$deliveryAddresses is a collection, so we can use the last() and first method on it.
+        $earliestDeliveryAddress = $deliveryAddresses->first();
+        $latestDeliveryAddress = $deliveryAddresses->last();
+
+        //We format the date to the format 'd.m.Y'.
+        $earliestDeliveryDate = $this->formatDate($earliestDeliveryAddress->date_from);
+        $latestDeliveryDate = $this->formatDate($latestDeliveryAddress->date_to);
+
+        return $earliestDeliveryDate 
+                . ' - ' 
+                . $latestDeliveryDate;
     }
 }
