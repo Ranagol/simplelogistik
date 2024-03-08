@@ -172,7 +172,14 @@ class TmsOrderIndexResource extends JsonResource
          */
         if($addresses->count() > 1) {
             $firstPickupAddress = $addresses->first();
-            $zipAndCity .=  ' +' . ($addresses->count() - 1);
+            $zipAndCity .=  $firstPickupAddress
+                                    ->country
+                                    ->alpha2_code
+                            . ' '
+                            . $firstPickupAddress->zip_code
+                            . ' ' 
+                            . $firstPickupAddress->city
+                            . ' +' . ($addresses->count() - 1);
         }
 
         return $zipAndCity;
