@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\OrderResources;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,10 +10,10 @@ use DateTime;
 /**
  * Formats the data structure of all order model object in a collection, that is sent to the
  * order index page. All order will have this structure. If we don't create this class, then all
- * orders will have the structure defined in TmsOrderEditResource.php. This is the way how we can
+ * orders will have the structure defined in ShowEditResource.php. This is the way how we can
  * have different data structures for different pages for the same model.
  */
-class TmsOrderIndexResource extends JsonResource
+class IndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
