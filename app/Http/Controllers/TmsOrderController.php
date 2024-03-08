@@ -147,7 +147,7 @@ class TmsOrderController extends Controller
             'partner_id' => null,
             'forwarder_id' => 1,
             'order_status_id' => 3,
-            'order_number' => 499004,
+            'order_number' => 499005,
             'owner' => null,
             'invoice_number' => null,
             'type_of_transport' => 'Parcel up to 31.5 kg',
@@ -166,10 +166,27 @@ class TmsOrderController extends Controller
             'shipping_label_pdf' => 'http://harris.org/',
         ];
 
-        // dd($newRecord);
 
         //Create a new order
         $newlyCreatedRecord = TmsOrder::create($newRecord);
+
+        //Use lazy eager loading to load the newly created record with the relationships
+        $newlyCreatedRecord->load(
+            [
+                'parcels',//talk to C., which relatinship do we need on previous_state column in tms_order_histories
+                'orderAddresses',
+                'forwarder',
+                'orderHistories.user.roles:id,name',
+                'partner',
+                'contact',
+                'customer.headquarter',
+                'nativeOrder',
+                'pamyraOrder',
+                'emonsInvoice'
+            ]
+        );
+
+        dd($newlyCreatedRecord);
 
         //Create a new order history about this new order creation
         $this->orderHistoryCreator->createOrderHistory(

@@ -23,10 +23,6 @@ class OrderHistoryCreator {
         string $cronJobName = null
     ): void
     {
-
-
-
-
         //Set, format data for order history
         $orderHistory = [
             'order_status_id' => 1,//we might need a dynamic getter here, because for update we need to get the new status
