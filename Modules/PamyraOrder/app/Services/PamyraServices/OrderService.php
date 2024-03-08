@@ -85,7 +85,7 @@ class OrderService {
             'origin' => TmsOrder::ORIGINS[1], //this is: pamyra
             'customer_reference' => $pamyraOrder['OrderNumber'] ?? 'missing Pamyra order number',
             //this is 'Order created. This is the first status of the order, returned with array_key_first
-            'order_status_id' => array_key_first(TmsOrderStatus::STATUSES) ?? 1, 
+            'order_status_id' => array_key_first(TmsOrderStatus::getOrderStatuses()) ?? 1, 
             'provision' => $this->calculateProvisionInEur($pamyraOrder['PriceNet'] ?? null),
             'currency' => 'EUR',
             'order_date' => $this->formatPamyraDateTime($pamyraOrder['DateOfSale']),

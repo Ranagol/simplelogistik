@@ -28,7 +28,7 @@ class TmsOrderFactory extends Factory
             'forwarder_id' => $this->faker->numberBetween(1, config('constants.numberOfDbRecords')),
             'order_status_id' => $this->faker->numberBetween(
                 1, 
-                count(TmsOrderStatus::STATUSES)
+                count(TmsOrderStatus::getOrderStatuses())
             ),
 
             /**

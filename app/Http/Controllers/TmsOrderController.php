@@ -122,7 +122,7 @@ class TmsOrderController extends Controller
         )->findOrFail($id);
 
         //format the order with the resource
-        $order = new IndexResource($order);
+        $order = new ShowEditResource($order);
 
         return response()->json($order);
 
@@ -211,7 +211,7 @@ class TmsOrderController extends Controller
         )->findOrFail($id);
 
         //format the order with the resource
-        $record = new IndexResource($record);
+        $record = new ShowEditResource($record);
 
         return response()->json($record);
 

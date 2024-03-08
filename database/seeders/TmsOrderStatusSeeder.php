@@ -13,7 +13,7 @@ class TmsOrderStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        $statuses = TmsOrderStatus::STATUSES;
+        $statuses = TmsOrderStatus::getOrderStatuses();
         foreach ($statuses as $status) {
             TmsOrderStatus::factory()->create([
                 'description' => $status['internal_name'],
