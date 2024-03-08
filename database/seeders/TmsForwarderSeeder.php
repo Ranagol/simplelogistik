@@ -31,7 +31,11 @@ class TmsForwarderSeeder extends Seeder
             ]
         );
 
-        //Create 18 random forwarders
-        TmsForwarder::factory()->count(config('constants.numberOfDbRecords') - 2)->create();
+        $environment = config('app.env');
+        if ($environment === 'local') {
+            //Create + 18 random forwarders, but only for local enviroment, not for production
+            TmsForwarder::factory()->count(config('constants.numberOfDbRecords') - 2)->create();
+        }
+        
     }
 }
