@@ -55,7 +55,6 @@ class TmsOrderIndexResource extends JsonResource
             'partner' => $this->partner,
             'contact' => $this->contact,
             'details' => $this->setDetails(),
-
             'addresses' => $this->getAddresses(),
 
             'emonsInvoiceNettoPrice' => $this->emonsInvoice?->netto_price,
@@ -63,7 +62,7 @@ class TmsOrderIndexResource extends JsonResource
                 $this->pickupAddresses->sortBy('date_from')
             ),
             'firstDeliveryAddress' => $this->getFirstAddressZipAndCity(
-                $this->pickupAddresses->sortBy('date_from')
+                $this->deliveryAddresses->sortBy('date_from')
             ),
             'firstPickupDate' => $this->getFirstPickupDate(),
             'lastDeliveryDate' => $this->getLastDeliveryDate(),
@@ -77,7 +76,10 @@ class TmsOrderIndexResource extends JsonResource
      */
     private function setDetails(): array
     {
+        //If pamyraOrder is not null, then we return it. If it is null, then we return nativeOrder.
         $details = $this->pamyraOrder?->toArray() ?? $this->nativeOrder?->toArray();
+
+        //If $details is not null, then we return it. If it is null, then we return an empty array.
         return ($details !== null) ? $details : [];
     }
 
@@ -131,17 +133,13 @@ class TmsOrderIndexResource extends JsonResource
         return $addresses;
     }
 
-    private function handleBillingAddress()
-    {
-        $billingAddress = $this->orderAddresses->where('type', 'billing')->first();
-        return $billingAddress;
-    }
-
     /**
      * Returns the zip and city of the first pickup address, and the number of the remaining addresses.
      * Works both for pickup and for delivery addresses. If a pickup address collection is given as 
      * an argument, then it work with pickup addresses. If a delivery address collection is given as
      * an argument, then it works with delivery addresses.
+     * 
+     * Change: country code like for example 'DE' must be added to the string too.
      *
      * @param Collection $addresses     Example: $this->pickupAddresses->sortBy('date_from')
      * @return string
@@ -158,7 +156,13 @@ class TmsOrderIndexResource extends JsonResource
         //If there is only one pickup address, then we return the zip and city of that address as a string
         if($addresses->count() === 1) {
             $firstPickupAddress = $addresses->first();
-            $zipAndCity = $firstPickupAddress->zip_code . ' ' . $firstPickupAddress->city;
+            $zipAndCity .=  $firstPickupAddress
+                                    ->country
+                                    ->alpha2_code
+                            . ' '
+                            . $firstPickupAddress->zip_code
+                            . ' ' 
+                            . $firstPickupAddress->city;
         }
 
         /**
@@ -167,11 +171,7 @@ class TmsOrderIndexResource extends JsonResource
          */
         if($addresses->count() > 1) {
             $firstPickupAddress = $addresses->first();
-            $zipAndCity = $firstPickupAddress->zip_code 
-                        . ' ' 
-                        . $firstPickupAddress->city
-                        . " + " 
-                        . ($addresses->count() - 1) . " more";
+            $zipAndCity .=  ' +' . ($addresses->count() - 1);
         }
 
         return $zipAndCity;
