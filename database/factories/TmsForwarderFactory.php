@@ -24,10 +24,10 @@ class TmsForwarderFactory extends Factory
      * @var array
      */
     private array $logos = [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/United_Parcel_Service_logo_2014.svg/1718px-United_Parcel_Service_logo_2014.svg.png",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/DHL_Express_logo.svg/2560px-DHL_Express_logo.svg.png",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/TNT_Logo.svg/2560px-TNT_Logo.svg.png",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/FedEx_Express.svg/1200px-FedEx_Express.svg.png"
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/United_Parcel_Service_logo_2014.svg/1718px-United_Parcel_Service_logo_2014.svg.png',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/DHL_Express_logo.svg/2560px-DHL_Express_logo.svg.png',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/TNT_Logo.svg/2560px-TNT_Logo.svg.png',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/FedEx_Express.svg/1200px-FedEx_Express.svg.png'
     ];
 
     /**
@@ -48,7 +48,6 @@ class TmsForwarderFactory extends Factory
             'rating' => $this->faker->numberBetween(1, 5),
             'forwarder_type' => null,
             'comments' => $this->faker->sentence,
-            // 'url_logo' => $this->faker->imageUrl(),
             'url_logo' => $this->getRandomLogo(),
         ];
     }

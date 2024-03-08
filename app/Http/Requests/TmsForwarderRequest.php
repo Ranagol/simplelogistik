@@ -31,7 +31,6 @@ class TmsForwarderRequest extends FormRequest
      */
     public function forwarderRules()
     {
-
         return [
             'company_name' => ['required', 'string', 'max:200'],
             'internal_id' => ['required', 'string', 'max:100'],
@@ -41,7 +40,7 @@ class TmsForwarderRequest extends FormRequest
             'rating' => ['nullable', 'integer', 'min:1'],
             'forwarder_type' => ['nullable', 'integer'],
             'comments' => ['nullable', 'string'],
-            'url_logo' => ['nullable', 'url'],//https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/DHL_Express_logo.svg/2560px-DHL_Express_logo.svg.png
+            'url_logo' => ['nullable', 'string'],
             'legal_entity_type' => ['nullable', 'integer'],
         ];
     }
