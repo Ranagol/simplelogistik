@@ -156,13 +156,13 @@ class TmsOrderIndexResource extends JsonResource
         //If there is only one pickup address, then we return the zip and city of that address as a string
         if($addresses->count() === 1) {
             $firstPickupAddress = $addresses->first();
-            $zipAndCity .= $firstPickupAddress->zip_code 
+            $zipAndCity .=  $firstPickupAddress
+                                    ->country
+                                    ->alpha2_code
+                            . ' '
+                            . $firstPickupAddress->zip_code
                             . ' ' 
-                            . $firstPickupAddress->city
-                            . ', '
-                            . $firstPickupAddress
-                                ->country
-                                ->alpha2_code;
+                            . $firstPickupAddress->city;
         }
 
         /**
