@@ -40,8 +40,8 @@ class TmsOrderHistoryRequest extends FormRequest
             'customer_id' => ['required', 'integer', 'exists:tms_customers,id'],
             'forwarding_contract_id' => ['nullable', 'integer', 'exists:tms_forwarding_contracts,id'],
             'user_id' => ['nullable', 'integer', 'exists:users,id'],
-            'cron_job_name' => ['nullable', 'string', 'max:255'],
-            'previous_state' => ['nullable', 'string', 'max:255'],
+            'cronjob_name' => ['nullable', 'string', 'max:255'],
+            'previous_state' => ['nullable'],
         ];
     }
 }

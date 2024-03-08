@@ -39,15 +39,18 @@ class OrderHistoryCreator {
      * @param string $action            store | update
      * @param integer|null $userId
      * @param string|null $cronJobName
+     * @param TmsOrder|null $previousState
      * @return void
      */
     public function createOrderHistory(
         TmsOrder $order,
         string $action,
         int $userId = null,
-        string $cronJobName = null
+        string $cronJobName = null,
+        TmsOrder|null $previousState = null
     ): void
     {
+
         //Set, format data for order history
         $orderHistory = [
             'order_status_id' => $this->setOrderStatusId($action, $order),
@@ -58,8 +61,8 @@ class OrderHistoryCreator {
             'customer_id' => $order->customer_id,
             'forwarding_contract_id' => null,//TODO ANDOR: can we delete this column from the tms_order_histories? This info should not be stored here.
             'user_id' => $userId,
-            'cron_job_name' => $cronJobName,
-            'previous_state' => $order,
+            'cronjob_name' => $cronJobName,
+            'previous_state' => $previousState,
         ];
 
         //Validate

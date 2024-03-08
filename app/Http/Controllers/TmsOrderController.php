@@ -163,9 +163,9 @@ class TmsOrderController extends Controller
         $this->orderHistoryCreator->createOrderHistory(
             $newlyCreatedRecord, 
             'store',
-            // Get the currently authenticated user's ID
-            Auth::id(),
-            null
+            Auth::id(),// Get the currently authenticated user's ID
+            null,//cronjob name
+            null//previous state
         );
 
         //Call the Easybill API to create a new invoice
@@ -256,20 +256,21 @@ class TmsOrderController extends Controller
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
+        $updatedOrder = $orderFromDb->fresh();
 
         //Create a new order history about this order update
         $this->orderHistoryCreator->createOrderHistory(
-            $orderFromDb, 
+            $updatedOrder,//order with the new, updated data
             'update',
-            // Get the currently authenticated user's ID
-            Auth::id(),
-            null
+            Auth::id(),// Get the currently authenticated user's ID
+            null,//cronjob name
+            $orderFromDb//previous state, order with the old data, for archiving
         );
 
         /**
          * Call the Easybill API to create a new invoice.
          */
-        $this->orderService->callEasyBillApi($orderFromDb);
+        $this->orderService->callEasyBillApi($updatedOrder);//TODO ANDOR: is this correction OK??
     }
 
     /**
