@@ -147,7 +147,7 @@ class TmsOrderController extends Controller
             'partner_id' => null,
             'forwarder_id' => 1,
             'order_status_id' => 3,
-            'order_number' => 499005,
+            'order_number' => 499015,
             'owner' => null,
             'invoice_number' => null,
             'type_of_transport' => 'Parcel up to 31.5 kg',
@@ -165,7 +165,6 @@ class TmsOrderController extends Controller
             'billing_address_id' => null,
             'shipping_label_pdf' => 'http://harris.org/',
         ];
-
 
         //Create a new order
         $newlyCreatedRecord = TmsOrder::create($newRecord);
@@ -185,8 +184,6 @@ class TmsOrderController extends Controller
                 'emonsInvoice'
             ]
         );
-
-        dd($newlyCreatedRecord);
 
         //Create a new order history about this new order creation
         $this->orderHistoryCreator->createOrderHistory(
@@ -291,7 +288,7 @@ class TmsOrderController extends Controller
         $orderFromDb->update($orderFromRequest);
 
         /**
-         * Call the Esaybill API to create a new invoice.
+         * Call the Easybill API to create a new invoice.
          */
         $this->orderService->callEasyBillApi($orderFromDb);
     }
