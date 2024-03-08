@@ -86,7 +86,7 @@ class TmsOrderController extends Controller
 
         $records = new IndexCollection($records);
 
-        return response()->json($records);
+        // return response()->json($records);
 
         return Inertia::render(
             $this->index, 
@@ -119,7 +119,7 @@ class TmsOrderController extends Controller
         )->findOrFail($id);
 
         //format the order with the resource
-        $order = new ShowEditResource($order);
+        // $order = new ShowEditResource($order);
 
         return response()->json($order);
 
@@ -210,7 +210,7 @@ class TmsOrderController extends Controller
         //format the order with the resource
         $record = new ShowEditResource($record);
 
-        return response()->json($record);
+        // return response()->json($record);
 
 
         //Loads the right Vue component, and sends the necesary relevant data to it.
