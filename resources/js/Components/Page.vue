@@ -58,7 +58,7 @@
             <ComplexTable :searchConfig="searchConfig" :metaData="metaData" :contentSettings="page.bodyContentSettings" :tableConfig="tableConfig" :content="content" />
         </div>
         <div v-else-if="page.preset === 'tabs'">
-            <TabContent :config="page" />
+            <TabContent :content="content" :config="page" />
         </div>
         <div v-else-if="page.preset === 'form'">
             <Form :content="content" :useData="page.mode === 'edit'" :store="store" :form="page.form" />

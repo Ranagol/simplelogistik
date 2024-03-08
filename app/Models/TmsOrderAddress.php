@@ -42,7 +42,7 @@ class TmsOrderAddress extends Model
     public function getCountryAttribute()
     {
         //$this->country_id is the country_id of the current OrderAddress model.
-        return TmsCountry::select('id', 'country_name')->find($this->country_id);
+        return TmsCountry::select('id', 'country_name', 'alpha2_code')->find($this->country_id);
     }
 
     public function getCustomerAttribute()

@@ -40,15 +40,16 @@
 </script>
 
 <template>
-    <button id="search-filter-dropdown-button" data-dropdown-toggle="search-filter-dropdown" class="flex items-center justify-center w-full gap-2 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
-        <el-icon><Search /></el-icon>
-        <span>{{ $t('labels.general.search') }}</span>
-    </button>
-    <div id="search-filter-dropdown" class="z-50 hidden bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
-        <div class="p-2">
-            <input v-model="searchString" type="search" class="w-full p-2 text-sm text-gray-700 rounded-md outline-0 ring-0 focus:outline-0 focus:ring-0 focus:border-primary-700 dark:text-gray-200" :placeholder="$t('labels.general.search')" />
-            <button @click.prevent="search" class="w-full p-2 mt-2 text-sm text-white rounded-md bg-primary-700 dark:bg-primary-600">{{ $t('buttons.general.search') }}</button>
+    <div class="border rounded-md overflow-clip">
+        <div class="inline-flex divide-x">
+            <input v-model="searchString" type="search" class="w-full p-2 px-4 text-sm text-gray-700 border-none rounded-md outline-0 ring-0 focus:outline-0 focus:ring-0 focus:border-primary-700 dark:text-gray-200" :placeholder="$t('labels.general.search')" />
+            <button id="search-filter-dropdown-button" data-dropdown-toggle="search-filter-dropdown" class="p-2 px-4 bg-slate-50" type="button">
+                <el-icon><Search /></el-icon>
+            </button>
+            <button @click.prevent="search" class="px-3 text-sm text-white bg-primary-700 dark:bg-primary-600">{{ $t('buttons.general.search') }}</button>
         </div>
+    </div>
+    <div id="search-filter-dropdown" class="z-50 hidden bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
         <div class="overflow-y-scroll max-h-48">
             <ul v-for="section,si in searchSections" class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="search-filter-dropdown-button">
                 <li class="uppercase border-t first:border-t-0 text-[14px] p-2 mb-2 px-4 whitespace-nowrap">{{ $t(section.sectionTitle ?? section.section ?? '') }}</li>

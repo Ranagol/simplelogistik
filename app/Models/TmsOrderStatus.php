@@ -18,32 +18,28 @@ class TmsOrderStatus extends Model
      */
     public const STATUSES = [
         1 => [
-            'internal_name' => 'Order created',
+            'internal_name' => 'Neuer Auftrag',
             'external_name' => '',
         ],
         2 => [
-            'internal_name' => 'Waiting for forwarder',
+            'internal_name' => 'In Disposition',
             'external_name' => '',
         ],
         3 => [
-            'internal_name' => 'Forwarder found',
+            'internal_name' => 'Disponiert',
             'external_name' => '',
         ],
         4 => [
-            'internal_name' => 'Picked up',
+            'internal_name' => 'Warten auf Kunde',
             'external_name' => '',
         ],
         5 => [
-            'internal_name' => 'Delivered',
+            'internal_name' => 'Zugestellt',
             'external_name' => '',
         ],
         6 => [
-            'internal_name' => 'Canceled by customer',
-            'external_name' => 'CANCELED_BY_CUSTOMER',
-        ],
-        7 => [
-            'internal_name' => 'Canceled by Simplelogistik',
-            'external_name' => 'CANCELED_BY_AGENCY',
+            'internal_name' => 'Storniert',
+            'external_name' => 'CANCELED_BY_CUSTOMER or CANCELED_BY_AGENCY',
         ],
     ];
 
