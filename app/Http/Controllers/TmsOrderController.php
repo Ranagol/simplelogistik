@@ -8,12 +8,13 @@ use Inertia\Response;
 use App\Models\TmsOrder;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
+use App\Traits\DataBaseFilter;
+use Illuminate\Support\Facades\Auth;
+use App\Services\OrderHistoryCreator;
 use App\Http\Requests\TmsOrderRequest;
 use App\Http\Resources\TmsOrderEditResource;
 use App\Http\Resources\TmsOrderIndexResource;
 use App\Http\Resources\TmsOrderIndexCollection;
-use App\Services\OrderHistoryCreator;
-use App\Traits\DataBaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsOrderController extends Controller
@@ -129,22 +130,58 @@ class TmsOrderController extends Controller
     }
 
     /**
-     * Stores records. Inertia automatically sends succes or error feedback to the frontend.
-     * 
-     * A little explanation: here we only save the record into db.
-     * This simply triggers onSuccess event in FE component, which then displays the success message
+     * Stores records. 
+     * Inertia automatically sends succes or error feedback to the frontend. A little explanation: 
+     * here we only save the record into db. This simply triggers onSuccess event in FE component, 
+     * which then displays the success message.
      */
-    public function store(TmsOrderRequest $request)
+    // public function store(TmsOrderRequest $request)
+    public function store()
     {
-        
-        /**
-         * The validated method is used to get the validated data from the request.
-         */
-        $newRecord = $request->validated();//do validation
+        //The validated method is used to get the validated data from the request.
+        // $newRecord = $request->validated();
 
+        $newRecord = [
+            'customer_id' => 1,
+            'contact_id' => 1,
+            'partner_id' => null,
+            'forwarder_id' => 1,
+            'order_status_id' => 3,
+            'order_number' => 499004,
+            'owner' => null,
+            'invoice_number' => null,
+            'type_of_transport' => 'Parcel up to 31.5 kg',
+            'origin' => 'native_sales',
+            'customer_reference' => '3472348',
+            'import_file_name' => null,
+            'provision' => 0.01,
+            'order_edited_events' => null,
+            'currency' => 'EUR',
+            'order_date' => '1976-01-27',
+            'purchase_price' => '693.37',
+            'month_and_year' => '2008-07-10 05:53:49',
+            'payment_method' => null,
+            'easy_bill_customer_id' => null,
+            'billing_address_id' => null,
+            'shipping_label_pdf' => 'http://harris.org/',
+        ];
+
+        // dd($newRecord);
+
+        //Create a new order
         $newlyCreatedRecord = TmsOrder::create($newRecord);
 
-        $this->orderService->callEasyBillApi($newlyCreatedRecord);
+        //Create a new order history about this new order creation
+        $this->orderHistoryCreator->createOrderHistory(
+            $newlyCreatedRecord, 
+            'store',
+            // Get the currently authenticated user's ID
+            Auth::id(),
+            null
+        );
+
+        //Call the Easybill API to create a new invoice
+        // $this->orderService->callEasyBillApi($newlyCreatedRecord);
 
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
