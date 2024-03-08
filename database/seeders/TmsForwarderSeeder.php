@@ -18,6 +18,7 @@ class TmsForwarderSeeder extends Seeder
             [
                 'company_name' => 'Emons',
                 'slug' => 'emons.forwarder',
+                'url_logo' => '/images/forwarder-logos/emons.svg',
             ]
         );
 
@@ -26,6 +27,7 @@ class TmsForwarderSeeder extends Seeder
             [
                 'company_name' => 'TimoCom',
                 'slug' => 'timocom.forwarder',
+                'url_logo' => '/images/forwarder-logos/timocom.svg',
             ]
         );
 
