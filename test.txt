@@ -1,8 +1,0 @@
-Start: Send customer to easybill.
-The argument customerId=35 is allowed!
-OrderId: 35
-Error: Too Many Requests
-Send invoice(s) to easybill.
-The argument orderId=111 is allowed!
-OrderId: 111
-Error: Too Many Requests

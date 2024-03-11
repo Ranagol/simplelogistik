@@ -15,6 +15,7 @@ use App\Http\Requests\TmsOrderRequest;
 use App\Http\Resources\TmsOrderEditResource;
 use App\Http\Resources\TmsOrderIndexResource;
 use App\Http\Resources\TmsOrderIndexCollection;
+use App\Services\EasyBillService;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TmsOrderController extends Controller
@@ -23,16 +24,22 @@ class TmsOrderController extends Controller
 
     private OrderService $orderService;
     private OrderHistoryCreator $orderHistoryCreator;
+    private EasyBillService $easyBillService;
 
     private string $index = 'Orders/Index';
     private string $show = 'Orders/Show';
     private string $create = 'Orders/Create';
     private string $edit = 'Orders/Edit';
 
-    public function __construct(OrderService $orderService, OrderHistoryCreator $orderHistoryCreator)
+    public function __construct(
+        OrderService $orderService, 
+        OrderHistoryCreator $orderHistoryCreator,
+        EasyBillService $easyBillService
+    )
     {
         $this->orderService = $orderService;
         $this->orderHistoryCreator = $orderHistoryCreator;
+        $this->easyBillService = $easyBillService;
     }
 
     /**
@@ -169,7 +176,7 @@ class TmsOrderController extends Controller
         );
 
         //Call the Easybill API to create a new invoice
-        // $this->orderService->callEasyBillApi($newlyCreatedRecord);
+        $this->easyBillService->callEasyBillApi($newlyCreatedRecord);
 
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
@@ -270,7 +277,7 @@ class TmsOrderController extends Controller
         /**
          * Call the Easybill API to create a new invoice. With the new, updated order, not the old one.
          */
-        $this->orderService->callEasyBillApi($updatedOrder);
+        $this->easyBillService->callEasyBillApi($updatedOrder);
     }
 
     /**
