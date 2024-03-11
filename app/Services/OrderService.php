@@ -8,7 +8,7 @@ use App\Models\TmsAddress;
 use App\Models\TmsNativeOrder;
 use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
-use App\Http\Resources\TmsOrderIndexCollection;
+use App\Http\Resources\IndexCollection;
 
 /**
  * This class contains helper methods for the TmsOrderController.

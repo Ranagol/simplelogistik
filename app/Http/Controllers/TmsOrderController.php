@@ -17,10 +17,9 @@ use App\Http\Requests\TmsOrderRequest;
 use App\Http\Requests\TmsParcelRequest;
 use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\TmsOrderCollection;
-use App\Http\Resources\TmsOrderEditResource;
-use App\Http\Resources\TmsOrderIndexResource;
-use App\Http\Resources\TmsOrderIndexCollection;
+use App\Http\Resources\OrderResources\IndexCollection;
+use App\Http\Resources\OrderResources\ShowEditResource;
+use App\Http\Resources\OrderResources\IndexResource;
 use App\Traits\DataBaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -85,7 +84,7 @@ class TmsOrderController extends Controller
             ],
         );
 
-        $records = new TmsOrderIndexCollection($records);
+        $records = new IndexCollection($records);
 
         // return response()->json($records);
 
@@ -120,7 +119,9 @@ class TmsOrderController extends Controller
         )->findOrFail($id);
 
         //format the order with the resource
-        $order = new TmsOrderIndexResource($order);
+        // $order = new ShowEditResource($order);
+
+        return response()->json($order);
 
         return Inertia::render(
             $this->show,
@@ -207,7 +208,10 @@ class TmsOrderController extends Controller
         )->findOrFail($id);
 
         //format the order with the resource
-        $record = new TmsOrderIndexResource($record);
+        $record = new ShowEditResource($record);
+
+        // return response()->json($record);
+
 
         //Loads the right Vue component, and sends the necesary relevant data to it.
         return Inertia::render(
