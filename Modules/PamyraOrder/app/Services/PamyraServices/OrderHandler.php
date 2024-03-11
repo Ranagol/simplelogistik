@@ -98,7 +98,7 @@ class OrderHandler {
         $isDuplicate = $this->checkForDuplicate($pamyraOrder);
 
         if($isDuplicate){
-            $this->sendDataToEasybill();//TODO ANDOR: Chrisoph, are you sure that this is OK??????
+            $this->sendDataToEasybill();
             return;
         }
 

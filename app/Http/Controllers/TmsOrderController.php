@@ -146,7 +146,7 @@ class TmsOrderController extends Controller
         //Use lazy eager loading to load the newly created record with the relationships
         $newlyCreatedRecord->load(
             [
-                'parcels',//TODO ANDOR talk to C., which relatinship do we need on previous_state column in tms_order_histories
+                'parcels',
                 'orderAddresses',
                 'forwarder',
                 'orderHistories.user.roles:id,name',
@@ -268,9 +268,9 @@ class TmsOrderController extends Controller
         );
 
         /**
-         * Call the Easybill API to create a new invoice.
+         * Call the Easybill API to create a new invoice. With the new, updated order, not the old one.
          */
-        $this->orderService->callEasyBillApi($updatedOrder);//TODO ANDOR: is this correction OK??
+        $this->orderService->callEasyBillApi($updatedOrder);
     }
 
     /**
