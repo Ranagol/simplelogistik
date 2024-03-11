@@ -195,6 +195,15 @@
             "index": "Kunden",
             "create":"Kunde anlegen",
             "edit": "Kunde bearbeiten",
+            "tabs": {
+                "details": "Allgemeine Infos",
+                "preferences": "Einstellungen",
+                "comments": "Kommentare",
+                "addresses": "Adressen",
+                "contacts": "Kontakte",
+                "orders": "Aufträge",
+                "offers": "Angebote"
+            },
             "form": {
                 "street": "Straße",
                 "house_number": "Hausnummer",
@@ -455,5 +464,170 @@
             "headline": "Passwort vergessen?",
             "info": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen."
         }
+    },
+    "customer_payment_method" : {
+        
+    },
+    "failed_jobs" : {
+        
+    },
+    "gear_customer" : {
+        
+    },
+    "gear_forwarder" : {
+        
+    },
+    "gear_vehicle" : {
+        
+    },
+    "migrations" : {
+        
+    },
+    "model_has_permissions" : {
+        
+    },
+    "model_has_roles" : {
+        
+    },
+    "order_order_attribute" : {
+        
+    },
+    "order_payment_method" : {
+        
+    },
+    "password_reset_tokens" : {
+        
+    },
+    "permissions" : {
+        
+    },
+    "personal_access_tokens" : {
+        
+    },
+    "role_has_permissions" : {
+        
+    },
+    "roles" : {
+        
+    },
+    "schedule_histories" : {
+        
+    },
+    "schedules" : {
+        
+    },
+    "system_languages" : {
+        
+    },
+    "system_translations" : {
+        
+    },
+    "telescope_entries" : {
+        
+    },
+    "telescope_entries_tags" : {
+        
+    },
+    "telescope_monitoring" : {
+        
+    },
+    "tms_addresses" : {
+        
+    },
+    "tms_api_accesses" : {
+        
+    },
+    "tms_contacts" : {
+        
+    },
+    "tms_countries" : {
+        
+    },
+    "tms_customers" : {
+        
+    },
+    "tms_emons_invoices" : {
+        
+    },
+    "tms_forwarders" : {
+        
+    },
+    "tms_forwarding_contracts" : {
+        
+    },
+    "tms_ftp_credentials" : {
+        
+    },
+    "tms_functional_conditions" : {
+        
+    },
+    "tms_gears" : {
+        
+    },
+    "tms_invoice_histories" : {
+        
+    },
+    "tms_invoice_statuses" : {
+        
+    },
+    "tms_invoices" : {
+        
+    },
+    "tms_native_orders" : {
+        
+    },
+    "tms_offer_prices" : {
+        
+    },
+    "tms_order_addresses" : {
+        
+    },
+    "tms_order_attributes" : {
+        
+    },
+    "tms_order_histories" : {
+        
+    },
+    "tms_order_statuses" : {
+        
+    },
+    "tms_orders" : {
+        
+    },
+    "tms_pamyra_orders" : {
+        
+    },
+    "tms_parcel_types" : {
+        
+    },
+    "tms_parcels" : {
+        
+    },
+    "tms_partners" : {
+        
+    },
+    "tms_payment_methods" : {
+        
+    },
+    "tms_provisions" : {
+        
+    },
+    "tms_transport_licenses" : {
+        
+    },
+    "tms_transport_rules" : {
+        
+    },
+    "tms_transport_types" : {
+        
+    },
+    "tms_user_settings" : {
+        
+    },
+    "tms_vehicles" : {
+        
+    },
+    "users" : {
+        
     }
 }
