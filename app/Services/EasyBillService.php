@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Process;
 class EasyBillService
 {
     /**
+     * sends the data to easybill. This is done by calling the artisan command sendcustomer and
+     */
+    public function sendDataToEasybill(int $customerId, int $orderId ): void
+    {
+        $result = $this->execute('php artisan sendcustomer customerId ' . $customerId . ';');
+        $result = $this->execute('php artisan sendinvoices orderId ' . $orderId . ';');
+    }
+
+    /**
      * Handles the order update or create.
      *
      * @param array $orderFromRequest

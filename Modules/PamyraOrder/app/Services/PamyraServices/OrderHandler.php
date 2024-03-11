@@ -8,6 +8,7 @@ use App\Models\TmsPartner;
 use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsTransportRule;
+use App\Services\EasyBillService;
 use Illuminate\Support\Facades\Log;
 use App\Services\OrderHistoryCreator;
 use Symfony\Component\Process\Process;
@@ -46,6 +47,7 @@ class OrderHandler {
     private OrderAddressService $orderAddressService;
     private OrderAttributeService $orderAttributeService;
     private OrderHistoryCreator $orderHistoryCreator;
+    private EasyBillService $easyBillService;
 
     /**
      * We use a lot of helper classes here. To get them, we use dependency injection.
@@ -58,6 +60,7 @@ class OrderHandler {
      * @param OrderAddressService $orderAddressService
      * @param OrderAttributeService $orderAttributeService
      * @param OrderHistoryCreator $orderHistoryCreator
+     * @param EasyBillService $easyBillService
      */
     public function __construct(
         CustomerService $customerService,
@@ -67,7 +70,8 @@ class OrderHandler {
         PamyraOrderService $pamyraOrderService,
         OrderAddressService $orderAddressService,
         OrderAttributeService $orderAttributeService,
-        OrderHistoryCreator $orderHistoryCreator
+        OrderHistoryCreator $orderHistoryCreator,
+        EasyBillService $easyBillService
     )
     {
         //If not specified otherwise, the default partner is Pamyra
@@ -85,6 +89,7 @@ class OrderHandler {
         $this->orderAddressService = $orderAddressService;
         $this->orderAttributeService = $orderAttributeService;
         $this->orderHistoryCreator = $orderHistoryCreator;
+        $this->easyBillService = $easyBillService;
     }
 
     /**
@@ -98,7 +103,6 @@ class OrderHandler {
         $isDuplicate = $this->checkForDuplicate($pamyraOrder);
 
         if($isDuplicate){
-            $this->sendDataToEasybill();
             return;
         }
 
@@ -110,8 +114,7 @@ class OrderHandler {
         $this->handleOrderAttributes($pamyraOrder);
         $this->handleOrderAddresses($pamyraOrder);//TmsOrderAddress
         $this->createOrderHistory();
-
-        $this->sendDataToEasybill();
+        $this->easyBillService->sendDataToEasybill($this->customerId, $this->order->id);
     }
 
     /**
@@ -156,17 +159,7 @@ class OrderHandler {
         return false;
     }
 
-    /**
-     * sends the data to easybill. This is done by calling the artisan command sendcustomer and
-     */
-    private function sendDataToEasybill(): void
-    {
-        file_put_contents('test.txt', getcwd());
-        $result = $this->execute('php artisan sendcustomer customerId ' . $this->customerId . ';');
-        file_put_contents('test.txt', $result);
-        $result = $this->execute('php artisan sendinvoices orderId ' . $this->order->id . ';');
-        file_put_contents('test.txt', $result, FILE_APPEND);
-    }
+    
     
     /**
      * Here we create a customer.
@@ -330,28 +323,5 @@ class OrderHandler {
             'handlePamyraOrders',//cronJobName
             null//previousState
         );
-    }
-
-    public static function execute($cmd): string
-    {
-        $process = Process::fromShellCommandline($cmd);
-
-        $processOutput = '';
-
-        $captureOutput = function ($type, $line) use (&$processOutput) {
-            $processOutput .= $line;
-        };
-
-        $process->setTimeout(null)
-            ->run($captureOutput);
-
-        if ($process->getExitCode()) {
-            $exception = new \Exception($cmd . " - " . $processOutput);
-            report($exception);
-
-            throw $exception;
-        }
-
-        return $processOutput;
     }
 }
