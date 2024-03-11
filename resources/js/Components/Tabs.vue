@@ -33,7 +33,7 @@ onMounted(() => {
             </li>
         </ul>
         <div class="grid grid-flow-col gap-4">
-            <button v-if="config.actions" v-for="action in config.actions" @click="action.handler(content)" class="p-2 px-4 text-white rounded-md bg-primary-700 hover:bg-primary-600" :class="action.class">{{ $t(action.title) }}</button>
+            <button v-if="config.actions" v-for="action in config.actions" @click="action.handler(content)" class="p-2 px-4 rounded-md" :class="action.className ?? 'bg-primary-700 hover:bg-primary-600 text-white'">{{ $t(action.title) }}</button>
         </div>
     </div>
     <div id="default-tab-content" class="w-full">
