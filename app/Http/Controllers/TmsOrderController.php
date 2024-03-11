@@ -88,6 +88,9 @@ class TmsOrderController extends Controller
 
         // return response()->json($records);
 
+        //This is neede for testing, repeatedly. Don't delete it. Only comment/uncomment it.
+        // return response()->json($records);
+
         return Inertia::render(
             $this->index, 
             [

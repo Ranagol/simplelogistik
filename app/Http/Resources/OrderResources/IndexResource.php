@@ -68,6 +68,7 @@ class IndexResource extends JsonResource
             'partner' => $this->partner,
             'contact' => $this->contact,
             'details' => $this->setDetails(),
+            'billingAddress' => $this->billingAddress,
             'addresses' => $this->getAddresses(),
         ];
     }
@@ -87,16 +88,20 @@ class IndexResource extends JsonResource
     }
 
     /**
-     * Return all the orderAddresses, in the next order: billing, pickup, delivery.
+
+     * Return all the orderAddresses, in the next order: pickup, delivery.
      * Every returned orderAddress will have an additional key called index. This index will be
-     * mirroring this actual order of the orderAddresses. This index will be 0 for the billing, and
-     * then it will be 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, etc. for the pickup and delivery addresses.
+     * mirroring this actual order of the orderAddresses. This index will be 0, then1, 2, 3, 4, 5, 
+     * 6, 7, 8, 9, 10, etc. for the pickup and delivery addresses.
+
      * When this method processes the addresses, there are a couple of steps:
      * 1. Get the addresses with a relationship
      * 2. Convert every TmsOrderAddress object to an array, so we can add the index key to them.
      * 3. Add the index key to every address, with the value of the current index.
      * 4. Add the address to the addresses array.
+
      * 5. Incresase the index by one.
+
      * 
      * @return array
      */
@@ -107,13 +112,6 @@ class IndexResource extends JsonResource
 
         //This is the index of the addresses. It mirrors the order of the addresses.
         $index = 0;
-
-        //BILLING ADDRESS
-        $billingAddress = $this->billingAddress;
-        $billingAddress = $this->billingAddress->toArray();
-        $billingAddress['index'] = $index;
-        $addresses[$index] = $billingAddress;
-        $index++;
 
         //PICKUP ADDRESSES
         $pickupAddresses = $this->pickupAddresses;
