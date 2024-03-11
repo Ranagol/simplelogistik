@@ -1,4 +1,4 @@
-import { Notebook, Bell, Location, FolderOpened, User, Sort } from "@element-plus/icons-vue"
+import { Notebook, Bell, Location, FolderOpened, User, Sort, ChatRound, Setting, Files } from "@element-plus/icons-vue"
 
 import Details from "@/Pages/Customers/Parts/Details.vue"
 import Preferences from "@/Pages/Customers/Parts/Preferences.vue"
@@ -16,7 +16,7 @@ export default {
         {handler: (data) => {
         }, className: "bg-primary-700 text-white hover:bg-primary-600", title: "buttons.general.save"},
             {handler: (data) => {
-        }, className: "bg-red-700 text-white hover:bg-red-600", title: "buttons.general.void"},
+        }, className: "bg-red-700 text-white hover:bg-red-600", title: "buttons.general.delete"},
     ],
     tabs: [
         {
@@ -29,14 +29,14 @@ export default {
         {
             "title": "pages.customers.tabs.preferences",
             "id": "customers_Preferences",
-            "icon": Bell,
+            "icon": Setting,
             "component": Preferences,
             "useContent": true, 
         },
         {
             "title": "pages.customers.tabs.comments",
             "id": "customers_Comments",
-            "icon": Location,
+            "icon": ChatRound,
             "component": Comments,
             "useContent": true, 
         },
@@ -55,17 +55,17 @@ export default {
             "useContent": true, 
         },
         {
-            "title": "pages.customers.tabs.orders",
-            "id": "customers_Orders",
-            "icon": Sort,
-            "component": Orders,
+            "title": "pages.customers.tabs.offers",
+            "id": "customers_Offers",
+            "icon": Files,
+            "component": Offers,
             "useContent": true, 
         },
         {
-            "title": "pages.customers.tabs.offers",
-            "id": "customers_Offers",
-            "icon": Sort,
-            "component": Offers,
+            "title": "pages.customers.tabs.orders",
+            "id": "customers_Orders",
+            "icon": Files,
+            "component": Orders,
             "useContent": true, 
         },
     ]
