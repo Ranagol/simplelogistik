@@ -35,73 +35,73 @@ class TmsFtpCredential extends Model
      * the array of ftp connection details. When this is done, with a getter we can access this array,
      * and use it in the seeder.
      */
-    public function __construct()
-    {
-        $this->ftpConnnectionDetails = [
-            [
-                'name' => 'PamyraOrders',
-                'connection_mode' => 'test',
-                'driver' => 'sftp',
-                'host' => 'beta.simplelogistik.de',
-                'port' => 7876,
-                'username' => config('ftp.pamyraFtpUsername'),
-                'password' => config('ftp.pamyraFtpPassword'),
-                'path' => 'upload/andor',
-                'passive' => false,
-                'ssl' => false,
-                'throw' => true,//in test/local mode, throw error if file not found. In live mode, don't throw error.
-                'comment' => 'Test comment.',
-            ],
-            [
-                'name' => 'PamyraOrders',
-                'connection_mode' => 'live',
-                'driver' => 'sftp',
-                'host' => 'beta.simplelogistik.de',
-                'port' => 7876,
-                'username' => config('ftp.pamyraFtpUsername'),
-                'password' => config('ftp.pamyraFtpPassword'),
-                'path' => 'upload',
-                'passive' => false,
-                'ssl' => false,
-                'throw' => false,//in test/local mode, throw error if file not found. In live mode, don't throw error.
-                'comment' => 'Test comment.',
-            ],
-            [
-                'name' => 'EmonsInvoices',
-                'connection_mode' => 'test',
-                'driver' => 'ftp',
-                'host' => 'ftp.simplelogistik.de',
-                'port' => null,
-                'username' => config('ftp.emonsFtpUsername'),
-                'password' => config('ftp.emonsFtpPassword'),
-                'path' => 'Rechnungen/Copies',
-                'passive' => true,
-                'ssl' => true,
-                'throw' => true,//in test/local mode, throw error if file not found. In live mode, don't throw error.
-                'comment' => 'Emons FTP server must have ssl and passive mode enabled.',
-            ],
-            [
-                'name' => 'EmonsInvoices',
-                'connection_mode' => 'live',
-                'driver' => 'ftp',
-                'host' => 'ftp.simplelogistik.de',
-                'port' => null,
-                'username' => config('ftp.emonsFtpUsername'),
-                'password' => config('ftp.emonsFtpPassword'),
-                'path' => 'Rechnungen',
-                'passive' => true,
-                'ssl' => true,
-                'throw' => false,//in test/local mode, throw error if file not found. In live mode, don't throw error.
-                'comment' => 'Emons FTP server must have ssl and passive mode enabled.',
-            ],
-        ];
-    }
+    // public function __construct()
+    // {
+    //     $this->ftpConnnectionDetails = [
+    //         [
+    //             'name' => 'PamyraOrders',
+    //             'connection_mode' => 'test',
+    //             'driver' => 'sftp',
+    //             'host' => 'beta.simplelogistik.de',
+    //             'port' => 7876,
+    //             'username' => config('ftp.pamyraFtpUsername'),
+    //             'password' => config('ftp.pamyraFtpPassword'),
+    //             'path' => 'upload/andor',
+    //             'passive' => false,
+    //             'ssl' => false,
+    //             'throw' => true,//in test/local mode, throw error if file not found. In live mode, don't throw error.
+    //             'comment' => 'Test comment.',
+    //         ],
+    //         [
+    //             'name' => 'PamyraOrders',
+    //             'connection_mode' => 'live',
+    //             'driver' => 'sftp',
+    //             'host' => 'beta.simplelogistik.de',
+    //             'port' => 7876,
+    //             'username' => config('ftp.pamyraFtpUsername'),
+    //             'password' => config('ftp.pamyraFtpPassword'),
+    //             'path' => 'upload',
+    //             'passive' => false,
+    //             'ssl' => false,
+    //             'throw' => false,//in test/local mode, throw error if file not found. In live mode, don't throw error.
+    //             'comment' => 'Test comment.',
+    //         ],
+    //         [
+    //             'name' => 'EmonsInvoices',
+    //             'connection_mode' => 'test',
+    //             'driver' => 'ftp',
+    //             'host' => 'ftp.simplelogistik.de',
+    //             'port' => null,
+    //             'username' => config('ftp.emonsFtpUsername'),
+    //             'password' => config('ftp.emonsFtpPassword'),
+    //             'path' => 'Rechnungen/Copies',
+    //             'passive' => true,
+    //             'ssl' => true,
+    //             'throw' => true,//in test/local mode, throw error if file not found. In live mode, don't throw error.
+    //             'comment' => 'Emons FTP server must have ssl and passive mode enabled.',
+    //         ],
+    //         [
+    //             'name' => 'EmonsInvoices',
+    //             'connection_mode' => 'live',
+    //             'driver' => 'ftp',
+    //             'host' => 'ftp.simplelogistik.de',
+    //             'port' => null,
+    //             'username' => config('ftp.emonsFtpUsername'),
+    //             'password' => config('ftp.emonsFtpPassword'),
+    //             'path' => 'Rechnungen',
+    //             'passive' => true,
+    //             'ssl' => true,
+    //             'throw' => false,//in test/local mode, throw error if file not found. In live mode, don't throw error.
+    //             'comment' => 'Emons FTP server must have ssl and passive mode enabled.',
+    //         ],
+    //     ];
+    // }
 
-    /**
-     * Get the value of ftpConnnectionDetails
-     */ 
-    public function getFtpConnectionDetails()
-    {
-        return $this->ftpConnnectionDetails;
-    }
+    // /**
+    //  * Get the value of ftpConnnectionDetails
+    //  */ 
+    // public function getFtpConnectionDetails()
+    // {
+    //     return $this->ftpConnnectionDetails;
+    // }
 }

@@ -7,6 +7,7 @@ use App\Models\TmsFtpCredential;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 /**
  * This is the base parent class for all ftp handler classes. Every ftp handler calss will inherit
@@ -42,20 +43,20 @@ class FtpHandlerBase
      *
      * @var string
      */
-    protected $desiredFileType;
+    private $desiredFileType;
 
     /**
      * Stores the ftp credentials for the connection.
      *
      * @var TmsFtpCredential
      */
-    protected TmsFtpCredential $tmsFtpCredential;
+    private TmsFtpCredential $tmsFtpCredential;
 
     /**
      * This is the Pamyra FTP server instance/storage, created from Storage::build..., that we will 
      * use to access the orders.
      */
-    protected FilesystemAdapter $ftpServer;
+    public Filesystem $ftpServer;
 
     /**
      * Stores all relevant json file name from the ftp server, from where we will write
@@ -65,7 +66,7 @@ class FtpHandlerBase
      *
      * @var array
      */
-    protected array $filteredFileNames;
+    private array $filteredFileNames;
 
 
     /**
@@ -131,7 +132,7 @@ class FtpHandlerBase
     protected function setConnectionMode(): void
     {
         //Set whether the connection is live or test, based on the environment
-        config('app.env') === 'local' ? $this->connectionMode = 'test': $this->connectionMode = 'live';
+        config('app.env') === 'production' ? $this->connectionMode = 'live': $this->connectionMode = 'test';
     }
 
     /**
@@ -142,6 +143,7 @@ class FtpHandlerBase
     protected function getFtpCredentials(): void
     {
         //Get the ftp credentials from the database
+        
         $this->tmsFtpCredential = TmsFtpCredential::where('name', $this->connectionName)
                                                     ->where('connection_mode', $this->connectionMode)
                                                     ->firstOrFail();
@@ -154,19 +156,23 @@ class FtpHandlerBase
      */
     protected function createFtpServerStorage(): void
     {
-        $this->ftpServer = Storage::build(
-            [
-                'driver' => $this->tmsFtpCredential->driver,
-                'host' => $this->tmsFtpCredential->host,
-                'username' => $this->tmsFtpCredential->username,
-                'password' => $this->tmsFtpCredential->password,
-                'port' => $this->tmsFtpCredential->port,
-                'root' => $this->tmsFtpCredential->path,
-                'passive' => $this->tmsFtpCredential->passive,
-                'ssl' => $this->tmsFtpCredential->ssl,
-                'throw' => $this->tmsFtpCredential->throw,
-            ]
-        );
+        try {
+            $this->ftpServer = Storage::build(
+                [
+                    'driver' => $this->tmsFtpCredential->driver,
+                    'host' => $this->tmsFtpCredential->host,
+                    'username' => $this->tmsFtpCredential->username,
+                    'password' => $this->tmsFtpCredential->password,
+                    'port' => $this->tmsFtpCredential->port,
+                    'root' => $this->tmsFtpCredential->path,
+                    'passive' => $this->tmsFtpCredential->passive,
+                    'ssl' => $this->tmsFtpCredential->ssl,
+                    'throw' => $this->tmsFtpCredential->throw,
+                ]
+            );
+        } catch (\Throwable $th) {        
+            throw new \Exception('Error: '. $th->getMessage());
+        }
     }
 
     /**
@@ -178,16 +184,16 @@ class FtpHandlerBase
      */
     protected function getFileList(): array
     {
+        $allFileNames = [];
         //Get the list of all files in the ftp server
         try {
-
             $allFileNames = $this->ftpServer->allFiles();
-            return $allFileNames;
-            
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
             Log::error('Error: ' . $e->getMessage());
         }
+        
+        return $allFileNames;            
     }
 
     /**
