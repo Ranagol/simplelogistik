@@ -240,7 +240,8 @@ class OrderAddressService {
 
         // Throw an exception if validation fails
         if ($validator->fails()) {
-            throw new \Exception($validator->errors()->first());
+            echo $validator->errors()->first() . PHP_EOL;
+            Log::error($validator->errors()->first());
         }
     }
 }

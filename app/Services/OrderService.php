@@ -2,19 +2,19 @@
 
 namespace App\Services;
 
-use App\Models\TmsOrder;
 use App\Models\TmsParcel;
 use App\Models\TmsAddress;
 use App\Models\TmsNativeOrder;
 use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
-use App\Http\Resources\TmsOrderIndexCollection;
 
 /**
  * This class contains helper methods for the TmsOrderController.
  */
 class OrderService
 {   
+    
+
     public function handleNativeOrder(array $orderFromRequest): void
     {
             

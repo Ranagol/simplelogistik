@@ -3,42 +3,43 @@
 namespace App\Http\Controllers;
 
 use Artisan;
-use Illuminate\Support\Facades\Process;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\TmsOrder;
-use App\Models\TmsParcel;
-use App\Models\TmsAddress;
-use App\Models\TmsCountry;
-use App\Models\TmsCustomer;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
+use App\Traits\DataBaseFilter;
+use Illuminate\Support\Facades\Auth;
+use App\Services\OrderHistoryCreator;
 use App\Http\Requests\TmsOrderRequest;
-use App\Http\Requests\TmsParcelRequest;
-use App\Http\Controllers\BaseController;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\TmsOrderCollection;
 use App\Http\Resources\TmsOrderEditResource;
 use App\Http\Resources\TmsOrderIndexResource;
 use App\Http\Resources\TmsOrderIndexCollection;
-use App\Traits\DataBaseFilter;
+use App\Services\EasyBillService;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TmsOrderController extends Controller
 {
     use DataBaseFilter;
 
-    private $orderService;
+    private OrderService $orderService;
+    private OrderHistoryCreator $orderHistoryCreator;
+    private EasyBillService $easyBillService;
 
     private string $index = 'Orders/Index';
     private string $show = 'Orders/Show';
     private string $create = 'Orders/Create';
     private string $edit = 'Orders/Edit';
 
-    public function __construct(OrderService $orderService)
+    public function __construct(
+        OrderService $orderService, 
+        OrderHistoryCreator $orderHistoryCreator,
+        EasyBillService $easyBillService
+    )
     {
         $this->orderService = $orderService;
+        $this->orderHistoryCreator = $orderHistoryCreator;
+        $this->easyBillService = $easyBillService;
     }
 
     /**
@@ -136,34 +137,46 @@ class TmsOrderController extends Controller
     }
 
     /**
-     * Stores records. Inertia automatically sends succes or error feedback to the frontend.
-     * 
-     * A little explanation: here we only save the record into db.
-     * This simply triggers onSuccess event in FE component, which then displays the success message
+     * Stores records. 
+     * Inertia automatically sends succes or error feedback to the frontend. A little explanation: 
+     * here we only save the record into db. This simply triggers onSuccess event in FE component, 
+     * which then displays the success message.
      */
     public function store(TmsOrderRequest $request)
     {
-        
-        /**
-         * The validated method is used to get the validated data from the request.
-         */
-        $newRecord = $request->validated();//do validation
+        //The validated method is used to get the validated data from the request.
+        $newRecord = $request->validated();
 
+        //Create a new order
         $newlyCreatedRecord = TmsOrder::create($newRecord);
 
-        /**
-         * Call the Esaybill API to create a new invoice.
-         */
-        $id = $newlyCreatedRecord->id;
-        $result = $this->execute('cd ..; php artisan sendinvoices orderId ' . $id . ';');
-        file_put_contents('test.txt', Artisan::output());
-        /**
-         * Todo: 
-         * - check if the API call was successful.
-         * - store result in session.
-         * - display result in FE.
-         */
+        //Use lazy eager loading to load the newly created record with the relationships
+        $newlyCreatedRecord->load(
+            [
+                'parcels',
+                'orderAddresses',
+                'forwarder',
+                'orderHistories.user.roles:id,name',
+                'partner',
+                'contact',
+                'customer.headquarter',
+                'nativeOrder',
+                'pamyraOrder',
+                'emonsInvoice'
+            ]
+        );
 
+        //Create a new order history about this new order creation
+        $this->orderHistoryCreator->createOrderHistory(
+            $newlyCreatedRecord, 
+            'store',
+            Auth::id(),// Get the currently authenticated user's ID
+            null,//cronjob name
+            null//previous state
+        );
+
+        //Call the Easybill API to create a new invoice
+        $this->easyBillService->callEasyBillApi($newlyCreatedRecord);
 
         /**
          * @Christoph said that we need to redirect the user after a successful create to the edit 
@@ -234,42 +247,37 @@ class TmsOrderController extends Controller
         //Get the order from db
         $orderFromDb = TmsOrder::find($id);
 
-        //Handle native order (if there is one, of course)
-        $this->orderService->handleNativeOrder($orderFromRequest);
-
-        //Handle pamyra order (if there is one, of course)
-        $this->orderService->handlePamyraOrder($orderFromRequest);
-        
-        //Handle parcels
-        $this->orderService->handleParcel($orderFromRequest);
-
-        //Handle headquarter address
-        $this->orderService->handleHeadquarter($orderFromRequest);
-
-        //Handle pickup address
-        $this->orderService->handlePickupAddresses($orderFromRequest);
-
-        //Handle delivery address
-        $this->orderService->handleDeliveryAddresses($orderFromRequest);
+        //This is commented out, because we might reuse this code later when Patrick does the FE order update create part.
+        // //Handle native order (if there is one, of course)
+        // $this->orderService->handleNativeOrder($orderFromRequest);
+        // //Handle pamyra order (if there is one, of course)
+        // $this->orderService->handlePamyraOrder($orderFromRequest);
+        // //Handle parcels
+        // $this->orderService->handleParcel($orderFromRequest);
+        // //Handle headquarter address
+        // $this->orderService->handleHeadquarter($orderFromRequest);
+        // //Handle pickup address
+        // $this->orderService->handlePickupAddresses($orderFromRequest);
+        // //Handle delivery address
+        // $this->orderService->handleDeliveryAddresses($orderFromRequest);
 
         //Update the order
         $orderFromDb->update($orderFromRequest);
+        $updatedOrder = $orderFromDb->fresh();
+
+        //Create a new order history about this order update
+        $this->orderHistoryCreator->createOrderHistory(
+            $updatedOrder,//order with the new, updated data
+            'update',
+            Auth::id(),// Get the currently authenticated user's ID
+            null,//cronjob name
+            $orderFromDb//previous state, order with the old data, for archiving
+        );
 
         /**
-         * Call the Esaybill API to create a new invoice.
+         * Call the Easybill API to create a new invoice. With the new, updated order, not the old one.
          */
-        $id = $orderFromDb->id;
-        // $result = Artisan::command('Easybill.sendinvoices ', function($id) {
-        //     echo $id;   
-        // });
-        $result = $this->execute('cd ..; php artisan sendinvoices orderId ' . $id . ';');
-        file_put_contents('test.txt', $result);
-        /**
-         * Todo: 
-         * - check if the API call was successful.
-         * - store result in session.
-         * - display result in FE.
-         */
+        $this->easyBillService->callEasyBillApi($updatedOrder);
     }
 
     /**
@@ -281,28 +289,5 @@ class TmsOrderController extends Controller
     public function destroy(string $id): void
     {
         TmsOrder::destroy($id);
-    }
-
-    public static function execute($cmd): string
-    {
-        $process = Process::fromShellCommandline($cmd);
-
-        $processOutput = '';
-
-        $captureOutput = function ($type, $line) use (&$processOutput) {
-            $processOutput .= $line;
-        };
-
-        $process->setTimeout(null)
-            ->run($captureOutput);
-
-        if ($process->getExitCode()) {
-            $exception = new \Exception($cmd . " - " . $processOutput);
-            report($exception);
-
-            throw $exception;
-        }
-
-        return $processOutput;
     }
 }

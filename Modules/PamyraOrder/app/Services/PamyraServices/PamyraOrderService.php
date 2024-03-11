@@ -3,6 +3,7 @@
 namespace Modules\PamyraOrder\app\Services\PamyraServices;
 
 use App\Models\TmsPamyraOrder;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TmsPamyraOrderRequest;
 use Modules\PamyraOrder\app\Services\PamyraServices\DateFormatterTrait;
@@ -106,7 +107,8 @@ class PamyraOrderService {
     {
         $validator = Validator::make($pamyraOrderArray, $this->validationRules);
         if ($validator->fails()) {
-            throw new \Exception($validator->errors()->first());
+            echo $validator->errors()->first() . PHP_EOL;
+            Log::error($validator->errors()->first());
         }
     }
 }

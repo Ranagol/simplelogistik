@@ -8,7 +8,10 @@ use App\Models\TmsPartner;
 use App\Models\TmsPamyraOrder;
 use App\Models\TmsOrderAddress;
 use App\Models\TmsTransportRule;
+use App\Services\EasyBillService;
 use Illuminate\Support\Facades\Log;
+use App\Services\OrderHistoryCreator;
+use Symfony\Component\Process\Process;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderService;
 use Modules\PamyraOrder\app\Services\PamyraServices\ParcelService;
 use Modules\PamyraOrder\app\Services\PamyraServices\AddressService;
@@ -17,7 +20,6 @@ use Modules\PamyraOrder\app\Services\PamyraServices\PamyraOrderService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderAddressService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderHistoryService;
 use Modules\PamyraOrder\app\Services\PamyraServices\OrderAttributeService;
-use Symfony\Component\Process\Process;
 
 /**
  * When writing data from Pamyra json files to our database, we have an array on Pamyra order
@@ -44,7 +46,8 @@ class OrderHandler {
     private PamyraOrderService $pamyraOrderService;
     private OrderAddressService $orderAddressService;
     private OrderAttributeService $orderAttributeService;
-    private OrderHistoryService $orderHistoryService;
+    private OrderHistoryCreator $orderHistoryCreator;
+    private EasyBillService $easyBillService;
 
     /**
      * We use a lot of helper classes here. To get them, we use dependency injection.
@@ -56,6 +59,8 @@ class OrderHandler {
      * @param PamyraOrderService $pamyraOrderService
      * @param OrderAddressService $orderAddressService
      * @param OrderAttributeService $orderAttributeService
+     * @param OrderHistoryCreator $orderHistoryCreator
+     * @param EasyBillService $easyBillService
      */
     public function __construct(
         CustomerService $customerService,
@@ -65,7 +70,8 @@ class OrderHandler {
         PamyraOrderService $pamyraOrderService,
         OrderAddressService $orderAddressService,
         OrderAttributeService $orderAttributeService,
-        OrderHistoryService $orderHistoryService
+        OrderHistoryCreator $orderHistoryCreator,
+        EasyBillService $easyBillService
     )
     {
         //If not specified otherwise, the default partner is Pamyra
@@ -82,7 +88,8 @@ class OrderHandler {
         $this->pamyraOrderService = $pamyraOrderService;
         $this->orderAddressService = $orderAddressService;
         $this->orderAttributeService = $orderAttributeService;
-        $this->orderHistoryService = $orderHistoryService;
+        $this->orderHistoryCreator = $orderHistoryCreator;
+        $this->easyBillService = $easyBillService;
     }
 
     /**
@@ -96,20 +103,18 @@ class OrderHandler {
         $isDuplicate = $this->checkForDuplicate($pamyraOrder);
 
         if($isDuplicate){
-            $this->sendDataToEasybill();
             return;
         }
 
         $this->handleCustomer($pamyraOrder);
-        // $this->handleAddresses($pamyraOrder);//TmsAddress
+        // $this->handleAddresses($pamyraOrder);//TmsAddress- this is turned off on F./C. command.
         $this->handleOrder($pamyraOrder);
         $this->handleParcels($pamyraOrder);
         $this->handlePamyraOrder($pamyraOrder);
         $this->handleOrderAttributes($pamyraOrder);
         $this->handleOrderAddresses($pamyraOrder);//TmsOrderAddress
-        $this->createOrderHistory($pamyraOrder);
-
-        $this->sendDataToEasybill();
+        $this->createOrderHistory();
+        $this->easyBillService->sendDataToEasybill($this->customerId, $this->order->id);
     }
 
     /**
@@ -154,17 +159,7 @@ class OrderHandler {
         return false;
     }
 
-    /**
-     * sends the data to easybill. This is done by calling the artisan command sendcustomer and
-     */
-    private function sendDataToEasybill(): void
-    {
-        file_put_contents('test.txt', getcwd());
-        $result = $this->execute('php artisan sendcustomer customerId ' . $this->customerId . ';');
-        file_put_contents('test.txt', $result);
-        $result = $this->execute('php artisan sendinvoices orderId ' . $this->order->id . ';');
-        file_put_contents('test.txt', $result, FILE_APPEND);
-    }
+    
     
     /**
      * Here we create a customer.
@@ -319,35 +314,14 @@ class OrderHandler {
      * @param array $pamyraOrder
      * @return void
      */
-    private function createOrderHistory(array $pamyraOrder): void
+    private function createOrderHistory(): void
     {
-        $this->orderHistoryService->createOrderHistory(
-            $pamyraOrder['OrderNumber'] ?? 'missing order number',
-            $this->customerId, 
-            $this->order->id
+        $this->orderHistoryCreator->createOrderHistory(
+            $this->order,
+            'store',
+            null,//userId
+            'handlePamyraOrders',//cronJobName
+            null//previousState
         );
-    }
-
-    public static function execute($cmd): string
-    {
-        $process = Process::fromShellCommandline($cmd);
-
-        $processOutput = '';
-
-        $captureOutput = function ($type, $line) use (&$processOutput) {
-            $processOutput .= $line;
-        };
-
-        $process->setTimeout(null)
-            ->run($captureOutput);
-
-        if ($process->getExitCode()) {
-            $exception = new \Exception($cmd . " - " . $processOutput);
-            report($exception);
-
-            throw $exception;
-        }
-
-        return $processOutput;
     }
 }

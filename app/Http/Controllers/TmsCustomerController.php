@@ -213,6 +213,8 @@ class TmsCustomerController extends Controller
         $customer->update([
             'comments' => $comments,
         ]);
+
+        
     }
 }
 

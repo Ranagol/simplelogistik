@@ -16,6 +16,10 @@ class TmsOrderHistory extends Model
 
     protected $guarded = ['id'];
     protected $table = "tms_order_histories";
+
+    protected $casts = [
+        'previous_state' => 'array'
+    ];
     
     public function forwarder(): BelongsTo
     {
