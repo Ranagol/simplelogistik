@@ -5,6 +5,7 @@ use App\Models\TmsCountry;
 use App\Models\TmsCustomer;
 use App\Models\TmsForwarder;
 use App\Models\TmsOrderStatus;
+use App\Models\TmsParcelType;
 use App\Models\TmsPartner;
 use App\Models\TmsPaymentMethod;
 use Illuminate\Http\Request;
@@ -46,12 +47,7 @@ Route::middleware('auth:sanctum')->group(function(){
         ];
     });
     Route::get('/packingtypes', function (Request $request){
-        return [
-            ["id" => 1, "title" => "general.packing_types.package"],
-            ["id" => 2, "title" => "general.packing_types.pallet"],
-            ["id" => 3, "title" => "general.packing_types.bulky_good"],
-            ["id" => 4, "title" => "general.packing_types.other"]
-        ];
+        return TmsParcelType::where("display", "=", true)->get();
     });
     Route::get('/payment-methods', function (Request $request){
         return TmsPaymentMethod::all();
