@@ -13,11 +13,12 @@ export default {
     mode: "edit",
     actions: [
         {handler: (data) => {
+            console.log(data)
             alert(`Speichere Auftrag: ${(data?.order_number ?? data.data.order_number)}`)
-        }, class: "", title: "buttons.general.save"},
-        {handler: (data) => {
+        }, className: "bg-primary-700 hover:bg-primary-600", title: "buttons.general.save"},
+            {handler: (data) => {
             alert(`Storniere Auftrag: ${(data?.order_number ?? data.data.order_number)}`)
-        }, class: "bg-red-700 hover:bg-red-600", title: "buttons.general.void"},
+        }, className: "bg-red-700 hover:bg-red-600", title: "buttons.general.void"},
     ],
     tabs: [
         {

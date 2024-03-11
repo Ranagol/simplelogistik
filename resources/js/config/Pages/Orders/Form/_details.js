@@ -114,7 +114,7 @@ export default {
             className: "grid-cols-6 gap-4",
             fields: [
                 {
-                    name: 'parcel_type',
+                    name: 'parcel_type_id',
                     type: 'select',
                     options: "packingtypes",
                     displayKey: 'title',
