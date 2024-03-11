@@ -18,6 +18,7 @@ class TmsForwarderSeeder extends Seeder
             [
                 'company_name' => 'Emons',
                 'slug' => 'emons.forwarder',
+                'url_logo' => '/images/forwarder-logos/emons.svg',
             ]
         );
 
@@ -26,10 +27,15 @@ class TmsForwarderSeeder extends Seeder
             [
                 'company_name' => 'TimoCom',
                 'slug' => 'timocom.forwarder',
+                'url_logo' => '/images/forwarder-logos/timocom.svg',
             ]
         );
 
-        //Create 18 random forwarders
-        TmsForwarder::factory()->count(config('constants.numberOfDbRecords') - 2)->create();
+        $environment = config('app.env');
+        if ($environment === 'local') {
+            //Create + 18 random forwarders, but only for local enviroment, not for production
+            TmsForwarder::factory()->count(config('constants.numberOfDbRecords') - 2)->create();
+        }
+        
     }
 }
